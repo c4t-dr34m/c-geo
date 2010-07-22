@@ -24,6 +24,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -79,6 +80,7 @@ public class cgeomap extends MapActivity {
 	private boolean firstRun = true;
     private geocachesLoadDetails threadD = null;
 	private int closeCounter = 0;
+	private boolean progressBar = false;
 	protected boolean searching = false;
 	protected boolean searchingUsers = false;
 	protected boolean searchingForClose = false;
@@ -256,6 +258,7 @@ public class cgeomap extends MapActivity {
 		prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
 
 		// set layout
+		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setTitle("map");
 		if (settings.skin == 1) setContentView(R.layout.map_light);
 		else setContentView(R.layout.map_dark);
@@ -1308,11 +1311,14 @@ public class cgeomap extends MapActivity {
 		else title = "map";
 
 		if (loading == true) {
-			setTitle(title + " (...)");
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			setTitle(title);
 		} else if (caches != null) {
+			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 			setTitle(title + " (" + caches.size() + ")");
 		} else {
-			setTitle(title + " (0)");
+			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+			setTitle(title + " (no caches)");
 		}
 	}
 }

@@ -7,7 +7,8 @@
         <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeoapplication.java</file>
         <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeoauth.java</file>
         <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgBase.java</file>
-        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeomap.java</file>
-        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeowaypoint.java</file>
+        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeo.java</file>
+        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeocaches.java</file>
+        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgCacheListAdapter.java</file>
     </open-files>
 </project-private>

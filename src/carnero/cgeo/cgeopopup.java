@@ -32,7 +32,6 @@ public class cgeopopup extends Activity {
 	private cgUpdateLoc geoUpdate = new update();
     private ProgressDialog storeDialog = null;
     private ProgressDialog dropDialog = null;
-	private boolean ownIcon = false;
 
 	private Handler storeCacheHandler = new Handler() {
 		@Override
@@ -84,7 +83,6 @@ public class cgeopopup extends Activity {
         warning = new cgWarning(this);
 
         // set layout
-		ownIcon = requestWindowFeature(Window.FEATURE_RIGHT_ICON);
 		setTitle("detail");
 		if (settings.skin == 1) setContentView(R.layout.popup_light);
 		else setContentView(R.layout.popup_dark);
@@ -141,17 +139,9 @@ public class cgeopopup extends Activity {
 		if (cache.name != null && cache.name.length() > 0) setTitle(cache.name);
 		else setTitle(cache.geocode);
 
-		if (ownIcon == true) {
-			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // geocache icon
-				getWindow().setFeatureDrawable(Window.FEATURE_RIGHT_ICON, (Drawable)activity.getResources().getDrawable(gcIcons.get(cache.type)));
-			} else { // unknown geocache type, "mystery" icon
-				getWindow().setFeatureDrawable(Window.FEATURE_RIGHT_ICON, (Drawable)activity.getResources().getDrawable(gcIcons.get("mystery")));
-			}
-	   }
-
 		StringBuilder cacheInfo = new StringBuilder();
-		cacheInfo.append("gc-code: " + cache.geocode + "\n");
 		cacheInfo.append("type: " + cache.type + "\n");
+		cacheInfo.append("gc-code: " + cache.geocode + "\n");
 		if (cache.size != null && cache.size.length() > 0) {
 			cacheInfo.append("size: " + cache.size + "\n");
 		}

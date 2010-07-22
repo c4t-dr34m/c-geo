@@ -227,7 +227,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.direction.setVisibility(View.GONE);
         }
 
-		StringBuffer cacheInfo = new StringBuffer();
+		StringBuilder cacheInfo = new StringBuilder();
 		cacheInfo.append(cache.geocode);
 		if (cache.size != null && cache.size.length() > 0) {
 			cacheInfo.append(" | ");
@@ -248,8 +248,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		holder.info.setText(cacheInfo.toString());
 
         rowView.setOnClickListener(new cgCacheListOnClickListener(cache.geocode, cache.name));
-        rowView.setOnLongClickListener(new cgCacheListOnLongClickListener(cache.geocode, cache.name, cache.latitude, cache.longitude));
-
+		
 		return rowView;
 	}
 	
@@ -276,32 +275,6 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			cachesIntent.putExtra("geocode", geocode);
 			cachesIntent.putExtra("name", name);
 			getContext().startActivity(cachesIntent);
-		}
-	}
-
-	private class cgCacheListOnLongClickListener implements View.OnLongClickListener {
-		private String geocode;
-		private String name;
-        private Double latitude;
-        private Double longitude;
-
-		public cgCacheListOnLongClickListener(String geocodeIn, String nameIn, Double latitudeIn, Double longitudeIn) {
-			geocode = geocodeIn;
-			name = nameIn;
-            latitude = latitudeIn;
-            longitude = longitudeIn;
-		}
-
-		public boolean onLongClick(View arg0) {
-			// load cache details
-			Intent cachesIntent = new Intent(getContext(), cgeonavigate.class);
-			cachesIntent.putExtra("geocode", geocode);
-			cachesIntent.putExtra("name", name);
-			cachesIntent.putExtra("latitude", latitude);
-			cachesIntent.putExtra("longitude", longitude);
-			getContext().startActivity(cachesIntent);
-
-            return true;
 		}
 	}
 }

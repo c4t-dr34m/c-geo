@@ -13,7 +13,6 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.view.Window;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.LayoutInflater;
@@ -68,7 +67,6 @@ public class cgeodetail extends Activity {
     private ProgressDialog storeDialog = null;
     private ProgressDialog dropDialog = null;
 	private BitmapFactory factory = null;
-	private boolean ownIcon = false;
 
 	private Handler storeCacheHandler = new Handler() {
 		@Override
@@ -170,7 +168,6 @@ public class cgeodetail extends Activity {
         warning = new cgWarning(this);
 
 		// set layout
-		ownIcon = requestWindowFeature(Window.FEATURE_RIGHT_ICON);
 		setTitle("cache");
 		if (settings.skin == 1) setContentView(R.layout.cachedetail_light);
 		else setContentView(R.layout.cachedetail_dark);
@@ -430,14 +427,6 @@ public class cgeodetail extends Activity {
 			} else {
 				setTitle(geocode.toUpperCase());
 			}
-
-			if (ownIcon == true) {
-				if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // geocache icon
-					getWindow().setFeatureDrawable(Window.FEATURE_RIGHT_ICON, (Drawable)activity.getResources().getDrawable(gcIcons.get(cache.type)));
-				} else { // unknown geocache type, "mystery" icon
-					getWindow().setFeatureDrawable(Window.FEATURE_RIGHT_ICON, (Drawable)activity.getResources().getDrawable(gcIcons.get("mystery")));
-				}
-		   }
 
 			inflater = activity.getLayoutInflater();
 			geocode = cache.geocode.toUpperCase();

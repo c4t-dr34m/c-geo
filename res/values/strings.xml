@@ -85,6 +85,10 @@
 	<string name="type">type</string>
 	<string name="now_searching">now searching</string>
 
+	<!-- caches -->
+	<string name="caches_more_caches">more caches</string>
+	<string name="caches_more_caches_no">no more caches</string>
+
 	<!-- next things -->
     <string name="legal_note">
 		To use services of geocaching.com (and this application does), you must agree with terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a>.

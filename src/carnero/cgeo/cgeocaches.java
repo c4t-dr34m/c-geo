@@ -18,26 +18,34 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.widget.ListView;
+import android.widget.TextView;
 import java.util.Locale;
 import org.openintents.intents.AbstractWikitudeARIntent;
 import org.openintents.intents.WikitudeARIntent;
 import org.openintents.intents.WikitudePOI;
 
 public class cgeocaches extends ListActivity {
-	public String action = null;
-	public String type = null;
-	public Double latitude = null;
-	public Double longitude = null;
-	public Double azimuth = null;
-	public String cachetype = null;
-	public String keyword = null;
-	public String address = null;
-	public String username = null;
-    public Long searchId = null;
-    public ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
+	private String action = null;
+	private String type = null;
+	private Double latitude = null;
+	private Double longitude = null;
+	private String cachetype = null;
+	private String keyword = null;
+	private String address = null;
+	private String username = null;
+    private Long searchId = null;
+    private ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
     private cgeoapplication app = null;
+	private Resources res = null;
 	private static Activity activity = null;
 	private cgCacheListAdapter adapter = null;
+	private LayoutInflater inflater = null;
+	private View listFooter = null;
+	private TextView listFooterText = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -53,24 +61,27 @@ public class cgeocaches extends ListActivity {
     private Long detailProgressTime = 0l;
     private geocachesLoadDetails threadD = null;
 	private boolean offline = false;
+	private boolean progressBar = false;
 
 	private Handler loadCachesHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (adapter == null) {
-					adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
-					setListAdapter(adapter);
-                }
+				setAdapter();
 
 				if (cacheList == null) {
                     warning.showToast("Sorry, c:geo failed to load cache list.");
+					setMoreCaches(false);
 				} else {
                     final Integer count = app.getTotal(searchId);
+					final int size = cacheList.size();
                     if (count != null && count > 0) {
-                        setTitle(title + " (" + cacheList.size() + "/" + app.getTotal(searchId) + ")");
+                        setTitle(title + " (" + size + "/" + count + ")");
+						if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
+						else setMoreCaches(false);
                     } else {
                         setTitle(title + " (no cache)");
+						setMoreCaches(false);
                     }
                 }
 
@@ -97,6 +108,7 @@ public class cgeocaches extends ListActivity {
 				} else if (app != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast("Sorry, c:geo failed to download caches because of " + app.getError(searchId) + ".");
 
+					if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 					if (waitDialog != null) {
 						waitDialog.dismiss();
                         waitDialog.setOnCancelListener(null);
@@ -113,6 +125,7 @@ public class cgeocaches extends ListActivity {
 				warning.showToast("Sorry, c:geo can\'t find any geocache.");
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler: " + e.toString());
 
+				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 				if (waitDialog != null) {
 					waitDialog.dismiss();
                     waitDialog.setOnCancelListener(null);
@@ -122,6 +135,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			try {
+				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 				if (waitDialog != null) {
 					waitDialog.dismiss();
                     waitDialog.setOnCancelListener(null);
@@ -136,23 +150,28 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (adapter == null) {
-					adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
-					setListAdapter(adapter);
-                }
+				setAdapter();
 
-				if (cacheList != null) {
+				if (cacheList == null) {
+                    warning.showToast("Sorry, c:geo failed to load cache list.");
+					setMoreCaches(false);
+				} else {
                     final Integer count = app.getTotal(searchId);
+					final int size = cacheList.size();
                     if (count != null && count > 0) {
-                        setTitle(title + " (" + cacheList.size() + "/" + app.getTotal(searchId) + ")");
+                        setTitle(title + " (" + size + "/" + count + ")");
+						if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
+						else setMoreCaches(false);
                     } else {
                         setTitle(title + " (no cache)");
+						setMoreCaches(false);
                     }
-				}
+                }
 
 				if (app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast("Sorry, c:geo failed to download caches because of " + app.getError(searchId) + ".");
 
+					if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 					if (waitDialog != null) {
 						waitDialog.dismiss();
                         waitDialog.setOnCancelListener(null);
@@ -170,6 +189,7 @@ public class cgeocaches extends ListActivity {
 				Log.e(cgSettings.tag, "cgeocaches.loadNextPageHandler: " + e.toString());
 			}
 
+			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 			if (waitDialog != null) {
 				waitDialog.dismiss();
                 waitDialog.setOnCancelListener(null);
@@ -180,10 +200,7 @@ public class cgeocaches extends ListActivity {
 	private Handler loadDetailsHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			if (adapter == null) {
-				adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
-				setListAdapter(adapter);
-			}
+			setAdapter();
 
             if (msg.what == 0) {
                 if (waitDialog != null) {
@@ -212,6 +229,7 @@ public class cgeocaches extends ListActivity {
 					adapter.setActualHeading(northHeading);
 				}
 
+				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
                 if (waitDialog != null) {
                     waitDialog.dismiss();
                     waitDialog.setOnCancelListener(null);
@@ -229,6 +247,7 @@ public class cgeocaches extends ListActivity {
 
 		// init
 		activity = this;
+		res = this.getResources();
         app = (cgeoapplication)this.getApplication();
 		app.setAction(action);
         settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
@@ -236,6 +255,7 @@ public class cgeocaches extends ListActivity {
         warning = new cgWarning(this);
 
 		// set layout
+		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setTitle("caches");
 		if (settings.skin == 1) setContentView(R.layout.caches_light);
 		else setContentView(R.layout.caches_dark);
@@ -254,6 +274,7 @@ public class cgeocaches extends ListActivity {
 			action = "pending";
 			title = "nearby";
 			setTitle(title);
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches nearby" + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
@@ -262,6 +283,7 @@ public class cgeocaches extends ListActivity {
 			title = "stored";
 			offline = true;
 			setTitle(title);
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 			waitDialog = ProgressDialog.show(this, "loading caches", "caches stored in device", true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
@@ -270,6 +292,7 @@ public class cgeocaches extends ListActivity {
 			action = "planning";
 			title = base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true);
 			setTitle(title);
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches near\n" + base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true) + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
@@ -277,6 +300,7 @@ public class cgeocaches extends ListActivity {
 		} else if (type.equals("keyword")) {
 			title = keyword;
 			setTitle(title);
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches by keyword " + keyword + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByKeyword(loadCachesHandler,  keyword, cachetype);
@@ -286,10 +310,12 @@ public class cgeocaches extends ListActivity {
 			if (address != null && address.length() > 0) {
 				title = address;
 				setTitle(title);
+				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 				waitDialog = ProgressDialog.show(this, "searching for caches", "caches near\n" + address + typeText, true);
 			} else {
 				title = base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true);
 				setTitle(title);
+				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 				waitDialog = ProgressDialog.show(this, "searching for caches", "caches near\n" + base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true) + typeText, true);
 			}
 			waitDialog.setCancelable(true);
@@ -298,6 +324,7 @@ public class cgeocaches extends ListActivity {
 		} else if (type.equals("username")) {
 			title = username;
 			setTitle(title);
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches found by " + username + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByUserName(loadCachesHandler,  username, cachetype);
@@ -305,6 +332,7 @@ public class cgeocaches extends ListActivity {
 		} else if (type.equals("owner")) {
 			title = username;
 			setTitle(title);
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches hidden by " + username + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByOwner(loadCachesHandler,  username, cachetype);
@@ -327,10 +355,7 @@ public class cgeocaches extends ListActivity {
 	public void onResume() {
 		super.onResume();
 
-		if (adapter == null) {
-			adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
-			setListAdapter(adapter);
-		}
+		setAdapter();
 
         if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
@@ -377,7 +402,6 @@ public class cgeocaches extends ListActivity {
             menu.add(0, 4, 0, "drop all").setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
             menu.add(0, 1, 0, "refresh listed").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
         } else {
-            menu.add(0, 0, 0, "more caches").setIcon(android.R.drawable.ic_menu_add); // load more caches
             menu.add(0, 1, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
         }
 		menu.add(0, 2, 0, "show on map").setIcon(android.R.drawable.ic_menu_mapmode); // show all caches on map
@@ -388,15 +412,6 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case 0:
-                waitDialog = ProgressDialog.show(this, null, "loading more caches...", true);
-                waitDialog.setCancelable(true);
-
-                geocachesLoadNextPage thread;
-                thread = new geocachesLoadNextPage(loadNextPageHandler);
-                thread.start();
-
-                return true;
             case 1:
 				if (offline == false) {
 					detailTotal = app.getNotOfflineCount(searchId);
@@ -410,6 +425,7 @@ public class cgeocaches extends ListActivity {
 					detailTotal = app.getCount(searchId);
 				}
 
+				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
                 waitDialog = new ProgressDialog(this);
                 waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     public void onCancel(DialogInterface arg0) {
@@ -471,6 +487,49 @@ public class cgeocaches extends ListActivity {
 		return true;
 	}
 
+	private void setAdapter() {
+		if (listFooter == null) {
+			if (inflater == null) inflater = activity.getLayoutInflater();
+			if (settings.skin == 1) listFooter = inflater.inflate(R.layout.caches_footer_light, null);
+			else listFooter = inflater.inflate(R.layout.caches_footer_dark, null);
+			listFooter.setClickable(true);
+			listFooter.setOnClickListener(new moreCachesListener());
+		}
+		if (listFooterText == null) {
+			listFooterText = (TextView)listFooter.findViewById(R.id.more_caches);
+		}
+
+		if (adapter == null) {
+			getListView().addFooterView(listFooter);
+			getListView().setOnLongClickListener(new longTapListener());
+			adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
+			setListAdapter(adapter);
+		}
+	}
+
+	private void setMoreCaches(boolean more) {
+		if (listFooter == null) {
+			if (inflater == null) inflater = activity.getLayoutInflater();
+			if (settings.skin == 1) listFooter = inflater.inflate(R.layout.caches_footer_light, null);
+			else listFooter = inflater.inflate(R.layout.caches_footer_dark, null);
+			listFooter.setClickable(true);
+			listFooter.setOnClickListener(new moreCachesListener());
+		}
+		if (listFooterText == null) {
+			listFooterText = (TextView)listFooter.findViewById(R.id.more_caches);
+		}
+
+		if (more == false) {
+			listFooterText.setText(res.getString(R.string.caches_more_caches_no));
+			listFooter.setClickable(false);
+			listFooter.setOnClickListener(null);
+		} else {
+			listFooterText.setText(res.getString(R.string.caches_more_caches));
+			listFooter.setClickable(true);
+			listFooter.setOnClickListener(new moreCachesListener());
+		}
+	}
+
 	private void init() {
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -484,11 +543,8 @@ public class cgeocaches extends ListActivity {
 			username = extras.getString("username");
 		}
 
-		if (adapter == null) {
-			adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
-			setListAdapter(adapter);
-		}
-		
+		setAdapter();
+
 		// sensor & geolocation manager
         if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
@@ -640,10 +696,7 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void updateLoc(cgGeo geo) {
 			if (geo == null) return;
-			if (adapter == null) {
-				adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
-				setListAdapter(adapter);
-			}
+			setAdapter();
 
 			try {
 				if (cacheList != null && geo.latitudeNow != null && geo.longitudeNow != null) {
@@ -659,7 +712,6 @@ public class cgeocaches extends ListActivity {
 				}
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
-				e.printStackTrace();
 			}
 		}
 	}
@@ -935,6 +987,26 @@ public class cgeocaches extends ListActivity {
             msg = new Message();
             msg.what = 1;
 			handler.sendMessage(msg);
+		}
+	}
+
+	private class moreCachesListener implements View.OnClickListener {
+		@Override
+		public void onClick(View arg0) {
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+
+			geocachesLoadNextPage thread;
+			thread = new geocachesLoadNextPage(loadNextPageHandler);
+			thread.start();
+		}
+	}
+
+	private class longTapListener implements View.OnLongClickListener {
+		@Override
+		public boolean onLongClick(View view) {
+			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+			
+			return true;
 		}
 	}
 }
