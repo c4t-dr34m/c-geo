@@ -1,0 +1,631 @@
+package carnero.cgeo;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.view.View;
+import android.widget.EditText;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.net.Uri;
+import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
+import java.io.File;
+
+public class cgeoinit extends Activity {
+	private cgeoapplication app = null;
+	private Context activity = null;
+	private cgSettings settings = null;
+	private cgBase base = null;
+	private cgWarning warning = null;
+	private SharedPreferences prefs = null;
+    private ProgressDialog loginDialog = null;
+
+	private Handler logInHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			try {
+                if (loginDialog != null && loginDialog.isShowing() == true) {
+                    loginDialog.dismiss();
+                }
+
+                if (msg.what == 1) {
+                    warning.helpDialog("login", "Login ok.");
+                } else {
+                    if (base.errorRetrieve.containsKey(msg.what) == true) {
+                        warning.helpDialog("login", "Login failed because of " + base.errorRetrieve.get(msg.what) + ".");
+                    } else {
+                        warning.helpDialog("login", "Login failed.");
+                    }
+                }
+			} catch (Exception e) {
+				warning.showToast("Sorry, c:geo can\'t login.");
+
+				Log.e(cgSettings.tag, "cgeoinit.logInHandler: " + e.toString());
+			}
+
+            if (loginDialog != null && loginDialog.isShowing() == true) {
+                loginDialog.dismiss();
+            }
+
+            init();
+        }
+    };
+
+    @Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// init
+		activity = this;
+        app = (cgeoapplication)this.getApplication();
+        prefs = getSharedPreferences(cgSettings.preferences, 0);
+        settings = new cgSettings(this, prefs);
+        base = new cgBase(app, settings, prefs);
+        warning = new cgWarning(this);
+
+		// set layout
+		setTitle("settings");
+		if (settings.skin == 1) setContentView(R.layout.init_light);
+		else setContentView(R.layout.init_dark);
+
+		init();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		init();
+	}
+
+	@Override
+	public void onPause() {
+		saveLogin();
+		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		saveLogin();
+		super.onStop();
+	}
+
+	@Override
+	public void onDestroy() {
+		saveLogin();
+		super.onDestroy();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 0, "clear login").setIcon(android.R.drawable.ic_menu_delete);
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == 0) {
+			boolean status = false;
+
+			((EditText)findViewById(R.id.username)).setText("");
+			((EditText)findViewById(R.id.password)).setText("");
+
+			status = saveLogin();
+			if (status == true) {
+				warning.showToast("c:geo cleared your login.");
+			} else {
+				warning.showToast("Sorry, c:geo can\'t clear your login.");
+			}
+
+            finish();
+		}
+
+		return false;
+	}
+
+	public void init() {
+		String usernameNow = prefs.getString("username", null);
+		if (usernameNow != null) {
+			((EditText)findViewById(R.id.username)).setText(usernameNow);
+		}
+		String passwordNow = prefs.getString("password", null);
+		if (usernameNow != null) {
+			((EditText)findViewById(R.id.password)).setText(passwordNow);
+		}
+
+		Button logMeIn = (Button)findViewById(R.id.log_me_in);
+		logMeIn.setClickable(true);
+		logMeIn.setOnTouchListener(new cgViewTouch(settings, logMeIn));
+		logMeIn.setOnClickListener(new logIn());
+
+		TextView legalNote = (TextView)findViewById(R.id.legal_note);
+		legalNote.setClickable(true);
+		legalNote.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/about/disclaimer.aspx")));
+			}
+		});
+
+		TextView go4cache = (TextView)findViewById(R.id.about_go4cache);
+		go4cache.setClickable(true);
+		go4cache.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://go4cache.com/")));
+			}
+		});
+
+		CheckBox publicButton = (CheckBox)findViewById(R.id.publicloc);
+		if (prefs.getInt("publicloc", 0) == 0) {
+			publicButton.setChecked(false);
+		} else {
+			publicButton.setChecked(true);
+		}
+		publicButton.setOnClickListener(new cgeoChangePublic());
+
+		Button authorizeTwitter = (Button)findViewById(R.id.authorize_twitter);
+		authorizeTwitter.setClickable(true);
+		authorizeTwitter.setOnTouchListener(new cgViewTouch(settings, authorizeTwitter));
+		authorizeTwitter.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				Intent authIntent = new Intent(activity, cgeoauth.class);
+				activity.startActivity(authIntent);
+			}
+		});
+
+		CheckBox skinButton = (CheckBox)findViewById(R.id.skin);
+		if (prefs.getInt("skin", 0) == 0) {
+			skinButton.setChecked(false);
+		} else {
+			skinButton.setChecked(true);
+		}
+		skinButton.setOnClickListener(new cgeoChangeSkin());
+
+		CheckBox twitterButton = (CheckBox)findViewById(R.id.twitter_option);
+		if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
+			twitterButton.setChecked(false);
+		} else {
+			twitterButton.setChecked(true);
+		}
+		twitterButton.setOnClickListener(new cgeoChangeTwitter());
+
+		CheckBox excludeButton = (CheckBox)findViewById(R.id.exclude);
+		if (prefs.getInt("excludemine", 0) == 0) {
+			excludeButton.setChecked(false);
+		} else {
+			excludeButton.setChecked(true);
+		}
+		excludeButton.setOnClickListener(new cgeoChangeExclude());
+
+		CheckBox disabledButton = (CheckBox)findViewById(R.id.disabled);
+		if (prefs.getInt("excludedisabled", 0) == 0) {
+			disabledButton.setChecked(false);
+		} else {
+			disabledButton.setChecked(true);
+		}
+		disabledButton.setOnClickListener(new cgeoChangeDisabled());
+
+		CheckBox offlineButton = (CheckBox)findViewById(R.id.offline);
+		if (prefs.getInt("offlinemaps", 1) == 0) {
+			offlineButton.setChecked(false);
+		} else {
+			offlineButton.setChecked(true);
+		}
+		offlineButton.setOnClickListener(new cgeoChangeOffline());
+
+		CheckBox autoloadButton = (CheckBox)findViewById(R.id.autoload);
+		if (prefs.getInt("autoloaddesc", 0) == 0) {
+			autoloadButton.setChecked(false);
+		} else {
+			autoloadButton.setChecked(true);
+		}
+		autoloadButton.setOnClickListener(new cgeoChangeAutoload());
+
+		CheckBox livelistButton = (CheckBox)findViewById(R.id.livelist);
+		if (prefs.getInt("livelist", 1) == 0) {
+			livelistButton.setChecked(false);
+		} else {
+			livelistButton.setChecked(true);
+		}
+		livelistButton.setOnClickListener(new cgeoChangeLivelist());
+
+		CheckBox unitsButton = (CheckBox)findViewById(R.id.units);
+		if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
+			unitsButton.setChecked(false);
+		} else {
+			unitsButton.setChecked(true);
+		}
+		unitsButton.setOnClickListener(new cgeoChangeUnits());
+
+		CheckBox gnavButton = (CheckBox)findViewById(R.id.gnav);
+		if (prefs.getInt("usegnav", 1) == 1) {
+			gnavButton.setChecked(true);
+		} else {
+			gnavButton.setChecked(false);
+		}
+		gnavButton.setOnClickListener(new cgeoChangeGNav());
+
+		CheckBox imgButton = (CheckBox)findViewById(R.id.directoryimg);
+		if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
+			imgButton.setChecked(false);
+		} else {
+			imgButton.setChecked(true);
+		}
+		imgButton.setOnClickListener(new cgeoChangeImgCache());
+
+		CheckBox browserButton = (CheckBox)findViewById(R.id.browser);
+		if (prefs.getInt("asbrowser", 1) == 0) {
+			browserButton.setChecked(false);
+		} else {
+			browserButton.setChecked(true);
+		}
+		browserButton.setOnClickListener(new cgeoChangeBrowser());
+	}
+
+	public boolean saveLogin() {
+		String usernameNew = ((EditText)findViewById(R.id.username)).getText().toString();
+		String passwordNew = ((EditText)findViewById(R.id.password)).getText().toString();
+
+		if (usernameNew == null) {
+			usernameNew = "";
+		}
+
+		if (passwordNew == null) {
+			passwordNew = "";
+		}
+
+		if (settings.setLogin(usernameNew, passwordNew) == true) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private class cgeoChangeTwitter implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
+				edit.putInt("twitter", 1);
+				settings.twitter = 1;
+			} else {
+				edit.putInt("twitter", 0);
+				settings.twitter = 0;
+			}
+			edit.commit();
+
+			if (settings.twitter == 1 && (settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0)) {
+				Intent authIntent = new Intent(activity, cgeoauth.class);
+				activity.startActivity(authIntent);
+			}
+
+			CheckBox twitterButton = (CheckBox)findViewById(R.id.twitter_option);
+			if (prefs.getInt("twitter", 0) == 0) {
+				twitterButton.setChecked(false);
+			} else {
+				twitterButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeSkin implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("skin", 0) == 0) {
+				edit.putInt("skin", 1);
+				settings.setSkin(1);
+			} else {
+				edit.putInt("skin", 0);
+				settings.setSkin(0);
+			}
+			edit.commit();
+
+			CheckBox skinButton = (CheckBox)findViewById(R.id.skin);
+			if (prefs.getInt("skin", 0) == 0) {
+				skinButton.setChecked(false);
+			} else {
+				skinButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangePublic implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("publicloc", 0) == 0) {
+				edit.putInt("publicloc", 1);
+				settings.publicLoc = 1;
+			} else {
+				edit.putInt("publicloc", 0);
+				settings.publicLoc = 0;
+			}
+			edit.commit();
+
+			CheckBox publicloc = (CheckBox)findViewById(R.id.publicloc);
+			if (prefs.getInt("publicloc", 0) == 0) {
+				publicloc.setChecked(false);
+			} else {
+				publicloc.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeExclude implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("excludemine", 0) == 0) {
+				edit.putInt("excludemine", 1);
+				settings.excludeMine = 1;
+			} else {
+				edit.putInt("excludemine", 0);
+				settings.excludeMine = 0;
+			}
+			edit.commit();
+
+			CheckBox excludeButton = (CheckBox)findViewById(R.id.exclude);
+			if (prefs.getInt("excludemine", 0) == 0) {
+				excludeButton.setChecked(false);
+			} else {
+				excludeButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeDisabled implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("excludedisabled", 0) == 0) {
+				edit.putInt("excludedisabled", 1);
+				settings.excludeDisabled = 1;
+			} else {
+				edit.putInt("excludedisabled", 0);
+				settings.excludeDisabled = 0;
+			}
+			edit.commit();
+
+			CheckBox disabledButton = (CheckBox)findViewById(R.id.disabled);
+			if (prefs.getInt("excludedisabled", 0) == 0) {
+				disabledButton.setChecked(false);
+			} else {
+				disabledButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeOffline implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("offlinemaps", 1) == 0) {
+				edit.putInt("offlinemaps", 1);
+				settings.excludeDisabled = 1;
+			} else {
+				edit.putInt("offlinemaps", 0);
+				settings.excludeDisabled = 0;
+			}
+			edit.commit();
+
+			CheckBox offlineButton = (CheckBox)findViewById(R.id.offline);
+			if (prefs.getInt("offlinemaps", 0) == 0) {
+				offlineButton.setChecked(false);
+			} else {
+				offlineButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeLivelist implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("livelist", 1) == 0) {
+				edit.putInt("livelist", 1);
+				settings.livelist = 1;
+			} else {
+				edit.putInt("livelist", 0);
+				settings.livelist = 0;
+			}
+			edit.commit();
+
+			CheckBox livelistButton = (CheckBox)findViewById(R.id.livelist);
+			if (prefs.getInt("livelist", 1) == 0) {
+				livelistButton.setChecked(false);
+			} else {
+				livelistButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeAutoload implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("autoloaddesc", 0) == 0) {
+				edit.putInt("autoloaddesc", 1);
+				settings.autoLoadDesc = 1;
+			} else {
+				edit.putInt("autoloaddesc", 0);
+				settings.autoLoadDesc = 0;
+			}
+			edit.commit();
+
+			CheckBox autoloadButton = (CheckBox)findViewById(R.id.autoload);
+			if (prefs.getInt("autoloaddesc", 0) == 0) {
+				autoloadButton.setChecked(false);
+			} else {
+				autoloadButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeUnits implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
+				edit.putInt("units", settings.unitsImperial);
+				settings.units = settings.unitsImperial;
+			} else {
+				edit.putInt("units", settings.unitsMetric);
+				settings.units = settings.unitsMetric;
+			}
+			edit.commit();
+
+			CheckBox unitsButton = (CheckBox)findViewById(R.id.units);
+			if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
+				unitsButton.setChecked(false);
+			} else {
+				unitsButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeGNav implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("usegnav", 1) == 1) {
+				edit.putInt("usegnav", 0);
+				settings.useGNavigation = 0;
+			} else {
+				edit.putInt("usegnav", 1);
+				settings.useGNavigation = 1;
+			}
+			edit.commit();
+
+			CheckBox gnavButton = (CheckBox)findViewById(R.id.gnav);
+			if (prefs.getInt("usegnav", 1) == 1) {
+				gnavButton.setChecked(true);
+			} else {
+				gnavButton.setChecked(false);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeImgCache implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			File dir = null;
+			File dirNew = null;
+			
+			if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
+				dir = new File(settings.getStorageSpecific(false));
+				dirNew = new File(settings.getStorageSpecific(true));
+				if (dir.exists() == true) {
+					base.deleteDirectory(dirNew);
+					dir.renameTo(dirNew);
+				} else {
+					base.deleteDirectory(dirNew);
+				}
+
+				edit.putString("directoryimg", settings.imgCacheHidden);
+				settings.directoryImg = settings.imgCacheHidden;
+			} else {
+				dir = new File(settings.getStorageSpecific(true));
+				dirNew = new File(settings.getStorageSpecific(false));
+				if (dir.exists() == true) {
+					base.deleteDirectory(dirNew);
+					dir.renameTo(dirNew);
+				} else {
+					base.deleteDirectory(dirNew);
+				}
+				
+				edit.putString("directoryimg", settings.imgCache);
+				settings.directoryImg = settings.imgCache;
+			}
+			edit.commit();
+
+			CheckBox imgButton = (CheckBox)findViewById(R.id.directoryimg);
+			if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
+				imgButton.setChecked(false);
+			} else {
+				imgButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeBrowser implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("asbrowser", 1) == 0) {
+				edit.putInt("asbrowser", 1);
+				settings.asBrowser = 1;
+			} else {
+				edit.putInt("asbrowser", 0);
+				settings.asBrowser = 0;
+			}
+			edit.commit();
+
+			CheckBox browserButton = (CheckBox)findViewById(R.id.browser);
+			if (prefs.getInt("asbrowser", 1) == 0) {
+				browserButton.setChecked(false);
+			} else {
+				browserButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class logIn implements View.OnClickListener {
+		public void onClick(View arg0) {
+			String username = ((EditText)findViewById(R.id.username)).getText().toString();
+			String password = ((EditText)findViewById(R.id.password)).getText().toString();
+
+            if (username == null || username.length() == 0 || password == null || password.length() == 0) {
+                warning.showToast("No username and/or password set.");
+                return;
+            }
+
+			loginDialog = ProgressDialog.show(activity, "login", "Logging to geocaching.com...", true);
+			loginDialog.setCancelable(false);
+
+            settings.setLogin(username, password);
+
+			Thread thread = new logInThread(logInHandler);
+			thread.start();
+		}
+	}
+
+	private class logInThread extends Thread {
+		private Handler handler = null;
+
+		public logInThread(Handler handlerIn) {
+			handler = handlerIn;
+		}
+
+		@Override
+		public void run() {
+            Message msg = new Message();
+            
+            msg.what = base.login();
+
+			handler.sendMessage(msg);
+		}
+	}
+}

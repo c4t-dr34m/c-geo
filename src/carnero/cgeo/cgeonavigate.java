@@ -1,0 +1,437 @@
+package carnero.cgeo;
+
+import java.util.ArrayList;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.PowerManager;
+import android.util.Log;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.SubMenu;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import java.util.HashMap;
+import java.util.Locale;
+
+public class cgeonavigate extends Activity {
+	public static ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
+
+	private cgeoapplication app = null;
+	private Context activity = null;
+	private cgSettings settings = null;
+	private cgBase base = null;
+	private cgWarning warning = null;
+    private PowerManager pm = null;
+	private cgGeo geo = null;
+	private cgDirection dir = null;
+	private cgUpdateLoc geoUpdate = new update();
+	private cgUpdateDir dirUpdate = new updateDir();
+	private Double dstLatitude = null;
+	private Double dstLongitude = null;
+	private float cacheHeading = 0.0f;
+	private float northHeading = 0.0f;
+	private String title = null;
+	private String name = null;
+	private TextView navTypeName = null;
+	private TextView navTypeNameDetail = null;
+	private TextView navTypeValue = null;
+	private TextView distanceView = null;
+	private TextView headingView = null;
+	private cgCompass compassView = null;
+	private updaterThread updater = null;
+	protected PowerManager.WakeLock  wakeLock = null;
+
+	private Handler updaterHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			try {
+				if (compassView != null) compassView.updateNorth(northHeading, cacheHeading);
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgeonavigate.updaterHandler: " + e.toString());
+			}
+		}
+	};
+
+    @Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// class init
+		activity = this;
+        app = (cgeoapplication)this.getApplication();
+        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+        warning = new cgWarning(this);
+
+		// set layout
+		setTitle("navigation");
+		if (settings.skin == 1) setContentView(R.layout.navigate_light);
+		else setContentView(R.layout.navigate_dark);
+
+		// keep backlight on
+		pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+		wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "c:geo");
+		wakeLock.acquire();
+
+		// sensor & geolocation manager
+		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+		
+		// get parameters
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			title = extras.getString("geocode");
+			name = extras.getString("name");
+			dstLatitude = extras.getDouble("latitude");
+			dstLongitude = extras.getDouble("longitude");
+
+			if (name != null && name.length() > 0) {
+                if (title != null && title.length() > 0) title = title + ": " + name;
+                else title = name;
+			}
+		} else {
+			Intent pointIntent = new Intent(activity, cgeopoint.class);
+			activity.startActivity(pointIntent);
+
+			finish();
+			return;
+		}
+
+		if (title != null && title.length() > 0) app.setAction(title);
+		else if (name != null && name.length() > 0) app.setAction(name);
+
+		// set header
+		setTitle();
+		setDestCoords();
+
+		// get textviews once
+		navTypeName = (TextView)findViewById(R.id.nav_type_name);
+		navTypeNameDetail = (TextView)findViewById(R.id.nav_type_name_detail);
+		navTypeValue = (TextView)findViewById(R.id.nav_type_value);
+		compassView = (cgCompass)findViewById(R.id.rose);
+
+		// start updater thread
+		updater = new updaterThread(updaterHandler);
+		updater.start();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		if (title != null && title.length() > 0) app.setAction(title);
+		else if (name != null && name.length() > 0) app.setAction(name);
+
+		// sensor & geolocation manager
+		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+		if (compassView != null) compassView.init();
+
+		// keep backlight on
+        if (pm == null) {
+            pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        }
+
+        if (wakeLock == null || wakeLock.isHeld() == false) {
+            wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "c:geo");
+            wakeLock.acquire();
+        }
+
+        // updater thread
+		if (updater == null) {
+			updater = new updaterThread(updaterHandler);
+			updater.start();
+		}
+	}
+
+	@Override
+	public void onStop() {
+		if (compassView != null) compassView.kill();
+		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir(dir);
+
+		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
+
+        super.onStop();
+	}
+
+	@Override
+	public void onPause() {
+		if (compassView != null) compassView.kill();
+		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir(dir);
+
+		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
+
+		super.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+		if (compassView != null) compassView.kill();
+		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir(dir);
+
+		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
+
+        compassView.destroyDrawingCache();
+        compassView = null;
+
+		super.onDestroy();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if (settings.useCompass == 1) {
+			menu.add(0, 1, 0, "use gps").setIcon(android.R.drawable.ic_menu_compass);
+		} else {
+			menu.add(0, 1, 0, "use compass").setIcon(android.R.drawable.ic_menu_compass);
+		}
+		menu.add(0, 0, 0, "show on map").setIcon(android.R.drawable.ic_menu_mapmode);
+		menu.add(0, 2, 0, "set destination").setIcon(android.R.drawable.ic_menu_edit);
+		if (coordinates != null && coordinates.size() > 1) {
+			SubMenu subMenu = menu.addSubMenu(0, 3, 0, "select destination").setIcon(android.R.drawable.ic_menu_myplaces);
+
+			int cnt = 4;
+			for (cgCoord coordinate : coordinates) {
+				subMenu.add(0, cnt, 0, coordinate.name + " (" + coordinate.type + ")");
+				cnt ++;
+			}
+
+			return true;
+		} else {
+			menu.add(0, 3, 0, "select destination").setIcon(android.R.drawable.ic_menu_myplaces).setEnabled(false);
+
+			return true;
+		}
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		MenuItem item;
+		item = menu.findItem(1);
+		if (settings.useCompass == 1) {
+			item.setTitle("use gps");
+		} else {
+			item.setTitle("use compass");
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+
+		if (id == 0) {
+			cgeomap mapActivity = new cgeomap();
+
+			Intent mapIntent = new Intent(activity, mapActivity.getClass());
+			mapIntent.putExtra("detail", false);
+			mapIntent.putExtra("latitude", dstLatitude);
+			mapIntent.putExtra("longitude", dstLongitude);
+
+			activity.startActivity(mapIntent);
+		} else if (id == 1) {
+			if (settings.useCompass == 1) {
+				settings.useCompass = 0;
+
+				if (dir != null) dir = app.removeDir(dir);
+
+				SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
+				prefsEdit.putInt("usecompass", settings.useCompass);
+				prefsEdit.commit();
+			} else {
+				settings.useCompass = 1;
+				
+				if (dir == null) dir = app.startDir(activity, dirUpdate, warning);
+
+				SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
+				prefsEdit.putInt("usecompass", settings.useCompass);
+				prefsEdit.commit();
+			}
+		} else if (id == 2) {
+			Intent pointIntent = new Intent(activity, cgeopoint.class);
+			activity.startActivity(pointIntent);
+
+			finish();
+			return true;
+		} else if (id > 3 && coordinates != null && coordinates.get(id - 4) != null) {
+			cgCoord coordinate = coordinates.get(id - 4);
+
+			title = coordinate.name;
+			dstLatitude = coordinate.latitude;
+			dstLongitude = coordinate.longitude;
+			setTitle();
+			setDestCoords();
+			updateDistanceInfo();
+
+			Log.d(cgSettings.tag, "destination set: " + title + " (" + String.format(Locale.getDefault(), "%.8f", dstLatitude) + " | " + String.format(Locale.getDefault(), "%.8f", dstLatitude) + ")");
+			return true;
+		}
+
+		return false;
+	}
+
+	private void setTitle() {
+		if (title != null && title.length() > 0) setTitle(title);
+		else setTitle("navigation");
+	}
+
+	private void setDestCoords() {
+		if (dstLatitude == null || dstLatitude == null) {
+			return;
+		}
+
+		((TextView)findViewById(R.id.destination)).setText(base.formatCoordinate(dstLatitude, "lat", true) + " | " + base.formatCoordinate(dstLongitude, "lon", true));
+	}
+
+	public void setDest(Double lat, Double lon) {
+		if (lat == null || lon == null) {
+			return;
+		}
+
+		title = "some place";
+		setTitle();
+		setDestCoords();
+		
+		dstLatitude = lat;
+		dstLongitude = lon;
+		updateDistanceInfo();
+	}
+
+	public HashMap<String, Double> getCoordinatesNow() {
+		HashMap<String, Double> coordsNow = new HashMap<String, Double>();
+		if (geo != null) {
+			coordsNow.put("latitude", geo.latitudeNow);
+			coordsNow.put("longitude", geo.longitudeNow);
+		}
+		return coordsNow;
+	}
+
+	private void updateDistanceInfo() {
+		if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null || dstLatitude == null || dstLongitude == null) {
+			return;
+		}
+
+		if (distanceView == null) {
+			distanceView = (TextView)findViewById(R.id.distance);
+		}
+		if (headingView == null) {
+			headingView = (TextView)findViewById(R.id.heading);
+		}
+
+		cacheHeading = base.getHeading(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude);
+		distanceView.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude)));
+		headingView.setText(String.format(Locale.getDefault(), "%.0f", cacheHeading) + "°");
+	}
+	
+	private class update extends cgUpdateLoc {
+		@Override
+		public void updateLoc(cgGeo geo) {
+			if (geo == null) return;
+
+			try {
+				if (navTypeName == null || navTypeValue == null) {
+					navTypeName = (TextView)findViewById(R.id.nav_type_name);
+					navTypeNameDetail = (TextView)findViewById(R.id.nav_type_name_detail);
+					navTypeValue = (TextView)findViewById(R.id.nav_type_value);
+				}
+
+				if (geo.latitudeNow != null && geo.longitudeNow != null) {
+					String satellites = null;
+					if (geo.satellitesVisible != null && geo.satellitesFixed != null && geo.satellitesFixed > 0) {
+						satellites = " (sat: " + geo.satellitesFixed + "/" + geo.satellitesVisible + ")";
+					} else if (geo.satellitesVisible != null) {
+						satellites = " (sat: --/" + geo.satellitesVisible + ")";
+					} else {
+						satellites = "";
+					}
+
+					if (geo.gps == -1) {
+						navTypeName.setText("last known" + satellites);
+					} else if (geo.gps == 0) {
+						navTypeName.setText("network" + satellites);
+					} else {
+						navTypeName.setText("gps" + satellites);
+					}
+
+					if (geo.accuracyNow != null) {
+						if (settings.units == settings.unitsImperial) {
+							navTypeNameDetail.setText("±" + String.format(Locale.getDefault(), "%.0f", (geo.accuracyNow * 3.2808399)) + " ft");
+						} else {
+							navTypeNameDetail.setText("±" + String.format(Locale.getDefault(), "%.0f", geo.accuracyNow) + " m");
+						}
+					} else {
+						navTypeNameDetail.setText(null);
+					}
+
+					if (geo.altitudeNow != null) {
+						String humanAlt;
+						if (settings.units == settings.unitsImperial) {
+							humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
+						} else {
+							humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
+						}
+						navTypeValue.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
+					} else {
+						navTypeValue.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
+					}
+
+					updateDistanceInfo();
+				} else {
+					navTypeName.setText(null);
+					navTypeNameDetail.setText(null);
+					navTypeValue.setText("trying to locate...");
+				}
+
+				if (settings.useCompass == 0) {
+					if (geo != null && geo.bearingNow != null) {
+						northHeading = geo.bearingNow;
+					} else {
+						northHeading = 0.0f;
+					}
+				}
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "Failed to update location.");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private class updateDir extends cgUpdateDir {
+		@Override
+		public void updateDir(cgDirection dir) {
+			if (dir == null) return;
+			
+			northHeading = dir.directionNow;
+		}
+	}
+
+	private class updaterThread extends Thread {
+		private Handler handler = null;
+
+		public updaterThread(Handler handlerIn) {
+			handler = handlerIn;
+		}
+
+		@Override
+		public void run() {
+			while(!Thread.currentThread().isInterrupted()){
+				if (handler != null) handler.sendMessage(new Message());
+
+				try {
+					Thread.sleep(20);
+				} catch (Exception e) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		}
+	}
+}

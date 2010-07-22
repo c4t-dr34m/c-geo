@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:background="#FF191919" >
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:padding="4dip"
+			android:orientation="vertical" >
+		<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginTop="10dip"
+				android:orientation="vertical" >
+<!-- ** -->
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_gravity="right|top"
+					android:layout_marginTop="10dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="22dip"
+					android:textColor="#66FFFFFF"
+					android:text="geocaching.com" />
+			<EditText
+					android:id="@+id/username"
+					android:hint="user name"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:textSize="22dip"
+					android:textColor="#FFFFFFFF"
+					android:textColorHint="#66FFFFFF"
+					android:autoText="true"
+					android:capitalize="none"
+					android:padding="6dip"
+					android:background="@drawable/input_bcg_dark" />
+			<EditText android:id="@+id/password"
+					android:hint="password"
+					android:password="true"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:textSize="22dip"
+					android:textColor="#FFFFFFFF"
+					android:textColorHint="#66FFFFFF"
+					android:autoText="true"
+					android:capitalize="none"
+					android:padding="6dip"
+					android:background="@drawable/input_bcg_dark" />
+			<Button android:id="@+id/log_me_in"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:textSize="22dip"
+					android:textColor="#FFFFFFFF"
+					android:padding="6dip"
+					android:text="check login"
+					android:background="@drawable/action_button_dark_off" />
+<!-- ** -->
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_gravity="right|top"
+					android:layout_marginTop="10dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="22dip"
+					android:textColor="#66FFFFFF"
+					android:text="legal note" />
+			<TextView android:id="@+id/legal_note"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:layout_alignParentLeft="true"
+					android:layout_gravity="left"
+					android:padding="3dip"
+					android:textSize="12dip"
+					android:textColor="#FFFFFFFF"
+					android:textColorLink="@color/link"
+					android:linksClickable="true"
+					android:text="@string/legal_note" />
+<!-- ** -->
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_gravity="right|top"
+					android:layout_marginTop="10dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="22dip"
+					android:textColor="#66FFFFFF"
+					android:text="go 4 cache" />
+			<TextView android:id="@+id/about_go4cache"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:layout_alignParentLeft="true"
+					android:layout_gravity="left"
+					android:padding="3dip"
+					android:textSize="12dip"
+					android:textColor="#FFFFFFFF"
+					android:textColorLink="@color/link"
+					android:linksClickable="true"
+					android:text="@string/about_go4cache" />
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="3dip"
+					android:orientation="horizontal"
+					android:padding="3dip" >
+				<CheckBox android:id="@+id/publicloc"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_gravity="left"
+						android:padding="1px"
+						android:gravity="center" />
+				<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:gravity="left"
+						android:paddingRight="3dip"
+						android:textSize="14dip"
+						android:textColor="#FFFFFFFF"
+						android:text="connect to go 4 cache" />
+			</LinearLayout>
+<!-- ** -->
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_gravity="right|top"
+					android:layout_marginTop="10dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="22dip"
+					android:textColor="#66FFFFFF"
+					android:text="twitter" />
+			<TextView android:id="@+id/about_twitter"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:layout_alignParentLeft="true"
+					android:layout_gravity="left"
+					android:padding="3dip"
+					android:textSize="12dip"
+					android:textColor="#FFFFFFFF"
+					android:textColorLink="@color/link"
+					android:linksClickable="true"
+					android:text="@string/about_twitter" />
+			<Button android:id="@+id/authorize_twitter"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:textSize="22dip"
+					android:textColor="#FFFFFFFF"
+					android:padding="6dip"
+					android:text="authorize c:geo"
+					android:background="@drawable/action_button_dark_off" />
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="3dip"
+					android:orientation="horizontal"
+					android:padding="3dip" >
+				<CheckBox android:id="@+id/twitter_option"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_gravity="left"
+						android:padding="1px"
+						android:gravity="center" />
+				<TextView
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:gravity="left"
+						android:paddingRight="3dip"
+						android:textSize="14dip"
+						android:textColor="#FFFFFFFF"
+						android:text="publish status when cache found" />
+			</LinearLayout>
+<!-- ** -->
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_gravity="right|top"
+					android:layout_marginTop="10dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="22dip"
+					android:textColor="#66FFFFFF"
+					android:text="other" />
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_margin="3dip"
+					android:orientation="vertical"
+					android:padding="3dip" >
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/skin"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="light skin (needs restart of c:geo)" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/exclude"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="exclude own and found caches" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/disabled"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="exclude disabled caches " />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/offline"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="store maps for offline use" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/units"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="use imperial distance units" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/gnav"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="use Google Navigation" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/directoryimg"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="hide image directory from gallery" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/autoload"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="auto-loading long description" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/livelist"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="show direction to caches in its list" />
+				</LinearLayout>
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<CheckBox android:id="@+id/browser"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="#FFFFFFFF"
+							android:text="identify c:geo as standard browser" />
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
