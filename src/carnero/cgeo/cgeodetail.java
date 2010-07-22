@@ -793,7 +793,7 @@ public class cgeodetail extends Activity {
                     ((TextView)rowView.findViewById(R.id.type)).setText(log.type);
                     ((TextView)rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
                     ((TextView)rowView.findViewById(R.id.added)).setText(Html.fromHtml(log.date + "; " + log.found), TextView.BufferType.SPANNABLE);
-                    ((TextView)rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, geocode, cache.reason, false), null), TextView.BufferType.SPANNABLE);
+                    ((TextView)rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, cache.reason, false), null), TextView.BufferType.SPANNABLE);
 
 					final ImageView markFound = (ImageView)rowView.findViewById(R.id.found_mark);
 					final ImageView markDNF = (ImageView)rowView.findViewById(R.id.dnf_mark);

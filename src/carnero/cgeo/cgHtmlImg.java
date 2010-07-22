@@ -40,16 +40,13 @@ public class cgHtmlImg implements Html.ImageGetter {
 	@Override
 	public BitmapDrawable getDrawable(String url) {
 		Bitmap imagePre = null;
-		BitmapDrawable image = null;
-		String dirName;
-		String fileName;
+		String dirName = null;
+		String fileName = null;
 
-		if (url == null || url.length() == 0) {
-			return null;
-		}
+		if (url == null || url.length() == 0) return null;
 
-		String[] urlParts = url.split("\\.");
-		String urlExt;
+		final String[] urlParts = url.split("\\.");
+		String urlExt = null;
 		if (urlParts.length > 1) {
 			urlExt = "." + urlParts[(urlParts.length - 1)];
 			if (urlExt.length() > 5) {
@@ -59,26 +56,23 @@ public class cgHtmlImg implements Html.ImageGetter {
 			urlExt = "";
 		}
 
-		if (this.geocode != null && this.geocode.length() > 0) {
-			dirName = this.settings.getStorage() + this.geocode + "/";
-			fileName = this.settings.getStorage() + this.geocode + "/" + cgBase.md5(url) + urlExt;
+		if (geocode != null && geocode.length() > 0) {
+			dirName = settings.getStorage() + geocode + "/";
+			fileName = settings.getStorage() + geocode + "/" + cgBase.md5(url) + urlExt;
 		} else {
-			dirName = this.settings.getStorage() + "_others/";
-			fileName = this.settings.getStorage() + "_others/" + cgBase.md5(url) + urlExt;
+			dirName = settings.getStorage() + "_others/";
+			fileName = settings.getStorage() + "_others/" + cgBase.md5(url) + urlExt;
 		}
 
-		File dir = new File(this.settings.getStorage());
-		if (dir.exists() == false) {
-			dir.mkdirs();
-		}
+		File dir = null;
+		dir = new File(settings.getStorage());
+		if (dir.exists() == false) dir.mkdirs();
 		dir = new File(dirName);
-		if (dir.exists() == false) {
-			dir.mkdirs();
-		}
+		if (dir.exists() == false) dir.mkdirs();
 		dir = null;
 
 		try {
-            File file = new File(fileName);
+            final File file = new File(fileName);
             if (file.exists() == true) {
                 if (reason == 1 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
                     imagePre = BitmapFactory.decodeFile(fileName);
@@ -106,9 +100,9 @@ public class cgHtmlImg implements Html.ImageGetter {
 					bufferedEntity = new BufferedHttpEntity(entity);
 
 					if (onlySave == false) {
-						long imageSize = bufferedEntity.getContentLength();
+						final long imageSize = bufferedEntity.getContentLength();
 
-						BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+						final BitmapFactory.Options bfOptions = new BitmapFactory.Options();
 						// large images will be downscaled on input to save memory
 						if (imageSize > (4 * 1024 * 1024)) {
 							bfOptions.inSampleSize = 16;
@@ -120,8 +114,9 @@ public class cgHtmlImg implements Html.ImageGetter {
 							bfOptions.inSampleSize = 2;
 						}
 
-						if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
+						Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
 
+						if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
 						if (imagePre != null) break;
 					} else {
 						break;
@@ -134,10 +129,10 @@ public class cgHtmlImg implements Html.ImageGetter {
 			try {
 				// save to memory/SD cache
 				if (bufferedEntity != null) {
-					InputStream is = (InputStream)bufferedEntity.getContent();
-					FileOutputStream fos = new FileOutputStream(fileName);
+					final InputStream is = (InputStream)bufferedEntity.getContent();
+					final FileOutputStream fos = new FileOutputStream(fileName);
 					try {
-						byte[] buffer = new byte[4096];
+						final byte[] buffer = new byte[4096];
 						int l;
 						while ((l = is.read(buffer)) != -1) {
 							fos.write(buffer, 0, l);
@@ -159,18 +154,17 @@ public class cgHtmlImg implements Html.ImageGetter {
 			if (imagePre == null) {
 				Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to obtain image");
 
-				imagePre = BitmapFactory.decodeResource(this.activity.getResources(), R.drawable.image_not_loaded);
+				imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_not_loaded);
 			}
 
-			Display display = ((WindowManager)this.activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-			int imgWidth = imagePre.getWidth();
-			int imgHeight = imagePre.getHeight();
-			int maxWidth = display.getWidth() - 25;
-			int maxHeight = display.getHeight() - 25;
-
-			Double ratio = new Double(1.0);
+			Display display = ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			final int imgWidth = imagePre.getWidth();
+			final int imgHeight = imagePre.getHeight();
+			final int maxWidth = display.getWidth() - 25;
+			final int maxHeight = display.getHeight() - 25;
 			int width = imgWidth;
 			int height = imgHeight;
+			double ratio = 1.0d;
 
 			if (imgWidth > maxWidth || imgHeight > maxHeight) {
 				if ((maxWidth / imgWidth) > (maxHeight / imgHeight)) {
@@ -190,7 +184,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 				}
 			}
 
-			image = new BitmapDrawable(imagePre);
+			final BitmapDrawable image = new BitmapDrawable(imagePre);
 			image.setBounds(new Rect(0, 0, width, height));
 			imagePre = null;
 

@@ -58,6 +58,8 @@ public class cgeo extends Activity {
             Log.i(cgSettings.tag, "No info.");
         }
 
+		(base.new loginThread()).start();
+
 		init();
 	}
 

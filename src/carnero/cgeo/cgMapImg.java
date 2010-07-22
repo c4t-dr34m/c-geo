@@ -1,6 +1,5 @@
 package carnero.cgeo;
 
-import android.app.Activity;
 import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,19 +13,17 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class cgMapImg {
-	private Activity activity = null;
 	private cgSettings settings = null;
 	private String geocode = null;
 	private int level = 1;
 
-	public cgMapImg(Activity activity, cgSettings settings, String geocode) {
-		this.activity = activity;
-		this.geocode = geocode;
-		this.settings = settings;
+	public cgMapImg(cgSettings settingsIn, String geocodeIn) {
+		geocode = geocodeIn;
+		settings = settingsIn;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setLevel(int levelIn) {
+		level = levelIn;
 	}
 
 	public void getDrawable(String url) {
@@ -42,14 +39,11 @@ public class cgMapImg {
 			return;
 		}
 
-		File dir = new File(this.settings.getStorage());
-		if (dir.exists() == false) {
-			dir.mkdirs();
-		}
+		File dir = null;
+		dir = new File(this.settings.getStorage());
+		if (dir.exists() == false) dir.mkdirs();
 		dir = new File(dirName);
-		if (dir.exists() == false) {
-			dir.mkdirs();
-		}
+		if (dir.exists() == false) dir.mkdirs();
 		dir = null;
 
 		HttpClient client = null;
@@ -69,6 +63,8 @@ public class cgMapImg {
 				httpResponse = client.execute(getMethod);
 				entity = httpResponse.getEntity();
 				bufferedEntity = new BufferedHttpEntity(entity);
+
+				Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading static map " + url);
 
 				if (bufferedEntity != null) {
 					InputStream is = (InputStream)bufferedEntity.getContent();

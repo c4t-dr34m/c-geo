@@ -615,11 +615,16 @@ public class cgeocaches extends ListActivity {
         dialog.setMessage("Do you want to delete all caches stored for offline use?");
         dialog.setCancelable(true);
         dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-               app.dropStored();
-               dialog.cancel();
-               activity.finish();
-           }
+			public void onClick(DialogInterface dialog, int id) {
+				(new Thread() {
+					@Override
+					public void run() {
+						app.dropStored();
+					}
+				}).start();
+				dialog.cancel();
+				activity.finish();
+			}
         });
         dialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {

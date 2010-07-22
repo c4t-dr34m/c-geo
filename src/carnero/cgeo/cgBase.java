@@ -74,9 +74,10 @@ public class cgBase {
 	public static DateFormat dateOutShort = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
 
 	private HashMap<String, String> cookies = new HashMap<String, String>();
+	private boolean follow = false;
+	private Pattern patternLoggedIn = null;
 	private final Pattern patternViewstate = Pattern.compile("id=\"__VIEWSTATE\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternViewstate1 = Pattern.compile("id=\"__VIEWSTATE1\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-	private final Pattern patternLoggedIn = Pattern.compile("(You are logged)");
     private final Pattern patternLines = Pattern.compile("[\r\n\t ]+");
 
 	public static final Float kmInMiles = new Float(1/1.609344);
@@ -87,7 +88,6 @@ public class cgBase {
     private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private SharedPreferences prefs = null;
-	private Integer asBrowser = 1;
     private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
 
 	public cgBase(cgeoapplication appIn, cgSettings settingsIn, SharedPreferences prefsIn) {
@@ -207,9 +207,10 @@ public class cgBase {
         app = appIn;
 		settings = settingsIn;
 		prefs = prefsIn;
-		asBrowser = prefs.getInt("asbrowser", 1);
 
-        if (asBrowser == 1) {
+		patternLoggedIn = Pattern.compile("<p class=\"AlignRight\">[^<]+<a href=\"http://www\\.geocaching\\.com/my/\">(" + settings.getUsername() + ")</a>.", Pattern.CASE_INSENSITIVE);
+
+        if (settings.asBrowser == 1) {
             final long rndBrowser = Math.round(Math.random() * 6);
             if (rndBrowser == 0) {
                 idBrowser = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/533.1 (KHTML, like Gecko) Chrome/5.0.322.2 Safari/533.1";
@@ -229,6 +230,22 @@ public class cgBase {
                 idBrowser = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; en-US) AppleWebKit/532.9 (KHTML, like Gecko) Chrome/5.0.307.11 Safari/532.9";
             }
         }
+
+		SecurityManager sm = new SecurityManager();
+		try {
+			sm.checkSetFactory();
+			follow = true;
+		} catch (SecurityException e) {
+			// c:geo is not allowed to follow redirects
+		}
+		sm = null;
+	}
+
+	public class loginThread extends Thread {
+		@Override
+		public void run() {
+			login();
+		}
 	}
 
 	public int login() {
@@ -242,7 +259,8 @@ public class cgBase {
 		loginPage = request(host, path, "GET", new HashMap<String, String>(), false, false);
 		if (loginPage != null && loginPage.length() > 0) {
 			if (checkLogin(loginPage) == true) {
-				Log.d(cgSettings.tag, "cgeoBase.login: Already logged in");
+				switchToEnglish(viewstate, viewstate1);
+
 				return 1; // logged in
 			}
 
@@ -289,8 +307,6 @@ public class cgBase {
 
 		if (loginPage != null && loginPage.length() > 0) {
 			if (checkLogin(loginPage) == true) {
-				Log.i(cgSettings.tag, "Logged in Geocaching.com as " + login.get("username"));
-
 				switchToEnglish(viewstate, viewstate1);
 
 				return 1; // logged in
@@ -309,9 +325,18 @@ public class cgBase {
 		}
 	}
 
+	public Boolean checkLogin(String page) {
+		final Matcher matcherLoggedIn = patternLoggedIn.matcher(page);
+		while (matcherLoggedIn.find()) {
+			if (matcherLoggedIn.groupCount() > 0) return true;
+		}
+
+		return false;
+	}
+
 	public void switchToEnglish(String viewstate, String viewstate1) {
 		final String host = "www.geocaching.com";
-		final String path = "/login/default.aspx";
+		final String path = "/default.aspx";
 		final HashMap<String, String> params = new HashMap<String, String>();
 		
 		params.put("__VIEWSTATE", viewstate);
@@ -322,18 +347,7 @@ public class cgBase {
 		params.put("__EVENTTARGET", "ctl00$uxLocaleList$uxLocaleList$ctl01$uxLocaleItem"); // switch to english
 		params.put("__EVENTARGUMENT", "");
 		
-		request(host, path, "POST", params, false, false);
-	}
-
-	public Boolean checkLogin(String page) {
-		final Matcher matcherLoggedIn = patternLoggedIn.matcher(page);
-		while (matcherLoggedIn.find()) {
-			if (matcherLoggedIn.groupCount() > 0) {
-				return true;
-			}
-		}
-
-		return false;
+		final String page = request(host, path, "POST", params, false, false);
 	}
 
 	public cgCacheWrap parseSearch(String url, String page) {
@@ -507,8 +521,6 @@ public class cgBase {
 					// failed to parse cache inventory info
 					Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache inventory info");
 				}
-
-				Log.i(cgSettings.tag, "Inventory of " + cache.geocode + " ~ tags: " + cache.inventoryTags + "; coins: " + cache.inventoryCoins + "; unknown: " + cache.inventoryUnknown);
 			}
 
 			// direction & distance (not in all lists)
@@ -2994,7 +3006,6 @@ public class cgBase {
 		final StringBuffer buffer = new StringBuffer();
 
 		for (int i = 0; i < 3; i ++) {
-			Log.i(cgSettings.tag, "Requesting (" + method + ") http://" + host + path + "?" + params);
 			if (i > 0) Log.w(cgSettings.tag, "Failed to download data, retrying. Attempt #" + (i + 1));
 
 			buffer.delete(0, buffer.length());
@@ -3010,7 +3021,7 @@ public class cgBase {
 					uc.setRequestProperty("Cookie", cookiesDone);
 					if (xContentType == true) uc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 					
-					if (asBrowser == 1) {
+					if (settings.asBrowser == 1) {
 						uc.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
 						// uc.setRequestProperty("Accept-Encoding", "gzip"); // not supported via cellular network
 						uc.setRequestProperty("Accept-Charset", "utf-8, iso-8859-1, utf-16, *;q=0.7");
@@ -3023,7 +3034,7 @@ public class cgBase {
 					connection = (HttpURLConnection)uc;
 					connection.setReadTimeout(timeout);
 					connection.setRequestMethod(method);
-					connection.setFollowRedirects(true);
+					if (follow == true) connection.setFollowRedirects(true);
 					connection.setDoInput(true);
 					connection.setDoOutput(false);
 				} else {
@@ -3035,7 +3046,7 @@ public class cgBase {
 					uc.setRequestProperty("Cookie", cookiesDone);
 					if (xContentType == true) uc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-					if (asBrowser == 1) {
+					if (settings.asBrowser == 1) {
 						uc.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
 						// uc.setRequestProperty("Accept-Encoding", "gzip"); // not supported via cellular network
 						uc.setRequestProperty("Accept-Charset", "utf-8, iso-8859-1, utf-16, *;q=0.7");
@@ -3048,7 +3059,7 @@ public class cgBase {
 					connection = (HttpURLConnection)uc;
 					connection.setReadTimeout(timeout);
 					connection.setRequestMethod(method);
-					connection.setFollowRedirects(true);
+					if (follow == true) connection.setFollowRedirects(true);
 					connection.setDoInput(true);
 					connection.setDoOutput(true);
 
@@ -3058,8 +3069,6 @@ public class cgBase {
 					wr.flush();
 					wr.close();
 				}
-
-				Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
 
 				String headerName = null;
 				final SharedPreferences.Editor prefsEditor = prefs.edit();
@@ -3105,6 +3114,8 @@ public class cgBase {
 						buffer.append("\n");
 					}
 				}
+
+				Log.i(cgSettings.tag, "[" + buffer.length() + "B] Downloading server response (" + method + " " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
 
 				connection.disconnect();
 				br.close();
@@ -3261,7 +3272,7 @@ public class cgBase {
 				if (maxWidth > maxHeight) edge = maxWidth;
 				else edge = maxHeight;
 
-				cgMapImg mapGetter = new cgMapImg(activity, settings, cache.geocode);
+				cgMapImg mapGetter = new cgMapImg(settings, cache.geocode);
 
 				String type = "mystery";
 				if (cache.found == true) {
