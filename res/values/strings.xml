@@ -132,7 +132,7 @@
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.75.0</b> (00.07.2010)\n
-		· fixed: ___\n
+		· fixed: Cache list crashing\n
 		\n
 		<b>0.74.7</b> (23.07.2010)\n
 		· fixed: Logging visit\n
