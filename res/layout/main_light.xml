@@ -40,7 +40,7 @@
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
 						android:textColor="#FFFFFFFF"
-						android:background="@drawable/icon_title"
+						android:background="@drawable/icon_bcg"
 						android:text="@string/live_map_button" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/nearest"
@@ -68,7 +68,7 @@
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
 						android:textColor="#FFFFFFFF"
-						android:background="@drawable/icon_title"
+						android:background="@drawable/icon_bcg"
 						android:text="@string/caches_nearby_button" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/advanced_button"
@@ -96,7 +96,7 @@
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
 						android:textColor="#FFFFFFFF"
-						android:background="@drawable/icon_title"
+						android:background="@drawable/icon_bcg"
 						android:text="@string/advanced_search_button" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/search_offline"
@@ -124,7 +124,7 @@
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
 						android:textColor="#FFFFFFFF"
-						android:background="@drawable/icon_title"
+						android:background="@drawable/icon_bcg"
 						android:text="@string/stored_caches_button" />
 			</LinearLayout>
 		</LinearLayout>
@@ -160,7 +160,7 @@
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
 						android:textColor="#FFFFFFFF"
-						android:background="@drawable/icon_title"
+						android:background="@drawable/icon_bcg"
 						android:text="@string/about_button" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/settings_button"
@@ -189,7 +189,7 @@
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
 						android:textColor="#FFFFFFFF"
-						android:background="@drawable/icon_title"
+						android:background="@drawable/icon_bcg"
 						android:text="@string/settings_button" />
 			</LinearLayout>
 		</LinearLayout>
@@ -209,7 +209,7 @@
 				android:textSize="14dip"
 				android:textColor="#FFFFFFFF"
 				android:text="@string/loc_trying"
-				android:background="@drawable/icon_title" />
+				android:background="@drawable/icon_bcg" />
 		<RelativeLayout
 				android:layout_width="fill_parent"
 				android:layout_height="16dip" >

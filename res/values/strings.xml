@@ -131,8 +131,9 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.75.0</b> (00.07.2010)\n
+		<b>0.75.0</b> (23.07.2010)\n
 		· fixed: Cache list crashing\n
+		· fixed: 1.5 compatibility\n
 		\n
 		<b>0.74.7</b> (23.07.2010)\n
 		· fixed: Logging visit\n

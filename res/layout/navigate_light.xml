@@ -62,7 +62,7 @@
 				android:textSize="14dip"
 				android:textColor="#FFFFFFFF"
 				android:text="@string/loc_trying"
-				android:background="@drawable/icon_title" />
+				android:background="@drawable/icon_bcg" />
 		<RelativeLayout
 				android:layout_width="fill_parent"
 				android:layout_height="16dip" >

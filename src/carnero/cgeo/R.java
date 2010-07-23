@@ -53,8 +53,8 @@ containing a value of this type.
         public static final int compass_overlay=0x7f02000e;
         public static final int compass_rose=0x7f02000f;
         public static final int compass_underlay=0x7f020010;
-        public static final int icon_big=0x7f020011;
-        public static final int icon_title=0x7f020012;
+        public static final int icon_bcg=0x7f020011;
+        public static final int icon_big=0x7f020012;
         public static final int image_no_placement=0x7f020013;
         public static final int image_not_loaded=0x7f020014;
         public static final int input_bcg_dark=0x7f020015;
