@@ -55,7 +55,6 @@
 					android:layout_marginRight="10dip"
 					android:layout_marginBottom="5dip"
 					android:lines="5"
-					android:scrollHorizontally="true"
 					android:textSize="22dip"
 					android:textColor="@color/text_dark"
 					android:textColorHint="@color/text_hint_dark"
