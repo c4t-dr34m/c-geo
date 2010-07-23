@@ -435,7 +435,7 @@ public class cgeomap extends MapActivity {
 		menu.add(0, 1, 0, "my location").setIcon(android.R.drawable.ic_menu_mylocation);
 		menu.add(0, 2, 0, "hide trail").setIcon(android.R.drawable.ic_menu_recent_history);
 		menu.add(0, 3, 0, "disable live").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-		menu.add(0, 4, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as).setEnabled(false);
+		menu.add(0, 4, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as).setVisible(false);
 		menu.add(0, 0, 0, "map view").setIcon(android.R.drawable.ic_menu_mapmode);
 
 		SubMenu subMenu = menu.addSubMenu(0, 5, 0, "select point").setIcon(android.R.drawable.ic_menu_myplaces);
@@ -478,11 +478,11 @@ public class cgeomap extends MapActivity {
 			}
 
 			item = menu.findItem(4); // store loaded
-			if (live == true && caches != null && caches.size() > 0 && searching == false) item.setEnabled(true);
-			else item.setEnabled(false);
+			if (live == true && caches != null && caches.size() > 0 && searching == false) item.setVisible(true);
+			else item.setVisible(false);
 
 			item = menu.findItem(5);
-			item.setEnabled(false);
+			item.setVisible(false);
 
 			SubMenu subMenu = item.getSubMenu();
 			subMenu.clear();
@@ -492,7 +492,7 @@ public class cgeomap extends MapActivity {
 					subMenu.add(0, cnt, 0, Html.fromHtml(coordinate.name) + " (" + coordinate.type + ")");
 					cnt ++;
 				}
-				item.setEnabled(true);
+				item.setVisible(true);
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeomap.onPrepareOptionsMenu: " + e.toString());

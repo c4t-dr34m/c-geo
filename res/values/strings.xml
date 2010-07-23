@@ -131,13 +131,14 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.74.7</b> (00.07.2010)\n
+		<b>0.74.7</b> (23.07.2010)\n
 		· fixed: Logging visit\n
 		· fixed: Map crashing\n
 		· fixed: Compass on QVGA screens\n
 		· fixed: Skins\n
 		· fixed: Trackable details\n
 		· new: Main screen\n
+		· new: Static maps separated from details\n
 		\n
 		<b>0.74.4</b>, <b>0.74.5</b>, <b>0.74.6</b> (21.07.2010)\n
 		· fixed: Logging visit [attempt to]\n

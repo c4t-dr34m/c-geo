@@ -24,16 +24,10 @@ import android.widget.ImageView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.view.Display;
 import android.view.SubMenu;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.widget.Button;
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +60,6 @@ public class cgeodetail extends Activity {
 	private HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
     private ProgressDialog storeDialog = null;
     private ProgressDialog dropDialog = null;
-	private BitmapFactory factory = null;
 
 	private Handler storeCacheHandler = new Handler() {
 		@Override
