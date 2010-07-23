@@ -1,172 +1,260 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:orientation="vertical"
-		android:background="#FFFFFFFF" >
-	<ScrollView
+		android:layout_gravity="center" >
+	<LinearLayout
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:padding="4dip"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:gravity="center"
 			android:orientation="vertical" >
+		<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="fill_parent"
+				android:layout_margin="4dip"
+				android:gravity="center_horizontal"
+				android:orientation="horizontal" >
+			<LinearLayout android:id="@+id/map"
+					android:layout_width="74dip"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dip"
+					android:orientation="vertical" >
+				<View
+						android:layout_width="48dip"
+						android:layout_height="48dip"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:layout_margin="4dip"
+						android:background="@drawable/action_button_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:paddingTop="1dip"
+						android:paddingBottom="1dip"
+						android:paddingLeft="5dip"
+						android:paddingRight="5dip"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="13dip"
+						android:textColor="#FFFFFFFF"
+						android:background="@drawable/icon_title"
+						android:text="@string/live_map_button" />
+			</LinearLayout>
+			<LinearLayout android:id="@+id/nearest"
+					android:layout_width="74dip"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dip"
+					android:orientation="vertical" >
+				<View
+						android:layout_width="48dip"
+						android:layout_height="48dip"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:layout_margin="4dip"
+						android:background="@drawable/action_button_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:paddingTop="1dip"
+						android:paddingBottom="1dip"
+						android:paddingLeft="5dip"
+						android:paddingRight="5dip"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="13dip"
+						android:textColor="#FFFFFFFF"
+						android:background="@drawable/icon_title"
+						android:text="@string/caches_nearby_button" />
+			</LinearLayout>
+			<LinearLayout android:id="@+id/advanced_button"
+					android:layout_width="74dip"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dip"
+					android:orientation="vertical" >
+				<View
+						android:layout_width="48dip"
+						android:layout_height="48dip"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:layout_margin="4dip"
+						android:background="@drawable/action_button_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:paddingTop="1dip"
+						android:paddingBottom="1dip"
+						android:paddingLeft="5dip"
+						android:paddingRight="5dip"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="13dip"
+						android:textColor="#FFFFFFFF"
+						android:background="@drawable/icon_title"
+						android:text="@string/advanced_search_button" />
+			</LinearLayout>
+			<LinearLayout android:id="@+id/search_offline"
+					android:layout_width="74dip"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dip"
+					android:orientation="vertical" >
+				<View
+						android:layout_width="48dip"
+						android:layout_height="48dip"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:layout_margin="4dip"
+						android:background="@drawable/action_button_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:paddingTop="1dip"
+						android:paddingBottom="1dip"
+						android:paddingLeft="5dip"
+						android:paddingRight="5dip"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="13dip"
+						android:textColor="#FFFFFFFF"
+						android:background="@drawable/icon_title"
+						android:text="@string/stored_caches_button" />
+			</LinearLayout>
+		</LinearLayout>
 		<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
-				android:layout_marginTop="10dip"
-				android:orientation="vertical" >
-			<LinearLayout
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent"
-					android:layout_marginBottom="10dip"
+				android:layout_margin="4dip"
+				android:gravity="center_horizontal"
+				android:orientation="horizontal" >
+			<LinearLayout android:id="@+id/about_button"
+					android:layout_width="74dip"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dip"
 					android:orientation="vertical" >
-				<RelativeLayout
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:paddingRight="3dip"
-						android:paddingBottom="9dip" >
-					<TextView android:id="@+id/nav_type_name"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="3dip"
-							android:layout_marginRight="3dip"
-							android:layout_alignParentRight="true"
-							android:layout_gravity="right"
-							android:paddingLeft="3dip"
-							android:paddingRight="3dip"
-							android:lines="1"
-							android:singleLine="true"
-							android:scrollHorizontally="true"
-							android:ellipsize="marquee"
-							android:textSize="12dip"
-							android:textColor="#99000000" />
-					<TextView android:id="@+id/nav_type_name_detail"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="3dip"
-							android:layout_marginLeft="3dip"
-							android:layout_alignParentLeft="true"
-							android:layout_gravity="left"
-							android:paddingLeft="3dip"
-							android:paddingRight="3dip"
-							android:lines="1"
-							android:singleLine="true"
-							android:scrollHorizontally="true"
-							android:ellipsize="marquee"
-							android:textSize="12dip"
-							android:textColor="#99000000" />
-					<TextView android:id="@+id/nav_type_value"
-							android:layout_width="fill_parent"
-							android:layout_height="wrap_content"
-							android:layout_marginTop="19dip"
-							android:layout_marginLeft="3dip"
-							android:layout_alignParentLeft="true"
-							android:layout_gravity="left"
-							android:paddingRight="3dip"
-							android:gravity="center"
-							android:textSize="14dip"
-							android:textColor="#FF000000"
-							android:linksClickable="true"
-							android:textColorLink="@color/link"
-							android:text="@string/loc_trying" />
-				</RelativeLayout>
-<!-- ** -->
-				<LinearLayout
-						android:layout_width="fill_parent"
-						android:layout_height="fill_parent"
+				<ImageView
+						android:layout_width="48dip"
+						android:layout_height="48dip"
+						android:layout_margin="4dip"
+						android:layout_gravity="center_horizontal"
 						android:gravity="center"
-						android:orientation="vertical" >
-					<LinearLayout
-							android:layout_width="fill_parent"
-							android:layout_height="fill_parent"
-							android:gravity="center_horizontal"
-							android:orientation="horizontal" >
-						<Button android:id="@+id/map"
-								android:layout_width="150dip"
-								android:layout_height="90dip"
-								android:layout_margin="3dip"
-								android:lines="1"
-								android:singleLine="true"
-								android:scrollHorizontally="true"
-								android:textSize="22dip"
-								android:textColor="#FF000000"
-								android:padding="6dip"
-								android:text="@string/live_map_button"
-								android:background="@drawable/action_button_light" />
-						<Button android:id="@+id/nearest"
-								android:layout_width="150dip"
-								android:layout_height="90dip"
-								android:layout_margin="3dip"
-								android:lines="1"
-								android:singleLine="true"
-								android:scrollHorizontally="true"
-								android:textSize="22dip"
-								android:textColor="#FF000000"
-								android:padding="6dip"
-								android:text="@string/caches_nearby_button"
-								android:background="@drawable/action_button_light_off" />
-					</LinearLayout>
-					<LinearLayout
-							android:layout_width="fill_parent"
-							android:layout_height="fill_parent"
-							android:gravity="center_horizontal"
-							android:orientation="horizontal" >
-						<Button android:id="@+id/advanced_button"
-								android:layout_width="150dip"
-								android:layout_height="90dip"
-								android:layout_margin="3dip"
-								android:lines="1"
-								android:singleLine="true"
-								android:scrollHorizontally="true"
-								android:textSize="22dip"
-								android:textColor="#FF000000"
-								android:padding="6dip"
-								android:text="@string/advanced_search_button"
-								android:background="@drawable/action_button_light" />
-						<Button android:id="@+id/search_offline"
-								android:layout_width="150dip"
-								android:layout_height="90dip"
-								android:layout_margin="3dip"
-								android:lines="1"
-								android:singleLine="true"
-								android:scrollHorizontally="true"
-								android:textSize="22dip"
-								android:textColor="#FF000000"
-								android:padding="6dip"
-								android:text="@string/stored_caches_button"
-								android:background="@drawable/action_button_light" />
-					</LinearLayout>
-					<LinearLayout
-							android:layout_width="fill_parent"
-							android:layout_height="fill_parent"
-							android:gravity="center_horizontal"
-							android:orientation="horizontal" >
-						<Button android:id="@+id/about_button"
-								android:layout_width="150dip"
-								android:layout_height="90dip"
-								android:layout_margin="3dip"
-								android:lines="1"
-								android:singleLine="true"
-								android:scrollHorizontally="true"
-								android:textSize="22dip"
-								android:textColor="#FF000000"
-								android:padding="6dip"
-								android:text="@string/about_button"
-								android:background="@drawable/action_button_light" />
-						<Button android:id="@+id/settings_button"
-								android:layout_width="150dip"
-								android:layout_height="90dip"
-								android:layout_margin="3dip"
-								android:lines="1"
-								android:singleLine="true"
-								android:scrollHorizontally="true"
-								android:textSize="22dip"
-								android:textColor="#FF000000"
-								android:padding="6dip"
-								android:text="@string/settings_button"
-								android:background="@drawable/action_button_light" />
-					</LinearLayout>
-				</LinearLayout>
+						android:scaleType="center"
+						android:src="@drawable/main_about" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:paddingTop="1dip"
+						android:paddingBottom="1dip"
+						android:paddingLeft="5dip"
+						android:paddingRight="5dip"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="13dip"
+						android:textColor="#FFFFFFFF"
+						android:background="@drawable/icon_title"
+						android:text="@string/about_button" />
+			</LinearLayout>
+			<LinearLayout android:id="@+id/settings_button"
+					android:layout_width="74dip"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dip"
+					android:orientation="vertical" >
+				<ImageView
+						android:layout_width="48dip"
+						android:layout_height="48dip"
+						android:layout_margin="4dip"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:scaleType="center"
+						android:src="@drawable/main_settings" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:paddingTop="1dip"
+						android:paddingBottom="1dip"
+						android:paddingLeft="5dip"
+						android:paddingRight="5dip"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="13dip"
+						android:textColor="#FFFFFFFF"
+						android:background="@drawable/icon_title"
+						android:text="@string/settings_button" />
 			</LinearLayout>
 		</LinearLayout>
-	</ScrollView>
-</LinearLayout>
+	</LinearLayout>
+<!-- ** -->
+	<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_marginRight="6dip"
+			android:layout_marginLeft="6dip"
+			android:orientation="vertical">
+		<TextView android:id="@+id/nav_location"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center_horizontal"
+				android:textSize="14dip"
+				android:textColor="#FFFFFFFF"
+				android:text="@string/loc_trying"
+				android:background="@drawable/icon_title" />
+		<RelativeLayout
+				android:layout_width="fill_parent"
+				android:layout_height="16dip" >
+			<TextView android:id="@+id/nav_type"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:layout_alignParentRight="true"
+					android:layout_gravity="right"
+					android:paddingLeft="3dip"
+					android:paddingRight="3dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="12dip"
+					android:textColor="#99FFFFFF" />
+			<TextView android:id="@+id/nav_accuracy"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:layout_centerHorizontal="true"
+					android:layout_gravity="right"
+					android:paddingLeft="3dip"
+					android:paddingRight="3dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="12dip"
+					android:textColor="#FFFFFFFF" />
+			<TextView android:id="@+id/nav_satellites"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:layout_alignParentLeft="true"
+					android:layout_gravity="left"
+					android:paddingLeft="3dip"
+					android:paddingRight="3dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="12dip"
+					android:textColor="#99FFFFFF" />
+		</RelativeLayout>
+	</LinearLayout>
+</RelativeLayout>

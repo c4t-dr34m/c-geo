@@ -71,6 +71,8 @@ public class cgeoapplication extends Application {
 
 		dirs.add(dir);
 
+		Log.i(cgSettings.tag, "Direction services running: " + dirs.size());
+
 		return dir;
 	}
 
@@ -79,6 +81,8 @@ public class cgeoapplication extends Application {
 
 		dir.closeDir();
 		if (dirs.contains(dir) == true) dirs.remove(dir);
+
+		Log.i(cgSettings.tag, "Direction services running: " + dirs.size());
 
 		return null;
 	}

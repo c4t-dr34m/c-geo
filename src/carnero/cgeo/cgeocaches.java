@@ -80,7 +80,7 @@ public class cgeocaches extends ListActivity {
 						if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
 						else setMoreCaches(false);
                     } else {
-                        setTitle(title + " (no cache)");
+                        setTitle(title);
 						setMoreCaches(false);
                     }
                 }
@@ -163,7 +163,7 @@ public class cgeocaches extends ListActivity {
 						if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
 						else setMoreCaches(false);
                     } else {
-                        setTitle(title + " (no cache)");
+                        setTitle(title);
 						setMoreCaches(false);
                     }
                 }
@@ -263,11 +263,8 @@ public class cgeocaches extends ListActivity {
 		init();
 
 		String typeText;
-		if (cachetype != null && base.cacheTypesInv.containsKey(cachetype) == true) {
-			typeText = "\ntype: " + base.cacheTypesInv.get(cachetype);
-		} else {
-			typeText = "\ntype: all cache types";
-		}
+		if (cachetype != null && base.cacheTypesInv.containsKey(cachetype) == true) typeText = "\ntype: " + base.cacheTypesInv.get(cachetype);
+		else typeText = "\ntype: all cache types";
 
 		Thread thread;
 		if (type.equals("nearest")) {
@@ -520,7 +517,11 @@ public class cgeocaches extends ListActivity {
 		}
 
 		if (more == false) {
-			listFooterText.setText(res.getString(R.string.caches_more_caches_no));
+			if (cacheList == null || cacheList.size() == 0) {
+				listFooterText.setText(res.getString(R.string.caches_no_cache));
+			} else {
+				listFooterText.setText(res.getString(R.string.caches_more_caches_no));
+			}
 			listFooter.setClickable(false);
 			listFooter.setOnClickListener(null);
 		} else {

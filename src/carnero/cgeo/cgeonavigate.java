@@ -14,12 +14,14 @@ import android.widget.TextView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class cgeonavigate extends Activity {
 	public static ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
 
+	private Resources res = null;
 	private cgeoapplication app = null;
 	private Context activity = null;
 	private cgSettings settings = null;
@@ -36,9 +38,10 @@ public class cgeonavigate extends Activity {
 	private float northHeading = 0.0f;
 	private String title = null;
 	private String name = null;
-	private TextView navTypeName = null;
-	private TextView navTypeNameDetail = null;
-	private TextView navTypeValue = null;
+	private TextView navType = null;
+	private TextView navAccuracy = null;
+	private TextView navSatellites = null;
+	private TextView navLocation = null;
 	private TextView distanceView = null;
 	private TextView headingView = null;
 	private cgCompass compassView = null;
@@ -62,6 +65,7 @@ public class cgeonavigate extends Activity {
 
 		// class init
 		activity = this;
+		res = this.getResources();
         app = (cgeoapplication)this.getApplication();
         settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
         base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -109,9 +113,6 @@ public class cgeonavigate extends Activity {
 		setDestCoords();
 
 		// get textviews once
-		navTypeName = (TextView)findViewById(R.id.nav_type_name);
-		navTypeNameDetail = (TextView)findViewById(R.id.nav_type_name_detail);
-		navTypeValue = (TextView)findViewById(R.id.nav_type_value);
 		compassView = (cgCompass)findViewById(R.id.rose);
 
 		// start updater thread
@@ -338,38 +339,40 @@ public class cgeonavigate extends Activity {
 			if (geo == null) return;
 
 			try {
-				if (navTypeName == null || navTypeValue == null) {
-					navTypeName = (TextView)findViewById(R.id.nav_type_name);
-					navTypeNameDetail = (TextView)findViewById(R.id.nav_type_name_detail);
-					navTypeValue = (TextView)findViewById(R.id.nav_type_value);
+				if (navType == null || navLocation == null || navAccuracy == null) {
+					navType = (TextView)findViewById(R.id.nav_type);
+					navAccuracy = (TextView)findViewById(R.id.nav_accuracy);
+					navSatellites = (TextView)findViewById(R.id.nav_satellites);
+					navLocation = (TextView)findViewById(R.id.nav_location);
 				}
 
 				if (geo.latitudeNow != null && geo.longitudeNow != null) {
 					String satellites = null;
 					if (geo.satellitesVisible != null && geo.satellitesFixed != null && geo.satellitesFixed > 0) {
-						satellites = " (sat: " + geo.satellitesFixed + "/" + geo.satellitesVisible + ")";
+						satellites = res.getString(R.string.loc_sat) + ": " + geo.satellitesFixed + "/" + geo.satellitesVisible;
 					} else if (geo.satellitesVisible != null) {
-						satellites = " (sat: --/" + geo.satellitesVisible + ")";
+						satellites = res.getString(R.string.loc_sat) + ": 0/" + geo.satellitesVisible;
 					} else {
 						satellites = "";
 					}
+					navSatellites.setText(satellites);
 
 					if (geo.gps == -1) {
-						navTypeName.setText("last known" + satellites);
+						navType.setText(res.getString(R.string.loc_last));
 					} else if (geo.gps == 0) {
-						navTypeName.setText("network" + satellites);
+						navType.setText(res.getString(R.string.loc_net));
 					} else {
-						navTypeName.setText("gps" + satellites);
+						navType.setText(res.getString(R.string.loc_gps));
 					}
 
 					if (geo.accuracyNow != null) {
 						if (settings.units == settings.unitsImperial) {
-							navTypeNameDetail.setText("±" + String.format(Locale.getDefault(), "%.0f", (geo.accuracyNow * 3.2808399)) + " ft");
+							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", (geo.accuracyNow * 3.2808399)) + " ft");
 						} else {
-							navTypeNameDetail.setText("±" + String.format(Locale.getDefault(), "%.0f", geo.accuracyNow) + " m");
+							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", geo.accuracyNow) + " m");
 						}
 					} else {
-						navTypeNameDetail.setText(null);
+						navAccuracy.setText(null);
 					}
 
 					if (geo.altitudeNow != null) {
@@ -379,16 +382,16 @@ public class cgeonavigate extends Activity {
 						} else {
 							humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
 						}
-						navTypeValue.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
+						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
 					} else {
-						navTypeValue.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
+						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
 					}
 
 					updateDistanceInfo();
 				} else {
-					navTypeName.setText(null);
-					navTypeNameDetail.setText(null);
-					navTypeValue.setText("trying to locate...");
+					navType.setText(null);
+					navAccuracy.setText(null);
+					navLocation.setText(res.getString(R.string.loc_trying));
 				}
 
 				if (settings.useCompass == 0) {

@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.SubMenu;
+import android.widget.LinearLayout;
 import java.util.Locale;
 
 public class cgeo extends Activity {
@@ -26,9 +27,10 @@ public class cgeo extends Activity {
 	private cgWarning warning = null;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
-	private TextView navTypeName = null;
-	private TextView navTypeNameDetail = null;
-	private TextView navTypeValue = null;
+	private TextView navType = null;
+	private TextView navAccuracy = null;
+	private TextView navSatellites = null;
+	private TextView navLocation = null;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -167,33 +169,28 @@ public class cgeo extends Activity {
 
 		if (geo == null) geo = app.startGeo(context, geoUpdate, base, settings, warning, 0, 0);
 
-		navTypeName = (TextView)findViewById(R.id.nav_type_name);
-		navTypeNameDetail = (TextView)findViewById(R.id.nav_type_name_detail);
-		navTypeValue = (TextView)findViewById(R.id.nav_type_value);
+		navType = (TextView)findViewById(R.id.nav_type);
+		navAccuracy = (TextView)findViewById(R.id.nav_accuracy);
+		navLocation = (TextView)findViewById(R.id.nav_location);
 
-		final Button findOnMap = (Button)findViewById(R.id.map);
+		final LinearLayout findOnMap = (LinearLayout)findViewById(R.id.map);
 		findOnMap.setClickable(true);
-		findOnMap.setOnTouchListener(new cgViewTouch(settings, findOnMap));
 		findOnMap.setOnClickListener(new cgeoFindOnMapListener());
 
-		final Button findByOffline = (Button)findViewById(R.id.search_offline);
+		final LinearLayout findByOffline = (LinearLayout)findViewById(R.id.search_offline);
 		findByOffline.setClickable(true);
-		findByOffline.setOnTouchListener(new cgViewTouch(settings, findByOffline));
 		findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
 
-		final Button advanced = (Button)findViewById(R.id.advanced_button);
+		final LinearLayout advanced = (LinearLayout)findViewById(R.id.advanced_button);
 		advanced.setClickable(true);
-		advanced.setOnTouchListener(new cgViewTouch(settings, advanced));
 		advanced.setOnClickListener(new cgeoSearchListener());
 
-		final Button setup = (Button)findViewById(R.id.settings_button);
+		final LinearLayout setup = (LinearLayout)findViewById(R.id.settings_button);
 		setup.setClickable(true);
-		setup.setOnTouchListener(new cgViewTouch(settings, setup));
 		setup.setOnClickListener(new cgeoSettingsListener());
 
-		final Button about = (Button)findViewById(R.id.about_button);
+		final LinearLayout about = (LinearLayout)findViewById(R.id.about_button);
 		about.setClickable(true);
-		about.setOnTouchListener(new cgViewTouch(settings, about));
 		about.setOnClickListener(new cgeoAboutListener());
 	}
 
@@ -203,44 +200,44 @@ public class cgeo extends Activity {
 			if (geo == null) return;
 
 			try {
-				if (navTypeName == null || navTypeValue == null) {
-					navTypeName = (TextView)findViewById(R.id.nav_type_name);
-					navTypeNameDetail = (TextView)findViewById(R.id.nav_type_name_detail);
-					navTypeValue = (TextView)findViewById(R.id.nav_type_value);
+				if (navType == null || navLocation == null || navAccuracy == null) {
+					navType = (TextView)findViewById(R.id.nav_type);
+					navAccuracy = (TextView)findViewById(R.id.nav_accuracy);
+					navSatellites = (TextView)findViewById(R.id.nav_satellites);
+					navLocation = (TextView)findViewById(R.id.nav_location);
 				}
 
 				if (geo.latitudeNow != null && geo.longitudeNow != null) {
-					Button findNearest = (Button)findViewById(R.id.nearest);
-					findNearest.setBackgroundResource(settings.buttonActive);
+					LinearLayout findNearest = (LinearLayout)findViewById(R.id.nearest);
 					findNearest.setClickable(true);
-					findNearest.setOnTouchListener(new cgViewTouch(settings, findNearest));
 					findNearest.setOnClickListener(new cgeoFindNearestListener());
 
 					String satellites = null;
 					if (geo.satellitesVisible != null && geo.satellitesFixed != null && geo.satellitesFixed > 0) {
-						satellites = " (" + res.getString(R.string.loc_sat) + ": " + geo.satellitesFixed + "/" + geo.satellitesVisible + ")";
+						satellites = res.getString(R.string.loc_sat) + ": " + geo.satellitesFixed + "/" + geo.satellitesVisible;
 					} else if (geo.satellitesVisible != null) {
-						satellites = " (" + res.getString(R.string.loc_sat) + ": --/" + geo.satellitesVisible + ")";
+						satellites = res.getString(R.string.loc_sat) + ": 0/" + geo.satellitesVisible;
 					} else {
 						satellites = "";
 					}
+					navSatellites.setText(satellites);
 
 					if (geo.gps == -1) {
-						navTypeName.setText(res.getString(R.string.loc_last) + satellites);
+						navType.setText(res.getString(R.string.loc_last));
 					} else if (geo.gps == 0) {
-						navTypeName.setText(res.getString(R.string.loc_net) + satellites);
+						navType.setText(res.getString(R.string.loc_net));
 					} else {
-						navTypeName.setText(res.getString(R.string.loc_gps) + satellites);
+						navType.setText(res.getString(R.string.loc_gps));
 					}
 
 					if (geo.accuracyNow != null) {
 						if (settings.units == settings.unitsImperial) {
-							navTypeNameDetail.setText("±" + String.format(Locale.getDefault(), "%.0f", (geo.accuracyNow * 3.2808399)) + " ft");
+							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", (geo.accuracyNow * 3.2808399)) + " ft");
 						} else {
-							navTypeNameDetail.setText("±" + String.format(Locale.getDefault(), "%.0f", geo.accuracyNow) + " m");
+							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", geo.accuracyNow) + " m");
 						}
 					} else {
-						navTypeNameDetail.setText(null);
+						navAccuracy.setText(null);
 					}
 
 					if (geo.altitudeNow != null) {
@@ -250,20 +247,18 @@ public class cgeo extends Activity {
 						} else {
 							humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
 						}
-						navTypeValue.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
+						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
 					} else {
-						navTypeValue.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
+						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
 					}
 				} else {
 					Button findNearest = (Button)findViewById(R.id.nearest);
-					findNearest.setBackgroundResource(settings.buttonInactive);
 					findNearest.setClickable(false);
-					findNearest.setOnTouchListener(null);
 					findNearest.setOnClickListener(null);
 
-					navTypeName.setText(null);
-					navTypeNameDetail.setText(null);
-					navTypeValue.setText(res.getString(R.string.loc_trying));
+					navType.setText(null);
+					navAccuracy.setText(null);
+					navLocation.setText(res.getString(R.string.loc_trying));
 				}
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");

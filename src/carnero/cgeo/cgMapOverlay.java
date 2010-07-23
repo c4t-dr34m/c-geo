@@ -23,24 +23,24 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 	private boolean canTap = true;
 	private ProgressDialog waitDialog = null;
 
-	public cgMapOverlay(cgeoapplication app, Context context, cgBase base, Drawable defaultMarker, Boolean fromDetail) {
-		super(boundCenterBottom(defaultMarker));
+	public cgMapOverlay(cgeoapplication appIn, Context contextIn, cgBase baseIn, Drawable markerIn, Boolean fromDetailIn) {
+		super(boundCenterBottom(markerIn));
 		populate();
 
-		this.app = app;
-		this.context = context;
-		this.base = base;
-		this.marker = defaultMarker;
-		this.fromDetail = fromDetail;
+		app = appIn;
+		context = contextIn;
+		base = baseIn;
+		marker = markerIn;
+		fromDetail = fromDetailIn;
 	}
 
 	protected void addItem(cgOverlayItem item) {
 		if (item == null) return;
 		
 		item.setMarker(boundCenterBottom(item.getMarker(0)));
-		this.items.add(item);
+		items.add(item);
 		
-		if (this.items.size() > 0) {
+		if (items.size() > 0) {
 			setLastFocusedIndex(-1); // to reset tap during data change
 			populate();
 		}
@@ -48,7 +48,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 
 	protected void removeItem(int index) {
 		try {
-			this.items.remove(index);
+			items.remove(index);
 			setLastFocusedIndex(-1);
 			populate();
 		} catch (Exception e) {
@@ -58,7 +58,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 
 	protected void clearItems() {
 		try {
-			this.items.clear();
+			items.clear();
 			setLastFocusedIndex(-1);
 			populate();
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 			}
 			waitDialog.show();
 			
-            cgOverlayItem item = this.items.get(index);
+            cgOverlayItem item = items.get(index);
             cgCoord coordinate = item.getCoord();
 
 			if (coordinate.type != null && coordinate.type.equalsIgnoreCase("cache") == true && coordinate.geocode != null && coordinate.geocode.length() > 0) {
@@ -124,7 +124,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 	@Override
 	public cgOverlayItem createItem(int index) {
 		try {
-			return this.items.get(index);
+			return items.get(index);
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgMapOverlay.draw: " + e.toString());
 		}
@@ -135,7 +135,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 	@Override
 	public int size() {
 		try {
-			return this.items.size();
+			return items.size();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgMapOverlay.size: " + e.toString());
 		}
@@ -144,7 +144,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 	}
 
 	public void infoDialog(int index) {
-		final cgOverlayItem item = this.items.get(index);
+		final cgOverlayItem item = items.get(index);
 		final cgCoord coordinate = item.getCoord();
 
 		if (item == null) {
@@ -158,21 +158,21 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 		}
 
 		try {
-			AlertDialog.Builder dialog = new AlertDialog.Builder(this.context);
+			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 			dialog.setCancelable(true);
 
 			if (coordinate.type.equalsIgnoreCase("cache")) {
 				dialog.setTitle("cache");
 
 				String cacheType;
-				if (this.base.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
-					cacheType = this.base.cacheTypesInv.get(coordinate.typeSpec);
+				if (base.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
+					cacheType = base.cacheTypesInv.get(coordinate.typeSpec);
 				} else {
-					cacheType = this.base.cacheTypesInv.get("mystery");
+					cacheType = base.cacheTypesInv.get("mystery");
 				}
 
 				dialog.setMessage(Html.fromHtml(item.getTitle()) + "\n\ngeocode: " + coordinate.geocode.toUpperCase()  + "\ntype: " + cacheType);
-				if (this.fromDetail == false) {
+				if (fromDetail == false) {
 					dialog.setPositiveButton("detail", new DialogInterface.OnClickListener() {
 					   public void onClick(DialogInterface dialog, int id) {
 							Intent cachesIntent = new Intent(context, cgeodetail.class);
@@ -203,10 +203,10 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 				dialog.setTitle("waypoint");
 
 				String waypointType;
-				if (this.base.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
-					waypointType = this.base.waypointTypes.get(coordinate.typeSpec);
+				if (base.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
+					waypointType = base.waypointTypes.get(coordinate.typeSpec);
 				} else {
-					waypointType = this.base.waypointTypes.get("waypoint");
+					waypointType = base.waypointTypes.get("waypoint");
 				}
 
 				dialog.setMessage(Html.fromHtml(item.getTitle()) + "\n\ntype: " + waypointType);

@@ -189,13 +189,21 @@ public class cgeomap extends MapActivity {
 			if (closeDst == null) closeDst = (TextView)findViewById(R.id.close_dst);
 
 			final int index = msg.what;
-			if (geo == null || caches == null || caches.isEmpty() == true || index == -1) {
+			if (geo == null || caches == null || caches.isEmpty() == true || index == -1 || caches.size() <= index) {
 				if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
 				searchingForClose = false;
 				return;
 			}
 
-			final cgCache cache = caches.get(index);
+			cgCache cache = null;
+			try { // probably trying to get cache that doesn't exist in list
+				cache = caches.get(index);
+			} catch (Exception e) {
+				if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
+				searchingForClose = false;
+				return;
+			}
+
 			final Double distance = base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude);
 
 			close.setClickable(false);

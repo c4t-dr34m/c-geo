@@ -86,6 +86,7 @@
 	<string name="now_searching">now searching</string>
 
 	<!-- caches -->
+	<string name="caches_no_cache">no cache</string>
 	<string name="caches_more_caches">more caches</string>
 	<string name="caches_more_caches_no">no more caches</string>
 
