@@ -13,7 +13,7 @@
 			android:singleLine="true"
 			android:scrollHorizontally="true"
 			android:textSize="22dip"
-			android:textColor="#FFFFFFFF"
+			android:textColor="@color/text_dark"
 			android:padding="6dip"
 			android:background="@drawable/action_button_dark_dialog" />
 </LinearLayout>

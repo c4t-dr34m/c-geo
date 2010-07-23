@@ -110,7 +110,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		cgCache cache = getItem(position);
 
 		if (rowView == null) {
-			if (settings.skin == 1) rowView = (View) inflater.inflate(R.layout.cache_light, null);
+			if (settings.skin == 1) rowView = (View)inflater.inflate(R.layout.cache_light, null);
 			else rowView = (View) inflater.inflate(R.layout.cache_dark, null);
 
 			holder = new cgCacheView();

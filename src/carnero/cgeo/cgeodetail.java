@@ -131,7 +131,7 @@ public class cgeodetail extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			if (longDesc == null && cache != null && cache.description != null) {
-				longDesc = Html.fromHtml(cache.description.trim(), new cgHtmlImg(activity, settings, geocode, cache.reason, false), null);
+				longDesc = Html.fromHtml(cache.description.trim(), new cgHtmlImg(activity, settings, geocode, true, cache.reason, false), null);
 			}
 
 			if (longDesc != null) {
@@ -301,6 +301,9 @@ public class cgeodetail extends Activity {
 		subMenu.add(0, 9, 0, "turn-by-turn"); // turn-by-turn
 
 		menu.add(0, 1, 0, "show on map").setIcon(android.R.drawable.ic_menu_mapmode); // google maps
+		if (cache != null && cache.reason == 1) {
+			menu.add(1, 6, 0, "static maps").setIcon(android.R.drawable.ic_menu_mapmode); // static maps
+		}
 		menu.add(1, 7, 0, "open in browser").setIcon(android.R.drawable.ic_menu_info_details); // browser
 		// ---- next row
 		menu.add(1, 3, 0, "log visit").setIcon(android.R.drawable.ic_menu_agenda); // log visit
@@ -317,7 +320,7 @@ public class cgeodetail extends Activity {
 		super.onPrepareOptionsMenu(menu);
 
 		try {
-			if (cache.latitude == null || cache.longitude == null) { // cache has no coordinates (really?)
+			if (cache != null && (cache.latitude == null || cache.longitude == null)) { // cache has no coordinates (really?)
 				MenuItem item;
 				item = menu.findItem(1); // show on map
 				item = menu.findItem(2); // compass
@@ -325,6 +328,8 @@ public class cgeodetail extends Activity {
 				item = menu.findItem(9); // turn-by-turn
 				item.setEnabled(false);
 			}
+			if (cache != null && cache.reason == 1) menu.findItem(6).setVisible(true);
+			else menu.findItem(6).setVisible(false);
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeodetail.onPrepareOptionsMenu: " + e.toString());
 		}
@@ -346,6 +351,9 @@ public class cgeodetail extends Activity {
 				return true;
 			case 5:
 				showSpoilers();
+				return true;
+			case 6:
+				showSmaps();
 				return true;
 			case 7:
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/seek/cache_details.aspx?wp=" + cache.geocode)));
@@ -436,8 +444,8 @@ public class cgeodetail extends Activity {
 			detailsList.removeAllViews();
 
 			// cache type
-			if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light_first, null);
-			else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_first, null);
+			if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
+			else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
 			itemName = (TextView)itemLayout.findViewById(R.id.name);
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
@@ -600,46 +608,34 @@ public class cgeodetail extends Activity {
 
 			// cache attributes
 			if (cache.attributes != null && cache.attributes.size() > 0) {
-				if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
-				else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				itemName = (TextView)itemLayout.findViewById(R.id.name);
-				itemValue = (TextView)itemLayout.findViewById(R.id.value);
+				final LinearLayout attribBox = (LinearLayout)findViewById(R.id.attributes_box);
+				final TextView attribView = (TextView)findViewById(R.id.attributes);
 
-				itemName.setText("attributes");
-				itemValue.setText(base.implode("\n", cache.attributes.toArray()));
-				detailsList.addView(itemLayout);
+				attribView.setText(base.implode("\n", cache.attributes.toArray()));
+				attribBox.setVisibility(View.VISIBLE);
 			}
 
 			// cache inventory
 			if (cache.inventory != null && cache.inventory.size() > 0) {
-				if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
-				else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				itemName = (TextView)itemLayout.findViewById(R.id.name);
-				itemValue = (TextView)itemLayout.findViewById(R.id.value);
+				final LinearLayout inventBox = (LinearLayout)findViewById(R.id.inventory_box);
+				final TextView inventView = (TextView)findViewById(R.id.inventory);
 
-				itemName.setText("inventory");
 				StringBuilder inventoryString = new StringBuilder();
 				for (cgTrackable inventoryItem : cache.inventory) {
-					if (inventoryString.length() > 0) {
-						inventoryString.append("\n");
-					}
+					if (inventoryString.length() > 0) inventoryString.append("\n");
 					inventoryString.append(Html.fromHtml(inventoryItem.name).toString());
 				}
-				itemValue.setText(inventoryString, TextView.BufferType.SPANNABLE);
-				itemLayout.setClickable(true);
-				itemLayout.setOnClickListener(new selectTrackable());
-				detailsList.addView(itemLayout);
+				inventView.setText(inventoryString, TextView.BufferType.SPANNABLE);
+				inventBox.setClickable(true);
+				inventBox.setOnClickListener(new selectTrackable());
+				inventBox.setVisibility(View.VISIBLE);
 			}
 
             // offline use
-			if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light_offline, null);
-			else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_offline, null);
-			itemName = (TextView)itemLayout.findViewById(R.id.name);
-			itemValue = (TextView)itemLayout.findViewById(R.id.value);
-            Button itemRefresh = (Button)itemLayout.findViewById(R.id.refresh);
-            Button itemStore = (Button)itemLayout.findViewById(R.id.store);
+			final TextView offlineText = (TextView)findViewById(R.id.offline_text);
+            final Button offlineRefresh = (Button)findViewById(R.id.offline_refresh);
+            final Button offlineStore = (Button)findViewById(R.id.offline_store);
 
-			itemName.setText("offline");
             if (cache.reason == 1) {
                 Long diff = (System.currentTimeMillis() / (60 * 1000)) - (cache.detailedUpdate / (60 * 1000)); // minutes
 
@@ -656,32 +652,30 @@ public class cgeodetail extends Activity {
                     ago = "about " + (diff / (24 * 60)) + " days ago";
                 }
 
-                itemValue.setText("stored in device\n" + ago);
+                offlineText.setText("stored in device\n" + ago);
 
-				itemRefresh.setVisibility(View.VISIBLE);
-                itemRefresh.setClickable(true);
-                itemRefresh.setOnTouchListener(new cgViewTouch(settings, itemRefresh));
-                itemRefresh.setOnClickListener(new storeCache());
+				offlineRefresh.setVisibility(View.VISIBLE);
+                offlineRefresh.setClickable(true);
+                offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh));
+                offlineRefresh.setOnClickListener(new storeCache());
 
-                itemStore.setText("drop");
-                itemStore.setClickable(true);
-                itemStore.setOnTouchListener(new cgViewTouch(settings, itemStore));
-                itemStore.setOnClickListener(new dropCache());
+                offlineStore.setText("drop");
+                offlineStore.setClickable(true);
+                offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore));
+                offlineStore.setOnClickListener(new dropCache());
             } else {
-    			itemValue.setText("not ready\nfor offline use");
+    			offlineText.setText("not ready\nfor offline use");
 
-				itemRefresh.setVisibility(View.GONE);
-                itemRefresh.setClickable(false);
-                itemRefresh.setOnTouchListener(null);
-                itemRefresh.setOnClickListener(null);
+				offlineRefresh.setVisibility(View.GONE);
+                offlineRefresh.setClickable(false);
+                offlineRefresh.setOnTouchListener(null);
+                offlineRefresh.setOnClickListener(null);
 
-                itemStore.setText("store");
-                itemStore.setClickable(true);
-                itemStore.setOnTouchListener(new cgViewTouch(settings, itemStore));
-                itemStore.setOnClickListener(new storeCache());
+                offlineStore.setText("store");
+                offlineStore.setClickable(true);
+                offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore));
+                offlineStore.setOnClickListener(new storeCache());
             }
-			detailsList.addView(itemLayout);
-            itemStore = null;
 
 			// cache short desc
 			if (cache.shortdesc != null && cache.shortdesc.length() > 0) {
@@ -689,14 +683,14 @@ public class cgeodetail extends Activity {
                 
 				TextView descView = (TextView)findViewById(R.id.shortdesc);
 				descView.setVisibility(View.VISIBLE);
-				descView.setText(Html.fromHtml(cache.shortdesc.trim(), new cgHtmlImg(activity, settings, geocode, cache.reason, false), null), TextView.BufferType.SPANNABLE);
+				descView.setText(Html.fromHtml(cache.shortdesc.trim(), new cgHtmlImg(activity, settings, geocode, true, cache.reason, false), null), TextView.BufferType.SPANNABLE);
 				descView.setMovementMethod(LinkMovementMethod.getInstance());
 			}
 
 			// cache long desc
 			if (longDescDisplayed == true) {
 				if (longDesc == null && cache != null && cache.description != null) {
-					longDesc = Html.fromHtml(cache.description.trim(), new cgHtmlImg(activity, settings, geocode, cache.reason, false), null);
+					longDesc = Html.fromHtml(cache.description.trim(), new cgHtmlImg(activity, settings, geocode, true, cache.reason, false), null);
 				}
 
 				if (longDesc != null && longDesc.length() > 0) {
@@ -730,11 +724,11 @@ public class cgeodetail extends Activity {
 			waypoints.removeAllViews();
 			
 			if (cache.waypoints != null && cache.waypoints.size() > 0) {
-				RelativeLayout waypointView;
+				LinearLayout waypointView;
 
 				for (cgWaypoint wpt : cache.waypoints) {
-					if (settings.skin == 1) waypointView = (RelativeLayout)inflater.inflate(R.layout.waypointitem_light, null);
-					else waypointView = (RelativeLayout)inflater.inflate(R.layout.waypointitem_dark, null);
+					if (settings.skin == 1) waypointView = (LinearLayout)inflater.inflate(R.layout.waypointitem_light, null);
+					else waypointView = (LinearLayout)inflater.inflate(R.layout.waypointitem_dark, null);
 					final TextView identification = (TextView)waypointView.findViewById(R.id.identification);
 
 					((TextView)waypointView.findViewById(R.id.type)).setText(base.waypointTypes.get(wpt.type));
@@ -780,9 +774,12 @@ public class cgeodetail extends Activity {
 					else rowView = (RelativeLayout)inflater.inflate(R.layout.logitem_dark, null);
 
                     ((TextView)rowView.findViewById(R.id.type)).setText(log.type);
+                    ((TextView)rowView.findViewById(R.id.added)).setText(log.date);
                     ((TextView)rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
-                    ((TextView)rowView.findViewById(R.id.added)).setText(Html.fromHtml(log.date + "; " + log.found), TextView.BufferType.SPANNABLE);
-                    ((TextView)rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, cache.reason, false), null), TextView.BufferType.SPANNABLE);
+					if (log.found == 0) ((TextView)rowView.findViewById(R.id.count)).setText("no cache");
+					else if (log.found == 1) ((TextView)rowView.findViewById(R.id.count)).setText("one cache");
+					else ((TextView)rowView.findViewById(R.id.count)).setText(log.found + " caches");
+                    ((TextView)rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
 
 					final ImageView markFound = (ImageView)rowView.findViewById(R.id.found_mark);
 					final ImageView markDNF = (ImageView)rowView.findViewById(R.id.dnf_mark);
@@ -810,54 +807,6 @@ public class cgeodetail extends Activity {
 
                 if (cache.logs.size() > 0) ((LinearLayout)findViewById(R.id.log_box)).setVisibility(View.VISIBLE);
             }
-
-			// cache maps
-			if (cache.reason == 1) {
-				if (factory == null) factory = new BitmapFactory();
-				Bitmap imagePre = null;
-				BitmapDrawable image = null;
-
-				Display display = ((WindowManager)activity.getSystemService(activity.WINDOW_SERVICE)).getDefaultDisplay();
-				LinearLayout mapList = (LinearLayout)findViewById(R.id.map_list);
-				mapList.removeAllViews();
-
-				int imgWidth = 0;
-				int imgHeight = 0;
-
-				for (int level = 1; level <= 5; level ++) {
-					try {
-						imagePre = factory.decodeFile(settings.getStorage() + cache.geocode + "/map_" + level);
-
-						imgWidth = imagePre.getWidth();
-						imgHeight = imagePre.getHeight();
-
-						image = new BitmapDrawable(imagePre);
-						image.setBounds(new Rect(0, 0, imgWidth, imgHeight));
-						imagePre = null;
-					} catch (Exception e) {
-						Log.e(cgSettings.tag, "cgeodetail.setView.map.run: " + e.toString());
-					}
-
-					ImageView mapImage = null;
-					if (settings.skin == 1) mapImage = (ImageView)inflater.inflate(R.layout.imgitem_light, null);
-					else mapImage = (ImageView)inflater.inflate(R.layout.imgitem_dark, null);
-
-					if (image != null) {
-						int maxWidth = display.getWidth() - 25;
-
-						mapImage.setImageDrawable(image);
-						mapImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-						mapImage.setLayoutParams(new LayoutParams(maxWidth, imgHeight));
-						mapImage.setPadding(0, 5, 0, 5);
-						
-						mapList.addView(mapImage);
-
-						image = null;
-					}
-				}
-
-				if (mapList.getChildCount() > 0) ((LinearLayout)findViewById(R.id.map_box)).setVisibility(View.VISIBLE);
-			}
 
 			if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null && cache != null && cache.latitude != null && cache.longitude != null) {
 				cacheDistance.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
@@ -926,7 +875,7 @@ public class cgeodetail extends Activity {
 
 		@Override
 		public void run() {
-			longDesc = Html.fromHtml(cache.description.trim(), new cgHtmlImg(activity, settings, geocode, cache.reason, false), null);
+			longDesc = Html.fromHtml(cache.description.trim(), new cgHtmlImg(activity, settings, geocode, true, cache.reason, false), null);
 			handler.sendMessage(new Message());
 		}
 	}
@@ -989,9 +938,7 @@ public class cgeodetail extends Activity {
 		navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());
 		navigateIntent.putExtra("name", cache.name);
 
-		if (navigateActivity.coordinates != null) {
-			navigateActivity.coordinates.clear();
-		}
+		if (navigateActivity.coordinates != null) navigateActivity.coordinates.clear();
 		navigateActivity.coordinates = getCoordinates();
 		activity.startActivity(navigateIntent);
 	}
@@ -1097,6 +1044,16 @@ public class cgeodetail extends Activity {
 		Intent spoilersIntent = new Intent(activity, cgeospoilers.class);
 		spoilersIntent.putExtra("geocode", geocode.toUpperCase());
 		activity.startActivity(spoilersIntent);
+	}
+
+	private void showSmaps() {
+		if (cache == null || cache.reason == 0) {
+			warning.showToast("c:geo found no static maps for this cache");
+		}
+
+		Intent smapsIntent = new Intent(activity, cgeosmaps.class);
+		smapsIntent.putExtra("geocode", geocode.toUpperCase());
+		activity.startActivity(smapsIntent);
 	}
 
 	public class codeHint implements View.OnClickListener {

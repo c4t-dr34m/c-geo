@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"

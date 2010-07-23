@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,6 +36,14 @@ public class cgeovisit extends Activity {
 	private Calendar date = Calendar.getInstance();
 	private int typeSelected = 2;
     private int attempts = 0;
+	private boolean progressBar = false;
+
+	private Handler showProgressHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+		}
+	};
 
 	private Handler loadViewstateHandler = new Handler() {
 		@Override
@@ -61,6 +70,8 @@ public class cgeovisit extends Activity {
 			buttonPost.setOnClickListener(new postListener());
 			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
 			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);
+
+			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 		}
 	};
 	
@@ -103,6 +114,7 @@ public class cgeovisit extends Activity {
         warning = new cgWarning(this);
 
 		// set layout
+		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setTitle("log");
 		if (settings.skin == 1) setContentView(R.layout.visit_light);
 		else setContentView(R.layout.visit_dark);
@@ -310,20 +322,19 @@ public class cgeovisit extends Activity {
 
 		@Override
 		public void run() {
+			showProgressHandler.sendEmptyMessage(0);
             gettingViewstate = true;
+			
             attempts ++;
 			loadViewstateFn(cacheid);
-			handler.sendMessage(new Message());
+			handler.sendEmptyMessage(0);
 		}
 	}
 
 	public void loadViewstateFn(String cacheid) {
 		HashMap<String, String> params = new HashMap<String, String>();
-		if (cacheid != null && cacheid.length() > 0) {
-			params.put("ID", cacheid);
-		} else {
-			return;
-		}
+		if (cacheid != null && cacheid.length() > 0) params.put("ID", cacheid);
+		else return;
 
 		try {
 			viewstate = base.requestViewstate("www.geocaching.com", "/seek/log.aspx", "GET", params, false, false);
@@ -347,9 +358,7 @@ public class cgeovisit extends Activity {
 
 			ret = postLogFn(log);
 
-			Message msg = new Message();
-			msg.what = ret;
-			handler.sendMessage(msg);
+			handler.sendEmptyMessage(ret);
 		}
 	}
 

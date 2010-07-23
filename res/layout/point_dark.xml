@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -24,7 +24,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="22dip"
-					android:textColor="#66FFFFFF"
+					android:textColor="@color/text_headline_dark"
 					android:text="coordinates" />
 			<EditText android:id="@+id/latitude"
 					android:hint="latitude"
@@ -37,8 +37,8 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
-					android:textColorHint="#66FFFFFF"
+					android:textColor="@color/text_dark"
+					android:textColorHint="@color/text_hint_dark"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
@@ -54,8 +54,8 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
-					android:textColorHint="#66FFFFFF"
+					android:textColor="@color/text_dark"
+					android:textColorHint="@color/text_hint_dark"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
@@ -70,7 +70,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
+					android:textColor="@color/text_dark"
 					android:padding="6dip"
 					android:text="my coordinates"
 					android:background="@drawable/action_button_dark" />
@@ -85,7 +85,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="22dip"
-					android:textColor="#66FFFFFF"
+					android:textColor="@color/text_headline_dark"
 					android:text="direction" />
 			<EditText
 					android:id="@+id/bearing"
@@ -99,8 +99,8 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
-					android:textColorHint="#66FFFFFF"
+					android:textColor="@color/text_dark"
+					android:textColorHint="@color/text_hint_dark"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
@@ -117,8 +117,8 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
-					android:textColorHint="#66FFFFFF"
+					android:textColor="@color/text_dark"
+					android:textColorHint="@color/text_hint_dark"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
@@ -139,7 +139,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="compass"
 						android:background="@drawable/action_button_dark" />
@@ -152,7 +152,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="radar"
 						android:background="@drawable/action_button_dark" />
@@ -165,7 +165,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="turn"
 						android:background="@drawable/action_button_dark" />

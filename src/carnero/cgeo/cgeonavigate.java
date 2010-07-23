@@ -317,16 +317,10 @@ public class cgeonavigate extends Activity {
 	}
 
 	private void updateDistanceInfo() {
-		if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null || dstLatitude == null || dstLongitude == null) {
-			return;
-		}
+		if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null || dstLatitude == null || dstLongitude == null) return;
 
-		if (distanceView == null) {
-			distanceView = (TextView)findViewById(R.id.distance);
-		}
-		if (headingView == null) {
-			headingView = (TextView)findViewById(R.id.heading);
-		}
+		if (distanceView == null) distanceView = (TextView)findViewById(R.id.distance);
+		if (headingView == null) headingView = (TextView)findViewById(R.id.heading);
 
 		cacheHeading = base.getHeading(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude);
 		distanceView.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude)));
@@ -403,7 +397,6 @@ public class cgeonavigate extends Activity {
 				}
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
-				e.printStackTrace();
 			}
 		}
 	}

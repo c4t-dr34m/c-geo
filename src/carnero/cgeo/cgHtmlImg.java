@@ -26,13 +26,15 @@ public class cgHtmlImg implements Html.ImageGetter {
 	private Activity activity = null;
 	private cgSettings settings = null;
 	private String geocode = null;
+	private boolean placement = true;
 	private int reason = 0;
 	private boolean onlySave = false;
 
-	public cgHtmlImg(Activity activityIn, cgSettings settingsIn, String geocodeIn, int reasonIn, boolean onlySaveIn) {
+	public cgHtmlImg(Activity activityIn, cgSettings settingsIn, String geocodeIn, boolean placementIn, int reasonIn, boolean onlySaveIn) {
 		activity = activityIn;
 		settings = settingsIn;
 		geocode = geocodeIn;
+		placement = placementIn;
 		reason = reasonIn;
 		onlySave = onlySaveIn;
 	}
@@ -134,9 +136,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 					try {
 						final byte[] buffer = new byte[4096];
 						int l;
-						while ((l = is.read(buffer)) != -1) {
-							fos.write(buffer, 0, l);
-						}
+						while ((l = is.read(buffer)) != -1) fos.write(buffer, 0, l);
 					} catch (IOException e) {
 						Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (saving to cache): " + e.toString());
 					} finally {
@@ -154,7 +154,8 @@ public class cgHtmlImg implements Html.ImageGetter {
 			if (imagePre == null) {
 				Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to obtain image");
 
-				imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_not_loaded);
+				if (placement == false) imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_no_placement);
+				else imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_not_loaded);
 			}
 
 			Display display = ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();

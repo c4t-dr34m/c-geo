@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<RelativeLayout
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
 				android:layout_margin="0dip"
 				android:padding="0dip"
 				android:dividerHeight="1dip"
-				android:background="#FF191919"
+				android:background="@color/background_dark"
 				android:cacheColorHint="#FF191919" />
 	</RelativeLayout>
 </LinearLayout>

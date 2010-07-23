@@ -306,7 +306,8 @@ public class cgeomap extends MapActivity {
 		mapView.displayZoomControls(true);
 
 		mapController.setZoom(settings.mapzoom);
-		
+		myLocationInMiddle();
+
 		if ((searchId == null || searchId <= 0) && (oneLatitude == null || oneLongitude == null)) {
 			setTitle("live map");
 			searchId = null;
@@ -456,44 +457,29 @@ public class cgeomap extends MapActivity {
 		MenuItem item;
 		try {
 			item = menu.findItem(0); // view
-			if (mapView != null && mapView.isSatellite() == false) {
-				item.setTitle("satellite view");
-			} else {
-				item.setTitle("map view");
-			}
+			if (mapView != null && mapView.isSatellite() == false) item.setTitle("satellite view");
+			else item.setTitle("map view");
 
 			item = menu.findItem(1); // follow my location
-			if (followLocation == true) {
-				item.setTitle("don't follow");
-			} else {
-				item.setTitle("my location");
-			}
+			if (followLocation == true) item.setTitle("don't follow");
+			else item.setTitle("my location");
 
 			item = menu.findItem(2); // show trail
-			if (settings.maptrail == 1) {
-				item.setTitle("hide trail");
-			} else {
-				item.setTitle("show trail");
-			}
+			if (settings.maptrail == 1) item.setTitle("hide trail");
+			else item.setTitle("show trail");
 
 			item = menu.findItem(3); // live map
 			if (live == false) {
-				item.setEnabled(false);
+				item.setVisible(false);
 				item.setTitle("enable live");
 			} else {
-				if (loadingThread.enabled == true) {
-					item.setTitle("disable live");
-				} else {
-					item.setTitle("enable live");
-				}
+				if (loadingThread.enabled == true) item.setTitle("disable live");
+				else item.setTitle("enable live");
 			}
 
 			item = menu.findItem(4); // store loaded
-			if (live == true && caches != null && caches.size() > 0 && searching == false) {
-				item.setEnabled(true);
-			} else {
-				item.setEnabled(false);
-			}
+			if (live == true && caches != null && caches.size() > 0 && searching == false) item.setEnabled(true);
+			else item.setEnabled(false);
 
 			item = menu.findItem(5);
 			item.setEnabled(false);

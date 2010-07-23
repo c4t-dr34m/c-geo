@@ -2,29 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="10dip"
 		android:orientation="vertical" >
-	<TextView android:id="@+id/title"
-			android:layout_width="wrap_content"
+	<RelativeLayout
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_gravity="right|top"
-			android:lines="1"
-			android:singleLine="true"
-			android:scrollHorizontally="true"
-			android:ellipsize="marquee"
-			android:textSize="18dip"
-			android:textColor="#66FFFFFF"
-			android:text="@null" />
+			android:layout_marginTop="2dip"
+			android:layout_marginBottom="2dip" >
+		<View
+				android:layout_width="fill_parent"
+				android:layout_height="1dip"
+				android:layout_centerInParent="true"
+				android:background="@color/separator_dark" />
+		<TextView android:id="@+id/title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_marginLeft="15dip"
+				android:padding="3dip"
+				android:lines="1"
+				android:singleLine="true"
+				android:scrollHorizontally="true"
+				android:ellipsize="marquee"
+				android:textSize="22dip"
+				android:textColor="@color/text_headline_dark"
+				android:background="@color/background_dark"
+				android:text="@null" />
+	</RelativeLayout>
 	<TextView android:id="@+id/description"
 			android:visibility="gone"
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="3dip"
-			android:layout_marginRight="3dip"
-			android:layout_alignParentLeft="true"
 			android:layout_gravity="left"
 			android:padding="3dip"
-			android:textSize="12dip"
-			android:textColor="#99FFFFFF" />
+			android:textSize="14dip"
+			android:textColor="@color/text_dark" />
 </LinearLayout>

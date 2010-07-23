@@ -11,6 +11,6 @@
 		android:scrollHorizontally="true"
 		android:ellipsize="marquee"
 		android:textSize="16dip"
-		android:textColor="#FFFFFFFF"
+		android:textColor="@color/text_dark"
 		android:text="@string/caches_no_cache"
 		android:background="@android:drawable/title_bar" />

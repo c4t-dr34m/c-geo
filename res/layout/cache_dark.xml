@@ -9,7 +9,7 @@
 		android:paddingLeft="3dip"
 		android:paddingRight="3dip"
 		android:orientation="vertical"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<ImageView android:id="@+id/found_mark"
 			android:visibility="gone"
 			android:layout_width="2dip"
@@ -31,7 +31,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="18dip"
-				android:textColor="#FFFFFFFF" />
+				android:textColor="@color/text_dark" />
 	<view class="carnero.cgeo.cgDistanceView"
 				android:id="@+id/distance"
 				android:layout_width="78dip"
@@ -44,7 +44,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="16dip"
-				android:textColor="#FFFFFFFF"
+				android:textColor="@color/text_dark"
 				android:gravity="center" />
 	<view class="carnero.cgeo.cgCompassMini"
 				android:id="@+id/direction"
@@ -63,6 +63,7 @@
 				android:layout_marginTop="28dip"
 				android:layout_marginRight="90dip"
 				android:layout_marginLeft="10dip"
+				android:layout_alignParentBottom="true"
 				android:layout_alignParentLeft="true"
 				android:layout_gravity="left"
 				android:paddingRight="3dip"

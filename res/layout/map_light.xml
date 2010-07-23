@@ -20,7 +20,7 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="marquee"
 			android:textSize="12dip"
-			android:textColor="#FF000000"
+			android:textColor="@color/text_light"
 			android:background="@drawable/map_status_light"
 			android:text="" />
 	<LinearLayout android:id="@+id/close"
@@ -49,7 +49,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="42dip"
-				android:textColor="#FF000000"
+				android:textColor="@color/text_light"
 				android:text="@null" />
 		<TextView android:id="@+id/close_gc"
 				android:layout_width="fill_parent"
@@ -61,7 +61,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="18dip"
-				android:textColor="#FF000000"
+				android:textColor="@color/text_light"
 				android:text="@null" />
 	</LinearLayout>
 	<!-- developement -->

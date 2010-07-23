@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -28,7 +28,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="type"
 						android:background="@drawable/action_button_dark" />
@@ -42,7 +42,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="date"
 						android:background="@drawable/action_button_dark" />
@@ -57,8 +57,8 @@
 					android:lines="5"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
-					android:textColorHint="#66FFFFFF"
+					android:textColor="@color/text_dark"
+					android:textColorHint="@color/text_hint_dark"
 					android:autoText="true"
 					android:gravity="top|left"
 					android:capitalize="sentences"
@@ -74,7 +74,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
+					android:textColor="@color/text_dark"
 					android:padding="6dip"
 					android:text="post log"
 					android:background="@drawable/action_button_dark_off" />

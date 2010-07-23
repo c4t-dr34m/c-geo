@@ -76,7 +76,7 @@ public class cgeospoilers extends Activity {
 							public void run() {
 								BitmapDrawable image = null;
 								try {
-									cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, geocode, 0, false);
+									cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, geocode, true, 0, false);
 
 									image = imgGetter.getDrawable(spl.url);
 									Message message = handler.obtainMessage(0, image);

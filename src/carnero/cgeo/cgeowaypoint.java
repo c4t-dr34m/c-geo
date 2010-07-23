@@ -41,23 +41,18 @@ public class cgeowaypoint extends Activity {
 					finish();
 					return;
 				} else {
-					final TextView name = (TextView)findViewById(R.id.name);
 					final TextView identification = (TextView)findViewById(R.id.identification);
-					final LinearLayout notePart = (LinearLayout)findViewById(R.id.note_part);
 					final TextView note = (TextView)findViewById(R.id.note);
 					final LinearLayout navigationPart = (LinearLayout)findViewById(R.id.navigation_part);
 
-					if (waypoint.type == null || waypoint.type.length() == 0 || waypoint.type.equalsIgnoreCase("own") == true) setTitle("waypoint");
-					else setTitle(base.waypointTypes.get(waypoint.type));
-
-					name.setText(Html.fromHtml(waypoint.name.trim()), TextView.BufferType.SPANNABLE);
+					if (waypoint.name != null && waypoint.name.length() > 0) setTitle(Html.fromHtml(waypoint.name.trim()).toString());
+					else setTitle("waypoint");
 
 					if (waypoint.prefix.equalsIgnoreCase("OWN") == false) identification.setText(waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
 					else identification.setText("custom");
 					
 					if (waypoint.note != null && waypoint.note.length() > 0) {
 						note.setText(Html.fromHtml(waypoint.note.trim()), TextView.BufferType.SPANNABLE);
-						notePart.setVisibility(View.VISIBLE);
 					}
 
 					if (waypoint.latitude != null && waypoint.longitude != null) {

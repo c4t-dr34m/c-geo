@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<TextView android:id="@+id/gps"
 			android:visibility="gone"
 			android:layout_width="fill_parent"
@@ -20,7 +20,7 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="marquee"
 			android:textSize="12dip"
-			android:textColor="#FFFFFFFF"
+			android:textColor="@color/text_dark"
 			android:background="@drawable/map_status_dark"
 			android:text="" />
 	<LinearLayout android:id="@+id/close"
@@ -49,7 +49,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="42dip"
-				android:textColor="#FFFFFFFF"
+				android:textColor="@color/text_dark"
 				android:text="@null" />
 		<TextView android:id="@+id/close_gc"
 				android:layout_width="fill_parent"
@@ -61,7 +61,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="18dip"
-				android:textColor="#FFFFFFFF"
+				android:textColor="@color/text_dark"
 				android:text="@null" />
 	</LinearLayout>
 	<!-- developement -->

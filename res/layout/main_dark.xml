@@ -39,7 +39,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:background="@drawable/icon_title"
 						android:text="@string/live_map_button" />
 			</LinearLayout>
@@ -67,7 +67,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:background="@drawable/icon_title"
 						android:text="@string/caches_nearby_button" />
 			</LinearLayout>
@@ -95,7 +95,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:background="@drawable/icon_title"
 						android:text="@string/advanced_search_button" />
 			</LinearLayout>
@@ -123,7 +123,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:background="@drawable/icon_title"
 						android:text="@string/stored_caches_button" />
 			</LinearLayout>
@@ -159,7 +159,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:background="@drawable/icon_title"
 						android:text="@string/about_button" />
 			</LinearLayout>
@@ -188,7 +188,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:background="@drawable/icon_title"
 						android:text="@string/settings_button" />
 			</LinearLayout>
@@ -207,7 +207,7 @@
 				android:layout_height="wrap_content"
 				android:gravity="center_horizontal"
 				android:textSize="14dip"
-				android:textColor="#FFFFFFFF"
+				android:textColor="@color/text_dark"
 				android:text="@string/loc_trying"
 				android:background="@drawable/icon_title" />
 		<RelativeLayout
@@ -240,7 +240,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="12dip"
-					android:textColor="#FFFFFFFF" />
+					android:textColor="@color/text_dark" />
 			<TextView android:id="@+id/nav_satellites"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"

@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -15,19 +15,31 @@
 				android:layout_marginTop="10dip"
 				android:orientation="vertical" >
 <!-- ** -->
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="#66FFFFFF"
-					android:text="geocaching.com" />
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_dark"
+						android:background="@color/background_dark"
+						android:text="geocaching.com" />
+			</RelativeLayout>
 			<EditText
 					android:id="@+id/username"
 					android:hint="user name"
@@ -40,8 +52,8 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
-					android:textColorHint="#66FFFFFF"
+					android:textColor="@color/text_dark"
+					android:textColorHint="@color/text_hint_dark"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
@@ -58,8 +70,8 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
-					android:textColorHint="#66FFFFFF"
+					android:textColor="@color/text_dark"
+					android:textColorHint="@color/text_hint_dark"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
@@ -74,24 +86,36 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
+					android:textColor="@color/text_dark"
 					android:padding="6dip"
 					android:text="check login"
 					android:background="@drawable/action_button_dark_off" />
 <!-- ** -->
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="#66FFFFFF"
-					android:text="legal note" />
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_dark"
+						android:background="@color/background_dark"
+						android:text="legal note" />
+			</RelativeLayout>
 			<TextView android:id="@+id/legal_note"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -101,25 +125,37 @@
 					android:layout_alignParentLeft="true"
 					android:layout_gravity="left"
 					android:padding="3dip"
-					android:textSize="12dip"
-					android:textColor="#FFFFFFFF"
+					android:textSize="14dip"
+					android:textColor="@color/text_dark"
 					android:textColorLink="@color/link"
 					android:linksClickable="true"
 					android:text="@string/legal_note" />
 <!-- ** -->
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="#66FFFFFF"
-					android:text="go 4 cache" />
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_dark"
+						android:background="@color/background_dark"
+						android:text="go 4 cache" />
+			</RelativeLayout>
 			<TextView android:id="@+id/about_go4cache"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -129,8 +165,8 @@
 					android:layout_alignParentLeft="true"
 					android:layout_gravity="left"
 					android:padding="3dip"
-					android:textSize="12dip"
-					android:textColor="#FFFFFFFF"
+					android:textSize="14dip"
+					android:textColor="@color/text_dark"
 					android:textColorLink="@color/link"
 					android:linksClickable="true"
 					android:text="@string/about_go4cache" />
@@ -154,23 +190,35 @@
 						android:gravity="left"
 						android:paddingRight="3dip"
 						android:textSize="14dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:text="connect to go 4 cache" />
 			</LinearLayout>
 <!-- ** -->
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="#66FFFFFF"
-					android:text="twitter" />
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_dark"
+						android:background="@color/background_dark"
+						android:text="twitter" />
+			</RelativeLayout>
 			<TextView android:id="@+id/about_twitter"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -180,8 +228,8 @@
 					android:layout_alignParentLeft="true"
 					android:layout_gravity="left"
 					android:padding="3dip"
-					android:textSize="12dip"
-					android:textColor="#FFFFFFFF"
+					android:textSize="14dip"
+					android:textColor="@color/text_dark"
 					android:textColorLink="@color/link"
 					android:linksClickable="true"
 					android:text="@string/about_twitter" />
@@ -195,7 +243,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FFFFFFFF"
+					android:textColor="@color/text_dark"
 					android:padding="6dip"
 					android:text="authorize c:geo"
 					android:background="@drawable/action_button_dark_off" />
@@ -219,23 +267,35 @@
 						android:gravity="left"
 						android:paddingRight="3dip"
 						android:textSize="14dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:text="publish status when cache found" />
 			</LinearLayout>
 <!-- ** -->
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="#66FFFFFF"
-					android:text="other" />
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_dark"
+						android:background="@color/background_dark"
+						android:text="other options" />
+			</RelativeLayout>
 			<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="fill_parent"
@@ -260,7 +320,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="light skin (needs restart of c:geo)" />
 				</LinearLayout>
 				<LinearLayout
@@ -281,7 +341,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="exclude own and found caches" />
 				</LinearLayout>
 				<LinearLayout
@@ -302,7 +362,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="exclude disabled caches " />
 				</LinearLayout>
 				<LinearLayout
@@ -323,7 +383,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="store maps for offline use" />
 				</LinearLayout>
 				<LinearLayout
@@ -344,7 +404,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="use imperial distance units" />
 				</LinearLayout>
 				<LinearLayout
@@ -365,7 +425,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="use Google Navigation" />
 				</LinearLayout>
 				<LinearLayout
@@ -386,7 +446,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="hide image directory from gallery" />
 				</LinearLayout>
 				<LinearLayout
@@ -407,7 +467,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="auto-loading long description" />
 				</LinearLayout>
 				<LinearLayout
@@ -428,7 +488,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="show direction to caches in its list" />
 				</LinearLayout>
 				<LinearLayout
@@ -449,7 +509,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="#FFFFFFFF"
+							android:textColor="@color/text_dark"
 							android:text="identify c:geo as standard browser" />
 				</LinearLayout>
 			</LinearLayout>

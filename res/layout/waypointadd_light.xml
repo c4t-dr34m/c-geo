@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FFFFFFFF" >
+		android:background="@color/background_light" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -25,7 +25,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_light" />
 			<EditText android:id="@+id/longitude"
@@ -39,7 +39,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_light" />
 			<Button android:id="@+id/current"
@@ -52,7 +52,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:padding="6dip"
 					android:text="my coordinates"
 					android:background="@drawable/action_button_light" />
@@ -67,7 +67,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_light" />
 			<EditText android:id="@+id/note"
@@ -81,7 +81,7 @@
 					android:gravity="top|left"
 					android:capitalize="sentences"
 					android:textSize="22dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_light" />
 			<Button android:id="@+id/add_waypoint"
@@ -94,7 +94,7 @@
 					android:singleLine="true"
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:padding="6dip"
 					android:text="save"
 					android:background="@drawable/action_button_light" />

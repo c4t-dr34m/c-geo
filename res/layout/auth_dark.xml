@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FF191919" >
+		android:background="@color/background_dark" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -42,7 +42,7 @@
 						android:layout_gravity="left|center_vertical"
 						android:gravity="left|center_vertical"
 						android:textSize="14dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:text="@string/about_auth_1" />
 			</LinearLayout>
 			<TextView
@@ -55,7 +55,7 @@
 					android:layout_gravity="left|center_vertical"
 					android:gravity="left|center_vertical"
 					android:textSize="14dip"
-					android:textColor="#FFFFFFFF"
+					android:textColor="@color/text_dark"
 					android:text="@string/about_auth_2" />
 			<LinearLayout
 					android:layout_width="fill_parent"
@@ -72,7 +72,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="authorize c:geo"
 						android:background="@drawable/action_button_dark" />
@@ -87,7 +87,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="start again"
 						android:background="@drawable/action_button_dark" />
@@ -103,8 +103,8 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
-						android:textColorHint="#66FFFFFF"
+						android:textColor="@color/text_dark"
+						android:textColorHint="@color/text_hint_dark"
 						android:autoText="true"
 						android:capitalize="none"
 						android:padding="6dip"
@@ -120,7 +120,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="22dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_dark"
 						android:padding="6dip"
 						android:text="finish"
 						android:background="@drawable/action_button_dark" />

@@ -14,7 +14,7 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="marquee"
 			android:textSize="18dip"
-			android:textColor="#66000000"
+			android:textColor="@color/text_headline_light"
 			android:text="@null" />
 	<LinearLayout
 			android:layout_width="fill_parent"
@@ -34,7 +34,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="14dip"
-				android:textColor="#FF000000" />
+				android:textColor="@color/text_light" />
 		<TextView android:id="@+id/identification"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"

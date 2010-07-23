@@ -37,7 +37,7 @@ public class cgeoabout extends Activity {
 			PackageManager manager = this.getPackageManager();
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
 
-			((TextView)findViewById(R.id.cgeo_version)).setText("version: " + info.versionName);
+			setTitle("about c:geo (ver. " + info.versionName + ")");
 
 			manager = null;
 		} catch (Exception e) {

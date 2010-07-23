@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#FFFFFFFF" >
+		android:background="@color/background_light" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -23,19 +23,8 @@
 					android:layout_alignParentLeft="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:text="@string/about" />
-			<TextView android:id="@+id/cgeo_version"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="left"
-					android:textSize="14dip"
-					android:textColor="#FF000000"
-					android:text="version: unknown" />
 			<TextView android:id="@+id/author"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -45,7 +34,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:textColorLink="@color/link"
 					android:linksClickable="false"
 					android:text="@string/author" />
@@ -58,7 +47,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:textColorLink="@color/link"
 					android:linksClickable="false"
 					android:text="@string/support" />
@@ -71,7 +60,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:textColorLink="@color/link"
 					android:linksClickable="false"
 					android:text="@string/website" />
@@ -84,7 +73,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:textColorLink="@color/link"
 					android:linksClickable="false"
 					android:text="@string/facebook" />
@@ -97,23 +86,35 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="#FF000000"
+					android:textColor="@color/text_light"
 					android:textColorLink="@color/link"
 					android:linksClickable="false"
 					android:text="@string/twitter" />
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="#66000000"
-					android:text="changelog" />
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_light" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_light"
+						android:background="@color/background_light"
+						android:text="changelog" />
+			</RelativeLayout>
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -124,7 +125,7 @@
 					android:layout_gravity="right"
 					android:paddingRight="3dip"
 					android:textSize="12dip"
-					android:textColor="#99000000"
+					android:textColor="@color/text_grey_light"
 					android:text="@string/changelog" />
 		</LinearLayout>
 	</ScrollView>

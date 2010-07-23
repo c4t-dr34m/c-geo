@@ -622,7 +622,8 @@ public class cgeoinit extends Activity {
 		@Override
 		public void run() {
             Message msg = new Message();
-            
+
+			base.makeLoginPattern();
             msg.what = base.login();
 
 			handler.sendMessage(msg);

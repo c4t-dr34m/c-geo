@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.SubMenu;
@@ -87,8 +86,8 @@ public class cgeotrackable extends Activity {
 				LinearLayout detailsList = (LinearLayout)findViewById(R.id.details_list);
 
 				// trackable geocode
-				if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light_first, null);
-				else itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_dark_first, null);
+				if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
+				else itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_dark, null);
 				itemName = (TextView)itemLayout.findViewById(R.id.name);
 				itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
@@ -186,28 +185,28 @@ public class cgeotrackable extends Activity {
 
 				// trackable goal
 				if (trackable.goal != null && trackable.goal.length() > 0) {
-					((RelativeLayout)findViewById(R.id.goal_box)).setVisibility(View.VISIBLE);
+					((LinearLayout)findViewById(R.id.goal_box)).setVisibility(View.VISIBLE);
 					TextView descView = (TextView)findViewById(R.id.goal);
 					descView.setVisibility(View.VISIBLE);
-					descView.setText(Html.fromHtml(trackable.goal, new cgHtmlImg(activity, settings, geocode, 0, false), null), TextView.BufferType.SPANNABLE);
+					descView.setText(Html.fromHtml(trackable.goal, new cgHtmlImg(activity, settings, geocode, true, 0, false), null), TextView.BufferType.SPANNABLE);
 					descView.setMovementMethod(LinkMovementMethod.getInstance());
 				}
 
 				// trackable details
 				if (trackable.details != null && trackable.details.length() > 0) {
-					((RelativeLayout)findViewById(R.id.details_box)).setVisibility(View.VISIBLE);
+					((LinearLayout)findViewById(R.id.details_box)).setVisibility(View.VISIBLE);
 					TextView descView = (TextView)findViewById(R.id.details);
 					descView.setVisibility(View.VISIBLE);
-					descView.setText(Html.fromHtml(trackable.details, new cgHtmlImg(activity, settings, geocode, 0, false), null), TextView.BufferType.SPANNABLE);
+					descView.setText(Html.fromHtml(trackable.details, new cgHtmlImg(activity, settings, geocode, true, 0, false), null), TextView.BufferType.SPANNABLE);
 					descView.setMovementMethod(LinkMovementMethod.getInstance());
 				}
 
 				// trackable image
 				if (trackable.image != null && trackable.image.length() > 0) {
-					((RelativeLayout)findViewById(R.id.image_box)).setVisibility(View.VISIBLE);
+					((LinearLayout)findViewById(R.id.image_box)).setVisibility(View.VISIBLE);
 					LinearLayout imgView = (LinearLayout)findViewById(R.id.image);
 
-					final ImageView trackableImage = (ImageView) inflater.inflate(R.layout.trackableimage_all, null);
+					final ImageView trackableImage = (ImageView)inflater.inflate(R.layout.trackableimage_all, null);
 
 					trackableImage.setImageResource(R.drawable.image_not_loaded);
 					trackableImage.setClickable(true);
@@ -222,9 +221,7 @@ public class cgeotrackable extends Activity {
 						@Override
 						public void handleMessage(Message message) {
 							BitmapDrawable image = (BitmapDrawable)message.obj;
-							if (image != null) {
-								trackableImage.setImageDrawable((BitmapDrawable)message.obj);
-							}
+							if (image != null) trackableImage.setImageDrawable((BitmapDrawable)message.obj);
 						}
 					};
 
@@ -233,7 +230,7 @@ public class cgeotrackable extends Activity {
 						public void run() {
 							BitmapDrawable image = null;
 							try {
-								cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, geocode, 0, false);
+								cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, geocode, true, 0, false);
 
 								image = imgGetter.getDrawable(trackable.image);
 								Message message = handler.obtainMessage(0, image);
