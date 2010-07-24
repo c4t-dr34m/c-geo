@@ -47,7 +47,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="attributes" />
+							android:text="@string/cache_attributes" />
 				</RelativeLayout>
 				<TextView android:id="@+id/attributes"
 						android:layout_width="fill_parent"
@@ -87,7 +87,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="inventory" />
+							android:text="@string/cache_inventory" />
 				</RelativeLayout>
 				<TextView android:id="@+id/inventory"
 						android:layout_width="fill_parent"
@@ -126,7 +126,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="offline" />
+							android:text="@string/cache_offline" />
 				</RelativeLayout>
 				<RelativeLayout
 						android:layout_width="fill_parent"
@@ -157,7 +157,7 @@
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
 							android:padding="3dip"
-							android:text="refresh"
+							android:text="@string/cache_offline_refresh"
 							android:background="@drawable/action_button_light" />
 					<Button android:id="@+id/offline_store"
 							android:layout_width="60dip"
@@ -174,7 +174,7 @@
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
 							android:padding="3dip"
-							android:text="store"
+							android:text="@string/cache_offline_store"
 							android:background="@drawable/action_button_light" />
 				</RelativeLayout>
 			</LinearLayout>
@@ -206,7 +206,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="description" />
+							android:text="@string/cache_description" />
 				</RelativeLayout>
 				<TextView android:id="@+id/shortdesc"
 						android:visibility="gone"
@@ -242,7 +242,7 @@
 						android:textSize="14dip"
 						android:textColor="@color/text_light"
 						android:padding="3dip"
-						android:text="long description"
+						android:text="@string/cache_description_long"
 						android:background="@drawable/action_button_light" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/waypoints_box"
@@ -272,7 +272,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="waypoints" />
+							android:text="@string/cache_waypoints" />
 				</RelativeLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -297,7 +297,7 @@
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
 							android:padding="3dip"
-							android:text="add waypoint"
+							android:text="@string/cache_waypoints_add"
 							android:background="@drawable/action_button_light" />
 				</LinearLayout>
 			</LinearLayout>
@@ -329,7 +329,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="hint" />
+							android:text="@string/cache_hint" />
 				</RelativeLayout>
 				<TextView android:id="@+id/hint"
 						android:layout_width="fill_parent"
@@ -369,7 +369,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="logbook" />
+							android:text="@string/cache_logs" />
 				</RelativeLayout>
 				<LinearLayout android:id="@+id/log_list"
 						android:layout_width="fill_parent"

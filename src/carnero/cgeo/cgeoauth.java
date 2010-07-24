@@ -247,8 +247,6 @@ public class cgeoauth extends Activity {
 			wr.flush();
 			wr.close();
 
-			Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
-
 			in = connection.getInputStream();
 			ins = new InputStreamReader(in);
 			br = new BufferedReader(ins);

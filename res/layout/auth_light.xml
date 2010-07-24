@@ -74,7 +74,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="authorize c:geo"
+						android:text="@string/auth_authorize"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/start_over"
 						android:visibility="gone"
@@ -89,11 +89,11 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="start again"
+						android:text="@string/auth_again"
 						android:background="@drawable/action_button_light" />
 				<EditText android:id="@+id/pin"
 						android:visibility="gone"
-						android:hint="pin assigned by twitter"
+						android:hint="@string/auth_pin_hint"
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="10dip"
@@ -122,7 +122,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="finish"
+						android:text="@string/auth_finish"
 						android:background="@drawable/action_button_light" />
 			</LinearLayout>
 		</LinearLayout>

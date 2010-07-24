@@ -3,6 +3,9 @@
     <string name="app_name">c:geo</string>
     <string name="app_name_compass">c:geo compass</string>
 
+	<!-- basics -->
+	<string name="cache">cache</string>
+
 	<!-- caches -->
 	<string name="all">all caches</string>
 	<string name="traditional">traditional cache</string>
@@ -62,6 +65,23 @@
 	<string name="err_comm">unknown communication error</string>
 	<string name="err_wrong">wrong login informations</string>
 	<string name="err_license">user has not agreed to Geocaching.com license agreement</string>
+	<string name="err_title_problem">problem</string>
+	<string name="err_detail_open">Sorry, c:geo can\'t open geocache details.</string>
+	<string name="err_detail_cache">Sorry, c:geo can\'t display geocache you want. Is it really geocache?</string>
+	<string name="err_detail_cache_find">Sorry, c:geo can\'t find geocache</string>
+	<string name="err_detail_cache_find_some">Sorry, c:geo can\'t find that geocache.</string>
+	<string name="err_detail_cache_forgot">Sorry, c:geo forgot which geocache you want.</string>
+	<string name="err_detail_cache_language">c:geo can\'t read some cache details. Please check if you have geocaching.com website set to English. Unfortunately, c:geo doesn\'t understand other localizations.</string>
+	<string name="err_detail_no_spoiler">c:geo found no spoiler images for this cache</string>
+	<string name="err_detail_no_map_static">c:geo found no static maps for this cache</string>
+	<string name="err_detail_still_removing">Still removing this cache.</string>
+	<string name="err_detail_still_saving">Still saving this cache.</string>
+	<string name="err_radar_title">Radar isn\'t installed</string>
+	<string name="err_radar_message">This function requires Radar application. Would you install it?</string>
+	<string name="err_radar_market">c:geo can\'t start Android Market to search for Radar application.</string>
+	<string name="err_radar_generic">Sorry, c:geo can\'t start Radar application. Is installed?</string>
+	<string name="err_navigation_no">c:geo can\'t find any supported navigation.</string>
+	<string name="err_application_no">c:geo can\'t find any suitable application.</string>
 
 	<!-- location service -->
 	<string name="loc_last">last known</string>
@@ -90,6 +110,68 @@
 	<string name="caches_more_caches">more caches</string>
 	<string name="caches_more_caches_no">no more caches</string>
 
+	<!-- auth -->
+	<string name="about_changelog">changelog</string>
+	<string name="auth_authorize">authorize c:geo</string>
+	<string name="auth_again">start again</string>
+	<string name="auth_pin_hint">pin assigned by twitter</string>
+	<string name="auth_finish">finish</string>
+
+	<!-- cache -->
+	<string name="cache_count_no">no cache</string>
+	<string name="cache_count_one">one cache</string>
+	<string name="cache_count_more">caches</string>
+	<string name="cache_offline">offline</string>
+	<string name="cache_offline_refresh">refresh</string>
+	<string name="cache_offline_drop">drop</string>
+	<string name="cache_offline_store">store</string>
+	<string name="cache_offline_stored">stored in device</string>
+	<string name="cache_offline_not_ready">not ready\nfor offline use</string>
+	<string name="cache_offline_time_about">about</string>
+	<string name="cache_offline_time_mins">minutes ago</string>
+	<string name="cache_offline_time_mins_few">few minutes ago</string>
+	<string name="cache_offline_time_hour">one hour ago</string>
+	<string name="cache_offline_time_hours">hours ago</string>
+	<string name="cache_offline_time_days">days ago</string>
+	<string name="cache_attributes">attributes</string>
+	<string name="cache_inventory">inventory</string>
+	<string name="cache_description">description</string>
+	<string name="cache_description_long">long description</string>
+	<string name="cache_waypoints">waypoints</string>
+	<string name="cache_waypoints_add">add waypoint</string>
+	<string name="cache_hint">hint</string>
+	<string name="cache_logs">logbook</string>
+	<string name="cache_dialog_loading_details">loading cache details...</string>
+	<string name="cache_dialog_loading_description">loading cache description...</string>
+	<string name="cache_dialog_offline_save_title">offline</string>
+	<string name="cache_dialog_offline_save_message">Saving cache for offline use...</string>
+	<string name="cache_dialog_offline_drop_title">offline</string>
+	<string name="cache_dialog_offline_drop_message">Removing cache from device memory...</string>
+	<string name="cache_menu_navigate">navigate</string>
+	<string name="cache_menu_compass">compass</string>
+	<string name="cache_menu_tbt">turn-by-turn</string>
+	<string name="cache_menu_radar">radar</string>
+	<string name="cache_menu_map">show on map</string>
+	<string name="cache_menu_map_static">static maps</string>
+	<string name="cache_menu_browser">open in browser</string>
+	<string name="cache_menu_visit">log visit</string>
+	<string name="cache_menu_spoilers">spoiler images</string>
+	<string name="cache_status">status</string>
+	<string name="cache_status_found">found</string>
+	<string name="cache_status_archived">archived</string>
+	<string name="cache_status_disabled">disabled</string>
+	<string name="cache_status_premium">premium members only</string>
+	<string name="cache_distance">distance</string>
+	<string name="cache_difficulty">difficulty</string>
+	<string name="cache_terrain">terrain</string>
+	<string name="cache_owner">owner</string>
+	<string name="cache_hidden">hidden</string>
+	<string name="cache_location">location</string>
+	<string name="cache_coordinates">coordinates</string>
+
+	<!-- waypoint -->
+	<string name="waypoint_custom">custom</string>
+
 	<!-- next things -->
     <string name="legal_note">
 		To use services of geocaching.com (and this application does), you must agree with terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a>.
@@ -111,7 +193,10 @@
 		facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a>
 	</string>
     <string name="twitter">
-		twitter <a href="http://twitter.com/android_gc">@android_GC</a>
+		twitter: <a href="http://twitter.com/android_gc">@android_GC</a>
+	</string>
+	<string name="graphic">
+		graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a>
 	</string>
     <string name="about_go4cache">
 		Service <b>Go 4 cache</b> allows you to see other geocachers on the map (in <b>c:geo</b> or in browser) in real time.
@@ -132,7 +217,7 @@
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.75.2</b> (__.07.2010)\n
-		· fixed: __\n
+		· fixed: Checking login\n
 		\n
 		<b>0.75.1</b> (24.07.2010)\n
 		· fixed: Logging visit\n

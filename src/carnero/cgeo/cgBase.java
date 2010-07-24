@@ -387,21 +387,8 @@ public class cgBase {
 		final Pattern patternId = Pattern.compile("name=\"CID\"[^v]*value=\"([0-9]+)\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTotalCnt = Pattern.compile("<td class=\"PageBuilderWidget\"><span>Total Records[^<]*<b>(\\d+)<\\/b>", Pattern.CASE_INSENSITIVE);
 
-		String viewstate = null;
-		Matcher matcherViewstate = patternViewstate.matcher(page);
-		while (matcherViewstate.find()) {
-			if (matcherViewstate.groupCount() > 0) {
-				caches.viewstate = matcherViewstate.group(1);
-			}
-		}
-
-		String viewstate1 = null;
-		Matcher matcherViewstate1 = patternViewstate1.matcher(page);
-		while (matcherViewstate1.find()) {
-			if (matcherViewstate1.groupCount() > 0) {
-				caches.viewstate1 = matcherViewstate1.group(1);
-			}
-		}
+		caches.viewstate = findViewstate(page, 0);
+		caches.viewstate1 = findViewstate(page, 1);
 
 		int startPos = -1;
 		int endPos = -1;
@@ -712,21 +699,10 @@ public class cgBase {
 		caches.url = url;
 
 		try {
-			final Pattern patternViewstate = Pattern.compile("<ViewState><\\!\\[CDATA\\[(.*)\\]\\]><\\/ViewState>", Pattern.CASE_INSENSITIVE);
 			final Pattern patternData = Pattern.compile("<ExtraData><\\!\\[CDATA\\[(.*)\\]\\]><\\/ExtraData>", Pattern.CASE_INSENSITIVE);
 
-			// viewstate
-			try {
-				final Matcher matcherViewstate = patternViewstate.matcher(page);
-				while (matcherViewstate.find()) {
-					if (matcherViewstate.groupCount() > 0) {
-						caches.viewstate = matcherViewstate.group(1);
-					}
-				}
-			} catch (Exception e) {
-				// failed to find viewstate
-				Log.w(cgSettings.tag, "cgeoBase.parseMapJSON: Failed to find viewstate");
-			}
+			caches.viewstate = findViewstate(page, 0);
+			caches.viewstate1 = findViewstate(page, 1);
 
 			// data
 			try {

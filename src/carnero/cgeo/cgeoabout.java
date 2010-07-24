@@ -83,5 +83,13 @@ public class cgeoabout extends Activity {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/android_gc")));
 			}
 		});
+
+		TextView graphicLink = (TextView)findViewById(R.id.graphic);
+		graphicLink.setClickable(true);
+		graphicLink.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jaytech.cz/")));
+			}
+		});
 	}
 }
