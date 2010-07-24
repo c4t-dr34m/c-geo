@@ -208,7 +208,7 @@ public class cgBase {
 		settings = settingsIn;
 		prefs = prefsIn;
 
-		patternLoggedIn = Pattern.compile("<p class=\"AlignRight\">[^<]+<a href=\"http://www\\.geocaching\\.com/my/\">(" + settings.getUsername() + ")</a>.", Pattern.CASE_INSENSITIVE);
+		patternLoggedIn = Pattern.compile("<p class=\"AlignRight\">[^<]+<a href=\"http://www\\.geocaching\\.com/my/\">([^<]+)</a>\\.", Pattern.CASE_INSENSITIVE);
 
         if (settings.asBrowser == 1) {
             final long rndBrowser = Math.round(Math.random() * 6);
@@ -239,10 +239,6 @@ public class cgBase {
 			// c:geo is not allowed to follow redirects
 		}
 		sm = null;
-	}
-
-	public void makeLoginPattern() {
-		patternLoggedIn = Pattern.compile("<p class=\"AlignRight\">[^<]+<a href=\"http://www\\.geocaching\\.com/my/\">(" + settings.getUsername() + ")</a>.", Pattern.CASE_INSENSITIVE);
 	}
 
 	public String findViewstate(String page, int index) {
@@ -325,7 +321,7 @@ public class cgBase {
 
 		if (loginPage != null && loginPage.length() > 0) {
 			if (checkLogin(loginPage) == true) {
-				switchToEnglish(viewstate, viewstate1);
+				switchToEnglish(findViewstate(loginPage, 0), findViewstate(loginPage, 1));
 
 				return 1; // logged in
 			} else {

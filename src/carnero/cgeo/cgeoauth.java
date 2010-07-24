@@ -21,6 +21,16 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Button;
 import javax.net.ssl.HttpsURLConnection;
+import org.apache.http.HttpVersion;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
 
 public class cgeoauth extends Activity {
 	private cgeoapplication app = null;
@@ -85,6 +95,24 @@ public class cgeoauth extends Activity {
 		}
    }
 
+	public DefaultHttpClient getClient() {
+        //sets up parameters
+        HttpParams params = new BasicHttpParams();
+        HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+        HttpProtocolParams.setContentCharset(params, "utf-8");
+        params.setBooleanParameter("http.protocol.expect-continue", false);
+
+        //registers schemes for both http and https
+        SchemeRegistry registry = new SchemeRegistry();
+        registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        final SSLSocketFactory sslSocketFactory = SSLSocketFactory.getSocketFactory();
+        sslSocketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+        registry.register(new Scheme("https", sslSocketFactory, 443));
+
+        ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(params, registry);
+        return new DefaultHttpClient(manager, params);
+    }
+
 	private void requestToken() {
 		String host = "api.twitter.com";
 		String path = "/oauth/request_token";
@@ -126,8 +154,13 @@ public class cgeoauth extends Activity {
 			Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
 			connection.disconnect();
 
-
 			line = sb.toString();
+
+			if (line == null || line.length() == 0) {
+				warning.showToast("Failed to initialize authorization process");
+
+				return;
+			}
 
 			Matcher paramsMatcher1  = paramsPattern1.matcher(line);
 			if (paramsMatcher1.find() == true) OAtoken = paramsMatcher1.group(1).toString();
@@ -162,9 +195,9 @@ public class cgeoauth extends Activity {
 			HashMap<String, String> paramsPre = new HashMap<String, String>();
 			paramsPre.put("oauth_callback", "oob");
 
-			params = cgOAuth.signOAuth(host, path, method, true, paramsPre, OAtoken, OAtokenSecret);
+			params = cgOAuth.signOAuth(host, path, "GET", true, paramsPre, OAtoken, OAtokenSecret);
 
-			this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + host + path + "?" + params)));
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + host + path + "?" + params)));
 
 			pinEntry.setVisibility(View.VISIBLE);
 			pinEntryButton.setVisibility(View.VISIBLE);
@@ -184,6 +217,7 @@ public class cgeoauth extends Activity {
 		URLConnection uc = null;
 		HttpsURLConnection connection = null;
 		InputStream in = null;
+		InputStreamReader ins = null;
 		OutputStream out = null;
 		OutputStreamWriter wr = null;
 		BufferedReader br = null;
@@ -213,17 +247,22 @@ public class cgeoauth extends Activity {
 			wr.flush();
 			wr.close();
 
+			Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
+
 			in = connection.getInputStream();
-			br = new BufferedReader(new InputStreamReader(in));
+			ins = new InputStreamReader(in);
+			br = new BufferedReader(ins);
 			sb = new StringBuilder();
 
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 				sb.append("\n");
 			}
-			in.close();
 
 			Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
+
+			ins.close();
+			in.close();
 			connection.disconnect();
 
 			line = sb.toString();

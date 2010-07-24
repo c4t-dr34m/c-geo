@@ -33,9 +33,7 @@ public class cgeoinit extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-                if (loginDialog != null && loginDialog.isShowing() == true) {
-                    loginDialog.dismiss();
-                }
+                if (loginDialog != null && loginDialog.isShowing() == true) loginDialog.dismiss();
 
                 if (msg.what == 1) {
                     warning.helpDialog("login", "Login ok.");
@@ -52,9 +50,7 @@ public class cgeoinit extends Activity {
 				Log.e(cgSettings.tag, "cgeoinit.logInHandler: " + e.toString());
 			}
 
-            if (loginDialog != null && loginDialog.isShowing() == true) {
-                loginDialog.dismiss();
-            }
+            if (loginDialog != null && loginDialog.isShowing() == true) loginDialog.dismiss();
 
             init();
         }
@@ -275,17 +271,10 @@ public class cgeoinit extends Activity {
 		String usernameNew = ((EditText)findViewById(R.id.username)).getText().toString();
 		String passwordNew = ((EditText)findViewById(R.id.password)).getText().toString();
 
-		if (usernameNew == null) {
-			usernameNew = "";
-		}
+		if (usernameNew == null) usernameNew = "";
+		if (passwordNew == null) passwordNew = "";
 
-		if (passwordNew == null) {
-			passwordNew = "";
-		}
-
-		if (settings.setLogin(usernameNew, passwordNew) == true) {
-			return true;
-		}
+		if (settings.setLogin(usernameNew, passwordNew) == true) return true;
 
 		return false;
 	}
@@ -594,8 +583,8 @@ public class cgeoinit extends Activity {
 
 	private class logIn implements View.OnClickListener {
 		public void onClick(View arg0) {
-			String username = ((EditText)findViewById(R.id.username)).getText().toString();
-			String password = ((EditText)findViewById(R.id.password)).getText().toString();
+			final String username = ((EditText)findViewById(R.id.username)).getText().toString();
+			final String password = ((EditText)findViewById(R.id.password)).getText().toString();
 
             if (username == null || username.length() == 0 || password == null || password.length() == 0) {
                 warning.showToast("No username and/or password set.");
@@ -605,28 +594,15 @@ public class cgeoinit extends Activity {
 			loginDialog = ProgressDialog.show(activity, "login", "Logging to geocaching.com...", true);
 			loginDialog.setCancelable(false);
 
+			settings.deleteCookies();
             settings.setLogin(username, password);
 
-			Thread thread = new logInThread(logInHandler);
-			thread.start();
-		}
-	}
-
-	private class logInThread extends Thread {
-		private Handler handler = null;
-
-		public logInThread(Handler handlerIn) {
-			handler = handlerIn;
-		}
-
-		@Override
-		public void run() {
-            Message msg = new Message();
-
-			base.makeLoginPattern();
-            msg.what = base.login();
-
-			handler.sendMessage(msg);
+			(new Thread() {
+				@Override
+				public void run() {
+					logInHandler.sendEmptyMessage(base.login());
+				}
+			}).start();
 		}
 	}
 }

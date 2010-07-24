@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class cgSettings {
 	// constants
@@ -146,7 +147,7 @@ public class cgSettings {
 	}
 
 	public HashMap<String, String> getLogin() {
-		HashMap<String, String> login = new HashMap<String, String>();
+		final HashMap<String, String> login = new HashMap<String, String>();
 
 		if (username == null || password == null) {
 			String preUsername = prefs.getString("username", null);
@@ -186,10 +187,8 @@ public class cgSettings {
 		return user;
 	}
 
-	public Boolean setLogin(String username, String password) {
-		SharedPreferences.Editor prefsEdit = prefs.edit();
-
-		deleteCookies();
+	public boolean setLogin(String username, String password) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
 
 		if (username == null || username.length() == 0 || password == null || password.length() == 0) {
 			// erase username and password
@@ -200,6 +199,9 @@ public class cgSettings {
 			prefsEdit.putString("username", username);
 			prefsEdit.putString("password", password);
 		}
+
+		this.username = username;
+		this.password = password;
 		
 		return prefsEdit.commit();
 	}

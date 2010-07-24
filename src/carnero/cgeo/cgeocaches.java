@@ -171,6 +171,7 @@ public class cgeocaches extends ListActivity {
 				if (app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast("Sorry, c:geo failed to download caches because of " + app.getError(searchId) + ".");
 
+					listFooter.setOnClickListener(new moreCachesListener());
 					if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 					if (waitDialog != null) {
 						waitDialog.dismiss();
@@ -189,6 +190,7 @@ public class cgeocaches extends ListActivity {
 				Log.e(cgSettings.tag, "cgeocaches.loadNextPageHandler: " + e.toString());
 			}
 
+			listFooter.setOnClickListener(new moreCachesListener());
 			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 			if (waitDialog != null) {
 				waitDialog.dismiss();
@@ -1001,6 +1003,7 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void onClick(View arg0) {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			listFooter.setOnClickListener(null);
 
 			geocachesLoadNextPage thread;
 			thread = new geocachesLoadNextPage(loadNextPageHandler);
