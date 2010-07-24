@@ -712,6 +712,10 @@ public class cgeocaches extends ListActivity {
 			if (adapter == null) return;
 
 			try {
+				if (cacheList != null && geo.latitudeNow != null && geo.longitudeNow != null) {
+					adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
+				}
+
 				if (settings.useCompass == 0) {
 					if (settings.useCompass == 0) {
 						if (geo.bearingNow != null) adapter.setActualHeading(geo.bearingNow);
