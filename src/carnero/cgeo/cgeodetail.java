@@ -163,7 +163,6 @@ public class cgeodetail extends Activity {
 		setTitle("cache");
 		if (settings.skin == 1) setContentView(R.layout.cachedetail_light);
 		else setContentView(R.layout.cachedetail_dark);
-		cacheDistance = (TextView)findViewById(R.id.distance);
 
 		init();
 
@@ -1069,7 +1068,6 @@ public class cgeodetail extends Activity {
 				}
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
-				e.printStackTrace();
 			}
 		}
 	}

@@ -13,21 +13,32 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical" >
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="@color/text_headline_light"
-					android:text="coordinates" />
-			<EditText
-					android:id="@+id/latitude"
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_light" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_light"
+						android:background="@color/background_light"
+						android:text="coordinates" />
+			</RelativeLayout>
+			<EditText android:id="@+id/latitude"
 					android:hint="latitude"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -44,8 +55,7 @@
 					android:capitalize="none"
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_light" />
-			<EditText
-					android:id="@+id/longitude"
+			<EditText android:id="@+id/longitude"
 					android:hint="longitude"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -76,19 +86,31 @@
 					android:padding="6dip"
 					android:text="my coordinates"
 					android:background="@drawable/action_button_light" />
-			<TextView
-					android:layout_width="wrap_content"
+			<RelativeLayout
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right|top"
-					android:layout_marginTop="10dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:ellipsize="marquee"
-					android:textSize="22dip"
-					android:textColor="@color/text_headline_light"
-					android:text="direction" />
+					android:layout_marginTop="2dip"
+					android:layout_marginBottom="2dip" >
+				<View
+						android:layout_width="fill_parent"
+						android:layout_height="1dip"
+						android:layout_centerInParent="true"
+						android:background="@color/separator_light" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_marginLeft="15dip"
+						android:padding="3dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:ellipsize="marquee"
+						android:textSize="22dip"
+						android:textColor="@color/text_headline_light"
+						android:background="@color/background_light"
+						android:text="direction" />
+			</RelativeLayout>
 			<EditText
 					android:id="@+id/bearing"
 					android:hint="bearing"

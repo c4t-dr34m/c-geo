@@ -131,8 +131,11 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.75.1</b> (__.07.2010)\n
-		· fixed: ___\n
+		<b>0.75.2</b> (__.07.2010)\n
+		· fixed: __\n
+		\n
+		<b>0.75.1</b> (24.07.2010)\n
+		· fixed: Logging visit\n
 		\n
 		<b>0.75.0</b> (23.07.2010)\n
 		· fixed: Cache list crashing\n
