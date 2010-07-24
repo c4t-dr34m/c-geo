@@ -260,6 +260,18 @@ public class cgeocaches extends ListActivity {
 		if (settings.skin == 1) setContentView(R.layout.caches_light);
 		else setContentView(R.layout.caches_dark);
 
+		// get parameters
+		Bundle extras = getIntent().getExtras();
+		if (extras !=null) {
+			type = extras.getString("type");
+			latitude = extras.getDouble("latitude");
+			longitude = extras.getDouble("longitude");
+			cachetype = extras.getString("cachetype");
+			keyword = extras.getString("keyword");
+			address = extras.getString("address");
+			username = extras.getString("username");
+		}
+
 		init();
 
 		String typeText;
@@ -352,10 +364,7 @@ public class cgeocaches extends ListActivity {
 	public void onResume() {
 		super.onResume();
 
-		setAdapter();
-
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-		if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+		init();
 
         if (searchId != null && searchId > 0) {
             cacheList.clear();
@@ -498,7 +507,7 @@ public class cgeocaches extends ListActivity {
 
 		if (adapter == null) {
 			getListView().addFooterView(listFooter);
-			getListView().setOnLongClickListener(new longTapListener());
+			// getListView().setOnLongClickListener(new longTapListener());
 			adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
 			setListAdapter(adapter);
 		}
@@ -517,11 +526,8 @@ public class cgeocaches extends ListActivity {
 		}
 
 		if (more == false) {
-			if (cacheList == null || cacheList.size() == 0) {
-				listFooterText.setText(res.getString(R.string.caches_no_cache));
-			} else {
-				listFooterText.setText(res.getString(R.string.caches_more_caches_no));
-			}
+			if (cacheList == null || cacheList.isEmpty()) listFooterText.setText(res.getString(R.string.caches_no_cache));
+			else listFooterText.setText(res.getString(R.string.caches_more_caches_no));
 			listFooter.setClickable(false);
 			listFooter.setOnClickListener(null);
 		} else {
@@ -532,24 +538,28 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private void init() {
-		// get parameters
-		Bundle extras = getIntent().getExtras();
-		if (extras !=null) {
-			type = extras.getString("type");
-			latitude = extras.getDouble("latitude");
-			longitude = extras.getDouble("longitude");
-			cachetype = extras.getString("cachetype");
-			keyword = extras.getString("keyword");
-			address = extras.getString("address");
-			username = extras.getString("username");
-		}
-
-		setAdapter();
-
 		// sensor & geolocation manager
         if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+
 		if (cacheList != null) setTitle(title + " (" + cacheList.size() + "/" + app.getTotal(searchId) + ")");
+
+		if (cacheList != null && cacheList.isEmpty() == false) {
+			final Integer count = app.getTotal(searchId);
+			final int size = cacheList.size();
+			if (count != null && count > 0) {
+				setTitle(title + " (" + size + "/" + count + ")");
+				if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
+				else setMoreCaches(false);
+			} else {
+				setTitle(title);
+				setMoreCaches(false);
+			}
+		} else {
+			setTitle(title);
+		}
+
+		setAdapter();
 	}
 
 	private void showOnMap() {

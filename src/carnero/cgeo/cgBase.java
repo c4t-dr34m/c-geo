@@ -282,7 +282,7 @@ public class cgBase {
 		String viewstate = null;
 		String viewstate1 = null;
 
-		loginPage = request(host, path, "GET", new HashMap<String, String>(), false, false);
+		loginPage = request(host, path, "GET", new HashMap<String, String>(), false, false, false);
 		if (loginPage != null && loginPage.length() > 0) {
 			if (checkLogin(loginPage) == true) {
 				switchToEnglish(viewstate, viewstate1);
@@ -321,7 +321,7 @@ public class cgBase {
 		params.put("ctl00$ContentBody$myPassword", login.get("password"));
 		params.put("ctl00$ContentBody$cookie", "on");
 		params.put("ctl00$ContentBody$Button1", "Login");
-		loginPage = request(host, path, "POST", params, false, false);
+		loginPage = request(host, path, "POST", params, false, false, false);
 
 		if (loginPage != null && loginPage.length() > 0) {
 			if (checkLogin(loginPage) == true) {
@@ -367,7 +367,7 @@ public class cgBase {
 		params.put("__EVENTTARGET", "ctl00$uxLocaleList$uxLocaleList$ctl01$uxLocaleItem"); // switch to english
 		params.put("__EVENTARGUMENT", "");
 		
-		return request(host, path, "POST", params, false, false);
+		return request(host, path, "POST", params, false, false, false);
 	}
 
 	public cgCacheWrap parseSearch(String url, String page) {
@@ -1893,11 +1893,11 @@ public class cgBase {
 		params.put("__EVENTTARGET", "ctl00$ContentBody$pgrBottom$ctl08");
 		params.put("__EVENTARGUMENT", "");
 
-		String page = request(host, path, method, params, false, false);
+		String page = request(host, path, method, params, false, false, true);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, false);
+				page = request(host, path, method, params, false, false, true);
 			} else {
 				app.setError(searchId, errorRetrieve.get(loginState));
 				Log.e(cgSettings.tag, "cgeoBase.searchByNextPage: Can not log in geocaching");
@@ -1972,11 +1972,11 @@ public class cgBase {
 		params.put("log", "y"); // download logs (more than 5
 		params.put("numlogs", "25"); // 25 logs
 
-		String page = request(host, path, method, params, false, false);
+		String page = request(host, path, method, params, false, false, false);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, false);
+				page = request(host, path, method, params, false, false, false);
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByGeocode Can not log in geocaching");
@@ -2108,12 +2108,12 @@ public class cgBase {
 		params.put("lat", latitude);
 		params.put("lng", longitude);
 
-		final String url = "http://" + host + path + "?" + prepareParameters(params, false);
-		String page = request(host, path, method, params, false, false);
+		final String url = "http://" + host + path + "?" + prepareParameters(params, false, true);
+		String page = request(host, path, method, params, false, false, true);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, false);
+				page = request(host, path, method, params, false, false, true);
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByCoords: Can not log in geocaching (error: " + loginState + ")");
@@ -2191,12 +2191,12 @@ public class cgBase {
 		}
 		params.put("key", keyword);
 
-		final String url = "http://" + host + path + "?" + prepareParameters(params, false);
-		String page = request(host, path, method, params, false, false);
+		final String url = "http://" + host + path + "?" + prepareParameters(params, false, true);
+		String page = request(host, path, method, params, false, false, true);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, false);
+				page = request(host, path, method, params, false, false, true);
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByKeyword: Can not log in geocaching (error: " + loginState + ")");
@@ -2280,12 +2280,12 @@ public class cgBase {
 			Log.i(cgSettings.tag, "cgBase.searchByUsername: Overriding users choice, downloading all caches.");
 		}
 
-		final String url = "http://" + host + path + "?" + prepareParameters(params, my);
-		String page = request(host, path, method, params, false, my);
+		final String url = "http://" + host + path + "?" + prepareParameters(params, my, true);
+		String page = request(host, path, method, params, false, my, true);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, my);
+				page = request(host, path, method, params, false, my, true);
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByUsername: Can not log in geocaching (error: " + loginState + ")");
@@ -2363,12 +2363,12 @@ public class cgBase {
 		}
 		params.put("u", userName);
 
-		final String url = "http://" + host + path + "?" + prepareParameters(params, false);
-		String page = request(host, path, method, params, false, false);
+		final String url = "http://" + host + path + "?" + prepareParameters(params, false, true);
+		String page = request(host, path, method, params, false, false, true);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, false);
+				page = request(host, path, method, params, false, false, true);
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByOwner: Can not log in geocaching (error: " + loginState + ")");
@@ -2431,11 +2431,11 @@ public class cgBase {
 
 		String page = null;
 		if (viewstate == null || viewstate.length() == 0) {
-			page = request("www.geocaching.com", "/map/default.aspx", "GET", null, false, false);
+			page = request("www.geocaching.com", "/map/default.aspx", "GET", null, false, false, false);
 			if (checkLogin(page) == false) {
 				int loginState = login();
 				if (loginState == 1) {
-					page = request("www.geocaching.com", "/map/default.aspx", "GET", null, false, false);
+					page = request("www.geocaching.com", "/map/default.aspx", "GET", null, false, false, false);
 				} else {
 					search.error = errorRetrieve.get(loginState);
 					Log.e(cgSettings.tag, "cgeoBase.searchByViewport: Can not log in geocaching (error: " + loginState + ")");
@@ -2487,8 +2487,8 @@ public class cgBase {
 		// params.put("^F", "on"); // hidden by me
 		params.put("^G", "on"); // don't know
 
-		final String url = "http://" + host + path + "?" + prepareParameters(params, false);
-		page = request(host, path, method, params, false, false);
+		final String url = "http://" + host + path + "?" + prepareParameters(params, false, false);
+		page = request(host, path, method, params, false, false, false);
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByViewport: No data from server");
@@ -2555,7 +2555,7 @@ public class cgBase {
 		params.put("lnm", String.format((Locale)null, "%.6f", lonMin));
 		params.put("lnx", String.format((Locale)null, "%.6f", lonMax));
 
-		final String data = request(host, path, method, params, false, false);
+		final String data = request(host, path, method, params, false, false, false);
 
 		if (data == null || data.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.usersInViewport: No data from server");
@@ -2613,11 +2613,11 @@ public class cgBase {
 			params.put("guid", guid);
 		}
 
-		String page = request(host, path, method, params, false, false);
+		String page = request(host, path, method, params, false, false, false);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, false);
+				page = request(host, path, method, params, false, false, false);
 			} else {
 				trackable.errorRetrieve = loginState;
 				Log.e(cgSettings.tag, "cgeoBase.searchTrackable Can not log in geocaching");
@@ -2664,40 +2664,11 @@ public class cgBase {
 			return 1000;
 		}
 
-		String monthWord = null;
-		int monthNum = new Integer(month);
-		if (monthNum == 1) {
-			monthWord = "January";
-		} else if (monthNum == 2) {
-			monthWord = "February";
-		} else if (monthNum == 3) {
-			monthWord = "March";
-		} else if (monthNum == 4) {
-			monthWord = "April";
-		} else if (monthNum == 5) {
-			monthWord = "May";
-		} else if (monthNum == 6) {
-			monthWord = "June";
-		} else if (monthNum == 7) {
-			monthWord = "July";
-		} else if (monthNum == 8) {
-			monthWord = "August";
-		} else if (monthNum == 9) {
-			monthWord = "September";
-		} else if (monthNum == 10) {
-			monthWord = "October";
-		} else if (monthNum == 11) {
-			monthWord = "November";
-		} else if (monthNum == 12) {
-			monthWord = "December";
-		} else {
-			monthWord = "";
-		}
-
 		final String host = "www.geocaching.com";
 		final String path = "/seek/log.aspx?ID=" + cacheid;
 		final String method = "POST";
 		final HashMap<String, String> params = new HashMap<String, String>();
+
 		params.put("__VIEWSTATE", viewstate);
         if (viewstate1 != null) {
             params.put("__VIEWSTATE1", viewstate1);
@@ -2706,21 +2677,20 @@ public class cgBase {
 		params.put("__EVENTTARGET", "");
 		params.put("__EVENTARGUMENT", "");
 		params.put("__LASTFOCUS", "");
-		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", monthWord + "/" + day + "/" + year);
 		params.put("ctl00$ContentBody$LogBookPanel1$ddLogType", logType);
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", "");
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", day);
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month", month);
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year", year);
 		params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
 		params.put("ctl00$ContentBody$LogBookPanel1$LogButton", "Submit Log Entry");
-		params.put("ctl00$ContentBody$LogBookPanel1$chkEncrypt", "");
-		params.put("ctl00$ContentBody$LogBookPanel1$btnConfirm", "[Yes]");
+		params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
 
-		String page = request(host, path, method, params, false, false);
+		String page = request(host, path, method, params, false, false, false);
 		if (checkLogin(page) == false) {
 			int loginState = login();
 			if (loginState == 1) {
-				page = request(host, path, method, params, false, false);
+				page = request(host, path, method, params, false, false, false);
 			} else {
 				Log.e(cgSettings.tag, "cgeoBase.postLog: Can not log in geocaching (error: " + loginState + ")");
 				return loginState;
@@ -2736,22 +2706,48 @@ public class cgBase {
 		final Pattern pattern = Pattern.compile("<span id=\"ctl00_ContentBody_LogBookPanel1_lbConfirm\"[^>]*>(<font[^>]*>)?([^<]+)(<\\/font>)?<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Matcher matcher = pattern.matcher(page);
 
-		if (matcher.find() == true && matcher.groupCount() > 0) {
-			String viewstateConfirm = null;
+		try {
+			if (matcher.find() == true && matcher.groupCount() > 0) {
+				final String viewstateConfirm = findViewstate(page, 0);
+				final String viewstate1Confirm = findViewstate(page, 1);
 
-			final Matcher matcherViewstate = patternViewstate.matcher(page);
-			while (matcherViewstate.find()) {
-				if (matcherViewstate.groupCount() > 0) {
-					viewstateConfirm = matcherViewstate.group(1);
+				if (viewstateConfirm == null || viewstateConfirm.length() == 0) {
+					Log.e(cgSettings.tag, "cgeoBase.postLog: No viewstate for confirm log");
+					return 1000;
 				}
-			}
 
-			if (viewstateConfirm == null || viewstateConfirm.length() == 0) {
-				return 1000;
+				params.clear();
+				params.put("__VIEWSTATE", viewstateConfirm);
+				if (viewstate1 != null) {
+					params.put("__VIEWSTATE1", viewstate1Confirm);
+					params.put("__VIEWSTATEFIELDCOUNT", "2");
+				}
+				params.put("__EVENTTARGET", "");
+				params.put("__EVENTARGUMENT", "");
+				params.put("__LASTFOCUS", "");
+				params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
+				params.put("ctl00$ContentBody$LogBookPanel1$btnConfirm", "[Yes]");
+				params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
+
+				page = request(host, path, method, params, false, false, false);
 			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgeoBase.postLog.confim: " + e.toString());
 		}
 
-		return 1;
+		try {
+			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>View a Cache Log[^<]*</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
+			final Matcher matcherOk = patternOk.matcher(page);
+			if (matcherOk.find() == true) {
+				Log.i(cgSettings.tag, "Log successfully posted to cache #" + cacheid);
+				return 1;
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgeoBase.postLog.check: " + e.toString());
+		}
+
+		Log.e(cgSettings.tag, "cgeoBase.postLog: Failed to post log because of unknown error");
+		return 1000;
 	}
 
 	final public static HostnameVerifier doNotVerify = new HostnameVerifier() {
@@ -2901,14 +2897,14 @@ public class cgBase {
 		return encoded;
 	}
 
-	public String prepareParameters(HashMap<String, String> params, Boolean my) {
+	public String prepareParameters(HashMap<String, String> params, boolean my, boolean addF) {
 		String paramsDone = null;
 
-		if (my != true && this.settings.excludeMine > 0) {
+		if (my != true && settings.excludeMine > 0) {
 			if (params == null) {
 				params = new HashMap<String, String>();
 			}
-			params.put("f", "1");
+			if (addF == true) params.put("f", "1");
 			Log.i(cgSettings.tag, "cgBase.prepareParameters: Skipping caches found or hidden by user.");
 		}
 
@@ -2936,39 +2932,23 @@ public class cgBase {
 		return paramsDone;
 	}
 
-	public String requestViewstate(String host, String path, String method, HashMap<String, String> params, Boolean xContentType, Boolean my) {
-		final String page = request(host, path, method, params, xContentType, my);
-		String viewstate = null;
+	public String requestViewstate(String host, String path, String method, HashMap<String, String> params, boolean xContentType, boolean my) {
+		final String page = request(host, path, method, params, xContentType, my, false);
 
-		final Matcher matcherViewstate = patternViewstate.matcher(page);
-		while (matcherViewstate.find()) {
-			if (matcherViewstate.groupCount() > 0) {
-				viewstate = matcherViewstate.group(1);
-			}
-		}
-
-		return viewstate;
+		return findViewstate(page, 0);
 	}
 
-	public String requestViewstate1(String host, String path, String method, HashMap<String, String> params, Boolean xContentType, Boolean my) {
-		final String page = request(host, path, method, params, xContentType, my);
-		String viewstate1 = null;
+	public String requestViewstate1(String host, String path, String method, HashMap<String, String> params, boolean xContentType, boolean my) {
+		final String page = request(host, path, method, params, xContentType, my, false);
 
-		final Matcher matcherViewstate = patternViewstate1.matcher(page);
-		while (matcherViewstate.find()) {
-			if (matcherViewstate.groupCount() > 0) {
-				viewstate1 = matcherViewstate.group(1);
-			}
-		}
-
-		return viewstate1;
+		return findViewstate(page, 1);
 	}
 
-	public String request(String host, String path, String method, HashMap<String, String> params, Boolean xContentType, Boolean my) {
+	public String request(String host, String path, String method, HashMap<String, String> params, boolean xContentType, boolean my, boolean addF) {
 		// prepare parameters
-		final String paramsDone = prepareParameters(params, my);
+		final String paramsDone = prepareParameters(params, my, addF);
 
-		return this.request(host, path, method, paramsDone, xContentType);
+		return request(host, path, method, paramsDone, xContentType);
 	}
 	
 	public String request(String host, String path, String method, String params, Boolean xContentType) {

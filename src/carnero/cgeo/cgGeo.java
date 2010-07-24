@@ -278,7 +278,7 @@ public class cgGeo {
 					params.put("ln", lonStr);
 					params.put("a", action);
 					params.put("s", (base.sha1(username + "|" + latStr + "|" + lonStr + "|" + action + "|" + base.md5("carnero: developing your dreams"))).toLowerCase());
-					base.request(host, path, method, params, false, false);
+					base.request(host, path, method, params, false, false, false);
 
 					lastLocated = System.currentTimeMillis();
 				}
