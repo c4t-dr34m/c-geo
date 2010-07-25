@@ -382,24 +382,24 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public void onDestroy() {
 		if (adapter != null) adapter = null;
-		if (geo != null) geo = app.removeGeo(geo);
 		if (dir != null) dir = app.removeDir(dir);
+		if (geo != null) geo = app.removeGeo(geo);
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo(geo);
 		if (dir != null) dir = app.removeDir(dir);
+		if (geo != null) geo = app.removeGeo(geo);
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo(geo);
 		if (dir != null) dir = app.removeDir(dir);
+		if (geo != null) geo = app.removeGeo(geo);
 
 		super.onPause();
 	}
@@ -948,8 +948,8 @@ public class cgeocaches extends ListActivity {
 
 		@Override
 		public void run() {
-			if (geo != null) geo = app.removeGeo(geo);
 			if (dir != null) dir = app.removeDir(dir);
+			if (geo != null) geo = app.removeGeo(geo);
 			
             ArrayList<cgCache> caches = app.getCaches(searchId);
 

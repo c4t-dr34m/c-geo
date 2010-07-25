@@ -252,8 +252,12 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.75.2</b> (__.07.2010)\n
+		<b>0.75.3</b> (__.07.2010)\n
+		· fixed: __\n
+		\n
+		<b>0.75.2</b> (25.07.2010)\n
 		· fixed: Checking login\n
+		· fixed: Twitter\n
 		\n
 		<b>0.75.1</b> (24.07.2010)\n
 		· fixed: Logging visit\n

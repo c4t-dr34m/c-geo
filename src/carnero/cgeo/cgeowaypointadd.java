@@ -209,18 +209,18 @@ public class cgeowaypointadd extends Activity {
 	private class coordsListener implements View.OnClickListener {
 		public void onClick(View arg0) {
 			// find caches by coordinates
-            String name = ((EditText)findViewById(R.id.name)).getText().toString();
-			String latText = ((EditText)findViewById(R.id.latitude)).getText().toString();
-			String lonText = ((EditText)findViewById(R.id.longitude)).getText().toString();
-            String note = ((EditText)findViewById(R.id.note)).getText().toString();
+            final String name = ((EditText)findViewById(R.id.name)).getText().toString();
+			final String latText = ((EditText)findViewById(R.id.latitude)).getText().toString();
+			final String lonText = ((EditText)findViewById(R.id.longitude)).getText().toString();
+            final String note = ((EditText)findViewById(R.id.note)).getText().toString();
 
 			if (latText == null || latText.length() == 0 || lonText == null || lonText.length() == 0) {
 				warning.helpDialog("need some help?", "Fill at least latitude and longitude. Use for example following format: \"N 50 03.480\" and \"E 14 23.324\".");
 				return;
 			}
 
-			HashMap latParsed = base.parseCoordinate(latText, "lat");
-			HashMap lonParsed = base.parseCoordinate(lonText, "lon");
+			final HashMap latParsed = base.parseCoordinate(latText, "lat");
+			final HashMap lonParsed = base.parseCoordinate(lonText, "lon");
 
 			if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
 				warning.showToast("Sorry, c:geo can\'t parse latitude.");
@@ -232,7 +232,7 @@ public class cgeowaypointadd extends Activity {
 				return;
 			}
 
-            cgWaypoint waypoint = new cgWaypoint();
+            final cgWaypoint waypoint = new cgWaypoint();
             waypoint.type = type;
 			waypoint.geocode = geocode;
             waypoint.prefix = prefix;

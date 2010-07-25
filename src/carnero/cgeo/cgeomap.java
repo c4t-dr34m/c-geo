@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -341,14 +340,6 @@ public class cgeomap extends MapActivity {
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-	}
-
-	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
@@ -379,7 +370,6 @@ public class cgeomap extends MapActivity {
 		savePrefs();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
-
         if (mapView != null) mapView.destroyDrawingCache();
 
 		super.onStop();
@@ -387,12 +377,12 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public void onPause() {
+		if (dir != null) dir = app.removeDir(dir);
 		if (geo != null) geo = app.removeGeo(geo);
 
 		savePrefs();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
-
         if (mapView != null) mapView.destroyDrawingCache();
         
 		super.onPause();
@@ -400,6 +390,7 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public void onDestroy() {
+		if (dir != null) dir = app.removeDir(dir);
 		if (geo != null) geo = app.removeGeo(geo);
 
 		savePrefs();
@@ -1258,6 +1249,7 @@ public class cgeomap extends MapActivity {
 		@Override
 		public void run() {
 			if (geocodes == null || geocodes.isEmpty()) return;
+            if (dir != null) dir = app.removeDir(dir);
             if (geo != null) geo = app.removeGeo(geo);
 
 			Message msg = null;
