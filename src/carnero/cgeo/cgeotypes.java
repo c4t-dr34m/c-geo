@@ -68,7 +68,7 @@ public class cgeotypes extends Dialog {
 
 				oneAdd.setText(base.logTypes2.get(typeOne));
 				oneAdd.setClickable(true);
-				oneAdd.setOnTouchListener(new cgViewTouch(settings, oneAdd));
+				oneAdd.setOnTouchListener(new cgViewTouch(settings, oneAdd, 0));
 				oneAdd.setOnClickListener(new buttonListener(typeOne));
 				addList.addView(oneAddPre);
 			}

@@ -49,7 +49,7 @@ public class cgeoauth extends Activity {
 		public void handleMessage(Message msg) {
 			if (requestTokenDialog != null && requestTokenDialog.isShowing() == true) requestTokenDialog.dismiss();
 
-			startButton.setOnTouchListener(new cgViewTouch(settings, startButton));
+			startButton.setOnTouchListener(new cgViewTouch(settings, startButton, 0));
 			startButton.setOnClickListener(new startListener());
 			startButton.setClickable(true);
 
@@ -58,7 +58,7 @@ public class cgeoauth extends Activity {
 
 				pinEntry.setVisibility(View.VISIBLE);
 				pinEntryButton.setVisibility(View.VISIBLE);
-				pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton));
+				pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton, 0));
 				pinEntryButton.setOnClickListener(new confirmPINListener());
 			} else {
 				warning.showToast(res.getString(R.string.err_auth_initialize));
@@ -72,7 +72,7 @@ public class cgeoauth extends Activity {
 		public void handleMessage(Message msg) {
 			if (changeTokensDialog != null && changeTokensDialog.isShowing() == true) changeTokensDialog.dismiss();
 
-			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton));
+			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton, 0));
 			pinEntryButton.setOnClickListener(new confirmPINListener());
 			pinEntryButton.setClickable(true);
 
@@ -123,7 +123,7 @@ public class cgeoauth extends Activity {
 		OAtokenSecret = prefs.getString("temp-token-secret", null);
 
 		startButton.setClickable(true);
-		startButton.setOnTouchListener(new cgViewTouch(settings, startButton));
+		startButton.setOnTouchListener(new cgViewTouch(settings, startButton, 0));
 		startButton.setOnClickListener(new startListener());
 
 		if (OAtoken == null || OAtoken.length() == 0 || OAtokenSecret == null || OAtokenSecret.length() == 0) {
@@ -135,7 +135,7 @@ public class cgeoauth extends Activity {
 
 			pinEntry.setVisibility(View.VISIBLE);
 			pinEntryButton.setVisibility(View.VISIBLE);
-			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton));
+			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton, 0));
 			pinEntryButton.setOnClickListener(new confirmPINListener());
 		}
    }

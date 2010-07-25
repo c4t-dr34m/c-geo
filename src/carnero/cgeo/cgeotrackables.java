@@ -56,7 +56,7 @@ public class cgeotrackables extends Activity {
 							oneTb.setText("some trackable");
 						}
 						oneTb.setClickable(true);
-						oneTb.setOnTouchListener(new cgViewTouch(settings, oneTb));
+						oneTb.setOnTouchListener(new cgViewTouch(settings, oneTb, 0));
 						oneTb.setOnClickListener(new buttonListener(trackable.guid, trackable.geocode, trackable.name));
 						addList.addView(oneTbPre);
 					}

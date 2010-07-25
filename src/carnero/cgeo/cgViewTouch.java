@@ -8,10 +8,12 @@ public class cgViewTouch implements View.OnTouchListener {
 	private cgSettings settings = null;
 	private View view = null;
 	private Drawable bcg = null;
+	private int type = 0;
 
-	public cgViewTouch(cgSettings settingsIn, View viewIn) {
+	public cgViewTouch(cgSettings settingsIn, View viewIn, int typeIn) {
 		settings = settingsIn;
 		view = viewIn;
+		type = typeIn;
 		bcg = view.getBackground();
 	}
 
@@ -19,7 +21,13 @@ public class cgViewTouch implements View.OnTouchListener {
 		if (view == null) return false;
 
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			view.setBackgroundResource(settings.buttonPressed);
+			if (type == 0) {
+				view.setBackgroundResource(settings.buttonPressed);
+			} else
+			if (type == 1) {
+				if (settings.skin == 1) view.setBackgroundResource(R.color.background_light);
+				else view.setBackgroundResource(R.color.background_dark);
+			}
 		}
 
 		if (event.getAction() == MotionEvent.ACTION_UP ||

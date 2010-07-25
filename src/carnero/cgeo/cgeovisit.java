@@ -66,7 +66,7 @@ public class cgeovisit extends Activity {
 
 			Button buttonPost = (Button)findViewById(R.id.post);
 			buttonPost.setClickable(true);
-			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost));
+			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost, 0));
 			buttonPost.setOnClickListener(new postListener());
 			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
 			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);
@@ -217,13 +217,13 @@ public class cgeovisit extends Activity {
 		Button typeButton = (Button)findViewById(R.id.type);
 		typeButton.setText(base.logTypes2.get(typeSelected));
 		typeButton.setClickable(true);
-		typeButton.setOnTouchListener(new cgViewTouch(settings, typeButton));
+		typeButton.setOnTouchListener(new cgViewTouch(settings, typeButton, 0));
 		typeButton.setOnClickListener(new cgeovisitTypeListener());
 
 		Button dateButton = (Button)findViewById(R.id.date);
 		dateButton.setText(base.dateOutShort.format(date.getTime()));
 		dateButton.setClickable(true);
-		dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton));
+		dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton, 0));
 		dateButton.setOnClickListener(new cgeovisitDateListener());
 
 		Button buttonPost = (Button)findViewById(R.id.post);
@@ -239,7 +239,7 @@ public class cgeovisit extends Activity {
 			thread.start();
 		} else {
 			buttonPost.setClickable(true);
-			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost));
+			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost, 0));
 			buttonPost.setOnClickListener(new postListener());
 			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
 			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);

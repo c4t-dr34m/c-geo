@@ -5,7 +5,7 @@
 		android:layout_height="fill_parent"
 		android:layout_gravity="center"
 		android:gravity="center"
-		android:padding="6dip"
+		android:padding="8dip"
 		android:lines="1"
 		android:singleLine="true"
 		android:scrollHorizontally="true"

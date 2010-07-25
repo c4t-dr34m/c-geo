@@ -144,7 +144,7 @@ public class cgeoinit extends Activity {
 
 		Button logMeIn = (Button)findViewById(R.id.log_me_in);
 		logMeIn.setClickable(true);
-		logMeIn.setOnTouchListener(new cgViewTouch(settings, logMeIn));
+		logMeIn.setOnTouchListener(new cgViewTouch(settings, logMeIn, 0));
 		logMeIn.setOnClickListener(new logIn());
 
 		TextView legalNote = (TextView)findViewById(R.id.legal_note);
@@ -173,7 +173,7 @@ public class cgeoinit extends Activity {
 
 		Button authorizeTwitter = (Button)findViewById(R.id.authorize_twitter);
 		authorizeTwitter.setClickable(true);
-		authorizeTwitter.setOnTouchListener(new cgViewTouch(settings, authorizeTwitter));
+		authorizeTwitter.setOnTouchListener(new cgViewTouch(settings, authorizeTwitter, 0));
 		authorizeTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 				Intent authIntent = new Intent(activity, cgeoauth.class);

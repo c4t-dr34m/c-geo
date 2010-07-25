@@ -288,7 +288,7 @@ public class cgeopopup extends Activity {
 
 				Button buttonMore = (Button)findViewById(R.id.more_details);
 				buttonMore.setClickable(true);
-				buttonMore.setOnTouchListener(new cgViewTouch(settings, buttonMore));
+				buttonMore.setOnTouchListener(new cgViewTouch(settings, buttonMore, 0));
 				buttonMore.setOnClickListener(new OnClickListener() {
 					public void onClick(View arg0) {
 						Intent cachesIntent = new Intent(activity, cgeodetail.class);
@@ -331,12 +331,12 @@ public class cgeopopup extends Activity {
 
 					offlineRefresh.setVisibility(View.VISIBLE);
 					offlineRefresh.setClickable(true);
-					offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh));
+					offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh, 0));
 					offlineRefresh.setOnClickListener(new storeCache());
 
 					offlineStore.setText("drop");
 					offlineStore.setClickable(true);
-					offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore));
+					offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
 					offlineStore.setOnClickListener(new dropCache());
 				} else {
 					offlineText.setText("not ready\nfor offline use");
@@ -348,7 +348,7 @@ public class cgeopopup extends Activity {
 
 					offlineStore.setText("store");
 					offlineStore.setClickable(true);
-					offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore));
+					offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
 					offlineStore.setOnClickListener(new storeCache());
 				}
 			} else {
@@ -363,13 +363,13 @@ public class cgeopopup extends Activity {
 
 			Button buttonCompass = (Button)findViewById(R.id.compass);
 			buttonCompass.setClickable(true);
-			buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass));
+			buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass, 0));
 			buttonCompass.setOnClickListener(new navigateToListener(cache.latitude, cache.longitude, cache.name, ""));
 
 			Button buttonRadar = (Button)findViewById(R.id.radar);
 			if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				buttonRadar.setClickable(true);
-				buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar));
+				buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar, 0));
 				buttonRadar.setOnClickListener(new radarToListener(cache.latitude, cache.longitude));
 			} else {
 				buttonRadar.setBackgroundResource(settings.buttonInactive);
@@ -377,7 +377,7 @@ public class cgeopopup extends Activity {
 
 			Button buttonTurn = (Button)findViewById(R.id.turn);
 			buttonTurn.setClickable(true);
-			buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn));
+			buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn, 0));
 			buttonTurn.setOnClickListener(new turnToListener(cache.latitude, cache.longitude));
 		} else {
 			((LinearLayout)findViewById(R.id.navigation_part)).setVisibility(View.GONE);

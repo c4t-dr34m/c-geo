@@ -66,7 +66,7 @@ public class cgeoaddresses extends Activity {
 
 						oneAdd.setText(allAdd.toString());
 						oneAdd.setClickable(true);
-						oneAdd.setOnTouchListener(new cgViewTouch(settings, oneAdd));
+						oneAdd.setOnTouchListener(new cgViewTouch(settings, oneAdd, 0));
 						oneAdd.setOnClickListener(new buttonListener(address.getLatitude(), address.getLongitude(), allAddLine.toString()));
 						addList.addView(oneAddPre);
 					}

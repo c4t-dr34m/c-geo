@@ -85,22 +85,22 @@ public class cgeopoint extends Activity {
 
 		Button buttonCurrent = (Button)findViewById(R.id.current);
 		buttonCurrent.setClickable(true);
-		buttonCurrent.setOnTouchListener(new cgViewTouch(settings, buttonCurrent));
+		buttonCurrent.setOnTouchListener(new cgViewTouch(settings, buttonCurrent, 0));
 		buttonCurrent.setOnClickListener(new currentListener());
 
 		Button buttonCompass = (Button)findViewById(R.id.compass);
 		buttonCompass.setClickable(true);
-		buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass));
+		buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass, 0));
 		buttonCompass.setOnClickListener(new compassListener());
 
 		Button buttonRadar = (Button)findViewById(R.id.radar);
 		buttonRadar.setClickable(true);
-		buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar));
+		buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar, 0));
 		buttonRadar.setOnClickListener(new radarListener());
 
 		Button buttonTurn = (Button)findViewById(R.id.turn);
 		buttonTurn.setClickable(true);
-		buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn));
+		buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn, 0));
 		buttonTurn.setOnClickListener(new turnListener());
 	}
 

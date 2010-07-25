@@ -155,49 +155,49 @@ public class cgeoadvsearch extends Activity {
 
 		final Button findByCoords = (Button)findViewById(R.id.search_coordinates);
 		findByCoords.setClickable(true);
-		findByCoords.setOnTouchListener(new cgViewTouch(settings, findByCoords));
+		findByCoords.setOnTouchListener(new cgViewTouch(settings, findByCoords, 0));
 		findByCoords.setOnClickListener(new findByCoordsListener());
 
 		((EditText)findViewById(R.id.address)).setOnEditorActionListener(new findByAddressAction());
 
 		final Button findByAddress = (Button)findViewById(R.id.search_address);
 		findByAddress.setClickable(true);
-		findByAddress.setOnTouchListener(new cgViewTouch(settings, findByAddress));
+		findByAddress.setOnTouchListener(new cgViewTouch(settings, findByAddress, 0));
 		findByAddress.setOnClickListener(new findByAddressListener());
 
 		((EditText)findViewById(R.id.geocode)).setOnEditorActionListener(new findByGeocodeAction());
 
 		final Button displayByGeocode = (Button)findViewById(R.id.display_geocode);
 		displayByGeocode.setClickable(true);
-		displayByGeocode.setOnTouchListener(new cgViewTouch(settings, displayByGeocode));
+		displayByGeocode.setOnTouchListener(new cgViewTouch(settings, displayByGeocode, 0));
 		displayByGeocode.setOnClickListener(new findByGeocodeListener());
 
 		((EditText)findViewById(R.id.keyword)).setOnEditorActionListener(new findByKeywordAction());
 
 		final Button findByKeyword = (Button)findViewById(R.id.search_keyword);
 		findByKeyword.setClickable(true);
-		findByKeyword.setOnTouchListener(new cgViewTouch(settings, findByKeyword));
+		findByKeyword.setOnTouchListener(new cgViewTouch(settings, findByKeyword, 0));
 		findByKeyword.setOnClickListener(new findByKeywordListener());
 
 		((EditText)findViewById(R.id.username)).setOnEditorActionListener(new findByUsernameAction());
 
 		final Button findByUserName = (Button)findViewById(R.id.search_username);
 		findByUserName.setClickable(true);
-		findByUserName.setOnTouchListener(new cgViewTouch(settings, findByUserName));
+		findByUserName.setOnTouchListener(new cgViewTouch(settings, findByUserName, 0));
 		findByUserName.setOnClickListener(new findByUsernameListener());
 
 		((EditText)findViewById(R.id.owner)).setOnEditorActionListener(new findByOwnerAction());
 
 		final Button findByOwner = (Button)findViewById(R.id.search_owner);
 		findByOwner.setClickable(true);
-		findByOwner.setOnTouchListener(new cgViewTouch(settings, findByOwner));
+		findByOwner.setOnTouchListener(new cgViewTouch(settings, findByOwner, 0));
 		findByOwner.setOnClickListener(new findByOwnerListener());
 
 		((EditText)findViewById(R.id.trackable)).setOnEditorActionListener(new findTrackableAction());
 
 		final Button displayTrackable = (Button)findViewById(R.id.display_trackable);
 		displayTrackable.setClickable(true);
-		displayTrackable.setOnTouchListener(new cgViewTouch(settings, displayTrackable));
+		displayTrackable.setOnTouchListener(new cgViewTouch(settings, displayTrackable, 0));
 		displayTrackable.setOnClickListener(new findTrackableListener());
 	}
 

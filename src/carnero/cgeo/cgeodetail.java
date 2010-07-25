@@ -650,12 +650,12 @@ public class cgeodetail extends Activity {
 
 				offlineRefresh.setVisibility(View.VISIBLE);
                 offlineRefresh.setClickable(true);
-                offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh));
+                offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh, 0));
                 offlineRefresh.setOnClickListener(new storeCache());
 
                 offlineStore.setText(res.getString(R.string.cache_offline_drop));
                 offlineStore.setClickable(true);
-                offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore));
+                offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
                 offlineStore.setOnClickListener(new dropCache());
             } else {
     			offlineText.setText(res.getString(R.string.cache_offline_not_ready));
@@ -667,7 +667,7 @@ public class cgeodetail extends Activity {
 
                 offlineStore.setText(res.getString(R.string.cache_offline_store));
                 offlineStore.setClickable(true);
-                offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore));
+                offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
                 offlineStore.setOnClickListener(new storeCache());
             }
 
@@ -705,7 +705,7 @@ public class cgeodetail extends Activity {
                 
                 Button showDesc = (Button)findViewById(R.id.show_description);
                 showDesc.setVisibility(View.VISIBLE);
-                showDesc.setOnTouchListener(new cgViewTouch(settings, showDesc));
+                showDesc.setOnTouchListener(new cgViewTouch(settings, showDesc, 0));
                 showDesc.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View arg0) {
                         loadLongDesc();
@@ -739,7 +739,7 @@ public class cgeodetail extends Activity {
 
             Button addWaypoint = (Button)findViewById(R.id.add_waypoint);
             addWaypoint.setClickable(true);
-            addWaypoint.setOnTouchListener(new cgViewTouch(settings, addWaypoint));
+            addWaypoint.setOnTouchListener(new cgViewTouch(settings, addWaypoint, 0));
             addWaypoint.setOnClickListener(new addWaypoint());
 
 			// cache hint

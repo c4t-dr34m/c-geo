@@ -58,18 +58,18 @@ public class cgeowaypoint extends Activity {
 					if (waypoint.latitude != null && waypoint.longitude != null) {
 						Button buttonMap = (Button)findViewById(R.id.map);
 						buttonMap.setClickable(true);
-						buttonMap.setOnTouchListener(new cgViewTouch(settings, buttonMap));
+						buttonMap.setOnTouchListener(new cgViewTouch(settings, buttonMap, 0));
 						buttonMap.setOnClickListener(new mapToListener(waypoint.latitude, waypoint.longitude));
 
 						Button buttonCompass = (Button)findViewById(R.id.compass);
 						buttonCompass.setClickable(true);
-						buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass));
+						buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass, 0));
 						buttonCompass.setOnClickListener(new navigateToListener(waypoint.latitude, waypoint.longitude, waypoint.name, ""));
 
 						Button buttonRadar = (Button)findViewById(R.id.radar);
 						if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 							buttonRadar.setClickable(true);
-							buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar));
+							buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar, 0));
 							buttonRadar.setOnClickListener(new radarToListener(waypoint.latitude, waypoint.longitude));
 						} else {
 							buttonRadar.setVisibility(View.GONE);
@@ -77,7 +77,7 @@ public class cgeowaypoint extends Activity {
 
 						Button buttonTurn = (Button)findViewById(R.id.turn);
 						buttonTurn.setClickable(true);
-						buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn));
+						buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn, 0));
 						buttonTurn.setOnClickListener(new turnToListener(waypoint.latitude, waypoint.longitude));
 
 						navigationPart.setVisibility(View.VISIBLE);
@@ -85,13 +85,13 @@ public class cgeowaypoint extends Activity {
 
 					Button buttonEdit = (Button)findViewById(R.id.edit);
 					buttonEdit.setClickable(true);
-					buttonEdit.setOnTouchListener(new cgViewTouch(settings, buttonEdit));
+					buttonEdit.setOnTouchListener(new cgViewTouch(settings, buttonEdit, 0));
 					buttonEdit.setOnClickListener(new editWaypointListener(waypoint.id));
 
 					Button buttonDelete = (Button)findViewById(R.id.delete);
 					if (waypoint.type != null && waypoint.type.equalsIgnoreCase("own") == true) {
 						buttonDelete.setClickable(true);
-						buttonDelete.setOnTouchListener(new cgViewTouch(settings, buttonDelete));
+						buttonDelete.setOnTouchListener(new cgViewTouch(settings, buttonDelete, 0));
 						buttonDelete.setOnClickListener(new deleteWaypointListener(waypoint.id));
 						buttonDelete.setVisibility(View.VISIBLE);
 					}
