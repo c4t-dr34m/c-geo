@@ -19,19 +19,31 @@
 					android:layout_height="fill_parent"
 					android:layout_marginBottom="10dip"
 					android:orientation="vertical" >
-				<TextView
-						android:layout_width="wrap_content"
+				<RelativeLayout
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:layout_alignParentRight="true"
-						android:layout_gravity="right|top"
-						android:layout_marginTop="10dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:text="coordinates" />
+						android:layout_marginTop="2dip"
+						android:layout_marginBottom="2dip" >
+					<View
+							android:layout_width="fill_parent"
+							android:layout_height="1dip"
+							android:layout_centerInParent="true"
+							android:background="@color/separator_light" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_marginLeft="15dip"
+							android:padding="3dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:ellipsize="marquee"
+							android:textSize="22dip"
+							android:textColor="@color/text_headline_light"
+							android:background="@color/background_light"
+							android:text="coordinates" />
+				</RelativeLayout>
 				<EditText
 						android:id="@+id/latitude"
 						android:hint="latitude"
@@ -85,19 +97,31 @@
 						android:text="search by coordinates"
 						android:background="@drawable/action_button_light" />
 <!-- ** -->
-				<TextView
-						android:layout_width="wrap_content"
+				<RelativeLayout
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:layout_alignParentRight="true"
-						android:layout_gravity="right|top"
-						android:layout_marginTop="10dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:text="address" />
+						android:layout_marginTop="2dip"
+						android:layout_marginBottom="2dip" >
+					<View
+							android:layout_width="fill_parent"
+							android:layout_height="1dip"
+							android:layout_centerInParent="true"
+							android:background="@color/separator_light" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_marginLeft="15dip"
+							android:padding="3dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:ellipsize="marquee"
+							android:textSize="22dip"
+							android:textColor="@color/text_headline_light"
+							android:background="@color/background_light"
+							android:text="address" />
+				</RelativeLayout>
 				<EditText
 						android:id="@+id/address"
 						android:hint="address"
@@ -132,19 +156,31 @@
 						android:text="search by address"
 						android:background="@drawable/action_button_light" />
 <!-- ** -->
-				<TextView
-						android:layout_width="wrap_content"
+				<RelativeLayout
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:layout_alignParentRight="true"
-						android:layout_gravity="right|top"
-						android:layout_marginTop="10dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:text="geocode" />
+						android:layout_marginTop="2dip"
+						android:layout_marginBottom="2dip" >
+					<View
+							android:layout_width="fill_parent"
+							android:layout_height="1dip"
+							android:layout_centerInParent="true"
+							android:background="@color/separator_light" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_marginLeft="15dip"
+							android:padding="3dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:ellipsize="marquee"
+							android:textSize="22dip"
+							android:textColor="@color/text_headline_light"
+							android:background="@color/background_light"
+							android:text="geocode" />
+				</RelativeLayout>
 				<EditText
 						android:id="@+id/geocode"
 						android:hint="geocode"
@@ -180,19 +216,31 @@
 						android:text="search by geocode"
 						android:background="@drawable/action_button_light" />
 <!-- ** -->
-				<TextView
-						android:layout_width="wrap_content"
+				<RelativeLayout
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:layout_alignParentRight="true"
-						android:layout_gravity="right|top"
-						android:layout_marginTop="10dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:text="keyword" />
+						android:layout_marginTop="2dip"
+						android:layout_marginBottom="2dip" >
+					<View
+							android:layout_width="fill_parent"
+							android:layout_height="1dip"
+							android:layout_centerInParent="true"
+							android:background="@color/separator_light" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_marginLeft="15dip"
+							android:padding="3dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:ellipsize="marquee"
+							android:textSize="22dip"
+							android:textColor="@color/text_headline_light"
+							android:background="@color/background_light"
+							android:text="keywords" />
+				</RelativeLayout>
 				<EditText
 						android:id="@+id/keyword"
 						android:hint="keyword"
@@ -227,19 +275,31 @@
 						android:text="search by keyword"
 						android:background="@drawable/action_button_light" />
 <!-- ** -->
-				<TextView
-						android:layout_width="wrap_content"
+				<RelativeLayout
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:layout_alignParentRight="true"
-						android:layout_gravity="right|top"
-						android:layout_marginTop="10dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:text="found by" />
+						android:layout_marginTop="2dip"
+						android:layout_marginBottom="2dip" >
+					<View
+							android:layout_width="fill_parent"
+							android:layout_height="1dip"
+							android:layout_centerInParent="true"
+							android:background="@color/separator_light" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_marginLeft="15dip"
+							android:padding="3dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:ellipsize="marquee"
+							android:textSize="22dip"
+							android:textColor="@color/text_headline_light"
+							android:background="@color/background_light"
+							android:text="found by user" />
+				</RelativeLayout>
 				<EditText
 						android:id="@+id/username"
 						android:hint="user name"
@@ -274,19 +334,31 @@
 						android:text="search by user name"
 						android:background="@drawable/action_button_light" />
 <!-- ** -->
-				<TextView
-						android:layout_width="wrap_content"
+				<RelativeLayout
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:layout_alignParentRight="true"
-						android:layout_gravity="right|top"
-						android:layout_marginTop="10dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:text="cache owner" />
+						android:layout_marginTop="2dip"
+						android:layout_marginBottom="2dip" >
+					<View
+							android:layout_width="fill_parent"
+							android:layout_height="1dip"
+							android:layout_centerInParent="true"
+							android:background="@color/separator_light" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_marginLeft="15dip"
+							android:padding="3dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:ellipsize="marquee"
+							android:textSize="22dip"
+							android:textColor="@color/text_headline_light"
+							android:background="@color/background_light"
+							android:text="hidden by user" />
+				</RelativeLayout>
 				<EditText
 						android:id="@+id/owner"
 						android:hint="owner"
@@ -321,19 +393,31 @@
 						android:text="search by owner name"
 						android:background="@drawable/action_button_light" />
 <!-- ** -->
-				<TextView
-						android:layout_width="wrap_content"
+				<RelativeLayout
+						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
-						android:layout_alignParentRight="true"
-						android:layout_gravity="right|top"
-						android:layout_marginTop="10dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:text="trackable" />
+						android:layout_marginTop="2dip"
+						android:layout_marginBottom="2dip" >
+					<View
+							android:layout_width="fill_parent"
+							android:layout_height="1dip"
+							android:layout_centerInParent="true"
+							android:background="@color/separator_light" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_marginLeft="15dip"
+							android:padding="3dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:ellipsize="marquee"
+							android:textSize="22dip"
+							android:textColor="@color/text_headline_light"
+							android:background="@color/background_light"
+							android:text="trackable" />
+				</RelativeLayout>
 				<EditText
 						android:id="@+id/trackable"
 						android:hint="trackable identification"

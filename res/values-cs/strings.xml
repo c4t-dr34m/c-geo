@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">c:geo</string>
+    <string name="app_name_compass">c:geo kompas</string>
+
+	<!-- basics -->
+	<string name="cache">keš</string>
+	<string name="search">vyhledávání</string>
+	<string name="settings">nastavení</string>
+	<string name="about">o aplikaci</string>
+
+	<!-- caches -->
+	<string name="all">všechny kešky</string>
+	<string name="traditional">tradiční keš</string>
+	<string name="multi">multi-keš</string>
+	<string name="mystery">neznámá keš</string>
+	<string name="letterbox">dopisní schránka</string>
+	<string name="event">událost</string>
+	<string name="mega">mega-událost</string>
+	<string name="earth">earthcache</string>
+	<string name="cito">událost cache in trash out</string>
+	<string name="webcam">webcam keš</string>
+	<string name="virtual">virtuální keš</string>
+	<string name="wherigo">wherigo keš</string>
+	<string name="lostfound">ztraceno a nalezeno</string>
+	<string name="ape">keš projektu ape</string>
+	<string name="gchq">ústředí groundspeaku</string>
+	<string name="gps">gps cache exhibit</string>
+
+	<!-- waypoints -->
+	<string name="wp_final">cíl</string>
+	<string name="wp_stage">část multi-keše</string>
+	<string name="wp_puzzle">otázka</string>
+	<string name="wp_pkg">parkoviště</string>
+	<string name="wp_trailhead">rozcestník</string>
+	<string name="wp_waypoint">referenční bod</string>
+
+	<!-- logs -->
+	<string name="log_found">nález</string>
+	<string name="log_dnf">nenalezeno</string>
+	<string name="log_note">poznámka</string>
+	<string name="log_published">zveřejněno</string>
+	<string name="log_enabled">aktivováno</string>
+	<string name="log_disabled">deaktivováno</string>
+	<string name="log_needs">požadavek na údržbu</string>
+	<string name="log_maintenance">údržba</string>
+	<string name="log_update">změna souřadnic</string>
+	<string name="log_archived">archivace</string>
+	<string name="log_review">poznámka kontroly</string>
+
+	<!-- new logs -->
+	<string name="log_new_found">nalezeno</string>
+	<string name="log_new_dnf">nenalezeno</string>
+	<string name="log_new_note">poznámka</string>
+	<string name="log_new_archive">vyžaduje archivaci</string>
+	<string name="log_new_attend">zůčastním se</string>
+	<string name="log_new_attended">zůčastnil jsem se</string>
+	<string name="log_new_webcam">vyfocen webkamerou</string>
+	<string name="log_new_maintenance">vyžaduje údržbu</string>
+
+	<!-- errors -->
+	<string name="err_none">ok</string>
+	<string name="err_start">komunikace nezačala</string>
+	<string name="err_parse">selhalo čtení logovací stránky</string>
+	<string name="err_server">selhalo připojení k serveru geocaching.com (server umřel?)</string>
+	<string name="err_login">nejsou uložené žádné přihlašovací údaje</string>
+	<string name="err_unknown">nastala neznámá chyba</string>
+	<string name="err_comm">nastala neznámá chyba při komunikaci</string>
+	<string name="err_wrong">uložené přihlašovací údaje jsou špatné</string>
+	<string name="err_license">uživatel nepotvrdil souhlas s licenčním ujednáním serveru Geocaching.com</string>
+	<string name="err_title_problem">problém</string>
+	<string name="err_detail_open">c:geo nedokáže načíst detaily keše.</string>
+	<string name="err_detail_cache">c:geo nedokáže načíst detaily keše. Je to opravdu keš?</string>
+	<string name="err_detail_cache_find">c:geo nemůže najít keš.</string>
+	<string name="err_detail_cache_find_some">c:geo nemůže najít požadovanou keš.</string>
+	<string name="err_detail_cache_forgot">c:geo zapomnělo, jakou keš chcete zobrazit.</string>
+	<string name="err_detail_cache_language">c:geo nemůže přečíst některé detaily. Prosím zkontrolujte, zda máte web Geocaching.com nastavený na anglický jazyk. c:geo zatím bohužel nedokáže přečíst jiné jazyky.</string>
+	<string name="err_detail_no_spoiler">c:geo nenašlo žádný obrázek pro tuto keš</string>
+	<string name="err_detail_no_map_static">c:geo nenašlo žádnou statickou mapu pro tuto keš</string>
+	<string name="err_detail_still_removing">Ještě odstraňuji keš.</string>
+	<string name="err_detail_still_saving">Ještě ukládám keš.</string>
+	<string name="err_radar_title">Radar není nainstalován.</string>
+	<string name="err_radar_message">Tato funkce vyžaduje aplikaci Radar. Chcete ji nainstalovat?</string>
+	<string name="err_radar_market">c:geo nedokáže spustit Androdid Market a vyhledat aplikaci Radar.</string>
+	<string name="err_radar_generic">c:geo nedokáže spustit aplikaci Radar. Je nainstalovaná?</string>
+	<string name="err_navigation_no">c:geo nemůže najíž žádnou podporovanou navigaci.</string>
+	<string name="err_application_no">c:geo nemůže najít žádnou použitelnou aplikaci.</string>
+	<string name="err_auth_initialize">c:geo nedokázalo zahájit autorizaci.</string>
+	<string name="err_auth_process">Autorizace selhala.</string>
+
+	<!-- location service -->
+	<string name="loc_last">poslední známá</string>
+	<string name="loc_net">síť</string>
+	<string name="loc_gps">gps</string>
+	<string name="loc_sat">sat</string>
+	<string name="loc_trying">zjišťuji pozici</string>
+
+	<!-- standard menu -->
+	<string name="menu_about">o aplikaci</string>
+	<string name="menu_settings">nastavení</string>
+	<string name="menu_any_destination">libovolný cíl</string>
+
+	<!-- main screen -->
+	<string name="live_map_button">živá mapa</string>
+	<string name="caches_nearby_button">nejbližší</string>
+	<string name="advanced_search_button">hledání</string>
+	<string name="stored_caches_button">uložené</string>
+	<string name="about_button">o aplikaci</string>
+	<string name="settings_button">nastavení</string>
+	<string name="type">typ</string>
+	<string name="now_searching">vyhledávám</string>
+
+	<!-- caches -->
+	<string name="caches_no_cache">žádná keš</string>
+	<string name="caches_more_caches">další keše</string>
+	<string name="caches_more_caches_no">žádné další keše</string>
+
+	<!-- about -->
+	<string name="about_changelog">změny</string>
+
+	<!-- init -->
+	<string name="init_geocaching">geocaching.com</string>
+	<string name="init_go4cache">go 4 cache</string>
+	<string name="init_twitter">twitter</string>
+	<string name="init_username">uživatelské heslo</string>
+	<string name="init_password">heslo</string>
+	<string name="init_login">zkontrolovat</string>
+	<string name="init_legal">poznámka</string>
+	<string name="init_go4cache_connect">připojit k go 4 cache</string>
+	<string name="init_twitter_authorize">autorizovat c:geo</string>
+	<string name="init_twitter_publish">nový status při nálezu keše</string>
+	<string name="init_other">další možnosti</string>
+	<string name="init_skin">světlý skin (vyžaduje restart)</string>
+	<string name="init_exclude">nezobrazovat vlastní a nalezené keše</string>
+	<string name="init_disabled">nezobrazovat zrušené keše</string>
+	<string name="init_offline">ukládat mapy pro offline použití</string>
+	<string name="init_units">používat imperiální jednotky vzdálenosti</string>
+	<string name="init_nav">používat Google Navigation</string>
+	<string name="init_directoryimg">nezobrazovat stažené obrázky v galerii</string>
+	<string name="init_autoload">automaticky stahovat dlouhé popisy</string>
+	<string name="init_livelist">zobrazovat směr v seznamu keší</string>
+	<string name="init_browser">tvářit se jako běžný webový  prohlížeč</string>
+
+	<!-- auth -->
+	<string name="auth_twitter">twitter</string>
+	<string name="auth_authorize">autorizovat c:geo</string>
+	<string name="auth_start">zahájit autorizaci</string>
+	<string name="auth_again">znovu autorizovat</string>
+	<string name="auth_pin_hint">pin přidělený twitterem</string>
+	<string name="auth_finish">dokončit</string>
+	<string name="auth_dialog_wait">Čekám na Twitter...</string>
+	<string name="auth_dialog_pin_title">pin kód</string>
+	<string name="auth_dialog_pin_message">Prosím, napište PIN kód který Vám byl přidelen Twitterem. Je potřeba pro dokončení autorizace.</string>
+	<string name="auth_dialog_completed">c:geo nyní může posílat zprávy na Váš Twitter.</string>
+
+	<!-- cache -->
+	<string name="cache_count_no">žádná keš</string>
+	<string name="cache_count_one">jedna keš</string>
+	<string name="cache_count_more">keší</string>
+	<string name="cache_offline">offline</string>
+	<string name="cache_offline_refresh">obnovit</string>
+	<string name="cache_offline_drop">smazat</string>
+	<string name="cache_offline_store">uložit</string>
+	<string name="cache_offline_stored">uložena v zařízení</string>
+	<string name="cache_offline_not_ready">není připravena\npro použití offline</string>
+	<string name="cache_offline_time_about">přibližně před</string>
+	<string name="cache_offline_time_mins"> minutami</string>
+	<string name="cache_offline_time_mins_few">několika minutami</string>
+	<string name="cache_offline_time_hour">jednou hodinou</string>
+	<string name="cache_offline_time_hours">hodinami</string>
+	<string name="cache_offline_time_days">dny</string>
+	<string name="cache_attributes">atributy</string>
+	<string name="cache_inventory">inventář</string>
+	<string name="cache_description">popis</string>
+	<string name="cache_description_long">dlouhý popis</string>
+	<string name="cache_waypoints">waypointy</string>
+	<string name="cache_waypoints_add">přidat waypoint</string>
+	<string name="cache_hint">nápověda</string>
+	<string name="cache_logs">logbook</string>
+	<string name="cache_dialog_loading_details">načítám detaily keše...</string>
+	<string name="cache_dialog_loading_description">načítám popis keše...</string>
+	<string name="cache_dialog_offline_save_title">offline</string>
+	<string name="cache_dialog_offline_save_message">Ukládám keš pro použití offline...</string>
+	<string name="cache_dialog_offline_drop_title">offline</string>
+	<string name="cache_dialog_offline_drop_message">Odstraňuji keš z paměti zařízení...</string>
+	<string name="cache_menu_navigate">navigovat</string>
+	<string name="cache_menu_compass">kompas</string>
+	<string name="cache_menu_tbt">turn-by-turn</string>
+	<string name="cache_menu_radar">radar</string>
+	<string name="cache_menu_map">zobrazit na mapě</string>
+	<string name="cache_menu_map_static">statické mapy</string>
+	<string name="cache_menu_browser">otevřít v prohlížečí</string>
+	<string name="cache_menu_visit">zapsat návštěvu</string>
+	<string name="cache_menu_spoilers">obrázky</string>
+	<string name="cache_status">status</string>
+	<string name="cache_status_found">nalezena</string>
+	<string name="cache_status_archived">archivována</string>
+	<string name="cache_status_disabled">zrušena</string>
+	<string name="cache_status_premium">pouze pro platící uživatele</string>
+	<string name="cache_distance">vzdálenost</string>
+	<string name="cache_difficulty">obtížnost</string>
+	<string name="cache_terrain">terén</string>
+	<string name="cache_owner">zakladatel</string>
+	<string name="cache_hidden">skryta</string>
+	<string name="cache_location">místo</string>
+	<string name="cache_coordinates">souřadnice</string>
+
+	<!-- waypoint -->
+	<string name="waypoint_custom">vlastní</string>
+
+	<!-- next things -->
+    <string name="legal_note">
+		Před používáním služeb serveru geocaching.com (a tato aplikace to dělá) je potřeba souhlasit s <a href="http://www.geocaching.com/about/disclaimer.aspx">licenčním ujednáním Groundspeaku</a>.
+	</string>
+    <string name="about_text">
+		Cílem <b>c:geo</b> je dát Vám jednoduchého klienta pro geocaching.com, který bude vždy připraven k použití. <b>c:geo</b> je a vždy bude zdarma.
+		Pokud chcete podpořit vývoj aplikace, můžete přispět libovolnou finanční částkou (pomocí odkazu na webu). Otázky? Návrhy? Použijte Facebook nebo pošlete e-mail.
+	</string>
+    <string name="author">
+		autor <a href="http://carnero.cc/">carnero</a>
+	</string>
+    <string name="support">
+		podpora <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a>
+	</string>
+    <string name="website">
+		web: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a>
+	</string>
+    <string name="facebook">
+		facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a>
+	</string>
+    <string name="twitter">
+		twitter: <a href="http://twitter.com/android_gc">@android_GC</a>
+	</string>
+	<string name="graphic">
+		grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a>
+	</string>
+    <string name="about_go4cache">
+		Služba <b>Go 4 cache</b> umožňuje sledovat v reálném čase ostatní kačery na mapě (v <b>c:geo</b> nebo v prohlížeči).
+		Můžete se tak podívat třeba na to, jakou kešku právě hledají. Připojením ke službě <b>Go 4 cache</b> umožníte aplikaci <b>c:geo</b>
+		zveřejňovat Vaši aktuální polohu (pouze pokud <b>c:geo</b> běží).
+	</string>
+    <string name="about_twitter">
+		Chcete aby <b>c:geo</b> napsalo na Váš Twitter pokaždé, když zapíšete nález kešky?
+	</string>
+	<string name="about_auth_1">
+		Pomocí následujícího procesu můžete aplikaci <b>c:geo</b> umožnit odesílání příspěvků na Váš Twitter.
+	</string>
+	<string name="about_auth_2">
+		Tapnutím na tlačítko "zahájit autorizaci" celý proces začne.
+		Tento proces otevře webovou stránku Twitteru, kde se budete muset přihlásit a tlačítkem Accept pak umožnit aplikaci <b>c:geo</b> přístup k Vašemu Twitteru.
+		Twitter Vám přidělí PIN kód pokud tapnete na Accept. Tento kód zkopírujte a vložte do aplikace <b>c:geo</b>. A potvrďte. To je vše.
+	</string>
+	<!-- changelog -->
+	<string name="changelog">
+		<b>0.75.2</b> (__.07.2010)\n
+		· fixed: Checking login\n
+		\n
+		<b>0.75.1</b> (24.07.2010)\n
+		· fixed: Logging visit\n
+		\n
+		<b>0.75.0</b> (23.07.2010)\n
+		· fixed: Cache list crashing\n
+		· fixed: 1.5 compatibility\n
+		\n
+		<b>0.74.7</b> (23.07.2010)\n
+		· fixed: Logging visit\n
+		· fixed: Map crashing\n
+		· fixed: Compass on QVGA screens\n
+		· fixed: Skins\n
+		· fixed: Trackable details\n
+		· fixed: Log text wrapping\n
+		· new: Main screen\n
+		· new: Static maps separated from details\n
+		\n
+		<b>0.74.4</b>, <b>0.74.5</b>, <b>0.74.6</b> (21.07.2010)\n
+		· fixed: Logging visit [attempt to]\n
+		· broken Twitter\n
+		\n
+		<b>0.74.3</b> (20.07.2010)\n
+		· fixed: Skins\n
+		\n
+		<b>0.74.2</b> (20.07.2010)\n
+		· fixed: Crashing of map and nearby\n
+		\n
+		<b>0.74.1</b> (19.07.2010)\n
+		· fixed: Adding waypoint\n
+		· fixed: Twitter authorization\n
+		\n
+		<b>0.74.0</b> (19.07.2010)\n
+		· new: Integration of go4cache.com\n
+		· new: Dark and light skin\n
+		· new: Ability to edit waypoints\n
+		· fixed: Live map optimization\n
+		\n
+		<b>0.73.0</b> (12.07.2010)\n
+		· notice: Following versions will be released in longer period after better testing to make c:geo as stable as possible.\n
+		· fixed: Crashing after start\n
+		\n
+		<b>0.72.2</b> (11.07.2010)\n
+		· new: Posting founds to twitter\n
+		· fixed: Running ot of memory  waypoints\n
+		\n
+		<b>0.72.1</b> (11.07.2010)\n
+		· fixed: Adding custom waypoints\n
+		\n
+		<b>0.72.0</b> (11.07.2010)\n
+		· new: Filtering caches on Live map\n
+		· new: Social feature (can be switched on in Settings!) :)\n
+		· fixed: Crashing of live map when tapped\n
+		· fixed: Multiplying of custom waypoints\n
+		· fixed: Memory consumption when storing caches\n
+		· removed: Clear cache button (cleared automatically)\n
+		\n
+		<b>0.71.4</b> (07.07.2010)\n
+		· fixed: Refreshing live map\n
+		· changed: Optimized database use\n
+		· new: Changelog in application\n
+		\n
+		<b>0.71.3</b> (02.07.2010)\n
+		· changed: Obtaining location from GPS and/or network\n
+		\n
+		<b>0.71.2</b> (01.07.2010)\n
+		· fixed: Form for posting log\n
+		· changed: The way how is refreshed distance&amp;direction info on caches list\n
+		\n
+		<b>0.71.1</b> (30.06.2010)\n
+		· fixed: Removed forgotten debug message\n
+		\n
+		· <b>0.71.0</b> (30.06.2010)\n
+		· new: Trail on map\n
+		· new: Option to disable compass on caches list\n
+		· fixed: Compensation of changes on Geocaching.com\n
+		· fixed: Saving state of map (satellite/classic, live...)\n
+		· fixed: Many other things\n
+		\n
+		<b>0.70.A</b> (24.06.2010)\n
+		· fixed: Posting log\n
+		\n
+		<b>0.70.9</b> (24.06.2010)\n
+		· change: Application icon\n
+		· new: High resolution icons by Jan Žatecký\n
+		· fixed: Crash when rotate during loggin visit\n
+		\n
+		<b>0.70.8</b> (23.06.2010)\n
+		· change: Application icon (removed colours of Geocaching.com)\n
+		· change: Reworked options\n
+		· new: Option to disable storing offline maps\n
+		· fixed: Offline maps\n
+		· fixed: Live map tapping [attempt]\n
+		\n
+		<b>0.70.7</b> (21.06.2010)\n
+		· fixed: Compilation (settings &amp; logs)\n
+		\n
+		<b>0.70.6</b> (20.06.2010)\n
+		· new: Maps for offline use\n
+		· fixed: Many minor things\n
+		\n
+		<b>0.70.4</b>, <b>0.70.5</b> (17.06.2010)\n
+		· change: Saving only caches that aren\'t prepared for offline use\n
+		· fixed: GPS releasing when c:geo is closed (attempt)\n
+		\n
+		<b>0.70.3</b> (15.06.2010)\n
+		· new: Menu option to store all caches on live map\n
+		· fixed: Live map refreshing\n
+		· fixed: Ability to hide own caches from live map\n
+		· fixed: Tapping on waypoints on map\n
+		\n
+		<b>0.70.1</b>, <b>0.70.2</b> (14.06.2010)\n
+		· new: Ability to show on map current compass destination\n
+		· new: Displaying destination coordinates in compass\n
+		· fixed: Live map\n
+		· fixed: Saving/dropping caches from live map\n
+		\n
+		<b>0.70.0</b> (12.06.2010)\n
+		· new: Live map to show instantly caches around you\n
+		· new: Button to clear cache in settings\n
+		· fixed: Details of event cache (date, author)\n
+	</string>
+</resources>

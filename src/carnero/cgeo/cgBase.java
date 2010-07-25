@@ -124,7 +124,7 @@ public class cgBase {
 		cacheTypesInv.put("wherigo", res.getString(R.string.wherigo));
 		cacheTypesInv.put("lostfound", res.getString(R.string.lostfound));
 		cacheTypesInv.put("gchq", res.getString(R.string.gchq));
-		cacheTypesInv.put("gchq", res.getString(R.string.gchq));
+		cacheTypesInv.put("gps", res.getString(R.string.gps));
 
 		// cache ids
 		cacheIDs.put("all", "9a79e6ce-3344-409c-bbe9-496530baf758"); // hard-coded also in cgSettings

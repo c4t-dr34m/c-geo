@@ -5,6 +5,9 @@
 
 	<!-- basics -->
 	<string name="cache">cache</string>
+	<string name="search">search</string>
+	<string name="settings">settings</string>
+	<string name="about">about c:geo</string>
 
 	<!-- caches -->
 	<string name="all">all caches</string>
@@ -68,7 +71,7 @@
 	<string name="err_title_problem">problem</string>
 	<string name="err_detail_open">Sorry, c:geo can\'t open geocache details.</string>
 	<string name="err_detail_cache">Sorry, c:geo can\'t display geocache you want. Is it really geocache?</string>
-	<string name="err_detail_cache_find">Sorry, c:geo can\'t find geocache</string>
+	<string name="err_detail_cache_find">Sorry, c:geo can\'t find geocache.</string>
 	<string name="err_detail_cache_find_some">Sorry, c:geo can\'t find that geocache.</string>
 	<string name="err_detail_cache_forgot">Sorry, c:geo forgot which geocache you want.</string>
 	<string name="err_detail_cache_language">c:geo can\'t read some cache details. Please check if you have geocaching.com website set to English. Unfortunately, c:geo doesn\'t understand other localizations.</string>
@@ -76,12 +79,14 @@
 	<string name="err_detail_no_map_static">c:geo found no static maps for this cache</string>
 	<string name="err_detail_still_removing">Still removing this cache.</string>
 	<string name="err_detail_still_saving">Still saving this cache.</string>
-	<string name="err_radar_title">Radar isn\'t installed</string>
+	<string name="err_radar_title">Radar isn\'t installed.</string>
 	<string name="err_radar_message">This function requires Radar application. Would you install it?</string>
 	<string name="err_radar_market">c:geo can\'t start Android Market to search for Radar application.</string>
 	<string name="err_radar_generic">Sorry, c:geo can\'t start Radar application. Is installed?</string>
 	<string name="err_navigation_no">c:geo can\'t find any supported navigation.</string>
 	<string name="err_application_no">c:geo can\'t find any suitable application.</string>
+	<string name="err_auth_initialize">Sorry, c:geo failed to initialize authorization process.</string>
+	<string name="err_auth_process">Authorization process failed.</string>
 
 	<!-- location service -->
 	<string name="loc_last">last known</string>
@@ -110,12 +115,43 @@
 	<string name="caches_more_caches">more caches</string>
 	<string name="caches_more_caches_no">no more caches</string>
 
-	<!-- auth -->
+	<!-- about -->
 	<string name="about_changelog">changelog</string>
+
+	<!-- init -->
+	<string name="init_geocaching">geocaching.com</string>
+	<string name="init_go4cache">go 4 cache</string>
+	<string name="init_twitter">twitter</string>
+	<string name="init_username">username</string>
+	<string name="init_password">password</string>
+	<string name="init_login">check login</string>
+	<string name="init_legal">legal note</string>
+	<string name="init_go4cache_connect">connect to go 4 cache</string>
+	<string name="init_twitter_authorize">authorize c:geo</string>
+	<string name="init_twitter_publish">publish status when cache found</string>
+	<string name="init_other">other options</string>
+	<string name="init_skin">light skin (needs restart of c:geo)</string>
+	<string name="init_exclude">exclude own and found caches</string>
+	<string name="init_disabled">exclude disabled caches</string>
+	<string name="init_offline">store maps for offline use</string>
+	<string name="init_units">use imperial distance units</string>
+	<string name="init_nav">use Google Navigation</string>
+	<string name="init_directoryimg">hide image directory from gallery</string>
+	<string name="init_autoload">auto-loading long description</string>
+	<string name="init_livelist">show direction to caches in its list</string>
+	<string name="init_browser">identify c:geo as standard browser</string>
+
+	<!-- auth -->
+	<string name="auth_twitter">twitter</string>
 	<string name="auth_authorize">authorize c:geo</string>
+	<string name="auth_start">start authorization</string>
 	<string name="auth_again">start again</string>
 	<string name="auth_pin_hint">pin assigned by twitter</string>
 	<string name="auth_finish">finish</string>
+	<string name="auth_dialog_wait">Waiting for Twitter...</string>
+	<string name="auth_dialog_pin_title">pin code</string>
+	<string name="auth_dialog_pin_message">Please write PIN code provided by Twitter website. It\'s mandatory to complete authorization.</string>
+	<string name="auth_dialog_completed">c:geo is now authorized to post on your Twitter.</string>
 
 	<!-- cache -->
 	<string name="cache_count_no">no cache</string>
@@ -176,9 +212,9 @@
     <string name="legal_note">
 		To use services of geocaching.com (and this application does), you must agree with terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a>.
 	</string>
-    <string name="about">
+    <string name="about_text">
 		<b>c:geo</b> is designed to be simple always ready-to-go client for geocaching.com. It is and forever will be for free.
-		If you want to support developement, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.
+		If you want to support development, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.
 	</string>
     <string name="author">
 		author: <a href="http://carnero.cc/">carnero</a>
@@ -210,7 +246,7 @@
 		The following proccess allows <b>c:geo</b> to access your Twitter account - if you agree.
 	</string>
 	<string name="about_auth_2">
-		Click on "Authorize" button will start process.
+		Click on "authorize c:geo" button will start process.
 		This process will open web browser with Twitter page where you have to login and Accept <b>c:geo</b> to access your account.
 		When you Accept, Twitter will show you numeric PIN code. Please copy this code, paste into <b>c:geo</b> and confirm. That\'s all.
 	</string>

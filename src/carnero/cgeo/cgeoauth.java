@@ -14,26 +14,21 @@ import android.net.Uri;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.view.View;
 import android.widget.EditText;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
 import javax.net.ssl.HttpsURLConnection;
-import org.apache.http.HttpVersion;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
 
 public class cgeoauth extends Activity {
 	private cgeoapplication app = null;
+	private Resources res = null;
 	private Context activity = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -46,6 +41,56 @@ public class cgeoauth extends Activity {
 	private Button startButton = null;
 	private EditText pinEntry = null;
 	private Button pinEntryButton = null;
+	private ProgressDialog requestTokenDialog = null;
+	private ProgressDialog changeTokensDialog = null;
+
+	private Handler requestTokenHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (requestTokenDialog != null && requestTokenDialog.isShowing() == true) requestTokenDialog.dismiss();
+
+			startButton.setOnTouchListener(new cgViewTouch(settings, startButton));
+			startButton.setOnClickListener(new startListener());
+			startButton.setClickable(true);
+
+			if (msg.what == 1) {
+				startButton.setText(res.getString(R.string.auth_again));
+
+				pinEntry.setVisibility(View.VISIBLE);
+				pinEntryButton.setVisibility(View.VISIBLE);
+				pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton));
+				pinEntryButton.setOnClickListener(new confirmPINListener());
+			} else {
+				warning.showToast(res.getString(R.string.err_auth_initialize));
+				startButton.setText(res.getString(R.string.auth_start));
+			}
+		}
+	};
+
+	private Handler changeTokensHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (changeTokensDialog != null && changeTokensDialog.isShowing() == true) changeTokensDialog.dismiss();
+
+			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton));
+			pinEntryButton.setOnClickListener(new confirmPINListener());
+			pinEntryButton.setClickable(true);
+
+			if (msg.what == 1) {
+				warning.showToast(res.getString(R.string.auth_dialog_completed));
+
+				pinEntryButton.setVisibility(View.GONE);
+				
+				finish();
+			} else {
+				warning.showToast(res.getString(R.string.err_auth_process));
+				
+				pinEntry.setVisibility(View.GONE);
+				pinEntryButton.setVisibility(View.GONE);
+				startButton.setText(res.getString(R.string.auth_start));
+			}
+		}
+	};
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +98,7 @@ public class cgeoauth extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
         app = (cgeoapplication)this.getApplication();
 		app.setAction("setting up");
         prefs = getSharedPreferences(cgSettings.preferences, 0);
@@ -61,7 +107,7 @@ public class cgeoauth extends Activity {
         warning = new cgWarning(this);
 
 		// set layout
-		setTitle("twitter");
+		setTitle(res.getString(R.string.auth_twitter));
 		if (settings.skin == 1) setContentView(R.layout.auth_light);
 		else setContentView(R.layout.auth_dark);
 
@@ -73,7 +119,6 @@ public class cgeoauth extends Activity {
 		pinEntry = (EditText)findViewById(R.id.pin);
 		pinEntryButton = (Button)findViewById(R.id.pin_button);
 
-		SharedPreferences prefs = getSharedPreferences(cgSettings.preferences, 0);
 		OAtoken = prefs.getString("temp-token-public", null);
 		OAtokenSecret = prefs.getString("temp-token-secret", null);
 
@@ -83,10 +128,10 @@ public class cgeoauth extends Activity {
 
 		if (OAtoken == null || OAtoken.length() == 0 || OAtokenSecret == null || OAtokenSecret.length() == 0) {
 			// start authorization process
-			startButton.setText("start");
+			startButton.setText(res.getString(R.string.auth_start));
 		} else {
 			// already have temporary tokens, continue from pin
-			startButton.setText("start again");
+			startButton.setText(res.getString(R.string.auth_again));
 
 			pinEntry.setVisibility(View.VISIBLE);
 			pinEntryButton.setVisibility(View.VISIBLE);
@@ -95,207 +140,169 @@ public class cgeoauth extends Activity {
 		}
    }
 
-	public DefaultHttpClient getClient() {
-        //sets up parameters
-        HttpParams params = new BasicHttpParams();
-        HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-        HttpProtocolParams.setContentCharset(params, "utf-8");
-        params.setBooleanParameter("http.protocol.expect-continue", false);
-
-        //registers schemes for both http and https
-        SchemeRegistry registry = new SchemeRegistry();
-        registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-        final SSLSocketFactory sslSocketFactory = SSLSocketFactory.getSocketFactory();
-        sslSocketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-        registry.register(new Scheme("https", sslSocketFactory, 443));
-
-        ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(params, registry);
-        return new DefaultHttpClient(manager, params);
-    }
-
 	private void requestToken() {
-		String host = "api.twitter.com";
-		String path = "/oauth/request_token";
-		String method = "GET";
-		String params = null;
-		URL u = null;
-		URLConnection uc = null;
-		HttpsURLConnection connection = null;
-		InputStream in = null;
-		BufferedReader br = null;
-		StringBuilder sb = null;
-		String line = null;
+		final String host = "api.twitter.com";
+		final String pathRequest = "/oauth/request_token";
+		final String pathAuthorize = "/oauth/authorize";
+		final String method = "GET";
 
-		// get temporary tokens
+		int status = 0;
+		String lineOne = null;
+
 		try {
-			params = cgOAuth.signOAuth(host, path, method, true, new HashMap<String, String>(), null, null);
+			final StringBuilder sb = new StringBuilder();
+			final String params = cgOAuth.signOAuth(host, pathRequest, method, true, new HashMap<String, String>(), null, null);
 
-			// base.trustAllHosts();
-			u = new URL("https://" + host + path + "?" + params);
-			uc = u.openConnection();
-			connection = (HttpsURLConnection)uc;
-			// connection.setHostnameVerifier(base.doNotVerify);
-			connection.setReadTimeout(30000);
-			connection.setRequestMethod(method);
-			connection.setFollowRedirects(true);
-			connection.setDoInput(true);
-			connection.setDoOutput(false);
+			int code = -1;
+			int retries = 0;
 
-			in = connection.getInputStream();
-			br = new BufferedReader(new InputStreamReader(in));
-			sb = new StringBuilder();
+			do {
+				// base.trustAllHosts();
+				final URL u = new URL("https://" + host + pathRequest + "?" + params);
+				final URLConnection uc = u.openConnection();
+				final HttpsURLConnection connection = (HttpsURLConnection)uc;
 
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-				sb.append("\n");
-            }
-			in.close();
-			
-			Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
-			connection.disconnect();
+				// connection.setHostnameVerifier(base.doNotVerify);
+				connection.setReadTimeout(30000);
+				connection.setRequestMethod(method);
+				connection.setFollowRedirects(true);
+				connection.setDoInput(true);
+				connection.setDoOutput(false);
 
-			line = sb.toString();
+				final InputStream in = connection.getInputStream();
+				final InputStreamReader ins = new InputStreamReader(in);
+				final BufferedReader br = new BufferedReader(ins);
 
-			if (line == null || line.length() == 0) {
-				warning.showToast("Failed to initialize authorization process");
+				while ((lineOne = br.readLine()) != null) {
+					sb.append(lineOne);
+					sb.append("\n");
+				}
 
-				return;
+				code = connection.getResponseCode();
+				retries ++;
+
+				Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
+
+				br.close();
+				in.close();
+				ins.close();
+				connection.disconnect();
+			} while (code == -1 && retries < 5);
+
+			final String line = sb.toString();
+
+			if (line != null && line.length() > 0) {
+				final Matcher paramsMatcher1  = paramsPattern1.matcher(line);
+				if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) OAtoken = paramsMatcher1.group(1).toString();
+				final Matcher paramsMatcher2 = paramsPattern2.matcher(line);
+				if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) OAtokenSecret = paramsMatcher2.group(1).toString();
+
+				if (OAtoken != null && OAtoken.length() > 0 && OAtokenSecret != null && OAtokenSecret.length() > 0) {
+					final SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
+					prefsEdit.putString("temp-token-public", OAtoken);
+					prefsEdit.putString("temp-token-secret", OAtokenSecret);
+					prefsEdit.commit();
+
+					try {
+						final HashMap<String, String> paramsPre = new HashMap<String, String>();
+						paramsPre.put("oauth_callback", "oob");
+
+						final String paramsBrowser = cgOAuth.signOAuth(host, pathAuthorize, "GET", true, paramsPre, OAtoken, OAtokenSecret);
+
+						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + host + pathAuthorize + "?" + paramsBrowser)));
+
+						status = 1;
+					} catch (Exception e) {
+						Log.e(cgSettings.tag, "cgeoauth.requestToken(2): " + e.toString());
+					}
+				}
 			}
-
-			Matcher paramsMatcher1  = paramsPattern1.matcher(line);
-			if (paramsMatcher1.find() == true) OAtoken = paramsMatcher1.group(1).toString();
-			Matcher paramsMatcher2 = paramsPattern2.matcher(line);
-			if (paramsMatcher2.find() == true) OAtokenSecret = paramsMatcher2.group(1).toString();
-
-			if (OAtoken.length() == 0 || OAtokenSecret.length() == 0) {
-				OAtoken = "";
-				OAtokenSecret = "";
-
-				startButton.setClickable(true);
-				startButton.setOnTouchListener(new cgViewTouch(settings, startButton));
-				startButton.setOnClickListener(new startListener());
-
-				return;
-			}
-
-			// save temporary tokens
-			SharedPreferences.Editor prefs = getSharedPreferences(cgSettings.preferences, 0).edit();
-			prefs.putString("temp-token-public", OAtoken);
-			prefs.putString("temp-token-secret", OAtokenSecret);
-			prefs.commit();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeoauth.requestToken(1): " + e.toString());
 		}
 
-		// open browser with auth confirmation and wait for user
-		try {
-			startButton.setText("start again");
-
-			path = "/oauth/authorize";
-			HashMap<String, String> paramsPre = new HashMap<String, String>();
-			paramsPre.put("oauth_callback", "oob");
-
-			params = cgOAuth.signOAuth(host, path, "GET", true, paramsPre, OAtoken, OAtokenSecret);
-
-			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + host + path + "?" + params)));
-
-			pinEntry.setVisibility(View.VISIBLE);
-			pinEntryButton.setVisibility(View.VISIBLE);
-			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton));
-			pinEntryButton.setOnClickListener(new confirmPINListener());
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeoauth.requestToken(2): " + e.toString());
-		}
+		requestTokenHandler.sendEmptyMessage(status);
 	}
 
-	private boolean changeToken() {
-		String host = "api.twitter.com";
-		String path = "/oauth/access_token";
-		String method = "POST";
-		String params = null;
-		URL u = null;
-		URLConnection uc = null;
-		HttpsURLConnection connection = null;
-		InputStream in = null;
-		InputStreamReader ins = null;
-		OutputStream out = null;
-		OutputStreamWriter wr = null;
-		BufferedReader br = null;
-		StringBuilder sb = null;
-		String line = null;
+	private void changeToken() {
+		final String host = "api.twitter.com";
+		final String path = "/oauth/access_token";
+		final String method = "POST";
+
+		int status = 0;
+		String lineOne = null;
 
 		try {
-			HashMap<String, String> paramsPre = new HashMap<String, String>();
-			paramsPre.put("oauth_verifier", ((EditText)pinEntry).getText().toString());
+			final HashMap<String, String> paramsPre = new HashMap<String, String>();
+			paramsPre.put("oauth_verifier", pinEntry.getText().toString());
 
-			params = cgOAuth.signOAuth(host, path, method, true, paramsPre, OAtoken, OAtokenSecret);
+			int code = -1;
+			int retries = 0;
+			
+			final String params = cgOAuth.signOAuth(host, path, method, true, paramsPre, OAtoken, OAtokenSecret);
+			final StringBuilder sb = new StringBuilder();
+			do {
+				// base.trustAllHosts();
+				final URL u = new URL("https://" + host + path);
+				final URLConnection uc = u.openConnection();
+				final HttpsURLConnection connection = (HttpsURLConnection)uc;
 
-			// base.trustAllHosts();
-			u = new URL("https://" + host + path);
-			uc = u.openConnection();
-			connection = (HttpsURLConnection)uc;
-			// connection.setHostnameVerifier(base.doNotVerify);
-			connection.setReadTimeout(30000);
-			connection.setRequestMethod(method);
-			connection.setFollowRedirects(true);
-			connection.setDoInput(true);
-			connection.setDoOutput(true);
+				// connection.setHostnameVerifier(base.doNotVerify);
+				connection.setReadTimeout(30000);
+				connection.setRequestMethod(method);
+				connection.setFollowRedirects(true);
+				connection.setDoOutput(true);
+				connection.setDoInput(true);
 
-			out = connection.getOutputStream();
-			wr = new OutputStreamWriter(out);
-			wr.write(params);
-			wr.flush();
-			wr.close();
+				final OutputStream out = connection.getOutputStream();
+				final OutputStreamWriter wr = new OutputStreamWriter(out);
 
-			in = connection.getInputStream();
-			ins = new InputStreamReader(in);
-			br = new BufferedReader(ins);
-			sb = new StringBuilder();
+				wr.write(params);
+				wr.flush();
+				wr.close();
+				out.close();
 
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-				sb.append("\n");
-			}
+				final InputStream in = connection.getInputStream();
+				final InputStreamReader ins = new InputStreamReader(in);
+				final BufferedReader br = new BufferedReader(ins);
 
-			Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
+				while ((lineOne = br.readLine()) != null) {
+					sb.append(lineOne);
+					sb.append("\n");
+				}
 
-			ins.close();
-			in.close();
-			connection.disconnect();
+				code = connection.getResponseCode();
+				retries ++;
 
-			line = sb.toString();
+				Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
+				
+				br.close();
+				ins.close();
+				in.close();
+				connection.disconnect();
+			} while (code == -1 && retries < 5);
+
+			final String line = sb.toString();
 
 			OAtoken = "";
 			OAtokenSecret = "";
 
-			Matcher paramsMatcher1  = paramsPattern1.matcher(line);
-			if (paramsMatcher1.find() == true) {
-				OAtoken = paramsMatcher1.group(1).toString();
-			}
-			Matcher paramsMatcher2 = paramsPattern2.matcher(line);
-			if (paramsMatcher2.find() == true) {
-				OAtokenSecret = paramsMatcher2.group(1).toString();
-			}
+			final Matcher paramsMatcher1 = paramsPattern1.matcher(line);
+			if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) OAtoken = paramsMatcher1.group(1).toString();
+			final Matcher paramsMatcher2 = paramsPattern2.matcher(line);
+			if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) OAtokenSecret = paramsMatcher2.group(1).toString();
 
 			if (OAtoken.length() == 0 || OAtokenSecret.length() == 0) {
 				OAtoken = "";
 				OAtokenSecret = "";
 
-				warning.showToast("Auhorization process failed.");
-
-				pinEntry.setVisibility(View.GONE);
-				pinEntryButton.setVisibility(View.GONE);
-				startButton.setText("start");
-
-				SharedPreferences.Editor prefs = getSharedPreferences(cgSettings.preferences, 0).edit();
+				final SharedPreferences.Editor prefs = getSharedPreferences(cgSettings.preferences, 0).edit();
 				prefs.putString("tokenpublic", null);
 				prefs.putString("tokensecret", null);
 				prefs.putInt("twitter", 0);
 				prefs.commit();
-
-				return false;
 			} else {
-				SharedPreferences.Editor prefs = getSharedPreferences(cgSettings.preferences, 0).edit();
+				final SharedPreferences.Editor prefs = getSharedPreferences(cgSettings.preferences, 0).edit();
 				prefs.remove("temp-token-public");
 				prefs.remove("temp-token-secret");
 				prefs.putString("tokenpublic", OAtoken);
@@ -303,47 +310,64 @@ public class cgeoauth extends Activity {
 				prefs.putInt("twitter", 1);
 				prefs.commit();
 
-				warning.showToast("c:geo is now authorized.");
-
-				finish();
-				return true;
+				status = 1;
 			}
 		} catch (Exception e) {
-			warning.showToast("Auhorization process failed.");
-			
 			Log.e(cgSettings.tag, "cgeoauth.changeToken: " + e.toString());
 		}
 
-		return false;
+		changeTokensHandler.sendEmptyMessage(status);
 	}
 
 	private class startListener implements View.OnClickListener {
 		public void onClick(View arg0) {
-			SharedPreferences.Editor prefs = getSharedPreferences(cgSettings.preferences, 0).edit();
+			if (requestTokenDialog == null) {
+				requestTokenDialog = new ProgressDialog(activity);
+				requestTokenDialog.setCancelable(false);
+				requestTokenDialog.setMessage(res.getString(R.string.auth_dialog_wait));
+			}
+			requestTokenDialog.show();
+			startButton.setClickable(false);
+			startButton.setOnTouchListener(null);
+			startButton.setOnClickListener(null);
+
+			final SharedPreferences.Editor prefs = getSharedPreferences(cgSettings.preferences, 0).edit();
 			prefs.putString("temp-token-public", null);
 			prefs.putString("temp-token-secret", null);
 			prefs.commit();
 
-			startButton.setText("start again");
-
-			requestToken();
+			(new Thread() {
+				@Override
+				public void run() {
+					requestToken();
+				}
+			}).start();
 		}
 	}
 
 	private class confirmPINListener implements View.OnClickListener {
 		public void onClick(View arg0) {
 			if (((EditText)findViewById(R.id.pin)).getText().toString().length() == 0) {
-				warning.helpDialog("pin", "Please write PIN code provided by Twitter website. It's mandatory to complete authorization.");
+				warning.helpDialog(res.getString(R.string.auth_dialog_pin_title), res.getString(R.string.auth_dialog_pin_message));
 				return;
 			}
 
-			boolean status = changeToken();
-			if (status == true) {
-				pinEntryButton.setVisibility(View.GONE);
-				pinEntryButton.setClickable(false);
-				pinEntryButton.setOnTouchListener(null);
-				pinEntryButton.setOnTouchListener(null);
+			if (changeTokensDialog == null) {
+				changeTokensDialog = new ProgressDialog(activity);
+				changeTokensDialog.setCancelable(false);
+				changeTokensDialog.setMessage(res.getString(R.string.auth_dialog_wait));
 			}
+			changeTokensDialog.show();
+			pinEntryButton.setClickable(false);
+			pinEntryButton.setOnTouchListener(null);
+			pinEntryButton.setOnClickListener(null);
+
+			(new Thread() {
+				@Override
+				public void run() {
+					changeToken();
+				}
+			}).start();
 		}
 	}
 }

@@ -6,7 +6,6 @@ import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 public class cgSettings {
 	// constants
@@ -114,6 +113,15 @@ public class cgSettings {
 			skin = 0;
 			setSkinDefaults();
 		}
+	}
+
+	public void reloadTwitterTokens() {
+		tokenPublic = prefs.getString("tokenpublic", null);
+		tokenSecret = prefs.getString("tokensecret", null);
+	}
+
+	public void reloadCacheType() {
+		cacheType = prefs.getString("cachetype", null);
 	}
 
 	public String getStorage() {
@@ -226,28 +234,12 @@ public class cgSettings {
 	}
 
 	public String setCacheType(String cacheTypeIn) {
-		SharedPreferences.Editor edit = prefs.edit();
+		final SharedPreferences.Editor edit = prefs.edit();
 		edit.putString("cachetype", cacheTypeIn);
 		edit.commit();
 
-		cacheType = prefs.getString("cachetype", null);
+		cacheType = cacheTypeIn;
 
 		return cacheType;
-	}
-
-	public int setFoundCount(int count) {
-		SharedPreferences.Editor edit = prefs.edit();
-		edit.putInt("found", count);
-		edit.commit();
-
-		cachesFound = prefs.getInt("found", 0);
-
-		return cachesFound;
-	}
-
-	public int getFoundCount() {
-		cachesFound = prefs.getInt("found", 0);
-
-		return cachesFound;
 	}
 }

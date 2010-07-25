@@ -516,16 +516,8 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private void setMoreCaches(boolean more) {
-		if (listFooter == null) {
-			if (inflater == null) inflater = activity.getLayoutInflater();
-			if (settings.skin == 1) listFooter = inflater.inflate(R.layout.caches_footer_light, null);
-			else listFooter = inflater.inflate(R.layout.caches_footer_dark, null);
-			listFooter.setClickable(true);
-			listFooter.setOnClickListener(new moreCachesListener());
-		}
-		if (listFooterText == null) {
-			listFooterText = (TextView)listFooter.findViewById(R.id.more_caches);
-		}
+		if (listFooter == null) return;
+		if (listFooterText == null) return;
 
 		if (more == false) {
 			if (cacheList == null || cacheList.isEmpty()) listFooterText.setText(res.getString(R.string.caches_no_cache));
@@ -560,8 +552,6 @@ public class cgeocaches extends ListActivity {
 		} else {
 			setTitle(title);
 		}
-
-		setAdapter();
 	}
 
 	private void showOnMap() {
@@ -961,9 +951,6 @@ public class cgeocaches extends ListActivity {
 			if (geo != null) geo = app.removeGeo(geo);
 			if (dir != null) dir = app.removeDir(dir);
 			
-            Message msg;
-            HashMap<String, String> params;
-
             ArrayList<cgCache> caches = app.getCaches(searchId);
 
             for (cgCache cache : caches) {
@@ -987,9 +974,7 @@ public class cgeocaches extends ListActivity {
                     detailProgress ++;
 					base.storeCache(app, activity, cache, null, handler);
 
-                    msg = new Message();
-                    msg.what = 0;
-                    handler.sendMessage(msg);
+                    handler.sendEmptyMessage(0);
 
                     this.yield();
                 } catch (Exception e) {
@@ -997,9 +982,7 @@ public class cgeocaches extends ListActivity {
                 }
             }
 
-            msg = new Message();
-            msg.what = 1;
-			handler.sendMessage(msg);
+			handler.sendEmptyMessage(1);
 		}
 	}
 

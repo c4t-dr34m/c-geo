@@ -16,6 +16,8 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.SubMenu;
 import android.widget.LinearLayout;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class cgeo extends Activity {
@@ -107,7 +109,7 @@ public class cgeo extends Activity {
 
 		subMenu.add(0, 2, 0, res.getString(R.string.all));
 		int cnt = 3;
-		for (String choice : base.cacheTypes.keySet()) {
+		for (String choice : base.cacheTypesInv.values()) {
 			subMenu.add(0, cnt, 0, choice);
 			cnt ++;
 		}
@@ -147,14 +149,15 @@ public class cgeo extends Activity {
 
 			return true;
 		} else if (id > 2) {
-			String choice = item.getTitle().toString();
+			final Object[] types = base.cacheTypesInv.keySet().toArray();
+			final String choice = (String)types[(id - 3)];
 
-			String cachetype = settings.setCacheType(base.cacheTypes.get(choice));
-			if (cachetype != null) {
-				warning.showToast(res.getString(R.string.now_searching) + ": " + choice);
-			} else {
-				warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
-			}
+			String cachetype = null;
+			if (choice == null) cachetype = settings.setCacheType(null);
+			else cachetype = settings.setCacheType(choice);
+
+			if (cachetype != null) warning.showToast(res.getString(R.string.now_searching) + ": " + base.cacheTypesInv.get(choice));
+			else warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
 				
 			return true;
 		}
@@ -164,6 +167,7 @@ public class cgeo extends Activity {
 
 	private void init() {
 		settings.getLogin();
+		settings.reloadCacheType();
 
 		if (settings.cacheType != null && base.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
 

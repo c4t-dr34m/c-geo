@@ -38,11 +38,11 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_headline_light"
 						android:background="@color/background_light"
-						android:text="geocaching.com" />
+						android:text="@string/init_geocaching" />
 			</RelativeLayout>
 			<EditText
 					android:id="@+id/username"
-					android:hint="user name"
+					android:hint="@string/init_username"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dip"
@@ -53,13 +53,13 @@
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
 					android:textColor="@color/text_light"
-					android:textColorHint="#66FFFFFF"
+					android:textColorHint="@color/text_hint_light"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_light" />
 			<EditText android:id="@+id/password"
-					android:hint="password"
+					android:hint="@string/init_password"
 					android:password="true"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
 					android:scrollHorizontally="true"
 					android:textSize="22dip"
 					android:textColor="@color/text_light"
-					android:textColorHint="#66FFFFFF"
+					android:textColorHint="@color/text_hint_light"
 					android:autoText="true"
 					android:capitalize="none"
 					android:padding="6dip"
@@ -88,7 +88,7 @@
 					android:textSize="22dip"
 					android:textColor="@color/text_light"
 					android:padding="6dip"
-					android:text="check login"
+					android:text="@string/init_login"
 					android:background="@drawable/action_button_light_off" />
 <!-- ** -->
 			<RelativeLayout
@@ -114,7 +114,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_headline_light"
 						android:background="@color/background_light"
-						android:text="legal note" />
+						android:text="@string/init_legal" />
 			</RelativeLayout>
 			<TextView android:id="@+id/legal_note"
 					android:layout_width="wrap_content"
@@ -154,7 +154,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_headline_light"
 						android:background="@color/background_light"
-						android:text="go 4 cache" />
+						android:text="@string/init_go4cache" />
 			</RelativeLayout>
 			<TextView android:id="@+id/about_go4cache"
 					android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
 						android:paddingRight="3dip"
 						android:textSize="14dip"
 						android:textColor="@color/text_light"
-						android:text="connect to go 4 cache" />
+						android:text="@string/init_go4cache_connect" />
 			</LinearLayout>
 <!-- ** -->
 			<RelativeLayout
@@ -217,7 +217,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_headline_light"
 						android:background="@color/background_light"
-						android:text="twitter" />
+						android:text="@string/init_twitter" />
 			</RelativeLayout>
 			<TextView android:id="@+id/about_twitter"
 					android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
 					android:textSize="22dip"
 					android:textColor="@color/text_light"
 					android:padding="6dip"
-					android:text="authorize c:geo"
+					android:text="@string/init_twitter_authorize"
 					android:background="@drawable/action_button_light_off" />
 			<LinearLayout
 					android:layout_width="fill_parent"
@@ -268,7 +268,7 @@
 						android:paddingRight="3dip"
 						android:textSize="14dip"
 						android:textColor="@color/text_light"
-						android:text="publish status when cache found" />
+						android:text="@string/init_twitter_publish" />
 			</LinearLayout>
 <!-- ** -->
 			<RelativeLayout
@@ -294,7 +294,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_headline_light"
 						android:background="@color/background_light"
-						android:text="other options" />
+						android:text="@string/init_other" />
 			</RelativeLayout>
 			<LinearLayout
 					android:layout_width="fill_parent"
@@ -321,7 +321,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="light skin (needs restart of c:geo)" />
+							android:text="@string/init_skin" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -342,7 +342,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="exclude own and found caches" />
+							android:text="@string/init_exclude" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -363,7 +363,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="exclude disabled caches " />
+							android:text="@string/init_disabled" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -384,7 +384,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="store maps for offline use" />
+							android:text="@string/init_offline" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -405,7 +405,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="use imperial distance units" />
+							android:text="@string/init_units" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -426,7 +426,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="use Google Navigation" />
+							android:text="@string/init_nav" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -447,7 +447,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="hide image directory from gallery" />
+							android:text="@string/init_directoryimg" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -468,7 +468,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="auto-loading long description" />
+							android:text="@string/init_autoload" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -489,7 +489,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="show direction to caches in its list" />
+							android:text="@string/init_livelist" />
 				</LinearLayout>
 				<LinearLayout
 						android:layout_width="fill_parent"
@@ -510,7 +510,7 @@
 							android:paddingRight="3dip"
 							android:textSize="14dip"
 							android:textColor="@color/text_light"
-							android:text="identify c:geo as standard browser" />
+							android:text="@string/init_browser" />
 				</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 public class cgeoabout extends Activity {
 	private Activity activity = null;
+	private Resources res = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 
@@ -21,11 +23,12 @@ public class cgeoabout extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		settings = new cgSettings(this, this.getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase((cgeoapplication)this.getApplication(), settings, this.getSharedPreferences(cgSettings.preferences, 0));
 
 		// set layout
-		setTitle("about");
+		setTitle(res.getString(R.string.about));
 		if (settings.skin == 1) setContentView(R.layout.about_light);
 		else setContentView(R.layout.about_dark);
 
@@ -37,7 +40,7 @@ public class cgeoabout extends Activity {
 			PackageManager manager = this.getPackageManager();
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
 
-			setTitle("about c:geo (ver. " + info.versionName + ")");
+			setTitle(res.getString(R.string.about) + " (ver. " + info.versionName + ")");
 
 			manager = null;
 		} catch (Exception e) {

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Log;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import java.io.File;
 
 public class cgeoinit extends Activity {
 	private cgeoapplication app = null;
+	private Resources res = null;
 	private Context activity = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -62,6 +64,7 @@ public class cgeoinit extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
         app = (cgeoapplication)this.getApplication();
         prefs = getSharedPreferences(cgSettings.preferences, 0);
         settings = new cgSettings(this, prefs);
@@ -69,7 +72,7 @@ public class cgeoinit extends Activity {
         warning = new cgWarning(this);
 
 		// set layout
-		setTitle("settings");
+		setTitle(res.getString(R.string.settings));
 		if (settings.skin == 1) setContentView(R.layout.init_light);
 		else setContentView(R.layout.init_dark);
 
@@ -281,6 +284,8 @@ public class cgeoinit extends Activity {
 
 	private class cgeoChangeTwitter implements View.OnClickListener {
 		public void onClick(View arg0) {
+			settings.reloadTwitterTokens();
+
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
 				edit.putInt("twitter", 1);

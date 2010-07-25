@@ -125,14 +125,12 @@ public class cgeoaddresses extends Activity {
 				List<Address> knownLocations = geocoder.getFromLocationName(keyword, 20);
 
 				addresses.clear();
-				for (Address address : knownLocations) {
-					addresses.add(address);
-				}
-
-				loadPlacesHandler.sendMessage(new Message());
+				for (Address address : knownLocations) addresses.add(address);
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeoaddresses.loadPlaces.run: " + e.toString());
 			}
+
+			loadPlacesHandler.sendMessage(new Message());
 	   }
    }
 

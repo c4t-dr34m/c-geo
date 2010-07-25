@@ -43,7 +43,7 @@ public class cgeoadvsearch extends Activity {
         warning = new cgWarning(this);
 
 		// set layout
-		setTitle("search");
+		setTitle(res.getString(R.string.search));
 		if (settings.skin == 1) setContentView(R.layout.advsearch_light);
 		else setContentView(R.layout.advsearch_dark);
 
@@ -91,7 +91,7 @@ public class cgeoadvsearch extends Activity {
 
 		subMenu.add(0, 1, 0, res.getString(R.string.all));
 		int cnt = 2;
-		for (String choice : base.cacheTypes.keySet()) {
+		for (String choice : base.cacheTypesInv.values()) {
 			subMenu.add(0, cnt, 0, choice);
 			cnt ++;
 		}
@@ -111,7 +111,7 @@ public class cgeoadvsearch extends Activity {
 				item.setTitle(res.getString(R.string.type) + ": " + base.cacheTypesInv.get(settings.cacheType));
 			}
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeo.onPrepareOptionsMenu: " + e.toString());
+			Log.e(cgSettings.tag, "cgeoadvsearch.onPrepareOptionsMenu: " + e.toString());
 		}
 
 		return true;
@@ -126,15 +126,16 @@ public class cgeoadvsearch extends Activity {
 
 			return true;
 		} else if (id > 1) {
-			String choice = item.getTitle().toString();
+			final Object[] types = base.cacheTypesInv.keySet().toArray();
+			final String choice = (String)types[(id - 2)];
 
-			String cachetype = settings.setCacheType(base.cacheTypes.get(choice));
-			if (cachetype != null) {
-				warning.showToast(res.getString(R.string.now_searching) + ": " + choice);
-			} else {
-				warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
-			}
-				
+			String cachetype = null;
+			if (choice == null) cachetype = settings.setCacheType(null);
+			else cachetype = settings.setCacheType(choice);
+
+			if (cachetype != null) warning.showToast(res.getString(R.string.now_searching) + ": " + base.cacheTypesInv.get(choice));
+			else warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
+
 			return true;
 		}
 
@@ -143,6 +144,7 @@ public class cgeoadvsearch extends Activity {
 
 	private void init() {
 		settings.getLogin();
+		settings.reloadCacheType();
 
 		if (settings.cacheType != null && base.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
 

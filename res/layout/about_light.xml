@@ -24,7 +24,7 @@
 					android:layout_gravity="left"
 					android:textSize="14dip"
 					android:textColor="@color/text_light"
-					android:text="@string/about" />
+					android:text="@string/about_text" />
 			<TextView android:id="@+id/author"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
