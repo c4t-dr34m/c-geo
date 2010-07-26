@@ -303,6 +303,34 @@ public class cgeopopup extends Activity {
 				((LinearLayout)findViewById(R.id.more_details_box)).setVisibility(View.GONE);
 			}
 
+			// log visit
+			if (fromDetail == false) {
+				((LinearLayout)findViewById(R.id.log_visit_box)).setVisibility(View.VISIBLE);
+
+				Button buttonMore = (Button)findViewById(R.id.log_visit);
+				buttonMore.setClickable(true);
+				buttonMore.setOnTouchListener(new cgViewTouch(settings, buttonMore, 0));
+				buttonMore.setOnClickListener(new OnClickListener() {
+					public void onClick(View arg0) {
+						if (cache.cacheid == null || cache.cacheid.length() == 0) {
+							warning.showToast("c:geo has not enough information to log visit. Please, do it from full cache details.");
+							return;
+						}
+
+						Intent logVisitIntent = new Intent(activity, cgeovisit.class);
+						logVisitIntent.putExtra("id", cache.cacheid);
+						logVisitIntent.putExtra("geocode", cache.geocode.toUpperCase());
+						logVisitIntent.putExtra("type", cache.type.toLowerCase());
+						activity.startActivity(logVisitIntent);
+
+						activity.finish();
+						return;
+					}
+				});
+			} else {
+				((LinearLayout)findViewById(R.id.log_visit_box)).setVisibility(View.GONE);
+			}
+
 			if (fromDetail == false) {
 				((LinearLayout)findViewById(R.id.offline_box)).setVisibility(View.VISIBLE);
 				

@@ -252,8 +252,12 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.75.3</b> (__.07.2010)\n
-		· fixed: __\n
+		<b>0.75.4</b> (__.07.2010)\n
+		· fixed: ___\n
+		\n
+		<b>0.75.3</b> (26.07.2010)\n
+		· new: Button to log visit on map popup\n
+		· fixed: Loading waypoints\n
 		\n
 		<b>0.75.2</b> (25.07.2010)\n
 		· fixed: Checking login\n

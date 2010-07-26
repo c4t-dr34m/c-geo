@@ -1213,7 +1213,7 @@ public class cgBase {
         int wpBegin = 0;
         int wpEnd = 0;
 
-		wpBegin = page.indexOf("<span id=\"ctl00_ContentBody_WaypointsInfo\" style=\"font-weight:bold;\">Additional Waypoints</span>");
+		wpBegin = page.indexOf("<table class=\"Table\" id=\"ctl00_ContentBody_Waypoints\">");
 		if (wpBegin != -1) { // parse waypoints
 			final Pattern patternWpType = Pattern.compile("\\/wpttypes\\/sm\\/(.+)\\.jpg", Pattern.CASE_INSENSITIVE);
 			final Pattern patternWpPrefixOrLookupOrLatlon = Pattern.compile(">([^<]*<[^>]+>)?([^<]+)(<[^>]+>[^<]*)?<\\/td>", Pattern.CASE_INSENSITIVE);
