@@ -98,13 +98,13 @@
 	<!-- standard menu -->
 	<string name="menu_about">about c:geo</string>
 	<string name="menu_settings">settings</string>
-	<string name="menu_any_destination">any destination</string>
 
 	<!-- main screen -->
 	<string name="live_map_button">live map</string>
 	<string name="caches_nearby_button">nearby</string>
 	<string name="advanced_search_button">search</string>
 	<string name="stored_caches_button">stored</string>
+	<string name="any_button">any destination</string>
 	<string name="about_button">about</string>
 	<string name="settings_button">settings</string>
 	<string name="type">type</string>
@@ -131,6 +131,7 @@
 	<string name="init_twitter_publish">publish status when cache found</string>
 	<string name="init_other">other options</string>
 	<string name="init_skin">light skin (needs restart of c:geo)</string>
+	<string name="init_transparent">use transparent c:geo mainscreen</string>
 	<string name="init_exclude">exclude own and found caches</string>
 	<string name="init_disabled">exclude disabled caches</string>
 	<string name="init_offline">store maps for offline use</string>

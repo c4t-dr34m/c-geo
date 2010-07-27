@@ -181,6 +181,14 @@ public class cgeoinit extends Activity {
 			}
 		});
 
+		CheckBox twitterButton = (CheckBox)findViewById(R.id.twitter_option);
+		if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
+			twitterButton.setChecked(false);
+		} else {
+			twitterButton.setChecked(true);
+		}
+		twitterButton.setOnClickListener(new cgeoChangeTwitter());
+
 		CheckBox skinButton = (CheckBox)findViewById(R.id.skin);
 		if (prefs.getInt("skin", 0) == 0) {
 			skinButton.setChecked(false);
@@ -189,13 +197,13 @@ public class cgeoinit extends Activity {
 		}
 		skinButton.setOnClickListener(new cgeoChangeSkin());
 
-		CheckBox twitterButton = (CheckBox)findViewById(R.id.twitter_option);
-		if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
-			twitterButton.setChecked(false);
+		CheckBox transparentButton = (CheckBox)findViewById(R.id.transparent);
+		if (prefs.getBoolean("transparent", true) == false) {
+			transparentButton.setChecked(false);
 		} else {
-			twitterButton.setChecked(true);
+			transparentButton.setChecked(true);
 		}
-		twitterButton.setOnClickListener(new cgeoChangeTwitter());
+		transparentButton.setOnClickListener(new cgeoChangeTransparent());
 
 		CheckBox excludeButton = (CheckBox)findViewById(R.id.exclude);
 		if (prefs.getInt("excludemine", 0) == 0) {
@@ -329,6 +337,27 @@ public class cgeoinit extends Activity {
 				skinButton.setChecked(false);
 			} else {
 				skinButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeTransparent implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getBoolean("transparent", true) == false) {
+				edit.putBoolean("transparent", true);
+			} else {
+				edit.putBoolean("transparent", false);
+			}
+			edit.commit();
+
+			CheckBox transparentButton = (CheckBox)findViewById(R.id.transparent);
+			if (prefs.getBoolean("transparent", true) == false) {
+				transparentButton.setChecked(false);
+			} else {
+				transparentButton.setChecked(true);
 			}
 
 			return;

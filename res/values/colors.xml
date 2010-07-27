@@ -4,6 +4,7 @@
     <color name="background_light">#FFFFFFFF</color>
     <color name="separator_dark">#44FFFFFF</color>
     <color name="separator_light">#44000000</color>
+    <color name="text_icon">#FFFFFFFF</color>
     <color name="text_dark">#FFFFFFFF</color>
     <color name="text_light">#FF000000</color>
     <color name="text_headline_dark">#66FFFFFF</color>

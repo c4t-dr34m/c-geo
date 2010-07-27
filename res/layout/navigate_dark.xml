@@ -44,6 +44,7 @@
 			android:layout_marginLeft="1dip"
 			android:layout_gravity="center_horizontal"
 			android:layout_centerInParent="true"
+			android:keepScreenOn="true"
 			android:gravity="center"
 			android:padding="4dip"
 			android:minWidth="289dip"

@@ -16,8 +16,6 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.SubMenu;
 import android.widget.LinearLayout;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class cgeo extends Activity {
@@ -47,8 +45,22 @@ public class cgeo extends Activity {
         warning = new cgWarning(this);
 
 		setTitle("c:geo");
-		if (settings.skin == 1) setContentView(R.layout.main_light);
-		else setContentView(R.layout.main_dark);
+		try {
+			if (settings.transparent == true) {
+				Log.i(cgSettings.tag, "Setting up desktop home.");
+
+				if (settings.skin == 1) setContentView(R.layout.main_light);
+				else setContentView(R.layout.main_dark);
+			} else {
+				Log.i(cgSettings.tag, "Setting up blocks home.");
+
+				setTheme(R.style.cgeo);
+				if (settings.skin == 1) setContentView(R.layout.main_blocks_light);
+				else setContentView(R.layout.main_blocks_dark);
+			}
+		} catch (Exception e) {
+			Log.i(cgSettings.tag, "Failed to set mainscreen theme.");
+		}
 
         try {
             PackageManager manager = this.getPackageManager();
@@ -104,7 +116,7 @@ public class cgeo extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 0, res.getString(R.string.menu_any_destination)).setIcon(android.R.drawable.ic_menu_compass);
+		menu.add(0, 0, 0, res.getString(R.string.menu_about)).setIcon(android.R.drawable.ic_menu_help);
 		SubMenu subMenu = menu.addSubMenu(0, 1, 0, res.getString(R.string.type) + ": " + res.getString(R.string.all)).setIcon(android.R.drawable.ic_menu_search);
 
 		subMenu.add(0, 2, 0, res.getString(R.string.all));
@@ -139,9 +151,8 @@ public class cgeo extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == 0) {
-			Intent pointIntent = new Intent(context, cgeopoint.class);
-			context.startActivity(pointIntent);
-
+			context.startActivity(new Intent(context, cgeoabout.class));
+			
 			return true;
 		} else if (id == 2) {
 			settings.setCacheType(null);
@@ -193,9 +204,9 @@ public class cgeo extends Activity {
 		setup.setClickable(true);
 		setup.setOnClickListener(new cgeoSettingsListener());
 
-		final LinearLayout about = (LinearLayout)findViewById(R.id.about_button);
-		about.setClickable(true);
-		about.setOnClickListener(new cgeoAboutListener());
+		final LinearLayout any = (LinearLayout)findViewById(R.id.any_button);
+		any.setClickable(true);
+		any.setOnClickListener(new cgeoPointListener());
 	}
 
 	private class update extends cgUpdateLoc {
@@ -309,9 +320,9 @@ public class cgeo extends Activity {
 		}
 	}
 
-	private class cgeoAboutListener implements View.OnClickListener {
+	private class cgeoPointListener implements View.OnClickListener {
 		public void onClick(View arg0) {
-			context.startActivity(new Intent(context, cgeoabout.class));
+			context.startActivity(new Intent(context, cgeopoint.class));
 		}
 	}
 }

@@ -27,7 +27,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/action_button_light" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_icon"
 						android:background="@drawable/icon_bcg"
 						android:text="@string/live_map_button" />
 			</LinearLayout>
@@ -55,7 +55,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/action_button_light" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_icon"
 						android:background="@drawable/icon_bcg"
 						android:text="@string/caches_nearby_button" />
 			</LinearLayout>
@@ -83,7 +83,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/action_button_light" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_icon"
 						android:background="@drawable/icon_bcg"
 						android:text="@string/advanced_search_button" />
 			</LinearLayout>
@@ -111,7 +111,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/action_button_light" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_icon"
 						android:background="@drawable/icon_bcg"
 						android:text="@string/stored_caches_button" />
 			</LinearLayout>
@@ -135,7 +135,7 @@
 				android:layout_margin="4dip"
 				android:gravity="center_horizontal"
 				android:orientation="horizontal" >
-			<LinearLayout android:id="@+id/about_button"
+			<LinearLayout android:id="@+id/any_button"
 					android:layout_width="74dip"
 					android:layout_height="wrap_content"
 					android:layout_margin="4dip"
@@ -147,7 +147,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:scaleType="center"
-						android:src="@drawable/main_about" />
+						android:background="@drawable/action_button_light" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -160,9 +160,9 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_icon"
 						android:background="@drawable/icon_bcg"
-						android:text="@string/about_button" />
+						android:text="@string/any_button" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/settings_button"
 					android:layout_width="74dip"
@@ -189,7 +189,7 @@
 						android:singleLine="true"
 						android:scrollHorizontally="true"
 						android:textSize="13dip"
-						android:textColor="#FFFFFFFF"
+						android:textColor="@color/text_icon"
 						android:background="@drawable/icon_bcg"
 						android:text="@string/settings_button" />
 			</LinearLayout>
@@ -208,7 +208,7 @@
 				android:layout_height="wrap_content"
 				android:gravity="center_horizontal"
 				android:textSize="14dip"
-				android:textColor="#FFFFFFFF"
+				android:textColor="@color/text_icon"
 				android:text="@string/loc_trying"
 				android:background="@drawable/icon_bcg" />
 		<RelativeLayout
@@ -227,7 +227,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="12dip"
-					android:textColor="#99FFFFFF" />
+					android:textColor="@color/text_headline_light" />
 			<TextView android:id="@+id/nav_accuracy"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="12dip"
-					android:textColor="#FFFFFFFF" />
+					android:textColor="@color/text_light" />
 			<TextView android:id="@+id/nav_satellites"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="12dip"
-					android:textColor="#99FFFFFF" />
+					android:textColor="@color/text_headline_light" />
 		</RelativeLayout>
 	</LinearLayout>
 </RelativeLayout>

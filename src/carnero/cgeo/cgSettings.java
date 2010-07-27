@@ -22,6 +22,7 @@ public class cgSettings {
 
 	// skin
 	public int skin = 0;
+	public boolean transparent = true;
 	public int buttonActive = R.drawable.action_button_dark;
 	public int buttonInactive = R.drawable.action_button_dark_off;
 	public int buttonPressed = R.drawable.action_button_dark_pressed;
@@ -68,6 +69,7 @@ public class cgSettings {
 		prefs = prefsIn;
 
 		skin = prefs.getInt("skin", 0);
+		transparent = prefs.getBoolean("transparent", true);
 		setSkinDefaults();
 
 		cachesFound = prefs.getInt("found", 0);

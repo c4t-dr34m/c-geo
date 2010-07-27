@@ -131,6 +131,7 @@
 	<string name="init_twitter_publish">nový status při nálezu keše</string>
 	<string name="init_other">další možnosti</string>
 	<string name="init_skin">světlý skin (vyžaduje restart)</string>
+	<string name="init_transparent">průhledná úvodní obrazovka</string>
 	<string name="init_exclude">nezobrazovat vlastní a nalezené keše</string>
 	<string name="init_disabled">nezobrazovat zrušené keše</string>
 	<string name="init_offline">ukládat mapy pro offline použití</string>

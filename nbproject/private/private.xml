@@ -5,6 +5,7 @@
         <file>file:/home/carnero/work/projects/cgeo-beta/AndroidManifest.xml</file>
         <file>file:/home/carnero/work/projects/cgeo-beta/res/values-cs/strings.xml</file>
         <file>file:/home/carnero/work/projects/cgeo-beta/res/values/strings.xml</file>
-        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeocaches.java</file>
+        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgBase.java</file>
+        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeo.java</file>
     </open-files>
 </project-private>
