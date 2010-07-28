@@ -38,7 +38,7 @@
 						android:textSize="14dip"
 						android:textColor="@color/text_dark"
 						android:padding="3dip"
-						android:text="more details"
+						android:text="@string/popup_more"
 						android:background="@drawable/action_button_dark" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/log_visit_box"
@@ -60,7 +60,7 @@
 						android:textSize="14dip"
 						android:textColor="@color/text_dark"
 						android:padding="3dip"
-						android:text="log visit"
+						android:text="@string/popup_log_visit"
 						android:background="@drawable/action_button_dark" />
 			</LinearLayout>
 			<LinearLayout android:id="@+id/offline_box"
@@ -97,7 +97,7 @@
 							android:textSize="14dip"
 							android:textColor="@color/text_dark"
 							android:padding="3dip"
-							android:text="refresh"
+							android:text="@string/cache_offline_refresh"
 							android:background="@drawable/action_button_dark" />
 					<Button android:id="@+id/offline_store"
 							android:layout_width="60dip"
@@ -114,7 +114,7 @@
 							android:textSize="14dip"
 							android:textColor="@color/text_dark"
 							android:padding="3dip"
-							android:text="store"
+							android:text="@string/cache_offline_store"
 							android:background="@drawable/action_button_dark" />
 				</RelativeLayout>
 			</LinearLayout>
@@ -146,7 +146,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_dark"
 							android:background="@color/background_dark"
-							android:text="navigation" />
+							android:text="@string/popup_navigation" />
 				</RelativeLayout>
 				<Button android:id="@+id/map"
 						android:visibility="gone"
@@ -161,7 +161,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="show on map"
+						android:text="@string/cache_menu_map"
 						android:background="@drawable/action_button_dark" />
 				<Button android:id="@+id/compass"
 						android:layout_width="fill_parent"
@@ -175,7 +175,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="compass"
+						android:text="@string/cache_menu_compass"
 						android:background="@drawable/action_button_dark" />
 				<Button android:id="@+id/radar"
 						android:layout_width="fill_parent"
@@ -189,7 +189,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="radar"
+						android:text="@string/cache_menu_radar"
 						android:background="@drawable/action_button_dark" />
 				<Button android:id="@+id/turn"
 						android:layout_width="fill_parent"
@@ -203,7 +203,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="turn by turn"
+						android:text="@string/cache_menu_tbt"
 						android:background="@drawable/action_button_dark" />
 			</LinearLayout>
 		</LinearLayout>

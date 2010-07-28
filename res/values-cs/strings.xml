@@ -5,6 +5,7 @@
 
 	<!-- basics -->
 	<string name="cache">keš</string>
+	<string name="detail">detail</string>
 	<string name="search">vyhledávání</string>
 	<string name="settings">nastavení</string>
 	<string name="about">o aplikaci</string>
@@ -68,6 +69,8 @@
 	<string name="err_comm">nastala neznámá chyba při komunikaci</string>
 	<string name="err_wrong">uložené přihlašovací údaje jsou špatné</string>
 	<string name="err_license">uživatel nepotvrdil souhlas s licenčním ujednáním serveru Geocaching.com</string>
+	<string name="err_store">c:geo nemůže uložit keš.</string>
+	<string name="err_drop">c:geo nemůže smazat keš.</string>
 	<string name="err_title_problem">problém</string>
 	<string name="err_detail_open">c:geo nedokáže načíst detaily keše.</string>
 	<string name="err_detail_cache">c:geo nedokáže načíst detaily keše. Je to opravdu keš?</string>
@@ -75,8 +78,8 @@
 	<string name="err_detail_cache_find_some">c:geo nemůže najít požadovanou keš.</string>
 	<string name="err_detail_cache_forgot">c:geo zapomnělo, jakou keš chcete zobrazit.</string>
 	<string name="err_detail_cache_language">c:geo nemůže přečíst některé detaily. Prosím zkontrolujte, zda máte web Geocaching.com nastavený na anglický jazyk. c:geo zatím bohužel nedokáže přečíst jiné jazyky.</string>
-	<string name="err_detail_no_spoiler">c:geo nenašlo žádný obrázek pro tuto keš</string>
-	<string name="err_detail_no_map_static">c:geo nenašlo žádnou statickou mapu pro tuto keš</string>
+	<string name="err_detail_no_spoiler">c:geo nenašlo žádný obrázek pro tuto keš.</string>
+	<string name="err_detail_no_map_static">c:geo nenašlo žádnou statickou mapu pro tuto keš.</string>
 	<string name="err_detail_still_removing">Ještě odstraňuji keš.</string>
 	<string name="err_detail_still_saving">Ještě ukládám keš.</string>
 	<string name="err_radar_title">Radar není nainstalován.</string>
@@ -87,6 +90,7 @@
 	<string name="err_application_no">c:geo nemůže najít žádnou použitelnou aplikaci.</string>
 	<string name="err_auth_initialize">c:geo nedokázalo zahájit autorizaci.</string>
 	<string name="err_auth_process">Autorizace selhala.</string>
+	<string name="err_cannot_log_visit">c:geo nemá dostatek informací pro zapsání návštěvy. Prosím udělejte to z kompletního detailu keše.</string>
 
 	<!-- location service -->
 	<string name="loc_last">poslední známá</string>
@@ -199,6 +203,8 @@
 	<string name="cache_status_archived">archivována</string>
 	<string name="cache_status_disabled">zrušena</string>
 	<string name="cache_status_premium">pouze pro platící uživatele</string>
+	<string name="cache_geocode">gc kód</string>
+	<string name="cache_type">typ</string>
 	<string name="cache_distance">vzdálenost</string>
 	<string name="cache_difficulty">obtížnost</string>
 	<string name="cache_terrain">terén</string>
@@ -206,6 +212,11 @@
 	<string name="cache_hidden">skryta</string>
 	<string name="cache_location">místo</string>
 	<string name="cache_coordinates">souřadnice</string>
+
+	<!-- popup -->
+	<string name="popup_more">více detailů</string>
+	<string name="popup_log_visit">zapsat návštěvu</string>
+	<string name="popup_navigation">navigace</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">vlastní</string>
@@ -255,7 +266,8 @@
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.75.4</b> (__.07.2010)\n
-		· fixed: ___\n
+		· new: Better Go 4 cache support\n
+		· new: Option to set transparent mainscreen\n
 		\n
 		<b>0.75.3</b> (26.07.2010)\n
 		· new: Button to log visit on map popup\n

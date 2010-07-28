@@ -33,7 +33,7 @@ public class cgOverlayUser extends OverlayItem {
 		return marker;
 	}
 
-	public cgUser getCoord() {
+	public cgUser getUser() {
 		return user;
 	}
 }

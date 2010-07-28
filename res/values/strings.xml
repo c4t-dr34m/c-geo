@@ -5,6 +5,7 @@
 
 	<!-- basics -->
 	<string name="cache">cache</string>
+	<string name="detail">detail</string>
 	<string name="search">search</string>
 	<string name="settings">settings</string>
 	<string name="about">about c:geo</string>
@@ -68,15 +69,16 @@
 	<string name="err_comm">unknown communication error</string>
 	<string name="err_wrong">wrong login informations</string>
 	<string name="err_license">user has not agreed to Geocaching.com license agreement</string>
-	<string name="err_title_problem">problem</string>
+	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
+	<string name="err_drop">Sorry, c:geo can\'t drop cache.</string>
 	<string name="err_detail_open">Sorry, c:geo can\'t open geocache details.</string>
 	<string name="err_detail_cache">Sorry, c:geo can\'t display geocache you want. Is it really geocache?</string>
 	<string name="err_detail_cache_find">Sorry, c:geo can\'t find geocache.</string>
 	<string name="err_detail_cache_find_some">Sorry, c:geo can\'t find that geocache.</string>
 	<string name="err_detail_cache_forgot">Sorry, c:geo forgot which geocache you want.</string>
 	<string name="err_detail_cache_language">c:geo can\'t read some cache details. Please check if you have geocaching.com website set to English. Unfortunately, c:geo doesn\'t understand other localizations.</string>
-	<string name="err_detail_no_spoiler">c:geo found no spoiler images for this cache</string>
-	<string name="err_detail_no_map_static">c:geo found no static maps for this cache</string>
+	<string name="err_detail_no_spoiler">c:geo found no spoiler images for this cache.</string>
+	<string name="err_detail_no_map_static">c:geo found no static maps for this cache.</string>
 	<string name="err_detail_still_removing">Still removing this cache.</string>
 	<string name="err_detail_still_saving">Still saving this cache.</string>
 	<string name="err_radar_title">Radar isn\'t installed.</string>
@@ -87,6 +89,7 @@
 	<string name="err_application_no">c:geo can\'t find any suitable application.</string>
 	<string name="err_auth_initialize">Sorry, c:geo failed to initialize authorization process.</string>
 	<string name="err_auth_process">Authorization process failed.</string>
+	<string name="err_cannot_log_visit">c:geo has not enough information to log visit. Please, do it from full cache details.</string>
 
 	<!-- location service -->
 	<string name="loc_last">last known</string>
@@ -199,6 +202,8 @@
 	<string name="cache_status_archived">archived</string>
 	<string name="cache_status_disabled">disabled</string>
 	<string name="cache_status_premium">premium members only</string>
+	<string name="cache_geocode">gc-code</string>
+	<string name="cache_type">type</string>
 	<string name="cache_distance">distance</string>
 	<string name="cache_difficulty">difficulty</string>
 	<string name="cache_terrain">terrain</string>
@@ -206,6 +211,11 @@
 	<string name="cache_hidden">hidden</string>
 	<string name="cache_location">location</string>
 	<string name="cache_coordinates">coordinates</string>
+
+	<!-- popup -->
+	<string name="popup_more">more details</string>
+	<string name="popup_log_visit">log visit</string>
+	<string name="popup_navigation">navigation</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">custom</string>
@@ -255,7 +265,8 @@
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.75.4</b> (__.07.2010)\n
-		· fixed: ___\n
+		· new: Better Go 4 cache support\n
+		· new: Option to set transparent mainscreen\n
 		\n
 		<b>0.75.3</b> (26.07.2010)\n
 		· new: Button to log visit on map popup\n

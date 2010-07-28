@@ -443,7 +443,7 @@ public class cgeodetail extends Activity {
 			itemName = (TextView)itemLayout.findViewById(R.id.name);
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
-			itemName.setText("type");
+			itemName.setText(res.getString(R.string.cache_type));
 			if (base.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
 				itemValue.setText(base.cacheTypesInv.get(cache.type) + " (" + cache.size + ")");
 			} else {
@@ -462,7 +462,7 @@ public class cgeodetail extends Activity {
 			itemName = (TextView)itemLayout.findViewById(R.id.name);
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
-			itemName.setText("gc-code");
+			itemName.setText(res.getString(R.string.cache_geocode));
 			itemValue.setText(cache.geocode.toUpperCase());
 			detailsList.addView(itemLayout);
 
