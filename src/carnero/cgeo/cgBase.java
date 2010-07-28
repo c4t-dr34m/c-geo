@@ -1940,9 +1940,9 @@ public class cgBase {
 		} else if (guid != null && guid.length() > 0) {
 			params.put("guid", guid);
 		}
-		params.put("decrypt", "1");
+		params.put("decrypt", "y");
 		params.put("log", "y"); // download logs (more than 5
-		params.put("numlogs", "25"); // 25 logs
+		params.put("numlogs", "35"); // 35 logs
 
 		String page = request(host, path, method, params, false, false, false);
 		if (checkLogin(page) == false) {

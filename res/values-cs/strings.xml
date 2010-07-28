@@ -98,13 +98,14 @@
 	<!-- standard menu -->
 	<string name="menu_about">o aplikaci</string>
 	<string name="menu_settings">nastavení</string>
-	<string name="menu_any_destination">libovolný cíl</string>
+	<string name="menu_filter">filtr</string>
 
 	<!-- main screen -->
 	<string name="live_map_button">živá mapa</string>
 	<string name="caches_nearby_button">nejbližší</string>
 	<string name="advanced_search_button">hledání</string>
 	<string name="stored_caches_button">uložené</string>
+	<string name="any_button">cíl</string>
 	<string name="about_button">o aplikaci</string>
 	<string name="settings_button">nastavení</string>
 	<string name="type">typ</string>

@@ -98,6 +98,7 @@
 	<!-- standard menu -->
 	<string name="menu_about">about c:geo</string>
 	<string name="menu_settings">settings</string>
+	<string name="menu_filter">filter</string>
 
 	<!-- main screen -->
 	<string name="live_map_button">live map</string>

@@ -85,63 +85,6 @@ public class cgeoadvsearch extends Activity {
 		super.onPause();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		SubMenu subMenu = menu.addSubMenu(0, 0, 0, res.getString(R.string.type) + ": " + res.getString(R.string.all)).setIcon(android.R.drawable.ic_menu_search);
-
-		subMenu.add(0, 1, 0, res.getString(R.string.all));
-		int cnt = 2;
-		for (String choice : base.cacheTypesInv.values()) {
-			subMenu.add(0, cnt, 0, choice);
-			cnt ++;
-		}
-
-		return true;
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		try {
-			MenuItem item = menu.findItem(0);
-			if (settings.cacheType == null) {
-				item.setTitle(res.getString(R.string.type) + ": " + res.getString(R.string.all));
-			} else {
-				item.setTitle(res.getString(R.string.type) + ": " + base.cacheTypesInv.get(settings.cacheType));
-			}
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeoadvsearch.onPrepareOptionsMenu: " + e.toString());
-		}
-
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == 1) {
-			settings.setCacheType(null);
-			warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
-
-			return true;
-		} else if (id > 1) {
-			final Object[] types = base.cacheTypesInv.keySet().toArray();
-			final String choice = (String)types[(id - 2)];
-
-			String cachetype = null;
-			if (choice == null) cachetype = settings.setCacheType(null);
-			else cachetype = settings.setCacheType(choice);
-
-			if (cachetype != null) warning.showToast(res.getString(R.string.now_searching) + ": " + base.cacheTypesInv.get(choice));
-			else warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
-
-			return true;
-		}
-
-		return false;
-	}
-
 	private void init() {
 		settings.getLogin();
 		settings.reloadCacheType();

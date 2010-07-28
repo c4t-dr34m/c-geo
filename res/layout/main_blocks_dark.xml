@@ -165,7 +165,7 @@
 						android:background="@drawable/icon_bcg"
 						android:text="@string/any_button" />
 			</LinearLayout>
-			<LinearLayout android:id="@+id/settings_button"
+			<LinearLayout android:id="@+id/filter_button"
 					android:layout_width="74dip"
 					android:layout_height="wrap_content"
 					android:layout_margin="4dip"
@@ -177,8 +177,8 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:scaleType="center"
-						android:src="@drawable/main_settings" />
-				<TextView
+						android:background="@drawable/action_button_dark" />
+				<TextView android:id="@+id/filter_button_title"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_horizontal"
@@ -192,7 +192,7 @@
 						android:textSize="13dip"
 						android:textColor="@color/text_icon"
 						android:background="@drawable/icon_bcg"
-						android:text="@string/settings_button" />
+						android:text="@null" />
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>

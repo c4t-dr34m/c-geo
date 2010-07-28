@@ -14,7 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
-import android.view.SubMenu;
+import android.view.ContextMenu;
 import android.widget.LinearLayout;
 import java.util.Locale;
 
@@ -31,6 +31,7 @@ public class cgeo extends Activity {
 	private TextView navAccuracy = null;
 	private TextView navSatellites = null;
 	private TextView navLocation = null;
+	private TextView filterTitle = null;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,7 @@ public class cgeo extends Activity {
 			if (settings.transparent == true) {
 				Log.i(cgSettings.tag, "Setting up desktop home.");
 
-				if (settings.skin == 1) setContentView(R.layout.main_light);
-				else setContentView(R.layout.main_dark);
+				setContentView(R.layout.main_transparent_all);
 			} else {
 				Log.i(cgSettings.tag, "Setting up blocks home.");
 
@@ -117,63 +117,67 @@ public class cgeo extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, res.getString(R.string.menu_about)).setIcon(android.R.drawable.ic_menu_help);
-		SubMenu subMenu = menu.addSubMenu(0, 1, 0, res.getString(R.string.type) + ": " + res.getString(R.string.all)).setIcon(android.R.drawable.ic_menu_search);
-
-		subMenu.add(0, 2, 0, res.getString(R.string.all));
-		int cnt = 3;
-		for (String choice : base.cacheTypesInv.values()) {
-			subMenu.add(0, cnt, 0, choice);
-			cnt ++;
-		}
-
-		return true;
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		try {
-			MenuItem item = menu.findItem(1);
-			if (settings.cacheType == null) {
-				item.setTitle(res.getString(R.string.type) + ": " + res.getString(R.string.all));
-			} else {
-				item.setTitle(res.getString(R.string.type) + ": " + base.cacheTypesInv.get(settings.cacheType));
-			}
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeo.onPrepareOptionsMenu: " + e.toString());
-		}
+		menu.add(0, 0, 0, res.getString(R.string.menu_settings)).setIcon(android.R.drawable.ic_menu_preferences);
 
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
+		final int id = item.getItemId();
 		if (id == 0) {
 			context.startActivity(new Intent(context, cgeoabout.class));
 			
 			return true;
-		} else if (id == 2) {
-			settings.setCacheType(null);
-			warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
+		} else if (id == 1) {
+			context.startActivity(new Intent(context, cgeoinit.class));
 
-			return true;
-		} else if (id > 2) {
-			final Object[] types = base.cacheTypesInv.keySet().toArray();
-			final String choice = (String)types[(id - 3)];
-
-			String cachetype = null;
-			if (choice == null) cachetype = settings.setCacheType(null);
-			else cachetype = settings.setCacheType(choice);
-
-			if (cachetype != null) warning.showToast(res.getString(R.string.now_searching) + ": " + base.cacheTypesInv.get(choice));
-			else warning.showToast(res.getString(R.string.now_searching) + ": " + res.getString(R.string.all));
-				
 			return true;
 		}
 
 		return false;
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle(res.getString(R.string.menu_filter));
+		
+		menu.add(0, 0, 0, res.getString(R.string.all));
+		int cnt = 1;
+		for (String choice : base.cacheTypesInv.values()) {
+			menu.add(0, cnt, 0, choice);
+			cnt ++;
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		final int id = item.getItemId();
+
+		if (id == 0) {
+			settings.setCacheType(null);
+			setFilterTitle();
+
+			return true;
+		} else if (id > 0) {
+			final Object[] types = base.cacheTypesInv.keySet().toArray();
+			final String choice = (String)types[(id - 1)];
+
+			if (choice == null) settings.setCacheType(null);
+			else settings.setCacheType(choice);
+			setFilterTitle();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private void setFilterTitle() {
+		if (filterTitle == null) filterTitle = (TextView)findViewById(R.id.filter_button_title);
+		if (settings.cacheType != null) filterTitle.setText(base.cacheTypesInv.get(settings.cacheType));
+		else filterTitle.setText(res.getString(R.string.all));
 	}
 
 	private void init() {
@@ -200,13 +204,20 @@ public class cgeo extends Activity {
 		advanced.setClickable(true);
 		advanced.setOnClickListener(new cgeoSearchListener());
 
-		final LinearLayout setup = (LinearLayout)findViewById(R.id.settings_button);
-		setup.setClickable(true);
-		setup.setOnClickListener(new cgeoSettingsListener());
-
 		final LinearLayout any = (LinearLayout)findViewById(R.id.any_button);
 		any.setClickable(true);
 		any.setOnClickListener(new cgeoPointListener());
+
+		final LinearLayout filter = (LinearLayout)findViewById(R.id.filter_button);
+		registerForContextMenu(filter);
+		filter.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				openContextMenu(view);
+			}
+		});
+		filter.setClickable(true);
+
+		setFilterTitle();
 	}
 
 	private class update extends cgUpdateLoc {

@@ -38,7 +38,7 @@ public class cgeopoint extends Activity {
 		warning = new cgWarning(activity);
 
 		// set layout
-		setTitle("");
+		setTitle("destination");
 		if (settings.skin == 1) setContentView(R.layout.point_light);
 		else setContentView(R.layout.point_dark);
 
