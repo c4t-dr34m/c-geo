@@ -4,18 +4,13 @@
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
 		android:background="@color/background_dark" >
-	<RelativeLayout
+	<ListView
+			android:id="@android:id/list"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical" >
-		<ListView
-				android:id="@android:id/list"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_margin="0dip"
-				android:padding="0dip"
-				android:dividerHeight="1dip"
-				android:background="@color/background_dark"
-				android:cacheColorHint="#FF191919" />
-	</RelativeLayout>
+			android:layout_height="fill_parent"
+			android:layout_margin="0dip"
+			android:padding="0dip"
+			android:dividerHeight="1dip"
+			android:background="@color/background_dark"
+			android:cacheColorHint="@color/background_dark" />
 </LinearLayout>

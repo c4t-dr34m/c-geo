@@ -13,4 +13,4 @@
 		android:textSize="16dip"
 		android:textColor="@color/text_dark"
 		android:text="@string/caches_no_cache"
-		android:background="@android:drawable/title_bar" />
+		android:background="@android:drawable/bottom_bar" />
