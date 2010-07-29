@@ -91,6 +91,7 @@
 	<string name="err_auth_initialize">c:geo nedokázalo zahájit autorizaci.</string>
 	<string name="err_auth_process">Autorizace selhala.</string>
 	<string name="err_cannot_log_visit">c:geo nemá dostatek informací pro zapsání návštěvy. Prosím udělejte to z kompletního detailu keše.</string>
+	<string name="err_init_cleared">c:geo nedokázalo smazat přihlašovací údaje.</string>
 
 	<!-- location service -->
 	<string name="loc_last">poslední známá</string>
@@ -146,6 +147,7 @@
 	<string name="init_autoload">automaticky stahovat dlouhé popisy</string>
 	<string name="init_livelist">zobrazovat směr v seznamu keší</string>
 	<string name="init_browser">tvářit se jako běžný webový  prohlížeč</string>
+	<string name="init_cleared">c:geo smazalo přihlašovací údaje.</string>
 
 	<!-- auth -->
 	<string name="auth_twitter">twitter</string>

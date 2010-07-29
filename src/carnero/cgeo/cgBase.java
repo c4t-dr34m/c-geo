@@ -278,9 +278,13 @@ public class cgBase {
 		String viewstate = null;
 		String viewstate1 = null;
 
+		final HashMap<String, String> loginStart = settings.getLogin();
+
 		loginPage = request(host, path, "GET", new HashMap<String, String>(), false, false, false);
 		if (loginPage != null && loginPage.length() > 0) {
 			if (checkLogin(loginPage) == true) {
+				Log.i(cgSettings.tag, "Already logged in Geocaching.com as " + loginStart.get("username"));
+
 				switchToEnglish(viewstate, viewstate1);
 
 				return 1; // logged in
@@ -306,6 +310,8 @@ public class cgBase {
 			return -3;
 		}
 
+		settings.deleteCookies();
+
 		params.put("__EVENTTARGET", "");
 		params.put("__EVENTARGUMENT", "");
 		params.put("__VIEWSTATE", viewstate);
@@ -321,20 +327,25 @@ public class cgBase {
 
 		if (loginPage != null && loginPage.length() > 0) {
 			if (checkLogin(loginPage) == true) {
+				Log.i(cgSettings.tag, "Successfully logged in Geocaching.com as " + login.get("username"));
+
 				switchToEnglish(findViewstate(loginPage, 0), findViewstate(loginPage, 1));
 
 				return 1; // logged in
 			} else {
-				Log.i(cgSettings.tag, "Failed to log in Geocaching.com as " + login.get("username"));
-
 				if (loginPage.indexOf("Your username/password combination does not match.") != -1) {
+					Log.i(cgSettings.tag, "Failed to log in Geocaching.com as " + login.get("username") + " because of wrong username/password");
+
 					return -6; // wrong login
 				} else {
+					Log.i(cgSettings.tag, "Failed to log in Geocaching.com as " + login.get("username") + " for some unknown reason");
+
 					return -4; // can't login
 				}
 			}
 		} else {
 			Log.e(cgSettings.tag, "cgeoBase.login: Failed to retrieve login page (2nd)");
+			
 			return -5; // no login page
 		}
 	}

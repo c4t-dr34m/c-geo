@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class cgSettings {
 	// constants
@@ -223,6 +224,8 @@ public class cgSettings {
 		Map prefsValues = prefs.getAll();
 
 		if (prefsValues != null && prefsValues.size() > 0) {
+			Log.i(cgSettings.tag, "Removing cookies");
+
 			Object[] keys = prefsValues.keySet().toArray();
 
 			for (int i = 0; i < keys.length; i++) {

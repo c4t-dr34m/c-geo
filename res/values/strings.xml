@@ -90,6 +90,7 @@
 	<string name="err_auth_initialize">Sorry, c:geo failed to initialize authorization process.</string>
 	<string name="err_auth_process">Authorization process failed.</string>
 	<string name="err_cannot_log_visit">c:geo has not enough information to log visit. Please, do it from full cache details.</string>
+	<string name="err_init_cleared">Sorry, c:geo can\'t clear your login.</string>
 
 	<!-- location service -->
 	<string name="loc_last">last known</string>
@@ -145,6 +146,7 @@
 	<string name="init_autoload">auto-loading long description</string>
 	<string name="init_livelist">show direction to caches in its list</string>
 	<string name="init_browser">identify c:geo as standard browser</string>
+	<string name="init_cleared">c:geo cleared your login.</string>
 
 	<!-- auth -->
 	<string name="auth_twitter">twitter</string>
