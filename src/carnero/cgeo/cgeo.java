@@ -117,7 +117,7 @@ public class cgeo extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, res.getString(R.string.menu_about)).setIcon(android.R.drawable.ic_menu_help);
-		menu.add(0, 0, 0, res.getString(R.string.menu_settings)).setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0, 1, 0, res.getString(R.string.menu_settings)).setIcon(android.R.drawable.ic_menu_preferences);
 
 		return true;
 	}

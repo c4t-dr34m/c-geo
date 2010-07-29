@@ -1356,16 +1356,15 @@ public class cgBase {
 			return null;
 		}
 
-		// <span id="ctl00_ContentBody_BugDetails_BugTBNum">TB2T0CK</span>
-		final Pattern patternGeocode = Pattern.compile("<span id=\"ctl00_ContentBody_BugDetails_BugTBNum\">(TB[a-z0-9]+)</span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTrackableId = Pattern.compile("\\/track\\/log\\.aspx\\?LUID=([a-z0-9\\-]+)", Pattern.CASE_INSENSITIVE);
-		final Pattern patternTypeName = Pattern.compile("<h2>[^<]*<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"[^\"]*\" src=\".*\\/images\\/wpttypes\\/\\d+.gif\" alt=\"([^\"]+)\"[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\">([^<]+)<\\/span>[^<]*<\\/h2>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternOwner = Pattern.compile("<dt>Owner:</dt>[^<]*<dd><a id=\"ctl00_ContentBody_BugDetails_BugOwner\" title=\"[^\"]*\" href=\".*\\/profile\\/\\?guid=([a-z0-9\\-]+)\">([^<]+)<\\/a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternReleased = Pattern.compile("<dt>Released:</dt>[^<]*<dd><span id=\"ctl00_ContentBody_BugDetails_BugReleaseDate\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternOrigin = Pattern.compile("<dt>Origin:</dt>[^<]*<dd><span id=\"ctl00_ContentBody_BugDetails_BugOrigin\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternSpotted = Pattern.compile("<dt>Recently Spotted:</dt>[^<]*<dd><a id=\"ctl00_ContentBody_BugDetails_BugLocation\" title=\"[^\"]*\" href=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/seek\\/cache_details.aspx\\?guid=([a-z0-9\\-]+)\">In ([^<]+)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternGoal = Pattern.compile("<h3>Current GOAL</h3>[^<]*<p[^>]*><span id=\"ctl00_ContentBody_BugDetails_BugGoal\">(.*)</span>[^<]*</p>[^<]*<h3>About This Item</h3>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternDetailsImage = Pattern.compile("<h3>About This Item</h3>[^<]*(<p><img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>[^<]*</p>)?<p[^>]*>[^<]*<span id=\"ctl00_ContentBody_BugDetails_BugDetails\">(.*)</span></p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
+		final Pattern patternGeocode = Pattern.compile("<span id=\"ctl00_ContentBody_BugDetails_BugTBNum\" String=\"[^\"]*\">Use[^<]*<strong>(TB[0-9a-z]+)[^<]*</strong> to reference this item.[^<]*</span>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternName = Pattern.compile("<h2>([^<]*<img[^>]*>)?[^<]*<span id=\"ctl00_ContentBody_lbHeading\">([^<]+)</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternOwner = Pattern.compile("<dt>[\\s]*Owner:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugOwner\" title=\"[^\"]*\" href=\".*\\/profile\\/\\?guid=([a-z0-9\\-]+)\">([^<]+)<\\/a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternReleased = Pattern.compile("<dt>[\\s]*Released:[^<]*</dt>[^<]*<dd>[^<]*<span id=\"ctl00_ContentBody_BugDetails_BugReleaseDate\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternOrigin = Pattern.compile("<dt>[\\s]*Origin:[^<]*</dt>[^<]*<dd>[^<]*<span id=\"ctl00_ContentBody_BugDetails_BugOrigin\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternSpotted = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" title=\"[^\"]*\" href=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/seek\\/cache_details.aspx\\?guid=([a-z0-9\\-]+)\">In ([^<]+)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternGoal = Pattern.compile("<h3>[\\s]*Current GOAL[^<]*</h3>[^<]*<p[^>]*>(.*)</p>[^<]*<h3>[^\\w]*About This Item[^<]*</h3>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>[^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
 
 		final cgTrackable trackable = new cgTrackable();
 		
@@ -1397,11 +1396,10 @@ public class cgBase {
 
 		// trackable type and name
 		try {
-			final Matcher matcherTypeName = patternTypeName.matcher(page);
-			while (matcherTypeName.find()) {
-				if (matcherTypeName.groupCount() > 1) {
-					trackable.type = matcherTypeName.group(1).toLowerCase();
-					trackable.name = matcherTypeName.group(2).toLowerCase();
+			final Matcher matcherName = patternName.matcher(page);
+			while (matcherName.find()) {
+				if (matcherName.groupCount() > 1) {
+					trackable.name = matcherName.group(2);
 				}
 			}
 		} catch (Exception e) {

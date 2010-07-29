@@ -265,7 +265,11 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.75.4</b> (__.07.2010)\n
+		<b>0.75.5</b> (__.07.2010)\n
+		· fixed: ___\n
+		\n
+		<b>0.75.4</b> (29.07.2010)\n
+		· fixed: Trackables\n
 		· new: Better Go 4 cache support\n
 		· new: Option to set transparent mainscreen\n
 		\n

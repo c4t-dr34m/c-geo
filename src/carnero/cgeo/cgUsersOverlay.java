@@ -127,6 +127,8 @@ public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> {
 
 		   AlertDialog alert = dialog.create();
 		   alert.show();
+
+		   return true;
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgUsersOverlay.onTap: " + e.toString());
 		}

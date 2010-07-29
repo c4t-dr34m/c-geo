@@ -144,13 +144,12 @@
 					android:layout_height="wrap_content"
 					android:layout_margin="4dip"
 					android:orientation="vertical" >
-				<ImageView
+				<View
 						android:layout_width="48dip"
 						android:layout_height="48dip"
-						android:layout_margin="4dip"
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
-						android:scaleType="center"
+						android:layout_margin="4dip"
 						android:background="@drawable/action_button_dark" />
 				<TextView
 						android:layout_width="wrap_content"
@@ -174,13 +173,12 @@
 					android:layout_height="wrap_content"
 					android:layout_margin="4dip"
 					android:orientation="vertical" >
-				<ImageView
+				<View
 						android:layout_width="48dip"
 						android:layout_height="48dip"
-						android:layout_margin="4dip"
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
-						android:scaleType="center"
+						android:layout_margin="4dip"
 						android:background="@drawable/action_button_dark" />
 				<TextView android:id="@+id/filter_button_title"
 						android:layout_width="wrap_content"
@@ -233,7 +231,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="12dip"
-					android:textColor="@color/text_headline_dark" />
+					android:textColor="@color/text_dark" />
 			<TextView android:id="@+id/nav_accuracy"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -261,7 +259,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="12dip"
-					android:textColor="@color/text_headline_dark" />
+					android:textColor="@color/text_dark" />
 		</RelativeLayout>
 	</LinearLayout>
 </RelativeLayout>
