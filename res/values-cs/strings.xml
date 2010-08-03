@@ -58,6 +58,9 @@
 	<string name="log_new_attended">zůčastnil jsem se</string>
 	<string name="log_new_webcam">vyfocen webkamerou</string>
 	<string name="log_new_maintenance">vyžaduje údržbu</string>
+	<string name="log_tb_nothing">beze změny</string>
+	<string name="log_tb_visit">návštěva</string>
+	<string name="log_tb_drop">nechat zde</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>
@@ -106,7 +109,7 @@
 	<string name="menu_filter">filtr</string>
 
 	<!-- main screen -->
-	<string name="live_map_button">živá mapa</string>
+	<string name="live_map_button">aktivní mapa</string>
 	<string name="caches_nearby_button">nejbližší</string>
 	<string name="advanced_search_button">hledání</string>
 	<string name="stored_caches_button">uložené</string>
@@ -268,7 +271,7 @@
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.75.5</b> (__.07.2010)\n
-		· fixed: ___\n
+		· new: Ability to drop trackable\n
 		\n
 		<b>0.75.4</b> (29.07.2010)\n
 		· fixed: Trackables\n

@@ -64,6 +64,8 @@ public class cgBase {
 	public static HashMap<String, String> waypointTypes = new HashMap<String, String>();
 	public static HashMap<String, String> logTypes = new HashMap<String, String>();
 	public static HashMap<Integer, String> logTypes2 = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> logTrackablesAction = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> logTrackables = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> errorRetrieve = new HashMap<Integer, String>();
 	public static SimpleDateFormat dateIn = new SimpleDateFormat("MM/dd/yyyy");
 	public static SimpleDateFormat dateEvIn = new SimpleDateFormat("dd MMMMM yyyy"); // 28 March 2009
@@ -191,6 +193,14 @@ public class cgBase {
 		logTypes2.put(10, res.getString(R.string.log_new_attended)); // event
 		logTypes2.put(11,res.getString(R.string.log_new_webcam)); // webcam
 		logTypes2.put(45, res.getString(R.string.log_new_maintenance)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
+
+		// trackables for logs
+		logTrackables.put(0, res.getString(R.string.log_tb_nothing)); // do nothing
+		logTrackables.put(1, res.getString(R.string.log_tb_visit)); // visit cache
+		logTrackables.put(2, res.getString(R.string.log_tb_drop)); // drop here
+		logTrackablesAction.put(0, ""); // do nothing
+		logTrackablesAction.put(1, "_Visited"); // visit cache
+		logTrackablesAction.put(2, "_DroppedOff"); // drop here
 
 		// retrieving errors (because of ____ )
 		errorRetrieve.put(1, res.getString(R.string.err_none));
@@ -1501,6 +1511,74 @@ public class cgBase {
 		}
 
 		return trackable;
+	}
+
+	public ArrayList<cgTrackableLog> parseTrackableLog(String page) {
+		if (page == null || page.length() == 0) return null;
+
+		final ArrayList<cgTrackableLog> trackables = new ArrayList<cgTrackableLog>();
+
+		int startPos = -1;
+		int endPos = -1;
+
+		startPos = page.indexOf("<table id=\"tblTravelBugs\"");
+		if (startPos == -1) {
+			Log.e(cgSettings.tag, "cgeoBase.parseTrackableLog: ID \"tblTravelBugs\" not found on page");
+			return null;
+		}
+
+		page = page.substring(startPos); // cut on <table
+
+		endPos = page.indexOf("</table>");
+		if (endPos == -1) {
+			Log.e(cgSettings.tag, "cgeoBase.parseTrackableLog: end of ID \"tblTravelBugs\" not found on page");
+			return null;
+		}
+
+		page = page.substring(0, endPos); // cut on </table>
+
+		startPos = page.indexOf("<tbody>");
+		if (startPos == -1) {
+			Log.e(cgSettings.tag, "cgeoBase.parseTrackableLog: tbody not found on page");
+			return null;
+		}
+
+		page = page.substring(startPos); // cut on <tbody>
+
+		endPos = page.indexOf("</tbody>");
+		if (endPos == -1) {
+			Log.e(cgSettings.tag, "cgeoBase.parseTrackableLog: end of tbody not found on page");
+			return null;
+		}
+
+		page = page.substring(0, endPos); // cut on </tbody>
+
+		final Pattern trackablePattern = Pattern.compile("<tr id=\"ctl00_ContentBody_LogBookPanel1_uxTrackables_repTravelBugs_ctl[0-9]+_row\"[^>]*>"  +
+				"[^<]*<td>[^<]*<a href=\"[^\"]+\">([A-Z0-9]+)</a>[^<]*</td>[^<]*<td>([^<]+)</td>[^<]*<td>" +
+                "[^<]*<select name=\"ctl00\\$ContentBody\\$LogBookPanel1\\$uxTrackables\\$repTravelBugs\\$ctl([0-9]+)\\$ddlAction\"[^>]*>" +
+				"([^<]*<option value=\"([0-9])+(_[a-z]+)?\">[^<]+</option>)+" +
+				"[^<]*</select>[^<]*</td>[^<]*</tr>", Pattern.CASE_INSENSITIVE);
+		final Matcher trackableMatcher = trackablePattern.matcher(page);
+		while (trackableMatcher.find()) {
+			if (trackableMatcher.groupCount() > 0) {
+				final cgTrackableLog trackable = new cgTrackableLog();
+
+				if (trackableMatcher.group(1) != null) trackable.trackCode = trackableMatcher.group(1);
+				else continue;
+				if (trackableMatcher.group(2) != null) trackable.name = Html.fromHtml(trackableMatcher.group(2)).toString();
+				else continue;
+				if (trackableMatcher.group(3) != null) trackable.ctl = new Integer(trackableMatcher.group(3));
+				else continue;
+				if (trackableMatcher.group(5) != null) trackable.id = new Integer(trackableMatcher.group(5));
+				else continue;
+
+				Log.d(cgSettings.tag, "Trackable in inventory (#" + trackable.ctl + "): " + trackable.trackCode + " - " + trackable.name);
+
+				trackables.add(trackable);
+			}
+		}
+
+		return trackables;
 	}
 
 	public static String stripParagraphs(String text) {

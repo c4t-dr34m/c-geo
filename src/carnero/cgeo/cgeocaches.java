@@ -18,9 +18,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.Locale;
@@ -62,6 +64,8 @@ public class cgeocaches extends ListActivity {
     private geocachesLoadDetails threadD = null;
 	private boolean offline = false;
 	private boolean progressBar = false;
+    private ProgressDialog storeDialog = null;
+    private ProgressDialog dropDialog = null;
 
 	private Handler loadCachesHandler = new Handler() {
 		@Override
@@ -242,6 +246,20 @@ public class cgeocaches extends ListActivity {
             }
 		}
 	};
+
+	private Handler storeCacheHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (storeDialog != null && storeDialog.isShowing() == true) storeDialog.dismiss();
+        }
+    };
+
+	private Handler dropCacheHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (dropDialog != null && dropDialog.isShowing() == true) dropDialog.dismiss();
+        }
+    };
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -495,6 +513,142 @@ public class cgeocaches extends ListActivity {
 		return true;
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {
+		super.onCreateContextMenu(menu, view, info);
+
+		if (adapter == null) return;
+
+		AdapterContextMenuInfo adapterInfo = null;
+		try {
+			adapterInfo = (AdapterContextMenuInfo)info;
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgeocaches.onCreateContextMenu: " + e.toString());
+		}
+
+		final cgCache cache = adapter.getItem(adapterInfo.position);
+
+		if (cache.name != null && cache.name.length() > 0) menu.setHeaderTitle(cache.name);
+		else menu.setHeaderTitle(cache.geocode);
+		if (cache.latitude != null && cache.longitude != null) {
+			menu.add(0, 0, 0, res.getString(R.string.cache_menu_compass));
+			menu.add(0, 1, 0, res.getString(R.string.cache_menu_radar));
+			menu.add(0, 2, 0, res.getString(R.string.cache_menu_tbt));
+			menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		final ContextMenu.ContextMenuInfo info = item.getMenuInfo();
+		final int id = item.getItemId();
+		
+		AdapterContextMenuInfo adapterInfo = null;
+		try {
+			adapterInfo = (AdapterContextMenuInfo)info;
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgeocaches.onContextItemSelected: " + e.toString());
+		}
+
+		final cgCache cache = adapter.getItem(adapterInfo.position);
+
+		if (id == 0) { // compass
+			Intent navigateIntent = new Intent(activity, cgeonavigate.class);
+			navigateIntent.putExtra("latitude", cache.latitude);
+			navigateIntent.putExtra("longitude", cache.longitude);
+			navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());
+			navigateIntent.putExtra("name", cache.name);
+			
+			activity.startActivity(navigateIntent);
+
+			return true;
+		} else
+		if (id == 1) { // radar
+			try {
+				if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
+					Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
+					radarIntent.putExtra("latitude", new Float(cache.latitude));
+					radarIntent.putExtra("longitude", new Float(cache.longitude));
+					activity.startActivity(radarIntent);
+				} else {
+					AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+					dialog.setTitle(res.getString(R.string.err_radar_title));
+					dialog.setMessage(res.getString(R.string.err_radar_message));
+					dialog.setCancelable(true);
+					dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+					   public void onClick(DialogInterface dialog, int id) {
+							try {
+								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.google.android.radar")));
+								dialog.cancel();
+							} catch (Exception e) {
+								warning.showToast(res.getString(R.string.err_radar_market));
+								Log.e(cgSettings.tag, "cgeocaches.onContextItemSelected.radar.onClick: " + e.toString());
+							}
+					   }
+					});
+					dialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
+					   public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+					   }
+					});
+
+				   AlertDialog alert = dialog.create();
+				   alert.show();
+				}
+			} catch (Exception e) {
+				warning.showToast(res.getString(R.string.err_radar_generic));
+				Log.e(cgSettings.tag, "cgeocaches.onContextItemSelected.radar: " + e.toString());
+			}
+
+			return true;
+		} else
+		if (id == 2) { // turn-by-turn
+			if (settings.useGNavigation == 1) {
+				try {
+					// turn-by-turn navigation
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ cache.latitude + "," + cache.longitude)));
+				} catch (Exception e) {
+					try {
+						// google maps directions
+						if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ cache.latitude + "," + cache.longitude)));
+						} else {
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ cache.latitude + "," + cache.longitude)));
+						}
+					} catch (Exception e2) {
+						Log.d(cgSettings.tag, "cgeocaches.onContextItemSelected.tbt: No navigation application available.");
+						warning.showToast(res.getString(R.string.err_navigation_no));
+					}
+				}
+			} else if (settings.useGNavigation == 0) {
+				try {
+					// google maps directions
+					if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
+						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ cache.latitude + "," + cache.longitude)));
+					} else {
+						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ cache.latitude + "," + cache.longitude)));
+					}
+				} catch (Exception e) {
+					Log.d(cgSettings.tag, "cgeocaches.onContextItemSelected.tbt: No navigation application available.");
+					warning.showToast(res.getString(R.string.err_application_no));
+				}
+			}
+
+			return true;
+		} else
+		if (id == 3) { // show on map
+			Intent mapIntent = new Intent(activity, cgeomap.class);
+			mapIntent.putExtra("detail", false);
+			mapIntent.putExtra("geocode", cache.geocode);
+
+			activity.startActivity(mapIntent);
+
+			return true;
+		}
+
+		return false;
+	}
+
 	private void setAdapter() {
 		if (listFooter == null) {
 			if (inflater == null) inflater = activity.getLayoutInflater();
@@ -508,8 +662,13 @@ public class cgeocaches extends ListActivity {
 		}
 
 		if (adapter == null) {
-			getListView().addFooterView(listFooter);
-			// getListView().setOnLongClickListener(new longTapListener());
+			final ListView list = getListView();
+
+			list.setLongClickable(true);
+			registerForContextMenu(list);
+
+			list.addFooterView(listFooter);
+			
 			adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
 			setListAdapter(adapter);
 		}
@@ -995,15 +1154,6 @@ public class cgeocaches extends ListActivity {
 			geocachesLoadNextPage thread;
 			thread = new geocachesLoadNextPage(loadNextPageHandler);
 			thread.start();
-		}
-	}
-
-	private class longTapListener implements View.OnLongClickListener {
-		@Override
-		public boolean onLongClick(View view) {
-			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-			
-			return true;
 		}
 	}
 }

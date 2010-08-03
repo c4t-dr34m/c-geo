@@ -48,6 +48,9 @@
 	<string name="log_update">updated coordinates</string>
 	<string name="log_archived">archived</string>
 	<string name="log_review">reviewer note</string>
+	<string name="log_tb_nothing">do nothing</string>
+	<string name="log_tb_visit">visit</string>
+	<string name="log_tb_drop">drop here</string>
 
 	<!-- new logs -->
 	<string name="log_new_found">found it</string>
@@ -71,6 +74,7 @@
 	<string name="err_license">user has not agreed to Geocaching.com license agreement</string>
 	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
 	<string name="err_drop">Sorry, c:geo can\'t drop cache.</string>
+	<string name="err_title_problem">problem</string>
 	<string name="err_detail_open">Sorry, c:geo can\'t open geocache details.</string>
 	<string name="err_detail_cache">Sorry, c:geo can\'t display geocache you want. Is it really geocache?</string>
 	<string name="err_detail_cache_find">Sorry, c:geo can\'t find geocache.</string>
@@ -267,7 +271,7 @@
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.75.5</b> (__.07.2010)\n
-		· fixed: ___\n
+		· new: Ability to drop trackable\n
 		\n
 		<b>0.75.4</b> (29.07.2010)\n
 		· fixed: Trackables\n

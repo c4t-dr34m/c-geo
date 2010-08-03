@@ -128,6 +128,8 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder = (cgCacheView)rowView.getTag();
 		}
 
+		rowView.setLongClickable(true);
+
 		if (distances.contains(holder.distance) == false) distances.add(holder.distance);
 		holder.distance.setContent(base, cache.latitude, cache.longitude);
 		if (compasses.contains(holder.direction) == false) compasses.add(holder.direction);

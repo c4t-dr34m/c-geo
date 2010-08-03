@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.Location;
@@ -32,7 +33,7 @@ public class cgGeo {
 	private AlertDialog alertGps = null;
 	private Location locGps = null;
 	private Location locNet = null;
-	private long lastLocated = 0l;
+	private long lastGo4cache = 0l;
 	
 	public Location location = null;
 	public int gps = -1;
@@ -76,6 +77,9 @@ public class cgGeo {
 		satellitesVisible = 0;
 		satellitesFixed = 0;
 
+		final SharedPreferences prefs = context.getSharedPreferences(cgSettings.preferences, 0);
+		if (prefs != null) lastGo4cache = prefs.getLong("last-g4c", 0l);
+
 		if (geoManager == null) geoManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
 
 		lastLoc();
@@ -118,6 +122,12 @@ public class cgGeo {
 		}
 		if (geoManager != null) {
 			geoManager.removeGpsStatusListener(geoGpsStatusListener);
+		}
+
+		final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
+		if (prefsEdit != null) {
+			prefsEdit.putLong("last-g4c", lastGo4cache);
+			prefsEdit.commit();
 		}
 	}
 
@@ -260,7 +270,7 @@ public class cgGeo {
 
 		@Override
 		public void run() {
-			if (settings.publicLoc == 1 && lastLocated < (System.currentTimeMillis() - (5 * 60 * 1000))) {
+			if (settings.publicLoc == 1 && lastGo4cache < (System.currentTimeMillis() - (5 * 60 * 1000))) {
 				final String host = "api.go4cache.com";
 				final String path = "/";
 				final String method = "POST";
@@ -280,7 +290,7 @@ public class cgGeo {
 					params.put("s", (base.sha1(username + "|" + latStr + "|" + lonStr + "|" + action + "|" + base.md5("carnero: developing your dreams"))).toLowerCase());
 					base.request(host, path, method, params, false, false, false);
 
-					lastLocated = System.currentTimeMillis();
+					lastGo4cache = System.currentTimeMillis();
 				}
 			}
 		}
