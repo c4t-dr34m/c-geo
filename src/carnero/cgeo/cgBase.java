@@ -1556,7 +1556,7 @@ public class cgBase {
 		final Pattern trackablePattern = Pattern.compile("<tr id=\"ctl00_ContentBody_LogBookPanel1_uxTrackables_repTravelBugs_ctl[0-9]+_row\"[^>]*>"  +
 				"[^<]*<td>[^<]*<a href=\"[^\"]+\">([A-Z0-9]+)</a>[^<]*</td>[^<]*<td>([^<]+)</td>[^<]*<td>" +
                 "[^<]*<select name=\"ctl00\\$ContentBody\\$LogBookPanel1\\$uxTrackables\\$repTravelBugs\\$ctl([0-9]+)\\$ddlAction\"[^>]*>" +
-				"([^<]*<option value=\"([0-9])+(_[a-z]+)?\">[^<]+</option>)+" +
+				"([^<]*<option value=\"([0-9]+)(_[a-z]+)?\">[^<]+</option>)+" +
 				"[^<]*</select>[^<]*</td>[^<]*</tr>", Pattern.CASE_INSENSITIVE);
 		final Matcher trackableMatcher = trackablePattern.matcher(page);
 		while (trackableMatcher.find()) {
@@ -1572,7 +1572,7 @@ public class cgBase {
 				if (trackableMatcher.group(5) != null) trackable.id = new Integer(trackableMatcher.group(5));
 				else continue;
 
-				Log.d(cgSettings.tag, "Trackable in inventory (#" + trackable.ctl + "): " + trackable.trackCode + " - " + trackable.name);
+				Log.d(cgSettings.tag, "Trackable in inventory (#" + trackable.ctl + "/" + trackable.id + "): " + trackable.trackCode + " - " + trackable.name);
 
 				trackables.add(trackable);
 			}
@@ -2698,22 +2698,13 @@ public class cgBase {
 		return trackable;
 	}
 
-	public int postLog(HashMap<String, String> parameters) {
-		final String cacheid = parameters.get("cacheid");
-		final String viewstate = parameters.get("viewstate");
-		final String viewstate1 = parameters.get("viewstate1");
-		final String logType = parameters.get("logtype");
-		final String year = parameters.get("year");
-		final String month = parameters.get("month");
-		final String day = parameters.get("day");
-		final String log = parameters.get("log");
-
+	public int postLog(String cacheid, String viewstate, String viewstate1, int logType, int year, int month, int day, String log, ArrayList<cgTrackableLog> trackables) {
 		if (viewstate == null || viewstate.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.postLog: No viewstate given");
 			return 1000;
 		}
 
-		if (logType == null || logTypes2.containsKey(new Integer(logType)) == false) {
+		if (logTypes2.containsKey(logType) == false) {
 			Log.e(cgSettings.tag, "cgeoBase.postLog: Unknown logtype");
 			return 1000;
 		}
@@ -2722,6 +2713,8 @@ public class cgBase {
 			Log.e(cgSettings.tag, "cgeoBase.postLog: No log text given");
 			return 1000;
 		}
+
+		Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: " + trackables.size());
 
 		final String host = "www.geocaching.com";
 		final String path = "/seek/log.aspx?ID=" + cacheid;
@@ -2736,14 +2729,19 @@ public class cgBase {
 		params.put("__EVENTTARGET", "");
 		params.put("__EVENTARGUMENT", "");
 		params.put("__LASTFOCUS", "");
-		params.put("ctl00$ContentBody$LogBookPanel1$ddLogType", logType);
+		params.put("ctl00$ContentBody$LogBookPanel1$ddLogType", Integer.toString(logType));
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", "");
-		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", day);
-		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month", month);
-		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year", year);
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", Integer.toString(day));
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month", Integer.toString(month));
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year", Integer.toString(year));
 		params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
 		params.put("ctl00$ContentBody$LogBookPanel1$LogButton", "Submit Log Entry");
 		params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
+		if (trackables != null && trackables.isEmpty() == false) {
+			for (cgTrackableLog tb : trackables) {
+				params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$repTravelBugs$ctl" + tb.ctl + "$ddlAction", Integer.toString(tb.id) + logTrackablesAction.get(tb.action));
+			}
+		}
 
 		String page = request(host, path, method, params, false, false, false);
 		if (checkLogin(page) == false) {

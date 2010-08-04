@@ -164,8 +164,8 @@ containing a value of this type.
         public static final int address_list=0x7f070008;
         public static final int advanced_button=0x7f070058;
         public static final int any_button=0x7f07005a;
-        public static final int attributes=0x7f070025;
-        public static final int attributes_box=0x7f070024;
+        public static final int attributes=0x7f070029;
+        public static final int attributes_box=0x7f070028;
         public static final int author=0x7f070000;
         public static final int authorize_twitter=0x7f070042;
         public static final int autoload=0x7f07004c;
@@ -216,7 +216,7 @@ containing a value of this type.
         public static final int image_box=0x7f070079;
         public static final int info=0x7f070020;
         public static final int inventory=0x7f070021;
-        public static final int inventory_box=0x7f070026;
+        public static final int inventory_box=0x7f07002a;
         public static final int keyword=0x7f070010;
         public static final int latitude=0x7f070009;
         public static final int legal_note=0x7f07003e;
@@ -244,10 +244,10 @@ containing a value of this type.
         public static final int nearest=0x7f070057;
         public static final int note=0x7f070082;
         public static final int offline=0x7f070048;
-        public static final int offline_box=0x7f070027;
-        public static final int offline_refresh=0x7f070029;
-        public static final int offline_store=0x7f07002a;
-        public static final int offline_text=0x7f070028;
+        public static final int offline_box=0x7f070024;
+        public static final int offline_refresh=0x7f070026;
+        public static final int offline_store=0x7f070027;
+        public static final int offline_text=0x7f070025;
         public static final int one_cache=0x7f07001b;
         public static final int owner=0x7f070014;
         public static final int password=0x7f07003c;

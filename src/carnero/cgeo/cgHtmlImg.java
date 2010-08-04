@@ -101,28 +101,24 @@ public class cgHtmlImg implements Html.ImageGetter {
 					entity = httpResponse.getEntity();
 					bufferedEntity = new BufferedHttpEntity(entity);
 
-					if (onlySave == false) {
-						final long imageSize = bufferedEntity.getContentLength();
+					final long imageSize = bufferedEntity.getContentLength();
 
-						final BitmapFactory.Options bfOptions = new BitmapFactory.Options();
-						// large images will be downscaled on input to save memory
-						if (imageSize > (4 * 1024 * 1024)) {
-							bfOptions.inSampleSize = 16;
-						} else if (imageSize > (2 * 1024 * 1024)) {
-							bfOptions.inSampleSize = 10;
-						} else if (imageSize > (1 * 1024 * 1024)) {
-							bfOptions.inSampleSize = 6;
-						} else if (imageSize > (0.5 * 1024 * 1024)) {
-							bfOptions.inSampleSize = 2;
-						}
-
-						Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
-
-						if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
-						if (imagePre != null) break;
-					} else {
-						break;
+					final BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+					// large images will be downscaled on input to save memory
+					if (imageSize > (4 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 16;
+					} else if (imageSize > (2 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 10;
+					} else if (imageSize > (1 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 6;
+					} else if (imageSize > (0.5 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 2;
 					}
+
+					Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
+
+					if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
+					if (imagePre != null) break;
 				} catch (Exception e) {
 					Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (downloading from web): " + e.toString());
 				}

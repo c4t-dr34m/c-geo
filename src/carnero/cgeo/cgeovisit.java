@@ -93,9 +93,9 @@ public class cgeovisit extends Activity {
 					((TextView)inventoryItem.findViewById(R.id.name)).setText(tb.name);
 					((TextView)inventoryItem.findViewById(R.id.action)).setText(base.logTrackables.get(0));
 
-					inventoryItem.setId(-(tb.id));
-					registerForContextMenu(inventoryView);
+					inventoryItem.setId(tb.id);
 					inventoryItem.setClickable(true);
+					registerForContextMenu(inventoryView);
 					inventoryItem.setOnClickListener(new View.OnClickListener() {
 						public void onClick(View view) {
 							openContextMenu(view);
@@ -263,8 +263,10 @@ public class cgeovisit extends Activity {
 				}
 			}
 		} else {
+			final int realViewId = ((LinearLayout)findViewById(viewId)).getChildAt(0).getId();
+
 			for (final int logTbAction : base.logTrackables.keySet()) {
-				menu.add(viewId, logTbAction, 0, base.logTrackables.get(logTbAction));
+				menu.add(realViewId, logTbAction, 0, base.logTrackables.get(logTbAction));
 			}
 		}
 	}
@@ -288,7 +290,14 @@ public class cgeovisit extends Activity {
 					final TextView tbText = (TextView)tbView.findViewById(R.id.action);
 					if (tbText == null) return false;
 
-					tbText.setText(logTbAction);
+					for (cgTrackableLog tb : trackables) {
+						if (tb.id == group) {
+							tb.action = id;
+							tbText.setText(logTbAction);
+
+							Log.i(cgSettings.tag, "Trackable " + tb.trackCode + " (" + tb.name + ") has new action #" + id);
+						}
+					}
 
 					return true;
 				}
@@ -443,15 +452,7 @@ public class cgeovisit extends Activity {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 
-			parameters.put("cacheid", cacheid);
-			parameters.put("viewstate", viewstate);
-			parameters.put("logtype", Integer.toString(typeSelected));
-			parameters.put("year", Integer.toString(date.get(Calendar.YEAR)));
-			parameters.put("month", Integer.toString(date.get(Calendar.MONTH ) + 1));
-			parameters.put("day", Integer.toString(date.get(Calendar.DATE)));
-			parameters.put("log", log);
-
-			status = base.postLog(parameters);
+			status = base.postLog(cacheid, viewstate, null, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log, trackables);
 
 			if (
 				status == 1 && typeSelected == 2 && settings.twitter == 1 &&
