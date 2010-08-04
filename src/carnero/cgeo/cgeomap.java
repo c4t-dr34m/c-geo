@@ -11,13 +11,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.text.Html;
-import android.util.AttributeSet;
 import android.widget.TextView;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -25,7 +23,6 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.LinearLayout;
 import java.lang.reflect.Field;
@@ -75,7 +72,6 @@ public class cgeomap extends MapActivity {
 	private LinearLayout close = null;
 	private TextView closeGC = null;
 	private TextView closeDst = null;
-	private TextView gpsStatus = null;
 	private ProgressDialog waitDialog = null;
     private int detailTotal = 0;
     private int detailProgress = 0;
@@ -193,9 +189,11 @@ public class cgeomap extends MapActivity {
 
 			final int index = msg.what;
 			if (geo == null || caches == null || caches.isEmpty() == true || index == -1 || caches.size() <= index) {
-				if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
-				searchingForClose = false;
-				return;
+				if ((System.currentTimeMillis() - 5000) < closeShowed) {
+					close.setVisibility(View.GONE);
+					searchingForClose = false;
+					return;
+				}
 			}
 
 			cgCache cache = null;
@@ -948,25 +946,7 @@ public class cgeomap extends MapActivity {
 
 				if (overlayMyLoc != null && geo.location != null) overlayMyLoc.setCoordinates(geo.location);
 
-				if (gpsStatus == null) {
-					gpsStatus = (TextView)findViewById(R.id.gps);
-					gpsStatus.setVisibility(View.VISIBLE);
-				}
-
 				(new findClose()).start();
-				if (geo.altitudeNow != null) {
-					String humanAlt;
-					if (settings.units == settings.unitsImperial) {
-						humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
-					} else {
-						humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
-					}
-					gpsStatus.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
-				} else {
-					gpsStatus.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
-				}
-
-				gpsStatus.bringToFront();
 
 				if (geo.latitudeNow != null && geo.longitudeNow != null) {
 					myLocation();
