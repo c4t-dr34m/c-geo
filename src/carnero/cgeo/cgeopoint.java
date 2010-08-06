@@ -221,11 +221,48 @@ public class cgeopoint extends Activity {
 
 	private ArrayList<Double> getDestination() {
 		ArrayList<Double> coords = new ArrayList<Double>();
+		Double latitude = null;
+		Double longitude = null;
 
 		String bearingText = ((EditText)findViewById(R.id.bearing)).getText().toString();
 		String distanceText = ((EditText)findViewById(R.id.distance)).getText().toString();
 		String latText = ((EditText)findViewById(R.id.latitude)).getText().toString();
 		String lonText = ((EditText)findViewById(R.id.longitude)).getText().toString();
+
+		if (
+				(bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0) &&
+				(latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)
+			) {
+			warning.helpDialog("fill it", "Fill at least distance and bearing or latitude or longitude. You can also fill all four fields.");
+			return null;
+		}
+
+		if (latText != null && latText.length() > 0 && lonText != null && lonText.length() > 0) {
+			// latitude & longitude
+			HashMap latParsed = base.parseCoordinate(latText, "lat");
+			HashMap lonParsed = base.parseCoordinate(lonText, "lat");
+
+			if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
+				warning.showToast("Sorry, c:geo can\'t parse latitude.");
+				return null;
+			}
+
+			if (lonParsed == null || lonParsed.get("coordinate") == null || lonParsed.get("string") == null) {
+				warning.showToast("Sorry, c:geo can\'t parse longitude.");
+				return null;
+			}
+
+			latitude = (Double)latParsed.get("coordinate");
+			longitude = (Double)lonParsed.get("coordinate");
+		} else {
+			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
+				warning.showToast("c:geo still doesn\'t have current coordinates. Please, wait a while.");
+				return null;
+			}
+			
+			latitude = geo.latitudeNow;
+			longitude = geo.longitudeNow;
+		}
 
 		if (bearingText != null && bearingText.length() > 0 && distanceText != null && distanceText.length() > 0) {
 			// bearing & distance
@@ -289,12 +326,7 @@ public class cgeopoint extends Activity {
 			Double latParsed = null;
 			Double lonParsed = null;
 
-			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
-				warning.showToast("c:geo still doesn\'t have current coordinates. Please, wait a while.");
-				return null;
-			}
-
-			HashMap<String, Double> coordsDst = base.getRadialDistance(geo.latitudeNow, geo.longitudeNow, bearing, distance);
+			HashMap<String, Double> coordsDst = base.getRadialDistance(latitude, longitude, bearing, distance);
 
 			latParsed = coordsDst.get("latitude");
 			lonParsed = coordsDst.get("longitude");
@@ -306,23 +338,9 @@ public class cgeopoint extends Activity {
 
 			coords.add(0, (Double)latParsed);
 			coords.add(1, (Double)lonParsed);
-		} else if (latText != null && latText.length() > 0 && lonText != null && lonText.length() > 0) {
-			// latitude & longitude
-			HashMap latParsed = base.parseCoordinate(latText, "lat");
-			HashMap lonParsed = base.parseCoordinate(lonText, "lat");
-
-			if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse latitude.");
-				return null;
-			}
-
-			if (lonParsed == null || lonParsed.get("coordinate") == null || lonParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse longitude.");
-				return null;
-			}
-
-			coords.add(0, (Double)latParsed.get("coordinate"));
-			coords.add(1, (Double)lonParsed.get("coordinate"));
+		} else if (latitude != null && longitude != null) {
+			coords.add(0, latitude);
+			coords.add(1, longitude);
 		} else {
 			return null;
 		}
