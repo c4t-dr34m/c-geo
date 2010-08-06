@@ -32,6 +32,7 @@ public class cgeovisit extends Activity {
 	private cgBase base = null;
 	private cgSettings settings = null;
 	private cgWarning warning = null;
+	private cgCache cache = null;
 	private ProgressDialog waitDialog = null;
 	private String cacheid = null;
 	private String geocode = null;
@@ -168,6 +169,8 @@ public class cgeovisit extends Activity {
 		if ((cacheid == null || cacheid.length() == 0) && geocode != null && geocode.length() > 0) cacheid = app.getCacheid(geocode);
 		if ((geocode == null || geocode.length() == 0) && cacheid != null && cacheid.length() > 0) geocode = app.getGeocode(cacheid);
 
+		cache = app.getCacheByGeocode(geocode);
+
 		app.setAction(geocode);
 
 		if (cacheid == null || cacheid.length() == 0 || geocode == null || geocode.length() == 0) {
@@ -257,7 +260,8 @@ public class cgeovisit extends Activity {
 						((type.equals("traditional") || type.equals("multi") || type.equals("mystery") || type.equals("wherigo") || type.equals("virtual")) && (typeOne == 2 || typeOne == 3 || typeOne == 4 || typeOne == 7 || typeOne == 45)) ||
 						(type.equals("earth") && (typeOne == 2 || typeOne == 3 || typeOne == 4 || typeOne == 7)) || // without maintenance
 						(type.equals("event") && (typeOne == 7 || typeOne == 9 || typeOne == 10)) ||
-						(type.equals("webcam") && (typeOne == 3 || typeOne == 4 || typeOne == 7 || typeOne == 11 || typeOne == 45))
+						(type.equals("webcam") && (typeOne == 3 || typeOne == 4 || typeOne == 7 || typeOne == 11 || typeOne == 45)) ||
+						(cache.owner.equalsIgnoreCase(settings.getUsername()) == true && typeOne == 46) // maintenance
 					) {
 					menu.add(viewId, typeOne, 0, base.logTypes2.get(typeOne));
 				}

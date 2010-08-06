@@ -193,6 +193,7 @@ public class cgBase {
 		logTypes2.put(10, res.getString(R.string.log_new_attended)); // event
 		logTypes2.put(11,res.getString(R.string.log_new_webcam)); // webcam
 		logTypes2.put(45, res.getString(R.string.log_new_maintenance)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
+		logTypes2.put(46, res.getString(R.string.log_new_maintenance_owner)); // owner
 
 		// trackables for logs
 		logTrackables.put(0, res.getString(R.string.log_tb_nothing)); // do nothing

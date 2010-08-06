@@ -48,6 +48,9 @@
 	<string name="log_update">změna souřadnic</string>
 	<string name="log_archived">archivace</string>
 	<string name="log_review">poznámka kontroly</string>
+	<string name="log_tb_nothing">beze změny</string>
+	<string name="log_tb_visit">návštěva</string>
+	<string name="log_tb_drop">nechat zde</string>
 
 	<!-- new logs -->
 	<string name="log_new_found">nalezeno</string>
@@ -58,9 +61,7 @@
 	<string name="log_new_attended">zůčastnil jsem se</string>
 	<string name="log_new_webcam">vyfocen webkamerou</string>
 	<string name="log_new_maintenance">vyžaduje údržbu</string>
-	<string name="log_tb_nothing">beze změny</string>
-	<string name="log_tb_visit">návštěva</string>
-	<string name="log_tb_drop">nechat zde</string>
+	<string name="log_new_maintenance_owner">údržba</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>

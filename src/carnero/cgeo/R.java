@@ -365,195 +365,195 @@ containing a value of this type.
     }
     public static final class string {
         public static final int about=0x7f050006;
-        public static final int about_auth_1=0x7f0500cb;
-        public static final int about_auth_2=0x7f0500cc;
-        public static final int about_button=0x7f050060;
+        public static final int about_auth_1=0x7f0500cc;
+        public static final int about_auth_2=0x7f0500cd;
+        public static final int about_button=0x7f050061;
         /**  about 
  about 
          */
-        public static final int about_changelog=0x7f050067;
-        public static final int about_go4cache=0x7f0500c9;
-        public static final int about_text=0x7f0500c2;
-        public static final int about_twitter=0x7f0500ca;
-        public static final int advanced_search_button=0x7f05005d;
+        public static final int about_changelog=0x7f050068;
+        public static final int about_go4cache=0x7f0500ca;
+        public static final int about_text=0x7f0500c3;
+        public static final int about_twitter=0x7f0500cb;
+        public static final int advanced_search_button=0x7f05005e;
         /**  caches 
  caches 
          */
         public static final int all=0x7f050007;
-        public static final int any_button=0x7f05005f;
+        public static final int any_button=0x7f050060;
         public static final int ape=0x7f050014;
         public static final int app_name=0x7f050000;
         public static final int app_name_compass=0x7f050001;
-        public static final int auth_again=0x7f050082;
-        public static final int auth_authorize=0x7f050080;
-        public static final int auth_dialog_completed=0x7f050088;
-        public static final int auth_dialog_pin_message=0x7f050087;
-        public static final int auth_dialog_pin_title=0x7f050086;
-        public static final int auth_dialog_wait=0x7f050085;
-        public static final int auth_finish=0x7f050084;
-        public static final int auth_pin_hint=0x7f050083;
-        public static final int auth_start=0x7f050081;
+        public static final int auth_again=0x7f050083;
+        public static final int auth_authorize=0x7f050081;
+        public static final int auth_dialog_completed=0x7f050089;
+        public static final int auth_dialog_pin_message=0x7f050088;
+        public static final int auth_dialog_pin_title=0x7f050087;
+        public static final int auth_dialog_wait=0x7f050086;
+        public static final int auth_finish=0x7f050085;
+        public static final int auth_pin_hint=0x7f050084;
+        public static final int auth_start=0x7f050082;
         /**  auth 
  auth 
          */
-        public static final int auth_twitter=0x7f05007f;
-        public static final int author=0x7f0500c3;
+        public static final int auth_twitter=0x7f050080;
+        public static final int author=0x7f0500c4;
         /**  basics 
  basics 
          */
         public static final int cache=0x7f050002;
-        public static final int cache_attributes=0x7f050098;
-        public static final int cache_coordinates=0x7f0500bc;
-        public static final int cache_count_more=0x7f05008b;
+        public static final int cache_attributes=0x7f050099;
+        public static final int cache_coordinates=0x7f0500bd;
+        public static final int cache_count_more=0x7f05008c;
         /**  cache 
  cache 
          */
-        public static final int cache_count_no=0x7f050089;
-        public static final int cache_count_one=0x7f05008a;
-        public static final int cache_description=0x7f05009a;
-        public static final int cache_description_long=0x7f05009b;
-        public static final int cache_dialog_loading_description=0x7f0500a1;
-        public static final int cache_dialog_loading_details=0x7f0500a0;
-        public static final int cache_dialog_offline_drop_message=0x7f0500a5;
-        public static final int cache_dialog_offline_drop_title=0x7f0500a4;
-        public static final int cache_dialog_offline_save_message=0x7f0500a3;
-        public static final int cache_dialog_offline_save_title=0x7f0500a2;
-        public static final int cache_difficulty=0x7f0500b7;
-        public static final int cache_distance=0x7f0500b6;
-        public static final int cache_geocode=0x7f0500b4;
-        public static final int cache_hidden=0x7f0500ba;
-        public static final int cache_hint=0x7f05009e;
-        public static final int cache_inventory=0x7f050099;
-        public static final int cache_location=0x7f0500bb;
-        public static final int cache_logs=0x7f05009f;
-        public static final int cache_menu_browser=0x7f0500ac;
-        public static final int cache_menu_compass=0x7f0500a7;
-        public static final int cache_menu_map=0x7f0500aa;
-        public static final int cache_menu_map_static=0x7f0500ab;
-        public static final int cache_menu_navigate=0x7f0500a6;
-        public static final int cache_menu_radar=0x7f0500a9;
-        public static final int cache_menu_spoilers=0x7f0500ae;
-        public static final int cache_menu_tbt=0x7f0500a8;
-        public static final int cache_menu_visit=0x7f0500ad;
-        public static final int cache_offline=0x7f05008c;
-        public static final int cache_offline_drop=0x7f05008e;
-        public static final int cache_offline_not_ready=0x7f050091;
-        public static final int cache_offline_refresh=0x7f05008d;
-        public static final int cache_offline_store=0x7f05008f;
-        public static final int cache_offline_stored=0x7f050090;
-        public static final int cache_offline_time_about=0x7f050092;
-        public static final int cache_offline_time_days=0x7f050097;
-        public static final int cache_offline_time_hour=0x7f050095;
-        public static final int cache_offline_time_hours=0x7f050096;
-        public static final int cache_offline_time_mins=0x7f050093;
-        public static final int cache_offline_time_mins_few=0x7f050094;
-        public static final int cache_owner=0x7f0500b9;
-        public static final int cache_status=0x7f0500af;
-        public static final int cache_status_archived=0x7f0500b1;
-        public static final int cache_status_disabled=0x7f0500b2;
-        public static final int cache_status_found=0x7f0500b0;
-        public static final int cache_status_premium=0x7f0500b3;
-        public static final int cache_terrain=0x7f0500b8;
-        public static final int cache_type=0x7f0500b5;
-        public static final int cache_waypoints=0x7f05009c;
-        public static final int cache_waypoints_add=0x7f05009d;
-        public static final int caches_more_caches=0x7f050065;
-        public static final int caches_more_caches_no=0x7f050066;
-        public static final int caches_nearby_button=0x7f05005c;
+        public static final int cache_count_no=0x7f05008a;
+        public static final int cache_count_one=0x7f05008b;
+        public static final int cache_description=0x7f05009b;
+        public static final int cache_description_long=0x7f05009c;
+        public static final int cache_dialog_loading_description=0x7f0500a2;
+        public static final int cache_dialog_loading_details=0x7f0500a1;
+        public static final int cache_dialog_offline_drop_message=0x7f0500a6;
+        public static final int cache_dialog_offline_drop_title=0x7f0500a5;
+        public static final int cache_dialog_offline_save_message=0x7f0500a4;
+        public static final int cache_dialog_offline_save_title=0x7f0500a3;
+        public static final int cache_difficulty=0x7f0500b8;
+        public static final int cache_distance=0x7f0500b7;
+        public static final int cache_geocode=0x7f0500b5;
+        public static final int cache_hidden=0x7f0500bb;
+        public static final int cache_hint=0x7f05009f;
+        public static final int cache_inventory=0x7f05009a;
+        public static final int cache_location=0x7f0500bc;
+        public static final int cache_logs=0x7f0500a0;
+        public static final int cache_menu_browser=0x7f0500ad;
+        public static final int cache_menu_compass=0x7f0500a8;
+        public static final int cache_menu_map=0x7f0500ab;
+        public static final int cache_menu_map_static=0x7f0500ac;
+        public static final int cache_menu_navigate=0x7f0500a7;
+        public static final int cache_menu_radar=0x7f0500aa;
+        public static final int cache_menu_spoilers=0x7f0500af;
+        public static final int cache_menu_tbt=0x7f0500a9;
+        public static final int cache_menu_visit=0x7f0500ae;
+        public static final int cache_offline=0x7f05008d;
+        public static final int cache_offline_drop=0x7f05008f;
+        public static final int cache_offline_not_ready=0x7f050092;
+        public static final int cache_offline_refresh=0x7f05008e;
+        public static final int cache_offline_store=0x7f050090;
+        public static final int cache_offline_stored=0x7f050091;
+        public static final int cache_offline_time_about=0x7f050093;
+        public static final int cache_offline_time_days=0x7f050098;
+        public static final int cache_offline_time_hour=0x7f050096;
+        public static final int cache_offline_time_hours=0x7f050097;
+        public static final int cache_offline_time_mins=0x7f050094;
+        public static final int cache_offline_time_mins_few=0x7f050095;
+        public static final int cache_owner=0x7f0500ba;
+        public static final int cache_status=0x7f0500b0;
+        public static final int cache_status_archived=0x7f0500b2;
+        public static final int cache_status_disabled=0x7f0500b3;
+        public static final int cache_status_found=0x7f0500b1;
+        public static final int cache_status_premium=0x7f0500b4;
+        public static final int cache_terrain=0x7f0500b9;
+        public static final int cache_type=0x7f0500b6;
+        public static final int cache_waypoints=0x7f05009d;
+        public static final int cache_waypoints_add=0x7f05009e;
+        public static final int caches_more_caches=0x7f050066;
+        public static final int caches_more_caches_no=0x7f050067;
+        public static final int caches_nearby_button=0x7f05005d;
         /**  caches 
  caches 
          */
-        public static final int caches_no_cache=0x7f050064;
+        public static final int caches_no_cache=0x7f050065;
         /**  changelog 
  changelog 
          */
-        public static final int changelog=0x7f0500cd;
+        public static final int changelog=0x7f0500ce;
         public static final int cito=0x7f05000f;
         public static final int detail=0x7f050003;
         public static final int earth=0x7f05000e;
-        public static final int err_application_no=0x7f05004e;
-        public static final int err_auth_initialize=0x7f05004f;
-        public static final int err_auth_process=0x7f050050;
-        public static final int err_cannot_log_visit=0x7f050051;
-        public static final int err_comm=0x7f050039;
-        public static final int err_detail_cache=0x7f050040;
-        public static final int err_detail_cache_find=0x7f050041;
-        public static final int err_detail_cache_find_some=0x7f050042;
-        public static final int err_detail_cache_forgot=0x7f050043;
-        public static final int err_detail_cache_language=0x7f050044;
-        public static final int err_detail_no_map_static=0x7f050046;
-        public static final int err_detail_no_spoiler=0x7f050045;
-        public static final int err_detail_open=0x7f05003f;
-        public static final int err_detail_still_removing=0x7f050047;
-        public static final int err_detail_still_saving=0x7f050048;
-        public static final int err_drop=0x7f05003d;
-        public static final int err_init_cleared=0x7f050052;
-        public static final int err_license=0x7f05003b;
-        public static final int err_login=0x7f050037;
-        public static final int err_navigation_no=0x7f05004d;
+        public static final int err_application_no=0x7f05004f;
+        public static final int err_auth_initialize=0x7f050050;
+        public static final int err_auth_process=0x7f050051;
+        public static final int err_cannot_log_visit=0x7f050052;
+        public static final int err_comm=0x7f05003a;
+        public static final int err_detail_cache=0x7f050041;
+        public static final int err_detail_cache_find=0x7f050042;
+        public static final int err_detail_cache_find_some=0x7f050043;
+        public static final int err_detail_cache_forgot=0x7f050044;
+        public static final int err_detail_cache_language=0x7f050045;
+        public static final int err_detail_no_map_static=0x7f050047;
+        public static final int err_detail_no_spoiler=0x7f050046;
+        public static final int err_detail_open=0x7f050040;
+        public static final int err_detail_still_removing=0x7f050048;
+        public static final int err_detail_still_saving=0x7f050049;
+        public static final int err_drop=0x7f05003e;
+        public static final int err_init_cleared=0x7f050053;
+        public static final int err_license=0x7f05003c;
+        public static final int err_login=0x7f050038;
+        public static final int err_navigation_no=0x7f05004e;
         /**  errors 
  errors 
          */
-        public static final int err_none=0x7f050033;
-        public static final int err_parse=0x7f050035;
-        public static final int err_radar_generic=0x7f05004c;
-        public static final int err_radar_market=0x7f05004b;
-        public static final int err_radar_message=0x7f05004a;
-        public static final int err_radar_title=0x7f050049;
-        public static final int err_server=0x7f050036;
-        public static final int err_start=0x7f050034;
-        public static final int err_store=0x7f05003c;
-        public static final int err_title_problem=0x7f05003e;
-        public static final int err_unknown=0x7f050038;
-        public static final int err_wrong=0x7f05003a;
+        public static final int err_none=0x7f050034;
+        public static final int err_parse=0x7f050036;
+        public static final int err_radar_generic=0x7f05004d;
+        public static final int err_radar_market=0x7f05004c;
+        public static final int err_radar_message=0x7f05004b;
+        public static final int err_radar_title=0x7f05004a;
+        public static final int err_server=0x7f050037;
+        public static final int err_start=0x7f050035;
+        public static final int err_store=0x7f05003d;
+        public static final int err_title_problem=0x7f05003f;
+        public static final int err_unknown=0x7f050039;
+        public static final int err_wrong=0x7f05003b;
         public static final int event=0x7f05000c;
-        public static final int facebook=0x7f0500c6;
+        public static final int facebook=0x7f0500c7;
         public static final int gchq=0x7f050015;
         public static final int gps=0x7f050016;
-        public static final int graphic=0x7f0500c8;
-        public static final int init_autoload=0x7f05007b;
-        public static final int init_browser=0x7f05007d;
-        public static final int init_cleared=0x7f05007e;
-        public static final int init_directoryimg=0x7f05007a;
-        public static final int init_disabled=0x7f050076;
-        public static final int init_exclude=0x7f050075;
+        public static final int graphic=0x7f0500c9;
+        public static final int init_autoload=0x7f05007c;
+        public static final int init_browser=0x7f05007e;
+        public static final int init_cleared=0x7f05007f;
+        public static final int init_directoryimg=0x7f05007b;
+        public static final int init_disabled=0x7f050077;
+        public static final int init_exclude=0x7f050076;
         /**  init 
  init 
          */
-        public static final int init_geocaching=0x7f050068;
-        public static final int init_go4cache=0x7f050069;
-        public static final int init_go4cache_connect=0x7f05006f;
-        public static final int init_legal=0x7f05006e;
-        public static final int init_livelist=0x7f05007c;
-        public static final int init_login=0x7f05006d;
-        public static final int init_nav=0x7f050079;
-        public static final int init_offline=0x7f050077;
-        public static final int init_other=0x7f050072;
-        public static final int init_password=0x7f05006c;
-        public static final int init_skin=0x7f050073;
-        public static final int init_transparent=0x7f050074;
-        public static final int init_twitter=0x7f05006a;
-        public static final int init_twitter_authorize=0x7f050070;
-        public static final int init_twitter_publish=0x7f050071;
-        public static final int init_units=0x7f050078;
-        public static final int init_username=0x7f05006b;
+        public static final int init_geocaching=0x7f050069;
+        public static final int init_go4cache=0x7f05006a;
+        public static final int init_go4cache_connect=0x7f050070;
+        public static final int init_legal=0x7f05006f;
+        public static final int init_livelist=0x7f05007d;
+        public static final int init_login=0x7f05006e;
+        public static final int init_nav=0x7f05007a;
+        public static final int init_offline=0x7f050078;
+        public static final int init_other=0x7f050073;
+        public static final int init_password=0x7f05006d;
+        public static final int init_skin=0x7f050074;
+        public static final int init_transparent=0x7f050075;
+        public static final int init_twitter=0x7f05006b;
+        public static final int init_twitter_authorize=0x7f050071;
+        public static final int init_twitter_publish=0x7f050072;
+        public static final int init_units=0x7f050079;
+        public static final int init_username=0x7f05006c;
         /**  next things 
  next things 
          */
-        public static final int legal_note=0x7f0500c1;
+        public static final int legal_note=0x7f0500c2;
         public static final int letterbox=0x7f05000b;
         /**  main screen 
  main screen 
          */
-        public static final int live_map_button=0x7f05005b;
-        public static final int loc_gps=0x7f050055;
+        public static final int live_map_button=0x7f05005c;
+        public static final int loc_gps=0x7f050056;
         /**  location service 
  location service 
          */
-        public static final int loc_last=0x7f050053;
-        public static final int loc_net=0x7f050054;
-        public static final int loc_sat=0x7f050056;
-        public static final int loc_trying=0x7f050057;
+        public static final int loc_last=0x7f050054;
+        public static final int loc_net=0x7f050055;
+        public static final int loc_sat=0x7f050057;
+        public static final int loc_trying=0x7f050058;
         public static final int log_archived=0x7f050026;
         public static final int log_disabled=0x7f050022;
         public static final int log_dnf=0x7f05001e;
@@ -573,6 +573,7 @@ containing a value of this type.
          */
         public static final int log_new_found=0x7f05002b;
         public static final int log_new_maintenance=0x7f050032;
+        public static final int log_new_maintenance_owner=0x7f050033;
         public static final int log_new_note=0x7f05002d;
         public static final int log_new_webcam=0x7f050031;
         public static final int log_note=0x7f05001f;
@@ -587,33 +588,33 @@ containing a value of this type.
         /**  standard menu 
  standard menu 
          */
-        public static final int menu_about=0x7f050058;
-        public static final int menu_filter=0x7f05005a;
-        public static final int menu_settings=0x7f050059;
+        public static final int menu_about=0x7f050059;
+        public static final int menu_filter=0x7f05005b;
+        public static final int menu_settings=0x7f05005a;
         public static final int multi=0x7f050009;
         public static final int mystery=0x7f05000a;
-        public static final int now_searching=0x7f050063;
-        public static final int popup_log_visit=0x7f0500be;
+        public static final int now_searching=0x7f050064;
+        public static final int popup_log_visit=0x7f0500bf;
         /**  popup 
  popup 
          */
-        public static final int popup_more=0x7f0500bd;
-        public static final int popup_navigation=0x7f0500bf;
+        public static final int popup_more=0x7f0500be;
+        public static final int popup_navigation=0x7f0500c0;
         public static final int search=0x7f050004;
         public static final int settings=0x7f050005;
-        public static final int settings_button=0x7f050061;
-        public static final int stored_caches_button=0x7f05005e;
-        public static final int support=0x7f0500c4;
+        public static final int settings_button=0x7f050062;
+        public static final int stored_caches_button=0x7f05005f;
+        public static final int support=0x7f0500c5;
         public static final int traditional=0x7f050008;
-        public static final int twitter=0x7f0500c7;
-        public static final int type=0x7f050062;
+        public static final int twitter=0x7f0500c8;
+        public static final int type=0x7f050063;
         public static final int virtual=0x7f050011;
         /**  waypoint 
  waypoint 
          */
-        public static final int waypoint_custom=0x7f0500c0;
+        public static final int waypoint_custom=0x7f0500c1;
         public static final int webcam=0x7f050010;
-        public static final int website=0x7f0500c5;
+        public static final int website=0x7f0500c6;
         public static final int wherigo=0x7f050012;
         /**  waypoints 
  waypoints 
