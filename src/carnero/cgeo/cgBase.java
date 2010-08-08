@@ -2739,9 +2739,24 @@ public class cgBase {
 		params.put("ctl00$ContentBody$LogBookPanel1$LogButton", "Submit Log Entry");
 		params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
 		if (trackables != null && trackables.isEmpty() == false) {
+			final StringBuilder hdnSelected = new StringBuilder();
+
 			for (cgTrackableLog tb : trackables) {
-				params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$repTravelBugs$ctl" + tb.ctl + "$ddlAction", Integer.toString(tb.id) + logTrackablesAction.get(tb.action));
+				String ctl = null;
+				final String action = Integer.toString(tb.id) + logTrackablesAction.get(tb.action);
+
+				if (tb.ctl < 10) ctl = "0" + Integer.toString(tb.ctl);
+				else ctl = Integer.toString(tb.ctl);
+				
+				params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$repTravelBugs$ctl" + ctl + "$ddlAction", action);
+				if (tb.action > 0) {
+					hdnSelected.append(action);
+					hdnSelected.append(",");
+				}
 			}
+
+			params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$hdnSelectedActions", hdnSelected.toString()); // selected trackables
+			params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$hdnCurrentFilter", "");
 		}
 
 		String page = request(host, path, method, params, false, false, false);

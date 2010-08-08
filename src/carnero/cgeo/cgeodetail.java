@@ -924,6 +924,8 @@ public class cgeodetail extends Activity {
 	}
 
 	private void navigateTo() {
+		if (cache == null || cache.latitude == null || cache.longitude == null) warning.showToast("c:geo doesn't know location of cache.");
+
 		cgeonavigate navigateActivity = new cgeonavigate();
 
 		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
