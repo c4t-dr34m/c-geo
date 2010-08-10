@@ -227,6 +227,9 @@
 	<!-- waypoint -->
 	<string name="waypoint_custom">custom</string>
 
+	<!-- visit -->
+	<string name="visit_tweet">post this find to twitter</string>
+
 	<!-- next things -->
     <string name="legal_note">
 		To use services of geocaching.com (and this application does), you must agree with terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a>.

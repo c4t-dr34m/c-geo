@@ -157,7 +157,7 @@ containing a value of this type.
     public static final class id {
         public static final int about_go4cache=0x7f07003f;
         public static final int about_twitter=0x7f070041;
-        public static final int action=0x7f07007f;
+        public static final int action=0x7f070081;
         public static final int add_waypoint=0x7f070031;
         public static final int added=0x7f07004f;
         public static final int address=0x7f07000c;
@@ -180,7 +180,7 @@ containing a value of this type.
         public static final int count=0x7f070051;
         public static final int current=0x7f070067;
         public static final int date=0x7f07007d;
-        public static final int delete=0x7f070082;
+        public static final int delete=0x7f070084;
         public static final int desc_box=0x7f07002b;
         public static final int description=0x7f07002d;
         public static final int destination=0x7f070064;
@@ -196,7 +196,7 @@ containing a value of this type.
         public static final int display_trackable=0x7f070017;
         public static final int distance=0x7f07001e;
         public static final int dnf_mark=0x7f070052;
-        public static final int edit=0x7f070083;
+        public static final int edit=0x7f070085;
         public static final int exclude=0x7f070046;
         public static final int facebook=0x7f070003;
         public static final int filter_button=0x7f07005b;
@@ -210,7 +210,7 @@ containing a value of this type.
         public static final int heading=0x7f070065;
         public static final int hint=0x7f070033;
         public static final int hint_box=0x7f070032;
-        public static final int identification=0x7f070080;
+        public static final int identification=0x7f070082;
         public static final int image=0x7f070079;
         public static final int image_box=0x7f070078;
         public static final int info=0x7f070020;
@@ -241,7 +241,7 @@ containing a value of this type.
         public static final int nav_type=0x7f07005e;
         public static final int navigation_part=0x7f070070;
         public static final int nearest=0x7f070057;
-        public static final int note=0x7f070081;
+        public static final int note=0x7f070083;
         public static final int offline=0x7f070048;
         public static final int offline_box=0x7f070024;
         public static final int offline_refresh=0x7f070026;
@@ -253,7 +253,7 @@ containing a value of this type.
         public static final int picker=0x7f07003a;
         public static final int pin=0x7f070018;
         public static final int pin_button=0x7f070019;
-        public static final int post=0x7f07007e;
+        public static final int post=0x7f070080;
         public static final int publicloc=0x7f070040;
         public static final int radar=0x7f07006a;
         public static final int rose=0x7f070066;
@@ -277,6 +277,8 @@ containing a value of this type.
         public static final int trackable_list=0x7f07007b;
         public static final int transparent=0x7f070045;
         public static final int turn=0x7f07006b;
+        public static final int tweet=0x7f07007f;
+        public static final int tweet_box=0x7f07007e;
         public static final int twitter=0x7f070004;
         public static final int twitter_option=0x7f070043;
         public static final int type=0x7f070050;
@@ -365,16 +367,16 @@ containing a value of this type.
     }
     public static final class string {
         public static final int about=0x7f050006;
-        public static final int about_auth_1=0x7f0500cc;
-        public static final int about_auth_2=0x7f0500cd;
+        public static final int about_auth_1=0x7f0500cd;
+        public static final int about_auth_2=0x7f0500ce;
         public static final int about_button=0x7f050061;
         /**  about 
  about 
          */
         public static final int about_changelog=0x7f050068;
-        public static final int about_go4cache=0x7f0500ca;
-        public static final int about_text=0x7f0500c3;
-        public static final int about_twitter=0x7f0500cb;
+        public static final int about_go4cache=0x7f0500cb;
+        public static final int about_text=0x7f0500c4;
+        public static final int about_twitter=0x7f0500cc;
         public static final int advanced_search_button=0x7f05005e;
         /**  caches 
  caches 
@@ -397,7 +399,7 @@ containing a value of this type.
  auth 
          */
         public static final int auth_twitter=0x7f050080;
-        public static final int author=0x7f0500c4;
+        public static final int author=0x7f0500c5;
         /**  basics 
  basics 
          */
@@ -467,7 +469,7 @@ containing a value of this type.
         /**  changelog 
  changelog 
          */
-        public static final int changelog=0x7f0500ce;
+        public static final int changelog=0x7f0500cf;
         public static final int cito=0x7f05000f;
         public static final int detail=0x7f050003;
         public static final int earth=0x7f05000e;
@@ -507,10 +509,10 @@ containing a value of this type.
         public static final int err_unknown=0x7f050039;
         public static final int err_wrong=0x7f05003b;
         public static final int event=0x7f05000c;
-        public static final int facebook=0x7f0500c7;
+        public static final int facebook=0x7f0500c8;
         public static final int gchq=0x7f050015;
         public static final int gps=0x7f050016;
-        public static final int graphic=0x7f0500c9;
+        public static final int graphic=0x7f0500ca;
         public static final int init_autoload=0x7f05007c;
         public static final int init_browser=0x7f05007e;
         public static final int init_cleared=0x7f05007f;
@@ -540,7 +542,7 @@ containing a value of this type.
         /**  next things 
  next things 
          */
-        public static final int legal_note=0x7f0500c2;
+        public static final int legal_note=0x7f0500c3;
         public static final int letterbox=0x7f05000b;
         /**  main screen 
  main screen 
@@ -604,17 +606,21 @@ containing a value of this type.
         public static final int settings=0x7f050005;
         public static final int settings_button=0x7f050062;
         public static final int stored_caches_button=0x7f05005f;
-        public static final int support=0x7f0500c5;
+        public static final int support=0x7f0500c6;
         public static final int traditional=0x7f050008;
-        public static final int twitter=0x7f0500c8;
+        public static final int twitter=0x7f0500c9;
         public static final int type=0x7f050063;
         public static final int virtual=0x7f050011;
+        /**  visit 
+ visit 
+         */
+        public static final int visit_tweet=0x7f0500c2;
         /**  waypoint 
  waypoint 
          */
         public static final int waypoint_custom=0x7f0500c1;
         public static final int webcam=0x7f050010;
-        public static final int website=0x7f0500c6;
+        public static final int website=0x7f0500c7;
         public static final int wherigo=0x7f050012;
         /**  waypoints 
  waypoints 

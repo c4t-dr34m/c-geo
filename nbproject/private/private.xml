@@ -2,10 +2,8 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/home/carnero/work/projects/cgeo-beta/AndroidManifest.xml</file>
-        <file>file:/home/carnero/work/projects/cgeo-beta/res/values/strings.xml</file>
-        <file>file:/home/carnero/work/projects/cgeo-beta/res/values-cs/strings.xml</file>
-        <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgBase.java</file>
         <file>file:/home/carnero/work/projects/cgeo-beta/src/carnero/cgeo/cgeovisit.java</file>
+        <file>file:/home/carnero/work/projects/cgeo-beta/res/layout/visit_dark.xml</file>
+        <file>file:/home/carnero/work/projects/cgeo-beta/res/layout/visit_light.xml</file>
     </open-files>
 </project-private>

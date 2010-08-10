@@ -227,6 +227,9 @@
 	<!-- waypoint -->
 	<string name="waypoint_custom">vlastní</string>
 
+	<!-- visit -->
+	<string name="visit_tweet">informovat o nálezu na twitteru</string>
+
 	<!-- next things -->
     <string name="legal_note">
 		Před používáním služeb serveru geocaching.com (a tato aplikace to dělá) je potřeba souhlasit s <a href="http://www.geocaching.com/about/disclaimer.aspx">licenčním ujednáním Groundspeaku</a>.

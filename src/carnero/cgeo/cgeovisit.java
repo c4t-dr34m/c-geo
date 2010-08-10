@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class cgeovisit extends Activity {
 	private int typeSelected = 2;
     private int attempts = 0;
 	private boolean progressBar = false;
+    private CheckBox tweetCheck = null;
+    private LinearLayout tweetBox = null;
 
 	private Handler showProgressHandler = new Handler() {
 		@Override
@@ -299,7 +302,7 @@ public class cgeovisit extends Activity {
 							tb.action = id;
 							tbText.setText(logTbAction);
 
-							Log.i(cgSettings.tag, "Trackable " + tb.trackCode + " (" + tb.name + ") has new action #" + id);
+							Log.i(cgSettings.tag, "Trackable " + tb.trackCode + " (" + tb.name + ") has new action: #" + id);
 						}
 					}
 
@@ -317,6 +320,7 @@ public class cgeovisit extends Activity {
 		if (geocode != null) app.setAction(geocode);
 
 		if (base.logTypes2.get(typeSelected) == null) typeSelected = 2;
+        setType(typeSelected);
 
 		Button typeButton = (Button)findViewById(R.id.type);
 		registerForContextMenu(typeButton);
@@ -335,6 +339,10 @@ public class cgeovisit extends Activity {
 		dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton, 0));
 		dateButton.setOnClickListener(new cgeovisitDateListener());
 
+        if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
+        if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
+        tweetCheck.setChecked(true);
+        
 		Button buttonPost = (Button)findViewById(R.id.post);
 		if (viewstate == null || viewstate.length() == 0) {
 			buttonPost.setClickable(false);
@@ -368,6 +376,10 @@ public class cgeovisit extends Activity {
 		if (base.logTypes2.get(type) != null) typeSelected = type;
 		if (base.logTypes2.get(typeSelected) == null) typeSelected = 0;
 		typeButton.setText(base.logTypes2.get(typeSelected));
+
+        if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
+        if (type == 2 && settings.twitter == 1) tweetBox.setVisibility(View.VISIBLE);
+        else tweetBox.setVisibility(View.GONE);
 	}
 
 	private class cgeovisitDateListener implements View.OnClickListener {
@@ -456,18 +468,22 @@ public class cgeovisit extends Activity {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 
+            if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
+            if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
+
 			status = base.postLog(cacheid, viewstate, null, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log, trackables);
 
 			if (
 				status == 1 && typeSelected == 2 && settings.twitter == 1 &&
-				settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null && settings.tokenSecret.length() > 0
+				settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null && settings.tokenSecret.length() > 0 &&
+                tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
 				) {
 				base.postTweet(app, settings, geocode);
 			}
 
 			return status;
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeovisit.postLogFn: " + e.toString());
+            Log.e(cgSettings.tag, "cgeovisit.postLogFn: " + e.toString());
 		}
 
 		return 1000;
