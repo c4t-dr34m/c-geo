@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
@@ -76,7 +77,6 @@ public class cgBase {
 	public static DateFormat dateOutShort = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
 
 	private HashMap<String, String> cookies = new HashMap<String, String>();
-	private boolean follow = false;
 	private Pattern patternLoggedIn = null;
 	private final Pattern patternViewstate = Pattern.compile("id=\"__VIEWSTATE\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternViewstate1 = Pattern.compile("id=\"__VIEWSTATE1\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
@@ -241,15 +241,6 @@ public class cgBase {
                 idBrowser = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; en-US) AppleWebKit/532.9 (KHTML, like Gecko) Chrome/5.0.307.11 Safari/532.9";
             }
         }
-
-		SecurityManager sm = new SecurityManager();
-		try {
-			sm.checkSetFactory();
-			follow = true;
-		} catch (SecurityException e) {
-			// c:geo is not allowed to follow redirects
-		}
-		sm = null;
 	}
 
 	public String findViewstate(String page, int index) {
@@ -290,6 +281,10 @@ public class cgBase {
 		String viewstate1 = null;
 
 		final HashMap<String, String> loginStart = settings.getLogin();
+
+        if (loginStart == null) {
+            return -3; // no login information stored
+        }
 
 		loginPage = request(host, path, "GET", new HashMap<String, String>(), false, false, false);
 		if (loginPage != null && loginPage.length() > 0) {
@@ -650,7 +645,7 @@ public class cgBase {
 				}
 				params.append("Download=Download+Waypoints");
 
-				final String coordinates = request(host, path, "POST", params.toString(), true);
+				final String coordinates = request(host, path, "POST", params.toString(), 0, true);
 
 				if (coordinates != null && coordinates.length() > 0) {
 					if (coordinates.indexOf("You have not agreed to the license agreement. The license agreement is required before you can start downloading GPX or LOC files from Geocaching.com") > -1) {
@@ -1958,6 +1953,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, true);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				app.setError(searchId, errorRetrieve.get(loginState));
 				Log.e(cgSettings.tag, "cgeoBase.searchByNextPage: Can not log in geocaching");
@@ -2037,6 +2034,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, false);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByGeocode Can not log in geocaching");
@@ -2174,6 +2173,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, true);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByCoords: Can not log in geocaching (error: " + loginState + ")");
@@ -2257,6 +2258,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, true);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByKeyword: Can not log in geocaching (error: " + loginState + ")");
@@ -2346,6 +2349,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, my, true);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByUsername: Can not log in geocaching (error: " + loginState + ")");
@@ -2429,6 +2434,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, true);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				search.error = errorRetrieve.get(loginState);
 				Log.e(cgSettings.tag, "cgeoBase.searchByOwner: Can not log in geocaching (error: " + loginState + ")");
@@ -2496,6 +2503,8 @@ public class cgBase {
 				int loginState = login();
 				if (loginState == 1) {
 					page = request("www.geocaching.com", "/map/default.aspx", "GET", null, false, false, false);
+                } else if (loginState == -3) {
+                    Log.i(cgSettings.tag, "Working as guest.");
 				} else {
 					search.error = errorRetrieve.get(loginState);
 					Log.e(cgSettings.tag, "cgeoBase.searchByViewport: Can not log in geocaching (error: " + loginState + ")");
@@ -2678,6 +2687,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, false);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				trackable.errorRetrieve = loginState;
 				Log.e(cgSettings.tag, "cgeoBase.searchTrackable Can not log in geocaching");
@@ -2788,6 +2799,8 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, false);
+            } else if (loginState == -3) {
+                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				Log.e(cgSettings.tag, "cgeoBase.postLog: Can not log in geocaching (error: " + loginState + ")");
 				return loginState;
@@ -3044,10 +3057,23 @@ public class cgBase {
 		// prepare parameters
 		final String paramsDone = prepareParameters(params, my, addF);
 
-		return request(host, path, method, paramsDone, xContentType);
+		return request(host, path, method, paramsDone, 0, xContentType);
 	}
 	
-	public String request(String host, String path, String method, String params, Boolean xContentType) {
+	public String request(String host, String path, String method, HashMap<String, String> params, int requestId, boolean xContentType, boolean my, boolean addF) {
+		// prepare parameters
+		final String paramsDone = prepareParameters(params, my, addF);
+
+		return request(host, path, method, paramsDone, requestId, xContentType);
+	}
+
+	public String request(String host, String path, String method, String params, int requestId, Boolean xContentType) {
+        boolean follow = false;
+        int httpCode = -1;
+        String httpLocation = null;
+
+        if (requestId == 0) requestId = (int)(Math.random() * 1000);
+
 		if (method == null || (method.equalsIgnoreCase("GET") == false && method.equalsIgnoreCase("POST") == false)) method = "POST";
 		else method = method.toUpperCase();
 
@@ -3082,6 +3108,19 @@ public class cgBase {
 				if (cookiesEncoded.size() > 0) cookiesDone = implode("; ", cookiesEncoded.toArray());
 			}
 		}
+
+        /*
+		SecurityManager sm = new SecurityManager();
+		try {
+			sm.checkSetFactory();
+			follow = true;
+		} catch (SecurityException e) {
+			follow = false;
+            
+            Log.w(cgSettings.tag, "This thread can not follow redirects!");
+		}
+		sm = null;
+        */
 
 		if (cookiesDone == null) cookiesDone = "";
 
@@ -3119,7 +3158,7 @@ public class cgBase {
 					connection = (HttpURLConnection)uc;
 					connection.setReadTimeout(timeout);
 					connection.setRequestMethod(method);
-					if (follow == true) connection.setFollowRedirects(true);
+					connection.setFollowRedirects(false);
 					connection.setDoInput(true);
 					connection.setDoOutput(false);
 				} else {
@@ -3144,7 +3183,7 @@ public class cgBase {
 					connection = (HttpURLConnection)uc;
 					connection.setReadTimeout(timeout);
 					connection.setRequestMethod(method);
-					if (follow == true) connection.setFollowRedirects(true);
+					connection.setFollowRedirects(false);
 					connection.setDoInput(true);
 					connection.setDoOutput(true);
 
@@ -3200,7 +3239,10 @@ public class cgBase {
 					}
 				}
 
-				Log.i(cgSettings.tag, "[" + buffer.length() + "B] Downloading server response (" + method + " " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+                httpCode = connection.getResponseCode();
+                httpLocation = uc.getHeaderField("Location");
+
+				Log.i(cgSettings.tag + " | " + requestId, "[" + buffer.length() + "B] Downloading server response (" + method + " " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
 
 				connection.disconnect();
 				br.close();
@@ -3215,12 +3257,31 @@ public class cgBase {
 			if (buffer != null && buffer.length() > 0) break;
 		}
 
+        String page = null;
+        if (httpCode == 302 && httpLocation != null) {
+             final Uri newLocation = Uri.parse(httpLocation);
+             if (newLocation.isRelative() == true) {
+                 page = request(host, path, "GET", new HashMap<String, String>(), requestId, false, false, false);
+             } else {
+                 page = request(newLocation.getHost(), newLocation.getPath(), "GET", new HashMap<String, String>(), requestId, false, false, false);
+             }
+        } else if (buffer != null) {
+            final Matcher matcherLines = patternLines.matcher(buffer.toString());
+            page = matcherLines.replaceAll(" ");
+            
+            final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
+            final Matcher matcherTitle = patternTitle.matcher(page);
+            if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
+                Log.d(cgSettings.tag + " | " + requestId, "Downloaded page title: " + matcherTitle.group(1).trim());
+            } else {
+                Log.d(cgSettings.tag + " | " + requestId, "Downloaded file has no title.");
+            }
+        } else {
+            return "";
+        }
 
-		if (buffer != null) {
-            final String bufferStr = buffer.toString();
-            final Matcher matcherLines = patternLines.matcher(bufferStr);
-			
-			return matcherLines.replaceAll(" ");
+		if (page != null) {
+			return page;
 		} else {
 			return "";
 		}

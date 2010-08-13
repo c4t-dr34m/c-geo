@@ -29,9 +29,9 @@ public class cgSettings {
 	public int buttonPressed = R.drawable.action_button_dark_pressed;
 
 	// settings
-	public boolean loginFired = false;
 	public boolean loaded = false;
 	public boolean hideMySearch = false;
+    public int initialized = 0;
 	public int cachesFound = 0;
 	public int autoLoadDesc = 0;
 	public int units = unitsMetric;
@@ -68,6 +68,8 @@ public class cgSettings {
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
 		prefs = prefsIn;
+
+		initialized = prefs.getInt("initialized", 0);
 
 		skin = prefs.getInt("skin", 0);
 		transparent = prefs.getBoolean("transparent", true);
@@ -164,14 +166,20 @@ public class cgSettings {
 			String preUsername = prefs.getString("username", null);
 			String prePassword = prefs.getString("password", null);
 
-			if (loginFired == false && (preUsername == null || prePassword == null)) {
+			if (initialized == 0 && (preUsername == null || prePassword == null)) {
 				Intent initIntent = new Intent(context, cgeoinit.class);
 				context.startActivity(initIntent);
 
-				loginFired= true;
+        		final SharedPreferences.Editor prefsEdit = prefs.edit();
+                prefsEdit.putInt("initialized", 1);
+                prefsEdit.commit();
+
+				initialized = 1;
 
 				return null;
-			}
+            } else if (initialized == 1 && (preUsername == null || prePassword == null)) {
+                return null;
+            }
 
 			login.put("username", preUsername);
 			login.put("password", prePassword);

@@ -289,10 +289,12 @@ public class cgeodetail extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_compass);
-		subMenu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)); // compass
-		subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
-		subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
+        if (cache.latitude != null && cache.longitude != null) {
+            SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_compass);
+            subMenu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)); // compass
+            subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
+            subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
+        }
 
 		menu.add(0, 1, 0, res.getString(R.string.cache_menu_map)).setIcon(android.R.drawable.ic_menu_mapmode); // google maps
 		if (cache != null && cache.reason == 1) {
@@ -591,14 +593,16 @@ public class cgeodetail extends Activity {
 			}
 
 			// cache coordinates
-			if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
-			else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-			itemName = (TextView)itemLayout.findViewById(R.id.name);
-			itemValue = (TextView)itemLayout.findViewById(R.id.value);
+            if (cache.latitude != null && cache.longitude != null) {
+                if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
+                else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
+                itemName = (TextView)itemLayout.findViewById(R.id.name);
+                itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
-			itemName.setText(res.getString(R.string.cache_coordinates));
-			itemValue.setText(cache.latitudeString + " | " + cache.longitudeString);
-			detailsList.addView(itemLayout);
+                itemName.setText(res.getString(R.string.cache_coordinates));
+                itemValue.setText(cache.latitudeString + " | " + cache.longitudeString);
+                detailsList.addView(itemLayout);
+            }
 
 			// cache attributes
 			if (cache.attributes != null && cache.attributes.size() > 0) {

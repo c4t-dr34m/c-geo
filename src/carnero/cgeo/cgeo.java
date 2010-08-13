@@ -325,12 +325,6 @@ public class cgeo extends Activity {
 		}
 	}
 
-	private class cgeoSettingsListener implements View.OnClickListener {
-		public void onClick(View arg0) {
-			context.startActivity(new Intent(context, cgeoinit.class));
-		}
-	}
-
 	private class cgeoPointListener implements View.OnClickListener {
 		public void onClick(View arg0) {
 			context.startActivity(new Intent(context, cgeopoint.class));
