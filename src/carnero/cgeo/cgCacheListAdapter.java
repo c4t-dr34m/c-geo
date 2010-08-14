@@ -199,7 +199,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			}
 			setDiDi = true;
 		} else {
-			if (cache.distance != null && cache.distance > 0) {
+			if (cache.distance != null) {
 				holder.distance.setDistance(cache.distance);
 				setDiDi = true;
             }

@@ -238,14 +238,18 @@ public class cgeodetail extends Activity {
 
 		app.setAction(geocode);
 
-		if (name != null && name.length() > 0) {
-			waitDialog = ProgressDialog.show(this, name, res.getString(R.string.cache_dialog_loading_details), true);
-		} else if (geocode != null && geocode.length() > 0) {
-			waitDialog = ProgressDialog.show(this, geocode.toUpperCase(), res.getString(R.string.cache_dialog_loading_details), true);
-		} else {
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.cache), res.getString(R.string.cache_dialog_loading_details), true);
+		try {
+			if (name != null && name.length() > 0) {
+				waitDialog = ProgressDialog.show(this, name, res.getString(R.string.cache_dialog_loading_details), true);
+			} else if (geocode != null && geocode.length() > 0) {
+				waitDialog = ProgressDialog.show(this, geocode.toUpperCase(), res.getString(R.string.cache_dialog_loading_details), true);
+			} else {
+				waitDialog = ProgressDialog.show(this, res.getString(R.string.cache), res.getString(R.string.cache_dialog_loading_details), true);
+			}
+			waitDialog.setCancelable(true);
+		} catch (Exception e) {
+			// nothing, we lost the window
 		}
-		waitDialog.setCancelable(true);
 
 		threadCache = new loadCache(loadCacheHandler, geocode, guid);
 		threadCache.start();
@@ -294,40 +298,20 @@ public class cgeodetail extends Activity {
             subMenu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)); // compass
             subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
             subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
+
+    		menu.add(0, 1, 0, res.getString(R.string.cache_menu_map)).setIcon(android.R.drawable.ic_menu_mapmode); // google maps
         }
 
-		menu.add(0, 1, 0, res.getString(R.string.cache_menu_map)).setIcon(android.R.drawable.ic_menu_mapmode); // google maps
 		if (cache != null && cache.reason == 1) {
 			menu.add(1, 6, 0, res.getString(R.string.cache_menu_map_static)).setIcon(android.R.drawable.ic_menu_mapmode); // static maps
 		}
 		menu.add(1, 7, 0, res.getString(R.string.cache_menu_browser)).setIcon(android.R.drawable.ic_menu_info_details); // browser
-		// ---- next row
-		menu.add(1, 3, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
+        if (settings.isLogin() == true) {
+            menu.add(1, 3, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
+        }
 
 		if (cache != null && cache.spoilers != null && cache.spoilers.size() > 0) {
 			menu.add(1, 5, 0, res.getString(R.string.cache_menu_spoilers)).setIcon(android.R.drawable.ic_menu_gallery); // spoiler images
-		}
-
-		return true;
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		try {
-			if (cache != null && (cache.latitude == null || cache.longitude == null)) { // cache has no coordinates (really?)
-				MenuItem item;
-				item = menu.findItem(1); // show on map
-				item = menu.findItem(2); // compass
-				item = menu.findItem(8); // radar
-				item = menu.findItem(9); // turn-by-turn
-				item.setEnabled(false);
-			}
-			if (cache != null && cache.reason == 1) menu.findItem(6).setVisible(true);
-			else menu.findItem(6).setVisible(false);
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeodetail.onPrepareOptionsMenu: " + e.toString());
 		}
 
 		return true;
@@ -393,7 +377,6 @@ public class cgeodetail extends Activity {
 			if (waitDialog != null && waitDialog.isShowing()) waitDialog.dismiss();
 
 			if (geocode != null && geocode.length() > 0) {
-				geocode = cache.geocode;
 				warning.showToast(res.getString(R.string.err_detail_cache_find) + " " + geocode + ".");
 			} else {
 				geocode = null;
@@ -508,7 +491,8 @@ public class cgeodetail extends Activity {
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
 			itemName.setText(res.getString(R.string.cache_distance));
-			itemValue.setText("--");
+            if (cache.distance != null) itemValue.setText("~" + base.getHumanDistance(cache.distance));
+            else itemValue.setText("--");
 			detailsList.addView(itemLayout);
 			cacheDistance = itemValue;
 

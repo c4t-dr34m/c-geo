@@ -307,7 +307,7 @@ public class cgeopopup extends Activity {
 			}
 
 			// log visit
-			if (fromDetail == false) {
+			if (fromDetail == false && settings.isLogin() == true) {
 				((LinearLayout)findViewById(R.id.log_visit_box)).setVisibility(View.VISIBLE);
 
 				Button buttonMore = (Button)findViewById(R.id.log_visit);

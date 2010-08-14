@@ -78,8 +78,8 @@ public class cgCompassMini extends View {
 
 	protected void updateDirection() {
         // compass margins
-        int compassRoseWidth = this.compassArrow.getWidth();
-        int compassRoseHeight = this.compassArrow.getWidth();
+        int compassRoseWidth = compassArrow.getWidth();
+        int compassRoseHeight = compassArrow.getWidth();
         int marginLeft = (getWidth() - compassRoseWidth) / 2;
         int marginTop = (getHeight() - compassRoseHeight) / 2;
 

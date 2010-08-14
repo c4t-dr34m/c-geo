@@ -185,9 +185,7 @@ public class cgeoapplication extends Application {
     }
 
     public Integer getTotal(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) {
-			return null;
-		}
+		if (searchId == null || searches.containsKey(searchId) == false) return null;
 
         return searches.get(searchId).totalCnt;
     }

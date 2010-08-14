@@ -159,12 +159,23 @@ public class cgSettings {
 		return storage;
 	}
 
+    public boolean isLogin() {
+        final String preUsername = prefs.getString("username", null);
+        final String prePassword = prefs.getString("password", null);
+
+        if (preUsername == null || prePassword == null || preUsername.length() == 0 || prePassword.length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 	public HashMap<String, String> getLogin() {
 		final HashMap<String, String> login = new HashMap<String, String>();
 
 		if (username == null || password == null) {
-			String preUsername = prefs.getString("username", null);
-			String prePassword = prefs.getString("password", null);
+			final String preUsername = prefs.getString("username", null);
+			final String prePassword = prefs.getString("password", null);
 
 			if (initialized == 0 && (preUsername == null || prePassword == null)) {
 				Intent initIntent = new Intent(context, cgeoinit.class);

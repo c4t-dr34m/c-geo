@@ -32,7 +32,7 @@ public class cgData {
     private static final String dbTableSpoilers = "cg_spoilers";
     private static final String dbTableLogs = "cg_logs";
     private static final String dbTableTrackables = "cg_trackables";
-    private static final int dbVersion = 36;
+    private static final int dbVersion = 37;
     private static final String dbCreateCaches = ""
 			+ "create table " + dbTableCaches + " ("
 			+ "_id integer primary key autoincrement, "
@@ -55,6 +55,8 @@ public class cgData {
 			+ "latitude_string text, "
 			+ "longitude_string text, "
 			+ "location text, "
+			+ "direction text, "
+			+ "distance double, "
 			+ "latitude double, "
 			+ "longitude double, "
 			+ "shortdesc text, "
@@ -223,8 +225,6 @@ public class cgData {
 			db.execSQL("create index if not exists in_a on " + dbTableSpoilers + " (geocode)");
 			db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
 			db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
-
-			Log.i(cgSettings.tag, "Just created new database.");
         }
 
         @Override
@@ -232,7 +232,9 @@ public class cgData {
 			db.beginTransaction();
 
 			try {
-				if (oldVersion < 34) {
+				Log.i(cgSettings.tag, "Upgrading database from ver. " + oldVersion +" to ver. " + newVersion + ".");
+
+                if (oldVersion <= 0) {
 					db.execSQL("drop table if exists " + dbTableCaches);
 					db.execSQL("drop table if exists " + dbTableAttributes);
 					db.execSQL("drop table if exists " + dbTableWaypoints);
@@ -241,8 +243,10 @@ public class cgData {
 					db.execSQL("drop table if exists " + dbTableTrackables);
 					onCreate(db);
 
-					Log.i(cgSettings.tag, "Just upgraded database from ver. " + oldVersion +" to ver. " + newVersion + ".");
-				} else {
+    				Log.i(cgSettings.tag, "Database structure created.");
+                }
+
+				if (oldVersion < 34) {
 					db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
 					db.execSQL("create index if not exists in_b on " + dbTableCaches + " (guid)");
 					db.execSQL("create index if not exists in_c on " + dbTableCaches + " (reason)");
@@ -255,8 +259,15 @@ public class cgData {
 					db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
 					db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
 
-					Log.i(cgSettings.tag, "Just created indexes.");
+    				Log.i(cgSettings.tag, "Indexes added.");
 				}
+
+				if (oldVersion < 37) {
+                    db.execSQL("alter table " + dbTableCaches + " add column direction text");
+                    db.execSQL("alter table " + dbTableCaches + " add column distance double");
+
+    				Log.i(cgSettings.tag, "Columns direction and distance added to " + dbTableCaches + ".");
+                }
 
 				db.setTransactionSuccessful();
 			} finally {
@@ -487,6 +498,8 @@ public class cgData {
         values.put("latitude_string", cache.latitudeString);
         values.put("longitude_string", cache.longitudeString);
         values.put("location", cache.location);
+        values.put("distance", cache.distance);
+        values.put("direction", cache.direction);
         values.put("latitude", cache.latitude);
         values.put("longitude", cache.longitude);
         values.put("shortdesc", cache.shortdesc);
@@ -774,8 +787,8 @@ public class cgData {
                 cursor = databaseRO.query(
                         dbTableCaches,
                         new String[] {
-                            "_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner",
-                            "hidden", "hint", "size", "difficulty", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
+                            "_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
+                            "difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
                             "description", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags", "inventoryunknown"
                         },
                         "geocode in (" + all.toString() + ")",
@@ -799,8 +812,8 @@ public class cgData {
                 cursor = databaseRO.query(
                         dbTableCaches,
                         new String[] {
-                            "_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner",
-                            "hidden", "hint", "size", "difficulty", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
+                            "_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
+                            "difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
                             "description", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags", "inventoryunknown"
                         },
                         "guid in (" + all.toString() + ")",
@@ -842,6 +855,8 @@ public class cgData {
                         cache.hint = (String)cursor.getString(cursor.getColumnIndex("hint"));
                         cache.size = (String)cursor.getString(cursor.getColumnIndex("size"));
                         cache.difficulty = (Float)cursor.getFloat(cursor.getColumnIndex("difficulty"));
+                        cache.direction = (String)cursor.getString(cursor.getColumnIndex("direction"));
+                        cache.distance = (Double)cursor.getDouble(cursor.getColumnIndex("distance"));
                         cache.terrain = (Float)cursor.getFloat(cursor.getColumnIndex("terrain"));
                         cache.latlon = (String)cursor.getString(cursor.getColumnIndex("latlon"));
                         cache.latitudeString = (String)cursor.getString(cursor.getColumnIndex("latitude_string"));

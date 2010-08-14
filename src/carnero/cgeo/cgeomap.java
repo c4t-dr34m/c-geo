@@ -352,7 +352,6 @@ public class cgeomap extends MapActivity {
 		usersThread = new loadUsers(loadUsersHandler, mapView);
 		if (settings.publicLoc == 1) usersThread.enable();
 		else usersThread.disable();
-
 		usersThread.start();
 	}
 
@@ -378,6 +377,22 @@ public class cgeomap extends MapActivity {
             wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "c:geo");
             wakeLock.acquire();
         }
+
+        // restart loading threads
+		if (loadingThread != null) loadingThread.kill();
+		if (usersThread != null) usersThread.kill();
+        
+        if (live == true) {
+			loadingThread = new loadCaches(loadCachesHandler, mapView);
+			if (settings.maplive == 1) loadingThread.enable();
+			else loadingThread.disable();
+			loadingThread.start();
+        }
+        
+		usersThread = new loadUsers(loadUsersHandler, mapView);
+		if (settings.publicLoc == 1) usersThread.enable();
+		else usersThread.disable();
+		usersThread.start();
 	}
 
 	@Override
@@ -397,6 +412,9 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public void onPause() {
+		if (loadingThread != null) loadingThread.kill();
+		if (usersThread != null) usersThread.kill();
+
 		if (dir != null) dir = app.removeDir(dir);
 		if (geo != null) geo = app.removeGeo(geo);
 
@@ -410,15 +428,15 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public void onDestroy() {
+		if (loadingThread != null) loadingThread.kill();
+		if (usersThread != null) usersThread.kill();
+
 		if (dir != null) dir = app.removeDir(dir);
 		if (geo != null) geo = app.removeGeo(geo);
 
 		savePrefs();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
-
-		if (loadingThread != null) loadingThread.kill();
-		if (usersThread != null) usersThread.kill();
 
         if (mapView != null) {
             mapView.destroyDrawingCache();
@@ -764,11 +782,13 @@ public class cgeomap extends MapActivity {
 		Integer minLon = Integer.MAX_VALUE;
 
 		GeoPoint geopoint = null;
-
+        int cachesWithCoords = 0;
+        
 		coordinates.clear();
 		if (caches != null && caches.size() > 0) {
 			for (cgCache cache : caches) {
 				if (cache.latitude == null && cache.longitude == null) continue;
+                else cachesWithCoords ++;
 
 				String type = null;
 
@@ -805,9 +825,14 @@ public class cgeomap extends MapActivity {
 				if (longitudeE6 < minLon) minLon = longitudeE6;
 			}
 
+            if (cachesWithCoords == 0) {
+                warning.showToast("There is no cache with coordinates.");
+                myLocationInMiddleForce();
+            }
+
 			if (live == false) {
 				// there is only one cache
-				if (caches != null && caches.size() == 1) {
+				if (caches != null && caches.size() == 1 && cachesWithCoords == 1) {
 					cgCache oneCache = caches.get(0);
 
 					maxLat = (int)(oneCache.latitude * 1e6);
@@ -869,7 +894,7 @@ public class cgeomap extends MapActivity {
 					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) centerLat = minLat + ((Math.abs(maxLat) - Math.abs(minLat)) / 2);
 					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) centerLon = minLon + ((Math.abs(maxLon) - Math.abs(minLon)) / 2);
 
-					if (initLocation == true) {
+					if (initLocation == true && cachesWithCoords > 0) {
 						mapController.animateTo(new GeoPoint(centerLat, centerLon));
 						if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
 						initLocation = false;
@@ -924,6 +949,12 @@ public class cgeomap extends MapActivity {
 		centerMap(geo.latitudeNow, geo.longitudeNow);
 
 		if (initLocation == true) initLocation = false;
+	}
+
+	private void myLocationInMiddleForce() {
+		if (geo == null) return;
+
+		centerMap(geo.latitudeNow, geo.longitudeNow);
 	}
 
 	private void centerMap(Double latitude, Double longitude) {

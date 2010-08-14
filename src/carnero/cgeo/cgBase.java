@@ -835,11 +835,16 @@ public class cgBase {
 		final cgCache cache = new cgCache();
 
 		if (page.indexOf("Cache is Unpublished") > -1) {
-			caches.error = "cache not found";
+			caches.error = "cache was unpublished";
 			return caches;
 		}
 
 		if (page.indexOf("Sorry, the owner of this listing has made it viewable to Premium Members only.") != -1) {
+			caches.error = "requested cache is for premium members only";
+			return caches;
+		}
+
+		if (page.indexOf("has chosen to make this cache listing visible to Premium Members only.") != -1) {
 			caches.error = "requested cache is for premium members only";
 			return caches;
 		}
@@ -2070,6 +2075,15 @@ public class cgBase {
 
 		final cgCacheWrap caches = parseCache(page, reason);
 		if (caches == null || caches.cacheList == null || caches.cacheList.isEmpty()) {
+            if (caches.error != null && caches.error.length() > 0) {
+                search.error = caches.error;
+            }
+            if (caches.url != null && caches.url.length() > 0) {
+                search.url = caches.url;
+            }
+
+	        app.addSearch(search, null, true, reason);
+
 			Log.e(cgSettings.tag, "cgeoBase.searchByGeocode: No cache parsed");
 			return null;
 		}
