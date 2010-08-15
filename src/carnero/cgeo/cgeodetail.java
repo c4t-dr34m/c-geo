@@ -744,52 +744,6 @@ public class cgeodetail extends Activity {
 				hintView.setOnClickListener(null);
 			}
 
-			// cache logs
-			LinearLayout listView = (LinearLayout)findViewById(R.id.log_list);
-			listView.removeAllViews();
-
-			RelativeLayout rowView;
-
-            if (cache.logs != null) {
-                for (cgLog log : cache.logs) {
-                    if (settings.skin == 1) rowView = (RelativeLayout)inflater.inflate(R.layout.logitem_light, null);
-					else rowView = (RelativeLayout)inflater.inflate(R.layout.logitem_dark, null);
-
-                    ((TextView)rowView.findViewById(R.id.type)).setText(log.type);
-                    ((TextView)rowView.findViewById(R.id.added)).setText(log.date);
-                    ((TextView)rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
-					if (log.found == 0) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_no));
-					else if (log.found == 1) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_one));
-					else ((TextView)rowView.findViewById(R.id.count)).setText(log.found + " " + res.getString(R.string.cache_count_more));
-                    ((TextView)rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
-
-					final ImageView markFound = (ImageView)rowView.findViewById(R.id.found_mark);
-					final ImageView markDNF = (ImageView)rowView.findViewById(R.id.dnf_mark);
-					final ImageView markDisabled = (ImageView)rowView.findViewById(R.id.disabled_mark);
-					if (log.type.equalsIgnoreCase("found") == true) {
-						markFound.setVisibility(View.VISIBLE);
-						markDNF.setVisibility(View.GONE);
-						markDisabled.setVisibility(View.GONE);
-					} else if (log.type.equalsIgnoreCase("did not find") == true) {
-						markFound.setVisibility(View.GONE);
-						markDNF.setVisibility(View.VISIBLE);
-						markDisabled.setVisibility(View.GONE);
-					} else if (log.type.equalsIgnoreCase("disabled") == true) {
-						markFound.setVisibility(View.GONE);
-						markDNF.setVisibility(View.GONE);
-						markDisabled.setVisibility(View.VISIBLE);
-					} else {
-						markFound.setVisibility(View.GONE);
-						markDNF.setVisibility(View.GONE);
-						markDisabled.setVisibility(View.GONE);
-					}
-
-                    listView.addView(rowView);
-                }
-
-                if (cache.logs.size() > 0) ((LinearLayout)findViewById(R.id.log_box)).setVisibility(View.VISIBLE);
-            }
-
 			if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null && cache != null && cache.latitude != null && cache.longitude != null) {
 				cacheDistance.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
 				cacheDistance.bringToFront();
@@ -801,6 +755,56 @@ public class cgeodetail extends Activity {
 		if (waitDialog != null && waitDialog.isShowing()) waitDialog.dismiss();
 		if (storeDialog != null && storeDialog.isShowing()) storeDialog.dismiss();
 		if (dropDialog != null && dropDialog.isShowing()) dropDialog.dismiss();
+
+		displayLogs();
+	}
+
+	private void displayLogs() {
+		// cache logs
+		LinearLayout listView = (LinearLayout)findViewById(R.id.log_list);
+		listView.removeAllViews();
+
+		RelativeLayout rowView;
+
+		if (cache != null && cache.logs != null) {
+			for (cgLog log : cache.logs) {
+				if (settings.skin == 1) rowView = (RelativeLayout)inflater.inflate(R.layout.logitem_light, null);
+				else rowView = (RelativeLayout)inflater.inflate(R.layout.logitem_dark, null);
+
+				((TextView)rowView.findViewById(R.id.type)).setText(log.type);
+				((TextView)rowView.findViewById(R.id.added)).setText(log.date);
+				((TextView)rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
+				if (log.found == 0) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_no));
+				else if (log.found == 1) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_one));
+				else ((TextView)rowView.findViewById(R.id.count)).setText(log.found + " " + res.getString(R.string.cache_count_more));
+				((TextView)rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
+
+				final ImageView markFound = (ImageView)rowView.findViewById(R.id.found_mark);
+				final ImageView markDNF = (ImageView)rowView.findViewById(R.id.dnf_mark);
+				final ImageView markDisabled = (ImageView)rowView.findViewById(R.id.disabled_mark);
+				if (log.type.equalsIgnoreCase("found") == true) {
+					markFound.setVisibility(View.VISIBLE);
+					markDNF.setVisibility(View.GONE);
+					markDisabled.setVisibility(View.GONE);
+				} else if (log.type.equalsIgnoreCase("did not find") == true) {
+					markFound.setVisibility(View.GONE);
+					markDNF.setVisibility(View.VISIBLE);
+					markDisabled.setVisibility(View.GONE);
+				} else if (log.type.equalsIgnoreCase("disabled") == true) {
+					markFound.setVisibility(View.GONE);
+					markDNF.setVisibility(View.GONE);
+					markDisabled.setVisibility(View.VISIBLE);
+				} else {
+					markFound.setVisibility(View.GONE);
+					markDNF.setVisibility(View.GONE);
+					markDisabled.setVisibility(View.GONE);
+				}
+
+				listView.addView(rowView);
+			}
+
+			if (cache.logs.size() > 0) ((LinearLayout)findViewById(R.id.log_box)).setVisibility(View.VISIBLE);
+		}
 	}
 
 	private class loadCache extends Thread {

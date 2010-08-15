@@ -360,7 +360,7 @@ public class cgData {
     public boolean isOffline(String geocode, String guid) {
         long reason = 0;
 
-		try {
+		// try {
 			if (sqlDetailedGc == null) sqlDetailedGc = databaseRO.compileStatement("select reason from " + dbTableCaches + "  where geocode = ? limit 1");
 			if (sqlDetailedGuid == null) sqlDetailedGuid = databaseRO.compileStatement("select reason from " + dbTableCaches + " where guid = ? limit 1");
 
@@ -373,11 +373,11 @@ public class cgData {
             } else {
                 return false;
             }
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
-		}
+		// } catch (Exception e) {
+		//	Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
+		// }
 
-		if (reason == 1l) {
+		if (reason == 1) {
 			return true;
 		} else {
 			return false;
@@ -1324,6 +1324,22 @@ public class cgData {
 			}
 		} catch(Exception e) {
 			Log.e(cgSettings.tag, "cgData.markDropped: " + e.toString());
+		}
+
+        return false;
+    }
+
+    public boolean markFound(String geocode) {
+        if (geocode == null || geocode.length() == 0) return false;
+
+		try {
+			ContentValues values = new ContentValues();
+			values.put("found", 1);
+			int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\"", null);
+
+			if (rows > 0) return true;
+		} catch(Exception e) {
+			Log.e(cgSettings.tag, "cgData.markFound: " + e.toString());
 		}
 
         return false;

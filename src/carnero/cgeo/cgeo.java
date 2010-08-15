@@ -45,6 +45,9 @@ public class cgeo extends Activity {
         base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
         warning = new cgWarning(this);
 
+		app.cleanGeo();
+		app.cleanDir();
+
 		setTitle("c:geo");
 		try {
 			if (settings.transparent == true) {

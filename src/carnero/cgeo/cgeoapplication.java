@@ -14,9 +14,17 @@ public class cgeoapplication extends Application {
 	final private ArrayList<cgGeo> geos = new ArrayList<cgGeo>(); // list of location providers
 	final private ArrayList<cgDirection> dirs = new ArrayList<cgDirection>(); // list of direction providers
 	final private HashMap<Long, cgSearch> searches = new HashMap<Long, cgSearch>(); // information about searches
+	final private HashMap<String, cgCache> cachesCache = new HashMap<String, cgCache>(); // caching caches into memory
 	private String action = null;
 
 	public boolean warnedLanguage = false;
+
+	@Override
+	public void onLowMemory() {
+		Log.i(cgSettings.tag, "Cleaning applications cache.");
+		
+		cachesCache.clear();
+	}
 
 	@Override
 	public void onTerminate() {
@@ -41,6 +49,18 @@ public class cgeoapplication extends Application {
 
 	public List<WikitudePOI> getPois() {
 		return pois;
+	}
+
+	public void cleanGeo() {
+		for (cgGeo geo : geos) {
+			removeGeo(geo);
+		}
+	}
+
+	public void cleanDir() {
+		for (cgDirection dir : dirs) {
+			removeDir(dir);
+		}
 	}
 
 	public cgGeo startGeo(Context context, cgUpdateLoc geoUpdate, cgBase base, cgSettings settings, cgWarning warning, int time, int distance) {
@@ -148,19 +168,13 @@ public class cgeoapplication extends Application {
     }
 
     public String getViewstate(Long searchId) {
-        // returns veiwstate relative to search
-
 		if (searchId == null || searches.containsKey(searchId) == false) return null;
 
         return searches.get(searchId).viewstate;
     }
 
     public String getViewstate1(Long searchId) {
-        // returns veiwstate relative to search
-
-		if (searchId == null || searches.containsKey(searchId) == false) {
-			return null;
-		}
+		if (searchId == null || searches.containsKey(searchId) == false) return null;
 
         return searches.get(searchId).viewstate1;
     }
@@ -221,9 +235,17 @@ public class cgeoapplication extends Application {
 
     public cgCache getCacheByGeocode(String geocode) {
 		if (geocode == null || geocode.length() == 0) return null;
+		
+		cgCache cache = null;
+		if (cachesCache.containsKey(geocode) == true) {
+			cache = cachesCache.get(geocode);
+		} else {
+			if (storage == null) storage = new cgData(this);
+			cache = storage.loadCache(geocode, null);
+			cachesCache.put(geocode, cache);
+		}
 
-		if (storage == null) storage = new cgData(this);
-		return storage.loadCache(geocode, null);
+		return cache;
     }
 
     public cgWaypoint getWaypointById(Integer id) {
@@ -284,6 +306,11 @@ public class cgeoapplication extends Application {
 		if (storage == null) storage = new cgData(this);
         return storage.markDropped(geocode);
     }
+
+	public boolean markFound(String geocode) {
+		if (storage == null) storage = new cgData(this);
+        return storage.markFound(geocode);
+	}
 
     public boolean saveWaypoints(String geocode, ArrayList<cgWaypoint> waypoints, boolean drop) {
 		if (storage == null) storage = new cgData(this);

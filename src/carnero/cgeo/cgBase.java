@@ -2007,7 +2007,7 @@ public class cgBase {
 			return null;
 		}
 
-        if (app.isOffline(geocode, guid) == true && reason == 0) {
+        if ((app.isOffline(geocode, guid) == true && reason == 0) || app.isThere(geocode, guid, true, true)) {
             if ((geocode == null || geocode.length() == 0) && guid != null && guid.length() > 0) {
                 geocode = app.getGeocode(guid);
             }

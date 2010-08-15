@@ -284,6 +284,7 @@
 		· fixed: Direction from any place\n
 		· fixed: Logging visit\n
 		· fixed: Crashing after attempt to display premium cache\n
+		· fixed: Found stored caches\n
 		\n
 		<b>0.75.4</b> (29.07.2010)\n
 		· fixed: Trackables\n

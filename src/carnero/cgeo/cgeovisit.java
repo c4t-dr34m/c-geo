@@ -491,6 +491,8 @@ public class cgeovisit extends Activity {
 
 			status = base.postLog(cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log, trackables);
 
+			if (status == 1 && typeSelected == 2) app.markFound(geocode);
+
 			if (
 				status == 1 && typeSelected == 2 && settings.twitter == 1 &&
 				settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null && settings.tokenSecret.length() > 0 &&
