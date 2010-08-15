@@ -65,8 +65,8 @@ public class cgBase {
 	public static HashMap<String, String> waypointTypes = new HashMap<String, String>();
 	public static HashMap<String, String> logTypes = new HashMap<String, String>();
 	public static HashMap<Integer, String> logTypes2 = new HashMap<Integer, String>();
-	public static HashMap<Integer, String> logTrackablesAction = new HashMap<Integer, String>();
-	public static HashMap<Integer, String> logTrackables = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> logTypesTrackable = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> logTypesTrackableAction = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> errorRetrieve = new HashMap<Integer, String>();
 	public static SimpleDateFormat dateIn = new SimpleDateFormat("MM/dd/yyyy");
 	public static SimpleDateFormat dateEvIn = new SimpleDateFormat("dd MMMMM yyyy"); // 28 March 2009
@@ -187,21 +187,24 @@ public class cgBase {
 
 		logTypes2.put(2, res.getString(R.string.log_new_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
 		logTypes2.put(3, res.getString(R.string.log_new_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
-		logTypes2.put(4, res.getString(R.string.log_new_note)); // traditional, multi, unknown, earth, wherigo, virtual, event, letterbox, webcam
+		logTypes2.put(4, res.getString(R.string.log_new_note)); // traditional, multi, unknown, earth, wherigo, virtual, event, letterbox, webcam, trackable
 		logTypes2.put(7, res.getString(R.string.log_new_archive)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
 		logTypes2.put(9, res.getString(R.string.log_new_attend)); // event
 		logTypes2.put(10, res.getString(R.string.log_new_attended)); // event
-		logTypes2.put(11,res.getString(R.string.log_new_webcam)); // webcam
+		logTypes2.put(11, res.getString(R.string.log_new_webcam)); // webcam
+		logTypes2.put(13, res.getString(R.string.log_new_retrieve)); //trackable
+		logTypes2.put(19, res.getString(R.string.log_new_grab)); //trackable
 		logTypes2.put(45, res.getString(R.string.log_new_maintenance)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
 		logTypes2.put(46, res.getString(R.string.log_new_maintenance_owner)); // owner
+		logTypes2.put(48, res.getString(R.string.log_new_discovered)); //trackable
 
 		// trackables for logs
-		logTrackables.put(0, res.getString(R.string.log_tb_nothing)); // do nothing
-		logTrackables.put(1, res.getString(R.string.log_tb_visit)); // visit cache
-		logTrackables.put(2, res.getString(R.string.log_tb_drop)); // drop here
-		logTrackablesAction.put(0, ""); // do nothing
-		logTrackablesAction.put(1, "_Visited"); // visit cache
-		logTrackablesAction.put(2, "_DroppedOff"); // drop here
+		logTypesTrackable.put(0, res.getString(R.string.log_tb_nothing)); // do nothing
+		logTypesTrackable.put(1, res.getString(R.string.log_tb_visit)); // visit cache
+		logTypesTrackable.put(2, res.getString(R.string.log_tb_drop)); // drop here
+		logTypesTrackableAction.put(0, ""); // do nothing
+		logTypesTrackableAction.put(1, "_Visited"); // visit cache
+		logTypesTrackableAction.put(2, "_DroppedOff"); // drop here
 
 		// retrieving errors (because of ____ )
 		errorRetrieve.put(1, res.getString(R.string.err_none));
@@ -1378,7 +1381,7 @@ public class cgBase {
 			return null;
 		}
 
-		final Pattern patternTrackableId = Pattern.compile("\\/track\\/log\\.aspx\\?LUID=([a-z0-9\\-]+)", Pattern.CASE_INSENSITIVE);
+		final Pattern patternTrackableId = Pattern.compile("<a id=\"ctl00_ContentBody_LogLink\" title=\"[^\"]*\" href=\".*log\\.aspx\\?wid=([a-z0-9\\-]+)\"[^>]*>Found it\\? Log it![^<]*</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternGeocode = Pattern.compile("<span id=\"ctl00_ContentBody_BugDetails_BugTBNum\" String=\"[^\"]*\">Use[^<]*<strong>(TB[0-9a-z]+)[^<]*</strong> to reference this item.[^<]*</span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternName = Pattern.compile("<h2>([^<]*<img[^>]*>)?[^<]*<span id=\"ctl00_ContentBody_lbHeading\">([^<]+)</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternOwner = Pattern.compile("<dt>[\\s]*Owner:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugOwner\" title=\"[^\"]*\" href=\".*\\/profile\\/\\?guid=([a-z0-9\\-]+)\">([^<]+)<\\/a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
@@ -2749,24 +2752,6 @@ public class cgBase {
 		final String method = "POST";
 		final HashMap<String, String> params = new HashMap<String, String>();
 
-		/* GC.com's original
-		__EVENTTARGET:
-		__EVENTARGUMENT:
-		__LASTFOCUS:
-		__VIEWSTATE:/wEPDwUKMTE5MjE1MzA5MQ9kFgJmD2QWBAIBD2QWEgIFDxYCHgRUZXh0ZGQCCQ8WAh8ABUlZb3UgYXJlIGxvZ2dlZCBpbiBhcyA8YSBocmVmPSJodHRwOi8vd3d3Lmdlb2NhY2hpbmcuY29tL215LyI Y2FybmVybzwvYT4uZAILDw8WBB4LTmF2aWdhdGVVcmwFemh0dHA6Ly93d3cuZ2VvY2FjaGluZy5jb20vbG9naW4vZGVmYXVsdC5hc3B4P1JFU0VUPVkmcmVkaXI9aHR0cCUzYSUyZiUyZnd3dy5nZW9jYWNoaW5nLmNvbSUyZnNlZWslMmZsb2cuYXNweCUzZklEJTNkOTU1NTA3HwAFB0xvZyBvdXRkZAIPD2QWAgIBDw8WAh8AZGRkAhEPZBYEAgEPDxYCHwAFDlBvc3QgYSBOZXcgTG9nZGQCAg8PFgYeBk9XUC5JRCgpWVN5c3RlbS5JbnQ2NCwgbXNjb3JsaWIsIFZlcnNpb249Mi4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5Bjk1NTUwNx4RTEJDb250cm9sLldwdE5hbWUFB0dDMUVXMlEeFExiQ29udHJvbC5OZXdMb2dHVUlEKClYU3lzdGVtLkd1aWQsIG1zY29ybGliLCBWZXJzaW9uPTIuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OSQ5MTQ4ZmI0Yy1hYzY2LTQ0MGQtOTQzNS1jOTNjZWFkZjRiNDNkFgQCCA8PFgIeB1Zpc2libGVnZBYQAgEPDxYGHwAFlgI8YSBocmVmPSJodHRwOi8vd3d3Lmdlb2NhY2hpbmcuY29tL3NlZWsvY2FjaGVfZGV0YWlscy5hc3B4P2d1aWQ9NzgwMThjMTQtMTRiYS00YmIyLWFkZjQtZDA1ZmIxZDg4ZmRkIiBjbGFzcz0ibG5rIj48aW1nIHNyYz0iaHR0cDovL3d3dy5nZW9jYWNoaW5nLmNvbS9pbWFnZXMvd3B0dHlwZXMvc20vMi5naWYiIHRpdGxlPSJUcmFkaXRpb25hbCBDYWNoZSIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBib3JkZXI9IjAiLz4gPHNwYW4 UGxvY2hvZHJhem5pIC8gU3BlZWR3YXk8L3NwYW4 PC9hPh4HVG9vbFRpcAUTVmlzaXQgVGhpcyBXYXlwb2ludB8BBVtodHRwOi8vd3d3Lmdlb2NhY2hpbmcuY29tL3NlZWsvY2FjaGVfZGV0YWlscy5hc3B4P2d1aWQ9NzgwMThjMTQtMTRiYS00YmIyLWFkZjQtZDA1ZmIxZDg4ZmRkZGQCAw8QZA8WBQIBAgICAwIEAgUWBRAFCEZvdW5kIGl0BQEyZxAFDkRpZG4ndCBmaW5kIGl0BQEzZxAFCldyaXRlIG5vdGUFATRnEAUOTmVlZHMgQXJjaGl2ZWQFATdnEAURTmVlZHMgTWFpbnRlbmFuY2UFAjQ1ZxYBZmQCBw8PFg4eDFNlbGVjdGVkWWVhcgLaDx4NU2VsZWN0ZWRNb250aAIIHg5TZWxlY3RlZE1pbnV0ZWYeCkRhdGVGb3JtYXQFCE0vZC95eXl5Hg5TZWxlY3RlZFNlY29uZGYeDFNlbGVjdGVkSG91cgIMHgtTZWxlY3RlZERheQIIZGQCCg8PFgIfAAUKKE0vZC95eXl5KWRkAhYPEA8WAh4HQ2hlY2tlZGhkZGRkAhgPDxYCHwVoZGQCGw9kFgICAQ8PFgIeDUFsbG93RHJvcHBpbmdnZBYCAgYPFgIeC18hSXRlbUNvdW50AgEWAgIBD2QWAgIBD2QWBmYPZBYCZg8VAgZRQUs3WTcGUUFLN1k3ZAIBD2QWAmYPFQEPSmFjayBSdXNzZWxsIFRCZAICD2QWAgIBDxAPFgIeC18hRGF0YUJvdW5kZ2QPFgNmAgECAhYDDwUNLSBObyBBY3Rpb24gLQUGOTY0MjE5DwULRHJvcHBlZCBPZmYFETk2NDIxOV9Ecm9wcGVkT2ZmDwUHVmlzaXRlZAUOOTY0MjE5X1Zpc2l0ZWRkZAIdDw8WAh8ABRBTdWJtaXQgTG9nIEVudHJ5ZGQCCg8PFgIfBWhkZAIdDxYCHwVnZAInDw8WAh8BBQwvcmV2aWV3cy9ncHNkZAIrD2QWAgIBDw8WAh8ABZcCPGlmcmFtZSBzcmM9Imh0dHA6Ly9iYW5tYW41Lmdyb3VuZHNwZWFrLmNvbS9iYW5tYW41L2FkLmFzcHg/Wm9uZUlEPTkmVGFzaz1HZXQmU2l0ZUlEPTEmWD0nZDkxMTcxNTIyODJjNDNhZWE3MmJhOTQ2NTg4NTAyNzQnIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjI0MCIgTWFyZ2lud2lkdGg9IjAiIE1hcmdpbmhlaWdodD0iMCIgSHNwYWNlPSIwIiBWc3BhY2U9IjAiIEZyYW1lYm9yZGVyPSIwIiBTY3JvbGxpbmc9Im5vIiBzdHlsZT0id2lkdGg6MTIwcHg7SGVpZ2h0OjI0MHB4OyI PC9pZnJhbWU ZGQCLQ9kFgZmD2QWAmYPFgIfEAIGFgwCAQ9kFgICAQ8PFggeD0NvbW1hbmRBcmd1bWVudAUFZW4tVVMeC0NvbW1hbmROYW1lBQ1TZXRUZW1wTG9jYWxlHwAFB0VuZ2xpc2geEENhdXNlc1ZhbGlkYXRpb25oZGQCAg9kFgICAQ8PFggfEgUFZGUtREUfEwUNU2V0VGVtcExvY2FsZR8ABQdEZXV0c2NoHxRoZGQCAw9kFgICAQ8PFggfEgUFZnItRlIfEwUNU2V0VGVtcExvY2FsZR8ABQlGcmFuw6dhaXMfFGhkZAIED2QWAgIBDw8WCB8SBQVwdC1QVB8TBQ1TZXRUZW1wTG9jYWxlHwAFClBvcnR1Z3XDqnMfFGhkZAIFD2QWAgIBDw8WCB8SBQVjcy1DWh8TBQ1TZXRUZW1wTG9jYWxlHwAFCcSMZcWhdGluYR8UaGRkAgYPZBYCAgEPDxYIHxIFBXN2LVNFHxMFDVNldFRlbXBMb2NhbGUfAAUHU3ZlbnNrYR8UaGRkAgIPDxYCHwEFDy9yZXZpZXdzL2hvdGVsc2RkAgMPDxYCHwEFDC9yZXZpZXdzL2dwc2RkAgMPFgIfAAUtU2VydmVyOiBXRUIwNzsgQnVpbGQ6IFRGUy5TcHJpbnQxNV8yMDEwMDcyOS42ZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAgUqY3RsMDAkQ29udGVudEJvZHkkTG9nQm9va1BhbmVsMSRjaGtFbmNyeXB0BTFjdGwwMCRDb250ZW50Qm9keSRMb2dCb29rUGFuZWwxJFdwdFNlbGVjdENoZWNrQm94aDmf4WpRcJdS1BGaTtheVaEW FQ=
-		ctl00$ContentBody$LogBookPanel1$ddLogType:4
-		ctl00$ContentBody$LogBookPanel1$DateTimeLogged:
-		ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month:8
-		ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day:8
-		ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year:2010
-		ctl00$ContentBody$LogBookPanel1$tbLogInfo:Visited
-		ctl00$ContentBody$LogBookPanel1$uxTrackables$repTravelBugs$ctl01$ddlAction:964219_DroppedOff
-		ctl00$ContentBody$LogBookPanel1$uxTrackables$hdnSelectedActions:964219_DroppedOff,
-		ctl00$ContentBody$LogBookPanel1$uxTrackables$hdnCurrentFilter:
-		ctl00$ContentBody$LogBookPanel1$LogButton:Submit Log Entry
-		ctl00$ContentBody$uxVistOtherListingGC:
-		 */
-
 		params.put("__VIEWSTATE", viewstate);
         if (viewstate1 != null) {
             params.put("__VIEWSTATE1", viewstate1);
@@ -2776,6 +2761,7 @@ public class cgBase {
 		params.put("__EVENTARGUMENT", "");
 		params.put("__LASTFOCUS", "");
 		params.put("ctl00$ContentBody$LogBookPanel1$ddLogType", Integer.toString(logType));
+		// params.put("ctl00$ContentBody$LogBookPanel1$tbCode", ""); // tracking code
 		if (currentDate.get(Calendar.YEAR) == year && (currentDate.get(Calendar.MONTH) +1) == month && currentDate.get(Calendar.DATE) == day) {
 			params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", "");
 		} else {
@@ -2792,7 +2778,7 @@ public class cgBase {
 
 			for (cgTrackableLog tb : trackables) {
 				String ctl = null;
-				final String action = Integer.toString(tb.id) + logTrackablesAction.get(tb.action);
+				final String action = Integer.toString(tb.id) + logTypesTrackableAction.get(tb.action);
 
 				if (tb.ctl < 10) ctl = "0" + Integer.toString(tb.ctl);
 				else ctl = Integer.toString(tb.ctl);
@@ -2813,8 +2799,6 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, false);
-            } else if (loginState == -3) {
-                Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				Log.e(cgSettings.tag, "cgeoBase.postLog: Can not log in geocaching (error: " + loginState + ")");
 				return loginState;
@@ -2871,6 +2855,83 @@ public class cgBase {
 		}
 
 		Log.e(cgSettings.tag, "cgeoBase.postLog: Failed to post log because of unknown error");
+		return 1000;
+	}
+
+	public int postLogTrackable(String tbid, String trackingCode, String viewstate, String viewstate1, int logType, int year, int month, int day, String log) {
+		if (viewstate == null || viewstate.length() == 0) {
+			Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: No viewstate given");
+			return 1000;
+		}
+
+		if (logTypes2.containsKey(logType) == false) {
+			Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: Unknown logtype");
+			return 1000;
+		}
+
+		if (log == null || log.length() == 0) {
+			Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: No log text given");
+			return 1000;
+		}
+
+        Log.i(cgSettings.tag, "Trying to post log for trackable #" + trackingCode + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log);
+
+		final Calendar currentDate = Calendar.getInstance();
+		final String host = "www.geocaching.com";
+		final String path = "/track/log.aspx?wid=" + tbid;
+		final String method = "POST";
+		final HashMap<String, String> params = new HashMap<String, String>();
+
+		params.put("__VIEWSTATE", viewstate);
+        if (viewstate1 != null) {
+            params.put("__VIEWSTATE1", viewstate1);
+            params.put("__VIEWSTATEFIELDCOUNT", "2");
+        }
+		params.put("__EVENTTARGET", "");
+		params.put("__EVENTARGUMENT", "");
+		params.put("__LASTFOCUS", "");
+		params.put("ctl00$ContentBody$LogBookPanel1$ddLogType", Integer.toString(logType));
+		params.put("ctl00$ContentBody$LogBookPanel1$tbCode", trackingCode);
+		if (currentDate.get(Calendar.YEAR) == year && (currentDate.get(Calendar.MONTH) +1) == month && currentDate.get(Calendar.DATE) == day) {
+			params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", "");
+		} else {
+			params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year));
+		}
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", Integer.toString(day));
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month", Integer.toString(month));
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year", Integer.toString(year));
+		params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
+		params.put("ctl00$ContentBody$LogBookPanel1$LogButton", "Submit Log Entry");
+		params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
+
+		String page = request(host, path, method, params, false, false, false);
+		if (checkLogin(page) == false) {
+			int loginState = login();
+			if (loginState == 1) {
+				page = request(host, path, method, params, false, false, false);
+			} else {
+				Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: Can not log in geocaching (error: " + loginState + ")");
+				return loginState;
+			}
+		}
+
+		if (page == null || page.length() == 0) {
+			Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: No data from server");
+			return 1000;
+		}
+
+		try {
+			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>View a Cache Log[^<]*</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
+			final Matcher matcherOk = patternOk.matcher(page);
+			if (matcherOk.find() == true) {
+				Log.i(cgSettings.tag, "Log successfully posted to trackable #" + trackingCode);
+				return 1;
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgeoBase.postLogTrackable.check: " + e.toString());
+		}
+
+		Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: Failed to post log because of unknown error");
 		return 1000;
 	}
 
@@ -3028,7 +3089,7 @@ public class cgBase {
 			if (params == null) params = new HashMap<String, String>();
 			if (addF == true) params.put("f", "1");
 			
-			Log.i(cgSettings.tag, "cgBase.prepareParameters: Skipping caches found or hidden by user.");
+			Log.i(cgSettings.tag, "Skipping caches found or hidden by user.");
 		}
 
 		if (params != null) {

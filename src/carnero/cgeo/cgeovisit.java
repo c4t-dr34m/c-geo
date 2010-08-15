@@ -40,6 +40,7 @@ public class cgeovisit extends Activity {
 	private String geocode = null;
 	private String text = null;
 	private String viewstate = null;
+	private String viewstate1 = null;
 	private Boolean gettingViewstate = true;
 	private ArrayList<cgTrackableLog> trackables = null;
 	private Calendar date = Calendar.getInstance();
@@ -95,7 +96,7 @@ public class cgeovisit extends Activity {
 					else inventoryItem = (RelativeLayout)inflater.inflate(R.layout.visit_trackable_dark, null);
 
 					((TextView)inventoryItem.findViewById(R.id.name)).setText(tb.name);
-					((TextView)inventoryItem.findViewById(R.id.action)).setText(base.logTrackables.get(0));
+					((TextView)inventoryItem.findViewById(R.id.action)).setText(base.logTypesTrackable.get(0));
 
 					inventoryItem.setId(tb.id);
 					inventoryItem.setClickable(true);
@@ -261,8 +262,8 @@ public class cgeovisit extends Activity {
 		} else {
 			final int realViewId = ((LinearLayout)findViewById(viewId)).getChildAt(0).getId();
 
-			for (final int logTbAction : base.logTrackables.keySet()) {
-				menu.add(realViewId, logTbAction, 0, base.logTrackables.get(logTbAction));
+			for (final int logTbAction : base.logTypesTrackable.keySet()) {
+				menu.add(realViewId, logTbAction, 0, base.logTypesTrackable.get(logTbAction));
 			}
 		}
 	}
@@ -278,7 +279,7 @@ public class cgeovisit extends Activity {
 			return true;
 		} else {
 			try {
-				final String logTbAction = base.logTrackables.get(id);
+				final String logTbAction = base.logTypesTrackable.get(id);
 				if (logTbAction != null) {
 					final RelativeLayout tbView = (RelativeLayout)findViewById(group);
 					if (tbView == null) return false;
@@ -321,14 +322,14 @@ public class cgeovisit extends Activity {
 			types.add(4);
 			types.add(7);
 		} else if (cache.type.equals("event")) {
-			types.add(7);
 			types.add(9);
 			types.add(10);
+			types.add(7);
 		} else if (cache.type.equals("webcam")) {
+			types.add(11);
 			types.add(3);
 			types.add(4);
 			types.add(7);
-			types.add(11);
 			types.add(45);
 		}
 		if (cache.owner.equalsIgnoreCase(settings.getUsername()) == true) {
@@ -450,6 +451,7 @@ public class cgeovisit extends Activity {
 				final String page = base.request("www.geocaching.com", "/seek/log.aspx", "GET", params, false, false, false);
 
 				viewstate = base.findViewstate(page, 0);
+				viewstate1 = base.findViewstate(page, 2);
 				trackables = base.parseTrackableLog(page);
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeovisit.loadData.run: " + e.toString());
@@ -487,7 +489,7 @@ public class cgeovisit extends Activity {
             if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
             if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
 
-			status = base.postLog(cacheid, viewstate, null, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log, trackables);
+			status = base.postLog(cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log, trackables);
 
 			if (
 				status == 1 && typeSelected == 2 && settings.twitter == 1 &&

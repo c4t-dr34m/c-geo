@@ -62,6 +62,9 @@
 	<string name="log_new_webcam">vyfocen webkamerou</string>
 	<string name="log_new_maintenance">vyžaduje údržbu</string>
 	<string name="log_new_maintenance_owner">údržba</string>
+	<string name="log_new_grab">vyzvednuto z keše</string>
+	<string name="log_new_retrieve">získáno odjinud</string>
+	<string name="log_new_discovered">objeveno</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>

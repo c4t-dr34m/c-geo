@@ -1,7 +1,6 @@
 package carnero.cgeo;
 
 import android.text.Spannable;
-import android.util.Log;
 import java.util.Date;
 import java.util.ArrayList;
 

@@ -62,6 +62,9 @@
 	<string name="log_new_webcam">webcam photo taken</string>
 	<string name="log_new_maintenance">needs maintenance</string>
 	<string name="log_new_maintenance_owner">maintenance</string>
+	<string name="log_new_grab">grabbed from cache</string>
+	<string name="log_new_retrieve">retrieved from somewhere</string>
+	<string name="log_new_discovered">discovered</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>
