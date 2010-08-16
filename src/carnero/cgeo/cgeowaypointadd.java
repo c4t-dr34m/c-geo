@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class cgeowaypointadd extends Activity {
     private cgeoapplication app = null;
@@ -207,29 +210,142 @@ public class cgeowaypointadd extends Activity {
 	
 	private class coordsListener implements View.OnClickListener {
 		public void onClick(View arg0) {
-			// find caches by coordinates
-            final String name = ((EditText)findViewById(R.id.name)).getText().toString();
+			ArrayList<Double> coords = new ArrayList<Double>();
+			Double latitude = null;
+			Double longitude = null;
+
+			final String bearingText = ((EditText)findViewById(R.id.bearing)).getText().toString();
+			final String distanceText = ((EditText)findViewById(R.id.distance)).getText().toString();
 			final String latText = ((EditText)findViewById(R.id.latitude)).getText().toString();
 			final String lonText = ((EditText)findViewById(R.id.longitude)).getText().toString();
+
+			if (
+					(bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0) &&
+					(latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)
+				) {
+				warning.helpDialog("fill it", "Fill at least distance and bearing or latitude or longitude. You can also fill all four fields.");
+				return;
+			}
+
+			if (latText != null && latText.length() > 0 && lonText != null && lonText.length() > 0) {
+				// latitude & longitude
+				HashMap latParsed = base.parseCoordinate(latText, "lat");
+				HashMap lonParsed = base.parseCoordinate(lonText, "lat");
+
+				if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
+					warning.showToast("Sorry, c:geo can\'t parse latitude.");
+					return;
+				}
+
+				if (lonParsed == null || lonParsed.get("coordinate") == null || lonParsed.get("string") == null) {
+					warning.showToast("Sorry, c:geo can\'t parse longitude.");
+					return;
+				}
+
+				latitude = (Double)latParsed.get("coordinate");
+				longitude = (Double)lonParsed.get("coordinate");
+			} else {
+				if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
+					warning.showToast("c:geo still doesn\'t have current coordinates. Please, wait a while.");
+					return;
+				}
+
+				latitude = geo.latitudeNow;
+				longitude = geo.longitudeNow;
+			}
+
+			if (bearingText != null && bearingText.length() > 0 && distanceText != null && distanceText.length() > 0) {
+				Log.d(cgSettings.tag, "Blemc... bearing");
+
+				// bearing & distance
+				Double bearing = null;
+				try {
+					bearing = new Double(bearingText);
+				} catch (Exception e) {
+					// probably not a number
+				}
+				if (bearing == null) {
+					warning.helpDialog("need some help?", "Fill both bearing and distance. Bearing is angle 0 to 360 degrees relative to north. Distance with or without units.");
+					return;
+				}
+
+				Double distance = null; // km
+
+				final Pattern patternA = Pattern.compile("^([0-9\\.\\,]+)[ ]*m$", Pattern.CASE_INSENSITIVE); // m
+				final Pattern patternB = Pattern.compile("^([0-9\\.\\,]+)[ ]*km$", Pattern.CASE_INSENSITIVE); // km
+				final Pattern patternC = Pattern.compile("^([0-9\\.\\,]+)[ ]*ft$", Pattern.CASE_INSENSITIVE); // ft - 0.3048m
+				final Pattern patternD = Pattern.compile("^([0-9\\.\\,]+)[ ]*yd$", Pattern.CASE_INSENSITIVE); // yd - 0.9144m
+				final Pattern patternE = Pattern.compile("^([0-9\\.\\,]+)[ ]*mi$", Pattern.CASE_INSENSITIVE); // mi - 1609.344m
+
+				Matcher matcherA = patternA.matcher(distanceText);
+				Matcher matcherB = patternB.matcher(distanceText);
+				Matcher matcherC = patternC.matcher(distanceText);
+				Matcher matcherD = patternD.matcher(distanceText);
+				Matcher matcherE = patternE.matcher(distanceText);
+
+				if (matcherA.find() == true && matcherA.groupCount() > 0) {
+					distance = (new Double(matcherA.group(1))) * 0.001;
+				} else if (matcherB.find() == true && matcherB.groupCount() > 0) {
+					distance = new Double(matcherB.group(1));
+				} else if (matcherC.find() == true && matcherC.groupCount() > 0) {
+					distance = (new Double(matcherC.group(1))) * 0.0003048;
+				} else if (matcherD.find() == true && matcherD.groupCount() > 0) {
+					distance = (new Double(matcherD.group(1))) * 0.0009144;
+				} else if (matcherE.find() == true && matcherE.groupCount() > 0) {
+					distance = (new Double(matcherE.group(1))) * 1.609344;
+				} else {
+					try {
+						if (settings.units == settings.unitsImperial) {
+							distance = (new Double(distanceText)) * 1.609344; // considering it miles
+						} else {
+							distance = (new Double(distanceText)) * 0.001; // considering it meters
+						}
+					} catch (Exception e) {
+						// probably not a number
+					}
+				}
+
+				if (bearing == null) {
+					warning.showToast("Sorry, c:geo can\'t parse bearing.");
+					return;
+				}
+
+				if (distance == null) {
+					warning.showToast("Sorry, c:geo can\'t parse distance.");
+					return;
+				}
+
+				Double latParsed = null;
+				Double lonParsed = null;
+
+				HashMap<String, Double> coordsDst = base.getRadialDistance(latitude, longitude, bearing, distance);
+
+				latParsed = coordsDst.get("latitude");
+				lonParsed = coordsDst.get("longitude");
+
+				if (latParsed == null || lonParsed == null) {
+					warning.showToast("Sorry, c:geo can\'t get location of waypoint.");
+					return;
+				}
+
+				coords.add(0, (Double)latParsed);
+				coords.add(1, (Double)lonParsed);
+			} else if (latitude != null && longitude != null) {
+				Log.d(cgSettings.tag, "Blemc... coords");
+
+				coords.add(0, latitude);
+				coords.add(1, longitude);
+			} else {
+				Log.d(cgSettings.tag, "Blemc... last");
+
+				warning.showToast("Sorry, c:geo can\'t get location of waypoint.");
+				return;
+			}
+
+			Log.d(cgSettings.tag, "Blemc...");
+			
+            final String name = ((EditText)findViewById(R.id.name)).getText().toString();
             final String note = ((EditText)findViewById(R.id.note)).getText().toString();
-
-			if (latText == null || latText.length() == 0 || lonText == null || lonText.length() == 0) {
-				warning.helpDialog("need some help?", "Fill at least latitude and longitude. Use for example following format: \"N 50 03.480\" and \"E 14 23.324\".");
-				return;
-			}
-
-			final HashMap latParsed = base.parseCoordinate(latText, "lat");
-			final HashMap lonParsed = base.parseCoordinate(lonText, "lon");
-
-			if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse latitude.");
-				return;
-			}
-
-			if (lonParsed == null || lonParsed.get("coordinate") == null || lonParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse longitude.");
-				return;
-			}
 
             final cgWaypoint waypoint = new cgWaypoint();
             waypoint.type = type;
@@ -237,13 +353,15 @@ public class cgeowaypointadd extends Activity {
             waypoint.prefix = prefix;
             waypoint.lookup = lookup;
             waypoint.name = name;
-            waypoint.latitude = (Double)latParsed.get("coordinate");
-            waypoint.longitude = (Double)lonParsed.get("coordinate");
-            waypoint.latitudeString = (String)latParsed.get("string");
-            waypoint.longitudeString = (String)lonParsed.get("string");
+            waypoint.latitude = coords.get(0);
+            waypoint.longitude = coords.get(1);
+            waypoint.latitudeString = base.formatCoordinate(coords.get(0), "lat", true);
+            waypoint.longitudeString = base.formatCoordinate(coords.get(1), "lon", true);
 			waypoint.note = note;
 
             if (app.saveOwnWaypoint(id, geocode, waypoint) == true) {
+				app.removeCacheFromCache(geocode);
+
                 finish();
                 return;
             } else {

@@ -248,6 +248,10 @@ public class cgeoapplication extends Application {
 		return cache;
     }
 
+	public void removeCacheFromCache(String geocode) {
+		if (geocode != null && 1cachesCache.containsKey(geocode) == true) cachesCache.remove(geocode);
+	}
+
     public cgWaypoint getWaypointById(Integer id) {
 		if (id == null || id == 0) return null;
 

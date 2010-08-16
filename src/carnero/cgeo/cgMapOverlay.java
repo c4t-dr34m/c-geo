@@ -101,6 +101,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 				Intent popupIntent = new Intent(context, cgeowaypoint.class);
 
 				popupIntent.putExtra("waypoint", coordinate.id);
+				popupIntent.putExtra("geocode", coordinate.geocode);
 				
 				context.startActivity(popupIntent);
 			} else {

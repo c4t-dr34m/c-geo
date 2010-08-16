@@ -1012,6 +1012,7 @@ public class cgeodetail extends Activity {
 		public void onClick(View arg0) {
 			Intent waypointIntent = new Intent(activity, cgeowaypoint.class);
 			waypointIntent.putExtra("waypoint", id);
+			waypointIntent.putExtra("geocode", cache.geocode);
 			activity.startActivity(waypointIntent);
 		}
 	}

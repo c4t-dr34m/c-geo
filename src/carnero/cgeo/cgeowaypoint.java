@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 public class cgeowaypoint extends Activity {
 	private cgWaypoint waypoint = null;
+	private String geocode = null;
 	private int id = -1;
 	private cgeoapplication app = null;
 	private Activity activity = null;
@@ -133,6 +134,7 @@ public class cgeowaypoint extends Activity {
 		// try to get data from extras
 		if (extras != null) {
 			id = extras.getInt("waypoint");
+			geocode = extras.getString("geocode");
 		}
 
 		if (id <= 0) {
@@ -345,6 +347,8 @@ public class cgeowaypoint extends Activity {
             if (app.deleteWaypoint(id) == false) {
                 warning.showToast("Sorry, c:geo can\'t delete waypoint.");
             } else {
+				app.removeCacheFromCache(geocode);
+
                 finish();
 				return;
             }
