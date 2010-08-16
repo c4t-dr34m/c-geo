@@ -74,35 +74,6 @@
 						android:background="@drawable/icon_bcg"
 						android:text="@string/caches_nearby_button" />
 			</LinearLayout>
-			<LinearLayout android:id="@+id/advanced_button"
-					android:layout_width="74dip"
-					android:layout_height="wrap_content"
-					android:layout_margin="4dip"
-					android:orientation="vertical" >
-				<View
-						android:layout_width="48dip"
-						android:layout_height="48dip"
-						android:layout_gravity="center_horizontal"
-						android:gravity="center"
-						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_gravity="center_horizontal"
-						android:gravity="center"
-						android:paddingTop="1dip"
-						android:paddingBottom="1dip"
-						android:paddingLeft="5dip"
-						android:paddingRight="5dip"
-						android:singleLine="true"
-						android:lines="1"
-						android:ellipsize="marquee"
-						android:textSize="13dip"
-						android:textColor="@color/text_icon"
-						android:background="@drawable/icon_bcg"
-						android:text="@string/advanced_search_button" />
-			</LinearLayout>
 			<LinearLayout android:id="@+id/search_offline"
 					android:layout_width="74dip"
 					android:layout_height="wrap_content"
@@ -139,6 +110,35 @@
 				android:layout_margin="4dip"
 				android:gravity="center_horizontal"
 				android:orientation="horizontal" >
+			<LinearLayout android:id="@+id/advanced_button"
+					android:layout_width="74dip"
+					android:layout_height="wrap_content"
+					android:layout_margin="4dip"
+					android:orientation="vertical" >
+				<View
+						android:layout_width="48dip"
+						android:layout_height="48dip"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:layout_margin="4dip"
+						android:background="@drawable/action_button_dark" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:gravity="center"
+						android:paddingTop="1dip"
+						android:paddingBottom="1dip"
+						android:paddingLeft="5dip"
+						android:paddingRight="5dip"
+						android:singleLine="true"
+						android:lines="1"
+						android:ellipsize="marquee"
+						android:textSize="13dip"
+						android:textColor="@color/text_icon"
+						android:background="@drawable/icon_bcg"
+						android:text="@string/advanced_search_button" />
+			</LinearLayout>
 			<LinearLayout android:id="@+id/any_button"
 					android:layout_width="74dip"
 					android:layout_height="wrap_content"
