@@ -100,7 +100,7 @@ public class cgeovisit extends Activity {
 
 					inventoryItem.setId(tb.id);
 					inventoryItem.setClickable(true);
-					registerForContextMenu(inventoryView);
+					registerForContextMenu(inventoryItem);
 					inventoryItem.setOnClickListener(new View.OnClickListener() {
 						public void onClick(View view) {
 							openContextMenu(view);
@@ -260,8 +260,11 @@ public class cgeovisit extends Activity {
 		if (viewId == R.id.type) {
 			for (final int typeOne : types) menu.add(viewId, typeOne, 0, base.logTypes2.get(typeOne));
 		} else {
-			final int realViewId = ((LinearLayout)findViewById(viewId)).getChildAt(0).getId();
+			final int realViewId = ((RelativeLayout)findViewById(viewId)).getId();
 
+			for (final cgTrackableLog tb : trackables) {
+				if (tb.id == realViewId) menu.setHeaderTitle(tb.name);
+			}
 			for (final int logTbAction : base.logTypesTrackable.keySet()) {
 				menu.add(realViewId, logTbAction, 0, base.logTypesTrackable.get(logTbAction));
 			}
