@@ -358,24 +358,50 @@ public class cgData {
     }
 
     public boolean isOffline(String geocode, String guid) {
+		Cursor cursor = null;
         long reason = 0;
 
-		// try {
-			if (sqlDetailedGc == null) sqlDetailedGc = databaseRO.compileStatement("select reason from " + dbTableCaches + "  where geocode = ? limit 1");
-			if (sqlDetailedGuid == null) sqlDetailedGuid = databaseRO.compileStatement("select reason from " + dbTableCaches + " where guid = ? limit 1");
-
+		try {
             if (geocode != null && geocode.length() > 0) {
-				sqlDetailedGc.bindString(1, geocode);
-                reason = sqlDetailedGc.simpleQueryForLong();
+                cursor = databaseRO.query(
+                        dbTableCaches,
+                        new String[] {"reason"},
+                        "geocode = \"" + geocode + "\"",
+                        null,
+                        null,
+                        null,
+                        null,
+                        "1"
+                        );
             } else if (guid != null && guid.length() > 0) {
-				sqlDetailedGuid.bindString(1, guid);
-                reason = sqlDetailedGuid.simpleQueryForLong();
+                cursor = databaseRO.query(
+                        dbTableCaches,
+                        new String[] {"reason"},
+                        "guid = \"" + guid + "\"",
+                        null,
+                        null,
+                        null,
+                        null,
+                        "1"
+                        );
             } else {
                 return false;
             }
-		// } catch (Exception e) {
-		//	Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
-		// }
+
+			if (cursor != null) {
+				final int cnt = cursor.getCount();
+                int index = 0;
+
+                if (cnt > 0) {
+                    cursor.moveToFirst();
+
+                    index = cursor.getColumnIndex("reason");
+                    reason = (long)cursor.getLong(index);
+                }
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
+		}
 
 		if (reason == 1) {
 			return true;

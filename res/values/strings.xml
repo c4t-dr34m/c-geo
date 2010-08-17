@@ -277,7 +277,10 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.75.5</b> (16.08.2010)\n
+		<b>0.76.1</b> (__.08.2010)\n
+		· fixed: ___\n
+		\n
+		<b>0.76.0</b> (17.08.2010)\n
 		· new: Ability to drop trackable\n
 		· new: Doesn\'t require username and password\n
 		· fixed: Loading images for offline use\n
