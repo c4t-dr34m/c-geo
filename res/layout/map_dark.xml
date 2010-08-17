@@ -43,14 +43,6 @@
 				android:text="@null" />
 	</LinearLayout>
 	<!-- developement -->
-	<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:keepScreenOn="true"
-			android:enabled="true"
-			android:clickable="true"
-			android:apiKey="0aqvjxNlVeQ_mZQCuEvJA8H33IQfeQoNkQ3Phqw" />
-	<!-- market -->
 	<!--
 	<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
 			android:layout_width="fill_parent"
@@ -58,6 +50,14 @@
 			android:keepScreenOn="true"
 			android:enabled="true"
 			android:clickable="true"
-			android:apiKey="0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q" />
+			android:apiKey="0aqvjxNlVeQ_mZQCuEvJA8H33IQfeQoNkQ3Phqw" />
 	-->
+	<!-- market -->
+	<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:keepScreenOn="true"
+			android:enabled="true"
+			android:clickable="true"
+			android:apiKey="0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q" />
 </RelativeLayout>

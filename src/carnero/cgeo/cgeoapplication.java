@@ -249,7 +249,7 @@ public class cgeoapplication extends Application {
     }
 
 	public void removeCacheFromCache(String geocode) {
-		if (geocode != null && 1cachesCache.containsKey(geocode) == true) cachesCache.remove(geocode);
+		if (geocode != null && cachesCache.containsKey(geocode) == true) cachesCache.remove(geocode);
 	}
 
     public cgWaypoint getWaypointById(Integer id) {
