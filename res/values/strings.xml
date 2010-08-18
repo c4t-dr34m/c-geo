@@ -277,8 +277,12 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.76.1</b> (__.08.2010)\n
-		· fixed: ___\n
+		<b>0.76.2</b> (__.08.2010)\n
+		· fixed: __\n
+		\n
+		<b>0.76.1</b> (18.08.2010)\n
+		· fixed: Loading cache details\n
+		· fixed: Waypoints on map\n
 		\n
 		<b>0.76.0</b> (17.08.2010)\n
 		· new: Ability to drop trackable\n

@@ -832,7 +832,7 @@ public class cgeomap extends MapActivity {
 
 			if (live == false) {
 				// there is only one cache
-				if (caches != null && caches.size() == 1 && cachesWithCoords == 1) {
+				if (caches != null && caches.size() == 1 && cachesWithCoords > 0) {
 					cgCache oneCache = caches.get(0);
 
 					maxLat = (int)(oneCache.latitude * 1e6);

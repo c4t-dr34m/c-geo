@@ -398,16 +398,15 @@ public class cgData {
                     index = cursor.getColumnIndex("reason");
                     reason = (long)cursor.getLong(index);
                 }
+
+				cursor.close();
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
 		}
 
-		if (reason == 1) {
-			return true;
-		} else {
-			return false;
-		}
+		if (reason == 1) return true;
+		else return false;
     }
 
     public String getGeocodeForGuid(String guid) {
@@ -783,9 +782,7 @@ public class cgData {
         }
 
         ArrayList<cgCache> caches =  loadCaches(geocodes, guids, false);
-        if (caches != null && caches.isEmpty() == false) {
-            return caches.get(0);
-        }
+        if (caches != null && caches.isEmpty() == false) return caches.get(0);
 
         return null;
     }
@@ -936,17 +933,17 @@ public class cgData {
                         cache.inventoryTags = (Integer)cursor.getInt(cursor.getColumnIndex("inventorytags"));
                         cache.inventoryUnknown = (Integer)cursor.getInt(cursor.getColumnIndex("inventoryunknown"));
 
+						ArrayList<cgWaypoint> waypoints = loadWaypoints(cache.geocode); // used in maps, can't be in "lite"
+						if (waypoints != null && waypoints.isEmpty() == false) {
+							cache.waypoints.clear();
+							cache.waypoints.addAll(waypoints);
+						}
+
 						if (lite == false) {
 							ArrayList<String> attributes = loadAttributes(cache.geocode);
 							if (attributes != null && attributes.isEmpty() == false) {
 								cache.attributes.clear();
 								cache.attributes.addAll(attributes);
-							}
-
-							ArrayList<cgWaypoint> waypoints = loadWaypoints(cache.geocode);
-							if (waypoints != null && waypoints.isEmpty() == false) {
-								cache.waypoints.clear();
-								cache.waypoints.addAll(waypoints);
 							}
 
 							ArrayList<cgSpoiler> spoilers = loadSpoilers(cache.geocode);

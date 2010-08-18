@@ -242,7 +242,8 @@ public class cgeoapplication extends Application {
 		} else {
 			if (storage == null) storage = new cgData(this);
 			cache = storage.loadCache(geocode, null);
-			cachesCache.put(geocode, cache);
+
+			if (cache.detailed == true) cachesCache.put(geocode, cache);
 		}
 
 		return cache;
