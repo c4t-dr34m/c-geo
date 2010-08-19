@@ -27,7 +27,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/main_live" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/main_nearby" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/main_stored" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/main_search" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/main_any" />
 				<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
 						android:layout_gravity="center_horizontal"
 						android:gravity="center"
 						android:layout_margin="4dip"
-						android:background="@drawable/action_button_dark" />
+						android:background="@drawable/main_filter" />
 				<TextView android:id="@+id/filter_button_title"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
