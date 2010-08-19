@@ -454,7 +454,7 @@ public class cgeovisit extends Activity {
 				final String page = base.request("www.geocaching.com", "/seek/log.aspx", "GET", params, false, false, false);
 
 				viewstate = base.findViewstate(page, 0);
-				viewstate1 = base.findViewstate(page, 2);
+				viewstate1 = base.findViewstate(page, 1);
 				trackables = base.parseTrackableLog(page);
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeovisit.loadData.run: " + e.toString());
@@ -494,7 +494,16 @@ public class cgeovisit extends Activity {
 
 			status = base.postLog(cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log, trackables);
 
-			if (status == 1 && typeSelected == 2) app.markFound(geocode);
+			if (status == 1 && typeSelected == 2) {
+				app.markFound(geocode);
+				
+				if (cache != null) {
+					cache.found = true;
+					app.putCacheInCache(cache);
+				} else {
+					app.removeCacheFromCache(geocode);
+				}
+			}
 
 			if (
 				status == 1 && typeSelected == 2 && settings.twitter == 1 &&

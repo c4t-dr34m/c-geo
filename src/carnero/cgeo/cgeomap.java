@@ -205,6 +205,13 @@ public class cgeomap extends MapActivity {
 				return;
 			}
 
+			if (cache == null) {
+				if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
+				searchingForClose = false;
+
+				return;
+			}
+
 			final Double distance = base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude);
 
 			close.setClickable(false);

@@ -29,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.SubMenu;
 import android.widget.Button;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import org.openintents.intents.WikitudeARIntentHelper;
@@ -771,8 +772,12 @@ public class cgeodetail extends Activity {
 				if (settings.skin == 1) rowView = (RelativeLayout)inflater.inflate(R.layout.logitem_light, null);
 				else rowView = (RelativeLayout)inflater.inflate(R.layout.logitem_dark, null);
 
+				if (log.date > 0) {
+					final Date logDate = new Date(log.date);
+					((TextView)rowView.findViewById(R.id.added)).setText(base.dateOutShort.format(logDate));
+				}
+
 				((TextView)rowView.findViewById(R.id.type)).setText(log.type);
-				((TextView)rowView.findViewById(R.id.added)).setText(log.date);
 				((TextView)rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
 				if (log.found == 0) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_no));
 				else if (log.found == 1) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_one));

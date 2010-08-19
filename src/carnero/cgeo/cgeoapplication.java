@@ -253,6 +253,14 @@ public class cgeoapplication extends Application {
 		if (geocode != null && cachesCache.containsKey(geocode) == true) cachesCache.remove(geocode);
 	}
 
+	public void putCacheInCache(cgCache cache) {
+		if (cache == null || cache.geocode == null) return;
+
+		if (cachesCache.containsKey(cache.geocode) == true) cachesCache.remove(cache.geocode);
+		
+		cachesCache.put(cache.geocode, cache);
+	}
+
     public cgWaypoint getWaypointById(Integer id) {
 		if (id == null || id == 0) return null;
 

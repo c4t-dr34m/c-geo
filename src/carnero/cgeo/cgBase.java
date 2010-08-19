@@ -1189,30 +1189,52 @@ public class cgBase {
 							logTmp = Pattern.compile("<\\/p>").matcher(logTmp).replaceAll("");
 							logTmp = Pattern.compile("\r+").matcher(logTmp).replaceAll("\n");
 
-							final Calendar cal = Calendar.getInstance();
-							String year = String.valueOf(cal.get(Calendar.YEAR));
-							if (matcherLog.group(5) != null) {
-								year = matcherLog.group(5);
+							int day = -1;
+							try {
+								day = Integer.parseInt(matcherLog.group(3));
+							} catch (Exception e) {
+								Log.w(cgSettings.tag, "Failed to parse logs date (day): " + e.toString());
 							}
 
-							String month = null;
+							int month = -1;
 							// January  | February  | March  | April  | May | June | July | August  | September | October  | November  | December
-							if (matcherLog.group(2).equalsIgnoreCase("January")) { month = "01"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("February")) { month = "02"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("March")) { month = "03"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("April")) { month = "04"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("May")) { month = "05"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("June")) { month = "06"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("July")) { month = "07"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("August")) { month = "08"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("September")) { month = "09"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("October")) { month = "10"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("November")) { month = "11"; }
-							else if (matcherLog.group(2).equalsIgnoreCase("December")) { month = "12"; }
-							else { month = ""; }
+							if (matcherLog.group(2).equalsIgnoreCase("January")) month = 0;
+							else if (matcherLog.group(2).equalsIgnoreCase("February")) month = 1;
+							else if (matcherLog.group(2).equalsIgnoreCase("March")) month = 2;
+							else if (matcherLog.group(2).equalsIgnoreCase("April")) month = 3;
+							else if (matcherLog.group(2).equalsIgnoreCase("May")) month = 4;
+							else if (matcherLog.group(2).equalsIgnoreCase("June")) month = 5;
+							else if (matcherLog.group(2).equalsIgnoreCase("July")) month = 6;
+							else if (matcherLog.group(2).equalsIgnoreCase("August")) month = 7;
+							else if (matcherLog.group(2).equalsIgnoreCase("September")) month = 8;
+							else if (matcherLog.group(2).equalsIgnoreCase("October")) month = 9;
+							else if (matcherLog.group(2).equalsIgnoreCase("November")) month = 10;
+							else if (matcherLog.group(2).equalsIgnoreCase("December")) month = 11;
+							else Log.w(cgSettings.tag, "Failed to parse logs date (month).");
 
-							String day = matcherLog.group(3);
-							if (day.length() == 1) { day = "0" + day; }
+
+							int year = -1;
+							final String yearPre = matcherLog.group(5);
+
+							if (yearPre == null) {
+								Calendar date = Calendar.getInstance();
+								year = date.get(Calendar.YEAR);
+							} else {
+								try {
+									year = Integer.parseInt(matcherLog.group(5));
+								} catch (Exception e) {
+									Log.w(cgSettings.tag, "Failed to parse logs date (year): " + e.toString());
+								}
+							}
+
+							long logDate;
+							if (year > 0 && month > 0 && day > 0) {
+								Calendar date = Calendar.getInstance();
+								date.set(year, month, day, 0, 0, 0);
+								logDate = date.getTimeInMillis();
+							} else {
+								logDate = 0;
+							}
 
 							if (logTypes.containsKey(matcherLog.group(1).toLowerCase()) == true) {
 								logDone.type = logTypes.get(matcherLog.group(1).toLowerCase());
@@ -1221,7 +1243,7 @@ public class cgBase {
 							}
 
 							logDone.author = matcherLog.group(6);
-							logDone.date = day + "." + month + "." + year;
+							logDone.date = logDate;
 							logDone.found = new Integer(matcherLog.group(7));
 							logDone.log = stripParagraphs(matcherLog.group(8));
 
@@ -3536,6 +3558,7 @@ public class cgBase {
 			}
 
 			app.markStored(cache.geocode);
+			app.removeCacheFromCache(cache.geocode);
 
 			if (handler != null) handler.sendMessage(new Message());
 		} catch (Exception e) {
@@ -3546,6 +3569,7 @@ public class cgBase {
 	public void dropCache(cgeoapplication app, Activity activity, cgCache cache, Handler handler) {
 		try {
 			app.markDropped(cache.geocode);
+			app.removeCacheFromCache(cache.geocode);
 
 			handler.sendMessage(new Message());
 		} catch (Exception e) {

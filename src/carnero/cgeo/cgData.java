@@ -131,8 +131,6 @@ public class cgData {
 			+ "goal text, "
 			+ "description text "
 			+ "); ";
-	private static SQLiteStatement sqlDetailedGc = null;
-	private static SQLiteStatement sqlDetailedGuid = null;
 	private static SQLiteStatement sqlCount = null;
 	private static SQLiteStatement sqlCountDetailed = null;
 	private static SQLiteStatement sqlCountTyped = null;
@@ -142,23 +140,6 @@ public class cgData {
 		context = contextIn;
 
 		if (dbHelper == null) dbHelper = new cgDbHelper(context);
-
-		if (databaseRO == null || databaseRO.isOpen() == false) {
-			try {
-				if (dbHelper == null) dbHelper = new cgDbHelper(context);
-				databaseRO = dbHelper.getReadableDatabase();
-
-				if (databaseRO != null && databaseRO.isOpen()) {
-					Log.i(cgSettings.tag, "Connection to RO database established.");
-				} else {
-					Log.e(cgSettings.tag, "Failed to open connection to RO database.");
-				}
-
-				if (databaseRO.inTransaction() == true) databaseRO.endTransaction();
-			} catch (Exception e) {
-				Log.e(cgSettings.tag, "cgData.openDb.RO: " + e.toString());
-			}
-		}
 
 		if (databaseRW == null || databaseRW.isOpen() == false) {
 			try {
@@ -174,6 +155,25 @@ public class cgData {
 				if (databaseRW.inTransaction() == true) databaseRW.endTransaction();
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgData.openDb.RWs: " + e.toString());
+			}
+		}
+		
+		if (databaseRO == null || databaseRO.isOpen() == false) {
+			try {
+				if (dbHelper == null) dbHelper = new cgDbHelper(context);
+				databaseRO = dbHelper.getReadableDatabase();
+
+				if (databaseRO.needUpgrade(dbVersion) == true) databaseRO = null;
+
+				if (databaseRO != null && databaseRO.isOpen()) {
+					Log.i(cgSettings.tag, "Connection to RO database established.");
+				} else {
+					Log.e(cgSettings.tag, "Failed to open connection to RO database.");
+				}
+
+				if (databaseRO.inTransaction() == true) databaseRO.endTransaction();
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgData.openDb.RO: " + e.toString());
 			}
 		}
 	}
@@ -229,12 +229,12 @@ public class cgData {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			db.beginTransaction();
-
 			try {
+				if (db.isReadOnly() == true) return;
+
 				Log.i(cgSettings.tag, "Upgrading database from ver. " + oldVersion +" to ver. " + newVersion + ".");
 
-                if (oldVersion <= 0) {
+                if (oldVersion <= 0) { // new table
 					db.execSQL("drop table if exists " + dbTableCaches);
 					db.execSQL("drop table if exists " + dbTableAttributes);
 					db.execSQL("drop table if exists " + dbTableWaypoints);
@@ -246,7 +246,7 @@ public class cgData {
     				Log.i(cgSettings.tag, "Database structure created.");
                 }
 
-				if (oldVersion < 34) {
+				if (oldVersion> 0 && oldVersion < 34) { // upgrade to 34
 					db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
 					db.execSQL("create index if not exists in_b on " + dbTableCaches + " (guid)");
 					db.execSQL("create index if not exists in_c on " + dbTableCaches + " (reason)");
@@ -262,7 +262,7 @@ public class cgData {
     				Log.i(cgSettings.tag, "Indexes added.");
 				}
 
-				if (oldVersion < 37) {
+				if (oldVersion> 0 && oldVersion < 37) { // upgrade to 37
                     db.execSQL("alter table " + dbTableCaches + " add column direction text");
                     db.execSQL("alter table " + dbTableCaches + " add column distance double");
 
@@ -1179,7 +1179,7 @@ public class cgData {
                 log.type = (String)cursor.getString(cursor.getColumnIndex("type"));
                 log.author = (String)cursor.getString(cursor.getColumnIndex("author"));
                 log.log = (String)cursor.getString(cursor.getColumnIndex("log"));
-                log.date = (String)cursor.getString(cursor.getColumnIndex("date"));
+                log.date = (long)cursor.getLong(cursor.getColumnIndex("date"));
                 log.found = (int)cursor.getInt(cursor.getColumnIndex("found"));
 
                 logs.add(log);
