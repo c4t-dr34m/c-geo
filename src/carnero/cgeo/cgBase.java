@@ -818,7 +818,7 @@ public class cgBase {
 		final Pattern patternTerrain = Pattern.compile("<td[^>]*>[^<]*<strong>[^S]*Terrain[^:]*:[^<]*</strong>[^<]*<img src=\"[^>]*\\/stars\\/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternOwner = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*An?([^\\w]*Event)?[^\\w]*cache[^<]*<\\/strong>[^\\w]*by[^<]*<a href=\"[^\"]+\">([^<]+)<\\/a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHidden = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Hidden[^:]*:[^<]*</strong>[^\\d]*((\\d+)\\/(\\d+)\\/(\\d+))[^<]*</td>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternHiddenEvent = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Event[^\\w]*date[^:]*:[^<]*</strong>[^\\w]*[a-zA-Z]+,[^\\d]*((\\d+)[^\\w]*(\\w+)[^\\d]*(\\d+))[^<]*<a", Pattern.CASE_INSENSITIVE);
+		final Pattern patternHiddenEvent = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Event[^\\w]*date[^:]*:[^<]*</strong>[^\\w]*[a-zA-Z]+,[^\\d]*((\\d+)[^\\w]*(\\w+)[^\\d]*(\\d+))[^<]*<div", Pattern.CASE_INSENSITIVE);
 
         final Pattern patternFound = Pattern.compile("<p><img src=\".*/images/stockholm/16x16/check\\.gif\" alt=\"Found It\" />[^a-zA-Z]*You logged this as Found[^<]+</p>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLatLon = Pattern.compile("<span id=\"ctl00_ContentBody_LatLon\"[^>]*>(<b>)?([^<]*)(<\\/b>)?<\\/span>", Pattern.CASE_INSENSITIVE);
@@ -972,6 +972,7 @@ public class cgBase {
 					final Matcher matcherHiddenEvent = patternHiddenEvent.matcher(tableInside);
 					while (matcherHiddenEvent.find()) {
 						if (matcherHiddenEvent.groupCount() > 0) {
+							Log.d(cgSettings.tag, "Date: " + matcherHiddenEvent.group(1));
 							cache.hidden = dateEvIn.parse(matcherHiddenEvent.group(1));
 						}
 					}
@@ -1230,7 +1231,7 @@ public class cgBase {
 							long logDate;
 							if (year > 0 && month > 0 && day > 0) {
 								Calendar date = Calendar.getInstance();
-								date.set(year, month, day, 0, 0, 0);
+								date.set(year, month, day, 12, 0, 0);
 								logDate = date.getTimeInMillis();
 							} else {
 								logDate = 0;
@@ -2029,10 +2030,8 @@ public class cgBase {
 			return null;
 		}
 
-        if ((app.isOffline(geocode, guid) == true && reason == 0) || app.isThere(geocode, guid, true, true)) {
-            if ((geocode == null || geocode.length() == 0) && guid != null && guid.length() > 0) {
-                geocode = app.getGeocode(guid);
-            }
+        if (reason == 0 && (app.isOffline(geocode, guid) == true || app.isThere(geocode, guid, true, true) == true)) {
+            if ((geocode == null || geocode.length() == 0) && guid != null && guid.length() > 0) geocode = app.getGeocode(guid);
 
             ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
             cacheList.add(app.getCacheByGeocode(geocode));

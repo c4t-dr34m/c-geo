@@ -341,12 +341,8 @@ public class cgData {
             }
 
             if (checkTime == true) {
-                if (detailed == false && dataUpdated < (System.currentTimeMillis() - (30 * 60 * 1000))) {
+                if (dataUpdated < (System.currentTimeMillis() - (30 * 60 * 1000))) {
                     // cache basic: older than 30 mins
-                    return false;
-                }
-                if (detailed == true && dataDetailedUpdate < (System.currentTimeMillis() - (30 * 60 * 1000))) {
-                    // cache details: older than 30 mins
                     return false;
                 }
             }
@@ -543,11 +539,24 @@ public class cgData {
         values.put("inventorytags", cache.inventoryTags);
         values.put("inventoryunknown", cache.inventoryUnknown);
 
-        saveAttributes(cache.geocode, cache.attributes);
-        saveWaypoints(cache.geocode, cache.waypoints, true);
-        saveSpoilers(cache.geocode, cache.spoilers);
-        saveLogs(cache.geocode, cache.logs);
-        saveInventory(cache.geocode, cache.inventory);
+		boolean status = false;
+		boolean statusOk = true;
+
+        status = saveAttributes(cache.geocode, cache.attributes);
+		if (status == false) statusOk = false;
+        status = saveWaypoints(cache.geocode, cache.waypoints, true);
+		if (status == false) statusOk = false;
+        status = saveSpoilers(cache.geocode, cache.spoilers);
+		if (status == false) statusOk = false;
+        status = saveLogs(cache.geocode, cache.logs);
+		if (status == false) statusOk = false;
+        status = saveInventory(cache.geocode, cache.inventory);
+		if (status == false) statusOk = false;
+
+		if (statusOk == false) {
+			cache.detailed = false;
+			cache.detailedUpdate = 0l;
+		}
 
         if (isThere(cache.geocode, cache.guid, false, false) == true) {
             int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + cache.geocode + "\"", null);
@@ -568,6 +577,7 @@ public class cgData {
 
     public boolean saveAttributes(String geocode, ArrayList<String> attributes) {
         if (geocode == null || geocode.length() == 0 || attributes == null || attributes.isEmpty()) return false;
+		if (databaseRW == null || databaseRW.isOpen() == false) return false;
 
 		databaseRW.beginTransaction();
 		try {
@@ -592,6 +602,7 @@ public class cgData {
 
     public boolean saveWaypoints(String geocode, ArrayList<cgWaypoint> waypoints, boolean drop) {
         if (geocode == null || geocode.length() == 0 || waypoints == null || waypoints.isEmpty()) return false;
+		if (databaseRW == null || databaseRW.isOpen() == false) return false;
 
 		boolean ok = false;
 		databaseRW.beginTransaction();
@@ -629,6 +640,7 @@ public class cgData {
 
     public boolean saveOwnWaypoint(int id, String geocode, cgWaypoint waypoint) {
         if (((geocode == null || geocode.length() == 0) && id <= 0) || waypoint == null) return false;
+		if (databaseRW == null || databaseRW.isOpen() == false) return false;
 
 		boolean ok = false;
 		databaseRW.beginTransaction();
@@ -665,6 +677,7 @@ public class cgData {
 
     public boolean deleteWaypoint(int id) {
         if (id == 0) return false;
+		if (databaseRW == null || databaseRW.isOpen() == false) return false;
 
         int deleted = databaseRW.delete(dbTableWaypoints, "_id = " + id, null);
         
@@ -677,6 +690,7 @@ public class cgData {
 
     public boolean saveSpoilers(String geocode, ArrayList<cgSpoiler> spoilers) {
         if (geocode == null || geocode.length() == 0 || spoilers == null || spoilers.isEmpty()) return false;
+		if (databaseRW == null || databaseRW.isOpen() == false) return false;
 
 		databaseRW.beginTransaction();
 		try {
@@ -703,6 +717,7 @@ public class cgData {
 
     public boolean saveLogs(String geocode, ArrayList<cgLog> logs) {
         if (geocode == null || geocode.length() == 0 || logs == null || logs.isEmpty()) return false;
+		if (databaseRW == null || databaseRW.isOpen() == false) return false;
 
 		databaseRW.beginTransaction();
 		try {
@@ -731,6 +746,7 @@ public class cgData {
 
     public boolean saveInventory(String geocode, ArrayList<cgTrackable> trackables) {
         if (geocode == null || geocode.length() == 0 || trackables == null || trackables.isEmpty()) return false;
+		if (databaseRW == null || databaseRW.isOpen() == false) return false;
 
 		databaseRW.beginTransaction();
 		try {
@@ -1336,15 +1352,7 @@ public class cgData {
 			values.put("reason", 0);
 			int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\"", null);
 
-			if (rows > 0) {
-				databaseRO.delete(dbTableAttributes, "geocode = \"" + geocode + "\"" , null);
-				databaseRO.delete(dbTableSpoilers, "geocode = \"" + geocode + "\"" , null);
-				databaseRO.delete(dbTableLogs, "geocode = \"" + geocode + "\"" , null);
-				databaseRO.delete(dbTableWaypoints, "geocode = \"" + geocode + "\" and type <> \"own\"" , null);
-				databaseRO.delete(dbTableTrackables, "geocode = \"" + geocode + "\"" , null);
-				
-				return true;
-			}
+			if (rows > 0) return true;
 		} catch(Exception e) {
 			Log.e(cgSettings.tag, "cgData.markDropped: " + e.toString());
 		}

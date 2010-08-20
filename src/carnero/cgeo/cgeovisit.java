@@ -313,23 +313,24 @@ public class cgeovisit extends Activity {
 		if (geocode != null) app.setAction(geocode);
 
 		types.clear();
-		if (cache.type.equals("traditional") || cache.type.equals("multi") || cache.type.equals("mystery") || cache.type.equals("wherigo") || cache.type.equals("virtual")) {
-			types.add(2);
-			types.add(3);
-			types.add(4);
+		
+		if (cache.type.equals("event") || cache.type.equals("mega") || cache.type.equals("cito") || cache.type.equals("lostfound")) {
+			types.add(9);
+			types.add(10);
 			types.add(7);
-			types.add(45);
 		} else if (cache.type.equals("earth")) {
 			types.add(2);
 			types.add(3);
 			types.add(4);
 			types.add(7);
-		} else if (cache.type.equals("event")) {
-			types.add(9);
-			types.add(10);
-			types.add(7);
 		} else if (cache.type.equals("webcam")) {
 			types.add(11);
+			types.add(3);
+			types.add(4);
+			types.add(7);
+			types.add(45);
+		} else {
+			types.add(2);
 			types.add(3);
 			types.add(4);
 			types.add(7);
