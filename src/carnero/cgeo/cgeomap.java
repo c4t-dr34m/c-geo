@@ -1035,16 +1035,13 @@ public class cgeomap extends MapActivity {
 		}
 	}
 
+	// thread used just like timer
 	private class loadCaches extends Thread {
 		private boolean requestedKill = false;
 		private boolean enabled = true;
 		private Handler handler = null;
-		private MapView mapView = null;
 		private String viewstate = null;
-		private Double latitudeT = null;
-		private Double latitudeB = null;
-		private Double longitudeL = null;
-		private Double longitudeR = null;
+		private MapView mapView = null;
 
 		private loadCaches(Handler handlerIn, MapView mapViewIn) {
 			handler = handlerIn;
@@ -1083,63 +1080,86 @@ public class cgeomap extends MapActivity {
 
 				firstRun = false;
 
-				if (enabled == true && mapView != null) {
-					GeoPoint center = mapView.getMapCenter();
-					int latitudeCenter = center.getLatitudeE6();
-					int longitudeCenter = center.getLongitudeE6();
-					int latitudeSpan = mapView.getLatitudeSpan();
-					int longitudeSpan = mapView.getLongitudeSpan();
+				if (enabled == true && mapView != null && searching == false) {
+					loadCachesReal realThread = new loadCachesReal(handler, mapView, viewstate);
+					realThread.start();
+				}
+			}
+		}
+	}
 
-					if (
-							(centerLatitude == null || centerLongitude == null || spanLatitude == null || spanLongitude == null) || // first run
-							((
-								(Math.abs(latitudeSpan - spanLatitude) > 50) || // changed zoom
-								(Math.abs(longitudeSpan - spanLongitude) > 50) || // changed zoom
-								(Math.abs(latitudeCenter - centerLatitude) > (latitudeSpan / 6)) || // map moved
-								(Math.abs(longitudeCenter - centerLongitude) > (longitudeSpan / 6)) // map moved
-							) && (
-								base.isInViewPort(centerLatitude, centerLongitude, latitudeCenter, longitudeCenter, spanLatitude, spanLongitude, latitudeSpan, longitudeSpan) == false ||
-								caches.isEmpty() == true
-							))
-						) {
+	// thread that is downloading caches
+	private class loadCachesReal extends Thread {
+		private Handler handler = null;
+		private String viewstate = null;
+		private MapView mapView = null;
+		private Double latitudeT = null;
+		private Double latitudeB = null;
+		private Double longitudeL = null;
+		private Double longitudeR = null;
 
-						latitudeT = (latitudeCenter + (latitudeSpan / 2)) / 1e6;
-						latitudeB = (latitudeCenter - (latitudeSpan / 2)) / 1e6;
-						longitudeL = (longitudeCenter + (longitudeSpan / 2)) / 1e6;
-						longitudeR = (longitudeCenter - (longitudeSpan / 2)) / 1e6;
+		private loadCachesReal(Handler handlerIn, MapView mapViewIn, String viewstateIn) {
+			handler = handlerIn;
+			viewstate = viewstateIn;
+			mapView = mapViewIn;
+		}
 
-						centerLatitude = latitudeCenter;
-						centerLongitude = longitudeCenter;
-						spanLatitude = latitudeSpan;
-						spanLongitude = longitudeSpan;
+		@Override
+		public void run() {
+			GeoPoint center = mapView.getMapCenter();
+			int latitudeCenter = center.getLatitudeE6();
+			int longitudeCenter = center.getLongitudeE6();
+			int latitudeSpan = mapView.getLatitudeSpan();
+			int longitudeSpan = mapView.getLongitudeSpan();
 
-						if (searching == false) {
-							searching = true;
-							startLoading.sendEmptyMessage(0);
+			if (
+					(centerLatitude == null || centerLongitude == null || spanLatitude == null || spanLongitude == null) || // first run
+					((
+						(Math.abs(latitudeSpan - spanLatitude) > 50) || // changed zoom
+						(Math.abs(longitudeSpan - spanLongitude) > 50) || // changed zoom
+						(Math.abs(latitudeCenter - centerLatitude) > (latitudeSpan / 6)) || // map moved
+						(Math.abs(longitudeCenter - centerLongitude) > (longitudeSpan / 6)) // map moved
+					) && (
+						base.isInViewPort(centerLatitude, centerLongitude, latitudeCenter, longitudeCenter, spanLatitude, spanLongitude, latitudeSpan, longitudeSpan) == false ||
+						caches.isEmpty() == true
+					))
+				) {
 
-							HashMap<String, String> params = new HashMap<String, String>();
-							params.put("viewstate", viewstate);
-							params.put("latitude-t", String.format((Locale)null, "%.6f", latitudeT));
-							params.put("latitude-b", String.format((Locale)null, "%.6f", latitudeB));
-							params.put("longitude-l", String.format((Locale)null, "%.6f", longitudeL));
-							params.put("longitude-r", String.format((Locale)null, "%.6f", longitudeR));
+				latitudeT = (latitudeCenter + (latitudeSpan / 2)) / 1e6;
+				latitudeB = (latitudeCenter - (latitudeSpan / 2)) / 1e6;
+				longitudeL = (longitudeCenter + (longitudeSpan / 2)) / 1e6;
+				longitudeR = (longitudeCenter - (longitudeSpan / 2)) / 1e6;
 
-							Log.i(cgSettings.tag, "Starting download caches for: " + String.format((Locale)null, "%.6f", latitudeT) + "," + String.format((Locale)null, "%.6f", longitudeL) + " | " + String.format((Locale)null, "%.6f", latitudeB) + "," + String.format((Locale)null, "%.6f", longitudeR));
+				centerLatitude = latitudeCenter;
+				centerLongitude = longitudeCenter;
+				spanLatitude = latitudeSpan;
+				spanLongitude = longitudeSpan;
 
-							searchId = base.searchByViewport(params, 0);
+				if (searching == false) {
+					searching = true;
+					startLoading.sendEmptyMessage(0);
 
-							if (searchId != null && searchId > 0) {
-								if (loadingThread != null && app.getViewstate(searchId) != null) {
-									loadingThread.setViewstate(app.getViewstate(searchId));
-								}
+					HashMap<String, String> params = new HashMap<String, String>();
+					params.put("viewstate", viewstate);
+					params.put("latitude-t", String.format((Locale)null, "%.6f", latitudeT));
+					params.put("latitude-b", String.format((Locale)null, "%.6f", latitudeB));
+					params.put("longitude-l", String.format((Locale)null, "%.6f", longitudeL));
+					params.put("longitude-r", String.format((Locale)null, "%.6f", longitudeR));
 
-								caches.clear();
-								if (app.getCount(searchId) > 0) caches.addAll(app.getCaches(searchId));
-							}
-							
-							handler.sendEmptyMessage(0);
+					Log.i(cgSettings.tag, "Starting download caches for: " + String.format((Locale)null, "%.6f", latitudeT) + "," + String.format((Locale)null, "%.6f", longitudeL) + " | " + String.format((Locale)null, "%.6f", latitudeB) + "," + String.format((Locale)null, "%.6f", longitudeR));
+
+					searchId = base.searchByViewport(params, 0);
+
+					if (searchId != null && searchId > 0) {
+						if (loadingThread != null && app.getViewstate(searchId) != null) {
+							loadingThread.setViewstate(app.getViewstate(searchId));
 						}
+
+						caches.clear();
+						if (app.getCount(searchId) > 0) caches.addAll(app.getCaches(searchId));
 					}
+
+					handler.sendEmptyMessage(0);
 				}
 			}
 		}

@@ -495,15 +495,21 @@ public class cgeovisit extends Activity {
 
 			status = base.postLog(cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log, trackables);
 
-			if (status == 1 && typeSelected == 2) {
-				app.markFound(geocode);
-				
-				if (cache != null) {
-					cache.found = true;
-					app.putCacheInCache(cache);
-				} else {
-					app.removeCacheFromCache(geocode);
+			if (status == 1) {
+				cgLog logNow = new cgLog();
+				logNow.author = settings.getUsername();
+				logNow.date = (new Date()).getTime();
+				logNow.type = base.logTypes2.get(typeSelected);
+
+				app.addLog(geocode, logNow);
+
+				if (typeSelected == 2) {
+					app.markFound(geocode);
+					if (cache != null) cache.found = true;
 				}
+
+				if (cache != null) app.putCacheInCache(cache);
+				else app.removeCacheFromCache(geocode);
 			}
 
 			if (

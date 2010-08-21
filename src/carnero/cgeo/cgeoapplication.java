@@ -407,4 +407,14 @@ public class cgeoapplication extends Application {
 		if (action == null) return "";
 		return action;
 	}
+
+	public boolean addLog(String geocode, cgLog log) {
+		if (geocode == null || geocode.length() == 0) return false;
+		if (log == null) return false;
+
+		ArrayList<cgLog> list = new ArrayList<cgLog>();
+		list.add(log);
+
+	    return storage.saveLogs(geocode, list);
+	}
 }
