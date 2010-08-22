@@ -63,7 +63,8 @@ public class cgBase {
 	public static HashMap<String, String> cacheIDs = new HashMap<String, String>();
 	public static HashMap<String, String> cacheIDsChoices = new HashMap<String, String>();
 	public static HashMap<String, String> waypointTypes = new HashMap<String, String>();
-	public static HashMap<String, String> logTypes = new HashMap<String, String>();
+	public static HashMap<String, Integer> logTypes = new HashMap<String, Integer>();
+	public static HashMap<Integer, String> logTypes1 = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> logTypes2 = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> logTypesTrackable = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> logTypesTrackableAction = new HashMap<Integer, String>();
@@ -173,17 +174,29 @@ public class cgBase {
 		waypointTypes.put("waypoint", res.getString(R.string.wp_waypoint));
 
 		// log types
-		logTypes.put("icon_smile", res.getString(R.string.log_found));
-		logTypes.put("icon_sad", res.getString(R.string.log_dnf));
-		logTypes.put("icon_note", res.getString(R.string.log_note));
-		logTypes.put("icon_greenlight", res.getString(R.string.log_published));
-		logTypes.put("icon_enabled", res.getString(R.string.log_enabled));
-		logTypes.put("icon_disabled", res.getString(R.string.log_disabled));
-		logTypes.put("icon_needsmaint", res.getString(R.string.log_needs));
-		logTypes.put("icon_maint", res.getString(R.string.log_maintenance));
-		logTypes.put("coord_update", res.getString(R.string.log_update));
-		logTypes.put("traffic_cone", res.getString(R.string.log_archived));
-		logTypes.put("big_smile", res.getString(R.string.log_review));
+		logTypes.put("icon_smile", 2);
+		logTypes.put("icon_sad", 3);
+		logTypes.put("icon_note", 4);
+		logTypes.put("icon_greenlight", 5);
+		logTypes.put("icon_enabled", 6);
+		logTypes.put("traffic_cone", 7);
+		logTypes.put("icon_disabled", 8);
+		logTypes.put("icon_needsmaint", 45);
+		logTypes.put("icon_maint", 46);
+		logTypes.put("coord_update", 47);
+		logTypes.put("big_smile", 49);
+
+		logTypes1.put(2, res.getString(R.string.log_found));
+		logTypes1.put(3, res.getString(R.string.log_dnf));
+		logTypes1.put(4, res.getString(R.string.log_note));
+		logTypes1.put(5, res.getString(R.string.log_published));
+		logTypes1.put(6, res.getString(R.string.log_enabled));
+		logTypes1.put(7, res.getString(R.string.log_archived));
+		logTypes1.put(8, res.getString(R.string.log_disabled));
+		logTypes1.put(45, res.getString(R.string.log_needs));
+		logTypes1.put(46, res.getString(R.string.log_maintenance));
+		logTypes1.put(47, res.getString(R.string.log_update));
+		logTypes1.put(49, res.getString(R.string.log_review));
 
 		logTypes2.put(2, res.getString(R.string.log_new_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
 		logTypes2.put(3, res.getString(R.string.log_new_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam

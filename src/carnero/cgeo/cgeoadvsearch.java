@@ -4,8 +4,6 @@ import java.util.HashMap;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
@@ -15,8 +13,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.SubMenu;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 public class cgeoadvsearch extends Activity {
 	private Resources res = null;
@@ -29,6 +28,7 @@ public class cgeoadvsearch extends Activity {
 	private cgUpdateLoc geoUpdate = new update();
 	private EditText latEdit = null;
 	private EditText lonEdit = null;
+	private String[] geocodesInCache = null;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -108,12 +108,19 @@ public class cgeoadvsearch extends Activity {
 		findByAddress.setOnTouchListener(new cgViewTouch(settings, findByAddress, 0));
 		findByAddress.setOnClickListener(new findByAddressListener());
 
-		((EditText)findViewById(R.id.geocode)).setOnEditorActionListener(new findByGeocodeAction());
+		final AutoCompleteTextView geocodeEdit = (AutoCompleteTextView)findViewById(R.id.geocode);
+		geocodeEdit.setOnEditorActionListener(new findByGeocodeAction());
+		geocodesInCache = app.geocodesInCache();
+		if (geocodesInCache != null) {
+			final ArrayAdapter<String> geocodesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, geocodesInCache);
+			geocodeEdit.setAdapter(geocodesAdapter);
+		}
 
 		final Button displayByGeocode = (Button)findViewById(R.id.display_geocode);
 		displayByGeocode.setClickable(true);
 		displayByGeocode.setOnTouchListener(new cgViewTouch(settings, displayByGeocode, 0));
 		displayByGeocode.setOnClickListener(new findByGeocodeListener());
+
 
 		((EditText)findViewById(R.id.keyword)).setOnEditorActionListener(new findByKeywordAction());
 

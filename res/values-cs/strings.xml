@@ -278,8 +278,14 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.76.3</b> (__.08.2010)\n
+		<b>0.76.4</b> (__.08.2010)\n
 		· fixed: ___\n
+		\n
+		<b>0.76.3</b> (22.08.2010)\n
+		· new: Icons for transparent main screen\n
+		· fixed: Some force-closes\n
+		· fixed: Posting logs\n
+		· improved: Caching of caches\n
 		\n
 		<b>0.76.2</b> (19.08.2010)\n
 		· fixed: Caching of caches\n

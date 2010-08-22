@@ -499,8 +499,10 @@ public class cgeovisit extends Activity {
 				cgLog logNow = new cgLog();
 				logNow.author = settings.getUsername();
 				logNow.date = (new Date()).getTime();
-				logNow.type = base.logTypes2.get(typeSelected);
+				logNow.type = typeSelected;
+				logNow.log = log;
 
+				cache.logs.add(0, logNow);
 				app.addLog(geocode, logNow);
 
 				if (typeSelected == 2) {

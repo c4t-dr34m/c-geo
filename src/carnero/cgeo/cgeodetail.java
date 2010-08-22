@@ -777,7 +777,8 @@ public class cgeodetail extends Activity {
 					((TextView)rowView.findViewById(R.id.added)).setText(base.dateOutShort.format(logDate));
 				}
 
-				((TextView)rowView.findViewById(R.id.type)).setText(log.type);
+				if (base.logTypes1.containsKey(log.type) == true) ((TextView)rowView.findViewById(R.id.type)).setText(base.logTypes1.get(log.type));
+				else ((TextView)rowView.findViewById(R.id.type)).setText(base.logTypes1.get(4)); // note if type is unknown
 				((TextView)rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
 				if (log.found == 0) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_no));
 				else if (log.found == 1) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_one));
@@ -787,15 +788,15 @@ public class cgeodetail extends Activity {
 				final ImageView markFound = (ImageView)rowView.findViewById(R.id.found_mark);
 				final ImageView markDNF = (ImageView)rowView.findViewById(R.id.dnf_mark);
 				final ImageView markDisabled = (ImageView)rowView.findViewById(R.id.disabled_mark);
-				if (log.type.equalsIgnoreCase("found") == true) {
+				if (log.type == 2) { // found
 					markFound.setVisibility(View.VISIBLE);
 					markDNF.setVisibility(View.GONE);
 					markDisabled.setVisibility(View.GONE);
-				} else if (log.type.equalsIgnoreCase("did not find") == true) {
+				} else if (log.type == 3) { // did not find
 					markFound.setVisibility(View.GONE);
 					markDNF.setVisibility(View.VISIBLE);
 					markDisabled.setVisibility(View.GONE);
-				} else if (log.type.equalsIgnoreCase("disabled") == true) {
+				} else if (log.type == 7 || log.type == 8) { // disabled, archived
 					markFound.setVisibility(View.GONE);
 					markDNF.setVisibility(View.GONE);
 					markDisabled.setVisibility(View.VISIBLE);

@@ -181,7 +181,7 @@
 							android:background="@color/background_light"
 							android:text="geocode" />
 				</RelativeLayout>
-				<EditText
+				<AutoCompleteTextView
 						android:id="@+id/geocode"
 						android:hint="geocode"
 						android:layout_width="fill_parent"

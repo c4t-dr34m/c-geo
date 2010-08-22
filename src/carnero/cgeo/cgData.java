@@ -20,6 +20,7 @@ import java.util.Locale;
 public class cgData {
 	public cgCacheWrap caches;
     private Context context = null;
+	private boolean initialized = false;
 
     private cgDbHelper dbHelper = null;
     private SQLiteDatabase databaseRO = null;
@@ -32,7 +33,7 @@ public class cgData {
     private static final String dbTableSpoilers = "cg_spoilers";
     private static final String dbTableLogs = "cg_logs";
     private static final String dbTableTrackables = "cg_trackables";
-    private static final int dbVersion = 37;
+    private static final int dbVersion = 38;
     private static final String dbCreateCaches = ""
 			+ "create table " + dbTableCaches + " ("
 			+ "_id integer primary key autoincrement, "
@@ -111,7 +112,7 @@ public class cgData {
 			+ "_id integer primary key autoincrement, "
 			+ "geocode text not null, "
 			+ "updated long not null, " // date of save
-			+ "type text not null default 'Note', "
+			+ "type integer not null default 4, "
 			+ "author text, "
 			+ "log text, "
 			+ "date long, "
@@ -143,6 +144,37 @@ public class cgData {
 
 		initRW();
 		initRO();
+
+		if (initialized == false) {
+			try {
+				int cnt = 0;
+				Cursor cursor = null;
+
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[] {"count (_id) as cnt"},
+						null,
+						null,
+						null,
+						null,
+						null,
+						null
+						);
+
+				if (cursor != null && cursor.getCount() > 0) {
+					cursor.moveToFirst();
+					cnt = (int)cursor.getInt(cursor.getColumnIndex("cnt"));
+				}
+
+				if (cursor != null) cursor.close();
+
+				Log.d(cgSettings.tag, "c:geo has " + cnt + " caches in database");
+			} catch (Exception e) {
+				Log.d(cgSettings.tag, "c:geo failed to get count of caches in database");
+			}
+
+			initialized = true;
+		}
 	}
 
 	public void initRW() {
@@ -236,10 +268,12 @@ public class cgData {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion +" to ver. " + newVersion + ": start");
+			
 			try {
 				if (db.isReadOnly() == true) return;
 
-				Log.i(cgSettings.tag, "Upgrading database from ver. " + oldVersion +" to ver. " + newVersion + ".");
+				db.beginTransaction();
 
                 if (oldVersion <= 0) { // new table
 					db.execSQL("drop table if exists " + dbTableCaches);
@@ -253,33 +287,46 @@ public class cgData {
     				Log.i(cgSettings.tag, "Database structure created.");
                 }
 
-				if (oldVersion> 0 && oldVersion < 34) { // upgrade to 34
-					db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
-					db.execSQL("create index if not exists in_b on " + dbTableCaches + " (guid)");
-					db.execSQL("create index if not exists in_c on " + dbTableCaches + " (reason)");
-					db.execSQL("create index if not exists in_d on " + dbTableCaches + " (detailed)");
-					db.execSQL("create index if not exists in_e on " + dbTableCaches + " (type)");
-					db.execSQL("create index if not exists in_a on " + dbTableAttributes + " (geocode)");
-					db.execSQL("create index if not exists in_a on " + dbTableWaypoints + " (geocode)");
-					db.execSQL("create index if not exists in_b on " + dbTableWaypoints + " (geocode, type)");
-					db.execSQL("create index if not exists in_a on " + dbTableSpoilers + " (geocode)");
-					db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
-					db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
+				if (oldVersion > 0) {
+					db.execSQL("delete from " + dbTableCaches + " where reason = 0");
 
-    				Log.i(cgSettings.tag, "Indexes added.");
+					if (oldVersion < 34) { // upgrade to 34
+						db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
+						db.execSQL("create index if not exists in_b on " + dbTableCaches + " (guid)");
+						db.execSQL("create index if not exists in_c on " + dbTableCaches + " (reason)");
+						db.execSQL("create index if not exists in_d on " + dbTableCaches + " (detailed)");
+						db.execSQL("create index if not exists in_e on " + dbTableCaches + " (type)");
+						db.execSQL("create index if not exists in_a on " + dbTableAttributes + " (geocode)");
+						db.execSQL("create index if not exists in_a on " + dbTableWaypoints + " (geocode)");
+						db.execSQL("create index if not exists in_b on " + dbTableWaypoints + " (geocode, type)");
+						db.execSQL("create index if not exists in_a on " + dbTableSpoilers + " (geocode)");
+						db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
+						db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
+
+						Log.i(cgSettings.tag, "Indexes added.");
+					}
+
+					if (oldVersion < 37) { // upgrade to 37
+						db.execSQL("alter table " + dbTableCaches + " add column direction text");
+						db.execSQL("alter table " + dbTableCaches + " add column distance double");
+
+						Log.i(cgSettings.tag, "Columns direction and distance added to " + dbTableCaches + ".");
+					}
+
+					if (oldVersion < 38) { // upgrade to 38
+						db.execSQL("drop table " + dbTableLogs);
+						db.execSQL(dbCreateLogs);
+
+						Log.i(cgSettings.tag, "Changed type column in " + dbTableLogs + " to integer.");
+					}
 				}
-
-				if (oldVersion> 0 && oldVersion < 37) { // upgrade to 37
-                    db.execSQL("alter table " + dbTableCaches + " add column direction text");
-                    db.execSQL("alter table " + dbTableCaches + " add column distance double");
-
-    				Log.i(cgSettings.tag, "Columns direction and distance added to " + dbTableCaches + ".");
-                }
 
 				db.setTransactionSuccessful();
 			} finally {
 				db.endTransaction();
 			}
+
+			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion +" to ver. " + newVersion + ": completed");
         }
 	}
 
@@ -568,6 +615,7 @@ public class cgData {
 			cache.detailedUpdate = 0l;
 		}
 
+		initRW();
         if (isThere(cache.geocode, cache.guid, false, false) == true) {
             int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + cache.geocode + "\"", null);
 			values = null;
@@ -725,13 +773,17 @@ public class cgData {
         return true;
     }
 
-    public boolean saveLogs(String geocode, ArrayList<cgLog> logs) {
+	public boolean saveLogs(String geocode, ArrayList<cgLog> logs) {
+		return saveLogs(geocode, logs, true);
+	}
+
+    public boolean saveLogs(String geocode, ArrayList<cgLog> logs, boolean drop) {
         if (geocode == null || geocode.length() == 0 || logs == null || logs.isEmpty()) return false;
 		initRW();
 
 		databaseRW.beginTransaction();
 		try {
-			databaseRW.delete(dbTableLogs, "geocode = \"" + geocode + "\"", null);
+			if (drop == true) databaseRW.delete(dbTableLogs, "geocode = \"" + geocode + "\"", null);
 
 			ContentValues values = new ContentValues();
 			for (cgLog oneLog : logs) {
@@ -1208,7 +1260,7 @@ public class cgData {
 
             do {
                 cgLog log = new cgLog();
-                log.type = (String)cursor.getString(cursor.getColumnIndex("type"));
+                log.type = (int)cursor.getInt(cursor.getColumnIndex("type"));
                 log.author = (String)cursor.getString(cursor.getColumnIndex("author"));
                 log.log = (String)cursor.getString(cursor.getColumnIndex("log"));
                 log.date = (long)cursor.getLong(cursor.getColumnIndex("date"));

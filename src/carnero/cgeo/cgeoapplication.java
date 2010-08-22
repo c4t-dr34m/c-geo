@@ -243,7 +243,7 @@ public class cgeoapplication extends Application {
 			if (storage == null) storage = new cgData(this);
 			cache = storage.loadCache(geocode, null);
 
-			if (cache.detailed == true) cachesCache.put(geocode, cache);
+			if (cache.detailed == true) putCacheInCache(cache);
 		}
 
 		return cache;
@@ -259,6 +259,16 @@ public class cgeoapplication extends Application {
 		if (cachesCache.containsKey(cache.geocode) == true) cachesCache.remove(cache.geocode);
 		
 		cachesCache.put(cache.geocode, cache);
+	}
+
+	public String[] geocodesInCache() {
+		String[] geocodes = null;
+
+		if (cachesCache != null && cachesCache.isEmpty() == false) {
+			geocodes = cachesCache.keySet().toArray(new String[cachesCache.size()]);
+		}
+
+		return geocodes;
 	}
 
     public cgWaypoint getWaypointById(Integer id) {
@@ -415,6 +425,6 @@ public class cgeoapplication extends Application {
 		ArrayList<cgLog> list = new ArrayList<cgLog>();
 		list.add(log);
 
-	    return storage.saveLogs(geocode, list);
+	    return storage.saveLogs(geocode, list, false);
 	}
 }

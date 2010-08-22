@@ -1,7 +1,7 @@
 package carnero.cgeo;
 
 public class cgLog {
-	public String type = "Note";
+	public int type = 4; // note
 	public String author = "";
 	public String log = "";
 	public long date = 0;
