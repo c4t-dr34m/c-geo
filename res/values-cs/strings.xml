@@ -278,8 +278,11 @@
 	</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.76.4</b> (__.08.2010)\n
-		· fixed: ___\n
+		<b>0.76.5</b> (__.08.2010)\n
+		· fixed: __\n
+		\n
+		<b>0.76.4</b> (22.08.2010)\n
+		· fixed: Crashing\n
 		\n
 		<b>0.76.3</b> (22.08.2010)\n
 		· new: Icons for transparent main screen\n

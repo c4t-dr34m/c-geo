@@ -295,7 +295,7 @@ public class cgeomap extends MapActivity {
 			overlayMyLoc = new cgMapMyOverlay(settings);
 			mapView.getOverlays().add(overlayMyLoc);
 		}
-		
+
 		// get parameters
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {

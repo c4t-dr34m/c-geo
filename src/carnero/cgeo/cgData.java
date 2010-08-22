@@ -276,12 +276,7 @@ public class cgData {
 				db.beginTransaction();
 
                 if (oldVersion <= 0) { // new table
-					db.execSQL("drop table if exists " + dbTableCaches);
-					db.execSQL("drop table if exists " + dbTableAttributes);
-					db.execSQL("drop table if exists " + dbTableWaypoints);
-					db.execSQL("drop table if exists " + dbTableSpoilers);
-					db.execSQL("drop table if exists " + dbTableLogs);
-					db.execSQL("drop table if exists " + dbTableTrackables);
+					dropDatabase(db);
 					onCreate(db);
 
     				Log.i(cgSettings.tag, "Database structure created.");
@@ -291,33 +286,45 @@ public class cgData {
 					db.execSQL("delete from " + dbTableCaches + " where reason = 0");
 
 					if (oldVersion < 34) { // upgrade to 34
-						db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
-						db.execSQL("create index if not exists in_b on " + dbTableCaches + " (guid)");
-						db.execSQL("create index if not exists in_c on " + dbTableCaches + " (reason)");
-						db.execSQL("create index if not exists in_d on " + dbTableCaches + " (detailed)");
-						db.execSQL("create index if not exists in_e on " + dbTableCaches + " (type)");
-						db.execSQL("create index if not exists in_a on " + dbTableAttributes + " (geocode)");
-						db.execSQL("create index if not exists in_a on " + dbTableWaypoints + " (geocode)");
-						db.execSQL("create index if not exists in_b on " + dbTableWaypoints + " (geocode, type)");
-						db.execSQL("create index if not exists in_a on " + dbTableSpoilers + " (geocode)");
-						db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
-						db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
+						try {
+							db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
+							db.execSQL("create index if not exists in_b on " + dbTableCaches + " (guid)");
+							db.execSQL("create index if not exists in_c on " + dbTableCaches + " (reason)");
+							db.execSQL("create index if not exists in_d on " + dbTableCaches + " (detailed)");
+							db.execSQL("create index if not exists in_e on " + dbTableCaches + " (type)");
+							db.execSQL("create index if not exists in_a on " + dbTableAttributes + " (geocode)");
+							db.execSQL("create index if not exists in_a on " + dbTableWaypoints + " (geocode)");
+							db.execSQL("create index if not exists in_b on " + dbTableWaypoints + " (geocode, type)");
+							db.execSQL("create index if not exists in_a on " + dbTableSpoilers + " (geocode)");
+							db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
+							db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
 
-						Log.i(cgSettings.tag, "Indexes added.");
+							Log.i(cgSettings.tag, "Indexes added.");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 34: " + e.toString());
+						}
 					}
 
 					if (oldVersion < 37) { // upgrade to 37
-						db.execSQL("alter table " + dbTableCaches + " add column direction text");
-						db.execSQL("alter table " + dbTableCaches + " add column distance double");
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column direction text");
+							db.execSQL("alter table " + dbTableCaches + " add column distance double");
 
-						Log.i(cgSettings.tag, "Columns direction and distance added to " + dbTableCaches + ".");
+							Log.i(cgSettings.tag, "Columns direction and distance added to " + dbTableCaches + ".");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 37: " + e.toString());
+						}
 					}
 
 					if (oldVersion < 38) { // upgrade to 38
-						db.execSQL("drop table " + dbTableLogs);
-						db.execSQL(dbCreateLogs);
+						try {
+							db.execSQL("drop table " + dbTableLogs);
+							db.execSQL(dbCreateLogs);
 
-						Log.i(cgSettings.tag, "Changed type column in " + dbTableLogs + " to integer.");
+							Log.i(cgSettings.tag, "Changed type column in " + dbTableLogs + " to integer.");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 38: " + e.toString());
+						}
 					}
 				}
 
@@ -328,6 +335,15 @@ public class cgData {
 
 			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion +" to ver. " + newVersion + ": completed");
         }
+	}
+
+	private static void dropDatabase(SQLiteDatabase db) {
+		db.execSQL("drop table if exists " + dbTableCaches);
+		db.execSQL("drop table if exists " + dbTableAttributes);
+		db.execSQL("drop table if exists " + dbTableWaypoints);
+		db.execSQL("drop table if exists " + dbTableSpoilers);
+		db.execSQL("drop table if exists " + dbTableLogs);
+		db.execSQL("drop table if exists " + dbTableTrackables);
 	}
 
     public boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
