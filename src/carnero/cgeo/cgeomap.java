@@ -404,6 +404,7 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public void onStop() {
+		if (dir != null) dir = app.removeDir(dir);
 		if (geo != null) geo = app.removeGeo(geo);
 
 		savePrefs();
