@@ -183,77 +183,81 @@ public class cgeomap extends MapActivity {
 	final private Handler setCloseHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			if (close == null) close = (LinearLayout)findViewById(R.id.close);
-			if (closeGC == null) closeGC = (TextView)findViewById(R.id.close_gc);
-			if (closeDst == null) closeDst = (TextView)findViewById(R.id.close_dst);
+			try {
+				if (close == null) close = (LinearLayout)findViewById(R.id.close);
+				if (closeGC == null) closeGC = (TextView)findViewById(R.id.close_gc);
+				if (closeDst == null) closeDst = (TextView)findViewById(R.id.close_dst);
 
-			final int index = msg.what;
-			if (geo == null || caches == null || caches.isEmpty() == true || index == -1 || caches.size() <= index) {
-				if ((System.currentTimeMillis() - 5000) < closeShowed) {
-					close.setVisibility(View.GONE);
+				final int index = msg.what;
+				if (geo == null || caches == null || caches.isEmpty() == true || index == -1 || caches.size() <= index) {
+					if ((System.currentTimeMillis() - 5000) < closeShowed) {
+						close.setVisibility(View.GONE);
+						searchingForClose = false;
+						return;
+					}
+				}
+
+				cgCache cache = null;
+				try { // probably trying to get cache that doesn't exist in list
+					cache = caches.get(index);
+				} catch (Exception e) {
+					if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
 					searchingForClose = false;
 					return;
 				}
-			}
 
-			cgCache cache = null;
-			try { // probably trying to get cache that doesn't exist in list
-				cache = caches.get(index);
+				if (cache == null) {
+					if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
+					searchingForClose = false;
+
+					return;
+				}
+
+				final Double distance = base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude);
+
+				close.setClickable(false);
+				close.setOnClickListener(null);
+
+				if (cache != null && geo != null && followLocation == true && geo.speedNow != null && geo.speedNow > 6) { // more than 6 m/s
+					if (closeCounter < 5) {
+						closeCounter ++;
+					} else {
+						closeShowed = System.currentTimeMillis();
+						close.setVisibility(View.VISIBLE);
+
+						if (geo != null) {
+							closeDst.setText(base.getHumanDistance(distance));
+						} else {
+							closeDst.setText("---");
+						}
+						if (cache.name != null && cache.name.length() > 0) {
+							closeGC.setText(cache.name);
+						} else {
+							closeGC.setText(cache.geocode);
+						}
+						if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
+							closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable)activity.getResources().getDrawable(gcIconsClear.get(cache.type)), null, null, null);
+						} else { // unknown cache type, "mystery" icon
+							closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable)activity.getResources().getDrawable(gcIconsClear.get("mystery")), null, null, null);
+						}
+						close.setClickable(true);
+						close.setOnClickListener(new closeClickListener(cache));
+
+						close.bringToFront();
+
+						closeCounter = 5;
+					}
+				} else {
+					if (closeCounter > 0) {
+						closeCounter --;
+					} else {
+						if (closeShowed < (System.currentTimeMillis() - (30 * 1000))) close.setVisibility(View.GONE);
+
+						closeCounter = 0;
+					}
+				}
 			} catch (Exception e) {
-				if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
-				searchingForClose = false;
-				return;
-			}
-
-			if (cache == null) {
-				if ((System.currentTimeMillis() - 5000) < closeShowed) close.setVisibility(View.GONE);
-				searchingForClose = false;
-
-				return;
-			}
-
-			final Double distance = base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude);
-
-			close.setClickable(false);
-			close.setOnClickListener(null);
-
-			if (cache != null && geo != null && followLocation == true && geo.speedNow != null && geo.speedNow > 6) { // more than 6 m/s
-				if (closeCounter < 5) {
-					closeCounter ++;
-				} else {
-					closeShowed = System.currentTimeMillis();
-					close.setVisibility(View.VISIBLE);
-
-					if (geo != null) {
-						closeDst.setText(base.getHumanDistance(distance));
-					} else {
-						closeDst.setText("---");
-					}
-					if (cache.name != null && cache.name.length() > 0) {
-						closeGC.setText(cache.name);
-					} else {
-						closeGC.setText(cache.geocode);
-					}
-					if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
-						closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable)activity.getResources().getDrawable(gcIconsClear.get(cache.type)), null, null, null);
-					} else { // unknown cache type, "mystery" icon
-						closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable)activity.getResources().getDrawable(gcIconsClear.get("mystery")), null, null, null);
-					}
-					close.setClickable(true);
-					close.setOnClickListener(new closeClickListener(cache));
-
-					close.bringToFront();
-
-					closeCounter = 5;
-				}
-			} else {
-				if (closeCounter > 0) {
-					closeCounter --;
-				} else {
-					if (closeShowed < (System.currentTimeMillis() - (30 * 1000))) close.setVisibility(View.GONE);
-					
-					closeCounter = 0;
-				}
+				Log.e(cgSettings.tag, "cgeomap.setCloseHandler.handleMessage: " + e.toString());
 			}
 
 			searchingForClose = false;

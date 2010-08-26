@@ -116,7 +116,18 @@ public class cgeosmaps extends Activity {
 						Bitmap image = factory.decodeFile(settings.getStorage() + geocode + "/map_" + level);
 						if (image != null) maps.add(image);
 					} catch (Exception e) {
-						Log.e(cgSettings.tag, "cgeosmaps.loadMaps.run: " + e.toString());
+						Log.e(cgSettings.tag, "cgeosmaps.loadMaps.run.1: " + e.toString());
+					}
+				}
+
+				if (maps.isEmpty() == true) {
+					for (int level = 1; level <= 5; level ++) {
+						try {
+							Bitmap image = factory.decodeFile(settings.getStorageSec() + geocode + "/map_" + level);
+							if (image != null) maps.add(image);
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "cgeosmaps.loadMaps.run.2: " + e.toString());
+						}
 					}
 				}
 

@@ -203,6 +203,7 @@
     <string name="cache_menu_tbt">Navigation</string>
     <string name="cache_menu_radar">Radar</string>
     <string name="cache_menu_map">Auf Karte zeigen</string>
+    <string name="cache_menu_map_ext">Auf andere Karte zeigen</string>
     <string name="cache_menu_map_static">Statische Karten</string>
     <string name="cache_menu_browser">In Browser öffnen</string>
     <string name="cache_menu_visit">Besuch loggen</string>
@@ -249,8 +250,11 @@ Grafikelemente von <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
     <string name="about_auth_2">Das Klicken auf den Authorisierungsbutton startet den Prozess. Dieser Prozess öffnet einen Webbrowser zur Twitter - Webseite wo man sich einloggen und <b>c:geo</b> den Zugang zum Account ermöglichen muss. to access your account. Wenn du die Anfrage akzeptierst stellt einen numerischen Pin-Code bereit. Bitte kopiere diesen Code, füge ihn in <b>c:geo</b> ein und bestätige. Das ist alles.</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.76.6</b> (__.08.2010)\n
+		<b>0.76.7</b> (__.08.2010)\n
 		· fixed: __\n
+		\n
+		<b>0.76.6</b> (25.08.2010)\n
+		· fixed: crashing\n
 		\n
 		<b>0.76.5</b> (24.08.2010)\n
 		· new: Partial german localization\n

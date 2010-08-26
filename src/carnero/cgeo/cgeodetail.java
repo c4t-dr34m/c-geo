@@ -298,6 +298,7 @@ public class cgeodetail extends Activity {
             SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_compass);
             subMenu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)); // compass
             subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
+            subMenu.add(0, 10, 0, res.getString(R.string.cache_menu_map_ext)); // external map
             subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
 
     		menu.add(0, 1, 0, res.getString(R.string.cache_menu_map)).setIcon(android.R.drawable.ic_menu_mapmode); // google maps
@@ -344,6 +345,9 @@ public class cgeodetail extends Activity {
 				return true;
 			case 9:
 				turnTo();
+				return true;
+			case 10:
+				showOnMapExt();
 				return true;
 		}
 		
@@ -919,6 +923,15 @@ public class cgeodetail extends Activity {
         mapIntent.putExtra("searchid", searchId);
 
 		activity.startActivity(mapIntent);
+	}
+
+	private void showOnMapExt() {
+		try {
+			// default map
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
+		} catch (Exception e) {
+			showOnMap();
+		}
 	}
 
 	private void navigateTo() {

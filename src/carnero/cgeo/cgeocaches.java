@@ -535,6 +535,7 @@ public class cgeocaches extends ListActivity {
 			menu.add(0, 1, 0, res.getString(R.string.cache_menu_radar));
 			menu.add(0, 2, 0, res.getString(R.string.cache_menu_tbt));
 			menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
+			menu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
 		}
 	}
 
@@ -642,6 +643,20 @@ public class cgeocaches extends ListActivity {
 			mapIntent.putExtra("geocode", cache.geocode);
 
 			activity.startActivity(mapIntent);
+
+			return true;
+		} else
+		if (id == 3) { // show on map
+			try {
+				// default map
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
+			} catch (Exception e) {
+				Intent mapIntent = new Intent(activity, cgeomap.class);
+				mapIntent.putExtra("detail", false);
+				mapIntent.putExtra("geocode", cache.geocode);
+
+				activity.startActivity(mapIntent);
+			}
 
 			return true;
 		}

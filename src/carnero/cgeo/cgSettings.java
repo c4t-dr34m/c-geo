@@ -130,29 +130,39 @@ public class cgSettings {
 	}
 
 	public String getStorage() {
-		return getStorageSpecific(null);
+		return getStorageSpecific(null)[0];
 	}
 
-	public String getStorageSpecific(Boolean hidden) {
-		String storage = "";
+	public String getStorageSec() {
+		return getStorageSpecific(null)[1];
+	}
+
+	public String[] getStorageSpecific(Boolean hidden) {
+		String[] storage = new String[2];
 
 		if (hidden == null) {
 			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				storage = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
+				storage[0] = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
+				storage[1] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + directoryImg + "/";
 			} else {
-				storage = Environment.getDataDirectory() + "/data/carnero.cgeo/" + directoryImg + "/";
+				storage[0] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + directoryImg + "/";
+				storage[1] = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
 			}
 		} else if (hidden == false) {
 			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				storage = Environment.getExternalStorageDirectory() + "/" + imgCache + "/";
+				storage[0] = Environment.getExternalStorageDirectory() + "/" + imgCache + "/";
+				storage[1] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCache + "/";
 			} else {
-				storage = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCache + "/";
+				storage[0] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCache + "/";
+				storage[1] = Environment.getExternalStorageDirectory() + "/" + imgCache + "/";
 			}
 		} else if (hidden == true) {
 			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				storage = Environment.getExternalStorageDirectory() + "/" + imgCacheHidden + "/";
+				storage[0] = Environment.getExternalStorageDirectory() + "/" + imgCacheHidden + "/";
+				storage[1] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCacheHidden + "/";
 			} else {
-				storage = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCacheHidden + "/";
+				storage[0] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCacheHidden + "/";
+				storage[1] = Environment.getExternalStorageDirectory() + "/" + imgCacheHidden + "/";
 			}
 		}
 

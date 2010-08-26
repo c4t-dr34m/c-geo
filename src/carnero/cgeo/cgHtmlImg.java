@@ -44,6 +44,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 		Bitmap imagePre = null;
 		String dirName = null;
 		String fileName = null;
+		String fileNameSec = null;
 
 		if (url == null || url.length() == 0) return null;
 
@@ -61,9 +62,11 @@ public class cgHtmlImg implements Html.ImageGetter {
 		if (geocode != null && geocode.length() > 0) {
 			dirName = settings.getStorage() + geocode + "/";
 			fileName = settings.getStorage() + geocode + "/" + cgBase.md5(url) + urlExt;
+			fileNameSec = settings.getStorageSec() + geocode + "/" + cgBase.md5(url) + urlExt;
 		} else {
 			dirName = settings.getStorage() + "_others/";
 			fileName = settings.getStorage() + "_others/" + cgBase.md5(url) + urlExt;
+			fileNameSec = settings.getStorageSec() + "_others/" + cgBase.md5(url) + urlExt;
 		}
 
 		File dir = null;
@@ -75,11 +78,16 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 		try {
             final File file = new File(fileName);
+            final File fileSec = new File(fileNameSec);
             if (file.exists() == true) {
                 if (reason == 1 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
                     imagePre = BitmapFactory.decodeFile(fileName);
                 }
-            }
+            } else if (fileSec.exists() == true) {
+                if (reason == 1 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
+                    imagePre = BitmapFactory.decodeFile(fileNameSec);
+                }
+			}
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgHtmlImg.getDrawable (reading cache): " + e.toString());
 		}

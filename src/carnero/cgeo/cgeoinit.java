@@ -516,8 +516,8 @@ public class cgeoinit extends Activity {
 			File dirNew = null;
 			
 			if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
-				dir = new File(settings.getStorageSpecific(false));
-				dirNew = new File(settings.getStorageSpecific(true));
+				dir = new File(settings.getStorageSpecific(false)[0]);
+				dirNew = new File(settings.getStorageSpecific(true)[0]);
 				if (dir.exists() == true) {
 					base.deleteDirectory(dirNew);
 					dir.renameTo(dirNew);
@@ -528,8 +528,8 @@ public class cgeoinit extends Activity {
 				edit.putString("directoryimg", settings.imgCacheHidden);
 				settings.directoryImg = settings.imgCacheHidden;
 			} else {
-				dir = new File(settings.getStorageSpecific(true));
-				dirNew = new File(settings.getStorageSpecific(false));
+				dir = new File(settings.getStorageSpecific(true)[0]);
+				dirNew = new File(settings.getStorageSpecific(false)[0]);
 				if (dir.exists() == true) {
 					base.deleteDirectory(dirNew);
 					dir.renameTo(dirNew);

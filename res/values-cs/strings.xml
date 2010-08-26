@@ -203,6 +203,7 @@
 	<string name="cache_menu_tbt">turn-by-turn</string>
 	<string name="cache_menu_radar">radar</string>
 	<string name="cache_menu_map">zobrazit na mapě</string>
+	<string name="cache_menu_map_ext">zobrazit na jiné mapě</string>
 	<string name="cache_menu_map_static">statické mapy</string>
 	<string name="cache_menu_browser">otevřít v prohlížečí</string>
 	<string name="cache_menu_visit">zapsat návštěvu</string>
@@ -249,7 +250,7 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 	<string name="about_auth_2">Tapnutím na tlačítko "zahájit autorizaci" celý proces začne. Tento proces otevře webovou stránku Twitteru, kde se budete muset přihlásit a tlačítkem Accept pak umožnit aplikaci <b>c:geo</b> přístup k Vašemu Twitteru. Twitter Vám přidělí PIN kód pokud tapnete na Accept. Tento kód zkopírujte a vložte do aplikace <b>c:geo</b>. A potvrďte. To je vše.</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.76.6</b> (__.08.2010)\n
+		<b>0.76.7</b> (__.08.2010)\n
 		· fixed: __\n
 		\n
 		<b>0.76.5</b> (24.08.2010)\n

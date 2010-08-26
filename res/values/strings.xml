@@ -203,6 +203,7 @@
 	<string name="cache_menu_tbt">turn-by-turn</string>
 	<string name="cache_menu_radar">radar</string>
 	<string name="cache_menu_map">show on map</string>
+	<string name="cache_menu_map_ext">show on ext. map</string>
 	<string name="cache_menu_map_static">static maps</string>
 	<string name="cache_menu_browser">open in browser</string>
 	<string name="cache_menu_visit">log visit</string>
@@ -249,7 +250,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start process. This process will open web browser with Twitter page where you have to login and Accept <b>c:geo</b> to access your account. When you Accept, Twitter will show you numeric PIN code. Please copy this code, paste into <b>c:geo</b> and confirm. That\'s all.</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.76.6</b> (__.08.2010)\n
+		<b>0.76.7</b> (__.08.2010)\n
 		· fixed: __\n
 		\n
 		<b>0.76.5</b> (24.08.2010)\n
