@@ -859,7 +859,11 @@ public class cgData {
         return true;
     }
 
-    public cgCache loadCacheForMerge(String geocode, String guid, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
+    public cgCache loadCache(String geocode, String guid) {
+		return loadCache(geocode, guid, false, true, false, false, false);
+	}
+
+	public cgCache loadCache(String geocode, String guid, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
         Object[] geocodes = new Object[1];
         Object[] guids = new Object[1];
 
@@ -870,28 +874,6 @@ public class cgData {
         else guids = null;
 
         ArrayList<cgCache> caches =  loadCaches(geocodes, guids, loadA, loadW, loadS, loadL, loadI);
-        if (caches != null && caches.isEmpty() == false) return caches.get(0);
-
-        return null;
-    }
-
-    public cgCache loadCache(String geocode, String guid) {
-        Object[] geocodes = new Object[1];
-        Object[] guids = new Object[1];
-
-        if (geocode != null && geocode.length() > 0) {
-            geocodes[0] = geocode;
-        } else {
-            geocodes = null;
-        }
-
-        if (guid != null && guid.length() > 0) {
-            guids[0] = guid;
-        } else {
-            guids = null;
-        }
-
-        ArrayList<cgCache> caches =  loadCaches(geocodes, guids, false);
         if (caches != null && caches.isEmpty() == false) return caches.get(0);
 
         return null;

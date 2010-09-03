@@ -226,6 +226,10 @@ public class cgeoapplication extends Application {
     }
 
     public cgCache getCacheByGeocode(String geocode) {
+		return getCacheByGeocode(geocode, false, true, false, false, false);
+	}
+
+    public cgCache getCacheByGeocode(String geocode, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
 		if (geocode == null || geocode.length() == 0) return null;
 		
 		cgCache cache = null;
@@ -233,7 +237,7 @@ public class cgeoapplication extends Application {
 			cache = cachesCache.get(geocode);
 		} else {
 			if (storage == null) storage = new cgData(this);
-			cache = storage.loadCache(geocode, null);
+			cache = storage.loadCache(geocode, null, loadA, loadW, loadS, loadL, loadI);
 
 			if (cache.detailed == true) putCacheInCache(cache);
 		}
@@ -279,6 +283,10 @@ public class cgeoapplication extends Application {
     }
 
 	public ArrayList<cgCache> getCaches(Long searchId) {
+		return getCaches(searchId, false, true, false, false, false);
+	}
+
+	public ArrayList<cgCache> getCaches(Long searchId, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
 		if (searchId == null || searches.containsKey(searchId) == false) return null;
 
 		ArrayList<cgCache> cachesOut = new ArrayList<cgCache>();

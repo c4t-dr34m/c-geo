@@ -60,7 +60,7 @@ public class cgCache {
 		if (logs == null || logs.isEmpty() == true) loadL = false;
 		if (inventory == null || inventory.isEmpty() == true) loadI = false;
 
-		final cgCache oldCache = storage.loadCacheForMerge(geocode, guid, loadA, loadW, loadS, loadL, loadI);
+		final cgCache oldCache = storage.loadCache(geocode, guid, loadA, loadW, loadS, loadL, loadI);
 				
         if (oldCache == null) return this;
 
