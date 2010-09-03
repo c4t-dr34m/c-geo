@@ -1246,6 +1246,7 @@ public class cgBase {
 								Calendar date = Calendar.getInstance();
 								date.set(year, month, day, 12, 0, 0);
 								logDate = date.getTimeInMillis();
+								logDate = (long)(Math.ceil(logDate / 1000)) * 1000;
 							} else {
 								logDate = 0;
 							}

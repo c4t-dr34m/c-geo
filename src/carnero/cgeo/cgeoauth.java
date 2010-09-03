@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
+import java.io.IOException;
 import javax.net.ssl.HttpsURLConnection;
 
 public class cgeoauth extends Activity {
@@ -141,91 +142,100 @@ public class cgeoauth extends Activity {
    }
 
 	private void requestToken() {
-		final String host = "api.twitter.com";
+		final String host = "twitter.com";
 		final String pathRequest = "/oauth/request_token";
 		final String pathAuthorize = "/oauth/authorize";
 		final String method = "GET";
 
 		int status = 0;
-		String lineOne = null;
-
 		try {
-			final StringBuilder sb = new StringBuilder();
-			final String params = cgOAuth.signOAuth(host, pathRequest, method, true, new HashMap<String, String>(), null, null);
+			String lineOne = null;
+			HttpsURLConnection connection = null;
 
-			int code = -1;
-			int retries = 0;
+			try {
+				final StringBuilder sb = new StringBuilder();
+				final String params = cgOAuth.signOAuth(host, pathRequest, method, true, new HashMap<String, String>(), null, null);
 
-			do {
-				// base.trustAllHosts();
-				final URL u = new URL("https://" + host + pathRequest + "?" + params);
-				final URLConnection uc = u.openConnection();
-				final HttpsURLConnection connection = (HttpsURLConnection)uc;
+				int code = -1;
+				int retries = 0;
 
-				// connection.setHostnameVerifier(base.doNotVerify);
-				connection.setReadTimeout(30000);
-				connection.setRequestMethod(method);
-				connection.setFollowRedirects(true);
-				connection.setDoInput(true);
-				connection.setDoOutput(false);
+				do {
+					// base.trustAllHosts();
+					Log.d(cgSettings.tag, "https://" + host + pathRequest + "?" + params);
+					final URL u = new URL("https://" + host + pathRequest + "?" + params);
+					final URLConnection uc = u.openConnection();
+					connection = (HttpsURLConnection)uc;
 
-				final InputStream in = connection.getInputStream();
-				final InputStreamReader ins = new InputStreamReader(in);
-				final BufferedReader br = new BufferedReader(ins);
+					// connection.setHostnameVerifier(base.doNotVerify);
+					connection.setReadTimeout(30000);
+					connection.setRequestMethod(method);
+					connection.setFollowRedirects(true);
+					connection.setDoInput(true);
+					connection.setDoOutput(false);
 
-				while ((lineOne = br.readLine()) != null) {
-					sb.append(lineOne);
-					sb.append("\n");
-				}
+					final InputStream in = connection.getInputStream();
+					final InputStreamReader ins = new InputStreamReader(in);
+					final BufferedReader br = new BufferedReader(ins);
 
-				code = connection.getResponseCode();
-				retries ++;
+					while ((lineOne = br.readLine()) != null) {
+						sb.append(lineOne);
+						sb.append("\n");
+					}
 
-				Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
+					code = connection.getResponseCode();
+					retries ++;
 
-				br.close();
-				in.close();
-				ins.close();
-				connection.disconnect();
-			} while (code == -1 && retries < 5);
+					Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
 
-			final String line = sb.toString();
+					br.close();
+					in.close();
+					ins.close();
+				} while (code == -1 && retries < 5);
 
-			if (line != null && line.length() > 0) {
-				final Matcher paramsMatcher1  = paramsPattern1.matcher(line);
-				if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) OAtoken = paramsMatcher1.group(1).toString();
-				final Matcher paramsMatcher2 = paramsPattern2.matcher(line);
-				if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) OAtokenSecret = paramsMatcher2.group(1).toString();
+				final String line = sb.toString();
 
-				if (OAtoken != null && OAtoken.length() > 0 && OAtokenSecret != null && OAtokenSecret.length() > 0) {
-					final SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
-					prefsEdit.putString("temp-token-public", OAtoken);
-					prefsEdit.putString("temp-token-secret", OAtokenSecret);
-					prefsEdit.commit();
+				if (line != null && line.length() > 0) {
+					final Matcher paramsMatcher1  = paramsPattern1.matcher(line);
+					if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) OAtoken = paramsMatcher1.group(1).toString();
+					final Matcher paramsMatcher2 = paramsPattern2.matcher(line);
+					if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) OAtokenSecret = paramsMatcher2.group(1).toString();
 
-					try {
-						final HashMap<String, String> paramsPre = new HashMap<String, String>();
-						paramsPre.put("oauth_callback", "oob");
+					if (OAtoken != null && OAtoken.length() > 0 && OAtokenSecret != null && OAtokenSecret.length() > 0) {
+						final SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
+						prefsEdit.putString("temp-token-public", OAtoken);
+						prefsEdit.putString("temp-token-secret", OAtokenSecret);
+						prefsEdit.commit();
 
-						final String paramsBrowser = cgOAuth.signOAuth(host, pathAuthorize, "GET", true, paramsPre, OAtoken, OAtokenSecret);
+						try {
+							final HashMap<String, String> paramsPre = new HashMap<String, String>();
+							paramsPre.put("oauth_callback", "oob");
 
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + host + pathAuthorize + "?" + paramsBrowser)));
+							final String paramsBrowser = cgOAuth.signOAuth(host, pathAuthorize, "GET", true, paramsPre, OAtoken, OAtokenSecret);
 
-						status = 1;
-					} catch (Exception e) {
-						Log.e(cgSettings.tag, "cgeoauth.requestToken(2): " + e.toString());
+							startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + host + pathAuthorize + "?" + paramsBrowser)));
+
+							status = 1;
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "cgeoauth.requestToken(2): " + e.toString());
+						}
 					}
 				}
+			} catch (IOException eio) {
+				Log.e(cgSettings.tag, "cgeoauth.requestToken(IO): " + eio.toString() + " ~ " + connection.getResponseCode() + ": "  + connection.getResponseMessage());
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgeoauth.requestToken(1): " + e.toString());
+			} finally {
+				if (connection != null) connection.disconnect();
 			}
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeoauth.requestToken(1): " + e.toString());
+		} catch (Exception e2) {
+			Log.e(cgSettings.tag, "cgeoauth.requestToken(3): " + e2.toString());
 		}
 
 		requestTokenHandler.sendEmptyMessage(status);
 	}
 
 	private void changeToken() {
-		final String host = "api.twitter.com";
+		final String host = "twitter.com";
 		final String path = "/oauth/access_token";
 		final String method = "POST";
 

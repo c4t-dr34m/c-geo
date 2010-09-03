@@ -888,8 +888,8 @@ public class cgeomap extends MapActivity {
 					int centerLat = 0;
 					int centerLon = 0;
 					if (coordinates.size() > 1) {
-						if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) centerLat = minLat + ((Math.abs(maxLat) - Math.abs(minLat)) / 2);
-						if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) centerLon = minLon + ((Math.abs(maxLon) - Math.abs(minLon)) / 2);
+						if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) centerLat = minLat + ((maxLat - minLat) / 2);
+						if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) centerLon = minLon + ((maxLon - minLon) / 2);
 					} else {
 						centerLat = (int)(oneCache.latitude * 1e6);
 						centerLon = (int)(oneCache.longitude * 1e6);
@@ -903,8 +903,8 @@ public class cgeomap extends MapActivity {
 				} else {
 					int centerLat = 0;
 					int centerLon = 0;
-					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) centerLat = minLat + ((Math.abs(maxLat) - Math.abs(minLat)) / 2);
-					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) centerLon = minLon + ((Math.abs(maxLon) - Math.abs(minLon)) / 2);
+					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) centerLat = minLat + ((maxLat - minLat) / 2);
+					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) centerLon = minLon + ((maxLon - minLon) / 2);
 
 					if (initLocation == true && cachesWithCoords > 0) {
 						mapController.animateTo(new GeoPoint(centerLat, centerLon));

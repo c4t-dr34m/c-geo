@@ -250,8 +250,9 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 	<string name="about_auth_2">Tapnutím na tlačítko "zahájit autorizaci" celý proces začne. Tento proces otevře webovou stránku Twitteru, kde se budete muset přihlásit a tlačítkem Accept pak umožnit aplikaci <b>c:geo</b> přístup k Vašemu Twitteru. Twitter Vám přidělí PIN kód pokud tapnete na Accept. Tento kód zkopírujte a vložte do aplikace <b>c:geo</b>. A potvrďte. To je vše.</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.76.7</b> (__.08.2010)\n
-		· fixed: __\n
+		<b>0.76.7</b> (03.08.2010)\n
+		· fixed: Twitter\n
+		· fixed: CPU load by Compass\n
 		\n
 		<b>0.76.5</b> (24.08.2010)\n
 		· new: Partial german localization\n

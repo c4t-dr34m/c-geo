@@ -105,10 +105,12 @@ public class cgCompass extends View {
 		public void run() {
 			while (wantStop == false) {
 				try {
-					sleep(33);
+					sleep(66);
 				} catch (Exception e) {
 					// nothing
 				}
+
+				if (Math.abs(azimuth - northHeading) < 2 && Math.abs(heading - cacheHeading) < 2) continue;
 
 				lock = true;
 

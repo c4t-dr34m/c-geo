@@ -859,6 +859,22 @@ public class cgData {
         return true;
     }
 
+    public cgCache loadCacheForMerge(String geocode, String guid, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
+        Object[] geocodes = new Object[1];
+        Object[] guids = new Object[1];
+
+        if (geocode != null && geocode.length() > 0) geocodes[0] = geocode;
+        else geocodes = null;
+
+        if (guid != null && guid.length() > 0) guids[0] = guid;
+        else guids = null;
+
+        ArrayList<cgCache> caches =  loadCaches(geocodes, guids, loadA, loadW, loadS, loadL, loadI);
+        if (caches != null && caches.isEmpty() == false) return caches.get(0);
+
+        return null;
+    }
+
     public cgCache loadCache(String geocode, String guid) {
         Object[] geocodes = new Object[1];
         Object[] guids = new Object[1];
@@ -882,10 +898,15 @@ public class cgData {
     }
 
     public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids) {
-		return loadCaches(geocodes, guids, true);
+		return loadCaches(geocodes, guids, false, true, false, false, false);
 	}
 
     public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean lite) {
+		if (lite == true) return loadCaches(geocodes, guids, false, true, false, false, false);
+		else return loadCaches(geocodes, guids, true, true, true, true, true);
+	}
+
+    public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
 		Cursor cursor = null;
         ArrayList<cgCache> caches = new ArrayList<cgCache>();
 		initRO();
@@ -1028,31 +1049,39 @@ public class cgData {
                         cache.inventoryTags = (Integer)cursor.getInt(cursor.getColumnIndex("inventorytags"));
                         cache.inventoryUnknown = (Integer)cursor.getInt(cursor.getColumnIndex("inventoryunknown"));
 
-						ArrayList<cgWaypoint> waypoints = loadWaypoints(cache.geocode); // used in maps, can't be in "lite"
-						if (waypoints != null && waypoints.isEmpty() == false) {
-							cache.waypoints.clear();
-							cache.waypoints.addAll(waypoints);
-						}
-
-						if (lite == false) {
+						if (loadA == true) {
 							ArrayList<String> attributes = loadAttributes(cache.geocode);
 							if (attributes != null && attributes.isEmpty() == false) {
 								cache.attributes.clear();
 								cache.attributes.addAll(attributes);
 							}
+						}
 
+						if (loadW == true) {
+							ArrayList<cgWaypoint> waypoints = loadWaypoints(cache.geocode);
+							if (waypoints != null && waypoints.isEmpty() == false) {
+								cache.waypoints.clear();
+								cache.waypoints.addAll(waypoints);
+							}
+						}
+
+						if (loadS == true) {
 							ArrayList<cgSpoiler> spoilers = loadSpoilers(cache.geocode);
 							if (spoilers != null && spoilers.isEmpty() == false) {
 								cache.spoilers.clear();
 								cache.spoilers.addAll(spoilers);
 							}
+						}
 
+						if (loadL == true) {
 							ArrayList<cgLog> logs = loadLogs(cache.geocode);
 							if (logs != null && logs.isEmpty() == false) {
 								cache.logs.clear();
 								cache.logs.addAll(logs);
 							}
+						}
 
+						if (loadI == true) {
 							ArrayList<cgTrackable> inventory = loadInventory(cache.geocode);
 							if (inventory != null && inventory.isEmpty() == false) {
 								cache.inventory.clear();
@@ -1267,7 +1296,7 @@ public class cgData {
                 null,
                 null,
                 null,
-                "date desc",
+                "date desc, _id asc",
                 "100"
                 );
 
@@ -1276,6 +1305,7 @@ public class cgData {
 
             do {
                 cgLog log = new cgLog();
+				log.id = (int)cursor.getInt(cursor.getColumnIndex("_id"));
                 log.type = (int)cursor.getInt(cursor.getColumnIndex("type"));
                 log.author = (String)cursor.getString(cursor.getColumnIndex("author"));
                 log.log = (String)cursor.getString(cursor.getColumnIndex("log"));

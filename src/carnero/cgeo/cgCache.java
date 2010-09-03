@@ -45,7 +45,23 @@ public class cgCache {
 	public ArrayList<cgLog> logs = new ArrayList<cgLog>();
 	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
 
-	public cgCache merge(cgCache oldCache) {
+	public cgCache merge(cgData storage, String geocode, String guid) {
+		if (geocode == null || geocode.length() == 0 || guid == null || guid.length() == 0) return this;
+		
+		boolean loadA = true;
+		boolean loadW = true;
+		boolean loadS = true;
+		boolean loadL = true;
+		boolean loadI = true;
+		
+		if (attributes == null || attributes.isEmpty() == true) loadA = false;
+		if (waypoints == null || waypoints.isEmpty() == true) loadW = false;
+		if (spoilers == null || spoilers.isEmpty() == true) loadS = false;
+		if (logs == null || logs.isEmpty() == true) loadL = false;
+		if (inventory == null || inventory.isEmpty() == true) loadI = false;
+
+		final cgCache oldCache = storage.loadCacheForMerge(geocode, guid, loadA, loadW, loadS, loadL, loadI);
+				
         if (oldCache == null) return this;
 
 		updated = System.currentTimeMillis();

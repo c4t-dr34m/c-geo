@@ -69,8 +69,6 @@ public class cgeoapplication extends Application {
 		
 		geos.add(geo);
 
-		Log.i(cgSettings.tag, "Location services running: " + geos.size());
-
 		return geo;
 	}
 
@@ -79,8 +77,6 @@ public class cgeoapplication extends Application {
 
 		geo.closeGeo();
 		if (geos.contains(geo) == true) geos.remove(geo);
-
-		Log.i(cgSettings.tag, "Location services running: " + geos.size());
 
 		return null;
 	}
@@ -91,8 +87,6 @@ public class cgeoapplication extends Application {
 
 		dirs.add(dir);
 
-		Log.i(cgSettings.tag, "Direction services running: " + dirs.size());
-
 		return dir;
 	}
 
@@ -101,8 +95,6 @@ public class cgeoapplication extends Application {
 
 		dir.closeDir();
 		if (dirs.contains(dir) == true) dirs.remove(dir);
-
-		Log.i(cgSettings.tag, "Direction services running: " + dirs.size());
 
 		return null;
 	}
@@ -382,7 +374,7 @@ public class cgeoapplication extends Application {
                 if (storage.isThere(oneGeocode, oneGuid, false, false) == false) {
                     storage.saveCache(oneCache);
                 } else {
-                    cgCache mergedCache = oneCache.merge(storage.loadCache(oneGeocode, oneGuid));
+                    cgCache mergedCache = oneCache.merge(storage, oneGeocode, oneGuid);
 					
                     storage.saveCache(mergedCache);
                 }

@@ -17,10 +17,14 @@ public class cgOAuth {
 		if (token == null) token = "";
 		if (tokenSecret == null) tokenSecret = "";
 
+		long currentTime = new Date().getTime(); // miliseconds
+		currentTime = currentTime / 1000; // seconds
+		currentTime = (long)Math.floor(currentTime);
+
 		params.put("oauth_consumer_key", cgSettings.keyConsumerPublic);
 		params.put("oauth_nonce", cgBase.md5(Long.toString(System.currentTimeMillis())));
 		params.put("oauth_signature_method", "HMAC-SHA1");
-		params.put("oauth_timestamp", Long.toString((new Date()).getTime()));
+		params.put("oauth_timestamp", Long.toString(currentTime));
 		params.put("oauth_token", token);
 		params.put("oauth_version", "1.0");
 
