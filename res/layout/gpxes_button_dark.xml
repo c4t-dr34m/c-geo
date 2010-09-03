@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/button_map"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:padding="5dip" >
+	<Button android:id="@+id/button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dip"
+			android:layout_marginRight="10dip"
+			android:layout_marginBottom="5dip"
+			android:scrollHorizontally="true"
+			android:textSize="22dip"
+			android:textColor="@color/text_dark"
+			android:padding="6dip"
+			android:gravity="left"
+			android:background="@drawable/action_button_dark" />
+</LinearLayout>

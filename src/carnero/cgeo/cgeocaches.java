@@ -247,20 +247,6 @@ public class cgeocaches extends ListActivity {
 		}
 	};
 
-	private Handler storeCacheHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			if (storeDialog != null && storeDialog.isShowing() == true) storeDialog.dismiss();
-        }
-    };
-
-	private Handler dropCacheHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			if (dropDialog != null && dropDialog.isShowing() == true) dropDialog.dismiss();
-        }
-    };
-
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -427,6 +413,7 @@ public class cgeocaches extends ListActivity {
         if (type.equals("offline") == true) {
             menu.add(0, 4, 0, "drop all").setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
             menu.add(0, 1, 0, "refresh listed").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
+			menu.add(0, 5, 0, "import gpx").setIcon(android.R.drawable.ic_menu_upload); // import gpx file
         } else {
             menu.add(0, 1, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
         }
@@ -493,6 +480,9 @@ public class cgeocaches extends ListActivity {
             case 4:
                 dropStored();
                 return false;
+			case 5:
+				importGpx();
+				return false;
 		}
 
 		return false;
@@ -840,6 +830,10 @@ public class cgeocaches extends ListActivity {
 		} catch (Exception e) {
 		 	Log.e(cgSettings.tag, "cgeodetail.showOnWikitude (cache): " + e.toString());
 		}
+	}
+
+	private void importGpx() {
+		activity.startActivity(new Intent(activity, cgeogpxes.class));
 	}
 
     public void dropStored() {

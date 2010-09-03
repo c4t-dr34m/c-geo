@@ -1032,6 +1032,7 @@ public class cgeomap extends MapActivity {
 			if (searchId != null) {
 				caches = app.getCaches(searchId, false, false, false, false, false);
 			}
+			
 			if (geocode != null && geocode.length() > 0) {
 				caches = new ArrayList<cgCache>();
 				caches.add(app.getCacheByGeocode(geocode, false, false, false, false, false));
@@ -1079,15 +1080,15 @@ public class cgeomap extends MapActivity {
 				try {
 					if (firstRun == true) sleep(2000);
 					else sleep(1000);
+
+					firstRun = false;
+
+					if (enabled == true && mapView != null && searching == false) {
+						loadCachesReal realThread = new loadCachesReal(handler, mapView, viewstate);
+						realThread.start();
+					}
 				} catch (Exception e) {
-					// nothing
-				}
-
-				firstRun = false;
-
-				if (enabled == true && mapView != null && searching == false) {
-					loadCachesReal realThread = new loadCachesReal(handler, mapView, viewstate);
-					realThread.start();
+					Log.e(cgSettings.tag, "cgeomap.loadCaches: " + e.toString());
 				}
 			}
 		}

@@ -295,7 +295,8 @@ public class cgeoapplication extends Application {
 		ArrayList<String> geocodeList = search.getGeocodes();
 
 		if (storage == null) storage = new cgData(this);
-        cachesOut.addAll(storage.loadCaches(geocodeList.toArray(), null));
+		final ArrayList<cgCache> cachesPre = storage.loadCaches(geocodeList.toArray(), null, loadA, loadW, loadS, loadL, loadI);
+		if (cachesPre != null) cachesOut.addAll(cachesPre);
 
 		return cachesOut;
 	}

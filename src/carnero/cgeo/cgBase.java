@@ -53,8 +53,17 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class cgBase {
 	private Resources res = null;
@@ -1408,6 +1417,22 @@ public class cgBase {
         cache.detailedUpdate = System.currentTimeMillis();
         cache.detailed = true;
         caches.cacheList.add(cache);
+
+		return caches;
+	}
+
+	public ArrayList<cgCache> parseGPX(File file) {
+		ArrayList<cgCache> caches = new ArrayList<cgCache>();
+
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser parser = factory.newSAXParser();
+			cgGPXParser handlerXML = new cgGPXParser(caches);
+
+			parser.parse(file, handlerXML);
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgBase.parseGPX: " + e.toString());
+		}
 
 		return caches;
 	}
