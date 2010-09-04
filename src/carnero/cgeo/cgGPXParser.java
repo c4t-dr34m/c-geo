@@ -61,6 +61,7 @@ public class cgGPXParser {
 				if (cache.latitude != null && cache.longitude != null && cache.name != null && cache.name.length() > 0) {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
 					cache.longitudeString = base.formatCoordinate(cache.longitude, "lon", true);
+					cache.inventoryUnknown = cache.inventory.size();
 					cache.reason = 1;
 					cache.updated = new Date().getTime();
 					cache.detailedUpdate = new Date().getTime();
@@ -222,9 +223,8 @@ public class cgGPXParser {
 
 		gcCache.getChild(nsGC, "short_description").setEndTextElementListener(new EndTextElementListener() {
             public void end(String body) {
-				String content = Html.fromHtml(body).toString();
-				if (htmlShort == true) cache.shortdesc = Html.fromHtml(content).toString();
-				else cache.shortdesc = content;
+				if (htmlShort == false) cache.shortdesc = Html.fromHtml(body).toString();
+				else cache.shortdesc = body;
 			}
         });
 
@@ -244,14 +244,13 @@ public class cgGPXParser {
 
 		gcCache.getChild(nsGC, "long_description").setEndTextElementListener(new EndTextElementListener() {
             public void end(String body) {
-				String content = Html.fromHtml(body).toString();
-				if (htmlLong == true) cache.description = Html.fromHtml(content).toString();
-				else cache.description = content;
+				if (htmlLong == false) cache.description = Html.fromHtml(body).toString();
+				else cache.description = body;
 			}
         });
 
 		// waypoint.cache.travelbugs
-		final Element gcTBs = waypoint.getChild(nsGC, "travelbugs");
+		final Element gcTBs = gcCache.getChild(nsGC, "travelbugs");
 
 		// waypoint.cache.travelbugs.travelbug
 		gcTBs.getChild(nsGC, "travelbug").setStartElementListener(new StartElementListener() {
@@ -267,7 +266,7 @@ public class cgGPXParser {
 		});
 
 		// waypoint.cache.travelbug
-		final Element gcTB = waypoint.getChild(nsGC, "travelbug");
+		final Element gcTB = gcTBs.getChild(nsGC, "travelbug");
 
 		gcTB.setEndElementListener(new EndElementListener() {
 			public void end() {
@@ -286,7 +285,7 @@ public class cgGPXParser {
         });
 
 		// waypoint.cache.logs
-		final Element gcLogs = waypoint.getChild(nsGC, "logs");
+		final Element gcLogs = gcCache.getChild(nsGC, "logs");
 
 		// waypoint.cache.log
 		final Element gcLog = gcLogs.getChild(nsGC, "log");

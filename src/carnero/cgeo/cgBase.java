@@ -2086,7 +2086,7 @@ public class cgBase {
             if ((geocode == null || geocode.length() == 0) && guid != null && guid.length() > 0) geocode = app.getGeocode(guid);
 
             ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
-            cacheList.add(app.getCacheByGeocode(geocode));
+            cacheList.add(app.getCacheByGeocode(geocode, true, true, true, true, true));
             search.addGeocode(geocode);
 
             app.addSearch(search, cacheList, false, reason);

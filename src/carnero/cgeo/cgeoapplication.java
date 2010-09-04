@@ -273,13 +273,14 @@ public class cgeoapplication extends Application {
 		if (storage == null) storage = new cgData(this);
 		return storage.loadWaypoint(id);
     }
+	
     public cgCache getCache(Long searchId) {
 		if (searchId == null || searches.containsKey(searchId) == false) return null;
 
 		cgSearch search = searches.get(searchId);
 		ArrayList<String> geocodeList = search.getGeocodes();
 
-		return getCacheByGeocode(geocodeList.get(0));
+		return getCacheByGeocode(geocodeList.get(0), true, true, true, true, true);
     }
 
 	public ArrayList<cgCache> getCaches(Long searchId) {
@@ -380,7 +381,7 @@ public class cgeoapplication extends Application {
 
                 oneCache.reason = reason;
 
-                if (storage.isThere(oneGeocode, oneGuid, false, false) == false) {
+                if (storage.isThere(oneGeocode, oneGuid, false, false) == false || reason >= 1) { // if for offline, do not merge
                     storage.saveCache(oneCache);
                 } else {
                     cgCache mergedCache = oneCache.merge(storage, oneGeocode, oneGuid);
