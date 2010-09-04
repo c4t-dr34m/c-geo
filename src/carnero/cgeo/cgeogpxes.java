@@ -28,7 +28,7 @@ public class cgeogpxes extends Activity {
 	private ProgressDialog parseDialog = null;
 	private int imported = 0;
 
-	final private Handler changeDialogHandler = new Handler() {
+	final private Handler changeWaitDialogHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.obj != null && waitDialog != null) {
@@ -37,6 +37,15 @@ public class cgeogpxes extends Activity {
 		}
 	};
 	
+	final private Handler changeParseDialogHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.obj != null && parseDialog != null) {
+				parseDialog.setMessage("loading caches from .gpx file\nstored: " + (Integer)msg.obj);
+			}
+		}
+	};
+
 	final private Handler loadFilesHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -141,7 +150,7 @@ public class cgeogpxes extends Activity {
 
 			final Message msg = new Message();
 			msg.obj = "loaded directories";
-			changeDialogHandler.sendMessage(msg);
+			changeWaitDialogHandler.sendMessage(msg);
 
 			files.addAll(list);
 			list.clear();
@@ -166,7 +175,7 @@ public class cgeogpxes extends Activity {
 				   String name = listPre[i].getName();
 				   if (name.length() > 16) name = name.substring(0, 14) + "...";
 				   msg.obj = name;
-				   changeDialogHandler.sendMessage(msg);
+				   changeWaitDialogHandler.sendMessage(msg);
 
 				   listDir(list, listPre[i]); // go deeper
 			   }
@@ -186,7 +195,7 @@ public class cgeogpxes extends Activity {
 		public void onClick(View view) {
 			if (waitDialog != null) waitDialog.dismiss();
 
-			parseDialog = ProgressDialog.show(activity, "reading file", "loading cache details from .gpx file", true);
+			parseDialog = ProgressDialog.show(activity, "reading file", "loading caches from .gpx file", true);
 			parseDialog.setCancelable(false);
 
 			new loadCaches(file).start();
@@ -202,11 +211,9 @@ public class cgeogpxes extends Activity {
 
 		@Override
 		public void run() {
-			final ArrayList<cgCache> caches = base.parseGPX(file);
-			final cgSearch search = new cgSearch();
+			final long searchId = base.parseGPX(app, file, changeParseDialogHandler);
 
-			app.addSearch(search, caches, true, 1);
-			imported = caches.size();
+			imported = app.getCount(searchId);
 
 			loadCachesHandler.sendMessage(new Message());
 	   }

@@ -197,16 +197,9 @@ public class cgeoapplication extends Application {
     }
 
     public Integer getCount(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) {
-			return 0;
-		}
+		if (searchId == null || searches.containsKey(searchId) == false) return 0;
 
-		ArrayList<String> geocodes = searches.get(searchId).getGeocodes();
-		if (geocodes != null) {
-			return searches.get(searchId).getGeocodes().size();
-		}
-
-		return 0;
+		return searches.get(searchId).getCount();
     }
 
     public Integer getNotOfflineCount(Long searchId) {
@@ -369,7 +362,7 @@ public class cgeoapplication extends Application {
 	public Long addSearch(cgSearch search, ArrayList<cgCache> cacheList, Boolean newItem, int reason) {
 		if (cacheList == null || cacheList.isEmpty()) return null;
 
-		Long searchId = search.getCurrentId();
+		final long searchId = search.getCurrentId();
 		searches.put(searchId, search);
         
 		if (storage == null) storage = new cgData(this);
@@ -392,6 +385,30 @@ public class cgeoapplication extends Application {
         }
 
 		return searchId;
+	}
+
+	public boolean addCacheToSearch(cgSearch search, cgCache cache) {
+		if (search == null || cache == null) return false;
+
+		final long searchId = search.getCurrentId();
+
+		if (searches.containsKey(searchId) == false) searches.put(searchId, search);
+		
+		String geocode = cache.geocode.toUpperCase();
+		String guid = cache.guid.toLowerCase();
+
+		boolean status = false;
+		if (storage.isThere(geocode, guid, false, false) == false || cache.reason >= 1) { // if for offline, do not merge
+			status = storage.saveCache(cache);
+		} else {
+			cgCache mergedCache = cache.merge(storage, geocode, guid);
+
+			status = storage.saveCache(mergedCache);
+		}
+		
+		if (status == true) search.addGeocode(cache.geocode);
+
+		return status;
 	}
 
     public void dropStored() {

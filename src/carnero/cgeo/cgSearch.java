@@ -25,6 +25,10 @@ public class cgSearch {
 		return geocodes;
 	}
 
+	public int getCount() {
+		return geocodes.size();
+	}
+
 	public void addGeocode(String geocode) {
 		if (geocodes == null) {
 			geocodes = new ArrayList<String>();

@@ -1432,22 +1432,23 @@ public class cgBase {
 		return caches;
 	}
 
-	public ArrayList<cgCache> parseGPX(File file) {
-		ArrayList<cgCache> caches = new ArrayList<cgCache>();
-		boolean status = false;
+	public Long parseGPX(cgeoapplication app, File file, Handler handler) {
+		cgSearch search = new cgSearch();
+		long searchId = 0l;
 
 		try {
-			cgGPXParser GPXparser = new cgGPXParser(this, caches);
+
+			cgGPXParser GPXparser = new cgGPXParser(app, this, search);
 			
-			status = GPXparser.parse(file, 10);
-			if (status == false) status = GPXparser.parse(file, 11);
+			searchId = GPXparser.parse(file, 10, handler);
+			if (searchId == 0l) searchId = GPXparser.parse(file, 11, handler);
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgBase.parseGPX: " + e.toString());
 		}
 
-		Log.i(cgSettings.tag, "Caches found in .gpx file: " + caches.size());
+		Log.i(cgSettings.tag, "Caches found in .gpx file: " + app.getCount(searchId));
 
-		return caches;
+		return search.getCurrentId();
 	}
 
 	public cgTrackable parseTrackable(String page) {

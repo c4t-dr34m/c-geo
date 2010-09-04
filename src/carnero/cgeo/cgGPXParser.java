@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import android.os.Handler;
+import android.os.Message;
 import android.sax.Element;
 import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
@@ -10,29 +12,32 @@ import android.util.Log;
 import android.util.Xml;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Date;
 import org.xml.sax.Attributes;
 
 public class cgGPXParser {
+	private cgeoapplication app = null;
 	private cgBase base = null;
-	private ArrayList<cgCache> caches = null;
+	private cgSearch search = null;
+	private Handler handler = null;
 
 	private cgCache cache = new cgCache();
 	private cgTrackable trackable = new cgTrackable();
 	private cgLog log = new cgLog();
 	private boolean htmlShort = true;
 	private boolean htmlLong = true;
+	private String type = null;
 
 
-	public cgGPXParser(cgBase baseIn, ArrayList<cgCache> cachesIn) {
+	public cgGPXParser(cgeoapplication appIn, cgBase baseIn, cgSearch searchIn) {
+		app = appIn;
 		base = baseIn;
-		caches = cachesIn;
+		search = searchIn;
 	}
 
-	public boolean parse(File file, int version) {
-		if (caches == null) return false;
-		if (file == null) return false;
+	public long parse(File file, int version, Handler handlerIn) {
+		handler = handlerIn;
+		if (file == null) return 0l;
 
 		String ns = null;
 		if (version == 11) ns = "http://www.topografix.com/GPX/1/1"; // GPX 1.1
@@ -58,7 +63,11 @@ public class cgGPXParser {
 		// waypoint
 		waypoint.setEndElementListener(new EndElementListener() {
 			public void end() {
-				if (cache.latitude != null && cache.longitude != null && cache.name != null && cache.name.length() > 0) {
+				if (
+					cache.latitude != null && cache.longitude != null &&
+					cache.name != null && cache.name.length() > 0 &&
+					(type == null || type.equals("geocache") == true)
+				) {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
 					cache.longitudeString = base.formatCoordinate(cache.longitude, "lon", true);
 					cache.inventoryUnknown = cache.inventory.size();
@@ -67,12 +76,20 @@ public class cgGPXParser {
 					cache.detailedUpdate = new Date().getTime();
 					cache.detailed = true;
 
-					caches.add(cache); // add cache to list
+					app.addCacheToSearch(search, cache);
+				}
+
+				if (handler != null) {
+					final Message msg = new Message();
+					msg.obj = search.getCount();
+					handler.sendMessage(msg);
 				}
 
 				htmlShort = true;
 				htmlLong = true;
+				type = null;
 
+				cache = null;
 				cache = new cgCache();
 			}
 		});
@@ -104,6 +121,14 @@ public class cgGPXParser {
             public void end(String body) {
 				final String content = Html.fromHtml(body).toString().trim();
 				cache.shortdesc = content;
+			}
+        });
+
+		// waypoint.type
+		waypoint.getChild(ns, "type").setEndTextElementListener(new EndTextElementListener(){
+            public void end(String body) {
+				final String[] content = body.split("\\|");
+				if (content.length > 0) type = content[0].toLowerCase().trim();
 			}
         });
 
@@ -349,11 +374,11 @@ public class cgGPXParser {
 		try {
             Xml.parse(new FileInputStream(file), Xml.Encoding.UTF_8, root.getContentHandler());
 			
-			return true;
+			return search.getCurrentId();
         } catch (Exception e) {
             Log.e(cgSettings.tag, "Cannot parse .gpx file " + file.getAbsolutePath() + " as GPX " + version + ": " + e.toString());
         }
 
-		return false;
+		return 0l;
 	}
 }
