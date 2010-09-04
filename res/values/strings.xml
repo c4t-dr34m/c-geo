@@ -43,6 +43,8 @@
 	<string name="log_published">published</string>
 	<string name="log_enabled">enabled</string>
 	<string name="log_disabled">disabled</string>
+	<string name="log_attend">will attend</string>
+	<string name="log_attended">attended</string>
 	<string name="log_needs">needs maintenance</string>
 	<string name="log_maintenance">maitenance</string>
 	<string name="log_update">updated coordinates</string>

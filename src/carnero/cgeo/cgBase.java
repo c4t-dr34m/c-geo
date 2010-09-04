@@ -53,17 +53,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class cgBase {
 	private Resources res = null;
@@ -73,6 +64,7 @@ public class cgBase {
 	public static HashMap<String, String> cacheIDsChoices = new HashMap<String, String>();
 	public static HashMap<String, String> waypointTypes = new HashMap<String, String>();
 	public static HashMap<String, Integer> logTypes = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> logTypes0 = new HashMap<String, Integer>();
 	public static HashMap<Integer, String> logTypes1 = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> logTypes2 = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> logTypesTrackable = new HashMap<Integer, String>();
@@ -82,6 +74,7 @@ public class cgBase {
 	public static SimpleDateFormat dateEvIn = new SimpleDateFormat("dd MMMMM yyyy"); // 28 March 2009
 	public static SimpleDateFormat dateTbIn = new SimpleDateFormat("EEEEE, dd MMMMM yyyy"); // Saturday, 28 March 2009
 	public static SimpleDateFormat dateSqlIn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 2010-07-25 14:44:01
+	public static SimpleDateFormat dateGPXIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); // 2010-04-20T07:00:00Z
 	public static DateFormat dateOut = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
 	public static DateFormat timeOut = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
 	public static DateFormat dateOutShort = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
@@ -190,10 +183,26 @@ public class cgBase {
 		logTypes.put("icon_enabled", 6);
 		logTypes.put("traffic_cone", 7);
 		logTypes.put("icon_disabled", 8);
+		logTypes.put("icon_rsvp", 9);
+		logTypes.put("icon_attended", 10);
 		logTypes.put("icon_needsmaint", 45);
 		logTypes.put("icon_maint", 46);
 		logTypes.put("coord_update", 47);
 		logTypes.put("big_smile", 49);
+
+		logTypes0.put("found it", 2);
+		logTypes0.put("didn't find it", 3);
+		logTypes0.put("write note", 4);
+		logTypes0.put("publish listing", 5);
+		logTypes0.put("enable listing", 6);
+		logTypes0.put("archive", 7);
+		logTypes0.put("temporarily disable listing", 8);
+		logTypes0.put("will attend", 9);
+		logTypes0.put("attended", 10);
+		logTypes0.put("needs maintenance", 45);
+		logTypes0.put("owner maintenance", 46);
+		logTypes0.put("update coordinates", 47);
+		logTypes0.put("post reviewer note", 49);
 
 		logTypes1.put(2, res.getString(R.string.log_found));
 		logTypes1.put(3, res.getString(R.string.log_dnf));
@@ -202,6 +211,8 @@ public class cgBase {
 		logTypes1.put(6, res.getString(R.string.log_enabled));
 		logTypes1.put(7, res.getString(R.string.log_archived));
 		logTypes1.put(8, res.getString(R.string.log_disabled));
+		logTypes1.put(9, res.getString(R.string.log_attend));
+		logTypes1.put(10, res.getString(R.string.log_attended));
 		logTypes1.put(45, res.getString(R.string.log_needs));
 		logTypes1.put(46, res.getString(R.string.log_maintenance));
 		logTypes1.put(47, res.getString(R.string.log_update));
@@ -1423,16 +1434,18 @@ public class cgBase {
 
 	public ArrayList<cgCache> parseGPX(File file) {
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
+		boolean status = false;
 
 		try {
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser parser = factory.newSAXParser();
-			cgGPXParser handlerXML = new cgGPXParser(caches);
-
-			parser.parse(file, handlerXML);
+			cgGPXParser GPXparser = new cgGPXParser(this, caches);
+			
+			status = GPXparser.parse(file, 10);
+			if (status == false) status = GPXparser.parse(file, 11);
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgBase.parseGPX: " + e.toString());
 		}
+
+		Log.i(cgSettings.tag, "Caches found in .gpx file: " + caches.size());
 
 		return caches;
 	}

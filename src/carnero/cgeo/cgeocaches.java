@@ -834,6 +834,8 @@ public class cgeocaches extends ListActivity {
 
 	private void importGpx() {
 		activity.startActivity(new Intent(activity, cgeogpxes.class));
+
+		finish();
 	}
 
     public void dropStored() {

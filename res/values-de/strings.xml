@@ -43,6 +43,8 @@
     <string name="log_published">veröffentlicht</string>
     <string name="log_enabled">aktiviert</string>
     <string name="log_disabled">deaktiviert</string>
+	<string name="log_attend">werde teilnehmen</string>
+	<string name="log_attended">teilgenommen</string>
     <string name="log_needs">benötigt Wartung</string>
     <string name="log_maintenance">Wartung</string>
     <string name="log_update">aktualisierte Koordinaten</string>

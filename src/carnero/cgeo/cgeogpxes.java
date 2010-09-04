@@ -25,8 +25,10 @@ public class cgeogpxes extends Activity {
 	private LayoutInflater inflater = null;
 	private LinearLayout addList = null;
 	private ProgressDialog waitDialog = null;
+	private ProgressDialog parseDialog = null;
+	private int imported = 0;
 
-	private Handler changeDialogHandler = new Handler() {
+	final private Handler changeDialogHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.obj != null && waitDialog != null) {
@@ -35,7 +37,7 @@ public class cgeogpxes extends Activity {
 		}
 	};
 	
-	private Handler loadFilesHandler = new Handler() {
+	final private Handler loadFilesHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
@@ -85,6 +87,20 @@ public class cgeogpxes extends Activity {
 		}
 	};
 
+	final private Handler loadCachesHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			try {
+				if (parseDialog != null) parseDialog.dismiss();
+
+				warning.helpDialog("import", imported + " caches imported");
+				imported = 0;
+			} catch (Exception e) {
+				if (parseDialog != null) parseDialog.dismiss();
+			}
+		}
+	};
+
    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +119,7 @@ public class cgeogpxes extends Activity {
 		inflater = getLayoutInflater();
 
 		waitDialog = ProgressDialog.show(this, "searching", "searching for .gpx files", true);
-		waitDialog.setCancelable(true);
+		waitDialog.setCancelable(false);
 
 		(new loadFiles()).start();
 	}
@@ -168,7 +184,31 @@ public class cgeogpxes extends Activity {
 		}
 
 		public void onClick(View view) {
-			final ArrayList<cgCache> cache = base.parseGPX(file);
+			if (waitDialog != null) waitDialog.dismiss();
+
+			parseDialog = ProgressDialog.show(activity, "reading file", "loading cache details from .gpx file", true);
+			parseDialog.setCancelable(false);
+
+			new loadCaches(file).start();
 		}
 	}
+
+	private class loadCaches extends Thread {
+		File file = null;
+
+		public loadCaches(File fileIn) {
+			file = fileIn;
+		}
+
+		@Override
+		public void run() {
+			final ArrayList<cgCache> caches = base.parseGPX(file);
+			final cgSearch search = new cgSearch();
+
+			app.addSearch(search, caches, true, 1);
+			imported = caches.size();
+
+			loadCachesHandler.sendMessage(new Message());
+	   }
+   }
 }

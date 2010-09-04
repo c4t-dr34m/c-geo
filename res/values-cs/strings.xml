@@ -43,6 +43,8 @@
 	<string name="log_published">zveřejněno</string>
 	<string name="log_enabled">aktivováno</string>
 	<string name="log_disabled">deaktivováno</string>
+	<string name="log_attend">zúčastní se</string>
+	<string name="log_attended">účastnil se</string>
 	<string name="log_needs">požadavek na údržbu</string>
 	<string name="log_maintenance">údržba</string>
 	<string name="log_update">změna souřadnic</string>
