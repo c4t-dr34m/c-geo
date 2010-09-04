@@ -63,6 +63,7 @@ public class cgCache {
 		final cgCache oldCache = storage.loadCache(geocode, guid, loadA, loadW, loadS, loadL, loadI);
 				
         if (oldCache == null) return this;
+		if (oldCache.reason >= 1) return oldCache;
 
 		updated = System.currentTimeMillis();
         if (detailed == false && oldCache.detailed == true) {

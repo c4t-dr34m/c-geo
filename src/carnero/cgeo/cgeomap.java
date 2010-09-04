@@ -1030,12 +1030,12 @@ public class cgeomap extends MapActivity {
 			startLoading.sendEmptyMessage(0);
 
 			if (searchId != null) {
-				caches = app.getCaches(searchId, false, false, false, false, false);
+				caches = app.getCaches(searchId, false, true, false, false, false);
 			}
 			
 			if (geocode != null && geocode.length() > 0) {
 				caches = new ArrayList<cgCache>();
-				caches.add(app.getCacheByGeocode(geocode, false, false, false, false, false));
+				caches.add(app.getCacheByGeocode(geocode, false, true, false, false, false));
 			}
 			handler.sendMessage(new Message());
 		}
