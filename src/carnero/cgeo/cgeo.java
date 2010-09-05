@@ -370,6 +370,8 @@ public class cgeo extends Activity {
 	private class countBubbleUpdate extends Thread {
 		@Override
 		public void run() {
+			if (app == null) return;
+
 			countBubbleCnt = app.getAllStoredCachesCount(true, null);
 
 			countBubbleHandler.sendEmptyMessage(0);

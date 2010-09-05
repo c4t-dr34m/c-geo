@@ -21,7 +21,6 @@ import java.util.Locale;
 public class cgData {
 	public cgCacheWrap caches;
     private Context context = null;
-	private boolean initialized = false;
 
     private cgDbHelper dbHelper = null;
     private SQLiteDatabase databaseRO = null;
@@ -155,37 +154,6 @@ public class cgData {
 
 		initRW();
 		initRO();
-
-		if (initialized == false) {
-			try {
-				int cnt = 0;
-				Cursor cursor = null;
-
-				cursor = databaseRO.query(
-						dbTableCaches,
-						new String[] {"count (_id) as cnt"},
-						null,
-						null,
-						null,
-						null,
-						null,
-						null
-						);
-
-				if (cursor != null && cursor.getCount() > 0) {
-					cursor.moveToFirst();
-					cnt = (int)cursor.getInt(cursor.getColumnIndex("cnt"));
-				}
-
-				if (cursor != null) cursor.close();
-
-				Log.d(cgSettings.tag, "c:geo has " + cnt + " caches in database");
-			} catch (Exception e) {
-				Log.d(cgSettings.tag, "c:geo failed to get count of caches in database");
-			}
-
-			initialized = true;
-		}
 	}
 
 	public void initRW() {
@@ -250,7 +218,7 @@ public class cgData {
 		if (dbHelper != null) dbHelper.close();
     }
 
-    private static class cgDbHelper extends SQLiteOpenHelper {
+    private class cgDbHelper extends SQLiteOpenHelper {
         cgDbHelper(Context context) {
             super(context, dbName, null, dbVersion);
         }
@@ -668,8 +636,17 @@ public class cgData {
 		}
 
 		initRW();
-        long rows = databaseRW.insertWithOnConflict(dbTableCaches, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-		if (rows > 0) return true;
+       if (isThere(cache.geocode, cache.guid, false, false) == true) {
+            int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + cache.geocode + "\"", null);
+			values = null;
+
+            if (rows > 0) return true;
+        } else {
+            long id = databaseRW.insert(dbTableCaches, null, values);
+			values = null;
+
+            if (id > 0) return true;
+        }
 
 		values = null;
 		
