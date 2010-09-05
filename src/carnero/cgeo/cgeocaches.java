@@ -64,8 +64,6 @@ public class cgeocaches extends ListActivity {
     private geocachesLoadDetails threadD = null;
 	private boolean offline = false;
 	private boolean progressBar = false;
-    private ProgressDialog storeDialog = null;
-    private ProgressDialog dropDialog = null;
 
 	private Handler loadCachesHandler = new Handler() {
 		@Override
@@ -81,7 +79,7 @@ public class cgeocaches extends ListActivity {
 					final int size = cacheList.size();
                     if (count != null && count > 0) {
                         setTitle(title + " (" + size + "/" + count + ")");
-						if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
+						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) setMoreCaches(true);
 						else setMoreCaches(false);
                     } else {
                         setTitle(title);
@@ -164,7 +162,7 @@ public class cgeocaches extends ListActivity {
 					final int size = cacheList.size();
                     if (count != null && count > 0) {
                         setTitle(title + " (" + size + "/" + count + ")");
-						if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
+						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) setMoreCaches(true);
 						else setMoreCaches(false);
                     } else {
                         setTitle(title);
@@ -707,7 +705,7 @@ public class cgeocaches extends ListActivity {
 			final int size = cacheList.size();
 			if (count != null && count > 0) {
 				setTitle(title + " (" + size + "/" + count + ")");
-				if (cacheList.size() < app.getTotal(searchId)) setMoreCaches(true);
+				if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) setMoreCaches(true);
 				else setMoreCaches(false);
 			} else {
 				setTitle(title);

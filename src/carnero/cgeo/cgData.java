@@ -15,6 +15,7 @@ import java.util.Locale;
  * database history:
  * 000-033: basic structure, tables
  * 034-036: added indexes
+ * 039: lists
  */
 
 public class cgData {
@@ -28,12 +29,13 @@ public class cgData {
 
     private static final String dbName = "data";
     private static final String dbTableCaches = "cg_caches";
+	private static final String dbTableLists = "cg_lists";
     private static final String dbTableAttributes = "cg_attributes";
     private static final String dbTableWaypoints = "cg_waypoints";
     private static final String dbTableSpoilers = "cg_spoilers";
     private static final String dbTableLogs = "cg_logs";
     private static final String dbTableTrackables = "cg_trackables";
-    private static final int dbVersion = 38;
+    private static final int dbVersion = 39;
     private static final String dbCreateCaches = ""
 			+ "create table " + dbTableCaches + " ("
 			+ "_id integer primary key autoincrement, "
@@ -70,6 +72,15 @@ public class cgData {
             + "inventorycoins integer default 0, "
             + "inventorytags integer default 0, "
             + "inventoryunknown integer default 0 "
+			+ "); ";
+
+    private static final String dbCreateLists = ""
+			+ "create table " + dbTableLists + " ("
+			+ "_id integer primary key autoincrement, "
+			+ "title text not null, "
+			+ "updated long not null, "
+			+ "latitude double, "
+			+ "longitude double "
 			+ "); ";
 
     private static final String dbCreateAttributes = ""
@@ -247,6 +258,7 @@ public class cgData {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(dbCreateCaches);
+            db.execSQL(dbCreateLists);
             db.execSQL(dbCreateAttributes);
             db.execSQL(dbCreateWaypoints);
             db.execSQL(dbCreateSpoilers);
@@ -324,6 +336,16 @@ public class cgData {
 							Log.i(cgSettings.tag, "Changed type column in " + dbTableLogs + " to integer.");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 38: " + e.toString());
+						}
+					}
+
+					if (oldVersion < 39) { // upgrade to 39
+						try {
+							db.execSQL(dbCreateLists);
+
+							Log.i(cgSettings.tag, "Created lists table.");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 39: " + e.toString());
 						}
 					}
 				}
@@ -474,7 +496,7 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
 		}
 
-		if (reason == 1) return true;
+		if (reason >= 1) return true;
 		else return false;
     }
 
@@ -1354,10 +1376,10 @@ public class cgData {
         int count = 0;
 
         try {
-			if (sqlCount == null) sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 1");
-			if (sqlCountDetailed == null) sqlCountDetailed = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 1 and detailed = 1");
-			if (sqlCountTyped == null) sqlCountTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 1 and type = ?");
-			if (sqlCountDetailedTyped == null) sqlCountDetailedTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 1 and detailed = 1 and type = ?");
+			if (sqlCount == null) sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1");
+			if (sqlCountDetailed == null) sqlCountDetailed = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1");
+			if (sqlCountTyped == null) sqlCountTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and type = ?");
+			if (sqlCountDetailedTyped == null) sqlCountDetailedTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1 and type = ?");
 
 			if (detailedOnly == false) {
 				if (cachetype == null) {
@@ -1400,7 +1422,7 @@ public class cgData {
             cursor = databaseRO.query(
                     dbTableCaches,
                     new String[] {"_id", "geocode", "(abs(latitude-" + String.format((Locale)null, "%.6f", latitude) + ") + abs(longitude-" + String.format((Locale)null, "%.6f", longitude) + ")) as dif"},
-                    "reason = 1" + specifySql.toString(),
+                    "reason >= 1" + specifySql.toString(),
                     null,
                     null,
                     null,
@@ -1489,7 +1511,7 @@ public class cgData {
             cursor = databaseRO.query(
                     dbTableCaches,
                     new String[] {"_id", "geocode"},
-                    "reason = 1",
+                    "reason >= 1",
                     null,
                     null,
                     null,
@@ -1571,4 +1593,26 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.clearCache: " + e.toString());
 		}
 	}
+
+    public int createList(String name) {
+		if (name == null) return -1;
+		initRW();
+
+		int id = -1;
+
+		databaseRW.beginTransaction();
+		try {
+			ContentValues values = new ContentValues();
+
+			values.clear();
+			values.put("name", name);
+
+			id = (int)databaseRW.insert(dbTableAttributes, null, values);
+			databaseRW.setTransactionSuccessful();
+		} finally {
+			databaseRW.endTransaction();
+		}
+
+        return id;
+    }
 }

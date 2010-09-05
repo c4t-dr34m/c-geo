@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.content.Context;
 import android.os.Environment;
@@ -64,17 +63,6 @@ public class cgeogpxes extends Activity {
 					LinearLayout oneFilePre = null;
 
 					for (File file : files) {
-						if (file.canRead() == false) continue;
-
-						final String[] nameParts = file.getName().split("\\.");
-						if (nameParts.length > 1) {
-							final String extension = nameParts[(nameParts.length - 1)].toLowerCase();
-
-							if (extension.equals("gpx") == false) continue;
-						} else {
-							continue; // file has no extension
-						}
-
 						if (settings.skin == 1) oneFilePre = (LinearLayout)inflater.inflate(R.layout.gpxes_button_light, null);
 						else oneFilePre = (LinearLayout)inflater.inflate(R.layout.gpxes_button_dark, null);
 
@@ -172,6 +160,15 @@ public class cgeogpxes extends Activity {
 
 		   for (int i = 0; i < listCnt; i ++) {
 			   if (listPre[i].canRead() == true && listPre[i].isFile() == true) {
+					final String[] nameParts = listPre[i].getName().split("\\.");
+					if (nameParts.length > 1) {
+						final String extension = nameParts[(nameParts.length - 1)].toLowerCase();
+
+						if (extension.equals("gpx") == false) continue;
+					} else {
+						continue; // file has no extension
+					}
+
 				   list.add(listPre[i]); // add file to list
 			   } else if (listPre[i].canRead() == true && listPre[i].isDirectory() == true) {
 				   final Message msg = new Message();

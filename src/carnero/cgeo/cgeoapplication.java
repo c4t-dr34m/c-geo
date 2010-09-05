@@ -377,8 +377,8 @@ public class cgeoapplication extends Application {
                 if (storage.isThere(oneGeocode, oneGuid, false, false) == false || reason >= 1) { // if for offline, do not merge
                     storage.saveCache(oneCache);
                 } else {
-                    cgCache mergedCache = oneCache.merge(storage, oneGeocode, oneGuid);
-					
+                    cgCache mergedCache = oneCache.merge(storage);
+
                     storage.saveCache(mergedCache);
                 }
             }
@@ -401,7 +401,7 @@ public class cgeoapplication extends Application {
 		if (storage.isThere(geocode, guid, false, false) == false || cache.reason >= 1) { // if for offline, do not merge
 			status = storage.saveCache(cache);
 		} else {
-			cgCache mergedCache = cache.merge(storage, geocode, guid);
+			cgCache mergedCache = cache.merge(storage);
 
 			status = storage.saveCache(mergedCache);
 		}

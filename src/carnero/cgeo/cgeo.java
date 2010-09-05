@@ -1,6 +1,7 @@
 package carnero.cgeo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.view.View;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Message;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.LinearLayout;
@@ -33,6 +35,28 @@ public class cgeo extends Activity {
 	private TextView navSatellites = null;
 	private TextView navLocation = null;
 	private TextView filterTitle = null;
+	private TextView countBubble = null;
+	private int countBubbleCnt = 0;
+
+	private Handler countBubbleHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			try {
+				if (countBubble == null) countBubble = (TextView)findViewById(R.id.offline_count);
+
+				if (countBubbleCnt == 0) {
+					countBubble.setVisibility(View.GONE);
+				} else {
+					countBubble.setText(Integer.toString(countBubbleCnt));
+					countBubble.bringToFront();
+					countBubble.setVisibility(View.VISIBLE);
+				}
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgeo.countBubbleHander: " + e.toString());
+			}
+		}
+	};
+
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,8 +101,6 @@ public class cgeo extends Activity {
         } catch(Exception e) {
             Log.i(cgSettings.tag, "No info.");
         }
-
-		(base.new loginThread()).start();
 
 		init();
 	}
@@ -188,6 +210,8 @@ public class cgeo extends Activity {
 		settings.getLogin();
 		settings.reloadCacheType();
 
+		(new countBubbleUpdate()).start();
+
 		if (settings.cacheType != null && base.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
 
 		if (geo == null) geo = app.startGeo(context, geoUpdate, base, settings, warning, 0, 0);
@@ -205,15 +229,7 @@ public class cgeo extends Activity {
 			findByOffline.setClickable(true);
 			findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
 
-			final TextView countBubble = (TextView)findViewById(R.id.offline_count);
-			final int countAll = app.getAllStoredCachesCount(true, null);
-			if (countAll == 0) {
-				countBubble.setVisibility(View.GONE);
-			} else {
-				countBubble.setText(Integer.toString(countAll));
-				countBubble.bringToFront();
-				countBubble.setVisibility(View.VISIBLE);
-			}
+			(new countBubbleUpdate()).start();
 		} else {
 			final LinearLayout findByOffline = (LinearLayout)findViewById(R.id.search_offline);
 			findByOffline.setClickable(true);
@@ -348,6 +364,15 @@ public class cgeo extends Activity {
 	private class cgeoPointListener implements View.OnClickListener {
 		public void onClick(View arg0) {
 			context.startActivity(new Intent(context, cgeopoint.class));
+		}
+	}
+
+	private class countBubbleUpdate extends Thread {
+		@Override
+		public void run() {
+			countBubbleCnt = app.getAllStoredCachesCount(true, null);
+
+			countBubbleHandler.sendEmptyMessage(0);
 		}
 	}
 }

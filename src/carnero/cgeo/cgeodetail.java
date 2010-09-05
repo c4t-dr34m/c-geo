@@ -783,8 +783,11 @@ public class cgeodetail extends Activity {
 
 				if (base.logTypes1.containsKey(log.type) == true) ((TextView)rowView.findViewById(R.id.type)).setText(base.logTypes1.get(log.type));
 				else ((TextView)rowView.findViewById(R.id.type)).setText(base.logTypes1.get(4)); // note if type is unknown
+
 				((TextView)rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
-				if (log.found == 0) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_no));
+
+				if (log.found == -1) ((TextView)rowView.findViewById(R.id.count)).setVisibility(View.GONE);
+				else if(log.found == 0) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_no));
 				else if (log.found == 1) ((TextView)rowView.findViewById(R.id.count)).setText(res.getString(R.string.cache_count_one));
 				else ((TextView)rowView.findViewById(R.id.count)).setText(log.found + " " + res.getString(R.string.cache_count_more));
 				((TextView)rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);

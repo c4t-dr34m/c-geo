@@ -1,6 +1,7 @@
 package carnero.cgeo;
 
 import android.text.Spannable;
+import android.util.Log;
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -45,9 +46,7 @@ public class cgCache {
 	public ArrayList<cgLog> logs = new ArrayList<cgLog>();
 	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
 
-	public cgCache merge(cgData storage, String geocode, String guid) {
-		if (geocode == null || geocode.length() == 0 || guid == null || guid.length() == 0) return this;
-		
+	public cgCache merge(cgData storage) {
 		boolean loadA = true;
 		boolean loadW = true;
 		boolean loadS = true;
@@ -63,13 +62,13 @@ public class cgCache {
 		final cgCache oldCache = storage.loadCache(geocode, guid, loadA, loadW, loadS, loadL, loadI);
 				
         if (oldCache == null) return this;
-		if (oldCache.reason >= 1) return oldCache;
 
 		updated = System.currentTimeMillis();
         if (detailed == false && oldCache.detailed == true) {
             detailed = true;
             detailedUpdate = System.currentTimeMillis();
         }
+
         if (reason == null || reason == 0) reason = oldCache.reason;
 		if (geocode == null || geocode.length() == 0) geocode = oldCache.geocode;
 		if (cacheid == null || cacheid.length() == 0) cacheid = oldCache.cacheid;
