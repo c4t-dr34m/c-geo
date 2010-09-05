@@ -252,8 +252,12 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 	<string name="about_auth_2">Tapnutím na tlačítko "zahájit autorizaci" celý proces začne. Tento proces otevře webovou stránku Twitteru, kde se budete muset přihlásit a tlačítkem Accept pak umožnit aplikaci <b>c:geo</b> přístup k Vašemu Twitteru. Twitter Vám přidělí PIN kód pokud tapnete na Accept. Tento kód zkopírujte a vložte do aplikace <b>c:geo</b>. A potvrďte. To je vše.</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.77.0</b> (__.09.2010)\n
+		<b>0.77.1</b> (__.09.2010)\n
+		· fix: __\n
+		\n
+		<b>0.77.0</b> (05.09.2010)\n
 		· fix: PQ 1.0.1 support\n
+		· fix: Deleting stored caches\n
 		\n
 		<b>0.76.7</b> (04.09.2010)\n
 		· new: GPX import\n

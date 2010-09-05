@@ -24,6 +24,7 @@ import com.google.android.maps.MapController;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -72,6 +73,7 @@ public class cgeomap extends MapActivity {
 	private LinearLayout close = null;
 	private TextView closeGC = null;
 	private TextView closeDst = null;
+	private ImageView myLocation = null;
 	private ProgressDialog waitDialog = null;
     private int detailTotal = 0;
     private int detailProgress = 0;
@@ -333,24 +335,21 @@ public class cgeomap extends MapActivity {
 			loadingThread.start();
 
 			myLocationInMiddle();
-		} else
-		if (searchId != null && searchId > 0) {
+		} else if (searchId != null && searchId > 0) {
 			setTitle("map");
 			live = false;
 			initLocation = true;
 			followLocation = false;
 			
 			(new loadCacheFromDb(loadCacheFromDbHandler)).start();
-		} else
-		if (geocode != null && geocode.length() > 0) {
+		} else if (geocode != null && geocode.length() > 0) {
 			setTitle("map");
 			live = false;
 			initLocation = true;
 			followLocation = false;
 
 			(new loadCacheFromDb(loadCacheFromDbHandler)).start();
-		} else
-		if (oneLatitude != null && oneLongitude != null) {
+		} else if (oneLatitude != null && oneLongitude != null) {
 			setTitle("map");
 			searchId = null;
 			live = false;
@@ -358,6 +357,13 @@ public class cgeomap extends MapActivity {
 			followLocation = false;
 
 			addOverlays(true);
+		}
+
+		if (myLocation == null) {
+			myLocation = (ImageView)findViewById(R.id.my_position);
+			if (followLocation == true) myLocation.setImageResource(R.drawable.my_location_on);
+			else myLocation.setImageResource(R.drawable.my_location_off);
+			myLocation.setOnClickListener(new myLocationListener());
 		}
 
 		usersThread = new loadUsers(loadUsersHandler, mapView);
@@ -473,7 +479,6 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 0, "my location").setIcon(android.R.drawable.ic_menu_mylocation);
 		menu.add(0, 2, 0, "hide trail").setIcon(android.R.drawable.ic_menu_recent_history);
 		menu.add(0, 3, 0, "disable live").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 		menu.add(0, 4, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as).setVisible(false);
@@ -500,10 +505,6 @@ public class cgeomap extends MapActivity {
 			item = menu.findItem(0); // view
 			if (mapView != null && mapView.isSatellite() == false) item.setTitle("satellite view");
 			else item.setTitle("map view");
-
-			item = menu.findItem(1); // follow my location
-			if (followLocation == true) item.setTitle("don't follow");
-			else item.setTitle("my location");
 
 			item = menu.findItem(2); // show trail
 			if (settings.maptrail == 1) item.setTitle("hide trail");
@@ -557,15 +558,6 @@ public class cgeomap extends MapActivity {
 
 				prefsEdit.putInt("maptype", settings.mapClassic);
 				prefsEdit.commit();
-			}
-
-			return true;
-		} else if (id == 1) {
-			if (followLocation == true) {
-				followLocation = false;
-			} else {
-				followLocation = true;
-				myLocationInMiddle();
 			}
 
 			return true;
@@ -1383,6 +1375,23 @@ public class cgeomap extends MapActivity {
 		} else {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 			setTitle(title + " (no caches)");
+		}
+	}
+
+	private class myLocationListener implements View.OnClickListener {
+		public void onClick(View view) {
+			if (myLocation == null) myLocation = (ImageView)findViewById(R.id.my_position);
+
+			if (followLocation == true) {
+				followLocation = false;
+
+				myLocation.setImageResource(R.drawable.my_location_off);
+			} else {
+				followLocation = true;
+				myLocationInMiddle();
+
+				myLocation.setImageResource(R.drawable.my_location_on);
+			}
 		}
 	}
 }

@@ -637,16 +637,30 @@ public class cgData {
 		boolean status = false;
 		boolean statusOk = true;
 
-        status = saveAttributes(cache.geocode, cache.attributes);
-		if (status == false) statusOk = false;
-        status = saveWaypoints(cache.geocode, cache.waypoints, true);
-		if (status == false) statusOk = false;
-        status = saveSpoilers(cache.geocode, cache.spoilers);
-		if (status == false) statusOk = false;
-        status = saveLogs(cache.geocode, cache.logs);
-		if (status == false) statusOk = false;
-        status = saveInventory(cache.geocode, cache.inventory);
-		if (status == false) statusOk = false;
+		if (cache.attributes != null && cache.attributes.isEmpty() == false) {
+			status = saveAttributes(cache.geocode, cache.attributes);
+			if (status == false) statusOk = false;
+		}
+
+		if (cache.waypoints != null && cache.waypoints.isEmpty() == false) {
+			status = saveWaypoints(cache.geocode, cache.waypoints, true);
+			if (status == false) statusOk = false;
+		}
+
+		if (cache.spoilers != null && cache.spoilers.isEmpty() == false) {
+			status = saveSpoilers(cache.geocode, cache.spoilers);
+			if (status == false) statusOk = false;
+		}
+
+		if (cache.logs != null && cache.logs.isEmpty() == false) {
+			status = saveLogs(cache.geocode, cache.logs);
+			if (status == false) statusOk = false;
+		}
+
+		if (cache.inventory != null && cache.inventory.isEmpty() == false) {
+			status = saveInventory(cache.geocode, cache.inventory);
+			if (status == false) statusOk = false;
+		}
 
 		if (statusOk == false) {
 			cache.detailed = false;
@@ -654,17 +668,8 @@ public class cgData {
 		}
 
 		initRW();
-        if (isThere(cache.geocode, cache.guid, false, false) == true) {
-            int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + cache.geocode + "\"", null);
-			values = null;
-
-            if (rows > 0) return true;
-        } else {
-            long id = databaseRW.insert(dbTableCaches, null, values);
-			values = null;
-
-            if (id > 0) return true;
-        }
+        long rows = databaseRW.insertWithOnConflict(dbTableCaches, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		if (rows > 0) return true;
 
 		values = null;
 		
