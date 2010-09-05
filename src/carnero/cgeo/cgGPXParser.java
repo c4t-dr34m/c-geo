@@ -12,6 +12,7 @@ import android.util.Log;
 import android.util.Xml;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import org.xml.sax.Attributes;
 
@@ -27,23 +28,24 @@ public class cgGPXParser {
 	private boolean htmlShort = true;
 	private boolean htmlLong = true;
 	private String type = null;
-
+	private String ns = null;
+	private ArrayList<String> nsGCList = new ArrayList<String>();
 
 	public cgGPXParser(cgeoapplication appIn, cgBase baseIn, cgSearch searchIn) {
 		app = appIn;
 		base = baseIn;
 		search = searchIn;
+
+		nsGCList.add("http://www.groundspeak.com/cache/1/0/1"); // PQ 1.0.1
+		nsGCList.add("http://www.groundspeak.com/cache/1/0"); // PQ 1.0
 	}
 
 	public long parse(File file, int version, Handler handlerIn) {
 		handler = handlerIn;
 		if (file == null) return 0l;
 
-		String ns = null;
 		if (version == 11) ns = "http://www.topografix.com/GPX/1/1"; // GPX 1.1
 		else ns = "http://www.topografix.com/GPX/1/0"; // GPX 1.0
-
-		String nsGC = "http://www.groundspeak.com/cache/1/0";
 
 		final RootElement root = new RootElement(ns, "gpx");
 		final Element waypoint = root.getChild(ns, "wpt");
@@ -132,244 +134,246 @@ public class cgGPXParser {
 			}
         });
 
-		// waypoints.cache
-		final Element gcCache = waypoint.getChild(nsGC, "cache");
+		for (String nsGC : nsGCList) {
+			// waypoints.cache
+			final Element gcCache = waypoint.getChild(nsGC, "cache");
 
-		gcCache.setStartElementListener(new StartElementListener() {
-			public void start(Attributes attrs) {
-				try {
-					if (attrs.getIndex("id") > -1) cache.cacheid = attrs.getValue("id");
-					if (attrs.getIndex("archived") > -1) {
-						final String at = attrs.getValue("archived").toLowerCase();
-						if (at.equals("true")) cache.archived = true;
-						else cache.archived = false;
+			gcCache.setStartElementListener(new StartElementListener() {
+				public void start(Attributes attrs) {
+					try {
+						if (attrs.getIndex("id") > -1) cache.cacheid = attrs.getValue("id");
+						if (attrs.getIndex("archived") > -1) {
+							final String at = attrs.getValue("archived").toLowerCase();
+							if (at.equals("true")) cache.archived = true;
+							else cache.archived = false;
+						}
+						if (attrs.getIndex("available") > -1) {
+							final String at = attrs.getValue("available").toLowerCase();
+							if (at.equals("true")) cache.disabled = false;
+							else cache.disabled = true;
+						}
+					} catch (Exception e) {
+						Log.w(cgSettings.tag, "Failed to parse cache attributes.");
 					}
-					if (attrs.getIndex("available") > -1) {
-						final String at = attrs.getValue("available").toLowerCase();
-						if (at.equals("true")) cache.disabled = false;
-						else cache.disabled = true;
+				}
+			});
+
+			// waypoint.cache.name
+			gcCache.getChild(nsGC, "name").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					final String content = Html.fromHtml(body).toString().trim();
+					cache.name = content;
+				}
+			});
+
+			// waypoint.cache.owner
+			gcCache.getChild(nsGC, "owner").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					final String content = Html.fromHtml(body).toString().trim();
+					cache.owner = content;
+				}
+			});
+
+			// waypoint.cache.type
+			gcCache.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					final String content = base.cacheTypes.get(body.toLowerCase());
+					cache.type = content;
+				}
+			});
+
+			// waypoint.cache.container
+			gcCache.getChild(nsGC, "container").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					final String content = body.toLowerCase();
+					cache.size = content;
+				}
+			});
+
+			// waypoint.cache.difficulty
+			gcCache.getChild(nsGC, "difficulty").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					try {
+						cache.difficulty = new Float(body);
+					} catch (Exception e) {
+						Log.w(cgSettings.tag, "Failed to parse difficulty: " + e.toString());
 					}
-				} catch (Exception e) {
-					Log.w(cgSettings.tag, "Failed to parse cache attributes.");
 				}
-			}
-		});
+			});
 
-		// waypoint.cache.name
-		gcCache.getChild(nsGC, "name").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				final String content = Html.fromHtml(body).toString().trim();
-				cache.name = content;
-			}
-        });
-
-		// waypoint.cache.owner
-		gcCache.getChild(nsGC, "owner").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				final String content = Html.fromHtml(body).toString().trim();
-				cache.owner = content;
-			}
-        });
-
-		// waypoint.cache.type
-		gcCache.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				final String content = base.cacheTypes.get(body.toLowerCase());
-				cache.type = content;
-			}
-        });
-
-		// waypoint.cache.container
-		gcCache.getChild(nsGC, "container").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				final String content = body.toLowerCase();
-				cache.size = content;
-			}
-        });
-
-		// waypoint.cache.difficulty
-		gcCache.getChild(nsGC, "difficulty").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				try {
-					cache.difficulty = new Float(body);
-				} catch (Exception e) {
-					Log.w(cgSettings.tag, "Failed to parse difficulty: " + e.toString());
-				}
-			}
-        });
-
-		// waypoint.cache.terrain
-		gcCache.getChild(nsGC, "terrain").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				try {
-					cache.terrain = new Float(body);
-				} catch (Exception e) {
-					Log.w(cgSettings.tag, "Failed to parse terrain: " + e.toString());
-				}
-			}
-        });
-
-		// waypoint.cache.country
-		gcCache.getChild(nsGC, "country").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				if (cache.location == null || cache.location.length() == 0) cache.location = body.trim();
-				else cache.location = cache.location + ", " + body.trim();
-			}
-        });
-
-		// waypoint.cache.state
-		gcCache.getChild(nsGC, "state").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				if (cache.location == null || cache.location.length() == 0) cache.location = body.trim();
-				else cache.location = body.trim() + ", " + cache.location;
-			}
-        });
-
-		// waypoint.cache.encoded_hints
-		gcCache.getChild(nsGC, "encoded_hints").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				cache.hint = body.trim();
-			}
-        });
-
-		// waypoint.cache.short_description
-		gcCache.getChild(nsGC, "short_description").setStartElementListener(new StartElementListener() {
-			public void start(Attributes attrs) {
-				try {
-					if (attrs.getIndex("html") > -1) {
-						final String at = attrs.getValue("html").toLowerCase();
-						if (at.equals("false")) htmlShort = false;
+			// waypoint.cache.terrain
+			gcCache.getChild(nsGC, "terrain").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					try {
+						cache.terrain = new Float(body);
+					} catch (Exception e) {
+						Log.w(cgSettings.tag, "Failed to parse terrain: " + e.toString());
 					}
-				} catch (Exception e) {
-					// nothing
 				}
-			}
-		});
+			});
 
-		gcCache.getChild(nsGC, "short_description").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				if (htmlShort == false) cache.shortdesc = Html.fromHtml(body).toString();
-				else cache.shortdesc = body;
-			}
-        });
+			// waypoint.cache.country
+			gcCache.getChild(nsGC, "country").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					if (cache.location == null || cache.location.length() == 0) cache.location = body.trim();
+					else cache.location = cache.location + ", " + body.trim();
+				}
+			});
 
-		// waypoint.cache.long_description
-		gcCache.getChild(nsGC, "long_description").setStartElementListener(new StartElementListener() {
-			public void start(Attributes attrs) {
-				try {
-					if (attrs.getIndex("html") > -1) {
-						final String at = attrs.getValue("html").toLowerCase();
-						if (at.equals("false")) htmlLong = false;
+			// waypoint.cache.state
+			gcCache.getChild(nsGC, "state").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					if (cache.location == null || cache.location.length() == 0) cache.location = body.trim();
+					else cache.location = body.trim() + ", " + cache.location;
+				}
+			});
+
+			// waypoint.cache.encoded_hints
+			gcCache.getChild(nsGC, "encoded_hints").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					cache.hint = body.trim();
+				}
+			});
+
+			// waypoint.cache.short_description
+			gcCache.getChild(nsGC, "short_description").setStartElementListener(new StartElementListener() {
+				public void start(Attributes attrs) {
+					try {
+						if (attrs.getIndex("html") > -1) {
+							final String at = attrs.getValue("html").toLowerCase();
+							if (at.equals("false")) htmlShort = false;
+						}
+					} catch (Exception e) {
+						// nothing
 					}
-				} catch (Exception e) {
-					// nothing
 				}
-			}
-		});
+			});
 
-		gcCache.getChild(nsGC, "long_description").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				if (htmlLong == false) cache.description = Html.fromHtml(body).toString();
-				else cache.description = body;
-			}
-        });
-
-		// waypoint.cache.travelbugs
-		final Element gcTBs = gcCache.getChild(nsGC, "travelbugs");
-
-		// waypoint.cache.travelbugs.travelbug
-		gcTBs.getChild(nsGC, "travelbug").setStartElementListener(new StartElementListener() {
-			public void start(Attributes attrs) {
-				trackable = new cgTrackable();
-
-				try {
-					if (attrs.getIndex("ref") > -1) trackable.geocode = attrs.getValue("ref").toUpperCase();
-				} catch (Exception e) {
-					// nothing
+			gcCache.getChild(nsGC, "short_description").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					if (htmlShort == false) cache.shortdesc = Html.fromHtml(body).toString();
+					else cache.shortdesc = body;
 				}
-			}
-		});
+			});
 
-		// waypoint.cache.travelbug
-		final Element gcTB = gcTBs.getChild(nsGC, "travelbug");
-
-		gcTB.setEndElementListener(new EndElementListener() {
-			public void end() {
-				if (trackable.geocode != null && trackable.geocode.length() > 0 && trackable.name != null && trackable.name.length() > 0) {
-					cache.inventory.add(trackable);
+			// waypoint.cache.long_description
+			gcCache.getChild(nsGC, "long_description").setStartElementListener(new StartElementListener() {
+				public void start(Attributes attrs) {
+					try {
+						if (attrs.getIndex("html") > -1) {
+							final String at = attrs.getValue("html").toLowerCase();
+							if (at.equals("false")) htmlLong = false;
+						}
+					} catch (Exception e) {
+						// nothing
+					}
 				}
-			}
-		});
+			});
 
-		// waypoint.cache.travelbugs.travelbug.name
-		gcTB.getChild(nsGC, "name").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				String content = Html.fromHtml(body).toString();
-				trackable.name = content;
-			}
-        });
-
-		// waypoint.cache.logs
-		final Element gcLogs = gcCache.getChild(nsGC, "logs");
-
-		// waypoint.cache.log
-		final Element gcLog = gcLogs.getChild(nsGC, "log");
-
-		gcLog.setStartElementListener(new StartElementListener() {
-			public void start(Attributes attrs) {
-				log = new cgLog();
-
-				try {
-					if (attrs.getIndex("id") > -1) log.id = Integer.parseInt(attrs.getValue("id"));
-				} catch (Exception e) {
-					// nothing
+			gcCache.getChild(nsGC, "long_description").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					if (htmlLong == false) cache.description = Html.fromHtml(body).toString();
+					else cache.description = body;
 				}
-			}
-		});
+			});
 
-		gcLog.setEndElementListener(new EndElementListener() {
-			public void end() {
-				if (log.log != null && log.log.length() > 0) {
-					cache.logs.add(log);
+			// waypoint.cache.travelbugs
+			final Element gcTBs = gcCache.getChild(nsGC, "travelbugs");
+
+			// waypoint.cache.travelbugs.travelbug
+			gcTBs.getChild(nsGC, "travelbug").setStartElementListener(new StartElementListener() {
+				public void start(Attributes attrs) {
+					trackable = new cgTrackable();
+
+					try {
+						if (attrs.getIndex("ref") > -1) trackable.geocode = attrs.getValue("ref").toUpperCase();
+					} catch (Exception e) {
+						// nothing
+					}
 				}
-			}
-		});
+			});
 
-		// waypoint.cache.logs.log.date
-		gcLog.getChild(nsGC, "date").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				try {
-					log.date = base.dateGPXIn.parse(body.trim()).getTime();
-				} catch (Exception e) {
-					Log.w(cgSettings.tag, "Failed to parse log date: " + e.toString());
+			// waypoint.cache.travelbug
+			final Element gcTB = gcTBs.getChild(nsGC, "travelbug");
+
+			gcTB.setEndElementListener(new EndElementListener() {
+				public void end() {
+					if (trackable.geocode != null && trackable.geocode.length() > 0 && trackable.name != null && trackable.name.length() > 0) {
+						cache.inventory.add(trackable);
+					}
 				}
-			}
-        });
+			});
 
-		// waypoint.cache.logs.log.type
-		gcLog.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				final String content = body.trim().toLowerCase();
-				if (base.logTypes0.containsKey(content) == true) log.type = base.logTypes0.get(content);
-				else log.type = 4;
-			}
-        });
+			// waypoint.cache.travelbugs.travelbug.name
+			gcTB.getChild(nsGC, "name").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					String content = Html.fromHtml(body).toString();
+					trackable.name = content;
+				}
+			});
 
-		// waypoint.cache.logs.log.finder
-		gcLog.getChild(nsGC, "finder").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				String content = Html.fromHtml(body).toString();
-				log.author = content;
-			}
-        });
+			// waypoint.cache.logs
+			final Element gcLogs = gcCache.getChild(nsGC, "logs");
 
-		// waypoint.cache.logs.log.finder
-		gcLog.getChild(nsGC, "text").setEndTextElementListener(new EndTextElementListener() {
-            public void end(String body) {
-				String content = Html.fromHtml(body).toString();
-				log.log = content;
-			}
-        });
+			// waypoint.cache.log
+			final Element gcLog = gcLogs.getChild(nsGC, "log");
+
+			gcLog.setStartElementListener(new StartElementListener() {
+				public void start(Attributes attrs) {
+					log = new cgLog();
+
+					try {
+						if (attrs.getIndex("id") > -1) log.id = Integer.parseInt(attrs.getValue("id"));
+					} catch (Exception e) {
+						// nothing
+					}
+				}
+			});
+
+			gcLog.setEndElementListener(new EndElementListener() {
+				public void end() {
+					if (log.log != null && log.log.length() > 0) {
+						cache.logs.add(log);
+					}
+				}
+			});
+
+			// waypoint.cache.logs.log.date
+			gcLog.getChild(nsGC, "date").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					try {
+						log.date = base.dateGPXIn.parse(body.trim()).getTime();
+					} catch (Exception e) {
+						Log.w(cgSettings.tag, "Failed to parse log date: " + e.toString());
+					}
+				}
+			});
+
+			// waypoint.cache.logs.log.type
+			gcLog.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					final String content = body.trim().toLowerCase();
+					if (base.logTypes0.containsKey(content) == true) log.type = base.logTypes0.get(content);
+					else log.type = 4;
+				}
+			});
+
+			// waypoint.cache.logs.log.finder
+			gcLog.getChild(nsGC, "finder").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					String content = Html.fromHtml(body).toString();
+					log.author = content;
+				}
+			});
+
+			// waypoint.cache.logs.log.finder
+			gcLog.getChild(nsGC, "text").setEndTextElementListener(new EndTextElementListener() {
+				public void end(String body) {
+					String content = Html.fromHtml(body).toString();
+					log.log = content;
+				}
+			});
+		}
 
 		try {
             Xml.parse(new FileInputStream(file), Xml.Encoding.UTF_8, root.getContentHandler());

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <color name="just_white">#FFFFFFFF</color>
+    <color name="just_black">#FF000000</color>
     <color name="background_dark">#FF191919</color>
     <color name="background_light">#FFFFFFFF</color>
     <color name="separator_dark">#44FFFFFF</color>

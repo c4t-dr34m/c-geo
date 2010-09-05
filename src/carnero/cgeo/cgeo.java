@@ -16,6 +16,7 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import java.util.Locale;
 
 public class cgeo extends Activity {
@@ -199,9 +200,25 @@ public class cgeo extends Activity {
 		findOnMap.setClickable(true);
 		findOnMap.setOnClickListener(new cgeoFindOnMapListener());
 
-		final LinearLayout findByOffline = (LinearLayout)findViewById(R.id.search_offline);
-		findByOffline.setClickable(true);
-		findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
+		if (settings.transparent == true) {
+			final RelativeLayout findByOffline = (RelativeLayout)findViewById(R.id.search_offline);
+			findByOffline.setClickable(true);
+			findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
+
+			final TextView countBubble = (TextView)findViewById(R.id.offline_count);
+			final int countAll = app.getAllStoredCachesCount(true, null);
+			if (countAll == 0) {
+				countBubble.setVisibility(View.GONE);
+			} else {
+				countBubble.setText(Integer.toString(countAll));
+				countBubble.bringToFront();
+				countBubble.setVisibility(View.VISIBLE);
+			}
+		} else {
+			final LinearLayout findByOffline = (LinearLayout)findViewById(R.id.search_offline);
+			findByOffline.setClickable(true);
+			findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
+		}
 
 		final LinearLayout advanced = (LinearLayout)findViewById(R.id.advanced_button);
 		advanced.setClickable(true);

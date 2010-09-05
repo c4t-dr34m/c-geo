@@ -1437,7 +1437,6 @@ public class cgBase {
 		long searchId = 0l;
 
 		try {
-
 			cgGPXParser GPXparser = new cgGPXParser(app, this, search);
 			
 			searchId = GPXparser.parse(file, 10, handler);

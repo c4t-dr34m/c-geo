@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -77,12 +78,14 @@ public class cgeogpxes extends Activity {
 						if (settings.skin == 1) oneFilePre = (LinearLayout)inflater.inflate(R.layout.gpxes_button_light, null);
 						else oneFilePre = (LinearLayout)inflater.inflate(R.layout.gpxes_button_dark, null);
 
-						Button oneFile = (Button)oneFilePre.findViewById(R.id.button);
+						LinearLayout oneFile = (LinearLayout)oneFilePre.findViewById(R.id.button);
 
-						oneFile.setText(file.getName());
 						oneFile.setClickable(true);
 						oneFile.setOnTouchListener(new cgViewTouch(settings, oneFile, 0));
 						oneFile.setOnClickListener(new loadFileListener(file));
+
+						((TextView)oneFile.findViewById(R.id.filepath)).setText(file.getParent());
+						((TextView)oneFile.findViewById(R.id.filename)).setText(file.getName());
 						
 						addList.addView(oneFilePre);
 					}
