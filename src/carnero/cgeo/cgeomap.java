@@ -591,9 +591,15 @@ public class cgeomap extends MapActivity {
 			
 			try {
 				if (coordinates != null && coordinates.size() > 0) {
+					final GeoPoint mapCenter = mapView.getMapCenter();
+					final int mapCenterLat = mapCenter.getLatitudeE6();
+					final int mapCenterLon = mapCenter.getLongitudeE6();
+					final int mapSpanLat = mapView.getLatitudeSpan();
+					final int mapSpanLon = mapView.getLongitudeSpan();
+
 					for (cgCoord coord : coordinates) {
 						if (coord.geocode != null && coord.geocode.length() > 0) {
-							if (app.isOffline(coord.geocode, null) == false) {
+							if (base.isCacheInViewPort(mapCenterLat, mapCenterLon, mapSpanLat, mapSpanLon, coord.latitude, coord.longitude) && app.isOffline(coord.geocode, null) == false) {
 								geocodes.add(coord.geocode);
 							}
 						}

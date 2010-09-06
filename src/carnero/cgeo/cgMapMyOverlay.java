@@ -25,11 +25,8 @@ public class cgMapMyOverlay extends Overlay {
     private Point center = new Point();
     private Point left = new Point();
 	private Bitmap arrow = null;
-	private Bitmap arrowPoint = null;
 	private int widthArrow = 0;
     private int heightArrow = 0;
-	private int widthPoint = 0;
-    private int heightPoint = 0;
 	private PaintFlagsDrawFilter setfil = null;
 	private PaintFlagsDrawFilter remfil = null;
 	private Location historyRecent = null;
@@ -101,7 +98,7 @@ public class cgMapMyOverlay extends Overlay {
 		accuracyCircle.setStyle(Style.STROKE);
 		canvas.drawCircle(center.x, center.y, radius, accuracyCircle);
 
-		accuracyCircle.setColor(0x11000000);
+		accuracyCircle.setColor(0x08000000);
 		accuracyCircle.setStyle(Style.FILL);
 		canvas.drawCircle(center.x, center.y, radius, accuracyCircle);
 
@@ -162,13 +159,8 @@ public class cgMapMyOverlay extends Overlay {
 			}
 		}
 
-		if (arrowPoint == null) {
-			arrowPoint = BitmapFactory.decodeResource(mapView.getContext().getResources(), R.drawable.my_location);
-			widthPoint = arrowPoint.getWidth();
-			heightPoint = arrowPoint.getHeight();
-		}
 		if (arrow == null) {
-			arrow = BitmapFactory.decodeResource(mapView.getContext().getResources(), R.drawable.my_location_arrow);
+			arrow = BitmapFactory.decodeResource(mapView.getContext().getResources(), R.drawable.my_location_chevron);
 			widthArrow = arrow.getWidth();
 			heightArrow = arrow.getHeight();
 		}
@@ -176,18 +168,13 @@ public class cgMapMyOverlay extends Overlay {
 		int marginLeft;
 		int marginTop;
 
-		marginLeft = center.x - 10;
-		marginTop = center.y - 23;
+		marginLeft = center.x - (widthArrow / 2);
+		marginTop = center.y - (heightArrow / 2);
 
 		canvas.rotate(heading, center.x, center.y);
 		canvas.drawBitmap(arrow, marginLeft, marginTop, null);
 		canvas.rotate(-heading, center.x, center.y);
 
-		marginLeft = center.x - 11;
-		marginTop = center.y - 11;
-
-		canvas.drawBitmap(arrowPoint, marginLeft, marginTop, null);
-		
 		canvas.setDrawFilter(remfil);
     }
 }

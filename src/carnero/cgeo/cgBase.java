@@ -3653,6 +3653,39 @@ public class cgBase {
 		}
 	}
 
+	public boolean isCacheInViewPort(int centerLat, int centerLon, int spanLat, int spanLon, Double cacheLat, Double cacheLon) {
+		if (cacheLat == null || cacheLon == null) return false;
+
+		int minLat = centerLat - (spanLat / 2);
+		int maxLat = centerLat + (spanLat / 2);
+		int minLon = centerLon - (spanLon / 2);
+		int maxLon = centerLon + (spanLon / 2);
+		int cLat = (int)Math.round(cacheLat * 1e6);
+		int cLon = (int)Math.round(cacheLon * 1e6);
+		int mid = 0;
+
+		if (maxLat < minLat) {
+			mid = minLat;
+			minLat = maxLat;
+			maxLat = mid;
+		}
+
+		if (maxLon < minLon) {
+			mid = minLon;
+			minLon = maxLon;
+			maxLon = mid;
+		}
+
+		boolean latOk = false;
+		boolean lonOk = false;
+
+		if (cLat >= minLat && cLat <= maxLat) latOk = true;
+		if (cLon >= minLon && cLon <= maxLon) lonOk = true;
+
+		if (latOk == true && lonOk == true) return true;
+		else return false;
+	}
+
 	private static char[] base64map1 = new char[64];
 	static {
 		int i=0;
