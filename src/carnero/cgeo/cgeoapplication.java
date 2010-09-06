@@ -232,7 +232,9 @@ public class cgeoapplication extends Application {
 			if (storage == null) storage = new cgData(this);
 			cache = storage.loadCache(geocode, null, loadA, loadW, loadS, loadL, loadI);
 
-			if (cache.detailed == true) putCacheInCache(cache);
+			if (cache.detailed == true && loadA == true && loadW == true && loadS == true && loadL == true && loadI == true) {
+				putCacheInCache(cache);
+			}
 		}
 
 		return cache;

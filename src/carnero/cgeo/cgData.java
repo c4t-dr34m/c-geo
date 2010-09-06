@@ -636,21 +636,30 @@ public class cgData {
 		}
 
 		initRW();
-       if (isThere(cache.geocode, cache.guid, false, false) == true) {
-            int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + cache.geocode + "\"", null);
-			values = null;
 
-            if (rows > 0) return true;
-        } else {
-            long id = databaseRW.insert(dbTableCaches, null, values);
-			values = null;
-
-            if (id > 0) return true;
-        }
+		try {
+			int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + cache.geocode + "\"", null);
+			if (rows > 0) {
+				values = null;
+				return true;
+			}
+		} catch (Exception e) {
+			// nothing
+		}
+		
+		try {
+			long id = databaseRW.insert(dbTableCaches, null, values);
+			if (id > 0) {
+				values = null;
+				return true;
+			}
+		} catch (Exception e) {
+			// nothing
+		}
 
 		values = null;
-		
-        return false;
+
+		return false;
     }
 
     public boolean saveAttributes(String geocode, ArrayList<String> attributes) {

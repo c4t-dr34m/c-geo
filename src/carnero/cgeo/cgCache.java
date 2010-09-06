@@ -95,7 +95,6 @@ public class cgCache {
 		if (inventoryCoins == 0) inventoryCoins = oldCache.inventoryCoins;
 		if (inventoryTags == 0) inventoryTags = oldCache.inventoryTags;
 		if (inventoryUnknown == 0) inventoryUnknown = oldCache.inventoryUnknown;
-		
 		if (attributes == null || attributes.isEmpty()) attributes = oldCache.attributes;
 		if (waypoints == null || waypoints.isEmpty()) waypoints = oldCache.waypoints;
 		if (spoilers == null || spoilers.isEmpty()) spoilers = oldCache.spoilers;

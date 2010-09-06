@@ -253,7 +253,7 @@ Grafikelemente von <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.77.2</b> (__.09.2010)\n
-		· fix: __\n
+		· fix: Removing logs by Live map\n
 		\n
 		<b>0.77.1</b> (05.09.2010)\n
 		· fix: Android 2.1 and older\n
