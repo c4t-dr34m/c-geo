@@ -91,7 +91,7 @@ public class cgGeo {
 		geoManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, geoNetListener);
 		geoManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, geoGpsListener);
 
-		if (alertGps == null && geoManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) == false && geoManager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
+		if (alertGps == null && app.showLocWarning == true && geoManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) == false && geoManager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
 			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 			dialog.setTitle("Location sources");
 			dialog.setMessage("You have all localization services switched off. Please, activate network and/or GPS service in Menu / Settings / Location. c:geo needs it.");
@@ -107,6 +107,8 @@ public class cgGeo {
 					dialog.dismiss();
 			   }
 		   });
+
+		   app.showLocWarning = false;
 
 		   alertGps = dialog.create();
 		   alertGps.show();

@@ -968,7 +968,7 @@ public class cgeodetail extends Activity {
 				dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 				   public void onClick(DialogInterface dialog, int id) {
 						try {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.google.android.radar")));
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.eclipsim.gpsstatus2")));
 							dialog.cancel();
 						} catch (Exception e) {
 							warning.showToast(res.getString(R.string.err_radar_market));

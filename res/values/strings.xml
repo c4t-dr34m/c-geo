@@ -252,9 +252,13 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start process. This process will open web browser with Twitter page where you have to login and Accept <b>c:geo</b> to access your account. When you Accept, Twitter will show you numeric PIN code. Please copy this code, paste into <b>c:geo</b> and confirm. That\'s all.</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.77.2</b> (__.09.2010)\n
+		<b>0.77.3</b> (__.09.2010)\n
+		· fix: __\n
+		\n
+		<b>0.77.2</b> (07.09.2010)\n
 		· fix: Removing logs by Live map\n
 		· change: Storing only visible caches (Live map)\n
+		· change: Searching for GPS Status instead of Radar\n
 		\n
 		<b>0.77.1</b> (05.09.2010)\n
 		· fix: Android 2.1 and older\n
