@@ -1703,7 +1703,7 @@ public class cgBase {
         return (word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase());
 	}
 
-	public static Double getDistance(Double lat1, Double lon1, Double lat2, Double lon2) {
+	public static double getDistance(Double lat1, Double lon1, Double lat2, Double lon2) {
 		if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) return new Double(0);
 
 		lat1 *= deg2rad;

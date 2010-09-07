@@ -49,6 +49,7 @@ public class cgeomap extends MapActivity {
 	private boolean initLocation = true;
 	private cgMapOverlay overlay = null;
 	private cgUsersOverlay overlayUsers = null;
+	private cgOverlayScale overlayScale = null;
 	private cgMapMyOverlay overlayMyLoc = null;
 	private Drawable pin = null;
 	private boolean fromDetail = false;
@@ -678,6 +679,17 @@ public class cgeomap extends MapActivity {
 	}
 
 	private void addOverlays(boolean canChangeTitle) {
+		// scale bar
+		if (overlayScale == null && mapView != null) {
+			overlayScale = new cgOverlayScale(base, settings);
+			mapView.getOverlays().add(overlayScale);
+		}
+		if (mapView.getOverlays().contains(overlayScale) == false) {
+			mapView.getOverlays().add(overlayScale);
+		}
+
+		mapView.invalidate();
+
 		// users
 		if (mapView == null) return;
 
