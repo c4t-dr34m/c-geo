@@ -374,7 +374,7 @@ public class cgeocaches extends ListActivity {
             cacheList.clear();
             cacheList.addAll(app.getCaches(searchId));
             
-			if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
+			if (adapter != null && geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
 				adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
 				adapter.setActualHeading(northHeading);
 			}
@@ -714,6 +714,8 @@ public class cgeocaches extends ListActivity {
 		} else {
 			setTitle(title);
 		}
+
+		setAdapter();
 	}
 
 	private void showOnMap() {
