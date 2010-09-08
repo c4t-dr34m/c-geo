@@ -11,12 +11,14 @@ import org.openintents.intents.WikitudePOI;
 public class cgeoapplication extends Application {
     private cgData storage = null;
 	private List<WikitudePOI> pois = null; // for Wikitude
+	private String action = null;
+	private Double lastLatitude = null;
+	private Double lastLongitude = null;
 	final private ArrayList<cgGeo> geos = new ArrayList<cgGeo>(); // list of location providers
 	final private ArrayList<cgDirection> dirs = new ArrayList<cgDirection>(); // list of direction providers
 	final private HashMap<Long, cgSearch> searches = new HashMap<Long, cgSearch>(); // information about searches
 	final private HashMap<String, cgCache> cachesCache = new HashMap<String, cgCache>(); // caching caches into memory
-	private String action = null;
-	
+
 	public boolean showLocWarning = true;
 	public boolean warnedLanguage = false;
 
@@ -448,5 +450,18 @@ public class cgeoapplication extends Application {
 		list.add(log);
 
 	    return storage.saveLogs(geocode, list, false);
+	}
+
+	public void setLastLoc(Double lat, Double lon) {
+		lastLatitude = lat;
+		lastLongitude = lon;
+	}
+
+	public Double getLastLat() {
+		return lastLatitude;
+	}
+
+	public Double getLastLon() {
+		return lastLongitude;
 	}
 }

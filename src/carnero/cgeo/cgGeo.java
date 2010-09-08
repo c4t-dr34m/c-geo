@@ -31,6 +31,7 @@ public class cgGeo {
 	private Integer time = 0;
 	private Integer distance = 0;
 	private AlertDialog alertGps = null;
+	private Location locLast = null;
 	private Location locGps = null;
 	private Location locNet = null;
 	private long lastGo4cache = 0l;
@@ -232,6 +233,20 @@ public class cgGeo {
 		assign(locNet);
 	}
 
+	private void assign(Double lat, Double lon) {
+		if (lat == null || lon == null) return;
+
+		gps = -1;
+		latitudeNow = lat;
+		longitudeNow = lon;
+		altitudeNow = null;
+		bearingNow = 0f;
+		speedNow = 0f;
+		accuracyNow = 999f;
+
+		geoUpdate.updateLoc(this);
+	}
+
 	private void assign(Location loc) {
 		if (loc == null) {
 			gps = -1;
@@ -251,6 +266,8 @@ public class cgGeo {
 
 		latitudeNow = location.getLatitude();
 		longitudeNow = location.getLongitude();
+		app.setLastLoc(latitudeNow, longitudeNow);
+
 		if (location.hasAltitude() && gps != -1) altitudeNow = location.getAltitude();
 		else altitudeNow = null;
 		if (location.hasBearing() && gps != -1) bearingNow = location.getBearing();
@@ -299,6 +316,8 @@ public class cgGeo {
 	}
 
 	public void lastLoc() {
+		assign(app.getLastLat(), app.getLastLon());
+
 		Location lastGps = geoManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location lastGsm = geoManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
