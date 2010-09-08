@@ -681,7 +681,7 @@ public class cgeomap extends MapActivity {
 	private void addOverlays(boolean canChangeTitle) {
 		// scale bar
 		if (overlayScale == null && mapView != null) {
-			overlayScale = new cgOverlayScale(base, settings);
+			overlayScale = new cgOverlayScale(activity, base, settings);
 			mapView.getOverlays().add(overlayScale);
 		}
 		if (mapView.getOverlays().contains(overlayScale) == false) {

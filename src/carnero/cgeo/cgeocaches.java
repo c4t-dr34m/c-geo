@@ -69,6 +69,11 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
+				if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
+					cacheList.clear();
+					cacheList.addAll(app.getCaches(searchId));
+				}
+				
 				setAdapter();
 
 				if (cacheList == null) {
@@ -152,6 +157,11 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
+				if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
+					cacheList.clear();
+					cacheList.addAll(app.getCaches(searchId));
+				}
+				
 				setAdapter();
 
 				if (cacheList == null) {
@@ -910,11 +920,6 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void run() {
 			searchId = base.searchByNextPage(searchId, 0);
-			
-			if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-				cacheList.clear();
-				cacheList.addAll(app.getCaches(searchId));
-			}
 
 			handler.sendMessage(new Message());
 		}
@@ -941,11 +946,6 @@ public class cgeocaches extends ListActivity {
 			}
 
 			searchId = base.searchByOffline(params);
-
-			if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-				cacheList.clear();
-				cacheList.addAll(app.getCaches(searchId));
-			}
 
 			handler.sendMessage(new Message());
 		}
@@ -982,11 +982,6 @@ public class cgeocaches extends ListActivity {
 
 			searchId = base.searchByCoords(params, 0);
 
-			if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-				cacheList.clear();
-				cacheList.addAll(app.getCaches(searchId));
-			}
-
 			handler.sendMessage(new Message());
 		}
 	}
@@ -1018,11 +1013,6 @@ public class cgeocaches extends ListActivity {
 			params.put("cachetype", cachetype);
 
 			searchId = base.searchByKeyword(params, 0);
-
-			if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-				cacheList.clear();
-				cacheList.addAll(app.getCaches(searchId));
-			}
 
 			handler.sendMessage(new Message());
 		}
@@ -1056,11 +1046,6 @@ public class cgeocaches extends ListActivity {
 
 			searchId = base.searchByUsername(params, 0);
 
-			if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-				cacheList.clear();
-				cacheList.addAll(app.getCaches(searchId));
-			}
-
 			handler.sendMessage(new Message());
 		}
 	}
@@ -1092,11 +1077,6 @@ public class cgeocaches extends ListActivity {
 			params.put("cachetype", cachetype);
 
 			searchId = base.searchByOwner(params, 0);
-			
-			if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-				cacheList.clear();
-				cacheList.addAll(app.getCaches(searchId));
-			}
 
 			handler.sendMessage(new Message());
 		}
