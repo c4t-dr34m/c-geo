@@ -34,6 +34,7 @@ public class cgGeo {
 	private Location locLast = null;
 	private Location locGps = null;
 	private Location locNet = null;
+	private long locGpsLast = 0l;
 	private long lastGo4cache = 0l;
 	
 	public Location location = null;
@@ -144,10 +145,14 @@ public class cgGeo {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			if (location.getProvider().equals(LocationManager.GPS_PROVIDER) == true) locGps = location;
-			else if(location.getProvider().equals(LocationManager.NETWORK_PROVIDER) == true) locNet = location;
+			if (location.getProvider().equals(LocationManager.GPS_PROVIDER) == true) {
+				locGps = location;
+				locGpsLast = System.currentTimeMillis();
+			} else if(location.getProvider().equals(LocationManager.NETWORK_PROVIDER) == true) {
+				locNet = location;
+			}
 
-			selectBest();
+			selectBest(location.getProvider());
 		}
 
 		@Override
@@ -207,30 +212,38 @@ public class cgGeo {
 					changed = true;
 				}
 
-				if (changed == true) selectBest();
+				if (changed == true) selectBest(null);
 			}
         }
     }
 
-	private void selectBest() {
-		// use the only available
-		if (locNet == null && locGps != null) {
+	private void selectBest(String initProvider) {
+		if (locNet == null && locGps != null) { // we have only GPS
 			assign(locGps);
 			return;
 		}
 
-		if (locNet != null && locGps == null) {
+		if (locNet != null && locGps == null) { // we have only NET
 			assign(locNet);
 			return;
 		}
 
-		// gps is fixed
-		if (satellitesFixed > 0) {
+		if (satellitesFixed > 0) { // GPS seems to be fixed
 			assign(locGps);
 			return;
 		}
 
-		assign(locNet);
+		if (initProvider != null && initProvider.equals(LocationManager.GPS_PROVIDER) == true) { // we have new location from GPS
+			assign(locGps);
+			return;
+		}
+
+		if (locGpsLast > (System.currentTimeMillis() - 30 * 1000)) { // GPS was working in last 30 seconds
+			assign(locGps);
+			return;
+		}
+
+		assign(locNet); // nothing else, using NET
 	}
 
 	private void assign(Double lat, Double lon) {

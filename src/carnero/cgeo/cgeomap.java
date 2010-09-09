@@ -137,6 +137,8 @@ public class cgeomap extends MapActivity {
 				searching = false;
 				changeTitle(false);
 				return;
+			} finally {
+				searching = false;
 			}
 		}
 	};
@@ -151,6 +153,8 @@ public class cgeomap extends MapActivity {
 
 				searchingUsers = false;
 				return;
+			} finally {
+				searchingUsers = false;
 			}
 		}
 	};
