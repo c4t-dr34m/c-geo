@@ -7,9 +7,9 @@ public class cg8wrap {
 
 	static {
 		try {
-			Class.forName("cg8");
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+			Class.forName("carnero.cgeo.cg8");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

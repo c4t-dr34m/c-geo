@@ -2,10 +2,12 @@ package carnero.cgeo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
+import android.view.Display;
 import android.view.Surface;
 
 public class cgDirection {
@@ -25,7 +27,7 @@ public class cgDirection {
 		try {
 			cg8wrap.check();
 			is8 = true;
-		} catch (Throwable t) {
+		} catch (Exception e) {
 			is8 = false;
 		}
 	}
@@ -74,12 +76,16 @@ public class cgDirection {
 
 			if (cg8 != null) {
 				final int rotation = cg8.getRotation();
-				if (rotation == Surface.ROTATION_90) directionNowPre = directionNowPre - 90;
-				if (rotation == Surface.ROTATION_180) directionNowPre = directionNowPre - 180;
-				if (rotation == Surface.ROTATION_270) directionNowPre = directionNowPre - 270;
+				if (rotation == Surface.ROTATION_90) directionNowPre = directionNowPre + 90;
+				else if (rotation == Surface.ROTATION_180) directionNowPre = directionNowPre + 180;
+				else if (rotation == Surface.ROTATION_270) directionNowPre = directionNowPre + 270;
+			} else {
+				final Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+				final int rotation = display.getOrientation();
+				if (rotation == Configuration.ORIENTATION_LANDSCAPE) directionNowPre = directionNowPre + 90;
 			}
 
-			directionNow = directionNow;
+			directionNow = directionNowPre;
 
 			if (directionNow != null) dirUpdate.updateDir(dir);
 		}
