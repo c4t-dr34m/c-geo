@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
+import android.os.Build;
 import android.view.Display;
 import android.view.Surface;
 
@@ -18,28 +19,17 @@ public class cgDirection {
 	private cgeoSensorListener sensorListener = null;
 	private cgUpdateDir dirUpdate = null;
 	private cg8wrap cg8 = null;
-	private static boolean is8 = false;
 	private boolean userWarned = false;
 
 	public Float directionNow = null;
-
-	static {
-		try {
-			cg8wrap.check();
-			is8 = true;
-		} catch (Exception e) {
-			is8 = false;
-		}
-	}
 
 	public cgDirection(Context contextIn, cgUpdateDir dirUpdateIn, cgWarning warningIn) {
 		context = contextIn;
 		dirUpdate = dirUpdateIn;
 		warning = warningIn;
 
-		if (is8 == true) {
-			cg8 = new cg8wrap((Activity)context);
-		}
+		final int sdk = new Integer(Build.VERSION.SDK).intValue();
+		if (sdk >= 8) cg8 = new cg8wrap((Activity)context);
 		
 		sensorListener = new cgeoSensorListener();
 

@@ -3,8 +3,6 @@ package carnero.cgeo;
 import android.app.Activity;
 
 public class cg8wrap {
-	private cg8 cg8 = null;
-
 	static {
 		try {
 			Class.forName("carnero.cgeo.cg8");
@@ -12,6 +10,8 @@ public class cg8wrap {
 			throw new RuntimeException(e);
 		}
 	}
+
+	private cg8 cg8;
 
 	public static void check() {
 		// nothing
