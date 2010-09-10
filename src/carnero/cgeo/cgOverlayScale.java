@@ -35,7 +35,7 @@ public class cgOverlayScale extends Overlay {
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, shadow);
 
-		final double span = mapView.getLatitudeSpan() / 1e6;
+		final double span = mapView.getLongitudeSpan() / 1e6;
 
 		pixels = mapView.getWidth() / 2; // pixels related to following latitude span
 		bottom = mapView.getHeight() - 14; // pixels from bottom side of screen

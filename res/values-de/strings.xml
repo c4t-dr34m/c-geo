@@ -252,7 +252,10 @@ Grafikelemente von <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
     <string name="about_auth_2">Das Klicken auf den Authorisierungsbutton startet den Prozess. Dieser Prozess öffnet einen Webbrowser zur Twitter - Webseite wo man sich einloggen und <b>c:geo</b> den Zugang zum Account ermöglichen muss. to access your account. Wenn du die Anfrage akzeptierst stellt einen numerischen Pin-Code bereit. Bitte kopiere diesen Code, füge ihn in <b>c:geo</b> ein und bestätige. Das ist alles.</string>
 	<!-- changelog -->
 	<string name="changelog">
-		<b>0.77.3</b> (__.09.2010)\n
+		<b>0.77.4</b> (__.09.2010)\n
+		· fix: __\n
+		\n
+		<b>0.77.3</b> (10.09.2010)\n
 		· new: Scale on map\n
 		· fix: GPS on some phones (?)\n
 		· fix: Wherigo filter\n
