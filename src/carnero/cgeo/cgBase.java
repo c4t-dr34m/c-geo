@@ -143,7 +143,7 @@ public class cgBase {
 		cacheIDs.put("cito", "57150806-bc1a-42d6-9cf0-538d171a2d22");
 		cacheIDs.put("webcam", "31d2ae3c-c358-4b5f-8dcd-2185bf472d3d");
 		cacheIDs.put("virtual", "294d4360-ac86-4c83-84dd-8113ef678d7e");
-		cacheIDs.put("whereigo", "0544fa55-772d-4e5c-96a9-36a51ebcf5c9");
+		cacheIDs.put("wherigo", "0544fa55-772d-4e5c-96a9-36a51ebcf5c9");
 		cacheIDs.put("lostfound", "3ea6533d-bb52-42fe-b2d2-79a3424d4728");
 		cacheIDs.put("ape", "2555690d-b2bc-4b55-b5ac-0cb704c0b768");
 		cacheIDs.put("gchq", "416f2494-dc17-4b6a-9bab-1a29dd292d8c");

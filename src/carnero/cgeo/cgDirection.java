@@ -1,11 +1,12 @@
 package carnero.cgeo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
-import android.util.Log;
+import android.view.Surface;
 
 public class cgDirection {
 	private cgDirection dir = null;
@@ -14,14 +15,29 @@ public class cgDirection {
 	private SensorManager sensorManager = null;
 	private cgeoSensorListener sensorListener = null;
 	private cgUpdateDir dirUpdate = null;
+	private cg8wrap cg8 = null;
+	private static boolean is8 = false;
 	private boolean userWarned = false;
 
 	public Float directionNow = null;
+
+	static {
+		try {
+			cg8wrap.check();
+			is8 = true;
+		} catch (Throwable t) {
+			is8 = false;
+		}
+	}
 
 	public cgDirection(Context contextIn, cgUpdateDir dirUpdateIn, cgWarning warningIn) {
 		context = contextIn;
 		dirUpdate = dirUpdateIn;
 		warning = warningIn;
+
+		if (is8 == true) {
+			cg8 = new cg8wrap((Activity)context);
+		}
 		
 		sensorListener = new cgeoSensorListener();
 
@@ -54,7 +70,16 @@ public class cgDirection {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			directionNow = event.values[0];
+			Float directionNowPre = event.values[0];
+
+			if (cg8 != null) {
+				final int rotation = cg8.getRotation();
+				if (rotation == Surface.ROTATION_90) directionNowPre = directionNowPre - 90;
+				if (rotation == Surface.ROTATION_180) directionNowPre = directionNowPre - 180;
+				if (rotation == Surface.ROTATION_270) directionNowPre = directionNowPre - 270;
+			}
+
+			directionNow = directionNow;
 
 			if (directionNow != null) dirUpdate.updateDir(dir);
 		}
