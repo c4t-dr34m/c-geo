@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
@@ -36,10 +38,12 @@ public class cgOverlayScale extends Overlay {
 		super.draw(canvas, mapView, shadow);
 
 		final double span = mapView.getLongitudeSpan() / 1e6;
+		final GeoPoint center = mapView.getMapCenter();
 
 		pixels = mapView.getWidth() / 2; // pixels related to following latitude span
 		bottom = mapView.getHeight() - 14; // pixels from bottom side of screen
-		distance = base.getDistance(0d, 0d, (span / 2), 0d);
+		distance = base.getDistance((center.getLatitudeE6() / 1e6), ((center.getLongitudeE6() / 1e6) - (span /2)), (center.getLatitudeE6() / 1e6), ((center.getLongitudeE6() / 1e6) + (span /2)));
+		distance = distance / 2;
 		distanceRound = 0d;
 
 		if(settings.units == settings.unitsImperial) {

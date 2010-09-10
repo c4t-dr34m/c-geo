@@ -253,7 +253,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<!-- changelog -->
 	<string name="changelog">
 		<b>0.77.4</b> (__.09.2010)\n
-		· fix: __\n
+		· fix: Scale accuracy\n
 		\n
 		<b>0.77.3</b> (10.09.2010)\n
 		· new: Scale on map\n
