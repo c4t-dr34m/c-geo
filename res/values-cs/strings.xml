@@ -258,7 +258,8 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 	<!-- changelog -->
 	<string name="changelog">
 <b>0.77.5</b> (__.09.2010)\n
-· fix: __\n
+· new: Small help on first run\n
+· new: Donation button on About screen\n
 \n
 <b>0.77.4</b> (11.09.2010)\n
 · fix: Scale accuracy\n
@@ -285,6 +286,9 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 · new: GPX import\n
 · fixed: Twitter\n
 · fixed: CPU load by Compass\n
+\n
+<b>0.76.6</b> (25.08.2010)\n
+· fixed: crashing\n
 \n
 <b>0.76.5</b> (24.08.2010)\n
 · new: Partial german localization\n
@@ -314,139 +318,5 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 · fixed: Loading images for offline use\n
 · fixed: Direction from any place\n
 · fixed: Crashing after attempt to display premium cache\n
-· fixed: Found stored caches\n
-\n
-<b>0.75.4</b> (29.07.2010)\n
-· fixed: Trackables\n
-· new: Better Go 4 cache support\n
-· new: Option to set transparent mainscreen\n
-\n
-<b>0.75.3</b> (26.07.2010)\n
-· new: Button to log visit on map popup\n
-· fixed: Loading waypoints\n
-\n
-<b>0.75.2</b> (25.07.2010)\n
-· fixed: Checking login\n
-· fixed: Twitter\n
-\n
-<b>0.75.1</b> (24.07.2010)\n
-· fixed: Logging visit\n
-\n
-<b>0.75.0</b> (23.07.2010)\n
-· fixed: Cache list crashing\n
-· fixed: 1.5 compatibility\n
-\n
-<b>0.74.7</b> (23.07.2010)\n
-· fixed: Logging visit\n
-· fixed: Map crashing\n
-· fixed: Compass on QVGA screens\n
-· fixed: Skins\n
-· fixed: Trackable details\n
-· fixed: Log text wrapping\n
-· new: Main screen\n
-· new: Static maps separated from details\n
-\n
-<b>0.74.4</b>, <b>0.74.5</b>, <b>0.74.6</b> (21.07.2010)\n
-· fixed: Logging visit [attempt to]\n
-· broken Twitter\n
-\n
-<b>0.74.3</b> (20.07.2010)\n
-· fixed: Skins\n
-\n
-<b>0.74.2</b> (20.07.2010)\n
-· fixed: Crashing of map and nearby\n
-\n
-<b>0.74.1</b> (19.07.2010)\n
-· fixed: Adding waypoint\n
-· fixed: Twitter authorization\n
-\n
-<b>0.74.0</b> (19.07.2010)\n
-· new: Integration of go4cache.com\n
-· new: Dark and light skin\n
-· new: Ability to edit waypoints\n
-· fixed: Live map optimization\n
-\n
-<b>0.73.0</b> (12.07.2010)\n
-· notice: Following versions will be released in longer period after better testing to make c:geo as stable as possible.\n
-· fixed: Crashing after start\n
-\n
-<b>0.72.2</b> (11.07.2010)\n
-· new: Posting founds to twitter\n
-· fixed: Running ot of memory  waypoints\n
-\n
-<b>0.72.1</b> (11.07.2010)\n
-· fixed: Adding custom waypoints\n
-\n
-<b>0.72.0</b> (11.07.2010)\n
-· new: Filtering caches on Live map\n
-· new: Social feature (can be switched on in Settings!) :)\n
-· fixed: Crashing of live map when tapped\n
-· fixed: Multiplying of custom waypoints\n
-· fixed: Memory consumption when storing caches\n
-· removed: Clear cache button (cleared automatically)\n
-\n
-<b>0.71.4</b> (07.07.2010)\n
-· fixed: Refreshing live map\n
-· changed: Optimized database use\n
-· new: Changelog in application\n
-\n
-<b>0.71.3</b> (02.07.2010)\n
-· changed: Obtaining location from GPS and/or network\n
-\n
-<b>0.71.2</b> (01.07.2010)\n
-· fixed: Form for posting log\n
-· changed: The way how is refreshed distance&amp;direction info on caches list\n
-\n
-<b>0.71.1</b> (30.06.2010)\n
-· fixed: Removed forgotten debug message\n
-\n
-· <b>0.71.0</b> (30.06.2010)\n
-· new: Trail on map\n
-· new: Option to disable compass on caches list\n
-· fixed: Compensation of changes on Geocaching.com\n
-· fixed: Saving state of map (satellite/classic, live...)\n
-· fixed: Many other things\n
-\n
-<b>0.70.A</b> (24.06.2010)\n
-· fixed: Posting log\n
-\n
-<b>0.70.9</b> (24.06.2010)\n
-· change: Application icon\n
-· new: High resolution icons by Jan Žatecký\n
-· fixed: Crash when rotate during loggin visit\n
-\n
-<b>0.70.8</b> (23.06.2010)\n
-· change: Application icon (removed colours of Geocaching.com)\n
-· change: Reworked options\n
-· new: Option to disable storing offline maps\n
-· fixed: Offline maps\n
-· fixed: Live map tapping [attempt]\n
-\n
-<b>0.70.7</b> (21.06.2010)\n
-· fixed: Compilation (settings &amp; logs)\n
-\n
-<b>0.70.6</b> (20.06.2010)\n
-· new: Maps for offline use\n
-· fixed: Many minor things\n
-\n
-<b>0.70.4</b>, <b>0.70.5</b> (17.06.2010)\n
-· change: Saving only caches that aren\'t prepared for offline use\n
-· fixed: GPS releasing when c:geo is closed (attempt)\n
-\n
-<b>0.70.3</b> (15.06.2010)\n
-· new: Menu option to store all caches on live map\n
-· fixed: Live map refreshing\n
-· fixed: Ability to hide own caches from live map\n
-· fixed: Tapping on waypoints on map\n
-\n
-<b>0.70.1</b>, <b>0.70.2</b> (14.06.2010)\n
-· new: Ability to show on map current compass destination\n
-· new: Displaying destination coordinates in compass\n
-· fixed: Live map\n
-· fixed: Saving/dropping caches from live map\n
-\n
-<b>0.70.0</b> (12.06.2010)\n
-· new: Live map to show instantly caches around you\n
-· new: Button to clear cache in settings\n
-· fixed: Details of event cache (date, author)\n</string>
+· fixed: Found stored caches\n</string>
 </resources>
