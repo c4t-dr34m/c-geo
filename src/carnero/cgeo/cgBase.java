@@ -1883,13 +1883,15 @@ public class cgBase {
 	public HashMap parseCoordinate(String coord, String latlon) {
 		final HashMap coords = new HashMap();
 
-		final Pattern patternA = Pattern.compile("^([NSWE])[^\\d]*(\\d+)°? +(\\d+)([\\.|,](\\d+))?[^\\d]*$", Pattern.CASE_INSENSITIVE);
-		final Pattern patternB = Pattern.compile("^([NSWE])[^\\d]*(\\d+)([\\.|,](\\d+))?[^\\d]*$", Pattern.CASE_INSENSITIVE);
-		final Pattern patternC = Pattern.compile("^(-?\\d+)([\\.|,](\\d+))?[^\\d]*$", Pattern.CASE_INSENSITIVE);
-		final Pattern patternD = Pattern.compile("^([NSWE])[^\\d]*(\\d+)°?[^\\d]*$", Pattern.CASE_INSENSITIVE);
-		final Pattern patternE = Pattern.compile("^(-?\\d+)°?[^\\d]*$", Pattern.CASE_INSENSITIVE);
-		final Pattern patternF = Pattern.compile("^([NSWE])[^\\d]*(\\d+)[^\\d]*$", Pattern.CASE_INSENSITIVE);
-		final Pattern pattern0 = Pattern.compile("^(-?\\d+)([\\.|,](\\d+))?[^\\d]*$", Pattern.CASE_INSENSITIVE);
+		final Pattern patternA = Pattern.compile("^([NSWE])[^\\d]*(\\d+)°? +(\\d+)([\\.|,](\\d+))?$", Pattern.CASE_INSENSITIVE);
+		final Pattern patternB = Pattern.compile("^([NSWE])[^\\d]*(\\d+)([\\.|,](\\d+))?$", Pattern.CASE_INSENSITIVE);
+		final Pattern patternC = Pattern.compile("^(-?\\d+)([\\.|,](\\d+))?$", Pattern.CASE_INSENSITIVE);
+		final Pattern patternD = Pattern.compile("^([NSWE])[^\\d]*(\\d+)°?$", Pattern.CASE_INSENSITIVE);
+		final Pattern patternE = Pattern.compile("^(-?\\d+)°?$", Pattern.CASE_INSENSITIVE);
+		final Pattern patternF = Pattern.compile("^([NSWE])[^\\d]*(\\d+)$", Pattern.CASE_INSENSITIVE);
+		final Pattern pattern0 = Pattern.compile("^(-?\\d+)([\\.|,](\\d+))?$", Pattern.CASE_INSENSITIVE);
+
+		coord = coord.trim().toUpperCase();
 
 		final Matcher matcherA = patternA.matcher(coord);
 		final Matcher matcherB = patternB.matcher(coord);
