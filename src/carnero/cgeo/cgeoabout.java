@@ -47,6 +47,24 @@ public class cgeoabout extends Activity {
 			Log.e(cgSettings.tag, "cgeoabout.init: Failed to obtain package version.");
 		}
 
+		TextView donateMLink = (TextView)findViewById(R.id.donation_more);
+		donateMLink.setClickable(true);
+		donateMLink.setOnTouchListener(new cgViewTouch(settings, donateMLink, 0));
+		donateMLink.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2Z69QWLRCBE9N&lc=US&item_name=c%3ageo&currency_code=EUR&amount=15&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted")));
+			}
+		});
+
+		TextView donateLLink = (TextView)findViewById(R.id.donation_less);
+		donateLLink.setClickable(true);
+		donateLLink.setOnTouchListener(new cgViewTouch(settings, donateLLink, 0));
+		donateLLink.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2Z69QWLRCBE9N&lc=US&item_name=c%3ageo&currency_code=EUR&amount=7&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted")));
+			}
+		});
+
 		TextView authorLink = (TextView)findViewById(R.id.author);
 		authorLink.setClickable(true);
 		authorLink.setOnClickListener(new View.OnClickListener() {

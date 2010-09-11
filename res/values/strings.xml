@@ -9,6 +9,7 @@
 	<string name="search">search</string>
 	<string name="settings">settings</string>
 	<string name="about">about c:geo</string>
+	<string name="helper">don\'t forget <b>MENU</b> button on your phone, it will take you to many functions of <b>c:geo</b>!</string>
 
 	<!-- caches -->
 	<string name="all">all caches</string>
@@ -132,6 +133,10 @@
 
 	<!-- about -->
 	<string name="about_changelog">changelog</string>
+	<string name="about_donate">donate</string>
+	<string name="about_detail">details</string>
+	<string name="about_donation_less">donate\nless</string>
+	<string name="about_donation_more">donate\ndevelopement</string>
 
 	<!-- init -->
 	<string name="init_geocaching">geocaching.com</string>

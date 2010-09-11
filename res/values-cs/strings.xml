@@ -9,6 +9,7 @@
 	<string name="search">vyhledávání</string>
 	<string name="settings">nastavení</string>
 	<string name="about">o aplikaci</string>
+	<string name="helper">nezapomeňte na tlačítko <b>MENU</b> na Vašem telefonu, nabídne Vám spustu funkcí aplikace <b>c:geo</b>!</string>
 
 	<!-- caches -->
 	<string name="all">všechny kešky</string>
@@ -132,6 +133,10 @@
 
 	<!-- about -->
 	<string name="about_changelog">změny</string>
+	<string name="about_donate">podpora vývoje</string>
+	<string name="about_detail">detaily</string>
+	<string name="about_donation_less">darujte\nméně</string>
+	<string name="about_donation_more">podpořte\nvývoj</string>
 
 	<!-- init -->
 	<string name="init_geocaching">geocaching.com</string>

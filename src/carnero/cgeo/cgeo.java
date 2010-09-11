@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -64,11 +65,11 @@ public class cgeo extends Activity {
 
 		context = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication)this.getApplication();
 		app.setAction(null);
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		app.cleanGeo();
 		app.cleanDir();
@@ -90,17 +91,39 @@ public class cgeo extends Activity {
 			Log.i(cgSettings.tag, "Failed to set mainscreen theme.");
 		}
 
-        try {
-            PackageManager manager = this.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-            
-            Log.i(cgSettings.tag, "Starting " + info.packageName + " " + info.versionCode + " a.k.a " + info.versionName + "...");
+		try {
+			if (settings.helper == 0) {
+				RelativeLayout helper = (RelativeLayout)findViewById(R.id.helper);
+				if (helper != null) {
+					helper.setVisibility(View.VISIBLE);
+					helper.setClickable(true);
+					helper.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View view) {
+							openOptionsMenu();
+							view.setVisibility(View.GONE);
+						}
+					});
 
-            info = null;
-            manager = null;
-        } catch(Exception e) {
-            Log.i(cgSettings.tag, "No info.");
-        }
+					final SharedPreferences.Editor edit = getSharedPreferences(cgSettings.preferences, 0).edit();
+					edit.putInt("helper", 1);
+					edit.commit();
+				}
+			}
+		} catch (Exception e) {
+			// nothing
+		}
+
+		try {
+			PackageManager manager = this.getPackageManager();
+			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+
+			Log.i(cgSettings.tag, "Starting " + info.packageName + " " + info.versionCode + " a.k.a " + info.versionName + "...");
+
+			info = null;
+			manager = null;
+		} catch(Exception e) {
+			Log.i(cgSettings.tag, "No info.");
+		}
 
 		init();
 	}

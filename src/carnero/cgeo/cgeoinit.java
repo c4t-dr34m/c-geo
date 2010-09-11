@@ -65,11 +65,11 @@ public class cgeoinit extends Activity {
 		// init
 		activity = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
-        prefs = getSharedPreferences(cgSettings.preferences, 0);
-        settings = new cgSettings(this, prefs);
-        base = new cgBase(app, settings, prefs);
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		prefs = getSharedPreferences(cgSettings.preferences, 0);
+		settings = new cgSettings(this, prefs);
+		base = new cgBase(app, settings, prefs);
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle(res.getString(R.string.settings));

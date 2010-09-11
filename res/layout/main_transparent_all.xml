@@ -226,6 +226,37 @@
 		</LinearLayout>
 	</LinearLayout>
 <!-- ** -->
+	<RelativeLayout android:id="@+id/helper"
+			android:visibility="gone"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_marginLeft="16dip"
+			android:layout_marginRight="16dip"
+			android:layout_marginBottom="48dip"
+			android:background="@drawable/helper_bcg" >
+		<View
+				android:layout_width="48dip"
+				android:layout_height="48dip"
+				android:layout_alignParentLeft="true"
+				android:layout_centerVertical="true"
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:layout_margin="4dip"
+				android:background="@drawable/hw_menu" />
+		<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_marginLeft="52dip"
+				android:layout_gravity="center"
+				android:gravity="center"
+				android:padding="4dip"
+				android:textSize="14dip"
+				android:textColor="@color/text_icon"
+				android:text="@string/helper" />
+	</RelativeLayout>
+<!-- ** -->
 	<LinearLayout
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"

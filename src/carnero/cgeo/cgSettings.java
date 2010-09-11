@@ -31,7 +31,8 @@ public class cgSettings {
 	// settings
 	public boolean loaded = false;
 	public boolean hideMySearch = false;
-    public int initialized = 0;
+	public int helper = 0;
+	public int initialized = 0;
 	public int cachesFound = 0;
 	public int autoLoadDesc = 0;
 	public int units = unitsMetric;
@@ -70,6 +71,7 @@ public class cgSettings {
 		prefs = prefsIn;
 
 		initialized = prefs.getInt("initialized", 0);
+		helper = prefs.getInt("helper", 0);
 
 		skin = prefs.getInt("skin", 0);
 		transparent = prefs.getBoolean("transparent", true);
