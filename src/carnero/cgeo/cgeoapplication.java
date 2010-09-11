@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class cgeoapplication extends Application {
     private cgData storage = null;
@@ -39,7 +38,7 @@ public class cgeoapplication extends Application {
 			removeDir(dir);
 		}
 
-        if (storage != null) {
+		if (storage != null) {
 			storage.clearCache();
 			storage.closeDb();
 			storage = null;

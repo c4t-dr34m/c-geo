@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string name="app_name">c:geo</string>
-    <string name="app_name_compass">c:geo compass</string>
+	<string name="app_name">c:geo</string>
+	<string name="app_name_compass">c:geo compass</string>
 
 	<!-- basics -->
     <string name="cache">Cache</string>
@@ -43,8 +43,8 @@
     <string name="log_published">veröffentlicht</string>
     <string name="log_enabled">aktiviert</string>
     <string name="log_disabled">deaktiviert</string>
-	<string name="log_attend">werde teilnehmen</string>
-	<string name="log_attended">teilgenommen</string>
+    <string name="log_attend">werde teilnehmen</string>
+    <string name="log_attended">teilgenommen</string>
     <string name="log_needs">benötigt Wartung</string>
     <string name="log_maintenance">Wartung</string>
     <string name="log_update">aktualisierte Koordinaten</string>
