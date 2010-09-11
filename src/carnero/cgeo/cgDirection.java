@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 
@@ -36,8 +37,6 @@ public class cgDirection {
 		}
 		
 		sensorListener = new cgeoSensorListener();
-
-		initDir();
 	}
 
 	public void initDir() {
@@ -47,11 +46,15 @@ public class cgDirection {
 			sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 		}
 		sensorManager.registerListener(sensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_NORMAL);
+
+		Log.d(cgSettings.tag, "Compass registered.");
 	}
 
 	public void closeDir() {
 		if (sensorManager != null && sensorListener != null) {
 			sensorManager.unregisterListener(sensorListener);
+
+			Log.d(cgSettings.tag, "Compass UNregistered");
 		}
 	}
 

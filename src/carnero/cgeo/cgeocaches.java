@@ -1,6 +1,5 @@
 package carnero.cgeo;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.os.Handler;
@@ -259,11 +258,11 @@ public class cgeocaches extends ListActivity {
 		// init
 		activity = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication)this.getApplication();
 		app.setAction(action);
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -554,8 +553,7 @@ public class cgeocaches extends ListActivity {
 			activity.startActivity(navigateIntent);
 
 			return true;
-		} else
-		if (id == 1) { // radar
+		} else if (id == 1) { // radar
 			try {
 				if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 					Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
@@ -593,8 +591,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			return true;
-		} else
-		if (id == 2) { // turn-by-turn
+		} else 	if (id == 2) { // turn-by-turn
 			if (settings.useGNavigation == 1) {
 				try {
 					// turn-by-turn navigation
@@ -627,8 +624,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			return true;
-		} else
-		if (id == 3) { // show on map
+		} else 	if (id == 3) { // show on map
 			Intent mapIntent = new Intent(activity, cgeomap.class);
 			mapIntent.putExtra("detail", false);
 			mapIntent.putExtra("geocode", cache.geocode);
@@ -636,8 +632,7 @@ public class cgeocaches extends ListActivity {
 			activity.startActivity(mapIntent);
 
 			return true;
-		} else
-		if (id == 3) { // show on map
+		} else if (id == 3) { // show on map
 			try {
 				// default map
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
@@ -660,6 +655,7 @@ public class cgeocaches extends ListActivity {
 			if (inflater == null) inflater = activity.getLayoutInflater();
 			if (settings.skin == 1) listFooter = inflater.inflate(R.layout.caches_footer_light, null);
 			else listFooter = inflater.inflate(R.layout.caches_footer_dark, null);
+			
 			listFooter.setClickable(true);
 			listFooter.setOnClickListener(new moreCachesListener());
 		}
@@ -698,7 +694,7 @@ public class cgeocaches extends ListActivity {
 
 	private void init() {
 		// sensor & geolocation manager
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
 
 		if (cacheList != null) setTitle(title + " (" + cacheList.size() + "/" + app.getTotal(searchId) + ")");
