@@ -26,9 +26,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.Locale;
-import org.openintents.intents.AbstractWikitudeARIntent;
-import org.openintents.intents.WikitudeARIntent;
-import org.openintents.intents.WikitudePOI;
 
 public class cgeocaches extends ListActivity {
 	private String action = null;
@@ -426,7 +423,6 @@ public class cgeocaches extends ListActivity {
             menu.add(0, 1, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
         }
 		menu.add(0, 2, 0, "show on map").setIcon(android.R.drawable.ic_menu_mapmode); // show all caches on map
-		menu.add(0, 3, 0, "show on wikitude").setIcon(android.R.drawable.ic_menu_search); // show all caches on wikitude
 		return true;
 	}
 
@@ -481,9 +477,6 @@ public class cgeocaches extends ListActivity {
                 return true;
 			case 2:
 				showOnMap();
-				return false;
-			case 3:
-				showOnWikitude();
 				return false;
             case 4:
                 dropStored();
@@ -738,110 +731,6 @@ public class cgeocaches extends ListActivity {
 		activity.startActivity(mapIntent);
 	}
 	
-	private void showOnWikitude() {
-		try {
-			WikitudeARIntent wikitudeIntent = new WikitudeARIntent(activity.getApplication(), "c:geo", "83D847F0BC8ECC72A2B21B868DF9B15A", "carnero", false);
-			
-			HashMap<String, Integer> poiIcons = new HashMap<String, Integer>();
-			List<WikitudePOI> pois = new ArrayList<WikitudePOI>();
-
-			if (poiIcons.isEmpty()) {
-				poiIcons.put("ape", R.drawable.marker_cache_ape);
-				poiIcons.put("cito", R.drawable.marker_cache_cito);
-				poiIcons.put("earth", R.drawable.marker_cache_earth);
-				poiIcons.put("event", R.drawable.marker_cache_event);
-				poiIcons.put("letterbox", R.drawable.marker_cache_letterbox);
-				poiIcons.put("locationless", R.drawable.marker_cache_locationless);
-				poiIcons.put("mega", R.drawable.marker_cache_mega);
-				poiIcons.put("multi", R.drawable.marker_cache_multi);
-				poiIcons.put("traditional", R.drawable.marker_cache_traditional);
-				poiIcons.put("virtual", R.drawable.marker_cache_virtual);
-				poiIcons.put("webcam", R.drawable.marker_cache_webcam);
-				poiIcons.put("wherigo", R.drawable.marker_cache_wherigo);
-				poiIcons.put("mystery", R.drawable.marker_cache_mystery);
-				poiIcons.put("ape-found", R.drawable.marker_cache_ape_found);
-				poiIcons.put("cito-found", R.drawable.marker_cache_cito_found);
-				poiIcons.put("earth-found", R.drawable.marker_cache_earth_found);
-				poiIcons.put("event-found", R.drawable.marker_cache_event_found);
-				poiIcons.put("letterbox-found", R.drawable.marker_cache_letterbox_found);
-				poiIcons.put("locationless-found", R.drawable.marker_cache_locationless_found);
-				poiIcons.put("mega-found", R.drawable.marker_cache_mega_found);
-				poiIcons.put("multi-found", R.drawable.marker_cache_multi_found);
-				poiIcons.put("traditional-found", R.drawable.marker_cache_traditional_found);
-				poiIcons.put("virtual-found", R.drawable.marker_cache_virtual_found);
-				poiIcons.put("webcam-found", R.drawable.marker_cache_webcam_found);
-				poiIcons.put("wherigo-found", R.drawable.marker_cache_wherigo_found);
-				poiIcons.put("mystery-found", R.drawable.marker_cache_mystery_found);
-				poiIcons.put("ape-disabled", R.drawable.marker_cache_ape_disabled);
-				poiIcons.put("cito-disabled", R.drawable.marker_cache_cito_disabled);
-				poiIcons.put("earth-disabled", R.drawable.marker_cache_earth_disabled);
-				poiIcons.put("event-disabled", R.drawable.marker_cache_event_disabled);
-				poiIcons.put("letterbox-disabled", R.drawable.marker_cache_letterbox_disabled);
-				poiIcons.put("locationless-disabled", R.drawable.marker_cache_locationless_disabled);
-				poiIcons.put("mega-disabled", R.drawable.marker_cache_mega_disabled);
-				poiIcons.put("multi-disabled", R.drawable.marker_cache_multi_disabled);
-				poiIcons.put("traditional-disabled", R.drawable.marker_cache_traditional_disabled);
-				poiIcons.put("virtual-disabled", R.drawable.marker_cache_virtual_disabled);
-				poiIcons.put("webcam-disabled", R.drawable.marker_cache_webcam_disabled);
-				poiIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
-				poiIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
-			}
-
-			WikitudePOI poi = null;
-			for (cgCache cache : cacheList) {
-				if (cache.latitude == null || cache.longitude == null) {
-					continue;
-				}
-
-				Resources res = getResources();
-				String iconresource = null;
-				String cacheType = null;
-
-				if (cache.found == true) {
-					cacheType = cache.type + "-found";
-				} else if (cache.disabled == true) {
-					cacheType = cache.type + "-disabled";
-				} else {
-					cacheType = cache.type;
-				}
-
-				if (poiIcons.containsKey(cache.type) == true) { // cache icon
-					iconresource = res.getResourceName(poiIcons.get(cacheType));
-				} else { // unknown cache type, "mystery" icon
-					iconresource = res.getResourceName(poiIcons.get("mystery"));
-				}
-
-				poi = new WikitudePOI(cache.latitude, cache.longitude, 0.0, cache.geocode.toUpperCase(), cache.name);
-				
-				poi.setIconresource(iconresource);
-				poi.setDetailAction("wikitudeapi.arcallback");
-				poi.setLink("http://www.geocaching.com/seek/cache_details.aspx?wp=" + cache.geocode);
-
-				pois.add(poi);
-			}
-
-			if (title == null || title.length() == 0) {
-				title = "c:geo";
-			} else {
-				title = "c:geo ~ " + title;
-			}
-			
-			wikitudeIntent.addTitleText(title);
-			wikitudeIntent.setPrintMarkerSubText(false);
-			wikitudeIntent.addPOIs(pois);
-
-			((cgeoapplication)activity.getApplication()).setPois(pois);
-
-			try {
-				wikitudeIntent.startIntent(activity);
-			} catch (Exception e) {
-				AbstractWikitudeARIntent.handleWikitudeNotFound(activity, "Wikitude", "c:geo can\'t find proper version of Wikitude. Install it?");
-			}
-		} catch (Exception e) {
-		 	Log.e(cgSettings.tag, "cgeodetail.showOnWikitude (cache): " + e.toString());
-		}
-	}
-
 	private void importGpx() {
 		activity.startActivity(new Intent(activity, cgeogpxes.class));
 

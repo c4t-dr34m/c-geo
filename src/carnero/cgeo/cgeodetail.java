@@ -32,8 +32,6 @@ import android.widget.Button;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import org.openintents.intents.WikitudeARIntentHelper;
-import org.openintents.intents.WikitudePOI;
 
 public class cgeodetail extends Activity {
     public Long searchId = null;
@@ -58,7 +56,6 @@ public class cgeodetail extends Activity {
 	private loadCache threadCache = null;
 	private loadLongDesc threadLongDesc = null;
 	private int poiId = -1;
-	private List<WikitudePOI> pois = null;
 	private HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
     private ProgressDialog storeDialog = null;
     private ProgressDialog dropDialog = null;
@@ -174,20 +171,6 @@ public class cgeodetail extends Activity {
 		Bundle extras = getIntent().getExtras();
 		Uri uri = getIntent().getData();
 
-		// try to get data from Wikitude
-		pois = ((cgeoapplication)activity.getApplication()).getPois();
-		poiId = this.getIntent().getIntExtra(WikitudeARIntentHelper.EXTRA_INDEX_SELECTED_POI, -1);
-
-		if (pois != null && poiId > -1) {
-			Log.d(cgSettings.tag, "pois: " + poiId + " / " + pois.size());
-
-			geocode = pois.get(poiId).getName().toUpperCase();
-			name = pois.get(poiId).getDescription();
-			if (geocode == null || geocode.indexOf("GC") == -1) {
-				geocode = null;
-			}
-		}
-		
 		// try to get data from extras
 		if (geocode == null && extras != null) {
 			geocode = extras.getString("geocode");

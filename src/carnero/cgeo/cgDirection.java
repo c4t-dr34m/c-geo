@@ -28,8 +28,12 @@ public class cgDirection {
 		dirUpdate = dirUpdateIn;
 		warning = warningIn;
 
-		final int sdk = new Integer(Build.VERSION.SDK).intValue();
-		if (sdk >= 8) cg8 = new cg8wrap((Activity)context);
+		try {
+			final int sdk = new Integer(Build.VERSION.SDK).intValue();
+			if (sdk >= 8) cg8 = new cg8wrap((Activity)context);
+		} catch (Exception e) {
+			// nothing
+		}
 		
 		sensorListener = new cgeoSensorListener();
 

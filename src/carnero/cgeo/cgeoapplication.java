@@ -6,11 +6,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.openintents.intents.WikitudePOI;
 
 public class cgeoapplication extends Application {
     private cgData storage = null;
-	private List<WikitudePOI> pois = null; // for Wikitude
 	private String action = null;
 	private Double lastLatitude = null;
 	private Double lastLongitude = null;
@@ -48,10 +46,6 @@ public class cgeoapplication extends Application {
 		}
 
 		super.onTerminate();
-	}
-
-	public List<WikitudePOI> getPois() {
-		return pois;
 	}
 
 	public void cleanGeo() {
@@ -100,10 +94,6 @@ public class cgeoapplication extends Application {
 		if (dirs.contains(dir) == true) dirs.remove(dir);
 
 		return null;
-	}
-
-	public void setPois(List<WikitudePOI> poisIn) {
-		pois = poisIn;
 	}
 
     public Boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
