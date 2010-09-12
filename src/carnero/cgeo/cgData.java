@@ -225,13 +225,13 @@ public class cgData {
 		
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(dbCreateCaches);
-            db.execSQL(dbCreateLists);
-            db.execSQL(dbCreateAttributes);
-            db.execSQL(dbCreateWaypoints);
-            db.execSQL(dbCreateSpoilers);
-            db.execSQL(dbCreateLogs);
-            db.execSQL(dbCreateTrackables);
+			db.execSQL(dbCreateCaches);
+			db.execSQL(dbCreateLists);
+			db.execSQL(dbCreateAttributes);
+			db.execSQL(dbCreateWaypoints);
+			db.execSQL(dbCreateSpoilers);
+			db.execSQL(dbCreateLogs);
+			db.execSQL(dbCreateTrackables);
 
 			db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
 			db.execSQL("create index if not exists in_b on " + dbTableCaches + " (guid)");

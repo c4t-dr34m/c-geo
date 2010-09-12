@@ -169,15 +169,16 @@ public class cgeogpxes extends Activity {
 						continue; // file has no extension
 					}
 
-				   list.add(listPre[i]); // add file to list
+					list.add(listPre[i]); // add file to list
 			   } else if (listPre[i].canRead() == true && listPre[i].isDirectory() == true) {
-				   final Message msg = new Message();
-				   String name = listPre[i].getName();
-				   if (name.length() > 16) name = name.substring(0, 14) + "...";
-				   msg.obj = name;
-				   changeWaitDialogHandler.sendMessage(msg);
+					final Message msg = new Message();
+					String name = listPre[i].getName();
+					if (name.substring(0, 1).equals(".") == true) continue; // skip hidden directories
+					if (name.length() > 16) name = name.substring(0, 14) + "...";
+					msg.obj = name;
+					changeWaitDialogHandler.sendMessage(msg);
 
-				   listDir(list, listPre[i]); // go deeper
+					listDir(list, listPre[i]); // go deeper
 			   }
 		   }
 	   }
