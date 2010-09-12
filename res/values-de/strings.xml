@@ -260,6 +260,7 @@ Grafikelemente von <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 <b>0.77.5</b> (__.09.2010)\n
 · new: Small help on first run\n
 · new: Donation button on About screen\n
+· change: Location and direction handling\n
 · fix: Battery issue\n
 · fix: Database cleanup\n
 \n
