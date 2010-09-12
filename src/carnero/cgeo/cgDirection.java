@@ -13,6 +13,7 @@ import android.view.Surface;
 
 public class cgDirection {
 	private cgDirection dir = null;
+	private cgeoapplication app = null;
 	private Context context = null;
 	private cgWarning warning = null;
 	private SensorManager sensorManager = null;
@@ -23,7 +24,8 @@ public class cgDirection {
 
 	public Float directionNow = null;
 
-	public cgDirection(Context contextIn, cgUpdateDir dirUpdateIn, cgWarning warningIn) {
+	public cgDirection(cgeoapplication appIn, Context contextIn, cgUpdateDir dirUpdateIn, cgWarning warningIn) {
+		app = appIn;
 		context = contextIn;
 		dirUpdate = dirUpdateIn;
 		warning = warningIn;
@@ -62,9 +64,9 @@ public class cgDirection {
 	private class cgeoSensorListener implements SensorEventListener {
 		@Override
 		 public void onAccuracyChanged(Sensor sensor, int accuracy) {
-			if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW && userWarned == false && warning != null) {
+			if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW && app.warnedCompassCalibration == false && warning != null) {
 				warning.showToast("Compass in your device needs calibration.\nYou can do it with waving phone around in figures of number eight in the air.");
-				userWarned = true;
+				app.warnedCompassCalibration = true;
 			}
 		 }
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class cgeoapplication extends Application {
-    private cgData storage = null;
+	private cgData storage = null;
 	private String action = null;
 	private Double lastLatitude = null;
 	private Double lastLongitude = null;
@@ -22,6 +22,7 @@ public class cgeoapplication extends Application {
 
 	public boolean showLocWarning = true;
 	public boolean warnedLanguage = false;
+	public boolean warnedCompassCalibration = false;
 	private boolean databaseCleaned = false;
 
 	public cgeoapplication() {
@@ -115,7 +116,7 @@ public class cgeoapplication extends Application {
 
 	public cgDirection startDir(Context context, cgUpdateDir dirUpdate, cgWarning warning) {
 		if (dir == null) {
-			dir = new cgDirection(context, dirUpdate, warning);
+			dir = new cgDirection(this, context, dirUpdate, warning);
 			dir.initDir();
 
 			Log.i(cgSettings.tag, "Direction service started");
