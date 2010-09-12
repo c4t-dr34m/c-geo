@@ -46,15 +46,11 @@ public class cgDirection {
 			sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 		}
 		sensorManager.registerListener(sensorListener, sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_NORMAL);
-
-		Log.d(cgSettings.tag, "Compass registered.");
 	}
 
 	public void closeDir() {
 		if (sensorManager != null && sensorListener != null) {
 			sensorManager.unregisterListener(sensorListener);
-
-			Log.d(cgSettings.tag, "Compass UNregistered");
 		}
 	}
 

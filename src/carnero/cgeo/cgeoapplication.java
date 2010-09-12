@@ -18,6 +18,7 @@ public class cgeoapplication extends Application {
 
 	public boolean showLocWarning = true;
 	public boolean warnedLanguage = false;
+	private boolean databaseCleaned = false;
 
 	@Override
 	public void onLowMemory() {
@@ -39,7 +40,7 @@ public class cgeoapplication extends Application {
 		}
 
 		if (storage != null) {
-			storage.clearCache();
+			storage.clean();
 			storage.closeDb();
 			storage = null;
 		}
@@ -95,9 +96,17 @@ public class cgeoapplication extends Application {
 		return null;
 	}
 
+	public void cleanDatabase() {
+		if (databaseCleaned == true) return;
+
+		if (storage == null) storage = new cgData(this);
+		storage.clean();
+		databaseCleaned = true;
+	}
+
     public Boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
 		if (storage == null) storage = new cgData(this);
-        return storage.isThere(geocode, guid, detailed, checkTime);
+		return storage.isThere(geocode, guid, detailed, checkTime);
     }
 
 	public Boolean isOffline(String geocode, String guid) {

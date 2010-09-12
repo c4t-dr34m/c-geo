@@ -260,7 +260,8 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 <b>0.77.5</b> (__.09.2010)\n
 · new: Small help on first run\n
 · new: Donation button on About screen\n
-· fix: Battery issue (?)\n
+· fix: Battery issue\n
+· fix: Database cleanup\n
 \n
 <b>0.77.4</b> (11.09.2010)\n
 · fix: Scale accuracy\n

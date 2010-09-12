@@ -234,6 +234,7 @@ public class cgeo extends Activity {
 		settings.reloadCacheType();
 
 		(new countBubbleUpdate()).start();
+		(new cleanDatabase()).start();
 
 		if (settings.cacheType != null && base.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
 
@@ -398,6 +399,15 @@ public class cgeo extends Activity {
 			countBubbleCnt = app.getAllStoredCachesCount(true, null);
 
 			countBubbleHandler.sendEmptyMessage(0);
+		}
+	}
+
+	private class cleanDatabase extends Thread {
+		@Override
+		public void run() {
+			if (app == null) return;
+
+			app.cleanDatabase();
 		}
 	}
 }

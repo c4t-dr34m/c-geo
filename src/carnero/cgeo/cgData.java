@@ -20,27 +20,27 @@ import java.util.Locale;
 
 public class cgData {
 	public cgCacheWrap caches;
-    private Context context = null;
+	private Context context = null;
 
-    private cgDbHelper dbHelper = null;
-    private SQLiteDatabase databaseRO = null;
-    private SQLiteDatabase databaseRW = null;
+	private cgDbHelper dbHelper = null;
+	private SQLiteDatabase databaseRO = null;
+	private SQLiteDatabase databaseRW = null;
 
-    private static final String dbName = "data";
-    private static final String dbTableCaches = "cg_caches";
+	private static final String dbName = "data";
+	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
-    private static final String dbTableAttributes = "cg_attributes";
-    private static final String dbTableWaypoints = "cg_waypoints";
-    private static final String dbTableSpoilers = "cg_spoilers";
-    private static final String dbTableLogs = "cg_logs";
-    private static final String dbTableTrackables = "cg_trackables";
-    private static final int dbVersion = 39;
-    private static final String dbCreateCaches = ""
+	private static final String dbTableAttributes = "cg_attributes";
+	private static final String dbTableWaypoints = "cg_waypoints";
+	private static final String dbTableSpoilers = "cg_spoilers";
+	private static final String dbTableLogs = "cg_logs";
+	private static final String dbTableTrackables = "cg_trackables";
+	private static final int dbVersion = 39;
+	private static final String dbCreateCaches = ""
 			+ "create table " + dbTableCaches + " ("
 			+ "_id integer primary key autoincrement, "
-            + "updated long not null, "
+			+ "updated long not null, "
 			+ "detailed integer not null default 0, "
-            + "detailedupdate long, "
+			+ "detailedupdate long, "
 			+ "geocode text unique not null, "
 			+ "reason integer not null default 0, " // cached, favourite...
 			+ "cacheid text, "
@@ -68,9 +68,9 @@ public class cgData {
 			+ "members integer not null default 0, "
 			+ "found integer not null default 0, "
 			+ "favourite integer not null default 0, "
-            + "inventorycoins integer default 0, "
-            + "inventorytags integer default 0, "
-            + "inventoryunknown integer default 0 "
+			+ "inventorycoins integer default 0, "
+			+ "inventorytags integer default 0, "
+			+ "inventoryunknown integer default 0 "
 			+ "); ";
 
     private static final String dbCreateLists = ""
@@ -336,13 +336,13 @@ public class cgData {
 		db.execSQL("drop table if exists " + dbTableTrackables);
 	}
 
-    public boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
+	public boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
 		Cursor cursor = null;
 
-        int cnt = 0;
-        long dataUpdated = 0;
-        long dataDetailedUpdate = 0;
-        int dataDetailed = 0;
+		int cnt = 0;
+		long dataUpdated = 0;
+		long dataDetailedUpdate = 0;
+		int dataDetailed = 0;
 
 		try {
             if (geocode != null && geocode.length() > 0) {
@@ -1186,13 +1186,13 @@ public class cgData {
     }
 
     public ArrayList<cgWaypoint> loadWaypoints(String geocode) {
-        if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) return null;
 		initRO();
 
 		Cursor cursor = null;
-        ArrayList<cgWaypoint> waypoints = new ArrayList<cgWaypoint>();
+		ArrayList<cgWaypoint> waypoints = new ArrayList<cgWaypoint>();
 
-        cursor = databaseRO.query(
+		cursor = databaseRO.query(
                 dbTableWaypoints,
                 new String[] {"_id", "geocode", "updated", "type", "prefix", "lookup", "name", "latlon", "latitude_string", "longitude_string", "latitude", "longitude", "note"},
                 "geocode = \"" + geocode + "\"",
@@ -1242,13 +1242,13 @@ public class cgData {
     }
 
     public ArrayList<cgSpoiler> loadSpoilers(String geocode) {
-        if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) return null;
 		initRO();
 
 		Cursor cursor = null;
-        ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
+		ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
 
-        cursor = databaseRO.query(
+		cursor = databaseRO.query(
                 dbTableSpoilers,
                 new String[] {"_id", "url", "title", "description"},
                 "geocode = \"" + geocode + "\"",
@@ -1364,9 +1364,9 @@ public class cgData {
 
     public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
 		initRO();
-        int count = 0;
+		int count = 0;
 
-        try {
+		try {
 			if (sqlCount == null) sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1");
 			if (sqlCountDetailed == null) sqlCountDetailed = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1");
 			if (sqlCountTyped == null) sqlCountTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and type = ?");
@@ -1491,6 +1491,75 @@ public class cgData {
         return false;
     }
 
+	public void clean() {
+		initRW();
+		initRO();
+
+		Log.d(cgSettings.tag, "Database clean: started");
+
+		Cursor cursor = null;
+		ArrayList<String> geocodes = new ArrayList<String>();
+
+		try {
+            cursor = databaseRO.query(
+                    dbTableCaches,
+                    new String[] {"_id", "geocode"},
+                    "reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                    );
+
+			if (cursor != null) {
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
+
+					do {
+						geocodes.add("\"" + (String)cursor.getString(cursor.getColumnIndex("geocode")) + "\"");
+					} while (cursor.moveToNext());
+				}
+
+				cursor.close();
+			}
+
+			final int size = geocodes.size();
+
+			if (size > 0) {
+				Log.d(cgSettings.tag, "Database clean: dropping " + size + " geocaches");
+				
+				cursor = databaseRW.rawQuery("delete from " + dbTableCaches +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+				cursor.close();
+
+				cursor = databaseRW.rawQuery("delete from " + dbTableAttributes +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+				cursor.close();
+
+				cursor = databaseRW.rawQuery("delete from " + dbTableSpoilers +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+				cursor.close();
+
+				cursor = databaseRW.rawQuery("delete from " + dbTableLogs +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+				cursor.close();
+
+				cursor = databaseRW.rawQuery("delete from " + dbTableWaypoints +" where (geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") and type <> \"own\")", null);
+				cursor.close();
+
+				cursor = databaseRW.rawQuery("delete from " + dbTableTrackables +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+				cursor.close();
+
+				geocodes.clear();
+			}
+
+			final SQLiteStatement countSql = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 0");
+			final int count = (int)countSql.simpleQueryForLong();
+			Log.d(cgSettings.tag, "Database clean: " + count + " cached geocaches remaining");
+		} catch(Exception e) {
+			Log.w(cgSettings.tag, "cgData.clean: " + e.toString());
+		}
+
+		Log.d(cgSettings.tag, "Database clean: finished");
+	}
+
     public void dropStored() {
 		initRW();
 		initRO();
@@ -1525,65 +1594,29 @@ public class cgData {
 				cursor.close();
 			}
 
-			databaseRW.delete(dbTableCaches, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableAttributes, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableSpoilers, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableLogs, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableWaypoints, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") and type <> \"own\"", null);
-			databaseRW.delete(dbTableTrackables, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+			cursor = databaseRW.rawQuery("delete from " + dbTableCaches +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+			cursor.close();
+
+			cursor = databaseRW.rawQuery("delete from " + dbTableAttributes +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+			cursor.close();
+
+			cursor = databaseRW.rawQuery("delete from " + dbTableSpoilers +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+			cursor.close();
+
+			cursor = databaseRW.rawQuery("delete from " + dbTableLogs +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+			cursor.close();
+
+			cursor = databaseRW.rawQuery("delete from " + dbTableWaypoints +" where (geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") and type <> \"own\")", null);
+			cursor.close();
+
+			cursor = databaseRW.rawQuery("delete from " + dbTableTrackables +" where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
+			cursor.close();
 
 			geocodes.clear();
         } catch(Exception e) {
             Log.e(cgSettings.tag, "cgData.dropStored: " + e.toString());
         }
     }
-
-	public void clearCache() {
-		initRW();
-		initRO();
-
-		Cursor cursor = null;
-		ArrayList<String> geocodes = new ArrayList<String>();
-
-		try {
-            cursor = databaseRO.query(
-                    dbTableCaches,
-                    new String[] {"_id", "geocode"},
-                    "reason = 0",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                    );
-
-			if (cursor != null) {
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-
-                    do {
-                        geocodes.add("\"" + (String)cursor.getString(cursor.getColumnIndex("geocode")) + "\"");
-                    } while (cursor.moveToNext());
-                } else {
-                    cursor.close();
-                    return;
-                }
-
-				cursor.close();
-			}
-
-			databaseRW.delete(dbTableCaches, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableAttributes, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableSpoilers, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableLogs, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-			databaseRW.delete(dbTableWaypoints, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") and type <> \"own\"", null);
-			databaseRW.delete(dbTableTrackables, "geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")", null);
-
-			geocodes.clear();
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgData.clearCache: " + e.toString());
-		}
-	}
 
     public int createList(String name) {
 		if (name == null) return -1;

@@ -31,7 +31,6 @@ public class cgGeo {
 	private Integer time = 0;
 	private Integer distance = 0;
 	private AlertDialog alertGps = null;
-	private Location locLast = null;
 	private Location locGps = null;
 	private Location locNet = null;
 	private long locGpsLast = 0l;
@@ -64,7 +63,7 @@ public class cgGeo {
 		geoGpsListener = new cgeoGeoListener();
 		geoGpsListener.setProvider(LocationManager.GPS_PROVIDER);
 
-        geoGpsStatusListener = new cgeoGpsStatusListener();
+		geoGpsStatusListener = new cgeoGpsStatusListener();
 	}
 
 	public void initGeo() {
@@ -88,7 +87,7 @@ public class cgGeo {
         
 		geoNetListener.setProvider(geoManager.NETWORK_PROVIDER);
 		geoGpsListener.setProvider(geoManager.GPS_PROVIDER);
-        geoManager.addGpsStatusListener(geoGpsStatusListener);
+		geoManager.addGpsStatusListener(geoGpsStatusListener);
 
 		geoManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, geoNetListener);
 		geoManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, geoGpsListener);
