@@ -72,7 +72,7 @@ public class cgeovisit extends Activity {
 				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
 
                 return;
-            }
+			}
 
 			gettingViewstate = false; // we're done, user can post log
 
@@ -150,10 +150,10 @@ public class cgeovisit extends Activity {
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);

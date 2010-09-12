@@ -35,9 +35,9 @@ public class cgeocaches extends ListActivity {
 	private String keyword = null;
 	private String address = null;
 	private String username = null;
-    private Long searchId = null;
-    private ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
-    private cgeoapplication app = null;
+	private Long searchId = null;
+	private ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
+	private cgeoapplication app = null;
 	private Resources res = null;
 	private static Activity activity = null;
 	private cgCacheListAdapter adapter = null;
@@ -48,16 +48,16 @@ public class cgeocaches extends ListActivity {
 	private cgBase base = null;
 	private cgWarning warning = null;
 	private ProgressDialog waitDialog = null;
-    private Float northHeading = 0.0f;
+	private Float northHeading = 0.0f;
 	private cgGeo geo = null;
 	private cgDirection dir = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private cgUpdateDir dirUpdate = new updateDir();
 	private String title = "";
-    private int detailTotal = 0;
-    private int detailProgress = 0;
-    private Long detailProgressTime = 0l;
-    private geocachesLoadDetails threadD = null;
+	private int detailTotal = 0;
+	private int detailProgress = 0;
+	private Long detailProgressTime = 0l;
+	private geocachesLoadDetails threadD = null;
 	private boolean offline = false;
 	private boolean progressBar = false;
 
@@ -526,6 +526,7 @@ public class cgeocaches extends ListActivity {
 			menu.add(0, 2, 0, res.getString(R.string.cache_menu_tbt));
 			menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
 			menu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
+			menu.add(0, 5, 0, res.getString(R.string.cache_menu_visit));
 		}
 	}
 
@@ -591,7 +592,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			return true;
-		} else 	if (id == 2) { // turn-by-turn
+		} else if (id == 2) { // turn-by-turn
 			if (settings.useGNavigation == 1) {
 				try {
 					// turn-by-turn navigation
@@ -624,7 +625,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			return true;
-		} else 	if (id == 3) { // show on map
+		} else if (id == 3) { // show on map
 			Intent mapIntent = new Intent(activity, cgeomap.class);
 			mapIntent.putExtra("detail", false);
 			mapIntent.putExtra("geocode", cache.geocode);
@@ -632,7 +633,7 @@ public class cgeocaches extends ListActivity {
 			activity.startActivity(mapIntent);
 
 			return true;
-		} else if (id == 3) { // show on map
+		} else if (id == 4) { // show on external map
 			try {
 				// default map
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
@@ -643,6 +644,20 @@ public class cgeocaches extends ListActivity {
 
 				activity.startActivity(mapIntent);
 			}
+
+			return true;
+		} else if (id == 5) { // log visit
+			if (cache.cacheid == null || cache.cacheid.length() == 0) {
+				warning.showToast(res.getString(R.string.err_cannot_log_visit));
+				return true;
+			}
+
+			Intent logVisitIntent = new Intent(activity, cgeovisit.class);
+			logVisitIntent.putExtra("id", cache.cacheid);
+			logVisitIntent.putExtra("geocode", cache.geocode.toUpperCase());
+			logVisitIntent.putExtra("type", cache.type.toLowerCase());
+
+			activity.startActivity(logVisitIntent);
 
 			return true;
 		}
