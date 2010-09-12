@@ -91,29 +91,6 @@ public class cgGeo {
 
 		geoManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, geoNetListener);
 		geoManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, geoGpsListener);
-
-		if (alertGps == null && app.showLocWarning == true && geoManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) == false && geoManager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false) {
-			AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-			dialog.setTitle("Location sources");
-			dialog.setMessage("You have all localization services switched off. Please, activate network and/or GPS service in Menu / Settings / Location. c:geo needs it.");
-			dialog.setCancelable(true);
-			dialog.setPositiveButton("change settings", new DialogInterface.OnClickListener() {
-			   public void onClick(DialogInterface dialog, int id) {
-					((Activity)context).startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-					dialog.dismiss();
-			   }
-			});
-			dialog.setNeutralButton("dismiss", new DialogInterface.OnClickListener() {
-			   public void onClick(DialogInterface dialog, int id) {
-					dialog.dismiss();
-			   }
-		   });
-
-		   app.showLocWarning = false;
-
-		   alertGps = dialog.create();
-		   alertGps.show();
-		}
 	}
 
 	public void closeGeo() {

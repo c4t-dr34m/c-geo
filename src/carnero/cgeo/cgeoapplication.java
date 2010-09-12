@@ -20,7 +20,6 @@ public class cgeoapplication extends Application {
 	final private HashMap<Long, cgSearch> searches = new HashMap<Long, cgSearch>(); // information about searches
 	final private HashMap<String, cgCache> cachesCache = new HashMap<String, cgCache>(); // caching caches into memory
 
-	public boolean showLocWarning = true;
 	public boolean warnedLanguage = false;
 	public boolean warnedCompassCalibration = false;
 	private boolean databaseCleaned = false;
