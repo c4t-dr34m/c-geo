@@ -37,6 +37,7 @@ public class cgeo extends Activity {
 	private TextView navLocation = null;
 	private TextView filterTitle = null;
 	private TextView countBubble = null;
+	private boolean cleanupRunning = false;
 	private int countBubbleCnt = 0;
 
 	private Handler countBubbleHandler = new Handler() {
@@ -406,8 +407,11 @@ public class cgeo extends Activity {
 		@Override
 		public void run() {
 			if (app == null) return;
+			if (cleanupRunning == true) return;
 
+			cleanupRunning = true;
 			app.cleanDatabase();
+			cleanupRunning = false;
 		}
 	}
 }
