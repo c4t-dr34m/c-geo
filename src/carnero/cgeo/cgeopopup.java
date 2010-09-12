@@ -26,18 +26,18 @@ import java.util.Locale;
 public class cgeopopup extends Activity {
 	private Activity activity = null;
 	private Resources res = null;
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private Boolean fromDetail = false;
+	private Boolean fromDetail = false;
 	private LayoutInflater inflater = null;
-    private String geocode = null;
-    private cgCache cache = null;
+	private String geocode = null;
+	private cgCache cache = null;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
-    private ProgressDialog storeDialog = null;
-    private ProgressDialog dropDialog = null;
+	private ProgressDialog storeDialog = null;
+	private ProgressDialog dropDialog = null;
 	private TextView cacheDistance = null;
 	private HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 
@@ -81,17 +81,17 @@ public class cgeopopup extends Activity {
 
    @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
-        // init
+		// init
 		activity = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
-	    settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
-        // set layout
+		// set layout
 		setTitle(res.getString(R.string.detail));
 		if (settings.skin == 1) setContentView(R.layout.popup_light);
 		else setContentView(R.layout.popup_dark);
@@ -99,29 +99,29 @@ public class cgeopopup extends Activity {
 		// get parameters
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-            fromDetail = extras.getBoolean("fromdetail");
+			fromDetail = extras.getBoolean("fromdetail");
 			geocode = extras.getString("geocode");
-        }
+		}
 
-        if (geocode == null || geocode.length() == 0) {
-            warning.showToast(res.getString(R.string.err_detail_cache_find));
+		if (geocode == null || geocode.length() == 0) {
+			warning.showToast(res.getString(R.string.err_detail_cache_find));
 
-            finish();
-            return;
-        }
+			finish();
+			return;
+		}
 
-        init();
+		init();
 	}
 
    private void init() {
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 
 		app.setAction(geocode);
 
 		cache = app.getCacheByGeocode(geocode);
 
 		if (cache == null) {
-            warning.showToast(res.getString(R.string.err_detail_cache_find));
+			warning.showToast(res.getString(R.string.err_detail_cache_find));
 
 			finish();
 			return;
@@ -413,6 +413,8 @@ public class cgeopopup extends Activity {
 		} else {
 			((LinearLayout)findViewById(R.id.navigation_part)).setVisibility(View.GONE);
 		}
+
+		if (geo != null) geoUpdate.updateLoc(geo);
     }
 
 	@Override
@@ -431,21 +433,21 @@ public class cgeopopup extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onPause();
 	}

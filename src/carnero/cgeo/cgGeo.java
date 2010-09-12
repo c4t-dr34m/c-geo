@@ -134,6 +134,12 @@ public class cgGeo {
 		}
 	}
 
+	public void replaceUpdate(cgUpdateLoc geoUpdateIn) {
+		geoUpdate = geoUpdateIn;
+
+		if (geoUpdate != null) geoUpdate.updateLoc(this);
+	}
+
 	public class cgeoGeoListener implements LocationListener {
 		public String active = null;
 
@@ -256,7 +262,7 @@ public class cgGeo {
 		speedNow = 0f;
 		accuracyNow = 999f;
 
-		geoUpdate.updateLoc(this);
+		if (geoUpdate != null) geoUpdate.updateLoc(this);
 	}
 
 	private void assign(Location loc) {
@@ -289,7 +295,7 @@ public class cgGeo {
 		if (location.hasAccuracy() && gps != -1) accuracyNow = location.getAccuracy();
 		else accuracyNow = 999f;
 
-		geoUpdate.updateLoc(this);
+		if (geoUpdate != null) geoUpdate.updateLoc(this);
 
 		if (gps > -1) (new publishLoc()).start();
 	}

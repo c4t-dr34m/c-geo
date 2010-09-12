@@ -170,7 +170,7 @@ public class cgData {
 
 				if (databaseRW.inTransaction() == true) databaseRW.endTransaction();
 			} catch (Exception e) {
-				Log.e(cgSettings.tag, "cgData.openDb.RWs: " + e.toString());
+				Log.e(cgSettings.tag, "cgData.openDb.RW: " + e.toString());
 			}
 		}
 	}

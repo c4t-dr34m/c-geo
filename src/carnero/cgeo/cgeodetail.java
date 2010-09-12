@@ -30,11 +30,10 @@ import android.net.Uri;
 import android.view.SubMenu;
 import android.widget.Button;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class cgeodetail extends Activity {
-    public Long searchId = null;
+	public Long searchId = null;
 	public cgCache cache = null;
 	public String geocode = null;
 	public String name = null;
@@ -42,7 +41,7 @@ public class cgeodetail extends Activity {
 	private Resources res = null;
 	private Activity activity = null;
 	private LayoutInflater inflater = null;
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -57,8 +56,8 @@ public class cgeodetail extends Activity {
 	private loadLongDesc threadLongDesc = null;
 	private int poiId = -1;
 	private HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
-    private ProgressDialog storeDialog = null;
-    private ProgressDialog dropDialog = null;
+	private ProgressDialog storeDialog = null;
+	private ProgressDialog dropDialog = null;
 
 	private Handler storeCacheHandler = new Handler() {
 		@Override
@@ -128,16 +127,16 @@ public class cgeodetail extends Activity {
 
 			if (longDesc != null) {
 				((LinearLayout)findViewById(R.id.desc_box)).setVisibility(View.VISIBLE);
-				
+
 				TextView descView = (TextView)findViewById(R.id.description);
 				descView.setVisibility(View.VISIBLE);
 				descView.setText(longDesc, TextView.BufferType.SPANNABLE);
 				descView.setMovementMethod(LinkMovementMethod.getInstance());
-                
-                Button showDesc = (Button)findViewById(R.id.show_description);
-                showDesc.setVisibility(View.GONE);
-                showDesc.setOnTouchListener(null);
-                showDesc.setOnClickListener(null);
+
+				Button showDesc = (Button)findViewById(R.id.show_description);
+				showDesc.setVisibility(View.GONE);
+				showDesc.setOnTouchListener(null);
+				showDesc.setOnClickListener(null);
 			} else {
 				warning.showToast("Sorry, c:geo can't load description.");
 			}
@@ -155,10 +154,10 @@ public class cgeodetail extends Activity {
 		// init
 		activity = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle(res.getString(R.string.cache));
@@ -256,21 +255,21 @@ public class cgeodetail extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onPause();
 	}
@@ -359,7 +358,7 @@ public class cgeodetail extends Activity {
 
 		if (searchId == null) return;
 
-        cache = app.getCache(searchId);
+		cache = app.getCache(searchId);
 
 		if (cache == null) {
 			if (waitDialog != null && waitDialog.isShowing()) waitDialog.dismiss();
@@ -713,10 +712,10 @@ public class cgeodetail extends Activity {
                 }
 			}
 
-            Button addWaypoint = (Button)findViewById(R.id.add_waypoint);
-            addWaypoint.setClickable(true);
-            addWaypoint.setOnTouchListener(new cgViewTouch(settings, addWaypoint, 0));
-            addWaypoint.setOnClickListener(new addWaypoint());
+			Button addWaypoint = (Button)findViewById(R.id.add_waypoint);
+			addWaypoint.setClickable(true);
+			addWaypoint.setOnTouchListener(new cgViewTouch(settings, addWaypoint, 0));
+			addWaypoint.setOnClickListener(new addWaypoint());
 
 			// cache hint
 			if (cache.hint != null && cache.hint.length() > 0) {
@@ -745,6 +744,8 @@ public class cgeodetail extends Activity {
 		if (dropDialog != null && dropDialog.isShowing()) dropDialog.dismiss();
 
 		displayLogs();
+
+		if (geo != null) geoUpdate.updateLoc(geo);
 	}
 
 	private void displayLogs() {

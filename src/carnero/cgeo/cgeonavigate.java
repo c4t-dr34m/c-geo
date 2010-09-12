@@ -27,7 +27,7 @@ public class cgeonavigate extends Activity {
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private PowerManager pm = null;
+	private PowerManager pm = null;
 	private cgGeo geo = null;
 	private cgDirection dir = null;
 	private cgUpdateLoc geoUpdate = new update();
@@ -66,10 +66,10 @@ public class cgeonavigate extends Activity {
 		// class init
 		activity = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("navigation");
@@ -118,6 +118,9 @@ public class cgeonavigate extends Activity {
 		// start updater thread
 		updater = new updaterThread(updaterHandler);
 		updater.start();
+
+		if (geo != null) geoUpdate.updateLoc(geo);
+		if (dir != null) dirUpdate.updateDir(dir);
 	}
 
 	@Override
@@ -152,8 +155,8 @@ public class cgeonavigate extends Activity {
 	@Override
 	public void onStop() {
 		if (compassView != null) compassView.kill();
-		if (geo != null) geo = app.removeGeo(geo);
-		if (dir != null) dir = app.removeDir(dir);
+		if (geo != null) geo = app.removeGeo();
+		if (dir != null) dir = app.removeDir();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 
@@ -163,8 +166,8 @@ public class cgeonavigate extends Activity {
 	@Override
 	public void onPause() {
 		if (compassView != null) compassView.kill();
-		if (geo != null) geo = app.removeGeo(geo);
-		if (dir != null) dir = app.removeDir(dir);
+		if (geo != null) geo = app.removeGeo();
+		if (dir != null) dir = app.removeDir();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 
@@ -174,8 +177,8 @@ public class cgeonavigate extends Activity {
 	@Override
 	public void onDestroy() {
 		if (compassView != null) compassView.kill();
-		if (geo != null) geo = app.removeGeo(geo);
-		if (dir != null) dir = app.removeDir(dir);
+		if (geo != null) geo = app.removeGeo();
+		if (dir != null) dir = app.removeDir();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 
@@ -243,7 +246,7 @@ public class cgeonavigate extends Activity {
 			if (settings.useCompass == 1) {
 				settings.useCompass = 0;
 
-				if (dir != null) dir = app.removeDir(dir);
+				if (dir != null) dir = app.removeDir();
 
 				SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
 				prefsEdit.putInt("usecompass", settings.useCompass);
@@ -404,7 +407,7 @@ public class cgeonavigate extends Activity {
 	private class updateDir extends cgUpdateDir {
 		@Override
 		public void updateDir(cgDirection dir) {
-			if (dir == null) return;
+			if (dir == null || dir.directionNow == null) return;
 			
 			northHeading = dir.directionNow;
 		}

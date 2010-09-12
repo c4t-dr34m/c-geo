@@ -390,24 +390,24 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public void onDestroy() {
 		if (adapter != null) adapter = null;
-		if (dir != null) dir = app.removeDir(dir);
-		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir();
+		if (geo != null) geo = app.removeGeo();
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (dir != null) dir = app.removeDir(dir);
-		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir();
+		if (geo != null) geo = app.removeGeo();
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (dir != null) dir = app.removeDir(dir);
-		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir();
+		if (geo != null) geo = app.removeGeo();
 
 		super.onPause();
 	}
@@ -714,6 +714,9 @@ public class cgeocaches extends ListActivity {
 			setTitle(title);
 		}
 
+		if (geo != null) geoUpdate.updateLoc(geo);
+		if (dir != null) dirUpdate.updateDir(dir);
+
 		setAdapter();
 	}
 
@@ -788,7 +791,7 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void updateDir(cgDirection dir) {
 			if (settings.livelist == 0) return;
-			if (dir == null) return;
+			if (dir == null || dir.directionNow == null) return;
 
 			northHeading = dir.directionNow;
 			if (northHeading != null && adapter != null) adapter.setActualHeading(northHeading);
@@ -983,8 +986,8 @@ public class cgeocaches extends ListActivity {
 
 		@Override
 		public void run() {
-			if (dir != null) dir = app.removeDir(dir);
-			if (geo != null) geo = app.removeGeo(geo);
+			if (dir != null) dir = app.removeDir();
+			if (geo != null) geo = app.removeGeo();
 			
             ArrayList<cgCache> caches = app.getCaches(searchId);
 

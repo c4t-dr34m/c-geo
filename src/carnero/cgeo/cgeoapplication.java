@@ -11,6 +11,10 @@ public class cgeoapplication extends Application {
 	private String action = null;
 	private Double lastLatitude = null;
 	private Double lastLongitude = null;
+	private cgGeo geo = null;
+	private boolean geoInUse = false;
+	private cgDirection dir = null;
+	private boolean dirInUse = false;
 	final private ArrayList<cgGeo> geos = new ArrayList<cgGeo>(); // list of location providers
 	final private ArrayList<cgDirection> dirs = new ArrayList<cgDirection>(); // list of direction providers
 	final private HashMap<Long, cgSearch> searches = new HashMap<Long, cgSearch>(); // information about searches
@@ -19,6 +23,10 @@ public class cgeoapplication extends Application {
 	public boolean showLocWarning = true;
 	public boolean warnedLanguage = false;
 	private boolean databaseCleaned = false;
+
+	public cgeoapplication() {
+		if (storage == null) storage = new cgData(this);
+	}
 
 	@Override
 	public void onLowMemory() {
@@ -31,12 +39,14 @@ public class cgeoapplication extends Application {
 	public void onTerminate() {
 		Log.d(cgSettings.tag, "Terminating c:geo...");
 
-		for (cgGeo geo : geos) {
-			removeGeo(geo);
+		if (geo != null) {
+			geo.closeGeo();
+			geo = null;
 		}
 
-		for (cgDirection dir : dirs) {
-			removeDir(dir);
+		if (dir != null) {
+			dir.closeDir();
+			dir = null;
 		}
 
 		if (storage != null) {
@@ -49,51 +59,99 @@ public class cgeoapplication extends Application {
 	}
 
 	public void cleanGeo() {
-		for (cgGeo geo : geos) {
-			removeGeo(geo);
+		if (geo != null) {
+			geo.closeGeo();
+			geo = null;
 		}
 	}
 
 	public void cleanDir() {
-		for (cgDirection dir : dirs) {
-			removeDir(dir);
+		if (dir != null) {
+			dir.closeDir();
+			dir = null;
 		}
 	}
 
 	public cgGeo startGeo(Context context, cgUpdateLoc geoUpdate, cgBase base, cgSettings settings, cgWarning warning, int time, int distance) {
-		cgGeo geo = new cgGeo(context, this, geoUpdate, base, settings, warning, time, distance);
-		geo.initGeo();
-		
-		geos.add(geo);
+		if (geo == null) {
+			geo = new cgGeo(context, this, geoUpdate, base, settings, warning, time, distance);
+			geo.initGeo();
+
+			Log.i(cgSettings.tag, "Location service started");
+		}
+
+		geo.replaceUpdate(geoUpdate);
+		geoInUse = true;
 
 		return geo;
 	}
 
-	public cgGeo removeGeo(cgGeo geo) {
-		if (geo == null) return null;
-
-		geo.closeGeo();
-		if (geos.contains(geo) == true) geos.remove(geo);
+	public cgGeo removeGeo() {
+		geo.replaceUpdate(null);
+		geoInUse = false;
+		
+		(new removeGeoThread()).start();
 
 		return null;
 	}
 
-	public cgDirection startDir(Context context, cgUpdateDir dirUpdate, cgWarning warning) {
-		cgDirection dir = new cgDirection(context, dirUpdate, warning);
-		dir.initDir();
+	private class removeGeoThread extends Thread {
+		@Override
+		public void run() {
+			try {
+				sleep(2500);
+			} catch (Exception e) {
+				// nothing
+			}
 
-		dirs.add(dir);
+			if (geoInUse == false && geo != null) {
+				geo.closeGeo();
+				geo = null;
+
+				Log.i(cgSettings.tag, "Location service stopped");
+			}
+		}
+	}
+
+	public cgDirection startDir(Context context, cgUpdateDir dirUpdate, cgWarning warning) {
+		if (dir == null) {
+			dir = new cgDirection(context, dirUpdate, warning);
+			dir.initDir();
+
+			Log.i(cgSettings.tag, "Direction service started");
+		}
+
+		dir.replaceUpdate(dirUpdate);
+		dirInUse = true;
 
 		return dir;
 	}
 
-	public cgDirection removeDir(cgDirection dir) {
-		if (dir == null) return null;
+	public cgDirection removeDir() {
+		dir.replaceUpdate(null);
+		dirInUse = false;
 
-		dir.closeDir();
-		if (dirs.contains(dir) == true) dirs.remove(dir);
+		(new removeDirThread()).start();
 
 		return null;
+	}
+
+	private class removeDirThread extends Thread {
+		@Override
+		public void run() {
+			try {
+				sleep(2500);
+			} catch (Exception e) {
+				// nothing
+			}
+
+			if (dirInUse == false && dir != null) {
+				dir.closeDir();
+				dir = null;
+
+				Log.i(cgSettings.tag, "Direction service stopped");
+			}
+		}
 	}
 
 	public void cleanDatabase() {

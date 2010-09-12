@@ -375,6 +375,9 @@ public class cgeomap extends MapActivity {
 		if (settings.publicLoc == 1) usersThread.enable();
 		else usersThread.disable();
 		usersThread.start();
+
+		if (geo != null) geoUpdate.updateLoc(geo);
+		if (dir != null) dirUpdate.updateDir(dir);
 	}
 
 	@Override
@@ -415,12 +418,15 @@ public class cgeomap extends MapActivity {
 		if (settings.publicLoc == 1) usersThread.enable();
 		else usersThread.disable();
 		usersThread.start();
+
+		if (geo != null) geoUpdate.updateLoc(geo);
+		if (dir != null) dirUpdate.updateDir(dir);
 	}
 
 	@Override
 	public void onStop() {
-		if (dir != null) dir = app.removeDir(dir);
-		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir();
+		if (geo != null) geo = app.removeGeo();
 
 		savePrefs();
 
@@ -438,8 +444,8 @@ public class cgeomap extends MapActivity {
 		if (loadingThread != null) loadingThread.kill();
 		if (usersThread != null) usersThread.kill();
 
-		if (dir != null) dir = app.removeDir(dir);
-		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir();
+		if (geo != null) geo = app.removeGeo();
 
 		savePrefs();
 
@@ -454,8 +460,8 @@ public class cgeomap extends MapActivity {
 		if (loadingThread != null) loadingThread.kill();
 		if (usersThread != null) usersThread.kill();
 
-		if (dir != null) dir = app.removeDir(dir);
-		if (geo != null) geo = app.removeGeo(geo);
+		if (dir != null) dir = app.removeDir();
+		if (geo != null) geo = app.removeGeo();
 
 		savePrefs();
 
@@ -964,11 +970,6 @@ public class cgeomap extends MapActivity {
 		if (canChangeTitle == true) changeTitle(false);
 	}
 
-	private void myLocation() {
-		if (mapView == null) return;
-		if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) return;
-	}
-
 	private void myLocationInMiddle() {
 		if (followLocation == false && initLocation == false) return;
 		if (geo == null) return;
@@ -1007,8 +1008,7 @@ public class cgeomap extends MapActivity {
 				(new findClose()).start();
 
 				if (geo.latitudeNow != null && geo.longitudeNow != null) {
-					myLocation();
-					if (followLocation == true || initLocation == true) myLocationInMiddle();
+					if (followLocation == true) myLocationInMiddle();
 				}
 
 				if (settings.useCompass == 0) {
@@ -1024,7 +1024,7 @@ public class cgeomap extends MapActivity {
 	private class updateDir extends cgUpdateDir {
 		@Override
 		public void updateDir(cgDirection dir) {
-			if (dir == null) return;
+			if (dir == null || dir.directionNow == null) return;
 
 			if (overlayMyLoc != null && mapView != null) {
 				overlayMyLoc.setHeading(dir.directionNow);
@@ -1342,8 +1342,8 @@ public class cgeomap extends MapActivity {
 		@Override
 		public void run() {
 			if (geocodes == null || geocodes.isEmpty()) return;
-            if (dir != null) dir = app.removeDir(dir);
-            if (geo != null) geo = app.removeGeo(geo);
+            if (dir != null) dir = app.removeDir();
+            if (geo != null) geo = app.removeGeo();
 
 			Message msg = null;
 

@@ -145,21 +145,21 @@ public class cgeo extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo(geo);
+		if (geo != null) geo = app.removeGeo();
 
 		super.onPause();
 	}

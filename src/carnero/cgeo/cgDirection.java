@@ -8,7 +8,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
 import android.os.Build;
-import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 
@@ -54,6 +53,12 @@ public class cgDirection {
 		}
 	}
 
+	public void replaceUpdate(cgUpdateDir dirUpdateIn) {
+		dirUpdate = dirUpdateIn;
+
+		if (dirUpdate != null && directionNow != null) dirUpdate.updateDir(dir);
+	}
+
 	private class cgeoSensorListener implements SensorEventListener {
 		@Override
 		 public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -80,7 +85,7 @@ public class cgDirection {
 
 			directionNow = directionNowPre;
 
-			if (directionNow != null) dirUpdate.updateDir(dir);
+			if (dirUpdate != null && directionNow != null) dirUpdate.updateDir(dir);
 		}
 	}
 }
