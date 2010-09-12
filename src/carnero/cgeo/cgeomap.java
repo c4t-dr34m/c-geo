@@ -32,18 +32,18 @@ import java.util.Locale;
 
 public class cgeomap extends MapActivity {
 	private Activity activity = null;
-    private MapView mapView = null;
+	private MapView mapView = null;
 	private MapController mapController = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private SharedPreferences.Editor prefsEdit = null;
 	private cgGeo geo = null;
 	private cgDirection dir = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private cgUpdateDir dirUpdate = new updateDir();
-    private PowerManager pm = null;
+	private PowerManager pm = null;
 	protected PowerManager.WakeLock  wakeLock = null;
 	private boolean followLocation = false;
 	private boolean initLocation = true;
@@ -53,9 +53,9 @@ public class cgeomap extends MapActivity {
 	private cgMapMyOverlay overlayMyLoc = null;
 	private Drawable pin = null;
 	private boolean fromDetail = false;
-    private Double oneLatitude = null;
-    private Double oneLongitude = null;
-    private Long searchId = null;
+	private Double oneLatitude = null;
+	private Double oneLongitude = null;
+	private Long searchId = null;
 	private String geocode = null;
 	private Integer centerLatitude = null;
 	private Integer centerLongitude = null;
@@ -66,7 +66,7 @@ public class cgeomap extends MapActivity {
 	private Integer spanLatitudeUsers = null;
 	private Integer spanLongitudeUsers = null;
 	private ArrayList<cgCache> caches = new ArrayList<cgCache>();
-    private ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
+	private ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
 	private ArrayList<cgUser> users = new ArrayList<cgUser>();
 	private loadCaches loadingThread = null;
 	private loadUsers usersThread = null;
@@ -76,11 +76,11 @@ public class cgeomap extends MapActivity {
 	private TextView closeDst = null;
 	private ImageView myLocation = null;
 	private ProgressDialog waitDialog = null;
-    private int detailTotal = 0;
-    private int detailProgress = 0;
-    private Long detailProgressTime = 0l;
+	private int detailTotal = 0;
+	private int detailProgress = 0;
+	private Long detailProgressTime = 0l;
 	private boolean firstRun = true;
-    private geocachesLoadDetails threadD = null;
+	private geocachesLoadDetails threadD = null;
 	private int closeCounter = 0;
 	private boolean progressBar = false;
 	protected boolean searching = false;
@@ -109,7 +109,7 @@ public class cgeomap extends MapActivity {
 					return;
 				}
 
-				addOverlays(true);
+				addOverlays(true, true);
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeomap.loadCacheFromDbHandler: " + e.toString());
 
@@ -130,7 +130,7 @@ public class cgeomap extends MapActivity {
 					return;
 				}
 
-				addOverlays(true);
+				addOverlays(true, false);
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeomap.loadCachesHandler: " + e.toString());
 				
@@ -147,7 +147,7 @@ public class cgeomap extends MapActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				addOverlays(false);
+				addOverlays(false, false);
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeomap.loadUsersHandler: " + e.toString());
 
@@ -277,11 +277,11 @@ public class cgeomap extends MapActivity {
 
 		// class init
 		activity = this;
-        app = (cgeoapplication)activity.getApplication();
+		app = (cgeoapplication)activity.getApplication();
 		app.setAction(null);
-        settings = new cgSettings(activity, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(activity);
+		settings = new cgSettings(activity, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(activity);
 		prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
 
 		// set layout
@@ -295,7 +295,7 @@ public class cgeomap extends MapActivity {
 		wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "c:geo");
 		wakeLock.acquire();
 
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
 
 		mapView = (MapView)findViewById(R.id.map);
@@ -311,8 +311,8 @@ public class cgeomap extends MapActivity {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			fromDetail = extras.getBoolean("detail");
-            searchId = extras.getLong("searchid");
-            geocode = extras.getString("geocode");
+			searchId = extras.getLong("searchid");
+			geocode = extras.getString("geocode");
 			oneLatitude = extras.getDouble("latitude");
 			oneLongitude = extras.getDouble("longitude");
 		}
@@ -361,7 +361,7 @@ public class cgeomap extends MapActivity {
 			initLocation = true;
 			followLocation = false;
 
-			addOverlays(true);
+			addOverlays(true, true);
 		}
 
 		if (myLocation == null) {
@@ -391,25 +391,25 @@ public class cgeomap extends MapActivity {
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
 		
 		// keep backlight on
-        if (pm == null) {
+		if (pm == null) {
             pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-        }
+		}
 
-        if (wakeLock == null || wakeLock.isHeld() == false) {
-            wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "c:geo");
-            wakeLock.acquire();
-        }
+		if (wakeLock == null || wakeLock.isHeld() == false) {
+			wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "c:geo");
+			wakeLock.acquire();
+		}
 
-        // restart loading threads
+		// restart loading threads
 		if (loadingThread != null) loadingThread.kill();
 		if (usersThread != null) usersThread.kill();
         
-        if (live == true) {
+		if (live == true) {
 			loadingThread = new loadCaches(loadCachesHandler, mapView);
 			if (settings.maplive == 1) loadingThread.enable();
 			else loadingThread.disable();
 			loadingThread.start();
-        }
+		}
         
 		usersThread = new loadUsers(loadUsersHandler, mapView);
 		if (settings.publicLoc == 1) usersThread.enable();
@@ -425,7 +425,7 @@ public class cgeomap extends MapActivity {
 		savePrefs();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
-        if (mapView != null) mapView.destroyDrawingCache();
+		if (mapView != null) mapView.destroyDrawingCache();
 
 		if (loadingThread != null) loadingThread.kill();
 		if (usersThread != null) usersThread.kill();
@@ -444,7 +444,7 @@ public class cgeomap extends MapActivity {
 		savePrefs();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
-        if (mapView != null) mapView.destroyDrawingCache();
+		if (mapView != null) mapView.destroyDrawingCache();
         
 		super.onPause();
 	}
@@ -461,10 +461,10 @@ public class cgeomap extends MapActivity {
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 
-        if (mapView != null) {
-            mapView.destroyDrawingCache();
-    		mapView = null;
-        }
+		if (mapView != null) {
+			mapView.destroyDrawingCache();
+			mapView = null;
+		}
 
 		try {
 			// clean up tiles from memory
@@ -682,7 +682,7 @@ public class cgeomap extends MapActivity {
 		prefsEdit.commit();
 	}
 
-	private void addOverlays(boolean canChangeTitle) {
+	private void addOverlays(boolean canChangeTitle, boolean canInit) {
 		// scale bar
 		if (overlayScale == null && mapView != null) {
 			overlayScale = new cgOverlayScale(activity, base, settings);
@@ -772,6 +772,7 @@ public class cgeomap extends MapActivity {
 				overlayUsers.disableTap();
 				overlayUsers.clearItems();
 			}
+			
 			for (cgUser user : users) {
 				if (user.latitude == null && user.longitude == null) continue;
 
@@ -808,13 +809,13 @@ public class cgeomap extends MapActivity {
 		Integer minLon = Integer.MAX_VALUE;
 
 		GeoPoint geopoint = null;
-        int cachesWithCoords = 0;
+		int cachesWithCoords = 0;
         
 		coordinates.clear();
 		if (caches != null && caches.size() > 0) {
 			for (cgCache cache : caches) {
 				if (cache.latitude == null && cache.longitude == null) continue;
-                else cachesWithCoords ++;
+				else cachesWithCoords ++;
 
 				String type = null;
 
@@ -851,10 +852,10 @@ public class cgeomap extends MapActivity {
 				if (longitudeE6 < minLon) minLon = longitudeE6;
 			}
 
-            if (cachesWithCoords == 0) {
-                warning.showToast("There is no cache with coordinates.");
-                myLocationInMiddleForce();
-            }
+			if (cachesWithCoords == 0) {
+				warning.showToast("There is no cache with coordinates.");
+				myLocationInMiddleForce();
+			}
 
 			if (live == false) {
 				// there is only one cache
@@ -909,7 +910,7 @@ public class cgeomap extends MapActivity {
 						centerLon = (int)(oneCache.longitude * 1e6);
 					}
 
-					if (initLocation == true) {
+					if (canInit == true && initLocation == true) {
 						mapController.animateTo(new GeoPoint(centerLat, centerLon));
 						if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
 						initLocation = false;
@@ -920,7 +921,7 @@ public class cgeomap extends MapActivity {
 					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) centerLat = minLat + ((maxLat - minLat) / 2);
 					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) centerLon = minLon + ((maxLon - minLon) / 2);
 
-					if (initLocation == true && cachesWithCoords > 0) {
+					if ((canInit == true || initLocation == true) && cachesWithCoords > 0) {
 						mapController.animateTo(new GeoPoint(centerLat, centerLon));
 						if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
 						initLocation = false;
@@ -946,7 +947,7 @@ public class cgeomap extends MapActivity {
 
 			geopoint = new GeoPoint((int)(oneLatitude * 1e6), (int)(oneLongitude * 1e6));
 
-			if (initLocation == true) {
+			if (canInit == true || initLocation == true) {
 				mapController.animateTo(geopoint);
 				initLocation = false;
 			}
