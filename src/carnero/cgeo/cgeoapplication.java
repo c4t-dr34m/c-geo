@@ -15,8 +15,6 @@ public class cgeoapplication extends Application {
 	private boolean geoInUse = false;
 	private cgDirection dir = null;
 	private boolean dirInUse = false;
-	final private ArrayList<cgGeo> geos = new ArrayList<cgGeo>(); // list of location providers
-	final private ArrayList<cgDirection> dirs = new ArrayList<cgDirection>(); // list of direction providers
 	final private HashMap<Long, cgSearch> searches = new HashMap<Long, cgSearch>(); // information about searches
 	final private HashMap<String, cgCache> cachesCache = new HashMap<String, cgCache>(); // caching caches into memory
 
@@ -87,7 +85,7 @@ public class cgeoapplication extends Application {
 	}
 
 	public cgGeo removeGeo() {
-		geo.replaceUpdate(null);
+		if (geo != null) geo.replaceUpdate(null);
 		geoInUse = false;
 		
 		(new removeGeoThread()).start();
@@ -128,7 +126,7 @@ public class cgeoapplication extends Application {
 	}
 
 	public cgDirection removeDir() {
-		dir.replaceUpdate(null);
+		if (dir != null) dir.replaceUpdate(null);
 		dirInUse = false;
 
 		(new removeDirThread()).start();

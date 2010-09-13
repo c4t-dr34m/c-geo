@@ -150,8 +150,6 @@ public class cgData {
 	public cgData(Context contextIn) {
 		context = contextIn;
 
-		if (dbHelper == null) dbHelper = new cgDbHelper(context);
-
 		initRW();
 		initRO();
 	}

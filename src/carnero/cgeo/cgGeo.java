@@ -1,10 +1,6 @@
 package carnero.cgeo;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
@@ -27,10 +23,9 @@ public class cgGeo {
 	private cgSettings settings = null;
 	private cgeoGeoListener geoNetListener = null;
 	private cgeoGeoListener geoGpsListener = null;
-    private cgeoGpsStatusListener geoGpsStatusListener = null;
+	private cgeoGpsStatusListener geoGpsStatusListener = null;
 	private Integer time = 0;
 	private Integer distance = 0;
-	private AlertDialog alertGps = null;
 	private Location locGps = null;
 	private Location locNet = null;
 	private long locGpsLast = 0l;
@@ -170,7 +165,7 @@ public class cgGeo {
 
     public class cgeoGpsStatusListener implements GpsStatus.Listener {
 		@Override
-        public void onGpsStatusChanged(int event) {
+		public void onGpsStatusChanged(int event) {
 			if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
 				GpsStatus status = geoManager.getGpsStatus(null);
 				Iterator<GpsSatellite> statusIterator = status.getSatellites().iterator();

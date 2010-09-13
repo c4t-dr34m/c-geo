@@ -24,6 +24,8 @@ import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 public class cgeocaches extends ListActivity {
@@ -69,24 +71,25 @@ public class cgeocaches extends ListActivity {
 					cacheList.clear();
 					cacheList.addAll(app.getCaches(searchId));
 				}
-				
+
 				setAdapter();
 
 				if (cacheList == null) {
-                    warning.showToast("Sorry, c:geo failed to load cache list.");
+					warning.showToast("Sorry, c:geo failed to load cache list.");
 					setMoreCaches(false);
 				} else {
-                    final Integer count = app.getTotal(searchId);
+					final Integer count = app.getTotal(searchId);
 					final int size = cacheList.size();
-                    if (count != null && count > 0) {
-                        setTitle(title + " (" + size + "/" + count + ")");
+
+					if (count != null && count > 0) {
+						setTitle(title + " (" + size + "/" + count + ")");
 						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) setMoreCaches(true);
 						else setMoreCaches(false);
-                    } else {
-                        setTitle(title);
+					} else {
+						setTitle(title);
 						setMoreCaches(false);
-                    }
-                }
+					}
+				}
 
 				if (cacheList != null && app.getError(searchId) != null && app.getError(searchId).equalsIgnoreCase(base.errorRetrieve.get(-7)) == true) {
 					AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
@@ -114,8 +117,9 @@ public class cgeocaches extends ListActivity {
 					if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 					if (waitDialog != null) {
 						waitDialog.dismiss();
-                        waitDialog.setOnCancelListener(null);
+						waitDialog.setOnCancelListener(null);
 					}
+					
 					finish();
 					return;
 				}
@@ -131,7 +135,7 @@ public class cgeocaches extends ListActivity {
 				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 				if (waitDialog != null) {
 					waitDialog.dismiss();
-                    waitDialog.setOnCancelListener(null);
+					waitDialog.setOnCancelListener(null);
 				}
 				finish();
 				return;
@@ -376,9 +380,9 @@ public class cgeocaches extends ListActivity {
 
 		init();
 
-        if (searchId != null && searchId > 0) {
-            cacheList.clear();
-            cacheList.addAll(app.getCaches(searchId));
+		if (searchId != null && searchId > 0) {
+			cacheList.clear();
+			cacheList.addAll(app.getCaches(searchId));
             
 			if (adapter != null && geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
 				adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
@@ -414,13 +418,13 @@ public class cgeocaches extends ListActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        if (type.equals("offline") == true) {
-            menu.add(0, 4, 0, "drop all").setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
-            menu.add(0, 1, 0, "refresh listed").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
+		if (type.equals("offline") == true) {
+			menu.add(0, 4, 0, "drop all").setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
+			menu.add(0, 1, 0, "refresh listed").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
 			menu.add(0, 5, 0, "import gpx").setIcon(android.R.drawable.ic_menu_upload); // import gpx file
-        } else {
-            menu.add(0, 1, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
-        }
+		} else {
+			menu.add(0, 1, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
+		}
 		menu.add(0, 2, 0, "show on map").setIcon(android.R.drawable.ic_menu_mapmode); // show all caches on map
 		return true;
 	}
@@ -429,57 +433,57 @@ public class cgeocaches extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
             case 1:
-				if (offline == false) {
-					detailTotal = app.getNotOfflineCount(searchId);
+			if (offline == false) {
+				detailTotal = app.getNotOfflineCount(searchId);
 
-					if (detailTotal == 0) {
-						warning.showToast("There is nothing to be saved.");
+				if (detailTotal == 0) {
+					warning.showToast("There is nothing to be saved.");
 
-						return true;
-					}
-				} else {
-					detailTotal = app.getCount(searchId);
+					return true;
 				}
+			} else {
+				detailTotal = app.getCount(searchId);
+			}
 
-				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
-                waitDialog = new ProgressDialog(this);
-                waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    public void onCancel(DialogInterface arg0) {
-                        try {
-                            if (threadD != null) threadD.kill();
+			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			waitDialog = new ProgressDialog(this);
+			waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			public void onCancel(DialogInterface arg0) {
+				try {
+					if (threadD != null) threadD.kill();
 
-							if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-							if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-                        } catch (Exception e) {
-                            Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
-                        }
-                    }
-                });
-                waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                int etaTime = (int)((detailTotal * 7) / 60);
-                if (etaTime < 1) {
-                    waitDialog.setMessage("downloading caches...\neta: less than minute");
-				} else if (etaTime == 1) {
-                    waitDialog.setMessage("downloading caches...\neta: " + etaTime + " min");
-                } else {
-                    waitDialog.setMessage("downloading caches...\neta: " + etaTime + " mins");
-                }
-                waitDialog.setCancelable(true);
-                waitDialog.setMax(detailTotal);
-                waitDialog.show();
+					if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+					if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+				} catch (Exception e) {
+					Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
+				}
+				}
+			});
+			waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			int etaTime = (int)((detailTotal * 7) / 60);
+			if (etaTime < 1) {
+					waitDialog.setMessage("downloading caches...\neta: less than minute");
+			} else if (etaTime == 1) {
+					waitDialog.setMessage("downloading caches...\neta: " + etaTime + " min");
+			} else {
+					waitDialog.setMessage("downloading caches...\neta: " + etaTime + " mins");
+			}
+			waitDialog.setCancelable(true);
+			waitDialog.setMax(detailTotal);
+			waitDialog.show();
 
-                detailProgressTime = System.currentTimeMillis();
+			detailProgressTime = System.currentTimeMillis();
 
-                threadD = new geocachesLoadDetails(loadDetailsHandler);
-                threadD.start();
+			threadD = new geocachesLoadDetails(loadDetailsHandler);
+			threadD.start();
 
-                return true;
+			return true;
 			case 2:
 				showOnMap();
 				return false;
-            case 4:
-                dropStored();
-                return false;
+			case 4:
+				dropStored();
+				return false;
 			case 5:
 				importGpx();
 				return false;
@@ -685,9 +689,12 @@ public class cgeocaches extends ListActivity {
 			registerForContextMenu(list);
 
 			list.addFooterView(listFooter);
-			
+
 			adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
 			setListAdapter(adapter);
+
+			Collections.sort((List<cgCache>)cacheList, new cgCacheComparator(geo.latitudeNow, geo.longitudeNow));
+			adapter.notifyDataSetChanged();
 		}
 	}
 
@@ -729,10 +736,10 @@ public class cgeocaches extends ListActivity {
 			setTitle(title);
 		}
 
+		setAdapter();
+		
 		if (geo != null) geoUpdate.updateLoc(geo);
 		if (dir != null) dirUpdate.updateDir(dir);
-
-		setAdapter();
 	}
 
 	private void showOnMap() {
@@ -740,7 +747,7 @@ public class cgeocaches extends ListActivity {
 
 		Intent mapIntent = new Intent(activity, mapActivity.getClass());
 		mapIntent.putExtra("detail", false);
-        mapIntent.putExtra("searchid", searchId);
+		mapIntent.putExtra("searchid", searchId);
 
 		activity.startActivity(mapIntent);
 	}
@@ -752,11 +759,11 @@ public class cgeocaches extends ListActivity {
 	}
 
     public void dropStored() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-        dialog.setTitle("Drop stored");
-        dialog.setMessage("Do you want to delete all caches stored for offline use?");
-        dialog.setCancelable(true);
-        dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+		AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+		dialog.setTitle("Drop stored");
+		dialog.setMessage("Do you want to delete all caches stored for offline use?");
+		dialog.setCancelable(true);
+		dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				(new Thread() {
 					@Override
@@ -767,12 +774,12 @@ public class cgeocaches extends ListActivity {
 				dialog.cancel();
 				activity.finish();
 			}
-        });
-        dialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-           }
-        });
+		});
+		dialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
 
        AlertDialog alert = dialog.create();
        alert.show();

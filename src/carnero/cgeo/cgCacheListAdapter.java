@@ -28,7 +28,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private cgBase base = null;
 	private Double latitude = null;
 	private Double longitude = null;
-    private float azimuth = 0.0f;
+	private float azimuth = 0.0f;
 	private long lastSort = 0l;
 	private HashMap<String, Drawable> gcIcons = new HashMap<String, Drawable>();
 	private ArrayList<cgCompassMini> compasses = new ArrayList<cgCompassMini>();
