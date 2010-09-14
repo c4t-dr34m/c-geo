@@ -58,12 +58,35 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
     }
 
-	public void setActualCoordinates(Double latitudeIn, Double longitudeIn) {
-		latitude = latitudeIn;
-		longitude = longitudeIn;
+	public void forceSort(Double latitudeIn, Double longitudeIn) {
+		if (latitudeIn == null || longitudeIn == null) return;
+		if (list == null || list.isEmpty() == true) return;
 
+		try {
+			Collections.sort((List<cgCache>)list, new cgCacheComparator(latitudeIn, longitudeIn));
+			notifyDataSetChanged();
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgCacheListAdapter.setActualCoordinates: failed to sort caches in list");
+		}
+	}
+
+	public void setActualCoordinates(Double latitudeIn, Double longitudeIn) {
 		if (latitudeIn == null || longitudeIn == null) return;
 
+		latitude = latitudeIn;
+		longitude = longitudeIn;
+		
+		if (list != null && list.isEmpty() == false&& (System.currentTimeMillis() - lastSort) > 1000) {
+			try {
+				Collections.sort((List<cgCache>)list, new cgCacheComparator(latitudeIn, longitudeIn));
+				notifyDataSetChanged();
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgCacheListAdapter.setActualCoordinates: failed to sort caches in list");
+			}
+
+			lastSort = System.currentTimeMillis();
+		}
+		
 		if (distances != null && distances.size() > 0) {
 			for (cgDistanceView distance : distances) {
 				distance.update(latitudeIn, longitudeIn);
@@ -75,21 +98,12 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 				compass.updateCoords(latitudeIn, longitudeIn);
 			}
 		}
-		
-		if (list != null && list.isEmpty() == false && (System.currentTimeMillis() - lastSort) > 1000) {
-			try {
-				Collections.sort((List<cgCache>)list, new cgCacheComparator(latitudeIn, longitudeIn));
-				notifyDataSetChanged();
-			} catch (Exception e) {
-				Log.w(cgSettings.tag, "cgCacheListAdapter.setActualCoordinates: failed to sort caches in list");
-			}
-
-			lastSort = System.currentTimeMillis();
-		}
 	}
 
 	public void setActualHeading(Float azimuthIn) {
-        azimuth = azimuthIn;
+		if (azimuthIn == null) return;
+		
+		azimuth = azimuthIn;
 
 		if (compasses != null && compasses.size() > 0) {
 			for (cgCompassMini compass : compasses) {

@@ -388,12 +388,17 @@ public class cgeocaches extends ListActivity {
 				adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
 				adapter.setActualHeading(northHeading);
 			}
-        }
+		}
+
+		if (adapter != null && geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
+			adapter.forceSort(geo.latitudeNow, geo.longitudeNow);
+		}
 	}
 
 	@Override
 	public void onDestroy() {
 		if (adapter != null) adapter = null;
+
 		if (dir != null) dir = app.removeDir();
 		if (geo != null) geo = app.removeGeo();
 
@@ -692,10 +697,10 @@ public class cgeocaches extends ListActivity {
 
 			adapter = new cgCacheListAdapter(activity, settings, cacheList, base);
 			setListAdapter(adapter);
-
-			Collections.sort((List<cgCache>)cacheList, new cgCacheComparator(geo.latitudeNow, geo.longitudeNow));
-			adapter.notifyDataSetChanged();
 		}
+
+		if (adapter != null && geo != null) adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
+		if (adapter != null && dir != null) adapter.setActualHeading(dir.directionNow);
 	}
 
 	private void setMoreCaches(boolean more) {
