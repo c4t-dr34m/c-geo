@@ -113,7 +113,9 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 					final BitmapFactory.Options bfOptions = new BitmapFactory.Options();
 					// large images will be downscaled on input to save memory
-					if (imageSize > (4 * 1024 * 1024)) {
+					if (imageSize > (6 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 48;
+					} else if (imageSize > (4 * 1024 * 1024)) {
 						bfOptions.inSampleSize = 16;
 					} else if (imageSize > (2 * 1024 * 1024)) {
 						bfOptions.inSampleSize = 10;
@@ -152,6 +154,9 @@ public class cgHtmlImg implements Html.ImageGetter {
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (saving to cache): " + e.toString());
 			}
+
+			entity = null;
+			bufferedEntity = null;
 		}
 
 		if (onlySave == false) {

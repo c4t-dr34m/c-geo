@@ -54,7 +54,6 @@ public class cgeodetail extends Activity {
 	private Boolean longDescDisplayed = false;
 	private loadCache threadCache = null;
 	private loadLongDesc threadLongDesc = null;
-	private int poiId = -1;
 	private HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 	private ProgressDialog storeDialog = null;
 	private ProgressDialog dropDialog = null;
