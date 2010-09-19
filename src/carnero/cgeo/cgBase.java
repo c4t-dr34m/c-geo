@@ -318,9 +318,9 @@ public class cgBase {
 
 		final HashMap<String, String> loginStart = settings.getLogin();
 
-        if (loginStart == null) {
-            return -3; // no login information stored
-        }
+		if (loginStart == null) {
+			return -3; // no login information stored
+		}
 
 		loginPage = request(host, path, "GET", new HashMap<String, String>(), false, false, false);
 		if (loginPage != null && loginPage.length() > 0) {
@@ -357,10 +357,10 @@ public class cgBase {
 		params.put("__EVENTTARGET", "");
 		params.put("__EVENTARGUMENT", "");
 		params.put("__VIEWSTATE", viewstate);
-        if (viewstate1 != null) {
-            params.put("__VIEWSTATE1", viewstate1);
-            params.put("__VIEWSTATEFIELDCOUNT", "2");
-        }
+		if (viewstate1 != null) {
+			params.put("__VIEWSTATE1", viewstate1);
+			params.put("__VIEWSTATEFIELDCOUNT", "2");
+		}
 		params.put("ctl00$ContentBody$myUsername", login.get("username"));
 		params.put("ctl00$ContentBody$myPassword", login.get("password"));
 		params.put("ctl00$ContentBody$cookie", "on");

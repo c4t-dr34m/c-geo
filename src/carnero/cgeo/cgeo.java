@@ -15,16 +15,19 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Message;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import java.util.List;
 import java.util.Locale;
 
 public class cgeo extends Activity {
 	private Resources res = null;
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private Context context = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -39,6 +42,8 @@ public class cgeo extends Activity {
 	private TextView countBubble = null;
 	private boolean cleanupRunning = false;
 	private int countBubbleCnt = 0;
+	private Double addLat = null;
+	private Double addLon = null;
 
 	private Handler countBubbleHandler = new Handler() {
 		@Override
@@ -327,16 +332,62 @@ public class cgeo extends Activity {
 						navAccuracy.setText(null);
 					}
 
-					if (geo.altitudeNow != null) {
-						String humanAlt;
-						if (settings.units == settings.unitsImperial) {
-							humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
+					boolean haveAddress = false;
+					if (settings.showAddress == 1) {
+						if (addLat == null || addLon == null || base.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 5) {
+							Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+							try {
+								final List<Address> addresses = geocoder.getFromLocation(geo.latitudeNow, geo.longitudeNow, 1);
+
+								if (addresses.isEmpty() == false) {
+									final Address address = addresses.get(0);
+									final StringBuilder addText = new StringBuilder();
+
+									if (address.getCountryName() != null) {
+										addText.append(address.getCountryName());
+									}
+									if (address.getLocality() != null) {
+										if (addText.length() > 0) addText.append(", ");
+										addText.append(address.getLocality());
+									} else if (address.getAdminArea() != null) {
+										if (addText.length() > 0) addText.append(", ");
+										addText.append(address.getAdminArea());
+									}
+									if (address.getSubAdminArea() != null) {
+										if (addText.length() > 0) addText.append(", ");
+										addText.append(address.getSubAdminArea());
+									}
+									if (address.getSubLocality() != null) {
+										if (addText.length() > 0) addText.append(", ");
+										addText.append(address.getSubLocality());
+									}
+
+									addLat = geo.latitudeNow;
+									addLon = geo.longitudeNow;
+
+									navLocation.setText(addText.toString());
+									haveAddress = true;
+								}
+							} catch (Exception e) {
+								// nothing
+							}
 						} else {
-							humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
+							haveAddress = true;
 						}
-						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
-					} else {
-						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
+					}
+
+					if (haveAddress == false) {
+						if (geo.altitudeNow != null) {
+							String humanAlt;
+							if (settings.units == settings.unitsImperial) {
+								humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
+							} else {
+								humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
+							}
+							navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
+						} else {
+							navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
+						}
 					}
 				} else {
 					Button findNearest = (Button)findViewById(R.id.nearest);

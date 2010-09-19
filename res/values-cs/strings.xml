@@ -152,6 +152,7 @@
 	<string name="init_other">další možnosti</string>
 	<string name="init_skin">světlý skin (vyžaduje restart)</string>
 	<string name="init_transparent">průhledná úvodní obrazovka</string>
+	<string name="init_address">adresa na úvodní obrazovce</string>
 	<string name="init_exclude">nezobrazovat vlastní a nalezené keše</string>
 	<string name="init_disabled">nezobrazovat zrušené keše</string>
 	<string name="init_offline">ukládat mapy pro offline použití</string>
@@ -258,7 +259,8 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 	<!-- changelog -->
 	<string name="changelog">
 <b>0.77.6</b> (__.09.2010)\n
-· fix: __\n
+· new: Address on mainscreen (see Options)\n
+· fix: Switching login\n
 \n
 <b>0.77.5</b> (14.09.2010)\n
 · new: Small help on first run\n

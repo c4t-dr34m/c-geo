@@ -193,6 +193,11 @@ public class cgeoinit extends Activity {
 		else transparentButton.setChecked(true);
 		transparentButton.setOnClickListener(new cgeoChangeTransparent());
 
+		CheckBox addressButton = (CheckBox)findViewById(R.id.address);
+		if (prefs.getInt("showaddress", 1) == 0) addressButton.setChecked(false);
+		else addressButton.setChecked(true);
+		addressButton.setOnClickListener(new cgeoChangeAddress());
+
 		CheckBox excludeButton = (CheckBox)findViewById(R.id.exclude);
 		if (prefs.getInt("excludemine", 0) == 0) excludeButton.setChecked(false);
 		else excludeButton.setChecked(true);
@@ -316,6 +321,27 @@ public class cgeoinit extends Activity {
 
 			CheckBox transparentButton = (CheckBox)findViewById(R.id.transparent);
 			if (prefs.getBoolean("transparent", true) == false) {
+				transparentButton.setChecked(false);
+			} else {
+				transparentButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeAddress implements View.OnClickListener {
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("showaddress", 1) == 0) {
+				edit.putInt("showaddress", 1);
+			} else {
+				edit.putInt("showaddress", 0);
+			}
+			edit.commit();
+
+			CheckBox transparentButton = (CheckBox)findViewById(R.id.address);
+			if (prefs.getInt("showaddress", 1) == 0) {
 				transparentButton.setChecked(false);
 			} else {
 				transparentButton.setChecked(true);
@@ -581,15 +607,16 @@ public class cgeoinit extends Activity {
 			final String username = ((EditText)findViewById(R.id.username)).getText().toString();
 			final String password = ((EditText)findViewById(R.id.password)).getText().toString();
 
-            if (username == null || username.length() == 0 || password == null || password.length() == 0) {
-                warning.showToast("No username and/or password set.");
-                return;
-            }
+			if (username == null || username.length() == 0 || password == null || password.length() == 0) {
+				warning.showToast("No username and/or password set.");
+				return;
+			}
 
 			loginDialog = ProgressDialog.show(activity, "login", "Logging to geocaching.com...", true);
 			loginDialog.setCancelable(false);
 
-            settings.setLogin(username, password);
+			settings.setLogin(username, password);
+			settings.deleteCookies();
 
 			(new Thread() {
 				@Override

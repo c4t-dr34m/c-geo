@@ -152,6 +152,7 @@
 	<string name="init_other">other options</string>
 	<string name="init_skin">light skin (needs restart of c:geo)</string>
 	<string name="init_transparent">use transparent c:geo mainscreen</string>
+	<string name="init_address">show address on mainscreen</string>
 	<string name="init_exclude">exclude own and found caches</string>
 	<string name="init_disabled">exclude disabled caches</string>
 	<string name="init_offline">store maps for offline use</string>
@@ -258,7 +259,8 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<!-- changelog -->
 	<string name="changelog">
 <b>0.77.6</b> (__.09.2010)\n
-· fix: __\n
+· new: Address on mainscreen (see Options)\n
+· fix: Switching login\n
 \n
 <b>0.77.5</b> (14.09.2010)\n
 · new: Small help on first run\n

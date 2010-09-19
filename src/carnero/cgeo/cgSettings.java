@@ -47,6 +47,7 @@ public class cgSettings {
 	public int asBrowser = 1;
 	public int useCompass = 1;
 	public int useGNavigation = 1;
+	public int showAddress = 1;
 	public int publicLoc = 0;
 	public int twitter = 0;
 	public String cacheType = null;
@@ -91,6 +92,7 @@ public class cgSettings {
 		asBrowser = prefs.getInt("asbrowser", 1);
 		useCompass = prefs.getInt("usecompass", 1);
 		useGNavigation = prefs.getInt("usegnav", 1);
+		showAddress = prefs.getInt("showaddress", 1);
 		publicLoc = prefs.getInt("publicloc", 0);
 		twitter = prefs.getInt("twitter", 0);
 		cacheType = prefs.getString("cachetype", null);
