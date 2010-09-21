@@ -275,23 +275,23 @@ public class cgeodetail extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        if (cache.latitude != null && cache.longitude != null) {
-            SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_compass);
-            subMenu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)); // compass
-            subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
-            subMenu.add(0, 10, 0, res.getString(R.string.cache_menu_map_ext)); // external map
-            subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
+		if (cache.latitude != null && cache.longitude != null) {
+			menu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)).setIcon(android.R.drawable.ic_menu_compass); // compass
 
-    		menu.add(0, 1, 0, res.getString(R.string.cache_menu_map)).setIcon(android.R.drawable.ic_menu_mapmode); // google maps
-        }
-
-		if (cache != null && cache.reason == 1) {
-			menu.add(1, 6, 0, res.getString(R.string.cache_menu_map_static)).setIcon(android.R.drawable.ic_menu_mapmode); // static maps
+			SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
+			subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
+			subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // google maps
+			subMenu.add(0, 10, 0, res.getString(R.string.cache_menu_map_ext)); // external map
+			if (cache != null && cache.reason == 1) {
+				subMenu.add(1, 6, 0, res.getString(R.string.cache_menu_map_static)); // static maps
+			}
+			subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
 		}
+
 		menu.add(1, 7, 0, res.getString(R.string.cache_menu_browser)).setIcon(android.R.drawable.ic_menu_info_details); // browser
-        if (settings.isLogin() == true) {
-            menu.add(1, 3, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
-        }
+		if (settings.isLogin() == true) {
+			menu.add(1, 3, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
+		}
 
 		if (cache != null && cache.spoilers != null && cache.spoilers.size() > 0) {
 			menu.add(1, 5, 0, res.getString(R.string.cache_menu_spoilers)).setIcon(android.R.drawable.ic_menu_gallery); // spoiler images
@@ -914,7 +914,18 @@ public class cgeodetail extends Activity {
 	private void showOnMapExt() {
 		try {
 			// default map
-			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
+			// activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
+
+			// rmaps
+			if (base.isIntentAvailable(activity, "com.robert.maps.action.SHOW_POINTS") == true) {
+				final ArrayList<String> locations = new ArrayList<String>();
+				locations.add(String.format("%.6f", cache.latitude) + "," + String.format("%.6f", cache.longitude) + ";" + cache.geocode + ";" + cache.name);
+
+				final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
+				intent.putStringArrayListExtra("locations", locations);
+
+				activity.startActivity(intent);
+			}
 		} catch (Exception e) {
 			showOnMap();
 		}

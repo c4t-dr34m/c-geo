@@ -36,6 +36,7 @@ public class cgGPXParser {
 		base = baseIn;
 		search = searchIn;
 
+		nsGCList.add("http://www.groundspeak.com/cache/1/1"); // PQ 1.1
 		nsGCList.add("http://www.groundspeak.com/cache/1/0/1"); // PQ 1.0.1
 		nsGCList.add("http://www.groundspeak.com/cache/1/0"); // PQ 1.0
 	}

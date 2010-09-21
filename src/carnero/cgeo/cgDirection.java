@@ -20,7 +20,6 @@ public class cgDirection {
 	private cgeoSensorListener sensorListener = null;
 	private cgUpdateDir dirUpdate = null;
 	private cg8wrap cg8 = null;
-	private boolean userWarned = false;
 
 	public Float directionNow = null;
 

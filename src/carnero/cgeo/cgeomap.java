@@ -1011,7 +1011,7 @@ public class cgeomap extends MapActivity {
 					if (followLocation == true) myLocationInMiddle();
 				}
 
-				if (settings.useCompass == 0) {
+				if (settings.useCompass == 0 || (geo.speedNow != null && geo.speedNow > 5)) { // use GPS when speed is higher than 18 km/h
 					if (geo.bearingNow != null) overlayMyLoc.setHeading(geo.bearingNow);
 					else overlayMyLoc.setHeading(0.0f);
 				}
@@ -1026,7 +1026,7 @@ public class cgeomap extends MapActivity {
 		public void updateDir(cgDirection dir) {
 			if (dir == null || dir.directionNow == null) return;
 
-			if (overlayMyLoc != null && mapView != null) {
+			if (overlayMyLoc != null && mapView != null && (geo == null || geo.speedNow == null || geo.speedNow <= 5)) { // use compass when speed is lower than 18 km/h
 				overlayMyLoc.setHeading(dir.directionNow);
 				mapView.invalidate();
 			}

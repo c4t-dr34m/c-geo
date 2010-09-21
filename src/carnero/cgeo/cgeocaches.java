@@ -24,8 +24,6 @@ import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 public class cgeocaches extends ListActivity {
@@ -801,7 +799,7 @@ public class cgeocaches extends ListActivity {
 					adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
 				}
 
-				if (settings.useCompass == 0) {
+				if (settings.useCompass == 0 || (geo.speedNow != null && geo.speedNow > 5)) { // use GPS when speed is higher than 18 km/h
 					if (settings.useCompass == 0) {
 						if (geo.bearingNow != null) adapter.setActualHeading(geo.bearingNow);
 						else adapter.setActualHeading(0.0f);
@@ -821,7 +819,9 @@ public class cgeocaches extends ListActivity {
 			if (dir == null || dir.directionNow == null) return;
 
 			northHeading = dir.directionNow;
-			if (northHeading != null && adapter != null) adapter.setActualHeading(northHeading);
+			if (northHeading != null && adapter != null && (geo == null || geo.speedNow == null || geo.speedNow <= 5)) { // use compass when speed is lower than 18 km/h) {
+				adapter.setActualHeading(northHeading);
+			}
 		}
 	}
 

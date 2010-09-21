@@ -391,7 +391,7 @@ public class cgeonavigate extends Activity {
 					navLocation.setText(res.getString(R.string.loc_trying));
 				}
 
-				if (settings.useCompass == 0) {
+				if (settings.useCompass == 0 || (geo.speedNow != null && geo.speedNow > 5)) { // use GPS when speed is higher than 18 km/h
 					if (geo != null && geo.bearingNow != null) {
 						northHeading = geo.bearingNow;
 					} else {
@@ -408,8 +408,10 @@ public class cgeonavigate extends Activity {
 		@Override
 		public void updateDir(cgDirection dir) {
 			if (dir == null || dir.directionNow == null) return;
-			
-			northHeading = dir.directionNow;
+
+			if (geo == null || geo.speedNow == null || geo.speedNow <= 5) { // use compass when speed is lower than 18 km/h
+				northHeading = dir.directionNow;
+			}
 		}
 	}
 

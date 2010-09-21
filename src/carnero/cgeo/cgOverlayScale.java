@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -98,7 +97,6 @@ public class cgOverlayScale extends Overlay {
 			scaleShadow = new Paint();
 			scaleShadow.setAntiAlias(true);
 			scaleShadow.setStrokeWidth(4 * pixelDensity);
-			scaleShadow.setColor(0xFFFFFFFF);
 			scaleShadow.setMaskFilter(blur);
 			scaleShadow.setTextSize(14 * pixelDensity);
 			scaleShadow.setTypeface(Typeface.DEFAULT_BOLD);
@@ -108,13 +106,20 @@ public class cgOverlayScale extends Overlay {
 			scale = new Paint();
 			scale.setAntiAlias(true);
 			scale.setStrokeWidth(2 * pixelDensity);
-			scale.setColor(0xFF000000);
 			scale.setTextSize(14 * pixelDensity);
 			scale.setTypeface(Typeface.DEFAULT_BOLD);
 		}
 
-		canvas.drawLine(9, bottom, 9, (bottom - (8 * pixelDensity)), scaleShadow);
-		canvas.drawLine((int)(pixels + 11), bottom, (int)(pixels + 11), (bottom - (8 * pixelDensity)), scaleShadow);
+		if (mapView.isSatellite()) {
+			scaleShadow.setColor(0xFF000000);
+			scale.setColor(0xFFFFFFFF);
+		} else {
+			scaleShadow.setColor(0xFFFFFFFF);
+			scale.setColor(0xFF000000);
+		}
+
+		canvas.drawLine(10, bottom, 10, (bottom - (8 * pixelDensity)), scaleShadow);
+		canvas.drawLine((int)(pixels + 10), bottom, (int)(pixels + 10), (bottom - (8 * pixelDensity)), scaleShadow);
 		canvas.drawLine(8, bottom, (int)(pixels + 12), bottom, scaleShadow);
 		canvas.drawText(String.format("%.0f", distanceRound) + " " + units, (float)(pixels - (10 * pixelDensity)), (bottom - (10 * pixelDensity)), scaleShadow);
 
