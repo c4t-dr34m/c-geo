@@ -57,8 +57,15 @@ public class cgGeo {
 		distance = distanceIn;
 
 		if (prefs == null) prefs = context.getSharedPreferences(cgSettings.preferences, 0);
-		if (prefs != null) distanceNow = prefs.getFloat("distance", 0);
-		Log.d(cgSettings.tag, "Distance: " + String.format("%.5f", distanceNow));
+		distanceNow = prefs.getFloat("dst", 0f);
+		if (Float.isNaN(distanceNow) == true) distanceNow = 0f;
+		if (distanceNow == 0f) {
+			final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
+			if (prefsEdit != null) {
+				prefsEdit.putLong("dst-since", System.currentTimeMillis());
+				prefsEdit.commit();
+			}
+		}
 		
 		geoNetListener = new cgeoGeoListener();
 		geoNetListener.setProvider(LocationManager.NETWORK_PROVIDER);
@@ -82,7 +89,7 @@ public class cgGeo {
 		satellitesFixed = 0;
 
 		if (prefs == null) prefs = context.getSharedPreferences(cgSettings.preferences, 0);
-		if (prefs != null) lastGo4cache = prefs.getLong("last-g4c", 0l);
+		lastGo4cache = prefs.getLong("last-g4c", 0l);
 
 		if (geoManager == null) geoManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
 
@@ -107,10 +114,14 @@ public class cgGeo {
 			geoManager.removeGpsStatusListener(geoGpsStatusListener);
 		}
 
+		Log.d(cgSettings.tag, "Distance: " + distanceNow);
 		final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
 		if (prefsEdit != null) {
-			prefsEdit.putFloat("distance", distanceNow);
 			prefsEdit.putLong("last-g4c", lastGo4cache);
+			if (Float.isNaN(distanceNow) == false) {
+				prefsEdit.putFloat("dst", distanceNow);
+			}
+
 			prefsEdit.commit();
 		}
 	}
@@ -277,6 +288,7 @@ public class cgGeo {
 		else accuracyNow = 999f;
 
 		if (gps == 1) {
+			// save travelled distance only when location is from GPS
 			if (latitudeBefore != null && longitudeBefore != null && latitudeNow != null && longitudeNow != null) {
 				distanceNow += base.getDistance(latitudeBefore, longitudeBefore, latitudeNow, longitudeNow);
 			}
