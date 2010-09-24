@@ -21,6 +21,7 @@ public class cgGeo {
 	private cgWarning warning = null;
 	private cgBase base = null;
 	private cgSettings settings = null;
+	private SharedPreferences prefs = null;
 	private cgeoGeoListener geoNetListener = null;
 	private cgeoGeoListener geoGpsListener = null;
 	private cgeoGpsStatusListener geoGpsStatusListener = null;
@@ -35,12 +36,15 @@ public class cgGeo {
 	public int gps = -1;
 	public Double latitudeNow = null;
 	public Double longitudeNow = null;
+	public Double latitudeBefore = null;
+	public Double longitudeBefore = null;
 	public Double altitudeNow = null;
 	public Float bearingNow = null;
 	public Float speedNow = null;
 	public Float accuracyNow = null;
 	public Integer satellitesVisible = null;
 	public Integer satellitesFixed = null;
+	public float distanceNow = 0f;
 
 	public cgGeo(Context contextIn, cgeoapplication appIn, cgUpdateLoc geoUpdateIn, cgBase baseIn, cgSettings settingsIn, cgWarning warningIn, int timeIn, int distanceIn) {
 		context = contextIn;
@@ -51,6 +55,10 @@ public class cgGeo {
 		warning = warningIn;
 		time = timeIn;
 		distance = distanceIn;
+
+		if (prefs == null) prefs = context.getSharedPreferences(cgSettings.preferences, 0);
+		if (prefs != null) distanceNow = prefs.getFloat("distance", 0);
+		Log.d(cgSettings.tag, "Distance: " + String.format("%.5f", distanceNow));
 		
 		geoNetListener = new cgeoGeoListener();
 		geoNetListener.setProvider(LocationManager.NETWORK_PROVIDER);
@@ -73,7 +81,7 @@ public class cgGeo {
 		satellitesVisible = 0;
 		satellitesFixed = 0;
 
-		final SharedPreferences prefs = context.getSharedPreferences(cgSettings.preferences, 0);
+		if (prefs == null) prefs = context.getSharedPreferences(cgSettings.preferences, 0);
 		if (prefs != null) lastGo4cache = prefs.getLong("last-g4c", 0l);
 
 		if (geoManager == null) geoManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
@@ -101,6 +109,7 @@ public class cgGeo {
 
 		final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
 		if (prefsEdit != null) {
+			prefsEdit.putFloat("distance", distanceNow);
 			prefsEdit.putLong("last-g4c", lastGo4cache);
 			prefsEdit.commit();
 		}
@@ -266,6 +275,15 @@ public class cgGeo {
 		else speedNow = 0f;
 		if (location.hasAccuracy() && gps != -1) accuracyNow = location.getAccuracy();
 		else accuracyNow = 999f;
+
+		if (gps == 1) {
+			if (latitudeBefore != null && longitudeBefore != null && latitudeNow != null && longitudeNow != null) {
+				distanceNow += base.getDistance(latitudeBefore, longitudeBefore, latitudeNow, longitudeNow);
+			}
+
+			latitudeBefore = latitudeNow;
+			longitudeBefore = longitudeNow;
+		}
 
 		if (geoUpdate != null) geoUpdate.updateLoc(this);
 
