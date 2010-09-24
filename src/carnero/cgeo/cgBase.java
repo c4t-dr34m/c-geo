@@ -2074,7 +2074,7 @@ public class cgBase {
 		return searchId;
 	}
 
-	public Long searchByGeocode(HashMap<String, String> parameters, int reason) {
+	public Long searchByGeocode(HashMap<String, String> parameters, int reason, boolean forceReload) {
         final cgSearch search = new cgSearch();
 		String geocode = parameters.get("geocode");
 		String guid = parameters.get("guid");
@@ -2084,7 +2084,7 @@ public class cgBase {
 			return null;
 		}
 
-        if (reason == 0 && (app.isOffline(geocode, guid) == true || app.isThere(geocode, guid, true, true) == true)) {
+        if (forceReload == false && reason == 0 && (app.isOffline(geocode, guid) == true || app.isThere(geocode, guid, true, true) == true)) {
             if ((geocode == null || geocode.length() == 0) && guid != null && guid.length() > 0) geocode = app.getGeocode(guid);
 
             ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
@@ -2153,14 +2153,14 @@ public class cgBase {
 
 		final cgCacheWrap caches = parseCache(page, reason);
 		if (caches == null || caches.cacheList == null || caches.cacheList.isEmpty()) {
-            if (caches.error != null && caches.error.length() > 0) {
-                search.error = caches.error;
-            }
-            if (caches.url != null && caches.url.length() > 0) {
-                search.url = caches.url;
-            }
+			if (caches.error != null && caches.error.length() > 0) {
+				search.error = caches.error;
+			}
+			if (caches.url != null && caches.url.length() > 0) {
+				search.url = caches.url;
+			}
 
-	        app.addSearch(search, null, true, reason);
+			app.addSearch(search, null, true, reason);
 
 			Log.e(cgSettings.tag, "cgeoBase.searchByGeocode: No cache parsed");
 			return null;
@@ -3535,11 +3535,11 @@ public class cgBase {
 			if (cache != null) {
 				final HashMap<String, String> params = new HashMap<String, String>();
 				params.put("geocode", cache.geocode);
-				searchByGeocode(params, 1);
+				searchByGeocode(params, 1, false);
 			} else if (geocode != null) {
 				final HashMap<String, String> params = new HashMap<String, String>();
 				params.put("geocode", geocode);
-				Long searchId = searchByGeocode(params, 1);
+				Long searchId = searchByGeocode(params, 1, false);
 				cache = app.getCache(searchId);
 			}
 

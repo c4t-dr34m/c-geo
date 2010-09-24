@@ -435,52 +435,53 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-            case 1:
-			if (offline == false) {
-				detailTotal = app.getNotOfflineCount(searchId);
+			case 1:
+				if (offline == false) {
+					detailTotal = app.getNotOfflineCount(searchId);
 
-				if (detailTotal == 0) {
-					warning.showToast("There is nothing to be saved.");
+					if (detailTotal == 0) {
+						warning.showToast("There is nothing to be saved.");
 
-					return true;
+						return true;
+					}
+				} else {
+					detailTotal = app.getCount(searchId);
 				}
-			} else {
-				detailTotal = app.getCount(searchId);
-			}
 
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
-			waitDialog = new ProgressDialog(this);
-			waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			public void onCancel(DialogInterface arg0) {
-				try {
-					if (threadD != null) threadD.kill();
+				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+				waitDialog = new ProgressDialog(this);
+				waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				public void onCancel(DialogInterface arg0) {
+					try {
+						if (threadD != null) threadD.kill();
 
-					if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-					if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-				} catch (Exception e) {
-					Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
+						if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+						if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+					} catch (Exception e) {
+						Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
+					}
+					}
+				});
+
+				waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				int etaTime = (int)((detailTotal * 7) / 60);
+				if (etaTime < 1) {
+						waitDialog.setMessage("downloading caches...\neta: less than minute");
+				} else if (etaTime == 1) {
+						waitDialog.setMessage("downloading caches...\neta: " + etaTime + " min");
+				} else {
+						waitDialog.setMessage("downloading caches...\neta: " + etaTime + " mins");
 				}
-				}
-			});
-			waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			int etaTime = (int)((detailTotal * 7) / 60);
-			if (etaTime < 1) {
-					waitDialog.setMessage("downloading caches...\neta: less than minute");
-			} else if (etaTime == 1) {
-					waitDialog.setMessage("downloading caches...\neta: " + etaTime + " min");
-			} else {
-					waitDialog.setMessage("downloading caches...\neta: " + etaTime + " mins");
-			}
-			waitDialog.setCancelable(true);
-			waitDialog.setMax(detailTotal);
-			waitDialog.show();
+				waitDialog.setCancelable(true);
+				waitDialog.setMax(detailTotal);
+				waitDialog.show();
 
-			detailProgressTime = System.currentTimeMillis();
+				detailProgressTime = System.currentTimeMillis();
 
-			threadD = new geocachesLoadDetails(loadDetailsHandler);
-			threadD.start();
+				threadD = new geocachesLoadDetails(loadDetailsHandler);
+				threadD.start();
 
-			return true;
+				return true;
 			case 2:
 				showOnMap();
 				return false;
@@ -530,9 +531,9 @@ public class cgeocaches extends ListActivity {
 		if (cache.latitude != null && cache.longitude != null) {
 			menu.add(0, 0, 0, res.getString(R.string.cache_menu_compass));
 			menu.add(0, 1, 0, res.getString(R.string.cache_menu_radar));
-			menu.add(0, 2, 0, res.getString(R.string.cache_menu_tbt));
 			menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
 			menu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
+			menu.add(0, 2, 0, res.getString(R.string.cache_menu_tbt));
 			menu.add(0, 5, 0, res.getString(R.string.cache_menu_visit));
 		}
 	}
@@ -642,8 +643,19 @@ public class cgeocaches extends ListActivity {
 			return true;
 		} else if (id == 4) { // show on external map
 			try {
-				// default map
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
+				if (base.isIntentAvailable(activity, "com.robert.maps.action.SHOW_POINTS") == true) {
+					// rmaps
+					final ArrayList<String> locations = new ArrayList<String>();
+					locations.add(String.format("%.6f", cache.latitude) + "," + String.format("%.6f", cache.longitude) + ";" + cache.geocode + ";" + cache.name);
+
+					final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
+					intent.putStringArrayListExtra("locations", locations);
+
+					activity.startActivity(intent);
+				} else {
+					// default map
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
+				}
 			} catch (Exception e) {
 				Intent mapIntent = new Intent(activity, cgeomap.class);
 				mapIntent.putExtra("detail", false);

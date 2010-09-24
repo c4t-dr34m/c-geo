@@ -365,12 +365,12 @@ public class cgeopopup extends Activity {
 					offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh, 0));
 					offlineRefresh.setOnClickListener(new storeCache());
 
-	                offlineStore.setText(res.getString(R.string.cache_offline_drop));
+					offlineStore.setText(res.getString(R.string.cache_offline_drop));
 					offlineStore.setClickable(true);
 					offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
 					offlineStore.setOnClickListener(new dropCache());
 				} else {
-	    			offlineText.setText(res.getString(R.string.cache_offline_not_ready));
+					offlineText.setText(res.getString(R.string.cache_offline_not_ready));
 
 					offlineRefresh.setVisibility(View.GONE);
 					offlineRefresh.setClickable(false);

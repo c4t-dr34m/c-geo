@@ -31,6 +31,7 @@ public class cgeospoilers extends Activity {
 	private ProgressDialog progressDialog = null;
 	private ProgressDialog waitDialog = null;
 	private LinearLayout spoilerView = null;
+	private int offline = 0;
 	private int count = 0;
 	private int countDone = 0;
 
@@ -47,6 +48,9 @@ public class cgeospoilers extends Activity {
 					return;
 				} else {
 					if (waitDialog != null) waitDialog.dismiss();
+
+					if (app.isOffline(geocode, null) == true) offline = 1;
+					else offline = 0;
 					
 					count = spoilers.size();
 					progressDialog = new ProgressDialog(activity);
@@ -76,7 +80,7 @@ public class cgeospoilers extends Activity {
 							public void run() {
 								BitmapDrawable image = null;
 								try {
-									cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, geocode, true, 0, false);
+									cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, geocode, true, offline, false);
 
 									image = imgGetter.getDrawable(spl.url);
 									Message message = handler.obtainMessage(0, image);
@@ -103,10 +107,10 @@ public class cgeospoilers extends Activity {
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("spoiler images");

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import java.util.ArrayList;
 
 public class cgeowaypoint extends Activity {
 	private cgWaypoint waypoint = null;
@@ -57,11 +58,6 @@ public class cgeowaypoint extends Activity {
 					}
 
 					if (waypoint.latitude != null && waypoint.longitude != null) {
-						Button buttonMap = (Button)findViewById(R.id.map);
-						buttonMap.setClickable(true);
-						buttonMap.setOnTouchListener(new cgViewTouch(settings, buttonMap, 0));
-						buttonMap.setOnClickListener(new mapToListener(waypoint.latitude, waypoint.longitude));
-
 						Button buttonCompass = (Button)findViewById(R.id.compass);
 						buttonCompass.setClickable(true);
 						buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass, 0));
@@ -73,8 +69,18 @@ public class cgeowaypoint extends Activity {
 							buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar, 0));
 							buttonRadar.setOnClickListener(new radarToListener(waypoint.latitude, waypoint.longitude));
 						} else {
-							buttonRadar.setVisibility(View.GONE);
+							buttonRadar.setBackgroundResource(settings.buttonInactive);
 						}
+
+						Button buttonMap = (Button)findViewById(R.id.map);
+						buttonMap.setClickable(true);
+						buttonMap.setOnTouchListener(new cgViewTouch(settings, buttonMap, 0));
+						buttonMap.setOnClickListener(new mapToListener(waypoint.latitude, waypoint.longitude));
+
+						Button buttonMapExt = (Button)findViewById(R.id.map_ext);
+						buttonMapExt.setClickable(true);
+						buttonMapExt.setOnTouchListener(new cgViewTouch(settings, buttonMapExt, 0));
+						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint.latitude, waypoint.longitude));
 
 						Button buttonTurn = (Button)findViewById(R.id.turn);
 						buttonTurn.setClickable(true);
@@ -118,10 +124,10 @@ public class cgeowaypoint extends Activity {
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("waypoint");
@@ -143,7 +149,7 @@ public class cgeowaypoint extends Activity {
 			return;
 		}
 
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		
 		waitDialog = ProgressDialog.show(this, null, "loading waypoint...", true);
 		waitDialog.setCancelable(true);
@@ -220,6 +226,36 @@ public class cgeowaypoint extends Activity {
 			mapIntent.putExtra("latitude", latitude);
 			mapIntent.putExtra("longitude", longitude);
 			activity.startActivity(mapIntent);
+		}
+	}
+
+	private class mapExtToListener implements View.OnClickListener {
+		private Double latitude = null;
+		private Double longitude = null;
+
+		public mapExtToListener(Double latitudeIn, Double longitudeIn) {
+			latitude = latitudeIn;
+			longitude = longitudeIn;
+		}
+
+		public void onClick(View arg0) {
+			try {
+				if (base.isIntentAvailable(activity, "com.robert.maps.action.SHOW_POINTS") == true) {
+					// rmaps
+					final ArrayList<String> locations = new ArrayList<String>();
+					locations.add(String.format("%.6f", latitude) + "," + String.format("%.6f", longitude) + ";;");
+
+					final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
+					intent.putStringArrayListExtra("locations", locations);
+
+					activity.startActivity(intent);
+				} else {
+					// default map
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longitude)));
+				}
+			} catch (Exception e) {
+				warning.showToast("Sorry, c:geo found no suitable application");
+			}
 		}
 	}
 

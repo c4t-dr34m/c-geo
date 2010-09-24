@@ -92,6 +92,7 @@
 	<string name="err_detail_no_map_static">c:geo nenašlo žádnou statickou mapu pro tuto keš.</string>
 	<string name="err_detail_still_removing">Ještě odstraňuji keš.</string>
 	<string name="err_detail_still_saving">Ještě ukládám keš.</string>
+	<string name="err_detail_still_refreshing">Ještě aktualizuji keš.</string>
 	<string name="err_radar_title">Radar není nainstalován.</string>
 	<string name="err_radar_message">Tato funkce vyžaduje aplikaci Radar. Chcete ji nainstalovat?</string>
 	<string name="err_radar_market">c:geo nedokáže spustit Androdid Market a vyhledat aplikaci Radar.</string>
@@ -206,6 +207,8 @@
 	<string name="cache_dialog_offline_save_message">Ukládám keš pro použití offline...</string>
 	<string name="cache_dialog_offline_drop_title">offline</string>
 	<string name="cache_dialog_offline_drop_message">Odstraňuji keš z paměti zařízení...</string>
+	<string name="cache_dialog_refresh_title">aktualizace</string>
+	<string name="cache_dialog_refresh_message">Aktualizuji detaily keše...</string>
 	<string name="cache_menu_navigate">navigovat</string>
 	<string name="cache_menu_compass">kompas</string>
 	<string name="cache_menu_tbt">turn-by-turn</string>
@@ -261,7 +264,9 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 <b>0.77.6</b> (__.09.2010)\n
 · new: Address on mainscreen (see Options)\n
 · new: Import of Pocket Query 1.1\n
+· new: Option to force reload cache details\n
 · fix: Switching login\n
+· fix: Displaying spoilers for offline caches\n
 \n
 <b>0.77.5</b> (14.09.2010)\n
 · new: Small help on first run\n

@@ -91,6 +91,7 @@
 	<string name="err_detail_no_map_static">c:geo hat keine statische Karte f&#252;r diesen Cache gefunden.</string>
 	<string name="err_detail_still_removing">c:geo l&#246;scht diesen Cache noch immer.</string>
 	<string name="err_detail_still_saving">c:geo speichert diesen Cache noch immer.</string>
+	<string name="err_detail_still_refreshing">Still reloading this cache.</string>
 	<string name="err_radar_title">Radar Anwendung ist nicht installiert.</string>
 	<string name="err_radar_message">Diese Funktion ben&#246;tigt die Radar Anwendung. M&#246;chtest du diese installieren?</string>
 	<string name="err_radar_market">c:geo kann den Android Market nicht starten, um nach der Radar Anwendung zu suchen.</string>
@@ -205,6 +206,8 @@
 	<string name="cache_dialog_offline_save_message">Speichere Cache f&#252;r Offline-Verwendung...</string>
 	<string name="cache_dialog_offline_drop_title">Offline-Verwendung</string>
 	<string name="cache_dialog_offline_drop_message">L&#246;sche Cache vom Ger&#228;t...</string>
+	<string name="cache_dialog_refresh_title">refresh</string>
+	<string name="cache_dialog_refresh_message">Reloading cache details...</string>
 	<string name="cache_menu_navigate">Navigieren</string>
 	<string name="cache_menu_compass">Kompass</string>
 	<string name="cache_menu_tbt">Turn-by-Turn</string>
@@ -260,7 +263,9 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 <b>0.77.6</b> (__.09.2010)\n
 · new: Address on mainscreen (see Options)\n
 · new: Import of Pocket Query 1.1\n
+· new: Option to force reload cache details\n
 · fix: Switching login\n
+· fix: Displaying spoilers for offline caches\n
 \n
 <b>0.77.5</b> (14.09.2010)\n
 · new: Small help on first run\n
