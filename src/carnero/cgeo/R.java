@@ -394,8 +394,8 @@ containing a value of this type.
     }
     public static final class string {
         public static final int about=0x7f050006;
-        public static final int about_auth_1=0x7f0500dc;
-        public static final int about_auth_2=0x7f0500dd;
+        public static final int about_auth_1=0x7f0500dd;
+        public static final int about_auth_2=0x7f0500de;
         public static final int about_button=0x7f050068;
         /**  about 
  about 
@@ -406,9 +406,9 @@ containing a value of this type.
         public static final int about_donate=0x7f050070;
         public static final int about_donation_less=0x7f050072;
         public static final int about_donation_more=0x7f050073;
-        public static final int about_go4cache=0x7f0500da;
-        public static final int about_text=0x7f0500d3;
-        public static final int about_twitter=0x7f0500db;
+        public static final int about_go4cache=0x7f0500db;
+        public static final int about_text=0x7f0500d4;
+        public static final int about_twitter=0x7f0500dc;
         public static final int advanced_search_button=0x7f050065;
         /**  caches 
  caches 
@@ -433,14 +433,14 @@ containing a value of this type.
  auth 
          */
         public static final int auth_twitter=0x7f05008c;
-        public static final int author=0x7f0500d4;
+        public static final int author=0x7f0500d5;
         /**  basics 
  basics 
  basics 
          */
         public static final int cache=0x7f050002;
         public static final int cache_attributes=0x7f0500a5;
-        public static final int cache_coordinates=0x7f0500cc;
+        public static final int cache_coordinates=0x7f0500cd;
         public static final int cache_count_more=0x7f050098;
         /**  cache 
  cache 
@@ -458,14 +458,15 @@ containing a value of this type.
         public static final int cache_dialog_offline_save_title=0x7f0500af;
         public static final int cache_dialog_refresh_message=0x7f0500b4;
         public static final int cache_dialog_refresh_title=0x7f0500b3;
-        public static final int cache_difficulty=0x7f0500c7;
-        public static final int cache_distance=0x7f0500c6;
-        public static final int cache_geocode=0x7f0500c4;
-        public static final int cache_hidden=0x7f0500ca;
+        public static final int cache_difficulty=0x7f0500c8;
+        public static final int cache_distance=0x7f0500c7;
+        public static final int cache_geocode=0x7f0500c5;
+        public static final int cache_hidden=0x7f0500cb;
         public static final int cache_hint=0x7f0500ab;
         public static final int cache_inventory=0x7f0500a6;
-        public static final int cache_location=0x7f0500cb;
+        public static final int cache_location=0x7f0500cc;
         public static final int cache_logs=0x7f0500ac;
+        public static final int cache_menu_around=0x7f0500bf;
         public static final int cache_menu_browser=0x7f0500bc;
         public static final int cache_menu_compass=0x7f0500b6;
         public static final int cache_menu_map=0x7f0500b9;
@@ -488,14 +489,14 @@ containing a value of this type.
         public static final int cache_offline_time_hours=0x7f0500a3;
         public static final int cache_offline_time_mins=0x7f0500a0;
         public static final int cache_offline_time_mins_few=0x7f0500a1;
-        public static final int cache_owner=0x7f0500c9;
-        public static final int cache_status=0x7f0500bf;
-        public static final int cache_status_archived=0x7f0500c1;
-        public static final int cache_status_disabled=0x7f0500c2;
-        public static final int cache_status_found=0x7f0500c0;
-        public static final int cache_status_premium=0x7f0500c3;
-        public static final int cache_terrain=0x7f0500c8;
-        public static final int cache_type=0x7f0500c5;
+        public static final int cache_owner=0x7f0500ca;
+        public static final int cache_status=0x7f0500c0;
+        public static final int cache_status_archived=0x7f0500c2;
+        public static final int cache_status_disabled=0x7f0500c3;
+        public static final int cache_status_found=0x7f0500c1;
+        public static final int cache_status_premium=0x7f0500c4;
+        public static final int cache_terrain=0x7f0500c9;
+        public static final int cache_type=0x7f0500c6;
         public static final int cache_waypoints=0x7f0500a9;
         public static final int cache_waypoints_add=0x7f0500aa;
         public static final int caches_more_caches=0x7f05006d;
@@ -510,7 +511,7 @@ containing a value of this type.
  changelog 
  changelog 
          */
-        public static final int changelog=0x7f0500de;
+        public static final int changelog=0x7f0500df;
         public static final int cito=0x7f050010;
         public static final int detail=0x7f050003;
         public static final int earth=0x7f05000f;
@@ -552,10 +553,10 @@ containing a value of this type.
         public static final int err_unknown=0x7f05003f;
         public static final int err_wrong=0x7f050041;
         public static final int event=0x7f05000d;
-        public static final int facebook=0x7f0500d7;
+        public static final int facebook=0x7f0500d8;
         public static final int gchq=0x7f050016;
         public static final int gps=0x7f050017;
-        public static final int graphic=0x7f0500d9;
+        public static final int graphic=0x7f0500da;
         public static final int helper=0x7f050007;
         public static final int init_address=0x7f050081;
         public static final int init_autoload=0x7f050088;
@@ -589,7 +590,7 @@ containing a value of this type.
  next things 
  next things 
          */
-        public static final int legal_note=0x7f0500d2;
+        public static final int legal_note=0x7f0500d3;
         public static final int letterbox=0x7f05000c;
         /**  main screen 
  main screen 
@@ -653,34 +654,34 @@ containing a value of this type.
         public static final int multi=0x7f05000a;
         public static final int mystery=0x7f05000b;
         public static final int now_searching=0x7f05006b;
-        public static final int popup_log_visit=0x7f0500ce;
+        public static final int popup_log_visit=0x7f0500cf;
         /**  popup 
  popup 
  popup 
          */
-        public static final int popup_more=0x7f0500cd;
-        public static final int popup_navigation=0x7f0500cf;
+        public static final int popup_more=0x7f0500ce;
+        public static final int popup_navigation=0x7f0500d0;
         public static final int search=0x7f050004;
         public static final int settings=0x7f050005;
         public static final int settings_button=0x7f050069;
         public static final int stored_caches_button=0x7f050066;
-        public static final int support=0x7f0500d5;
+        public static final int support=0x7f0500d6;
         public static final int traditional=0x7f050009;
-        public static final int twitter=0x7f0500d8;
+        public static final int twitter=0x7f0500d9;
         public static final int type=0x7f05006a;
         public static final int virtual=0x7f050012;
         /**  visit 
  visit 
  visit 
          */
-        public static final int visit_tweet=0x7f0500d1;
+        public static final int visit_tweet=0x7f0500d2;
         /**  waypoint 
  waypoint 
  waypoint 
          */
-        public static final int waypoint_custom=0x7f0500d0;
+        public static final int waypoint_custom=0x7f0500d1;
         public static final int webcam=0x7f050011;
-        public static final int website=0x7f0500d6;
+        public static final int website=0x7f0500d7;
         public static final int wherigo=0x7f050013;
         /**  waypoints 
  waypoints 

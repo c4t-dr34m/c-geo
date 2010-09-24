@@ -326,6 +326,10 @@ public class cgeodetail extends Activity {
 			menu.add(1, 5, 0, res.getString(R.string.cache_menu_spoilers)).setIcon(android.R.drawable.ic_menu_gallery); // spoiler images
 		}
 
+		if (cache.latitude != null && cache.longitude != null) {
+			menu.add(0, 11, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
+		}
+
 		return true;
 	}
 
@@ -358,6 +362,9 @@ public class cgeodetail extends Activity {
 				return true;
 			case 10:
 				showOnMapExt();
+				return true;
+			case 11:
+				cachesAround();
 				return true;
 		}
 
@@ -1031,6 +1038,20 @@ public class cgeodetail extends Activity {
 		} catch (Exception e) {
 			showOnMap();
 		}
+	}
+
+	private void cachesAround() {
+		cgeocaches cachesActivity = new cgeocaches();
+
+		Intent cachesIntent = new Intent(activity, cachesActivity.getClass());
+		cachesIntent.putExtra("type", "coordinate");
+		cachesIntent.putExtra("latitude", cache.latitude);
+		cachesIntent.putExtra("longitude", cache.longitude);
+		cachesIntent.putExtra("cachetype", settings.cacheType);
+
+		activity.startActivity(cachesIntent);
+
+		finish();
 	}
 
 	private void navigateTo() {

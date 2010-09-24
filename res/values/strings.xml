@@ -219,6 +219,7 @@
 	<string name="cache_menu_browser">open in browser</string>
 	<string name="cache_menu_visit">log visit</string>
 	<string name="cache_menu_spoilers">spoiler images</string>
+	<string name="cache_menu_around">caches around</string>
 	<string name="cache_status">status</string>
 	<string name="cache_status_found">found</string>
 	<string name="cache_status_archived">archived</string>
@@ -265,6 +266,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 · new: Address on mainscreen (see Options)\n
 · new: Import of Pocket Query 1.1\n
 · new: Option to force reload cache details\n
+· new: Search for caches around another one\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n
 \n

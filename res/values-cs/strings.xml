@@ -219,6 +219,7 @@
 	<string name="cache_menu_browser">otevřít v prohlížečí</string>
 	<string name="cache_menu_visit">zapsat návštěvu</string>
 	<string name="cache_menu_spoilers">obrázky</string>
+	<string name="cache_menu_around">keš v okolí</string>
 	<string name="cache_status">status</string>
 	<string name="cache_status_found">nalezena</string>
 	<string name="cache_status_archived">archivována</string>
@@ -265,6 +266,7 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 · new: Address on mainscreen (see Options)\n
 · new: Import of Pocket Query 1.1\n
 · new: Option to force reload cache details\n
+· new: Search for caches around another one\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n
 \n

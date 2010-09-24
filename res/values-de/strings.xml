@@ -218,6 +218,7 @@
 	<string name="cache_menu_browser">Im Browser &#246;ffnen</string>
 	<string name="cache_menu_visit">Besuch loggen</string>
 	<string name="cache_menu_spoilers">Hinweisbild</string>
+	<string name="cache_menu_around">caches around</string>
 	<string name="cache_status">Status</string>
 	<string name="cache_status_found">gefunden</string>
 	<string name="cache_status_archived">archiviert</string>
@@ -264,6 +265,7 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 · new: Address on mainscreen (see Options)\n
 · new: Import of Pocket Query 1.1\n
 · new: Option to force reload cache details\n
+· new: Search for caches around another one\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n
 \n
