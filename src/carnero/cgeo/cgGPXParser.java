@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.xml.sax.Attributes;
 
 public class cgGPXParser {
@@ -30,6 +32,10 @@ public class cgGPXParser {
 	private String type = null;
 	private String ns = null;
 	private ArrayList<String> nsGCList = new ArrayList<String>();
+	private final Pattern patternGeocode = Pattern.compile("(GC[0-9A-Z]+)", Pattern.CASE_INSENSITIVE);
+	private String name = null;
+	private String cmt = null;
+	private String desc = null;
 
 	public cgGPXParser(cgeoapplication appIn, cgBase baseIn, cgSearch searchIn) {
 		app = appIn;
@@ -66,9 +72,49 @@ public class cgGPXParser {
 		// waypoint
 		waypoint.setEndElementListener(new EndElementListener() {
 			public void end() {
+				if (cache.geocode == null || cache.geocode.length() == 0) {
+					// try to find geocode somewhere else
+					String geocode = null;
+					Matcher matcherGeocode = null;
+
+					if (name != null && geocode == null) {
+						matcherGeocode = patternGeocode.matcher(name);
+						while (matcherGeocode.find()) {
+							if (matcherGeocode.groupCount() > 0) {
+								geocode = matcherGeocode.group(1);
+							}
+						}
+					}
+
+					if (desc != null && geocode == null) {
+						matcherGeocode = patternGeocode.matcher(desc);
+						while (matcherGeocode.find()) {
+							if (matcherGeocode.groupCount() > 0) {
+								geocode = matcherGeocode.group(1);
+							}
+						}
+					}
+
+					if (cmt != null && geocode == null) {
+						matcherGeocode = patternGeocode.matcher(cmt);
+						while (matcherGeocode.find()) {
+							if (matcherGeocode.groupCount() > 0) {
+								geocode = matcherGeocode.group(1);
+							}
+						}
+					}
+
+					if (geocode != null && geocode.length() > 0) {
+						cache.geocode = geocode;
+					}
+					
+					geocode = null;
+					matcherGeocode = null;
+				}
+
 				if (
+					cache.geocode != null && cache.geocode.length() > 0 &&
 					cache.latitude != null && cache.longitude != null &&
-					cache.name != null && cache.name.length() > 0 &&
 					(type == null || type.equals("geocache") == true)
 				) {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
@@ -91,6 +137,9 @@ public class cgGPXParser {
 				htmlShort = true;
 				htmlLong = true;
 				type = null;
+				name = null;
+				desc = null;
+				cmt = null;
 
 				cache = null;
 				cache = new cgCache();
@@ -111,6 +160,8 @@ public class cgGPXParser {
 		// waypoint.name
 		waypoint.getChild(ns, "name").setEndTextElementListener(new EndTextElementListener(){
             public void end(String body) {
+				name = body;
+				
 				final String content = Html.fromHtml(body).toString().trim();
 				cache.name = content;
 				if (cache.name.substring(0, 2).equalsIgnoreCase("GC") == true) {
@@ -122,8 +173,22 @@ public class cgGPXParser {
 		// waypoint.desc
 		waypoint.getChild(ns, "desc").setEndTextElementListener(new EndTextElementListener(){
             public void end(String body) {
+				desc = body;
+
 				final String content = Html.fromHtml(body).toString().trim();
 				cache.shortdesc = content;
+			}
+        });
+
+		// waypoint.cmt
+		waypoint.getChild(ns, "cmt").setEndTextElementListener(new EndTextElementListener(){
+            public void end(String body) {
+				cmt = body;
+
+				if (cache.shortdesc == null || cache.shortdesc.length() == 0) {
+					final String content = Html.fromHtml(body).toString().trim();
+					cache.shortdesc = content;
+				}
 			}
         });
 
@@ -134,6 +199,16 @@ public class cgGPXParser {
 				if (content.length > 0) type = content[0].toLowerCase().trim();
 			}
         });
+
+		// waypoint.sym
+		waypoint.getChild(ns, "sym").setEndTextElementListener(new EndTextElementListener(){
+			public void end(String body) {
+				body = body.toLowerCase();
+				if (body.indexOf("geocache") != -1 && body.indexOf("found") != -1) {
+					cache.found = true;
+				}
+			}
+		});
 
 		for (String nsGC : nsGCList) {
 			// waypoints.cache
@@ -273,7 +348,7 @@ public class cgGPXParser {
 
 			gcCache.getChild(nsGC, "long_description").setEndTextElementListener(new EndTextElementListener() {
 				public void end(String body) {
-					if (htmlLong == false) cache.description = Html.fromHtml(body).toString();
+					if (htmlLong == false) cache.description = Html.fromHtml(body).toString().trim();
 					else cache.description = body;
 				}
 			});
@@ -377,12 +452,12 @@ public class cgGPXParser {
 		}
 
 		try {
-            Xml.parse(new FileInputStream(file), Xml.Encoding.UTF_8, root.getContentHandler());
+			Xml.parse(new FileInputStream(file), Xml.Encoding.UTF_8, root.getContentHandler());
 			
 			return search.getCurrentId();
-        } catch (Exception e) {
-            Log.e(cgSettings.tag, "Cannot parse .gpx file " + file.getAbsolutePath() + " as GPX " + version + ": " + e.toString());
-        }
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "Cannot parse .gpx file " + file.getAbsolutePath() + " as GPX " + version + ": " + e.toString());
+		}
 
 		return 0l;
 	}

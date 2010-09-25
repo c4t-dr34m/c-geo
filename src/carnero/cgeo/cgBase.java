@@ -83,17 +83,17 @@ public class cgBase {
 	private Pattern patternLoggedIn = null;
 	private final Pattern patternViewstate = Pattern.compile("id=\"__VIEWSTATE\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternViewstate1 = Pattern.compile("id=\"__VIEWSTATE1\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-    private final Pattern patternLines = Pattern.compile("[\r\n\t ]+");
+	private final Pattern patternLines = Pattern.compile("[\r\n\t ]+");
 
 	public static final Float kmInMiles = new Float(1/1.609344);
 	public static final Float deg2rad = new Float(Math.PI/180);
 	public static final Float rad2deg = new Float(180/Math.PI);
 	public static final Float erad = new Float(6371.0);
 
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private SharedPreferences prefs = null;
-    private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
+	private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
 
 	public cgBase(cgeoapplication appIn, cgSettings settingsIn, SharedPreferences prefsIn) {
 		res = appIn.getBaseContext().getResources();

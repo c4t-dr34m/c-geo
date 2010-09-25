@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
 public class cgeogpxes extends Activity {
 	private ArrayList<File> files = new ArrayList<File>();
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private Context activity = null;
+	private Context activity = null;
 	private LayoutInflater inflater = null;
 	private LinearLayout addList = null;
 	private ProgressDialog waitDialog = null;
@@ -107,10 +107,10 @@ public class cgeogpxes extends Activity {
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("import gpx");

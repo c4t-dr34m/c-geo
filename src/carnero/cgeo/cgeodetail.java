@@ -415,7 +415,7 @@ public class cgeodetail extends Activity {
 			return;
 		}
 
-		if (app.warnedLanguage == false && (cache.owner == null || cache.owner.length() == 0 || cache.hidden == null)) {
+		if (app.warnedLanguage == false && cache.reason == 0 && (cache.owner == null || cache.owner.length() == 0 || cache.hidden == null)) {
 			warning.helpDialog(res.getString(R.string.err_title_problem), res.getString(R.string.err_detail_cache_language));
 			app.warnedLanguage = true;
 		}
@@ -548,69 +548,75 @@ public class cgeodetail extends Activity {
 			cacheDistance = itemValue;
 
 			// difficulty
-			if (settings.skin == 1) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light_layout, null);
-			} else {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
-			}
-			itemName = (TextView) itemLayout.findViewById(R.id.name);
-			itemValue = (TextView) itemLayout.findViewById(R.id.value);
-			itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
-
-			itemName.setText(res.getString(R.string.cache_difficulty));
-			itemValue.setText(String.format(Locale.getDefault(), "%.1f", cache.difficulty) + " of 5");
-			for (int i = 0; i <= 4; i++) {
-				ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
-				if ((cache.difficulty - i) >= 1.0) {
-					star.setImageResource(R.drawable.star_on);
-				} else if ((cache.difficulty - i) > 0.0) {
-					star.setImageResource(R.drawable.star_half);
+			if (cache.difficulty != null && cache.difficulty > 0) {
+				if (settings.skin == 1) {
+					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light_layout, null);
 				} else {
-					star.setImageResource(R.drawable.star_off);
+					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
 				}
-				itemStars.addView(star);
+				itemName = (TextView) itemLayout.findViewById(R.id.name);
+				itemValue = (TextView) itemLayout.findViewById(R.id.value);
+				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
+
+				itemName.setText(res.getString(R.string.cache_difficulty));
+				itemValue.setText(String.format(Locale.getDefault(), "%.1f", cache.difficulty) + " of 5");
+				for (int i = 0; i <= 4; i++) {
+					ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
+					if ((cache.difficulty - i) >= 1.0) {
+						star.setImageResource(R.drawable.star_on);
+					} else if ((cache.difficulty - i) > 0.0) {
+						star.setImageResource(R.drawable.star_half);
+					} else {
+						star.setImageResource(R.drawable.star_off);
+					}
+					itemStars.addView(star);
+				}
+				detailsList.addView(itemLayout);
 			}
-			detailsList.addView(itemLayout);
 
 			// terrain
-			if (settings.skin == 1) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light_layout, null);
-			} else {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
-			}
-			itemName = (TextView) itemLayout.findViewById(R.id.name);
-			itemValue = (TextView) itemLayout.findViewById(R.id.value);
-			itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
-
-			itemName.setText(res.getString(R.string.cache_terrain));
-			itemValue.setText(String.format(Locale.getDefault(), "%.1f", cache.terrain) + " of 5");
-			for (int i = 0; i <= 4; i++) {
-				ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
-				if ((cache.terrain - i) >= 1.0) {
-					star.setImageResource(R.drawable.star_on);
-				} else if ((cache.terrain - i) > 0.0) {
-					star.setImageResource(R.drawable.star_half);
+			if (cache.terrain != null && cache.terrain > 0) {
+				if (settings.skin == 1) {
+					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light_layout, null);
 				} else {
-					star.setImageResource(R.drawable.star_off);
+					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
 				}
-				itemStars.addView(star);
+				itemName = (TextView) itemLayout.findViewById(R.id.name);
+				itemValue = (TextView) itemLayout.findViewById(R.id.value);
+				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
+
+				itemName.setText(res.getString(R.string.cache_terrain));
+				itemValue.setText(String.format(Locale.getDefault(), "%.1f", cache.terrain) + " of 5");
+				for (int i = 0; i <= 4; i++) {
+					ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
+					if ((cache.terrain - i) >= 1.0) {
+						star.setImageResource(R.drawable.star_on);
+					} else if ((cache.terrain - i) > 0.0) {
+						star.setImageResource(R.drawable.star_half);
+					} else {
+						star.setImageResource(R.drawable.star_off);
+					}
+					itemStars.addView(star);
+				}
+				detailsList.addView(itemLayout);
 			}
-			detailsList.addView(itemLayout);
 
 			itemStars = null;
 
 			// cache author
-			if (settings.skin == 1) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-			} else {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-			}
-			itemName = (TextView) itemLayout.findViewById(R.id.name);
-			itemValue = (TextView) itemLayout.findViewById(R.id.value);
+			if (cache.owner != null && cache.owner.length() > 0) {
+				if (settings.skin == 1) {
+					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
+				} else {
+					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
+				}
+				itemName = (TextView) itemLayout.findViewById(R.id.name);
+				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-			itemName.setText(res.getString(R.string.cache_owner));
-			itemValue.setText(Html.fromHtml(cache.owner), TextView.BufferType.SPANNABLE);
-			detailsList.addView(itemLayout);
+				itemName.setText(res.getString(R.string.cache_owner));
+				itemValue.setText(Html.fromHtml(cache.owner), TextView.BufferType.SPANNABLE);
+				detailsList.addView(itemLayout);
+			}
 
 			// cache hidden
 			if (cache.hidden != null) {
@@ -759,14 +765,13 @@ public class cgeodetail extends Activity {
 					showDesc.setOnTouchListener(null);
 					showDesc.setOnClickListener(null);
 				}
-			} else if (longDescDisplayed == false && cache.description != null) {
+			} else if (longDescDisplayed == false && cache.description != null && cache.description.length() > 0) {
 				((LinearLayout) findViewById(R.id.desc_box)).setVisibility(View.VISIBLE);
 
 				Button showDesc = (Button) findViewById(R.id.show_description);
 				showDesc.setVisibility(View.VISIBLE);
 				showDesc.setOnTouchListener(new cgViewTouch(settings, showDesc, 0));
 				showDesc.setOnClickListener(new View.OnClickListener() {
-
 					public void onClick(View arg0) {
 						loadLongDesc();
 					}

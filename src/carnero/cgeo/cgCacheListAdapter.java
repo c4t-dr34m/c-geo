@@ -244,22 +244,26 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
         }
 
 		StringBuilder cacheInfo = new StringBuilder();
-		cacheInfo.append(cache.geocode);
+		if (cache.geocode != null && cache.geocode.length() > 0) {
+			cacheInfo.append(cache.geocode);
+		}
 		if (cache.size != null && cache.size.length() > 0) {
-			cacheInfo.append(" | ");
+			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
 			cacheInfo.append(cache.size);
 		}
 		if (cache.difficulty != null && cache.terrain != null && cache.difficulty > 0f && cache.terrain > 0f) {
-			cacheInfo.append(" | ");
+			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
 			cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.difficulty));
 			cacheInfo.append("/");
 			cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.terrain));
 		}
 		if (cache.members == true) {
-			cacheInfo.append(" | premium");
+			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
+			cacheInfo.append("premium");
 		}
 		if (cache.reason != null && cache.reason == 1) {
-			cacheInfo.append(" | offline");
+			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
+			cacheInfo.append("offline");
 		}
 		holder.info.setText(cacheInfo.toString());
 
