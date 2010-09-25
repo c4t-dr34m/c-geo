@@ -30,6 +30,7 @@ public class cgGPXParser {
 	private boolean htmlShort = true;
 	private boolean htmlLong = true;
 	private String type = null;
+	private String sym = null;
 	private String ns = null;
 	private ArrayList<String> nsGCList = new ArrayList<String>();
 	private final Pattern patternGeocode = Pattern.compile("(GC[0-9A-Z]+)", Pattern.CASE_INSENSITIVE);
@@ -115,7 +116,11 @@ public class cgGPXParser {
 				if (
 					cache.geocode != null && cache.geocode.length() > 0 &&
 					cache.latitude != null && cache.longitude != null &&
-					(type == null || type.equals("geocache") == true)
+					(
+						(type == null && sym == null) ||
+						(type != null && type.indexOf("geocache") > -1) ||
+						(sym != null && sym.indexOf("geocache") > -1)
+					)
 				) {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
 					cache.longitudeString = base.formatCoordinate(cache.longitude, "lon", true);
@@ -137,6 +142,7 @@ public class cgGPXParser {
 				htmlShort = true;
 				htmlLong = true;
 				type = null;
+				sym = null;
 				name = null;
 				desc = null;
 				cmt = null;
@@ -164,7 +170,7 @@ public class cgGPXParser {
 				
 				final String content = Html.fromHtml(body).toString().trim();
 				cache.name = content;
-				if (cache.name.substring(0, 2).equalsIgnoreCase("GC") == true) {
+				if (cache.name.length() > 2 && cache.name.substring(0, 2).equalsIgnoreCase("GC") == true) {
 					cache.geocode = cache.name.toUpperCase();
 				}
 			}
@@ -185,10 +191,8 @@ public class cgGPXParser {
             public void end(String body) {
 				cmt = body;
 
-				if (cache.shortdesc == null || cache.shortdesc.length() == 0) {
-					final String content = Html.fromHtml(body).toString().trim();
-					cache.shortdesc = content;
-				}
+				final String content = Html.fromHtml(body).toString().trim();
+				cache.description = content;
 			}
         });
 
@@ -203,6 +207,8 @@ public class cgGPXParser {
 		// waypoint.sym
 		waypoint.getChild(ns, "sym").setEndTextElementListener(new EndTextElementListener(){
 			public void end(String body) {
+				sym = body;
+
 				body = body.toLowerCase();
 				if (body.indexOf("geocache") != -1 && body.indexOf("found") != -1) {
 					cache.found = true;
