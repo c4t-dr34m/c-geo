@@ -2241,7 +2241,7 @@ public class cgBase {
 	}
 
 	public Long searchByCoords(HashMap<String, String> parameters, int reason) {
-        final cgSearch search = new cgSearch();
+		final cgSearch search = new cgSearch();
 		final String latitude = parameters.get("latitude");
 		final String longitude = parameters.get("longitude");
 		cgCacheWrap caches = new cgCacheWrap();
@@ -2279,7 +2279,7 @@ public class cgBase {
 			int loginState = login();
 			if (loginState == 1) {
 				page = request(host, path, method, params, false, false, true);
-            } else if (loginState == -3) {
+			} else if (loginState == -3) {
                 Log.i(cgSettings.tag, "Working as guest.");
 			} else {
 				search.error = errorRetrieve.get(loginState);

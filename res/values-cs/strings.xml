@@ -262,7 +262,7 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 	<string name="about_auth_2">Tapnutím na tlačítko "zahájit autorizaci" celý proces začne. Tento proces otevře webovou stránku Twitteru, kde se budete muset přihlásit a tlačítkem Accept pak umožnit aplikaci <b>c:geo</b> přístup k Vašemu Twitteru. Twitter Vám přidělí PIN kód pokud tapnete na Accept. Tento kód zkopírujte a vložte do aplikace <b>c:geo</b>. A potvrďte. To je vše.</string>
 	<!-- changelog -->
 	<string name="changelog">
-<b>0.77.6</b> (__.09.2010)\n
+<b>1.00</b> (__.10.2010)\n
 · new: Address on mainscreen (see Options)\n
 · new: Import of Pocket Query 1.1\n
 · new: Option to force reload cache details\n
@@ -272,6 +272,7 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 · fix: Things around import of GPX\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n
+· fix: Sorting by distance even with no coordinates\n
 \n
 <b>0.77.5</b> (14.09.2010)\n
 · new: Small help on first run\n
