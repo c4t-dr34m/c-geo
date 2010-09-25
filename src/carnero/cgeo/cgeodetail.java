@@ -460,10 +460,15 @@ public class cgeodetail extends Activity {
 			itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 			itemName.setText(res.getString(R.string.cache_type));
+
+			String size = null;
+			if (cache.size != null && cache.size.length() > 0) size = " (" + cache.size + ")";
+			else size = "";
+			
 			if (base.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
-				itemValue.setText(base.cacheTypesInv.get(cache.type) + " (" + cache.size + ")");
+				itemValue.setText(base.cacheTypesInv.get(cache.type) + size);
 			} else {
-				itemValue.setText(base.cacheTypesInv.get("mystery") + " (" + cache.size + ")");
+				itemValue.setText(base.cacheTypesInv.get("mystery") + size);
 			}
 			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
 				itemValue.setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get(cache.type)), null, null, null);
@@ -619,7 +624,7 @@ public class cgeodetail extends Activity {
 			}
 
 			// cache hidden
-			if (cache.hidden != null) {
+			if (cache.hidden != null && cache.hidden.getTime() > 0) {
 				if (settings.skin == 1) {
 					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
 				} else {

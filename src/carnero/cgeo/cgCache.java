@@ -1,15 +1,14 @@
 package carnero.cgeo;
 
 import android.text.Spannable;
-import android.util.Log;
 import java.util.Date;
 import java.util.ArrayList;
 
 public class cgCache {
 	public Long updated = null;
-    public Long detailedUpdate = null;
-    public Integer reason = 0;
-    public Boolean detailed = false;
+	public Long detailedUpdate = null;
+	public Integer reason = 0;
+	public Boolean detailed = false;
 	public String geocode = "";
 	public String cacheid = "";
 	public String guid = "";
