@@ -289,11 +289,18 @@ public class cgGeo {
 		if (gps == 1) {
 			// save travelled distance only when location is from GPS
 			if (latitudeBefore != null && longitudeBefore != null && latitudeNow != null && longitudeNow != null) {
-				distanceNow += base.getDistance(latitudeBefore, longitudeBefore, latitudeNow, longitudeNow);
-			}
+				final double dst = base.getDistance(latitudeBefore, longitudeBefore, latitudeNow, longitudeNow);
 
-			latitudeBefore = latitudeNow;
-			longitudeBefore = longitudeNow;
+				if (Double.isNaN(dst) == false && dst > 5) {
+					distanceNow += dst;
+
+					latitudeBefore = latitudeNow;
+					longitudeBefore = longitudeNow;
+				}
+			} else if (latitudeBefore == null || longitudeBefore == null) { // values aren't initialized
+				latitudeBefore = latitudeNow;
+				longitudeBefore = longitudeNow;
+			}
 		}
 
 		if (geoUpdate != null) geoUpdate.updateLoc(this);

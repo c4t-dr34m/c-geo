@@ -1712,7 +1712,13 @@ public class cgBase {
 		lon2 *= deg2rad;
 
 		final double d = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2);
-		return erad * Math.acos(d); // distance in km
+		final double distance = erad * Math.acos(d); // distance in km
+
+		if (Double.isNaN(distance) == false && distance > 0) {
+			return distance;
+		} else {
+			return 0d;
+		}
 	}
 
 	public static float getHeading(Double lat1, Double lon1, Double lat2, Double lon2) {
