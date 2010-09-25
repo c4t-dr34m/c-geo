@@ -1775,6 +1775,12 @@ public class cgBase {
 		return result;
 	}
 
+	public String getHumanDistance(Float distance) {
+		if (distance == null) return "?";
+
+		return getHumanDistance(new Double(distance));
+	}
+
 	public String getHumanDistance(Double distance) {
 		if (distance == null) return "?";
 

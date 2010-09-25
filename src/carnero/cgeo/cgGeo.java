@@ -114,7 +114,6 @@ public class cgGeo {
 			geoManager.removeGpsStatusListener(geoGpsStatusListener);
 		}
 
-		Log.d(cgSettings.tag, "Distance: " + distanceNow);
 		final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
 		if (prefsEdit != null) {
 			prefsEdit.putLong("last-g4c", lastGo4cache);

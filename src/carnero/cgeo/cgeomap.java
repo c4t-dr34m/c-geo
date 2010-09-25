@@ -27,6 +27,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -71,6 +72,8 @@ public class cgeomap extends MapActivity {
 	private loadCaches loadingThread = null;
 	private loadUsers usersThread = null;
 	private long closeShowed = 0l;
+	private int numberType = 0; // 0: altitude, 1: traveled distance
+	private TextView numberView = null;
 	private LinearLayout close = null;
 	private TextView closeGC = null;
 	private TextView closeDst = null;
@@ -378,6 +381,11 @@ public class cgeomap extends MapActivity {
 
 		if (geo != null) geoUpdate.updateLoc(geo);
 		if (dir != null) dirUpdate.updateDir(dir);
+
+		if (numberView == null) numberView = (TextView)findViewById(R.id.number);
+		numberView.setClickable(true);
+		numberView.setOnClickListener(new changeNumber());
+		numberView.setOnLongClickListener(new resetNumber());
 	}
 
 	@Override
@@ -1018,6 +1026,8 @@ public class cgeomap extends MapActivity {
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
 			}
+
+			setNumber();
 		}
 	}
 
@@ -1342,17 +1352,17 @@ public class cgeomap extends MapActivity {
 		@Override
 		public void run() {
 			if (geocodes == null || geocodes.isEmpty()) return;
-            if (dir != null) dir = app.removeDir();
-            if (geo != null) geo = app.removeGeo();
+			if (dir != null) dir = app.removeDir();
+			if (geo != null) geo = app.removeGeo();
 
 			Message msg = null;
 
-            for (String geocode : geocodes) {
-                try {
-                    if (needToStop == true) {
-                        Log.i(cgSettings.tag, "Stopped storing process.");
-                        break;
-                    }
+			for (String geocode : geocodes) {
+				try {
+					if (needToStop == true) {
+						Log.i(cgSettings.tag, "Stopped storing process.");
+						break;
+					}
 
 					try {
 						sleep(3000 + ((Double)(Math.random() * 3000)).intValue());
@@ -1360,26 +1370,26 @@ public class cgeomap extends MapActivity {
 						Log.e(cgSettings.tag, "cgeomap.geocachesLoadDetails.sleep: " + e.toString());
 					}
 
-                    if (needToStop == true) {
-                        Log.i(cgSettings.tag, "Stopped storing process.");
-                        break;
-                    }
+					if (needToStop == true) {
+						Log.i(cgSettings.tag, "Stopped storing process.");
+						break;
+					}
 
-                    detailProgress ++;
+					detailProgress ++;
 					base.storeCache(app, activity, null, geocode, handler);
 
-                    msg = new Message();
-                    msg.what = 0;
-                    handler.sendMessage(msg);
-                } catch (Exception e) {
+					msg = new Message();
+					msg.what = 0;
+					handler.sendMessage(msg);
+				} catch (Exception e) {
 					Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails: " + e.toString());
-                }
-				
-                yield();
-            }
+				}
 
-            msg = new Message();
-            msg.what = 1;
+				yield();
+			}
+
+			msg = new Message();
+			msg.what = 1;
 			handler.sendMessage(msg);
 		}
 	}
@@ -1415,6 +1425,82 @@ public class cgeomap extends MapActivity {
 
 				myLocation.setImageResource(R.drawable.my_location_on);
 			}
+		}
+	}
+
+	public void setNumber() {
+		try {
+			if (numberView == null) numberView = (TextView)findViewById(R.id.number);
+
+			if (numberType >= 0 && numberView.getVisibility() != View.VISIBLE) numberView.setVisibility(View.VISIBLE);
+			else if (numberType < 0 && numberView.getVisibility() != View.GONE) numberView.setVisibility(View.GONE);
+
+			if (numberType == 0 && geo != null) { // altitude
+				String humanAlt;
+				if (geo.altitudeNow != null) {
+					if (settings.units == settings.unitsImperial) {
+						humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
+					} else {
+						humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
+					}
+				} else {
+					humanAlt = "N/A";
+				}
+				numberView.setText(humanAlt);
+				numberView.bringToFront();
+			} else if (numberType == 1 && geo != null) { // travaled distance
+				numberView.setText(base.getHumanDistance(geo.distanceNow));
+				numberView.bringToFront();
+			}
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "Failed to update traveled distance.");
+		}
+	}
+
+	private class changeNumber implements View.OnClickListener {
+		public void onClick(View view) {
+			if (numberType < 1) numberType ++;
+			else numberType = 0;
+
+			setNumber();
+
+			if (numberType == 0) {
+				warning.showShortToast("Current altitude");
+			} else if (numberType == 1) {
+				long dstSince = 0l;
+				String dstString = null;
+				dstSince = activity.getSharedPreferences(cgSettings.preferences, 0).getLong("dst-since", 0l);
+				if (dstSince > 0) {
+					Date dstDate = new Date(dstSince);
+					dstString = " since" + base.dateOutShort.format(dstDate);
+				} else {
+					dstString = "";
+				}
+
+				warning.showShortToast("Distance traveled" + dstString);
+			}
+		}
+	}
+
+	private class resetNumber implements View.OnLongClickListener {
+		public boolean onLongClick(View view) {
+			if (numberType == 1) {
+				geo.distanceNow = 0f;
+
+				final SharedPreferences.Editor prefsEdit = activity.getSharedPreferences(cgSettings.preferences, 0).edit();
+				if (prefsEdit != null) {
+					prefsEdit.putFloat("dst", 0f);
+					prefsEdit.putLong("dst-since", System.currentTimeMillis());
+					prefsEdit.commit();
+				}
+
+				setNumber();
+				warning.showToast("Traveled distance was cleared.");
+
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

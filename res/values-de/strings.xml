@@ -266,6 +266,8 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 · new: Import of Pocket Query 1.1\n
 · new: Option to force reload cache details\n
 · new: Search for caches around another one\n
+· new: Import GPX files from Skrýšotlač\n
+· fix: Things around import of GPX\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n
 \n

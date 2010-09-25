@@ -22,6 +22,15 @@ public class cgWarning {
 		}
 	}
 
+	public void showShortToast(String text) {
+		if (text.length() > 0) {
+			Toast toast = Toast.makeText(this.context, text, Toast.LENGTH_SHORT);
+
+			toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 100);
+			toast.show();
+		}
+	}
+
 	public void helpDialog(String title, String message) {
 		if (message == null || message.length() == 0) {
 			return;
