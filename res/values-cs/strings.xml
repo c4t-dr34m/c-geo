@@ -267,7 +267,8 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 · new: Import of Pocket Query 1.1\n
 · new: Option to force reload cache details\n
 · new: Search for caches around another one\n
-· new: Import GPX files from Skrýšotlač\n
+· new: Import GPX files from various sources\n
+· new: Traveled distance on map\n
 · fix: Things around import of GPX\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n
