@@ -17,7 +17,7 @@ public class cgWarning {
 		if (text.length() > 0) {
 			Toast toast = Toast.makeText(this.context, text, Toast.LENGTH_LONG);
 
-			toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 100);
+			toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM, 0, 100);
 			toast.show();
 		}
 	}
@@ -26,7 +26,7 @@ public class cgWarning {
 		if (text.length() > 0) {
 			Toast toast = Toast.makeText(this.context, text, Toast.LENGTH_SHORT);
 
-			toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0, 100);
+			toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM, 0, 100);
 			toast.show();
 		}
 	}

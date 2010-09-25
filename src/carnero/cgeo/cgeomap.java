@@ -1472,7 +1472,7 @@ public class cgeomap extends MapActivity {
 				dstSince = activity.getSharedPreferences(cgSettings.preferences, 0).getLong("dst-since", 0l);
 				if (dstSince > 0) {
 					Date dstDate = new Date(dstSince);
-					dstString = " since" + base.dateOutShort.format(dstDate);
+					dstString = "\n(since " + base.dateOut.format(dstDate) + ")";
 				} else {
 					dstString = "";
 				}
