@@ -85,10 +85,10 @@ public class cgBase {
 	private final Pattern patternViewstate1 = Pattern.compile("id=\"__VIEWSTATE1\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternLines = Pattern.compile("[\r\n\t ]+");
 
-	public static final Float kmInMiles = new Float(1/1.609344);
-	public static final Float deg2rad = new Float(Math.PI/180);
-	public static final Float rad2deg = new Float(180/Math.PI);
-	public static final Float erad = new Float(6371.0);
+	public static final double kmInMiles = 1/1.609344;
+	public static final double deg2rad = Math.PI/180;
+	public static final double rad2deg = 180/Math.PI;
+	public static final float erad = 6371.0f;
 
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
@@ -1704,14 +1704,14 @@ public class cgBase {
 	}
 
 	public static double getDistance(Double lat1, Double lon1, Double lat2, Double lon2) {
-		if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) return new Double(0);
+		if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) return 0d;
 
 		lat1 *= deg2rad;
 		lon1 *= deg2rad;
 		lat2 *= deg2rad;
 		lon2 *= deg2rad;
 
-		final Double d = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2);
+		final double d = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2);
 		return erad * Math.acos(d); // distance in km
 	}
 
@@ -1786,7 +1786,7 @@ public class cgBase {
 
 		if(settings.units == settings.unitsImperial) {
 			distance *= kmInMiles;
-			if (distance > 10) {
+			if (distance > 100) {
 				return String.format(Locale.getDefault(), "%.0f", new Double(Math.round(distance))) + " mi";
 			} else if (distance > 0.5) {
 				return String.format(Locale.getDefault(), "%.1f", new Double(Math.round(distance * 10.0) / 10.0)) + " mi";
@@ -1800,13 +1800,15 @@ public class cgBase {
 				return String.format(Locale.getDefault(), "%.2f", new Double(Math.round(distance * 5280 * 100.0) / 100.0)) +" ft";
 			}
 		} else {
-			if (distance > 10) {
+			if (distance > 100) {
 				return String.format(Locale.getDefault(), "%.0f", new Double(Math.round(distance))) +" km";
-			} else if (distance > 1) {
+			} else if (distance > 10) {
 				return String.format(Locale.getDefault(), "%.1f", new Double(Math.round(distance * 10.0) / 10.0)) +" km";
+			} else if (distance > 1) {
+				return String.format(Locale.getDefault(), "%.2f", new Double(Math.round(distance * 100.0) / 100.0)) +" km";
 			} else if (distance > 0.1) {
 				return String.format(Locale.getDefault(), "%.0f", new Double(Math.round(distance * 1000.0))) +" m";
-			} else if (distance > 0.05) {
+			} else if (distance > 0.01) {
 				return String.format(Locale.getDefault(), "%.1f", new Double(Math.round(distance * 1000.0 * 10.0) / 10.0)) +" m";
 			} else {
 				return String.format(Locale.getDefault(), "%.2f", new Double(Math.round(distance * 1000.0 * 100.0) / 100.0)) +" m";
@@ -1814,8 +1816,8 @@ public class cgBase {
 		}
 	}
 
-	public String getHumanSpeed(Float speed) {
-		Float kph = new Float(speed * 3.6);
+	public String getHumanSpeed(float speed) {
+		double kph = speed * 3.6;
 		String unit = "kmh";
 
 		if (this.settings.units == this.settings.unitsImperial) {

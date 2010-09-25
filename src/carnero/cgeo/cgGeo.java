@@ -44,7 +44,7 @@ public class cgGeo {
 	public Float accuracyNow = null;
 	public Integer satellitesVisible = null;
 	public Integer satellitesFixed = null;
-	public float distanceNow = 0f;
+	public double distanceNow = 0d;
 
 	public cgGeo(Context contextIn, cgeoapplication appIn, cgUpdateLoc geoUpdateIn, cgBase baseIn, cgSettings settingsIn, cgWarning warningIn, int timeIn, int distanceIn) {
 		context = contextIn;
@@ -58,7 +58,7 @@ public class cgGeo {
 
 		if (prefs == null) prefs = context.getSharedPreferences(cgSettings.preferences, 0);
 		distanceNow = prefs.getFloat("dst", 0f);
-		if (Float.isNaN(distanceNow) == true) distanceNow = 0f;
+		if (Double.isNaN(distanceNow) == true) distanceNow = 0d;
 		if (distanceNow == 0f) {
 			final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
 			if (prefsEdit != null) {
@@ -66,7 +66,7 @@ public class cgGeo {
 				prefsEdit.commit();
 			}
 		}
-		
+
 		geoNetListener = new cgeoGeoListener();
 		geoNetListener.setProvider(LocationManager.NETWORK_PROVIDER);
 		
@@ -117,8 +117,8 @@ public class cgGeo {
 		final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
 		if (prefsEdit != null) {
 			prefsEdit.putLong("last-g4c", lastGo4cache);
-			if (Float.isNaN(distanceNow) == false) {
-				prefsEdit.putFloat("dst", distanceNow);
+			if (Double.isNaN(distanceNow) == false) {
+				prefsEdit.putFloat("dst", (float)distanceNow);
 			}
 
 			prefsEdit.commit();
