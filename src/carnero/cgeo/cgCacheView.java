@@ -8,6 +8,7 @@ import android.widget.TextView;
 public class cgCacheView {
 	public RelativeLayout oneCache;
 	public ImageView foundMark;
+	public ImageView ratingMark;
 	public TextView text;
 	public TextView info;
 	public LinearLayout inventory;

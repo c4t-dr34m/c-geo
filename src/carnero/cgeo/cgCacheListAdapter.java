@@ -130,6 +130,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder = new cgCacheView();
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
 			holder.foundMark = (ImageView)rowView.findViewById(R.id.found_mark);
+			holder.ratingMark = (ImageView)rowView.findViewById(R.id.rating_mark);
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
 			holder.text = (TextView)rowView.findViewById(R.id.text);
 			holder.distance = (cgDistanceView)rowView.findViewById(R.id.distance);
@@ -153,6 +154,26 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.foundMark.setVisibility(View.VISIBLE);
 		} else {
 			holder.foundMark.setVisibility(View.GONE);
+		}
+
+		if (cache.vote != null && cache.vote > 0) {
+			if (cache.vote == 1) holder.ratingMark.setImageResource(R.drawable.mark_rating_1);
+			else if(cache.vote == 2) holder.ratingMark.setImageResource(R.drawable.mark_rating_2);
+			else if(cache.vote == 3) holder.ratingMark.setImageResource(R.drawable.mark_rating_3);
+			else if(cache.vote == 4) holder.ratingMark.setImageResource(R.drawable.mark_rating_4);
+			else if(cache.vote == 5) holder.ratingMark.setImageResource(R.drawable.mark_rating_5);
+
+			holder.ratingMark.setVisibility(View.VISIBLE);
+		} else if (cache.rating != null && cache.rating > 0) {
+			if (cache.rating >= 0.5 && cache.rating < 1.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_1);
+			if (cache.rating >= 1.5 && cache.rating < 2.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_2);
+			if (cache.rating >= 2.5 && cache.rating < 3.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_3);
+			if (cache.rating >= 3.5 && cache.rating < 4.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_4);
+			if (cache.rating >= 4.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_5);
+
+			holder.ratingMark.setVisibility(View.VISIBLE);
+		} else {
+			holder.ratingMark.setVisibility(View.GONE);
 		}
 
 		if (cache.nameSp == null) {

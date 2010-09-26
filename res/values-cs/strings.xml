@@ -277,6 +277,7 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 · new: Import GPX files from various sources\n
 · new: Traveled distance on map\n
 · new: Logging of trackables\n
+· new: GCvote integration\n
 · fix: Things around import of GPX\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n

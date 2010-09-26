@@ -139,6 +139,10 @@ public class cgeoinit extends Activity {
 		if (usernameNow != null) {
 			((EditText)findViewById(R.id.password)).setText(passwordNow);
 		}
+		String passvoteNow = prefs.getString("pass-vote", null);
+		if (passvoteNow != null) {
+			((EditText)findViewById(R.id.passvote)).setText(passvoteNow);
+		}
 
 		Button logMeIn = (Button)findViewById(R.id.log_me_in);
 		logMeIn.setClickable(true);
