@@ -145,10 +145,12 @@
 
 	<!-- init -->
 	<string name="init_geocaching">geocaching.com</string>
+	<string name="init_gcvote">gcvote.com</string>
 	<string name="init_go4cache">go 4 cache</string>
 	<string name="init_twitter">twitter</string>
 	<string name="init_username">username</string>
 	<string name="init_password">password</string>
+	<string name="init_passvote">password</string>
 	<string name="init_login">check login</string>
 	<string name="init_legal">legal note</string>
 	<string name="init_go4cache_connect">connect to go 4 cache</string>
@@ -252,7 +254,7 @@
 	<string name="visit_tweet">post this find to twitter</string>
 
 	<!-- next things -->
-    <string name="legal_note">To use services of geocaching.com (and this application does), you must agree with terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a>.</string>
+    <string name="legal_note">To use services of geocaching.com, you must agree with terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a>.</string>
     <string name="about_text"><b>c:geo</b> is designed to be simple always ready-to-go client for geocaching.com. It is and forever will be for free. If you want to support development, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.</string>
     <string name="author">author: <a href="http://carnero.cc/">carnero</a></string>
     <string name="support">support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>

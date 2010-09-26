@@ -144,10 +144,12 @@
 
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
+	<string name="init_gcvote">GCvote.com</string>
 	<string name="init_go4cache">go 4 cache</string>
 	<string name="init_twitter">Twitter</string>
 	<string name="init_username">Benutzername</string>
 	<string name="init_password">Passwort</string>
+	<string name="init_passvote">Passwort</string>
 	<string name="init_login">Anmeldedaten &#252;berpr&#252;fen</string>
 	<string name="init_legal">Impressum</string>
 	<string name="init_go4cache_connect">Mit go 4 cache verbinden</string>
@@ -251,7 +253,7 @@
 	<string name="visit_tweet">Diesen Eintrag auf Twitter ver&#246;ffentlichen</string>
 
 	<!-- next things -->
-    <string name="legal_note">Um die Dienste von Geocaching.com, die diese Anwendung verwendet, nutzen zu k&#246;nnen, m&#252;ssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
+    <string name="legal_note">Um die Dienste von Geocaching.com nutzen zu k&#246;nnen, m&#252;ssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
     <string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und &#252;berall einsetzbarer Client f&#252;r Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn du die Entwicklung unterst&#252;tzen m&#246;chtest, kannst du &#252;ber die Website spenden. Bei Fragen, Anmerkungen und Vorschl&#228;gen kannst du mich einfach per Facebook oder eMail kontaktieren.</string>
     <string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
     <string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>

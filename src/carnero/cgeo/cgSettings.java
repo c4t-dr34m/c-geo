@@ -251,6 +251,22 @@ public class cgSettings {
 		return prefsEdit.commit();
 	}
 
+	public boolean setGCvoteLogin(String password) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
+
+		if (password == null || password.length() == 0) {
+			// erase password
+			prefsEdit.remove("pass-vote");
+		} else {
+			// save password
+			prefsEdit.putString("pass-vote", password);
+		}
+
+		this.passVote = password;
+
+		return prefsEdit.commit();
+	}
+
 	public HashMap<String, String> getGCvoteLogin() {
 		final HashMap<String, String> login = new HashMap<String, String>();
 

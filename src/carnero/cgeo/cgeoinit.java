@@ -118,6 +118,7 @@ public class cgeoinit extends Activity {
 
 			((EditText)findViewById(R.id.username)).setText("");
 			((EditText)findViewById(R.id.password)).setText("");
+			((EditText)findViewById(R.id.passvote)).setText("");
 
 			status = saveLogin();
 			if (status == true) warning.showToast(res.getString(R.string.init_cleared));
@@ -247,11 +248,16 @@ public class cgeoinit extends Activity {
 	public boolean saveLogin() {
 		String usernameNew = ((EditText)findViewById(R.id.username)).getText().toString();
 		String passwordNew = ((EditText)findViewById(R.id.password)).getText().toString();
+		String passvoteNew = ((EditText)findViewById(R.id.passvote)).getText().toString();
 
 		if (usernameNew == null) usernameNew = "";
 		if (passwordNew == null) passwordNew = "";
+		if (passvoteNew == null) passvoteNew = "";
 
-		if (settings.setLogin(usernameNew, passwordNew) == true) return true;
+		final boolean status1 = settings.setLogin(usernameNew, passwordNew);
+		final boolean status2 = settings.setGCvoteLogin(passvoteNew);
+
+		if (status1 == true && status2 == true) return true;
 
 		return false;
 	}

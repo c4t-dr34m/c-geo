@@ -145,10 +145,12 @@
 
 	<!-- init -->
 	<string name="init_geocaching">geocaching.com</string>
+	<string name="init_gcvote">gcvote.com</string>
 	<string name="init_go4cache">go 4 cache</string>
 	<string name="init_twitter">twitter</string>
 	<string name="init_username">uživatelské heslo</string>
 	<string name="init_password">heslo</string>
+	<string name="init_passvote">heslo</string>
 	<string name="init_login">zkontrolovat</string>
 	<string name="init_legal">poznámka</string>
 	<string name="init_go4cache_connect">připojit k go 4 cache</string>
@@ -252,7 +254,7 @@
 	<string name="visit_tweet">informovat o nálezu na twitteru</string>
 
 	<!-- next things -->
-	<string name="legal_note">Před používáním služeb serveru geocaching.com (a tato aplikace to dělá) je potřeba souhlasit s <a href="http://www.geocaching.com/about/disclaimer.aspx">licenčním ujednáním Groundspeaku</a>.</string>
+	<string name="legal_note">Před používáním služeb serveru geocaching.com je potřeba souhlasit s <a href="http://www.geocaching.com/about/disclaimer.aspx">licenčním ujednáním Groundspeaku</a>.</string>
 	<string name="about_text">Cílem <b>c:geo</b> je dát Vám jednoduchého klienta pro geocaching.com, který bude vždy připraven k použití. <b>c:geo</b> je a vždy bude zdarma. Pokud chcete podpořit vývoj aplikace, můžete přispět libovolnou finanční částkou (pomocí odkazu na webu). Otázky? Návrhy? Použijte Facebook nebo pošlete e-mail.</string>
 	<string name="author">autor <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">podpora <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>

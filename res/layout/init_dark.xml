@@ -40,6 +40,20 @@
 						android:background="@color/background_dark"
 						android:text="@string/init_geocaching" />
 			</RelativeLayout>
+			<TextView android:id="@+id/legal_note"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:layout_alignParentLeft="true"
+					android:layout_gravity="left"
+					android:padding="3dip"
+					android:textSize="14dip"
+					android:textColor="@color/text_dark"
+					android:textColorLink="@color/link"
+					android:linksClickable="true"
+					android:text="@string/legal_note" />
 			<EditText
 					android:id="@+id/username"
 					android:hint="@string/init_username"
@@ -114,22 +128,27 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_headline_dark"
 						android:background="@color/background_dark"
-						android:text="@string/init_legal" />
+						android:text="@string/init_gcvote" />
 			</RelativeLayout>
-			<TextView android:id="@+id/legal_note"
-					android:layout_width="wrap_content"
+			<EditText
+					android:id="@+id/passvote"
+					android:hint="@string/init_passvote"
+					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dip"
 					android:layout_marginRight="10dip"
 					android:layout_marginBottom="5dip"
-					android:layout_alignParentLeft="true"
-					android:layout_gravity="left"
-					android:padding="3dip"
-					android:textSize="14dip"
+					android:password="true"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:textSize="22dip"
 					android:textColor="@color/text_dark"
-					android:textColorLink="@color/link"
-					android:linksClickable="true"
-					android:text="@string/legal_note" />
+					android:textColorHint="@color/text_hint_dark"
+					android:autoText="true"
+					android:capitalize="none"
+					android:padding="6dip"
+					android:background="@drawable/input_bcg_dark" />
 <!-- ** -->
 			<RelativeLayout
 					android:layout_width="fill_parent"
