@@ -251,11 +251,21 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
 			cacheInfo.append(cache.size);
 		}
-		if (cache.difficulty != null && cache.terrain != null && cache.difficulty > 0f && cache.terrain > 0f) {
-			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
-			cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.difficulty));
-			cacheInfo.append("/");
-			cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.terrain));
+		if ((cache.difficulty != null && cache.difficulty > 0f) || (cache.terrain != null && cache.terrain > 0f) || (cache.rating != null && cache.rating > 0f)) {
+			if (cacheInfo.length() > 0) cacheInfo.append(" |");
+
+			if (cache.difficulty != null && cache.difficulty > 0f) {
+				cacheInfo.append(" ");
+				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.difficulty));
+			}
+			if (cache.terrain != null && cache.terrain > 0f) {
+				cacheInfo.append(" ");
+				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.terrain));
+			}
+			if (cache.rating != null && cache.rating > 0f) {
+				cacheInfo.append(" ");
+				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.rating));
+			}
 		}
 		if (cache.members == true) {
 			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
@@ -267,7 +277,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 		holder.info.setText(cacheInfo.toString());
 
-        rowView.setOnClickListener(new cgCacheListOnClickListener(cache.geocode, cache.name));
+		rowView.setOnClickListener(new cgCacheListOnClickListener(cache.geocode, cache.name));
 		
 		return rowView;
 	}

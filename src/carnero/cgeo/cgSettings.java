@@ -66,6 +66,7 @@ public class cgSettings {
 	private SharedPreferences prefs = null;
 	private String username = null;
 	private String password = null;
+	private String passVote = null;
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
@@ -248,6 +249,30 @@ public class cgSettings {
 		this.password = password;
 		
 		return prefsEdit.commit();
+	}
+
+	public HashMap<String, String> getGCvoteLogin() {
+		final HashMap<String, String> login = new HashMap<String, String>();
+
+		if (username == null || password == null) {
+			final String preUsername = prefs.getString("username", null);
+			final String prePassword = prefs.getString("pass-vote", null);
+
+			if (preUsername == null || prePassword == null) {
+				return null;
+			}
+
+			login.put("username", preUsername);
+			login.put("password", prePassword);
+
+			username = preUsername;
+			passVote = prePassword;
+		} else {
+			login.put("username", username);
+			login.put("password", password);
+		}
+
+		return login;
 	}
 
 	public void deleteCookies() {

@@ -36,12 +36,14 @@ import android.text.style.StrikethroughSpan;
 import android.view.Display;
 import android.view.WindowManager;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
@@ -440,6 +442,7 @@ public class cgBase {
 
 		final cgCacheWrap caches = new cgCacheWrap();
 		final ArrayList<String> cids = new ArrayList<String>();
+		final ArrayList<String> guids = new ArrayList<String>();
 
 		caches.url = url;
 
@@ -491,6 +494,7 @@ public class cgBase {
 
 				while (matcherGuidAndDisabled.find()) {
 					if (matcherGuidAndDisabled.groupCount() > 0) {
+						guids.add(matcherGuidAndDisabled.group(1));
 						cache.guid = matcherGuidAndDisabled.group(1);
 						cache.name = Html.fromHtml(matcherGuidAndDisabled.group(4)).toString();
 						cache.location = Html.fromHtml(matcherGuidAndDisabled.group(6).trim()).toString();
@@ -748,6 +752,29 @@ public class cgBase {
 				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgBase.parseSearch.CIDs: " + e.toString());
+			}
+		}
+
+		if (guids.size() > 0) {
+			Log.i(cgSettings.tag, "Trying to get ratings for " + cids.size() + " caches");
+
+			try {
+				final HashMap<String, cgRating> ratings = getRating(guids, null);
+
+				if (ratings != null) {
+					// save found cache coordinates
+					for (cgCache oneCache : caches.cacheList) {
+						if (ratings.containsKey(oneCache.guid) == true) {
+							cgRating thisRating = ratings.get(oneCache.guid);
+
+							oneCache.rating = thisRating.rating;
+							oneCache.votes = thisRating.votes;
+							oneCache.vote = thisRating.vote;
+						}
+					}
+				}
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgBase.parseSearch.GCvote: " + e.toString());
 			}
 		}
 
@@ -1018,7 +1045,6 @@ public class cgBase {
 					final Matcher matcherHiddenEvent = patternHiddenEvent.matcher(tableInside);
 					while (matcherHiddenEvent.find()) {
 						if (matcherHiddenEvent.groupCount() > 0) {
-							Log.d(cgSettings.tag, "Date: " + matcherHiddenEvent.group(1));
 							cache.hidden = dateEvIn.parse(matcherHiddenEvent.group(1));
 						}
 					}
@@ -1453,87 +1479,130 @@ public class cgBase {
 	}
 
 	public cgRating getRating(String guid, String geocode) {
-		if (guid == null && geocode == null) return null;
+		ArrayList<String> guids = null;
+		ArrayList<String> geocodes = null;
 
-		final cgRating rating = new cgRating();
+		if (guid != null && guid.length() > 0) {
+			guids = new ArrayList<String>();
+			guids.add(guid);
+		} else if (geocode != null && geocode.length() > 0) {
+			geocodes = new ArrayList<String>();
+			geocodes.add(geocode);
+		} else {
+			return null;
+		}
+
+		final HashMap<String, cgRating> ratings = getRating(guids, geocodes);
+		final Set<String> ratingKeys = ratings.keySet();
+		for (String ratingKey : ratingKeys) {
+			return ratings.get(ratingKey);
+		}
+
+		return null;
+	}
+
+	public HashMap<String, cgRating> getRating(ArrayList<String> guids, ArrayList<String> geocodes) {
+		if (guids == null && geocodes == null) return null;
+
+		final HashMap<String, cgRating> ratings = new HashMap<String, cgRating>();
 
 		final HashMap<String, String> params = new HashMap<String, String>();
 		if (settings.isLogin() == true) {
-			final HashMap<String, String> login = settings.getLogin();
-			params.put("userName", login.get("username"));
-			params.put("password", login.get("password"));
+			final HashMap<String, String> login = settings.getGCvoteLogin();
+			if (login != null) {
+				params.put("userName", login.get("username"));
+				params.put("password", login.get("password"));
+			}
 		}
-		if (guid != null && guid.length() > 0) {
-			params.put("cacheIds", guid);
+		if (guids != null && guids.size() > 0) {
+			params.put("cacheIds", implode(",", guids.toArray()));
 		} else {
-			params.put("waypoints", geocode);
+			params.put("waypoints", implode(",", geocodes.toArray()));
 		}
 		final String votes = request("gcvote.com", "/getVotes.php", "GET", params, false, false, false);
 
-		String voteData = null;
-		final Pattern patternVoteElement = Pattern.compile("<vote ([^>]+)>", Pattern.CASE_INSENSITIVE);
-		final Matcher matcherVoteElement = patternVoteElement.matcher(votes);
-		if (matcherVoteElement.find()) {
-			if (matcherVoteElement.groupCount() > 0) {
-				voteData = matcherVoteElement.group(1);
-			}
-		}
-
-		if (voteData == null) return null;
-
 		final Pattern patternLoggedIn = Pattern.compile("loggedIn='([^']+)'", Pattern.CASE_INSENSITIVE);
+		final Pattern patternGuid = Pattern.compile("cacheId='([^']+)'", Pattern.CASE_INSENSITIVE);
 		final Pattern patternRating = Pattern.compile("voteAvg='([0-9\\.]+)'", Pattern.CASE_INSENSITIVE);
 		final Pattern patternVotes = Pattern.compile("voteCnt='([0-9]+)'", Pattern.CASE_INSENSITIVE);
 		final Pattern patternVote = Pattern.compile("voteUser='([0-9]+)'", Pattern.CASE_INSENSITIVE);
 
-		boolean loggedIn = false;
-		try {
-			final Matcher matcherLoggedIn = patternLoggedIn.matcher(votes);
-			if (matcherLoggedIn.find()) {
-				if (matcherLoggedIn.groupCount() > 0) {
-					if (matcherLoggedIn.group(1).equalsIgnoreCase("true") == true) loggedIn = true;
-				}
+		String voteData = null;
+		final Pattern patternVoteElement = Pattern.compile("<vote ([^>]+)>", Pattern.CASE_INSENSITIVE);
+		final Matcher matcherVoteElement = patternVoteElement.matcher(votes);
+		while (matcherVoteElement.find()) {
+			if (matcherVoteElement.groupCount() > 0) {
+				voteData = matcherVoteElement.group(1);
 			}
-		} catch (Exception e) {
-			Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse loggedIn");
-		}
 
-		try {
-			final Matcher matcherRating = patternRating.matcher(voteData);
-			if (matcherRating.find()) {
-				if (matcherRating.groupCount() > 0) {
-					rating.rating = Float.parseFloat(matcherRating.group(1));
-				}
-			}
-		} catch (Exception e) {
-			Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse rating");
-		}
+			if (voteData == null) continue;
 
-		try {
-			final Matcher matcherVotes = patternVotes.matcher(voteData);
-			if (matcherVotes.find()) {
-				if (matcherVotes.groupCount() > 0) {
-					rating.votes = Integer.parseInt(matcherVotes.group(1));
-				}
-			}
-		} catch (Exception e) {
-			Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse vote count");
-		}
+			String guid = null;
+			cgRating rating = new cgRating();
+			boolean loggedIn = false;
 
-		if (loggedIn == true) {
 			try {
-				final Matcher matcherVote = patternVote.matcher(voteData);
-				if (matcherVote.find()) {
-					if (matcherVote.groupCount() > 0) {
-						rating.vote = Integer.parseInt(matcherVote.group(1));
+				final Matcher matcherGuid = patternGuid.matcher(voteData);
+				if (matcherGuid.find()) {
+					if (matcherGuid.groupCount() > 0) {
+						guid = (String)matcherGuid.group(1);
 					}
 				}
 			} catch (Exception e) {
-				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse user's vote");
+				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse guid");
 			}
+
+			try {
+				final Matcher matcherLoggedIn = patternLoggedIn.matcher(votes);
+				if (matcherLoggedIn.find()) {
+					if (matcherLoggedIn.groupCount() > 0) {
+						if (matcherLoggedIn.group(1).equalsIgnoreCase("true") == true) loggedIn = true;
+					}
+				}
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse loggedIn");
+			}
+
+			try {
+				final Matcher matcherRating = patternRating.matcher(voteData);
+				if (matcherRating.find()) {
+					if (matcherRating.groupCount() > 0) {
+						rating.rating = Float.parseFloat(matcherRating.group(1));
+					}
+				}
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse rating");
+			}
+
+			try {
+				final Matcher matcherVotes = patternVotes.matcher(voteData);
+				if (matcherVotes.find()) {
+					if (matcherVotes.groupCount() > 0) {
+						rating.votes = Integer.parseInt(matcherVotes.group(1));
+					}
+				}
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse vote count");
+			}
+
+			if (loggedIn == true) {
+				try {
+					final Matcher matcherVote = patternVote.matcher(voteData);
+					if (matcherVote.find()) {
+						if (matcherVote.groupCount() > 0) {
+							rating.vote = Integer.parseInt(matcherVote.group(1));
+						}
+					}
+				} catch (Exception e) {
+					Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse user's vote");
+				}
+			}
+
+			if (guid != null) ratings.put(guid, rating);
 		}
 
-		return rating;
+
+		return ratings;
 	}
 
 	public Long parseGPX(cgeoapplication app, File file, Handler handler) {
