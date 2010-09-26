@@ -386,6 +386,7 @@ public class cgeotouch extends cgLogForm {
 				if (types.contains(typeSelected) == false) {
 					typeSelected = types.get(0);
 					setType(typeSelected);
+					warning.showToast("Type of log has been changed!");
 				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeotouch.loadData.run: " + e.toString());
@@ -420,26 +421,16 @@ public class cgeotouch extends cgLogForm {
 		int status = -1;
 
 		try {
-			HashMap<String, String> parameters = new HashMap<String, String>();
-
-            if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
-            if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
+			if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
+			if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
 
 			status = base.postLogTrackable(guid, tracking, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH ) + 1), date.get(Calendar.DATE), log);
 
-			if (status == 1) {
-				cgLog logNow = new cgLog();
-				logNow.author = settings.getUsername();
-				logNow.date = (new Date()).getTime();
-				logNow.type = typeSelected;
-				logNow.log = log;
-			}
-
 			if (
-				status == 1 && typeSelected == 2 && settings.twitter == 1 &&
+				status == 1 && settings.twitter == 1 &&
 				settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null && settings.tokenSecret.length() > 0 &&
-                tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
-				) {
+				tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
+			) {
 				base.postTweetTrackable(app, settings, geocode);
 			}
 

@@ -1612,6 +1612,8 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable details & image");
 		}
 
+		app.saveTrackable(trackable);
+
 		return trackable;
 	}
 

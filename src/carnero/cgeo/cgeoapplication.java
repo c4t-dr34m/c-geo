@@ -413,6 +413,15 @@ public class cgeoapplication extends Application {
 		return storage.deleteWaypoint(id);
     }
 
+    public boolean saveTrackable(cgTrackable trackable) {
+		if (storage == null) storage = new cgData(this);
+
+		final ArrayList<cgTrackable> list = new ArrayList<cgTrackable>();
+		list.add(trackable);
+
+		return storage.saveInventory("---", list);
+    }
+
     public void addGeocode(Long searchId, String geocode) {
         if (this.searches.containsKey(searchId) == false || geocode == null || geocode.length() == 0) return;
 

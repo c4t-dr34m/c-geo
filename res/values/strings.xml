@@ -273,6 +273,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 · new: Search for caches around another one\n
 · new: Import GPX files from various sources\n
 · new: Traveled distance on map\n
+· new: Logging of trackables\n
 · fix: Things around import of GPX\n
 · fix: Switching login\n
 · fix: Displaying spoilers for offline caches\n

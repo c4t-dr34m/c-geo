@@ -16,6 +16,7 @@ import java.util.Locale;
  * 000-033: basic structure, tables
  * 034-036: added indexes
  * 039: lists
+ * 040: geocode in trackables could be NULL
  */
 
 public class cgData {
@@ -34,7 +35,7 @@ public class cgData {
 	private static final String dbTableSpoilers = "cg_spoilers";
 	private static final String dbTableLogs = "cg_logs";
 	private static final String dbTableTrackables = "cg_trackables";
-	private static final int dbVersion = 39;
+	private static final int dbVersion = 40;
 	private static final String dbCreateCaches = ""
 			+ "create table " + dbTableCaches + " ("
 			+ "_id integer primary key autoincrement, "
@@ -132,7 +133,6 @@ public class cgData {
     private static final String dbCreateTrackables = ""
 			+ "create table " + dbTableTrackables + " ("
 			+ "_id integer primary key autoincrement, "
-			+ "geocode text not null, "
 			+ "updated long not null, " // date of save
 			+ "tbcode text not null, "
 			+ "guid text, "
@@ -140,7 +140,8 @@ public class cgData {
 			+ "owner text, "
 			+ "released long, "
 			+ "goal text, "
-			+ "description text "
+			+ "description text, "
+			+ "geocode text "
 			+ "); ";
 	private static SQLiteStatement sqlCount = null;
 	private static SQLiteStatement sqlCountDetailed = null;
@@ -312,6 +313,17 @@ public class cgData {
 							Log.i(cgSettings.tag, "Created lists table.");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 39: " + e.toString());
+						}
+					}
+
+					if (oldVersion < 40) { // upgrade to 40
+						try {
+							db.execSQL("drop table " + dbTableTrackables);
+							db.execSQL(dbCreateTrackables);
+
+							Log.i(cgSettings.tag, "Changed type of geocode column in trackables table.");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 40: " + e.toString());
 						}
 					}
 				}
@@ -834,17 +846,17 @@ public class cgData {
     }
 
     public boolean saveInventory(String geocode, ArrayList<cgTrackable> trackables) {
-        if (geocode == null || geocode.length() == 0 || trackables == null || trackables.isEmpty()) return false;
+		if (trackables == null || trackables.isEmpty()) return false;
 		initRW();
 
 		databaseRW.beginTransaction();
 		try {
-			databaseRW.delete(dbTableTrackables, "geocode = \"" + geocode + "\"", null);
+			if (geocode != null) databaseRW.delete(dbTableTrackables, "geocode = \"" + geocode + "\"", null);
 
 			ContentValues values = new ContentValues();
 			for (cgTrackable oneTrackable : trackables) {
 				values.clear();
-				values.put("geocode", geocode);
+				if (geocode != null) values.put("geocode", geocode);
 				values.put("updated", System.currentTimeMillis());
 				values.put("tbcode", oneTrackable.geocode);
 				values.put("guid", oneTrackable.guid);
