@@ -233,6 +233,7 @@
 	<string name="cache_distance">Entfernung</string>
 	<string name="cache_difficulty">Schwierigkeit</string>
 	<string name="cache_terrain">Terrain</string>
+	<string name="cache_rating">rating</string>
 	<string name="cache_owner">Besitzer</string>
 	<string name="cache_hidden">versteckt</string>
 	<string name="cache_location">Bundesland</string>

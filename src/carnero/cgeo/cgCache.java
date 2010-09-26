@@ -36,6 +36,9 @@ public class cgCache {
 	public boolean members = false;
 	public boolean found = false;
 	public boolean favourite = false;
+	public Float rating = null;
+	public Integer votes = null;
+	public Integer vote = null;
 	public int inventoryCoins = 0;
 	public int inventoryTags = 0;
 	public int inventoryUnknown = 0;
@@ -91,6 +94,9 @@ public class cgCache {
 		if (longitude == null) longitude = oldCache.longitude;
 		if (shortdesc == null || shortdesc.length() == 0) shortdesc = oldCache.shortdesc;
 		if (description == null || description.length() == 0) description = oldCache.description;
+		if (rating == null) rating = oldCache.rating;
+		if (votes == null) votes = oldCache.votes;
+		if (vote == null) vote = oldCache.vote;
 		if (inventoryCoins == 0) inventoryCoins = oldCache.inventoryCoins;
 		if (inventoryTags == 0) inventoryTags = oldCache.inventoryTags;
 		if (inventoryUnknown == 0) inventoryUnknown = oldCache.inventoryUnknown;

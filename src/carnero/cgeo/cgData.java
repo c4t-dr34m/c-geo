@@ -17,6 +17,7 @@ import java.util.Locale;
  * 034-036: added indexes
  * 039: lists
  * 040: geocode in trackables could be NULL
+ * 041: cache rating
  */
 
 public class cgData {
@@ -27,6 +28,7 @@ public class cgData {
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
 
+	private static final int dbVersion = 41;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -35,7 +37,6 @@ public class cgData {
 	private static final String dbTableSpoilers = "cg_spoilers";
 	private static final String dbTableLogs = "cg_logs";
 	private static final String dbTableTrackables = "cg_trackables";
-	private static final int dbVersion = 40;
 	private static final String dbCreateCaches = ""
 			+ "create table " + dbTableCaches + " ("
 			+ "_id integer primary key autoincrement, "
@@ -64,6 +65,9 @@ public class cgData {
 			+ "longitude double, "
 			+ "shortdesc text, "
 			+ "description text, "
+			+ "rating float, "
+			+ "votes integer, "
+			+ "vote integer, "
 			+ "disabled integer not null default 0, "
 			+ "archived integer not null default 0, "
 			+ "members integer not null default 0, "
@@ -324,6 +328,18 @@ public class cgData {
 							Log.i(cgSettings.tag, "Changed type of geocode column in trackables table.");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 40: " + e.toString());
+						}
+					}
+
+					if (oldVersion < 41) { // upgrade to 41
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column rating float");
+							db.execSQL("alter table " + dbTableCaches + " add column votes integer");
+							db.execSQL("alter table " + dbTableCaches + " add column vote integer");
+
+							Log.i(cgSettings.tag, "Added columns for GCvote.");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 41: " + e.toString());
 						}
 					}
 				}
@@ -598,6 +614,9 @@ public class cgData {
         values.put("longitude", cache.longitude);
         values.put("shortdesc", cache.shortdesc);
         values.put("description", cache.description);
+        values.put("rating", cache.rating);
+        values.put("votes", cache.votes);
+        values.put("vote", cache.vote);
         if (cache.disabled == true) values.put("disabled", 1);
         else values.put("disabled", 0);
         if (cache.archived == true) values.put("archived", 1);
@@ -933,7 +952,8 @@ public class cgData {
                         new String[] {
                             "_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
                             "difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
-                            "description", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags", "inventoryunknown"
+                            "description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+						"inventoryunknown"
                         },
                         "geocode in (" + all.toString() + ")",
                         null,
@@ -958,7 +978,8 @@ public class cgData {
                         new String[] {
                             "_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
                             "difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
-                            "description", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags", "inventoryunknown"
+                            "description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+						"inventoryunknown"
                         },
                         "guid in (" + all.toString() + ")",
                         null,
@@ -1020,6 +1041,9 @@ public class cgData {
                         }
                         cache.shortdesc = (String)cursor.getString(cursor.getColumnIndex("shortdesc"));
                         cache.description = (String)cursor.getString(cursor.getColumnIndex("description"));
+                        cache.rating = (Float)cursor.getFloat(cursor.getColumnIndex("rating"));
+                        cache.votes = (Integer)cursor.getInt(cursor.getColumnIndex("votes"));
+                        cache.vote = (Integer)cursor.getInt(cursor.getColumnIndex("vote"));
                         index = cursor.getColumnIndex("disabled");
                         if ((int)cursor.getLong(index) == 1) {
                             cache.disabled = true;

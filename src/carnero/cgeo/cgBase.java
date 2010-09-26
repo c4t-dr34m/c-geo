@@ -1437,12 +1437,103 @@ public class cgBase {
 			}
 		}
 
-        cache.updated = System.currentTimeMillis();
-        cache.detailedUpdate = System.currentTimeMillis();
-        cache.detailed = true;
-        caches.cacheList.add(cache);
+		final cgRating rating = getRating(cache.guid, cache.geocode);
+		if (rating != null) {
+			cache.rating = rating.rating;
+			cache.votes = rating.votes;
+			cache.vote = rating.vote;
+		}
+
+		cache.updated = System.currentTimeMillis();
+		cache.detailedUpdate = System.currentTimeMillis();
+		cache.detailed = true;
+		caches.cacheList.add(cache);
 
 		return caches;
+	}
+
+	public cgRating getRating(String guid, String geocode) {
+		if (guid == null && geocode == null) return null;
+
+		final cgRating rating = new cgRating();
+
+		final HashMap<String, String> params = new HashMap<String, String>();
+		if (settings.isLogin() == true) {
+			final HashMap<String, String> login = settings.getLogin();
+			params.put("userName", login.get("username"));
+			params.put("password", login.get("password"));
+		}
+		if (guid != null && guid.length() > 0) {
+			params.put("cacheIds", guid);
+		} else {
+			params.put("waypoints", geocode);
+		}
+		final String votes = request("gcvote.com", "/getVotes.php", "GET", params, false, false, false);
+
+		String voteData = null;
+		final Pattern patternVoteElement = Pattern.compile("<vote ([^>]+)>", Pattern.CASE_INSENSITIVE);
+		final Matcher matcherVoteElement = patternVoteElement.matcher(votes);
+		if (matcherVoteElement.find()) {
+			if (matcherVoteElement.groupCount() > 0) {
+				voteData = matcherVoteElement.group(1);
+			}
+		}
+
+		if (voteData == null) return null;
+
+		final Pattern patternLoggedIn = Pattern.compile("loggedIn='([^']+)'", Pattern.CASE_INSENSITIVE);
+		final Pattern patternRating = Pattern.compile("voteAvg='([0-9\\.]+)'", Pattern.CASE_INSENSITIVE);
+		final Pattern patternVotes = Pattern.compile("voteCnt='([0-9]+)'", Pattern.CASE_INSENSITIVE);
+		final Pattern patternVote = Pattern.compile("voteUser='([0-9]+)'", Pattern.CASE_INSENSITIVE);
+
+		boolean loggedIn = false;
+		try {
+			final Matcher matcherLoggedIn = patternLoggedIn.matcher(votes);
+			if (matcherLoggedIn.find()) {
+				if (matcherLoggedIn.groupCount() > 0) {
+					if (matcherLoggedIn.group(1).equalsIgnoreCase("true") == true) loggedIn = true;
+				}
+			}
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse loggedIn");
+		}
+
+		try {
+			final Matcher matcherRating = patternRating.matcher(voteData);
+			if (matcherRating.find()) {
+				if (matcherRating.groupCount() > 0) {
+					rating.rating = Float.parseFloat(matcherRating.group(1));
+				}
+			}
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse rating");
+		}
+
+		try {
+			final Matcher matcherVotes = patternVotes.matcher(voteData);
+			if (matcherVotes.find()) {
+				if (matcherVotes.groupCount() > 0) {
+					rating.votes = Integer.parseInt(matcherVotes.group(1));
+				}
+			}
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse vote count");
+		}
+
+		if (loggedIn == true) {
+			try {
+				final Matcher matcherVote = patternVote.matcher(voteData);
+				if (matcherVote.find()) {
+					if (matcherVote.groupCount() > 0) {
+						rating.vote = Integer.parseInt(matcherVote.group(1));
+					}
+				}
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse user's vote");
+			}
+		}
+
+		return rating;
 	}
 
 	public Long parseGPX(cgeoapplication app, File file, Handler handler) {

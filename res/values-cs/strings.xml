@@ -234,6 +234,7 @@
 	<string name="cache_distance">vzdálenost</string>
 	<string name="cache_difficulty">obtížnost</string>
 	<string name="cache_terrain">terén</string>
+	<string name="cache_rating">hodnocení</string>
 	<string name="cache_owner">zakladatel</string>
 	<string name="cache_hidden">skryta</string>
 	<string name="cache_location">místo</string>
