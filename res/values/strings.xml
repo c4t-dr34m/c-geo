@@ -46,10 +46,13 @@
 	<string name="log_disabled">disabled</string>
 	<string name="log_attend">will attend</string>
 	<string name="log_attended">attended</string>
+	<string name="log_retrieved">retrieved</string>
+	<string name="log_grabbed">grabbed</string>
 	<string name="log_needs">needs maintenance</string>
 	<string name="log_maintenance">maitenance</string>
 	<string name="log_update">updated coordinates</string>
 	<string name="log_archived">archived</string>
+	<string name="log_discovered">discovered</string>
 	<string name="log_review">reviewer note</string>
 	<string name="log_tb_nothing">do nothing</string>
 	<string name="log_tb_visit">visit</string>
@@ -68,6 +71,7 @@
 	<string name="log_new_grab">grabbed from cache</string>
 	<string name="log_new_retrieve">retrieved from somewhere</string>
 	<string name="log_new_discovered">discovered</string>
+	<string name="log_new_review">rewieved</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>

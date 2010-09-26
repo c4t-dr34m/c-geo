@@ -72,7 +72,8 @@ public class cgBase {
 	public static HashMap<Integer, String> errorRetrieve = new HashMap<Integer, String>();
 	public static SimpleDateFormat dateIn = new SimpleDateFormat("MM/dd/yyyy");
 	public static SimpleDateFormat dateEvIn = new SimpleDateFormat("dd MMMMM yyyy"); // 28 March 2009
-	public static SimpleDateFormat dateTbIn = new SimpleDateFormat("EEEEE, dd MMMMM yyyy"); // Saturday, 28 March 2009
+	public static SimpleDateFormat dateTbIn1 = new SimpleDateFormat("EEEEE, dd MMMMM yyyy"); // Saturday, 28 March 2009
+	public static SimpleDateFormat dateTbIn2 = new SimpleDateFormat("EEEEE, MMMMM dd, yyyy"); // Saturday, March 28, 2009
 	public static SimpleDateFormat dateSqlIn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 2010-07-25 14:44:01
 	public static SimpleDateFormat dateGPXIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); // 2010-04-20T07:00:00Z
 	public static DateFormat dateOut = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
@@ -185,10 +186,14 @@ public class cgBase {
 		logTypes.put("icon_disabled", 8);
 		logTypes.put("icon_rsvp", 9);
 		logTypes.put("icon_attended", 10);
+		logTypes.put("icon_transfer", 19);
 		logTypes.put("icon_needsmaint", 45);
 		logTypes.put("icon_maint", 46);
 		logTypes.put("coord_update", 47);
+		logTypes.put("icon_discovered", 48);
 		logTypes.put("big_smile", 49);
+		logTypes.put("picked_up", -1);
+		logTypes.put("dropped_off", -2);
 
 		logTypes0.put("found it", 2);
 		logTypes0.put("didn't find it", 3);
@@ -199,10 +204,14 @@ public class cgBase {
 		logTypes0.put("temporarily disable listing", 8);
 		logTypes0.put("will attend", 9);
 		logTypes0.put("attended", 10);
+		logTypes0.put("retrieved it", 13);
+		logTypes0.put("grabbed it", 19);
 		logTypes0.put("needs maintenance", 45);
 		logTypes0.put("owner maintenance", 46);
 		logTypes0.put("update coordinates", 47);
+		logTypes0.put("discovered it", 48);
 		logTypes0.put("post reviewer note", 49);
+		logTypes0.put("placed it", -2);
 
 		logTypes1.put(2, res.getString(R.string.log_found));
 		logTypes1.put(3, res.getString(R.string.log_dnf));
@@ -213,9 +222,12 @@ public class cgBase {
 		logTypes1.put(8, res.getString(R.string.log_disabled));
 		logTypes1.put(9, res.getString(R.string.log_attend));
 		logTypes1.put(10, res.getString(R.string.log_attended));
+		logTypes1.put(13, res.getString(R.string.log_retrieved));
+		logTypes1.put(19, res.getString(R.string.log_grabbed));
 		logTypes1.put(45, res.getString(R.string.log_needs));
 		logTypes1.put(46, res.getString(R.string.log_maintenance));
 		logTypes1.put(47, res.getString(R.string.log_update));
+		logTypes1.put(48, res.getString(R.string.log_discovered));
 		logTypes1.put(49, res.getString(R.string.log_review));
 
 		logTypes2.put(2, res.getString(R.string.log_new_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
@@ -230,6 +242,7 @@ public class cgBase {
 		logTypes2.put(45, res.getString(R.string.log_new_maintenance)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
 		logTypes2.put(46, res.getString(R.string.log_new_maintenance_owner)); // owner
 		logTypes2.put(48, res.getString(R.string.log_new_discovered)); //trackable
+		logTypes2.put(49, res.getString(R.string.log_new_review)); // X
 
 		// trackables for logs
 		logTypesTrackable.put(0, res.getString(R.string.log_tb_nothing)); // do nothing
@@ -251,7 +264,7 @@ public class cgBase {
 		errorRetrieve.put(-7, res.getString(R.string.err_license));
 
 		// init
-        app = appIn;
+		app = appIn;
 		settings = settingsIn;
 		prefs = prefsIn;
 
@@ -853,13 +866,13 @@ public class cgBase {
 		final Pattern patternHidden = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Hidden[^:]*:[^<]*</strong>[^\\d]*((\\d+)\\/(\\d+)\\/(\\d+))[^<]*</td>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHiddenEvent = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Event[^\\w]*date[^:]*:[^<]*</strong>[^\\w]*[a-zA-Z]+,[^\\d]*((\\d+)[^\\w]*(\\w+)[^\\d]*(\\d+))[^<]*<div", Pattern.CASE_INSENSITIVE);
 
-        final Pattern patternFound = Pattern.compile("<p><img src=\".*/images/stockholm/16x16/check\\.gif\" alt=\"Found It\" />[^a-zA-Z]*You logged this as Found[^<]+</p>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternFound = Pattern.compile("<p><img src=\".*/images/stockholm/16x16/check\\.gif\" alt=\"Found It\" />[^a-zA-Z]*You logged this as Found[^<]+</p>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLatLon = Pattern.compile("<span id=\"ctl00_ContentBody_LatLon\"[^>]*>(<b>)?([^<]*)(<\\/b>)?<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLocation = Pattern.compile("<span id=\"ctl00_ContentBody_Location\"[^>]*>In ([^<]*)<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHint = Pattern.compile("<p>([^<]*<strong>)?[^\\w]*Additional Hints([^<]*<\\/strong>)?[^\\(]*\\(<a[^>]+>Encrypt<\\/a>\\)[^<]*<\\/p>[^<]*<p>[^<]*<\\/p>[^<]*<div id=\"div_hint\"[^>]*>(.*)<\\/div>[^<]*<div id=\\'dk\\'[^>]+>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDescShort = Pattern.compile("<span id=\"ctl00_ContentBody_ShortDescription\"[^>]*>(.*)<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDesc = Pattern.compile("<span id=\"ctl00_ContentBody_LongDescription\"[^>]*>(.*)<\\/span>.*<div class=\"CacheDetailNavigationWidget\">", Pattern.CASE_INSENSITIVE);
-        final Pattern patternLogs = Pattern.compile("<table class=\"LogsTable Table\">(.*)<\\/table>[^<]*<p>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternLogs = Pattern.compile("<table class=\"LogsTable Table\">(.*)<\\/table>[^<]*<p>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternAttributes = Pattern.compile("<div class=\"CacheDetailNavigationWidget Spacing\"[^>]*>(([^<]*<img src=\"[^\"]+\" alt=\"[^\"]+\"[^>]*>)+)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternAttributesInside = Pattern.compile("[^<]*<img src=\"[^\"]+\" alt=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternSpoilers = Pattern.compile("<span id=\"ctl00_ContentBody_Images\">((<a href=\"[^\"]+\"[^>]*><img[^>]+>[^<]*<span>[^>]+<\\/span><\\/a><br \\/><br \\/>([^<]*<br \\/>)?)+)", Pattern.CASE_INSENSITIVE);
@@ -867,7 +880,7 @@ public class cgBase {
 		final Pattern patternInventory = Pattern.compile("<span id=\"ctl00_ContentBody_uxTravelBugList_uxInventoryLabel\">Inventory</span>[^<]*<\\/h3>[^<]*<div class=\"WidgetBody\">[^<]*<ul>(([^<]*<li>[^<]*<a href=\"[^\"]+\"[^>]*>[^<]*<img src=\"[^\"]+\"[^>]*>[^<]*<span>[^<]+<\\/span>[^<]*<\\/a>[^<]*<\\/li>)+)[^<]*<\\/ul>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternInventoryInside = Pattern.compile("[^<]*<li>[^<]*<a href=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/track\\/details\\.aspx\\?guid=([0-9a-z\\-]+)[^\"]*\"[^>]*>[^<]*<img src=\"[^\"]+\"[^>]*>[^<]*<span>([^<]+)<\\/span>[^<]*<\\/a>[^<]*<\\/li>", Pattern.CASE_INSENSITIVE);
 
-        final cgCacheWrap caches = new cgCacheWrap();
+		final cgCacheWrap caches = new cgCacheWrap();
 		final cgCache cache = new cgCache();
 
 		if (page.indexOf("Cache is Unpublished") > -1) {
@@ -1552,7 +1565,17 @@ public class cgBase {
 			final Matcher matcherReleased = patternReleased.matcher(page);
 			while (matcherReleased.find()) {
 				if (matcherReleased.groupCount() > 0 && matcherReleased.group(1) != null) {
-					trackable.released = dateTbIn.parse(matcherReleased.group(1));
+					try {
+						if (trackable.released == null) trackable.released = dateTbIn1.parse(matcherReleased.group(1));
+					} catch (Exception e) {
+						//
+					}
+
+					try {
+						if (trackable.released == null) trackable.released = dateTbIn2.parse(matcherReleased.group(1));
+					} catch (Exception e) {
+						//
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -1590,6 +1613,36 @@ public class cgBase {
 		}
 
 		return trackable;
+	}
+
+	public ArrayList<Integer> parseTypes(String page) {
+		if (page == null || page.length() == 0) return null;
+
+		final ArrayList<Integer> types = new ArrayList<Integer>();
+
+		final Pattern typeBoxPattern = Pattern.compile("<select name=\"ctl00\\$ContentBody\\$LogBookPanel1\\$ddLogType\" id=\"ctl00_ContentBody_LogBookPanel1_ddLogType\"[^>]*>" +
+			"(([^<]*<option[^>]*>[^<]+</option>)+)[^<]*</select>", Pattern.CASE_INSENSITIVE);
+		final Matcher typeBoxMatcher = typeBoxPattern.matcher(page);
+		String typesText = null;
+		if (typeBoxMatcher.find()) {
+			if (typeBoxMatcher.groupCount() > 0) {
+				typesText = typeBoxMatcher.group(1);
+			}
+		}
+
+		if (typesText != null) {
+			final Pattern typePattern = Pattern.compile("<option( selected=\"selected\")? value=\"(\\d+)\">[^<]+</option>", Pattern.CASE_INSENSITIVE);
+			final Matcher typeMatcher = typePattern.matcher(typesText);
+			while (typeMatcher.find()) {
+				if (typeMatcher.groupCount() > 1) {
+					final int type = Integer.parseInt(typeMatcher.group(2));
+					
+					if (type > 0) types.add(type);
+				}
+			}
+		}
+
+		return types;
 	}
 
 	public ArrayList<cgTrackableLog> parseTrackableLog(String page) {
@@ -1633,10 +1686,10 @@ public class cgBase {
 		page = page.substring(0, endPos); // cut on </tbody>
 
 		final Pattern trackablePattern = Pattern.compile("<tr id=\"ctl00_ContentBody_LogBookPanel1_uxTrackables_repTravelBugs_ctl[0-9]+_row\"[^>]*>"  +
-				"[^<]*<td>[^<]*<a href=\"[^\"]+\">([A-Z0-9]+)</a>[^<]*</td>[^<]*<td>([^<]+)</td>[^<]*<td>" +
-                "[^<]*<select name=\"ctl00\\$ContentBody\\$LogBookPanel1\\$uxTrackables\\$repTravelBugs\\$ctl([0-9]+)\\$ddlAction\"[^>]*>" +
-				"([^<]*<option value=\"([0-9]+)(_[a-z]+)?\">[^<]+</option>)+" +
-				"[^<]*</select>[^<]*</td>[^<]*</tr>", Pattern.CASE_INSENSITIVE);
+			"[^<]*<td>[^<]*<a href=\"[^\"]+\">([A-Z0-9]+)</a>[^<]*</td>[^<]*<td>([^<]+)</td>[^<]*<td>" +
+			"[^<]*<select name=\"ctl00\\$ContentBody\\$LogBookPanel1\\$uxTrackables\\$repTravelBugs\\$ctl([0-9]+)\\$ddlAction\"[^>]*>" +
+			"([^<]*<option value=\"([0-9]+)(_[a-z]+)?\">[^<]+</option>)+" +
+			"[^<]*</select>[^<]*</td>[^<]*</tr>", Pattern.CASE_INSENSITIVE);
 		final Matcher trackableMatcher = trackablePattern.matcher(page);
 		while (trackableMatcher.find()) {
 			if (trackableMatcher.groupCount() > 0) {
@@ -2040,10 +2093,10 @@ public class cgBase {
 
 		final HashMap<String, String> params = new HashMap<String, String>();
 		params.put("__VIEWSTATE", viewstate);
-        if (viewstate1 != null) {
-            params.put("__VIEWSTATE1", viewstate1);
-            params.put("__VIEWSTATEFIELDCOUNT", "2");
-        }
+		if (viewstate1 != null) {
+			params.put("__VIEWSTATE1", viewstate1);
+			params.put("__VIEWSTATEFIELDCOUNT", "2");
+		}
 		params.put("__EVENTTARGET", "ctl00$ContentBody$pgrBottom$ctl08");
 		params.put("__EVENTARGUMENT", "");
 
@@ -2832,8 +2885,8 @@ public class cgBase {
 			return 1000;
 		}
 
-        if (trackables != null) Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: " + trackables.size());
-        else Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: 0");
+		if (trackables != null) Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: " + trackables.size());
+		else Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: 0");
 
 		final Calendar currentDate = Calendar.getInstance();
 		final String host = "www.geocaching.com";
@@ -2842,15 +2895,14 @@ public class cgBase {
 		final HashMap<String, String> params = new HashMap<String, String>();
 
 		params.put("__VIEWSTATE", viewstate);
-        if (viewstate1 != null) {
-            params.put("__VIEWSTATE1", viewstate1);
-            params.put("__VIEWSTATEFIELDCOUNT", "2");
-        }
+		if (viewstate1 != null) {
+			params.put("__VIEWSTATE1", viewstate1);
+			params.put("__VIEWSTATEFIELDCOUNT", "2");
+		}
 		params.put("__EVENTTARGET", "");
 		params.put("__EVENTARGUMENT", "");
 		params.put("__LASTFOCUS", "");
 		params.put("ctl00$ContentBody$LogBookPanel1$ddLogType", Integer.toString(logType));
-		// params.put("ctl00$ContentBody$LogBookPanel1$tbCode", ""); // tracking code
 		if (currentDate.get(Calendar.YEAR) == year && (currentDate.get(Calendar.MONTH) +1) == month && currentDate.get(Calendar.DATE) == day) {
 			params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", "");
 		} else {
@@ -3031,43 +3083,58 @@ public class cgBase {
 	};
 
 	public static void trustAllHosts() {
-			TrustManager[] trustAllCerts = new TrustManager[] {
-					new X509TrustManager() {
-						public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-								return new java.security.cert.X509Certificate[] {};
-						}
-
-						public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-						}
-
-						public void checkServerTrusted(X509Certificate[] chain,	String authType) throws CertificateException {
-						}
+		TrustManager[] trustAllCerts = new TrustManager[] {
+			new X509TrustManager() {
+				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					return new java.security.cert.X509Certificate[] {};
 				}
-			};
 
-			try {
-					SSLContext sc = SSLContext.getInstance("TLS");
-					sc.init(null, trustAllCerts, new java.security.SecureRandom());
-					HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-			} catch (Exception e) {
-					Log.e(cgSettings.tag, "cgBase.trustAllHosts: " + e.toString());
+				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				}
+
+				public void checkServerTrusted(X509Certificate[] chain,	String authType) throws CertificateException {
+				}
 			}
+		};
+
+		try {
+			SSLContext sc = SSLContext.getInstance("TLS");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgBase.trustAllHosts: " + e.toString());
+		}
 	}
 
-	public void postTweet(cgeoapplication app, cgSettings settings, String geocode) {
-		if (app == null || geocode == null || geocode.length() == 0) return;
+	public void postTweetCache(cgeoapplication app, cgSettings settings, String geocode) {
+		final cgCache cache = app.getCacheByGeocode(geocode);
+		String name = cache.name;
+		if (name.length() > 84) name = name.substring(0, 81) + "...";
+		final String status = "I found " + name + " (http://coord.info/" + cache.geocode.toUpperCase() + ")! #cgeo #geocaching"; // 56 chars + cache name
+
+		postTweet(app, settings, status, null, null);
+	}
+
+	public void postTweetTrackable(cgeoapplication app, cgSettings settings, String geocode) {
+		final cgTrackable trackable = app.getTrackableByGeocode(geocode);
+		String name = trackable.name;
+		if (name.length() > 82) name = name.substring(0, 79) + "...";
+		final String status = "I touched " + name + " (http://coord.info/" + trackable.geocode.toUpperCase() + ")! #cgeo #geocaching"; // 58 chars + trackable name
+
+		postTweet(app, settings, status, null, null);
+	}
+
+	public void postTweet(cgeoapplication app, cgSettings settings, String status, Double latitude, Double longitude) {
+		if (app == null) return;
 		if (settings == null || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) return;
 
-		final cgCache cache = app.getCacheByGeocode(geocode);
-		final String status = "I found geocache " + geocode.toUpperCase() + " ( http://coord.info/" + geocode.toUpperCase() + " ) using c:geo! #cgeo #geocaching";
-		
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 
 			parameters.put("status", status);
-			if (cache.latitude != null && cache.longitude != null) {
-				parameters.put("lat", String.format("%.6f", cache.latitude));
-				parameters.put("long", String.format("%.6f", cache.longitude));
+			if (latitude != null && longitude != null) {
+				parameters.put("lat", String.format("%.6f", latitude));
+				parameters.put("long", String.format("%.6f", longitude));
 				parameters.put("display_coordinates", "true");
 			}
 

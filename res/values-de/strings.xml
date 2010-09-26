@@ -45,10 +45,13 @@
 	<string name="log_disabled">deaktiviert</string>
 	<string name="log_attend">werde teilnehmen</string>
 	<string name="log_attended">habe teilgenommen</string>
+	<string name="log_retrieved">retrieved</string>
+	<string name="log_grabbed">grabbed</string>
 	<string name="log_needs">Ben&#246;tigt Wartung</string>
 	<string name="log_maintenance">Wartung</string>
 	<string name="log_update">ge&#228;nderte Koordinaten</string>
 	<string name="log_archived">archiviert</string>
+	<string name="log_discovered">discovered</string>
 	<string name="log_review">Nachricht vom Reviewer</string>
 	<string name="log_tb_nothing">keine Aktion</string>
 	<string name="log_tb_visit">besuchen</string>
@@ -67,6 +70,7 @@
 	<string name="log_new_grab">Im Cache gefunden</string>
 	<string name="log_new_retrieve">Woanders gefunden</string>
 	<string name="log_new_discovered">Gesehen</string>
+	<string name="log_new_review">rewieved</string>
 
 	<!-- errors -->
 	<string name="err_none">OK</string>

@@ -12,13 +12,13 @@ public class cgeodate extends Dialog {
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-	private cgeovisit parent = null;
+	private cgLogForm parent = null;
 	private Calendar date = Calendar.getInstance();
 
-	public cgeodate(Activity contextIn, cgeovisit parentIn, Calendar dateIn) {
+	public cgeodate(Activity contextIn, cgLogForm parentIn, Calendar dateIn) {
 		super(contextIn);
 
-        // init
+		// init
 		settings = new cgSettings(contextIn, contextIn.getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase((cgeoapplication)contextIn.getApplication(), settings, contextIn.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(contextIn);
@@ -27,8 +27,8 @@ public class cgeodate extends Dialog {
 		parent = parentIn;
 	}
 
-   @Override
-    public void onCreate(Bundle savedInstanceState) {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 		try {

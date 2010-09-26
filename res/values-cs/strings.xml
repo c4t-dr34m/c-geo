@@ -46,10 +46,13 @@
 	<string name="log_disabled">deaktivováno</string>
 	<string name="log_attend">zúčastní se</string>
 	<string name="log_attended">účastnil se</string>
+	<string name="log_retrieved">vytažen z keše</string>
+	<string name="log_grabbed">převzat</string>
 	<string name="log_needs">požadavek na údržbu</string>
 	<string name="log_maintenance">údržba</string>
 	<string name="log_update">změna souřadnic</string>
 	<string name="log_archived">archivace</string>
+	<string name="log_discovered">nalezen</string>
 	<string name="log_review">poznámka kontroly</string>
 	<string name="log_tb_nothing">beze změny</string>
 	<string name="log_tb_visit">návštěva</string>
@@ -68,6 +71,7 @@
 	<string name="log_new_grab">vyzvednuto z keše</string>
 	<string name="log_new_retrieve">získáno odjinud</string>
 	<string name="log_new_discovered">objeveno</string>
+	<string name="log_new_review">zkontrolováno</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>

@@ -297,6 +297,15 @@ public class cgeoapplication extends Application {
 		return cache;
     }
 
+    public cgTrackable getTrackableByGeocode(String geocode) {
+		if (geocode == null || geocode.length() == 0) return null;
+
+		cgTrackable trackable = null;
+		trackable = storage.loadTrackable(geocode);
+
+		return trackable;
+    }
+
 	public void removeCacheFromCache(String geocode) {
 		if (geocode != null && cachesCache.containsKey(geocode) == true) cachesCache.remove(geocode);
 	}
@@ -401,7 +410,7 @@ public class cgeoapplication extends Application {
 
     public boolean deleteWaypoint(int id) {
 		if (storage == null) storage = new cgData(this);
-        return storage.deleteWaypoint(id);
+		return storage.deleteWaypoint(id);
     }
 
     public void addGeocode(Long searchId, String geocode) {

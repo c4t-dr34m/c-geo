@@ -259,10 +259,10 @@ public class cgeotrackable extends Activity {
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("trackable");
@@ -321,7 +321,7 @@ public class cgeotrackable extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 0, "log touch").setIcon(android.R.drawable.ic_menu_agenda).setEnabled(false); // log touch
+		menu.add(0, 1, 0, "log touch").setIcon(android.R.drawable.ic_menu_agenda); // log touch
 
 		SubMenu subMenu = menu.addSubMenu(1, 0, 0, "get more").setIcon(android.R.drawable.ic_menu_more);
 		subMenu.add(1, 2, 0, "open in browser"); // browser
@@ -382,10 +382,9 @@ public class cgeotrackable extends Activity {
 	}
 
 	private void logTouch() {
-		Intent logVisitIntent = new Intent(activity, cgeovisit.class);
-		logVisitIntent.putExtra("id", trackable.guid);
-		logVisitIntent.putExtra("geocode", trackable.geocode.toUpperCase());
-		logVisitIntent.putExtra("type", trackable.type.toLowerCase());
-		activity.startActivity(logVisitIntent);
+		Intent logTouchIntent = new Intent(activity, cgeotouch.class);
+		logTouchIntent.putExtra("geocode", trackable.geocode.toUpperCase());
+		logTouchIntent.putExtra("guid", trackable.guid);
+		activity.startActivity(logTouchIntent);
 	}
 }

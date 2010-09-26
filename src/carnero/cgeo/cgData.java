@@ -1315,13 +1315,13 @@ public class cgData {
     }
 
     public ArrayList<cgTrackable> loadInventory(String geocode) {
-        if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) return null;
 		initRO();
 
 		Cursor cursor = null;
-        ArrayList<cgTrackable> trackables = new ArrayList<cgTrackable>();
+		ArrayList<cgTrackable> trackables = new ArrayList<cgTrackable>();
 
-        cursor = databaseRO.query(
+		cursor = databaseRO.query(
                 dbTableTrackables,
                 new String[] {"_id", "updated", "tbcode", "guid", "title", "owner", "released", "goal", "description"},
                 "geocode = \"" + geocode + "\"",
@@ -1332,32 +1332,73 @@ public class cgData {
                 "100"
                 );
 
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
 
-            do {
-                cgTrackable trackable = new cgTrackable();
-                trackable.geocode = (String)cursor.getString(cursor.getColumnIndex("tbcode"));
-                trackable.guid = (String)cursor.getString(cursor.getColumnIndex("guid"));
-                trackable.name = (String)cursor.getString(cursor.getColumnIndex("title"));
-                trackable.owner = (String)cursor.getString(cursor.getColumnIndex("owner"));
-                String releasedPre = cursor.getString(cursor.getColumnIndex("released"));
-                if (releasedPre != null && Long.getLong(releasedPre) != null) {
-                    trackable.released = new Date(Long.getLong(releasedPre));
-                } else {
-                    trackable.released = null;
-                }
-                trackable.goal = (String)cursor.getString(cursor.getColumnIndex("goal"));
-                trackable.details = (String)cursor.getString(cursor.getColumnIndex("description"));
-                trackable.logs = loadLogs(trackable.geocode);
+			do {
+					cgTrackable trackable = new cgTrackable();
+					trackable.geocode = (String)cursor.getString(cursor.getColumnIndex("tbcode"));
+					trackable.guid = (String)cursor.getString(cursor.getColumnIndex("guid"));
+					trackable.name = (String)cursor.getString(cursor.getColumnIndex("title"));
+					trackable.owner = (String)cursor.getString(cursor.getColumnIndex("owner"));
+					String releasedPre = cursor.getString(cursor.getColumnIndex("released"));
+					if (releasedPre != null && Long.getLong(releasedPre) != null) {
+							trackable.released = new Date(Long.getLong(releasedPre));
+					} else {
+							trackable.released = null;
+					}
+					trackable.goal = (String)cursor.getString(cursor.getColumnIndex("goal"));
+					trackable.details = (String)cursor.getString(cursor.getColumnIndex("description"));
+					trackable.logs = loadLogs(trackable.geocode);
 
-                trackables.add(trackable);
-            } while (cursor.moveToNext());
-        }
+					trackables.add(trackable);
+			} while (cursor.moveToNext());
+		}
 
-        if (cursor != null) cursor.close();
+		if (cursor != null) cursor.close();
 
-        return trackables;
+		return trackables;
+    }
+
+    public cgTrackable loadTrackable(String geocode) {
+		if (geocode == null || geocode.length() == 0) return null;
+		initRO();
+
+		Cursor cursor = null;
+		cgTrackable trackable = new cgTrackable();
+
+		cursor = databaseRO.query(
+                dbTableTrackables,
+                new String[] {"_id", "updated", "tbcode", "guid", "title", "owner", "released", "goal", "description"},
+                "tbcode = \"" + geocode + "\"",
+                null,
+                null,
+                null,
+                null,
+                "1"
+                );
+
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
+
+			trackable.geocode = (String)cursor.getString(cursor.getColumnIndex("tbcode"));
+			trackable.guid = (String)cursor.getString(cursor.getColumnIndex("guid"));
+			trackable.name = (String)cursor.getString(cursor.getColumnIndex("title"));
+			trackable.owner = (String)cursor.getString(cursor.getColumnIndex("owner"));
+			String releasedPre = cursor.getString(cursor.getColumnIndex("released"));
+			if (releasedPre != null && Long.getLong(releasedPre) != null) {
+					trackable.released = new Date(Long.getLong(releasedPre));
+			} else {
+					trackable.released = null;
+			}
+			trackable.goal = (String)cursor.getString(cursor.getColumnIndex("goal"));
+			trackable.details = (String)cursor.getString(cursor.getColumnIndex("description"));
+			trackable.logs = loadLogs(trackable.geocode);
+		}
+
+		if (cursor != null) cursor.close();
+
+		return trackable;
     }
 
     public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:background="@color/background_light" >
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:padding="4dip"
+			android:orientation="vertical" >
+		<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginTop="10dip"
+				android:orientation="vertical" >
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dip"
+					android:orientation="vertical" >
+				<LinearLayout
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal" >
+					<Button android:id="@+id/type"
+							android:layout_width="120dip"
+							android:layout_height="wrap_content"
+							android:layout_marginLeft="10dip"
+							android:layout_marginRight="10dip"
+							android:layout_marginBottom="5dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:textSize="22dip"
+							android:textColor="@color/text_light"
+							android:padding="6dip"
+							android:text="type"
+							android:background="@drawable/action_button_light" />
+					<Button android:id="@+id/date"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginLeft="10dip"
+							android:layout_marginRight="10dip"
+							android:layout_marginBottom="5dip"
+							android:lines="1"
+							android:singleLine="true"
+							android:scrollHorizontally="true"
+							android:textSize="22dip"
+							android:textColor="@color/text_light"
+							android:padding="6dip"
+							android:text="date"
+							android:background="@drawable/action_button_light" />
+				</LinearLayout>
+				<EditText android:id="@+id/tracking"
+						android:hint="tracking code"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="10dip"
+						android:layout_marginRight="10dip"
+						android:layout_marginBottom="5dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="22dip"
+						android:textColor="@color/text_light"
+						android:textColorHint="@color/text_hint_light"
+						android:autoText="true"
+						android:gravity="top|left"
+						android:capitalize="characters"
+						android:padding="6dip"
+						android:background="@drawable/input_bcg_light" />
+				<EditText android:id="@+id/log"
+						android:hint="log"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="10dip"
+						android:layout_marginRight="10dip"
+						android:layout_marginBottom="5dip"
+						android:lines="5"
+						android:textSize="22dip"
+						android:textColor="@color/text_light"
+						android:textColorHint="@color/text_hint_light"
+						android:autoText="true"
+						android:gravity="top|left"
+						android:capitalize="sentences"
+						android:padding="6dip"
+						android:background="@drawable/input_bcg_light" />
+				<LinearLayout android:id="@+id/tweet_box"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:layout_marginLeft="10dip"
+						android:layout_marginRight="10dip"
+						android:layout_marginBottom="5dip"
+						android:visibility="gone" >
+					<CheckBox android:id="@+id/tweet"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentLeft="true"
+							android:layout_gravity="left"
+							android:padding="1px"
+							android:gravity="center" />
+					<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							android:gravity="left"
+							android:paddingRight="3dip"
+							android:textSize="14dip"
+							android:textColor="@color/text_light"
+							android:text="@string/visit_tweet" />
+				</LinearLayout>
+				<Button android:id="@+id/post"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="10dip"
+						android:layout_marginRight="10dip"
+						android:layout_marginBottom="5dip"
+						android:lines="1"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:textSize="22dip"
+						android:textColor="@color/text_light"
+						android:padding="6dip"
+						android:text="post log"
+						android:background="@drawable/action_button_light_off" />
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
