@@ -70,8 +70,9 @@ public class cgeovisit extends cgLogForm {
 				return;
 			} else if ((viewstate == null || viewstate.length() == 0) && attempts >= 2) {
 				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
+				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 
-                return;
+				return;
 			}
 
 			gettingViewstate = false; // we're done, user can post log

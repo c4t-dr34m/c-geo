@@ -68,8 +68,9 @@ public class cgeotouch extends cgLogForm {
 				return;
 			} else if ((viewstate == null || viewstate.length() == 0) && attempts >= 2) {
 				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
+				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 
-                return;
+				return;
 			}
 
 			gettingViewstate = false; // we're done, user can post log
@@ -271,7 +272,7 @@ public class cgeotouch extends cgLogForm {
 		dateButton.setText(base.dateOutShort.format(date.getTime()));
 		dateButton.setClickable(true);
 		dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton, 0));
-		dateButton.setOnClickListener(new cgeovisitDateListener());
+		dateButton.setOnClickListener(new cgeotouchDateListener());
 
         if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
         if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
@@ -316,7 +317,7 @@ public class cgeotouch extends cgLogForm {
         else tweetBox.setVisibility(View.GONE);
 	}
 
-	private class cgeovisitDateListener implements View.OnClickListener {
+	private class cgeotouchDateListener implements View.OnClickListener {
 		public void onClick(View arg0) {
 			Dialog dateDialog = new cgeodate(activity, (cgeotouch)activity, date);
 			dateDialog.setCancelable(true);
@@ -387,7 +388,7 @@ public class cgeotouch extends cgLogForm {
 					setType(typeSelected);
 				}
 			} catch (Exception e) {
-				Log.e(cgSettings.tag, "cgeovisit.loadData.run: " + e.toString());
+				Log.e(cgSettings.tag, "cgeotouch.loadData.run: " + e.toString());
 			}
 
 			loadDataHandler.sendEmptyMessage(0);
@@ -444,7 +445,7 @@ public class cgeotouch extends cgLogForm {
 
 			return status;
 		} catch (Exception e) {
-            Log.e(cgSettings.tag, "cgeovisit.postLogFn: " + e.toString());
+            Log.e(cgSettings.tag, "cgeotouch.postLogFn: " + e.toString());
 		}
 
 		return 1000;
