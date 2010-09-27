@@ -36,7 +36,6 @@ import android.text.style.StrikethroughSpan;
 import android.view.Display;
 import android.view.WindowManager;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.cert.CertificateException;
@@ -883,6 +882,7 @@ public class cgBase {
 
 		final Pattern patternGeocode = Pattern.compile("<span id=\"ctl00_uxWaypointName\" class=\"GCCode\">[^G]*(GC[a-z0-9]+)</span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCacheId = Pattern.compile("\\/seek\\/log\\.aspx\\?ID=(\\d+)", Pattern.CASE_INSENSITIVE);
+		final Pattern patternCacheGuid = Pattern.compile("<link rel=\"alternate\" href=\".*rss_galleryimages\\.ashx\\?guid=([a-z0-9\\-]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternType = Pattern.compile("<img src=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/WptTypes\\/\\d+.gif\" alt=\"([^\"]+)\" width=\"32\" height=\"32\"[^>]*>", Pattern.CASE_INSENSITIVE);
 
 		final Pattern patternTable = Pattern.compile("<h2 class=\"NoSpacing\">[^<]*<a[^>]+>[^<]*<img[^>]+>[^<]*<\\/a>[^<]*<span id=\"ctl00_ContentBody_CacheName\">([^<]+)<\\/span>[^<]*<\\/h2>[^<]*<table width=\"100%\" cellpadding=\"3\">(.*)<\\/table>[^<]*<br \\/>", Pattern.CASE_INSENSITIVE);
@@ -971,6 +971,19 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache id");
 		}
 		
+		// cache guid
+		try {
+			final Matcher matcherCacheGuid = patternCacheGuid.matcher(page);
+			while (matcherCacheGuid.find()) {
+				if (matcherCacheGuid.groupCount() > 0) {
+					cache.guid = (String)matcherCacheGuid.group(1);
+				}
+			}
+		} catch (Exception e) {
+			// failed to parse cache guid
+			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache guid");
+		}
+
 		// name
         String tableInside = null;
 		try {
@@ -1603,6 +1616,26 @@ public class cgBase {
 
 
 		return ratings;
+	}
+
+	public boolean setRating(String guid, int vote) {
+		if (guid == null || guid.length() == 0) return false;
+		if (vote < 0 || vote > 5) return false;
+
+		final HashMap<String, String> login = settings.getGCvoteLogin();
+		if (login == null) return false;
+
+		final HashMap<String, String> params = new HashMap<String, String>();
+		params.put("userName", login.get("username"));
+		params.put("password", login.get("password"));
+		params.put("cacheId", guid);
+		params.put("voteUser", Integer.toString(vote));
+
+		final String result = request("gcvote.com", "/setVote.php", "GET", params, false, false, false);
+
+		if (result.trim().equalsIgnoreCase("ok") == true) return true;
+
+		return false;
 	}
 
 	public Long parseGPX(cgeoapplication app, File file, Handler handler) {

@@ -47,8 +47,10 @@ public class cgeovisit extends cgLogForm {
 	private int typeSelected = -1;
 	private int attempts = 0;
 	private boolean progressBar = false;
+	private Button post = null;
 	private CheckBox tweetCheck = null;
 	private LinearLayout tweetBox = null;
+	private int rating = 0;
 
 	private Handler showProgressHandler = new Handler() {
 		@Override
@@ -77,12 +79,12 @@ public class cgeovisit extends cgLogForm {
 
 			gettingViewstate = false; // we're done, user can post log
 
-			Button buttonPost = (Button)findViewById(R.id.post);
-			buttonPost.setClickable(true);
-			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost, 0));
-			buttonPost.setOnClickListener(new postListener());
-			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
-			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);
+			if (post == null) post = (Button)findViewById(R.id.post);
+			post.setClickable(true);
+			post.setOnTouchListener(new cgViewTouch(settings, post, 0));
+			post.setOnClickListener(new postListener());
+			if (settings.skin == 1) post.setBackgroundResource(R.drawable.action_button_light);
+			else post.setBackgroundResource(R.drawable.action_button_dark);
 
 			// add trackables
 			if (trackables != null && trackables.isEmpty() == false) {
@@ -127,6 +129,7 @@ public class cgeovisit extends cgLogForm {
 				if (waitDialog != null) {
 					waitDialog.dismiss();
 				}
+
 				finish();
 				return;
 			} else if (msg.what >= 1000) {
@@ -199,11 +202,28 @@ public class cgeovisit extends cgLogForm {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		SubMenu subMenu = menu.addSubMenu(0, 0, 0, "add").setIcon(android.R.drawable.ic_menu_add);
+		SubMenu subMenu = null;
 
+		subMenu = menu.addSubMenu(0, 0, 0, "add").setIcon(android.R.drawable.ic_menu_add);
 		subMenu.add(0, 1, 0, "date & time");
 		subMenu.add(0, 2, 0, "date");
 		subMenu.add(0, 3, 0, "time");
+
+		subMenu = menu.addSubMenu(0, 9, 0, "rating").setIcon(android.R.drawable.ic_menu_sort_by_size);
+		subMenu.add(0, 10, 0, "no rating");
+		subMenu.add(0, 15, 0, "5 stars");
+		subMenu.add(0, 14, 0, "4 stars");
+		subMenu.add(0, 13, 0, "3 stars");
+		subMenu.add(0, 12, 0, "2 stars");
+		subMenu.add(0, 11, 0, "1 star");
+
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (settings.isGCvoteLogin() && typeSelected == 2 && cache.guid != null && cache.guid.length() > 0) menu.findItem(9).setVisible(true);
+		else menu.findItem(9).setVisible(false);
 
 		return true;
 	}
@@ -251,6 +271,15 @@ public class cgeovisit extends cgLogForm {
 			text.setSelection(text.getText().toString().length());
 
 			return true;
+		} else if (id >= 10 && id <= 15) {
+			rating = id - 10;
+
+			if (post == null) post = (Button)findViewById(R.id.post);
+			if (rating == 0) {
+				post.setText("post log & do not rate");
+			} else {
+				post.setText("post log & rate " + rating + "*");
+			}
 		}
 
 		return false;
@@ -345,7 +374,7 @@ public class cgeovisit extends cgLogForm {
 		}
 
 		if (typeSelected < 0 && base.logTypes2.get(typeSelected) == null) typeSelected = types.get(0);
-        setType(typeSelected);
+		setType(typeSelected);
 
 		Button typeButton = (Button)findViewById(R.id.type);
 		registerForContextMenu(typeButton);
@@ -364,27 +393,27 @@ public class cgeovisit extends cgLogForm {
 		dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton, 0));
 		dateButton.setOnClickListener(new cgeovisitDateListener());
 
-        if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
-        if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
-        tweetCheck.setChecked(true);
+		if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
+		if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
+		tweetCheck.setChecked(true);
         
-		Button buttonPost = (Button)findViewById(R.id.post);
+		if (post == null) post = (Button)findViewById(R.id.post);
 		if (viewstate == null || viewstate.length() == 0) {
-			buttonPost.setClickable(false);
-			buttonPost.setOnTouchListener(null);
-			buttonPost.setOnClickListener(null);
-			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light_off);
-			else buttonPost.setBackgroundResource(R.drawable.action_button_dark_off);
+			post.setClickable(false);
+			post.setOnTouchListener(null);
+			post.setOnClickListener(null);
+			if (settings.skin == 1) post.setBackgroundResource(R.drawable.action_button_light_off);
+			else post.setBackgroundResource(R.drawable.action_button_dark_off);
 			
 			loadData thread;
 			thread = new loadData(cacheid);
 			thread.start();
 		} else {
-			buttonPost.setClickable(true);
-			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost, 0));
-			buttonPost.setOnClickListener(new postListener());
-			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
-			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);
+			post.setClickable(true);
+			post.setOnTouchListener(new cgViewTouch(settings, post, 0));
+			post.setOnClickListener(new postListener());
+			if (settings.skin == 1) post.setBackgroundResource(R.drawable.action_button_light);
+			else post.setBackgroundResource(R.drawable.action_button_dark);
 		}
 	}
 
@@ -402,9 +431,20 @@ public class cgeovisit extends cgLogForm {
 		if (base.logTypes2.get(typeSelected) == null) typeSelected = 0;
 		typeButton.setText(base.logTypes2.get(typeSelected));
 
-        if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
-        if (type == 2 && settings.twitter == 1) tweetBox.setVisibility(View.VISIBLE);
-        else tweetBox.setVisibility(View.GONE);
+		if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
+		if (type == 2 && settings.twitter == 1) tweetBox.setVisibility(View.VISIBLE);
+		else tweetBox.setVisibility(View.GONE);
+
+		if (post == null) post = (Button)findViewById(R.id.post);
+		if (type == 2) {
+			if (rating == 0) {
+				post.setText("post log & do not rate");
+			} else {
+				post.setText("post log & rate " + rating + "*");
+			}
+		} else {
+			post.setText("post log");
+		}
 	}
 
 	private class cgeovisitDateListener implements View.OnClickListener {
@@ -539,6 +579,10 @@ public class cgeovisit extends cgLogForm {
 				tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
 			) {
 				base.postTweetCache(app, settings, geocode);
+			}
+
+			if (status == 1 && typeSelected == 2 && settings.isGCvoteLogin() == true) {
+				base.setRating(cache.guid, rating);
 			}
 
 			return status;

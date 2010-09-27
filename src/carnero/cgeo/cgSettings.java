@@ -251,6 +251,17 @@ public class cgSettings {
 		return prefsEdit.commit();
 	}
 
+    public boolean isGCvoteLogin() {
+        final String preUsername = prefs.getString("username", null);
+        final String prePassword = prefs.getString("pass-vote", null);
+
+        if (preUsername == null || prePassword == null || preUsername.length() == 0 || prePassword.length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 	public boolean setGCvoteLogin(String password) {
 		final SharedPreferences.Editor prefsEdit = prefs.edit();
 
