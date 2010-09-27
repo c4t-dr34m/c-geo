@@ -291,7 +291,7 @@ public class cgGeo {
 			if (latitudeBefore != null && longitudeBefore != null && latitudeNow != null && longitudeNow != null) {
 				final double dst = base.getDistance(latitudeBefore, longitudeBefore, latitudeNow, longitudeNow);
 
-				if (Double.isNaN(dst) == false && dst > 5) {
+				if (Double.isNaN(dst) == false && dst > 0.005) {
 					distanceNow += dst;
 
 					latitudeBefore = latitudeNow;
