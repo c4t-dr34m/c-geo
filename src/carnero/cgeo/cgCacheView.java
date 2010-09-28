@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 public class cgCacheView {
 	public RelativeLayout oneCache;
-	public LinearLayout foundMark;
+	public ImageView foundMark;
 	public ImageView ratingMark1;
 	public ImageView ratingMark2;
 	public ImageView ratingMark3;

@@ -129,7 +129,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 			holder = new cgCacheView();
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
-			holder.foundMark = (LinearLayout)rowView.findViewById(R.id.found_mark);
+			holder.foundMark = (ImageView)rowView.findViewById(R.id.found_mark);
 			holder.ratingMark1 = (ImageView)rowView.findViewById(R.id.rating_mark_1);
 			holder.ratingMark2 = (ImageView)rowView.findViewById(R.id.rating_mark_2);
 			holder.ratingMark3 = (ImageView)rowView.findViewById(R.id.rating_mark_3);
