@@ -129,8 +129,12 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 			holder = new cgCacheView();
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
-			holder.foundMark = (ImageView)rowView.findViewById(R.id.found_mark);
-			holder.ratingMark = (ImageView)rowView.findViewById(R.id.rating_mark);
+			holder.foundMark = (LinearLayout)rowView.findViewById(R.id.found_mark);
+			holder.ratingMark1 = (ImageView)rowView.findViewById(R.id.rating_mark_1);
+			holder.ratingMark2 = (ImageView)rowView.findViewById(R.id.rating_mark_2);
+			holder.ratingMark3 = (ImageView)rowView.findViewById(R.id.rating_mark_3);
+			holder.ratingMark4 = (ImageView)rowView.findViewById(R.id.rating_mark_4);
+			holder.ratingMark5 = (ImageView)rowView.findViewById(R.id.rating_mark_5);
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
 			holder.text = (TextView)rowView.findViewById(R.id.text);
 			holder.distance = (cgDistanceView)rowView.findViewById(R.id.distance);
@@ -156,24 +160,24 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.foundMark.setVisibility(View.GONE);
 		}
 
+		holder.ratingMark1.setVisibility(View.GONE);
+		holder.ratingMark2.setVisibility(View.GONE);
+		holder.ratingMark3.setVisibility(View.GONE);
+		holder.ratingMark4.setVisibility(View.GONE);
+		holder.ratingMark5.setVisibility(View.GONE);
+
 		if (cache.vote != null && cache.vote > 0) {
-			if (cache.vote == 1) holder.ratingMark.setImageResource(R.drawable.mark_rating_1);
-			else if(cache.vote == 2) holder.ratingMark.setImageResource(R.drawable.mark_rating_2);
-			else if(cache.vote == 3) holder.ratingMark.setImageResource(R.drawable.mark_rating_3);
-			else if(cache.vote == 4) holder.ratingMark.setImageResource(R.drawable.mark_rating_4);
-			else if(cache.vote == 5) holder.ratingMark.setImageResource(R.drawable.mark_rating_5);
-
-			holder.ratingMark.setVisibility(View.VISIBLE);
+			if (cache.vote > 0) holder.ratingMark1.setVisibility(View.VISIBLE);
+			else if(cache.vote > 1) holder.ratingMark2.setVisibility(View.VISIBLE);
+			else if(cache.vote > 2) holder.ratingMark3.setVisibility(View.VISIBLE);
+			else if(cache.vote > 3) holder.ratingMark4.setVisibility(View.VISIBLE);
+			else if(cache.vote > 4) holder.ratingMark5.setVisibility(View.VISIBLE);
 		} else if (cache.rating != null && cache.rating > 0) {
-			if (cache.rating >= 0.5 && cache.rating < 1.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_1);
-			if (cache.rating >= 1.5 && cache.rating < 2.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_2);
-			if (cache.rating >= 2.5 && cache.rating < 3.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_3);
-			if (cache.rating >= 3.5 && cache.rating < 4.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_4);
-			if (cache.rating >= 4.5) holder.ratingMark.setImageResource(R.drawable.mark_rating_5);
-
-			holder.ratingMark.setVisibility(View.VISIBLE);
-		} else {
-			holder.ratingMark.setVisibility(View.GONE);
+			if (cache.rating > 0.0) holder.ratingMark1.setVisibility(View.VISIBLE);
+			if (cache.rating >= 1.5) holder.ratingMark2.setVisibility(View.VISIBLE);
+			if (cache.rating >= 2.5) holder.ratingMark3.setVisibility(View.VISIBLE);
+			if (cache.rating >= 3.5) holder.ratingMark4.setVisibility(View.VISIBLE);
+			if (cache.rating >= 4.5) holder.ratingMark5.setVisibility(View.VISIBLE);
 		}
 
 		if (cache.nameSp == null) {
