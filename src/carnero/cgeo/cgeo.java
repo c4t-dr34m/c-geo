@@ -353,14 +353,6 @@ public class cgeo extends Activity {
 										if (addText.length() > 0) addText.append(", ");
 										addText.append(address.getAdminArea());
 									}
-									if (address.getSubAdminArea() != null) {
-										if (addText.length() > 0) addText.append(", ");
-										addText.append(address.getSubAdminArea());
-									}
-									if (address.getSubLocality() != null) {
-										if (addText.length() > 0) addText.append(", ");
-										addText.append(address.getSubLocality());
-									}
 
 									addLat = geo.latitudeNow;
 									addLon = geo.longitudeNow;
