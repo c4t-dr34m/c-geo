@@ -319,13 +319,9 @@ public class cgeoapplication extends Application {
 	}
 
 	public String[] geocodesInCache() {
-		String[] geocodes = null;
+		if (storage == null) storage = new cgData(this);
 
-		if (cachesCache != null && cachesCache.isEmpty() == false) {
-			geocodes = cachesCache.keySet().toArray(new String[cachesCache.size()]);
-		}
-
-		return geocodes;
+		return storage.allDetailedThere();
 	}
 
     public cgWaypoint getWaypointById(Integer id) {

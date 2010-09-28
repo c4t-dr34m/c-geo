@@ -362,6 +362,50 @@ public class cgData {
 		db.execSQL("drop table if exists " + dbTableTrackables);
 	}
 
+	public String[] allDetailedThere() {
+		Cursor cursor = null;
+		ArrayList<String> thereA = new ArrayList<String>();
+
+		try {
+			cursor = databaseRO.query(
+				dbTableCaches,
+				new String[] {"_id", "geocode"},
+				"(detailed = 1 and detailedupdate > " +  (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + ") or reason > 0",
+				null,
+				null,
+				null,
+				"detailedupdate desc",
+				"100"
+				);
+								
+			if (cursor != null) {
+				int index = 0;
+				String geocode = null;
+
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
+
+					do {
+						index = cursor.getColumnIndex("geocode");
+						geocode = (String)cursor.getString(index);
+						
+						thereA.add(geocode);
+					} while (cursor.moveToNext());
+				} else {
+						if (cursor != null) cursor.close();
+
+					return null;
+				}
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.allDetailedThere: " + e.toString());
+		}
+
+		if (cursor != null) cursor.close();
+
+		return thereA.toArray(new String[thereA.size()]);
+	}
+
 	public boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
 		Cursor cursor = null;
 
@@ -418,25 +462,25 @@ public class cgData {
 
 		if (cursor != null) cursor.close();
 
-        if (cnt > 0) {
-            if (detailed == true && dataDetailed == 0) {
-                // we want details, but these are not stored
-                return false;
-            }
+		if (cnt > 0) {
+			if (detailed == true && dataDetailed == 0) {
+				// we want details, but these are not stored
+				return false;
+			}
 
-            if (checkTime == true && detailed == true && dataDetailedUpdate < (System.currentTimeMillis() - (3 * 60 * 60 * 1000))) {
+			if (checkTime == true && detailed == true && dataDetailedUpdate < (System.currentTimeMillis() - (3 * 60 * 60 * 1000))) {
 				// we want to check time for detailed cache, but data are older than 3 hours
 				return false;
-            }
+			}
 
-            if (checkTime == true && detailed == false && dataUpdated < (System.currentTimeMillis() - (3 * 60 * 60 * 1000))) {
+			if (checkTime == true && detailed == false && dataUpdated < (System.currentTimeMillis() - (3 * 60 * 60 * 1000))) {
 				// we want to check time for short cache, but data are older than 3 hours
 				return false;
-            }
+			}
 
 			// we have some cache
-            return true;
-        }
+			return true;
+		}
 
 		// we have no such cache stored in cache
         return false;
@@ -444,45 +488,45 @@ public class cgData {
 
     public boolean isOffline(String geocode, String guid) {
 		Cursor cursor = null;
-        long reason = 0;
+		long reason = 0;
 
 		try {
-            if (geocode != null && geocode.length() > 0) {
-                cursor = databaseRO.query(
-                        dbTableCaches,
-                        new String[] {"reason"},
-                        "geocode = \"" + geocode + "\"",
-                        null,
-                        null,
-                        null,
-                        null,
-                        "1"
-                        );
-            } else if (guid != null && guid.length() > 0) {
-                cursor = databaseRO.query(
-                        dbTableCaches,
-                        new String[] {"reason"},
-                        "guid = \"" + guid + "\"",
-                        null,
-                        null,
-                        null,
-                        null,
-                        "1"
-                        );
-            } else {
-                return false;
-            }
+			if (geocode != null && geocode.length() > 0) {
+				cursor = databaseRO.query(
+					dbTableCaches,
+					new String[] {"reason"},
+					"geocode = \"" + geocode + "\"",
+					null,
+					null,
+					null,
+					null,
+					"1"
+					);
+			} else if (guid != null && guid.length() > 0) {
+				cursor = databaseRO.query(
+					dbTableCaches,
+					new String[] {"reason"},
+					"guid = \"" + guid + "\"",
+					null,
+					null,
+					null,
+					null,
+					"1"
+					);
+			} else {
+				return false;
+			}
 
 			if (cursor != null) {
 				final int cnt = cursor.getCount();
-                int index = 0;
+				int index = 0;
 
-                if (cnt > 0) {
-                    cursor.moveToFirst();
+				if (cnt > 0) {
+					cursor.moveToFirst();
 
-                    index = cursor.getColumnIndex("reason");
-                    reason = (long)cursor.getLong(index);
-                }
+					index = cursor.getColumnIndex("reason");
+					reason = (long)cursor.getLong(index);
+				}
 
 				cursor.close();
 			}
@@ -1312,42 +1356,42 @@ public class cgData {
     }
 
     public ArrayList<cgLog> loadLogs(String geocode) {
-        if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) return null;
 		initRO();
 
 		Cursor cursor = null;
-        ArrayList<cgLog> logs = new ArrayList<cgLog>();
+		ArrayList<cgLog> logs = new ArrayList<cgLog>();
 
-        cursor = databaseRO.query(
-                dbTableLogs,
-                new String[] {"_id", "type", "author", "log", "date", "found"},
-                "geocode = \"" + geocode + "\"",
-                null,
-                null,
-                null,
-                "date desc, _id asc",
-                "100"
-                );
+		cursor = databaseRO.query(
+			dbTableLogs,
+			new String[] {"_id", "type", "author", "log", "date", "found"},
+			"geocode = \"" + geocode + "\"",
+			null,
+			null,
+			null,
+			"date desc, _id asc",
+			"100"
+			);
 
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
 
-            do {
-                cgLog log = new cgLog();
+			do {
+				cgLog log = new cgLog();
 				log.id = (int)cursor.getInt(cursor.getColumnIndex("_id"));
-                log.type = (int)cursor.getInt(cursor.getColumnIndex("type"));
-                log.author = (String)cursor.getString(cursor.getColumnIndex("author"));
-                log.log = (String)cursor.getString(cursor.getColumnIndex("log"));
-                log.date = (long)cursor.getLong(cursor.getColumnIndex("date"));
-                log.found = (int)cursor.getInt(cursor.getColumnIndex("found"));
+				log.type = (int)cursor.getInt(cursor.getColumnIndex("type"));
+				log.author = (String)cursor.getString(cursor.getColumnIndex("author"));
+				log.log = (String)cursor.getString(cursor.getColumnIndex("log"));
+				log.date = (long)cursor.getLong(cursor.getColumnIndex("date"));
+				log.found = (int)cursor.getInt(cursor.getColumnIndex("found"));
 
-                logs.add(log);
-            } while (cursor.moveToNext());
-        }
+				logs.add(log);
+			} while (cursor.moveToNext());
+		}
 
-        if (cursor != null) cursor.close();
+		if (cursor != null) cursor.close();
 
-        return logs;
+		return logs;
     }
 
     public ArrayList<cgTrackable> loadInventory(String geocode) {
