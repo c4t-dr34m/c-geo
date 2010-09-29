@@ -41,6 +41,19 @@ public class cgeopopup extends Activity {
 	private TextView cacheDistance = null;
 	private HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 
+	private Handler ratingHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			try {
+				final Bundle data = msg.getData();
+
+				setRating(data.getFloat("rating"), data.getInt("votes"));
+			} catch (Exception e) {
+				// nothing
+			}
+		}
+	};
+
 	private Handler storeCacheHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -109,8 +122,6 @@ public class cgeopopup extends Activity {
 			finish();
 			return;
 		}
-
-		init();
 	}
 
    private void init() {
@@ -202,28 +213,28 @@ public class cgeopopup extends Activity {
 
 				itemName.setText(res.getString(R.string.cache_status));
 
-                StringBuilder state = new StringBuilder();
+				StringBuilder state = new StringBuilder();
 				if (cache.found == true) {
-                    if (state.length() > 0) { state.append(", "); }
+					if (state.length() > 0) state.append(", ");
 					state.append(res.getString(R.string.cache_status_found));
 				}
 				if (cache.archived == true) {
-                    if (state.length() > 0) { state.append(", "); }
+					if (state.length() > 0) state.append(", ");
 					state.append(res.getString(R.string.cache_status_archived));
 				}
-                if (cache.disabled == true) {
-                    if (state.length() > 0) { state.append(", "); }
+				if (cache.disabled == true) {
+					if (state.length() > 0) state.append(", ");
 					state.append(res.getString(R.string.cache_status_disabled));
 				}
-                if (cache.members == true) {
-                    if (state.length() > 0) { state.append(", "); }
+				if (cache.members == true) {
+					if (state.length() > 0) state.append(", ");
 					state.append(res.getString(R.string.cache_status_premium));
 				}
 
-                itemValue.setText(state.toString());
+				itemValue.setText(state.toString());
 				detailsList.addView(itemLayout);
 
-                state = null;
+				state = null;
 			}
 
 			// distance
@@ -283,6 +294,28 @@ public class cgeopopup extends Activity {
 					itemStars.addView(star);
 				}
 				detailsList.addView(itemLayout);
+			}
+
+			// rating
+			if (cache.rating != null && cache.rating > 0) {
+				setRating(cache.rating, cache.votes);
+			} else {
+				(new Thread() {
+					public void run() {
+						cgRating rating = base.getRating(cache.guid, geocode);
+
+						Message msg = new Message();
+						Bundle bundle = new Bundle();
+
+						if (rating == null || rating.rating == null) return;
+
+						bundle.putFloat("rating", rating.rating);
+						bundle.putInt("votes", rating.votes);
+						msg.setData(bundle);
+						
+						ratingHandler.sendMessage(msg);
+					}
+				}).start();
 			}
 
 			// more details
@@ -428,7 +461,7 @@ public class cgeopopup extends Activity {
 	public void onResume() {
 		super.onResume();
 
-        init();
+		init();
 	}
 
 	@Override
@@ -626,5 +659,41 @@ public class cgeopopup extends Activity {
 		public void run() {
 			base.dropCache(app, activity, cache, handler);
 		}
+	}
+
+	private void setRating(Float rating, Integer votes) {
+		if (rating == null || rating <= 0) return;
+
+		RelativeLayout itemLayout;
+		TextView itemName;
+		TextView itemValue;
+		LinearLayout itemStars;
+		LinearLayout detailsList = (LinearLayout)findViewById(R.id.details_list);
+
+		if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light_layout, null);
+		else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
+		itemName = (TextView)itemLayout.findViewById(R.id.name);
+		itemValue = (TextView)itemLayout.findViewById(R.id.value);
+		itemStars = (LinearLayout)itemLayout.findViewById(R.id.stars);
+
+		itemName.setText(res.getString(R.string.cache_rating));
+		itemValue.setText(String.format(Locale.getDefault(), "%.1f", rating) + " of 5");
+		for (int i = 0; i <= 4; i++) {
+			ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
+			if ((rating - i) >= 1.0) {
+				star.setImageResource(R.drawable.star_on);
+			} else if ((rating - i) > 0.0) {
+				star.setImageResource(R.drawable.star_half);
+			} else {
+				star.setImageResource(R.drawable.star_off);
+			}
+			itemStars.addView(star, (1 + i));
+		}
+		if (votes != null) {
+			final TextView itemAddition = (TextView)itemLayout.findViewById(R.id.addition);
+			itemAddition.setText("(" + votes + ")");
+			itemAddition.setVisibility(View.VISIBLE);
+		}
+		detailsList.addView(itemLayout);
 	}
 }
