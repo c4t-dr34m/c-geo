@@ -1532,6 +1532,7 @@ public class cgBase {
 		} else {
 			params.put("waypoints", implode(",", geocodes.toArray()));
 		}
+		params.put("version", "cgeo");
 		final String votes = request("gcvote.com", "/getVotes.php", "GET", params, false, false, false);
 
 		final Pattern patternLoggedIn = Pattern.compile("loggedIn='([^']+)'", Pattern.CASE_INSENSITIVE);
@@ -1630,6 +1631,7 @@ public class cgBase {
 		params.put("password", login.get("password"));
 		params.put("cacheId", guid);
 		params.put("voteUser", Integer.toString(vote));
+		params.put("version", "cgeo");
 
 		final String result = request("gcvote.com", "/setVote.php", "GET", params, false, false, false);
 

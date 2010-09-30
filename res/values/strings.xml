@@ -269,7 +269,9 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start process. This process will open web browser with Twitter page where you have to login and Accept <b>c:geo</b> to access your account. When you Accept, Twitter will show you numeric PIN code. Please copy this code, paste into <b>c:geo</b> and confirm. That\'s all.</string>
 	<!-- changelog -->
 	<string name="changelog">
-<b>1.00</b> (__.10.2010)\n
+<b>1.01</b> (__.10.2010)\n
+\n
+<b>1.00</b> (30.09.2010)\n
 · new: Address on mainscreen (see Options)\n
 · new: Import of Pocket Query 1.1\n
 · new: Option to force reload cache details\n
