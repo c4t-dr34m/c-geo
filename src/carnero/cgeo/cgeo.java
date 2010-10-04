@@ -70,7 +70,7 @@ public class cgeo extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (addresses.isEmpty() == false) {
+				if (addresses != null && addresses.isEmpty() == false) {
 					final Address address = addresses.get(0);
 					final StringBuilder addText = new StringBuilder();
 
@@ -93,10 +93,24 @@ public class cgeo extends Activity {
 					}
 
 					navLocation.setText(addText.toString());
+				} else {
+					if (geo.altitudeNow != null) {
+						String humanAlt;
+						if (settings.units == settings.unitsImperial) {
+							humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
+						} else {
+							humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
+						}
+						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
+					} else {
+						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
+					}
 				}
 			} catch (Exception e) {
 				// nothing
 			}
+
+			addresses = null;
 		}
 	};
 
@@ -369,6 +383,9 @@ public class cgeo extends Activity {
 					}
 
 					if (settings.showAddress == 1) {
+						if (addLat == null || addLon == null) {
+							navLocation.setText(res.getString(R.string.loc_no_addr));
+						}
 						if (addLat == null || addLon == null || base.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 0.5) {
 							(new obtainAddress()).run();
 						}

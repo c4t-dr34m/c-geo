@@ -72,6 +72,7 @@ public class cgeodetail extends Activity {
 			setView();
 		}
 	};
+
 	private Handler refreshCacheHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -86,6 +87,7 @@ public class cgeodetail extends Activity {
 			setView();
 		}
 	};
+
 	private Handler dropCacheHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -100,8 +102,8 @@ public class cgeodetail extends Activity {
 			setView();
 		}
 	};
-	private Handler loadCacheHandler = new Handler() {
 
+	private Handler loadCacheHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			if (searchId == null || searchId <= 0) {
@@ -129,8 +131,8 @@ public class cgeodetail extends Activity {
 			}
 		}
 	};
-	private Handler loadDescriptionHandler = new Handler() {
 
+	private Handler loadDescriptionHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			if (longDesc == null && cache != null && cache.description != null) {
