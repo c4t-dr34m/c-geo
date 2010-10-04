@@ -44,6 +44,8 @@ public class cgeo extends Activity {
 	private int countBubbleCnt = 0;
 	private Double addLat = null;
 	private Double addLon = null;
+	private List<Address> addresses = null;
+	private boolean addressObtaining = false;
 
 	private Handler countBubbleHandler = new Handler() {
 		@Override
@@ -60,6 +62,40 @@ public class cgeo extends Activity {
 				}
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "cgeo.countBubbleHander: " + e.toString());
+			}
+		}
+	};
+
+	private Handler obtainAddressHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			try {
+				if (addresses.isEmpty() == false) {
+					final Address address = addresses.get(0);
+					final StringBuilder addText = new StringBuilder();
+
+					if (address.getCountryName() != null) {
+						addText.append(address.getCountryName());
+					}
+					if (address.getLocality() != null) {
+						if (addText.length() > 0) addText.append(", ");
+						addText.append(address.getLocality());
+					} else if (address.getAdminArea() != null) {
+						if (addText.length() > 0) addText.append(", ");
+						addText.append(address.getAdminArea());
+					}
+
+					addLat = geo.latitudeNow;
+					addLon = geo.longitudeNow;
+
+					if (navLocation == null) {
+						navLocation = (TextView)findViewById(R.id.nav_location);
+					}
+
+					navLocation.setText(addText.toString());
+				}
+			} catch (Exception e) {
+				// nothing
 			}
 		}
 	};
@@ -332,43 +368,11 @@ public class cgeo extends Activity {
 						navAccuracy.setText(null);
 					}
 
-					boolean haveAddress = false;
 					if (settings.showAddress == 1) {
-						if (addLat == null || addLon == null || base.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 5) {
-							Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-							try {
-								final List<Address> addresses = geocoder.getFromLocation(geo.latitudeNow, geo.longitudeNow, 1);
-
-								if (addresses.isEmpty() == false) {
-									final Address address = addresses.get(0);
-									final StringBuilder addText = new StringBuilder();
-
-									if (address.getCountryName() != null) {
-										addText.append(address.getCountryName());
-									}
-									if (address.getLocality() != null) {
-										if (addText.length() > 0) addText.append(", ");
-										addText.append(address.getLocality());
-									} else if (address.getAdminArea() != null) {
-										if (addText.length() > 0) addText.append(", ");
-										addText.append(address.getAdminArea());
-									}
-
-									addLat = geo.latitudeNow;
-									addLon = geo.longitudeNow;
-
-									navLocation.setText(addText.toString());
-									haveAddress = true;
-								}
-							} catch (Exception e) {
-								// nothing
-							}
-						} else {
-							haveAddress = true;
+						if (addLat == null || addLon == null || base.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 0.5) {
+							(new obtainAddress()).run();
 						}
-					}
-
-					if (haveAddress == false) {
+					} else {
 						if (geo.altitudeNow != null) {
 							String humanAlt;
 							if (settings.units == settings.unitsImperial) {
@@ -455,6 +459,26 @@ public class cgeo extends Activity {
 			cleanupRunning = true;
 			app.cleanDatabase();
 			cleanupRunning = false;
+		}
+	}
+
+	private class obtainAddress extends Thread {
+		@Override
+		public void run() {
+			if (geo == null) return;
+			if (addressObtaining == true) return;
+			addressObtaining = true;
+
+			Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+			try {
+				addresses = geocoder.getFromLocation(geo.latitudeNow, geo.longitudeNow, 1);
+			} catch (Exception e) {
+				Log.i(cgSettings.tag, "Failed to obtain address");
+			}
+
+			obtainAddressHandler.sendEmptyMessage(0);
+
+			addressObtaining = false;
 		}
 	}
 }
