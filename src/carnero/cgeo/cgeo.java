@@ -93,18 +93,6 @@ public class cgeo extends Activity {
 					}
 
 					navLocation.setText(addText.toString());
-				} else {
-					if (geo.altitudeNow != null) {
-						String humanAlt;
-						if (settings.units == settings.unitsImperial) {
-							humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
-						} else {
-							humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
-						}
-						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true) + " | " + humanAlt);
-					} else {
-						navLocation.setText(base.formatCoordinate(geo.latitudeNow, "lat", true) + " | " + base.formatCoordinate(geo.longitudeNow, "lon", true));
-					}
 				}
 			} catch (Exception e) {
 				// nothing
@@ -386,8 +374,8 @@ public class cgeo extends Activity {
 						if (addLat == null || addLon == null) {
 							navLocation.setText(res.getString(R.string.loc_no_addr));
 						}
-						if (addLat == null || addLon == null || base.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 0.5) {
-							(new obtainAddress()).run();
+						if (addLat == null || addLon == null || (base.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 0.5 && addressObtaining == false)) {
+							(new obtainAddress()).start();
 						}
 					} else {
 						if (geo.altitudeNow != null) {
@@ -480,14 +468,19 @@ public class cgeo extends Activity {
 	}
 
 	private class obtainAddress extends Thread {
+		public obtainAddress() {
+			setPriority(Thread.MIN_PRIORITY);
+		}
+
 		@Override
 		public void run() {
 			if (geo == null) return;
 			if (addressObtaining == true) return;
 			addressObtaining = true;
 
-			Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 			try {
+				Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+				
 				addresses = geocoder.getFromLocation(geo.latitudeNow, geo.longitudeNow, 1);
 			} catch (Exception e) {
 				Log.i(cgSettings.tag, "Failed to obtain address");
