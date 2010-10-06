@@ -3182,7 +3182,7 @@ public class cgBase {
 		}
 
 		try {
-			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>View a Cache Log[^<]*</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
+			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>View Geocache Log[^<]*</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
 			final Matcher matcherOk = patternOk.matcher(page);
 			if (matcherOk.find() == true) {
 				Log.i(cgSettings.tag, "Log successfully posted to cache #" + cacheid);
