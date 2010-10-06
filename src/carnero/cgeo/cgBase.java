@@ -3496,7 +3496,6 @@ public class cgBase {
 	}
 
 	public String request(String host, String path, String method, String params, int requestId, Boolean xContentType) {
-        boolean follow = false;
         int httpCode = -1;
         String httpLocation = null;
 
@@ -3536,19 +3535,6 @@ public class cgBase {
 				if (cookiesEncoded.size() > 0) cookiesDone = implode("; ", cookiesEncoded.toArray());
 			}
 		}
-
-        /*
-		SecurityManager sm = new SecurityManager();
-		try {
-			sm.checkSetFactory();
-			follow = true;
-		} catch (SecurityException e) {
-			follow = false;
-            
-            Log.w(cgSettings.tag, "This thread can not follow redirects!");
-		}
-		sm = null;
-        */
 
 		if (cookiesDone == null) cookiesDone = "";
 

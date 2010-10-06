@@ -30,7 +30,8 @@ public class cgGeo {
 	private Location locGps = null;
 	private Location locNet = null;
 	private long locGpsLast = 0l;
-	private long lastGo4cache = 0l;
+	private Double lastGo4cacheLat = null;
+	private Double lastGo4cacheLon = null;
 	
 	public Location location = null;
 	public int gps = -1;
@@ -88,9 +89,6 @@ public class cgGeo {
 		satellitesVisible = 0;
 		satellitesFixed = 0;
 
-		if (prefs == null) prefs = context.getSharedPreferences(cgSettings.preferences, 0);
-		lastGo4cache = prefs.getLong("last-g4c", 0l);
-
 		if (geoManager == null) geoManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
 
 		lastLoc();
@@ -115,12 +113,8 @@ public class cgGeo {
 		}
 
 		final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
-		if (prefsEdit != null) {
-			prefsEdit.putLong("last-g4c", lastGo4cache);
-			if (Double.isNaN(distanceNow) == false) {
-				prefsEdit.putFloat("dst", (float)distanceNow);
-			}
-
+		if (prefsEdit != null && Double.isNaN(distanceNow) == false) {
+			prefsEdit.putFloat("dst", (float)distanceNow);
 			prefsEdit.commit();
 		}
 	}
@@ -315,7 +309,7 @@ public class cgGeo {
 
 		@Override
 		public void run() {
-			if (settings.publicLoc == 1 && lastGo4cache < (System.currentTimeMillis() - (5 * 60 * 1000))) {
+			if (settings.publicLoc == 1 && (lastGo4cacheLat == null || lastGo4cacheLon == null || base.getDistance(latitudeNow, longitudeNow, lastGo4cacheLat, lastGo4cacheLon) > 0.75)) {
 				final String host = "api.go4cache.com";
 				final String path = "/";
 				final String method = "POST";
@@ -333,9 +327,12 @@ public class cgGeo {
 					params.put("ln", lonStr);
 					params.put("a", action);
 					params.put("s", (base.sha1(username + "|" + latStr + "|" + lonStr + "|" + action + "|" + base.md5("carnero: developing your dreams"))).toLowerCase());
-					base.request(host, path, method, params, false, false, false);
+					final String res = base.request(host, path, method, params, false, false, false);
 
-					lastGo4cache = System.currentTimeMillis();
+					if (res != null && res.length() > 0) {
+						lastGo4cacheLat = latitudeNow;
+						lastGo4cacheLon = longitudeNow;
+					}
 				}
 			}
 		}

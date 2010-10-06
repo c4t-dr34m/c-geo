@@ -269,6 +269,9 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 	<string name="about_auth_2">Ein Klick auf "c:geo authorisieren" startet die Authorisierung, wobei eine Twitter-Seite in einem Browserfenster ge&#246;ffnet wird. Durch die Anmeldung und die Best&#228;tigung wird <b>c:geo</b> erm&#246;glicht auf deinen Twitter-Account zuzugreifen. Wenn du dies best&#228;tigst, wird dir Twitter eine numerische PIN angeben, die du bitte kopierst und in <b>c:geo</b> einf&#252;gst. Das ist alles.</string>
 	<!-- changelog -->
 	<string name="changelog">
+<b>1.02</b> (__.10.2010)\n
+· fix: __\n
+\n
 <b>1.01</b> (04.10.2010)\n
 · fix: Slow start\n
 <b>1.00</b> (30.09.2010)\n
