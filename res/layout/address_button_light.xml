@@ -12,7 +12,7 @@
 			android:layout_marginBottom="5dip"
 			android:scrollHorizontally="true"
 			android:textSize="22dip"
-			android:textColor="@color/text_dark"
+			android:textColor="@color/text_light"
 			android:padding="6dip"
 			android:gravity="left"
 			android:background="@drawable/action_button_light" />
