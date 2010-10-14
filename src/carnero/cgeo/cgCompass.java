@@ -77,7 +77,7 @@ public class cgCompass extends View {
 		compassOverlayHeight = compassOverlay.getWidth();
 		
 		setfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
-        remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
+		remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
 
 		wantStop = false;
 
@@ -197,6 +197,11 @@ public class cgCompass extends View {
 
 				changeHandler.sendMessage(new Message());
 			}
+
+			compassUnderlay.recycle();
+			compassRose.recycle();
+			compassArrow.recycle();
+			compassOverlay.recycle();
 		}
 	}
 

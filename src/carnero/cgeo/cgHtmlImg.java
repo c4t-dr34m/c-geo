@@ -196,6 +196,8 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 			final BitmapDrawable image = new BitmapDrawable(imagePre);
 			image.setBounds(new Rect(0, 0, width, height));
+			
+			imagePre.recycle();
 			imagePre = null;
 
 			return image;

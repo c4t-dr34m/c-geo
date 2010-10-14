@@ -19,24 +19,24 @@ public class cgMapMyOverlay extends Overlay {
 	private Location coordinates = null;
 	private GeoPoint location = null;
 	private float heading = 0f;
-    private Paint accuracyCircle = null;
-    private Paint historyLine = null;
-    private Paint historyLineShadow = null;
-    private Point center = new Point();
-    private Point left = new Point();
+	private Paint accuracyCircle = null;
+	private Paint historyLine = null;
+	private Paint historyLineShadow = null;
+	private Point center = new Point();
+	private Point left = new Point();
 	private Bitmap arrow = null;
 	private int widthArrow = 0;
-    private int heightArrow = 0;
+	private int heightArrow = 0;
 	private PaintFlagsDrawFilter setfil = null;
 	private PaintFlagsDrawFilter remfil = null;
 	private Location historyRecent = null;
 	private ArrayList<Location> history = new ArrayList<Location>();
-    private Point historyPointN = new Point();
-    private Point historyPointP = new Point();
+	private Point historyPointN = new Point();
+	private Point historyPointP = new Point();
 
-    public cgMapMyOverlay(cgSettings settingsIn) {
+	public cgMapMyOverlay(cgSettings settingsIn) {
 		settings = settingsIn;
-    }
+	}
 
 	public void setCoordinates(Location coordinatesIn) {
 		coordinates = coordinatesIn;
@@ -74,7 +74,7 @@ public class cgMapMyOverlay extends Overlay {
 		}
 
 		if (setfil == null) setfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
-        if (remfil == null) remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
+		if (remfil == null) remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
 
 		canvas.setDrawFilter(setfil);
 

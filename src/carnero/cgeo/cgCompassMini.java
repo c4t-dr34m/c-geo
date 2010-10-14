@@ -17,7 +17,6 @@ public class cgCompassMini extends View {
 	private cgBase base = null;
 	private Double cacheLat = null;
 	private Double cacheLon = null;
-	private Canvas canvas = null;
 	private Bitmap compassArrow = null;
 	private float azimuth = 0.0f;
 	private float heading = 0.0f;
@@ -36,7 +35,7 @@ public class cgCompassMini extends View {
 		context = contextIn;
 
 		TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.cgCompassMini);
-        int usedSkin = attributes.getInt(R.styleable.cgCompassMini_skin, 0);
+		int usedSkin = attributes.getInt(R.styleable.cgCompassMini_skin, 0);
 		if (usedSkin == 1) arrowSkin = R.drawable.compass_arrow_mini_black;
 		else arrowSkin = R.drawable.compass_arrow_mini_white;
 
@@ -52,8 +51,8 @@ public class cgCompassMini extends View {
 	public void init() {
 		compassArrow = BitmapFactory.decodeResource(context.getResources(), arrowSkin);
 
-		this.setfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
-        this.remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
+		setfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
+		remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
 	}
 
 	protected void updateAzimuth(float azimuthIn) {
@@ -88,11 +87,11 @@ public class cgCompassMini extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas){
-		this.lock = true;
+		lock = true;
 		
 		super.onDraw(canvas);
 
-		float azimuthRelative = this.azimuth - this.heading;
+		float azimuthRelative = azimuth - heading;
 		if (azimuthRelative < 0) {
 			azimuthRelative = azimuthRelative + 360;
 		} else if (azimuthRelative >= 360) {
@@ -100,15 +99,13 @@ public class cgCompassMini extends View {
 		}
 
 		// compass margins
-		this.canvas = canvas;
-
-		this.canvas.setDrawFilter(this.setfil);
+		canvas.setDrawFilter(setfil);
 
 		int marginLeft = 0;
 		int marginTop = 0;
 
-		int compassArrowWidth = this.compassArrow.getWidth();
-		int compassArrowHeight = this.compassArrow.getWidth();
+		int compassArrowWidth = compassArrow.getWidth();
+		int compassArrowHeight = compassArrow.getWidth();
 
 		int canvasCenterX = (compassArrowWidth / 2) + ((getWidth() - compassArrowWidth) / 2);
 		int canvasCenterY = (compassArrowHeight / 2) + ((getHeight() - compassArrowHeight) / 2);
@@ -116,13 +113,13 @@ public class cgCompassMini extends View {
 		marginLeft = (getWidth() - compassArrowWidth) / 2;
 		marginTop = (getHeight() - compassArrowHeight) / 2;
 
-		this.canvas.rotate(new Float(-(azimuthRelative)), canvasCenterX, canvasCenterY);
-		this.canvas.drawBitmap(this.compassArrow, marginLeft, marginTop, null);
-		this.canvas.rotate(new Float(azimuthRelative), canvasCenterX, canvasCenterY);
+		canvas.rotate(new Float(-(azimuthRelative)), canvasCenterX, canvasCenterY);
+		canvas.drawBitmap(compassArrow, marginLeft, marginTop, null);
+		canvas.rotate(new Float(azimuthRelative), canvasCenterX, canvasCenterY);
 
-		this.canvas.setDrawFilter(this.remfil);
+		canvas.setDrawFilter(remfil);
 
-		this.lock = false;
+		lock = false;
 	}
 
     @Override

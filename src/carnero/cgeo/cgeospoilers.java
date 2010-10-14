@@ -88,6 +88,7 @@ public class cgeospoilers extends Activity {
 								} catch (Exception e) {
 									Log.e(cgSettings.tag, "cgeospoilers.onCreate.onClick.run: " + e.toString());
 								}
+
 							}
 						}.start();
 

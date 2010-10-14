@@ -73,10 +73,10 @@ public class cgeosmaps extends Activity {
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication)this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("static maps");
@@ -103,6 +103,17 @@ public class cgeosmaps extends Activity {
 		waitDialog.setCancelable(true);
 
 		(new loadMaps()).start();
+	}
+
+	@Override
+	public void onDestroy() {
+		if (maps.isEmpty() == false) {
+			for (Bitmap map : maps) {
+				map.recycle();
+			}
+		}
+
+		super.onDestroy();
 	}
 
 	private class loadMaps extends Thread {
