@@ -133,7 +133,6 @@ public class cgeonavigate extends Activity {
 		// sensor & geolocation manager
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-		if (compassView != null) compassView.init();
 
 		// keep backlight on
         if (pm == null) {
@@ -154,7 +153,6 @@ public class cgeonavigate extends Activity {
 
 	@Override
 	public void onStop() {
-		if (compassView != null) compassView.kill();
 		if (geo != null) geo = app.removeGeo();
 		if (dir != null) dir = app.removeDir();
 
@@ -165,7 +163,6 @@ public class cgeonavigate extends Activity {
 
 	@Override
 	public void onPause() {
-		if (compassView != null) compassView.kill();
 		if (geo != null) geo = app.removeGeo();
 		if (dir != null) dir = app.removeDir();
 
@@ -176,7 +173,6 @@ public class cgeonavigate extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (compassView != null) compassView.kill();
 		if (geo != null) geo = app.removeGeo();
 		if (dir != null) dir = app.removeDir();
 

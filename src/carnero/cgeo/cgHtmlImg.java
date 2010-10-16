@@ -80,11 +80,11 @@ public class cgHtmlImg implements Html.ImageGetter {
             final File file = new File(fileName);
             final File fileSec = new File(fileNameSec);
             if (file.exists() == true) {
-                if (reason == 1 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
+                if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
                     imagePre = BitmapFactory.decodeFile(fileName);
                 }
             } else if (fileSec.exists() == true) {
-                if (reason == 1 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
+                if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
                     imagePre = BitmapFactory.decodeFile(fileNameSec);
                 }
 			}
@@ -197,9 +197,6 @@ public class cgHtmlImg implements Html.ImageGetter {
 			final BitmapDrawable image = new BitmapDrawable(imagePre);
 			image.setBounds(new Rect(0, 0, width, height));
 			
-			imagePre.recycle();
-			imagePre = null;
-
 			return image;
 		}
 

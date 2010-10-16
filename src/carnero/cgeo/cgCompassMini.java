@@ -26,8 +26,6 @@ public class cgCompassMini extends View {
 	public cgCompassMini(Context contextIn) {
 		super(contextIn);
 		context = contextIn;
-
-		init();
 	}
 
 	public cgCompassMini(Context contextIn, AttributeSet attrs) {
@@ -38,21 +36,28 @@ public class cgCompassMini extends View {
 		int usedSkin = attributes.getInt(R.styleable.cgCompassMini_skin, 0);
 		if (usedSkin == 1) arrowSkin = R.drawable.compass_arrow_mini_black;
 		else arrowSkin = R.drawable.compass_arrow_mini_white;
-
-		init();
 	}
 
-	public void setContent(cgBase baseIn, Double cacheLatIn, Double cacheLonIn) {
-		base = baseIn;
-		cacheLat = cacheLatIn;
-		cacheLon = cacheLonIn;
-	}
-
-	public void init() {
+	@Override
+	public void onAttachedToWindow() {
 		compassArrow = BitmapFactory.decodeResource(context.getResources(), arrowSkin);
 
 		setfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
 		remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
+	}
+
+	@Override
+	public void onDetachedFromWindow() {
+		if (compassArrow != null) {
+			compassArrow.recycle();
+			compassArrow = null;
+		}
+	}
+	
+	public void setContent(cgBase baseIn, Double cacheLatIn, Double cacheLonIn) {
+		base = baseIn;
+		cacheLat = cacheLatIn;
+		cacheLon = cacheLonIn;
 	}
 
 	protected void updateAzimuth(float azimuthIn) {
@@ -68,7 +73,9 @@ public class cgCompassMini extends View {
 	}
 
 	protected void updateCoords(Double latitudeIn, Double longitudeIn) {
-		if (latitudeIn == null || longitudeIn == null || cacheLat == null || cacheLon == null) return;
+		if (latitudeIn == null || longitudeIn == null || cacheLat == null || cacheLon == null) {
+			return;
+		}
 
 		heading = base.getHeading(latitudeIn, longitudeIn, cacheLat, cacheLon);
 
@@ -76,6 +83,10 @@ public class cgCompassMini extends View {
 	}
 
 	protected void updateDirection() {
+		if (compassArrow == null || compassArrow.isRecycled() == true) {
+			return;
+		}
+
         // compass margins
         int compassRoseWidth = compassArrow.getWidth();
         int compassRoseHeight = compassArrow.getWidth();

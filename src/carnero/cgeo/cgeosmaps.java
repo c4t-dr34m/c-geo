@@ -109,7 +109,7 @@ public class cgeosmaps extends Activity {
 	public void onDestroy() {
 		if (maps.isEmpty() == false) {
 			for (Bitmap map : maps) {
-				map.recycle();
+				// map.recycle();
 			}
 		}
 

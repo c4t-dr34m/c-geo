@@ -50,18 +50,15 @@ public class cgCompass extends View {
 	public cgCompass(Context contextIn) {
 		super(contextIn);
 		context = contextIn;
-
-		init();
 	}
 
 	public cgCompass(Context contextIn, AttributeSet attrs) {
 		super(contextIn, attrs);
 		context = contextIn;
-
-		init();
 	}
 
-	public void init() {
+	@Override
+	public void onAttachedToWindow() {
 		compassUnderlay = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass_underlay);
 		compassRose = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass_rose);
 		compassArrow = BitmapFactory.decodeResource(context.getResources(), R.drawable.compass_arrow);
@@ -85,8 +82,25 @@ public class cgCompass extends View {
 		watchdog.start();
 	}
 
-	public void kill() {
+	@Override
+	public void onDetachedFromWindow() {
 		wantStop = true;
+
+		if (compassUnderlay != null) {
+			compassUnderlay.recycle();
+		}
+
+		if (compassRose != null) {
+			compassRose.recycle();
+		}
+
+		if (compassArrow != null) {
+			compassArrow.recycle();
+		}
+
+		if (compassOverlay != null) {
+			compassOverlay.recycle();
+		}
 	}
 
 	protected void updateNorth(float northHeadingIn, float cacheHeadingIn) {
@@ -197,11 +211,6 @@ public class cgCompass extends View {
 
 				changeHandler.sendMessage(new Message());
 			}
-
-			compassUnderlay.recycle();
-			compassRose.recycle();
-			compassArrow.recycle();
-			compassOverlay.recycle();
 		}
 	}
 

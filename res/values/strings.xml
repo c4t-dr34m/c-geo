@@ -270,6 +270,9 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start process. This process will open web browser with Twitter page where you have to login and Accept <b>c:geo</b> to access your account. When you Accept, Twitter will show you numeric PIN code. Please copy this code, paste into <b>c:geo</b> and confirm. That\'s all.</string>
 	<!-- changelog -->
 	<string name="changelog">
+<b>1.05</b> (15.10.2010)\n
+· fix: Quick fix\n
+\n
 <b>1.04</b> (14.10.2010)\n
 · fix: Logging trackables\n
 · fix: Crashing when storing more caches for offline\n

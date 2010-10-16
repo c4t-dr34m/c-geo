@@ -52,7 +52,7 @@ public class cgAddressImg {
 		final BitmapDrawable image = new BitmapDrawable(imagePre);
 		image.setBounds(new Rect(0, 0, imagePre.getWidth(), imagePre.getHeight()));
 
-		imagePre.recycle();
+		// imagePre.recycle();
 		imagePre = null;
 
 		return image;
