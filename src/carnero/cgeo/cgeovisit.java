@@ -436,7 +436,7 @@ public class cgeovisit extends cgLogForm {
 		else tweetBox.setVisibility(View.GONE);
 
 		if (post == null) post = (Button)findViewById(R.id.post);
-		if (type == 2) {
+		if (type == 2 && settings.isGCvoteLogin() == true) {
 			if (rating == 0) {
 				post.setText("post log & do not rate");
 			} else {

@@ -185,7 +185,7 @@ public class cgeocaches extends ListActivity {
 					if (progressBar == true) setProgressBarIndeterminateVisibility(false);
 					if (waitDialog != null) {
 						waitDialog.dismiss();
-                        waitDialog.setOnCancelListener(null);
+						waitDialog.setOnCancelListener(null);
 					}
 					finish();
 					return;

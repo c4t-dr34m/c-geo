@@ -280,16 +280,12 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			if (cacheInfo.length() > 0) cacheInfo.append(" |");
 
 			if (cache.difficulty != null && cache.difficulty > 0f) {
-				cacheInfo.append(" ");
+				cacheInfo.append(" D:");
 				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.difficulty));
 			}
 			if (cache.terrain != null && cache.terrain > 0f) {
-				cacheInfo.append(" ");
+				cacheInfo.append(" T:");
 				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.terrain));
-			}
-			if (cache.rating != null && cache.rating > 0f) {
-				cacheInfo.append(" ");
-				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.rating));
 			}
 		}
 		if (cache.members == true) {
