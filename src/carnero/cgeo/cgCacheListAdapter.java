@@ -14,8 +14,11 @@ import android.widget.ArrayAdapter;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -25,6 +28,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private cgSettings settings = null;
 	private cgCacheView holder = null;
 	private LayoutInflater inflater = null;
+	private Activity activity = null;
 	private cgBase base = null;
 	private Double latitude = null;
 	private Double longitude = null;
@@ -33,10 +37,14 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private HashMap<String, Drawable> gcIcons = new HashMap<String, Drawable>();
 	private ArrayList<cgCompassMini> compasses = new ArrayList<cgCompassMini>();
 	private ArrayList<cgDistanceView> distances = new ArrayList<cgDistanceView>();
+	private static final int SWIPE_MIN_DISTANCE = 120;
+	private static final int SWIPE_MAX_OFF_PATH = 250;
+	private static final int SWIPE_THRESHOLD_VELOCITY = 150;
 
-    public cgCacheListAdapter(Activity activity, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
-        super(activity, 0, listIn);
+	public cgCacheListAdapter(Activity activityIn, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
+		super(activityIn, 0, listIn);
 
+		activity = activityIn;
 		settings = settingsIn;
 		list = listIn;
 		base = baseIn;
@@ -56,7 +64,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			gcIcons.put("wherigo", (Drawable)activity.getResources().getDrawable(R.drawable.type_wherigo));
 			gcIcons.put("mystery", (Drawable)activity.getResources().getDrawable(R.drawable.type_mystery));
 		}
-    }
+	}
 
 	public void forceSort(Double latitudeIn, Double longitudeIn) {
 		if (latitudeIn == null || longitudeIn == null) return;
@@ -298,7 +306,10 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 		holder.info.setText(cacheInfo.toString());
 
-		rowView.setOnClickListener(new cgCacheListOnClickListener(cache.geocode, cache.name));
+		final touchListener touchLst = new touchListener(cache.geocode, cache.name);
+		rowView.setOnTouchListener(touchLst);
+		rowView.setOnClickListener(touchLst);
+		rowView.setOnLongClickListener(touchLst);
 		
 		return rowView;
 	}
@@ -311,21 +322,78 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		compasses.clear();
 	}
 
-	private class cgCacheListOnClickListener implements View.OnClickListener {
+	private class touchListener implements View.OnLongClickListener, View.OnClickListener, View.OnTouchListener {
 		private String geocode;
 		private String name;
+		private boolean touch = true;
+		final GestureDetector gestureDetector = new GestureDetector(new detectGesture());
 
-		public cgCacheListOnClickListener(String geocodeIn, String nameIn) {
+		public touchListener(String geocodeIn, String nameIn) {
 			geocode = geocodeIn;
 			name = nameIn;
+
 		}
 
-		public void onClick(View arg0) {
+		// tap on item
+		public void onClick(View view) {
+			if (touch == false) {
+				touch = true;
+				
+				return;
+			}
+
 			// load cache details
 			Intent cachesIntent = new Intent(getContext(), cgeodetail.class);
 			cachesIntent.putExtra("geocode", geocode);
 			cachesIntent.putExtra("name", name);
 			getContext().startActivity(cachesIntent);
+		}
+
+		// long tap on item
+		public boolean onLongClick(View view) {
+			if (touch == false) {
+				touch = true;
+
+				return true;
+			}
+
+			return view.showContextMenu();
+		}
+
+		// swipe on item
+		public boolean onTouch(View view, MotionEvent event) {
+			if (gestureDetector.onTouchEvent(event) == true) {
+				touch = false;
+
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+	class detectGesture extends GestureDetector.SimpleOnGestureListener {
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			try {
+				if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+					return false;
+				}
+
+				if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+					// right to left swipe
+					
+					return true;
+				} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+					// left to right swipe
+					
+					return true;
+				}
+			} catch (Exception e) {
+				// nothing
+			}
+
+			return false;
 		}
 	}
 }
