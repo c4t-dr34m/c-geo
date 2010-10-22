@@ -1,5 +1,6 @@
 package carnero.cgeo;
 
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 
 public class cgCacheView {
 	public RelativeLayout oneCache;
+	public RelativeLayout oneInfo;
+	public CheckBox checkbox;
 	public ImageView foundMark;
 	public ImageView ratingMark1;
 	public ImageView ratingMark2;

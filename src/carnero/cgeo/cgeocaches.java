@@ -18,6 +18,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -433,6 +434,39 @@ public class cgeocaches extends ListActivity {
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		try {
+			if (adapter != null && adapter.getChecked() > 0) {
+				menu.findItem(4).setTitle("drop selected");
+			} else {
+				menu.findItem(4).setTitle("drop all");
+			}
+
+			if (adapter != null && adapter.getChecked() > 0) {
+				menu.findItem(1).setTitle("refresh selected");
+			} else {
+				menu.findItem(1).setTitle("refresh listed");
+			}
+
+			if (adapter != null && adapter.getChecked() > 0) {
+				menu.findItem(5).setTitle("store selected");
+			} else {
+				menu.findItem(5).setTitle("store for offline");
+			}
+
+			if (type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId)) ) { // there are no more caches
+				menu.findItem(0).setEnabled(false);
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgeocaches.onPrepareOptionsMenu: " + e.toString());
+		}
+
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case 1:
@@ -494,21 +528,6 @@ public class cgeocaches extends ListActivity {
 		}
 
 		return false;
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		try {
-			if (type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId)) ) { // there are no more caches
-				menu.findItem(0).setEnabled(false);
-			}
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeocaches.onPrepareOptionsMenu: " + e.toString());
-		}
-
-		return true;
 	}
 
 	@Override
@@ -682,6 +701,16 @@ public class cgeocaches extends ListActivity {
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (adapter != null && adapter.resetChecks() == true) {
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	private void setAdapter() {

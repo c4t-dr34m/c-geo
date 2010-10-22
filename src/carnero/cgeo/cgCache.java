@@ -48,6 +48,8 @@ public class cgCache {
 	public ArrayList<cgLog> logs = new ArrayList<cgLog>();
 	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
 
+	public boolean statusChecked = false;
+
 	public cgCache merge(cgData storage) {
 		boolean loadA = true;
 		boolean loadW = true;
