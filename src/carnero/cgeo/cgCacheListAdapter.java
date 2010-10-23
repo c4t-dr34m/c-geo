@@ -365,6 +365,13 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();
 
+		checked = 0;
+		for (cgCache cache : list) {
+			if (cache.statusChecked == true) {
+				checked ++;
+			}
+		}
+
 		distances.clear();
 		compasses.clear();
 	}

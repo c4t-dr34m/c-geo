@@ -59,6 +59,7 @@ public class cgeocaches extends ListActivity {
 	private int detailProgress = 0;
 	private Long detailProgressTime = 0l;
 	private geocachesLoadDetails threadD = null;
+	private geocachesDropDetails threadR = null;
 	private boolean offline = false;
 	private boolean progressBar = false;
 
@@ -215,14 +216,19 @@ public class cgeocaches extends ListActivity {
 		public void handleMessage(Message msg) {
 			setAdapter();
 
-            if (msg.what == 0) {
-                if (waitDialog != null) {
-                    Float diffTime = new Float((System.currentTimeMillis() - detailProgressTime) / 1000); // seconds left
-                    Float oneCache = diffTime / detailProgress; // left time per cache
-                    int etaTime = (int)((detailTotal - detailProgress) * oneCache / 60); // seconds remaining
+			if (msg.what > -1) {
+				if (waitDialog != null) {
+					cacheList.get(msg.what).statusChecked = false;
 
+					if (adapter != null) {
+						adapter.notifyDataSetChanged();
+					}
+					
+					Float diffTime = new Float((System.currentTimeMillis() - detailProgressTime) / 1000); // seconds left
+					Float oneCache = diffTime / detailProgress; // left time per cache
+					int etaTime = (int)((detailTotal - detailProgress) * oneCache / 60); // seconds remaining
 
-                    waitDialog.setProgress(detailProgress);
+					waitDialog.setProgress(detailProgress);
 					if (etaTime < 1) {
 						waitDialog.setMessage("downloading caches...\neta: less than minute");
 					} else if (etaTime == 1) {
@@ -230,27 +236,47 @@ public class cgeocaches extends ListActivity {
 					} else {
 						waitDialog.setMessage("downloading caches...\neta: " + etaTime + " mins");
 					}
-                }
-            } else {
-                if (cacheList != null && searchId != null) {
-                    cacheList.clear();
-                    cacheList.addAll(app.getCaches(searchId));
-                }
-                
+				}
+			} else {
+				if (cacheList != null && searchId != null) {
+					cacheList.clear();
+					cacheList.addAll(app.getCaches(searchId));
+				}
+
 				if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
 					adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
 					adapter.setActualHeading(northHeading);
 				}
 
 				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
-                if (waitDialog != null) {
-                    waitDialog.dismiss();
-                    waitDialog.setOnCancelListener(null);
-                }
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+					waitDialog.setOnCancelListener(null);
+				}
 
 				if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 				if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-            }
+			}
+		}
+	};
+
+	private Handler dropDetailsHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			setAdapter();
+
+			if (msg.what > -1) {
+				cacheList.get(msg.what).statusChecked = false;
+
+				if (adapter != null) {
+					adapter.notifyDataSetChanged();
+				}
+			} else {
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+					waitDialog.setOnCancelListener(null);
+				}
+			}
 		}
 	};
 
@@ -444,16 +470,18 @@ public class cgeocaches extends ListActivity {
 				menu.findItem(4).setTitle("drop all");
 			}
 
-			if (adapter != null && adapter.getChecked() > 0) {
-				menu.findItem(1).setTitle("refresh selected");
+			if (type.equals("offline") == true) {
+				if (adapter != null && adapter.getChecked() > 0) {
+					menu.findItem(1).setTitle("refresh checked");
+				} else {
+					menu.findItem(1).setTitle("refresh listed");
+				}
 			} else {
-				menu.findItem(1).setTitle("refresh listed");
-			}
-
-			if (adapter != null && adapter.getChecked() > 0) {
-				menu.findItem(5).setTitle("store selected");
-			} else {
-				menu.findItem(5).setTitle("store for offline");
+				if (adapter != null && adapter.getChecked() > 0) {
+					menu.findItem(1).setTitle("store selected");
+				} else {
+					menu.findItem(1).setTitle("store for offline");
+				}
 			}
 
 			if (type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId)) ) { // there are no more caches
@@ -470,51 +498,7 @@ public class cgeocaches extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case 1:
-				if (offline == false) {
-					detailTotal = app.getNotOfflineCount(searchId);
-
-					if (detailTotal == 0) {
-						warning.showToast("There is nothing to be saved.");
-
-						return true;
-					}
-				} else {
-					detailTotal = app.getCount(searchId);
-				}
-
-				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
-				waitDialog = new ProgressDialog(this);
-				waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-				public void onCancel(DialogInterface arg0) {
-					try {
-						if (threadD != null) threadD.kill();
-
-						if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-						if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-					} catch (Exception e) {
-						Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
-					}
-					}
-				});
-
-				waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				int etaTime = (int)((detailTotal * 7) / 60);
-				if (etaTime < 1) {
-						waitDialog.setMessage("downloading caches...\neta: less than minute");
-				} else if (etaTime == 1) {
-						waitDialog.setMessage("downloading caches...\neta: " + etaTime + " min");
-				} else {
-						waitDialog.setMessage("downloading caches...\neta: " + etaTime + " mins");
-				}
-				waitDialog.setCancelable(true);
-				waitDialog.setMax(detailTotal);
-				waitDialog.show();
-
-				detailProgressTime = System.currentTimeMillis();
-
-				threadD = new geocachesLoadDetails(loadDetailsHandler);
-				threadD.start();
-
+				refreshStored();
 				return true;
 			case 2:
 				showOnMap();
@@ -802,32 +786,111 @@ public class cgeocaches extends ListActivity {
 		finish();
 	}
 
-    public void dropStored() {
-		AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
-		dialog.setTitle("Drop stored");
-		dialog.setMessage("Do you want to delete all caches stored for offline use?");
-		dialog.setCancelable(true);
-		dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				(new Thread() {
-					@Override
-					public void run() {
-						app.dropStored();
-					}
-				}).start();
-				dialog.cancel();
-				activity.finish();
+	public void refreshStored() {
+		if (adapter != null && adapter.getChecked() > 0) {
+			// there are some checked caches
+			detailTotal = adapter.getChecked();
+		} else {
+			// no checked caches, download everything (when already stored - refresh them)
+			detailTotal = cacheList.size();
+		}
+
+		if (progressBar == true) {
+			setProgressBarIndeterminateVisibility(true);
+		}
+		waitDialog = new ProgressDialog(this);
+		waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+		public void onCancel(DialogInterface arg0) {
+			try {
+				if (threadD != null) threadD.kill();
+
+				if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+				if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
+			}
 			}
 		});
+
+		waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		int etaTime = (int)((detailTotal * 25) / 60);
+		if (etaTime < 1) {
+				waitDialog.setMessage("downloading caches...\neta: less than minute");
+		} else if (etaTime == 1) {
+				waitDialog.setMessage("downloading caches...\neta: " + etaTime + " min");
+		} else {
+				waitDialog.setMessage("downloading caches...\neta: " + etaTime + " mins");
+		}
+		waitDialog.setCancelable(true);
+		waitDialog.setMax(detailTotal);
+		waitDialog.show();
+
+		detailProgressTime = System.currentTimeMillis();
+
+		threadD = new geocachesLoadDetails(loadDetailsHandler);
+		threadD.start();
+	}
+
+    public void dropStored() {
+		AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+		dialog.setCancelable(true);
+		dialog.setTitle("Drop stored");
+
+		if (adapter != null && adapter.getChecked() > 0) {
+			dialog.setMessage("Do you want to remove selected caches from device?");
+			dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dropSelected();
+					dialog.cancel();
+				}
+			});
+		} else {
+			dialog.setMessage("Do you want to remove all caches from device?");
+			dialog.setPositiveButton("yes, all", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dropSelected();
+					dialog.cancel();
+				}
+			});
+		}
 		dialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
 			}
 		});
 
-       AlertDialog alert = dialog.create();
-       alert.show();
+		 AlertDialog alert = dialog.create();
+		 alert.show();
     }
+
+	public void dropSelected() {
+		if (adapter == null || adapter.getChecked() <= 0) {
+			// no checked caches, drop everything
+			app.dropStored();
+			activity.finish();
+			
+			return;
+		}
+
+		detailTotal = adapter.getChecked();
+
+		waitDialog = new ProgressDialog(this);
+		waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			public void onCancel(DialogInterface arg0) {
+				try {
+					if (threadR != null) threadR.kill();
+				} catch (Exception e) {
+					Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
+				}
+				}
+		});
+
+		waitDialog.setCancelable(true);
+		waitDialog.show();
+
+		threadR = new geocachesDropDetails(dropDetailsHandler);
+		threadR.start();
+	}
 
 	private class update extends cgUpdateLoc {
 		@Override
@@ -1040,31 +1103,41 @@ public class cgeocaches extends ListActivity {
 
 	private class geocachesLoadDetails extends Thread {
 		private Handler handler = null;
-        private volatile Boolean needToStop = false;
+		private volatile boolean needToStop = false;
+		private int checked = 0;
 
 		public geocachesLoadDetails(Handler handlerIn) {
 			setPriority(Thread.MIN_PRIORITY);
 
 			handler = handlerIn;
+
+			if (adapter != null) {
+				checked = adapter.getChecked();
+			}
 		}
 
-        public void kill() {
-            this.needToStop = true;
-        }
+		public void kill() {
+			needToStop = true;
+		}
 
 		@Override
 		public void run() {
 			if (dir != null) dir = app.removeDir();
 			if (geo != null) geo = app.removeGeo();
-			
-            ArrayList<cgCache> caches = app.getCaches(searchId);
 
-            for (cgCache cache : caches) {
-                try {
-                    if (needToStop == true) {
-                        Log.i(cgSettings.tag, "Stopped storing process.");
-                        break;
-                    }
+			for (cgCache cache : cacheList) {
+				if (checked > 0 && cache.statusChecked == false) {
+					handler.sendEmptyMessage(0);
+
+					yield();
+					continue;
+				}
+
+				try {
+					if (needToStop == true) {
+						Log.i(cgSettings.tag, "Stopped storing process.");
+						break;
+					}
 
 					try {
 						sleep(3000 + ((Double)(Math.random() * 3000)).intValue());
@@ -1072,23 +1145,76 @@ public class cgeocaches extends ListActivity {
 						Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails.sleep: " + e.toString());
 					}
 
-                    if (needToStop == true) {
-                        Log.i(cgSettings.tag, "Stopped storing process.");
-                        break;
-                    }
+					if (needToStop == true) {
+						Log.i(cgSettings.tag, "Stopped storing process.");
+						break;
+					}
 
-                    detailProgress ++;
+					detailProgress ++;
 					base.storeCache(app, activity, cache, null, handler);
 
-                    handler.sendEmptyMessage(0);
+					handler.sendEmptyMessage(cacheList.indexOf(cache));
 
-                    this.yield();
-                } catch (Exception e) {
-                    Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails: " + e.toString());
-                }
-            }
+					yield();
+				} catch (Exception e) {
+					Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails: " + e.toString());
+				}
+			}
 
-			handler.sendEmptyMessage(1);
+			handler.sendEmptyMessage(-1);
+		}
+	}
+
+	private class geocachesDropDetails extends Thread {
+		private Handler handler = null;
+		private volatile boolean needToStop = false;
+		private int checked = 0;
+
+		public geocachesDropDetails(Handler handlerIn) {
+			setPriority(Thread.MIN_PRIORITY);
+
+			handler = handlerIn;
+
+			if (adapter != null) {
+				checked = adapter.getChecked();
+			}
+		}
+
+		public void kill() {
+			needToStop = true;
+		}
+
+		@Override
+		public void run() {
+			if (dir != null) dir = app.removeDir();
+			if (geo != null) geo = app.removeGeo();
+
+			for (cgCache cache : cacheList) {
+				if (checked > 0 && cache.statusChecked == false) {
+					handler.sendEmptyMessage(0);
+
+					yield();
+					continue;
+				}
+
+				try {
+					if (needToStop == true) {
+						Log.i(cgSettings.tag, "Stopped dropping process.");
+						break;
+					}
+
+					detailProgress ++;
+					app.markDropped(cache.geocode);
+
+					handler.sendEmptyMessage(cacheList.indexOf(cache));
+
+					yield();
+				} catch (Exception e) {
+					Log.e(cgSettings.tag, "cgeocaches.geocachesDropDetails: " + e.toString());
+				}
+			}
+
+			handler.sendEmptyMessage(-1);
 		}
 	}
 
