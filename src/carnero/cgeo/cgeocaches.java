@@ -415,8 +415,11 @@ public class cgeocaches extends ListActivity {
 			}
 		}
 
-		if (adapter != null && geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-			adapter.forceSort(geo.latitudeNow, geo.longitudeNow);
+		if (adapter != null) {
+			adapter.setSelectMode(false, true);
+			if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
+				adapter.forceSort(geo.latitudeNow, geo.longitudeNow);
+			}
 		}
 	}
 
@@ -448,6 +451,7 @@ public class cgeocaches extends ListActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 0, "select mode").setIcon(android.R.drawable.ic_menu_agenda);
 		if (type.equals("offline") == true) {
 			menu.add(0, 4, 0, "drop all").setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
 			menu.add(0, 1, 0, "refresh listed").setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
@@ -464,19 +468,30 @@ public class cgeocaches extends ListActivity {
 		super.onPrepareOptionsMenu(menu);
 
 		try {
-			if (adapter != null && adapter.getChecked() > 0) {
-				menu.findItem(4).setTitle("drop selected");
+			if (adapter != null && adapter.getSelectMode() == true) {
+				menu.findItem(0).setTitle("exit select mode");
 			} else {
-				menu.findItem(4).setTitle("drop all");
+				menu.findItem(0).setTitle("select mode");
 			}
 
 			if (type.equals("offline") == true) {
+				if (adapter != null && adapter.getChecked() > 0) {
+					menu.findItem(4).setTitle("drop selected");
+				} else {
+					menu.findItem(4).setTitle("drop all");
+				}
+				
 				if (adapter != null && adapter.getChecked() > 0) {
 					menu.findItem(1).setTitle("refresh checked");
 				} else {
 					menu.findItem(1).setTitle("refresh listed");
 				}
 			} else {
+				if (adapter == null) {
+					Log.i(cgSettings.tag, "No adapter");
+				} else {
+					Log.i(cgSettings.tag, "Checked: " + adapter.getChecked());
+				}
 				if (adapter != null && adapter.getChecked() > 0) {
 					menu.findItem(1).setTitle("store selected");
 				} else {
@@ -497,6 +512,11 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case 0:
+				if (adapter != null) {
+					adapter.switchSelectMode();
+				}
+				return true;
 			case 1:
 				refreshStored();
 				return true;
@@ -690,8 +710,14 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (adapter != null && adapter.resetChecks() == true) {
-				return true;
+			if (adapter != null) {
+				if (adapter.resetChecks() == true) {
+					return true;
+				} else if (adapter.getSelectMode() == true) {
+					adapter.setSelectMode(false, true);
+
+					return true;
+				}
 			}
 		}
 		return super.onKeyDown(keyCode, event);

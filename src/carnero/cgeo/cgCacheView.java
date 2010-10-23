@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class cgCacheView {
+	// layouts & views
 	public RelativeLayout oneCache;
 	public RelativeLayout oneInfo;
 	public CheckBox checkbox;

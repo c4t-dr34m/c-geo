@@ -49,6 +49,7 @@ public class cgCache {
 	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
 
 	public boolean statusChecked = false;
+	public boolean statusCheckedView = false;
 
 	public cgCache merge(cgData storage) {
 		boolean loadA = true;

@@ -18,7 +18,9 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -40,6 +42,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private long lastSort = 0l;
 	private boolean sort = true;
 	private int checked = 0;
+	private boolean selectMode = false;
 	private HashMap<String, Drawable> gcIcons = new HashMap<String, Drawable>();
 	private ArrayList<cgCompassMini> compasses = new ArrayList<cgCompassMini>();
 	private ArrayList<cgDistanceView> distances = new ArrayList<cgDistanceView>();
@@ -47,6 +50,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private static final int SWIPE_MIN_DISTANCE = 100;
 	private static final int SWIPE_MAX_OFF_PATH = 200;
 	private static final int SWIPE_DISTANCE = 80;
+	private static final float SWIPE_OPACITY = 0.5f;
 
 	public cgCacheListAdapter(Activity activityIn, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
 		super(activityIn, 0, listIn);
@@ -79,6 +83,38 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 	public int getChecked() {
 		return checked;
+	}
+
+	public boolean setSelectMode(boolean status, boolean clear) {
+		selectMode = status;
+
+		if (selectMode == false && clear == true) {
+			for (cgCache cache : list) {
+				cache.statusChecked = false;
+			}
+			checked = 0;
+		}
+
+		notifyDataSetChanged();
+
+		return selectMode;
+	}
+
+	public boolean getSelectMode() {
+		return selectMode;
+	}
+
+	public void switchSelectMode() {
+		selectMode = !selectMode;
+		
+		if (selectMode == false) {
+			for (cgCache cache : list) {
+				cache.statusChecked = false;
+			}
+			checked = 0;
+		}
+
+		notifyDataSetChanged();
 	}
 
 	public void forceSort(Double latitudeIn, Double longitudeIn) {
@@ -140,6 +176,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		if (list.isEmpty() == true) return false;
 		if (checked <= 0) return false;
 
+		boolean status = getSelectMode();
 		int cleared = 0;
 		for (cgCache cache : list) {
 			if (cache.statusChecked == true) {
@@ -149,9 +186,10 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 				cleared ++;
 			}
 		}
+		setSelectMode(false, false);
 		notifyDataSetChanged();
 
-		if (cleared > 0) {
+		if (cleared > 0 || status == true) {
 			return true;
 		} else {
 			return false;
@@ -201,12 +239,27 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		rowView.setOnLongClickListener(touchLst);
 		rowView.setLongClickable(true);
 
-		holder.oneInfo.clearAnimation();
-		if (cache.statusChecked == true) {
-			moveRight(holder, cache, true);
+		// holder.oneInfo.clearAnimation();
+		if (selectMode == true) {
+			if (cache.statusCheckedView == true) {
+				moveRight(holder, cache, true); // move fast when already slided
+			} else {
+				moveRight(holder, cache, false);
+			}
+		} else if (cache.statusChecked == true) {
 			holder.checkbox.setChecked(true);
+			if (cache.statusCheckedView == true) {
+				moveRight(holder, cache, true); // move fast when already slided
+			} else {
+				moveRight(holder, cache, false);
+			}
 		} else {
 			holder.checkbox.setChecked(false);
+			if (cache.statusCheckedView == true) {
+				moveLeft(holder, cache, false);
+			} else {
+				holder.oneInfo.clearAnimation();
+			}
 		}
 
 		if (distances.contains(holder.distance) == false) distances.add(holder.distance);
@@ -442,24 +495,42 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 			try {
+				if (getSelectMode() == true) {
+					return false;
+				}
+
 				if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
 					return false;
 				}
 
 				if ((e2.getX() - e1.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) >  Math.abs(velocityY)) {
 					// left to right swipe
+					if (cache.statusChecked == true) {
+						return true;
+					}
+
 					if (holder != null && holder.oneInfo != null) {
 						checkChecked(+1);
-
+						holder.checkbox.setChecked(true);
+						cache.statusChecked = true;
 						moveRight(holder, cache, false);
 					}
 
 					return true;
 				} else if ((e1.getX() - e2.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > Math.abs(velocityY)) {
 					// right to left swipe
-					if (holder != null && holder.oneInfo != null) {
-						checkChecked(-1);
+					if (cache.statusChecked == false) {
+						return true;
+					}
 
+					if (holder != null && holder.oneInfo != null) {
+						if (getSelectMode() == true) {
+							setSelectMode(false, false);
+						}
+
+						checkChecked(-1);
+						holder.checkbox.setChecked(false);
+						cache.statusChecked = false;
 						moveLeft(holder, cache, false);
 					}
 					
@@ -490,10 +561,12 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 	private void moveRight(cgCacheView holder, cgCache cache, boolean force) {
 		if (cache == null) return;
-		if (force == false && cache.statusChecked == true) return;
 
 		try {
-			Animation showCheckbox = new TranslateAnimation(0, (int)(60 * pixelDensity), 0, 0);
+			holder.checkbox.setChecked(cache.statusChecked);
+
+			// slide cache info
+			Animation showCheckbox = new TranslateAnimation(0, (int)(SWIPE_DISTANCE * pixelDensity), 0, 0);
 			showCheckbox.setRepeatCount(0);
 			if (force == true) {
 				showCheckbox.setDuration(0);
@@ -504,9 +577,28 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			showCheckbox.setFillAfter(true);
 			showCheckbox.setInterpolator(new AccelerateDecelerateInterpolator());
 
-			holder.oneInfo.startAnimation(showCheckbox);
-			holder.checkbox.setChecked(true);
-			cache.statusChecked = true;
+			// dim cache info
+			Animation dimInfo = new AlphaAnimation(1.0f, SWIPE_OPACITY);
+			dimInfo.setRepeatCount(0);
+			if (force == true) {
+				dimInfo.setDuration(0);
+			} else {
+				dimInfo.setDuration(400);
+			}
+			dimInfo.setFillEnabled(true);
+			dimInfo.setFillAfter(true);
+			dimInfo.setInterpolator(new AccelerateDecelerateInterpolator());
+
+			// animation set (container)
+			AnimationSet selectAnimation = new AnimationSet(true);
+			selectAnimation.setFillEnabled(true);
+			selectAnimation.setFillAfter(true);
+
+			selectAnimation.addAnimation(showCheckbox);
+			selectAnimation.addAnimation(dimInfo);
+
+			holder.oneInfo.startAnimation(selectAnimation);
+			cache.statusCheckedView = true;
 		} catch (Exception e) {
 			// nothing
 		}
@@ -514,9 +606,11 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 	private void moveLeft(cgCacheView holder, cgCache cache, boolean force) {
 		if (cache == null) return;
-		if (force == false && cache.statusChecked == false) return;
 
 		try {
+			holder.checkbox.setChecked(cache.statusChecked);
+
+			// slide cache info
 			Animation hideCheckbox = new TranslateAnimation((int)(SWIPE_DISTANCE * pixelDensity), 0, 0, 0);
 			hideCheckbox.setRepeatCount(0);
 			if (force == true) {
@@ -528,9 +622,28 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			hideCheckbox.setFillAfter(true);
 			hideCheckbox.setInterpolator(new AccelerateDecelerateInterpolator());
 
-			cache.statusChecked = false;
-			holder.checkbox.setChecked(false);
-			holder.oneInfo.startAnimation(hideCheckbox);
+			// brighten cache info
+			Animation brightenInfo = new AlphaAnimation(SWIPE_OPACITY, 1.0f);
+			brightenInfo.setRepeatCount(0);
+			if (force == true) {
+				brightenInfo.setDuration(0);
+			} else {
+				brightenInfo.setDuration(400);
+			}
+			brightenInfo.setFillEnabled(true);
+			brightenInfo.setFillAfter(true);
+			brightenInfo.setInterpolator(new AccelerateDecelerateInterpolator());
+
+			// animation set (container)
+			AnimationSet selectAnimation = new AnimationSet(true);
+			selectAnimation.setFillEnabled(true);
+			selectAnimation.setFillAfter(true);
+
+			selectAnimation.addAnimation(hideCheckbox);
+			selectAnimation.addAnimation(brightenInfo);
+
+			holder.oneInfo.startAnimation(selectAnimation);
+			cache.statusCheckedView = false;
 		} catch (Exception e) {
 			// nothing
 		}
