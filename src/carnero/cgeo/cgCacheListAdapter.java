@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -241,7 +242,6 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		rowView.setOnLongClickListener(touchLst);
 		rowView.setLongClickable(true);
 
-		// holder.oneInfo.clearAnimation();
 		if (selectMode == true) {
 			if (cache.statusCheckedView == true) {
 				moveRight(holder, cache, true); // move fast when already slided
@@ -257,10 +257,10 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			}
 		} else {
 			holder.checkbox.setChecked(false);
-			if (cache.statusCheckedView == true) {
-				moveLeft(holder, cache, false);
-			} else {
+			if (cache.statusCheckedView == false) {
 				holder.oneInfo.clearAnimation();
+			} else {
+				moveLeft(holder, cache, false);
 			}
 		}
 
