@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class cgeowaypoint extends Activity {
 	private cgWaypoint waypoint = null;
@@ -243,7 +244,7 @@ public class cgeowaypoint extends Activity {
 				if (base.isIntentAvailable(activity, "com.robert.maps.action.SHOW_POINTS") == true) {
 					// rmaps
 					final ArrayList<String> locations = new ArrayList<String>();
-					locations.add(String.format("%.6f", latitude) + "," + String.format("%.6f", longitude) + ";;");
+					locations.add(String.format((Locale)null, "%.6f", latitude) + "," + String.format((Locale)null, "%.6f", longitude) + ";;");
 
 					final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
 					intent.putStringArrayListExtra("locations", locations);
