@@ -694,6 +694,13 @@ public class cgeomap extends MapActivity {
 		}
 		prefsEdit.putInt("mapzoom", mapView.getZoomLevel());
 		prefsEdit.commit();
+
+		if (loadingThread != null) {
+			if (loadingThread.enabled == true) settings.maplive = 1;
+			else settings.maplive = 0;
+		}
+		if (mapView.isSatellite()) settings.maptype = settings.mapSatellite;
+		else settings.maptype = settings.mapClassic;
 	}
 
 	private void addOverlays(boolean canChangeTitle, boolean canInit) {

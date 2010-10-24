@@ -67,8 +67,8 @@
 	<string name="log_new_webcam">Webcam-Foto gemacht</string>
 	<string name="log_new_maintenance">Ben&#246;tigt Wartung</string>
 	<string name="log_new_maintenance_owner">Wartung</string>
-	<string name="log_new_grab">Im Cache gefunden</string>
-	<string name="log_new_retrieve">Woanders gefunden</string>
+	<string name="log_new_grab">Woanders gefunden</string>
+	<string name="log_new_retrieve">Im Cache gefunden</string>
 	<string name="log_new_discovered">Gesehen</string>
 	<string name="log_new_review">rewieved</string>
 

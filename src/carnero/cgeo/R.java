@@ -20,23 +20,25 @@ containing a value of this type.
     }
     public static final class color {
         public static final int background_dark=0x7f040002;
+        public static final int background_dark_transparent=0x7f040004;
         public static final int background_light=0x7f040003;
-        public static final int button_disabled=0x7f040011;
-        public static final int button_enabled=0x7f040010;
+        public static final int background_light_transparent=0x7f040005;
+        public static final int button_disabled=0x7f040013;
+        public static final int button_enabled=0x7f040012;
         public static final int just_black=0x7f040001;
         public static final int just_white=0x7f040000;
-        public static final int link=0x7f04000f;
-        public static final int separator_dark=0x7f040004;
-        public static final int separator_light=0x7f040005;
-        public static final int text_dark=0x7f040007;
-        public static final int text_grey_dark=0x7f04000b;
-        public static final int text_grey_light=0x7f04000c;
-        public static final int text_headline_dark=0x7f040009;
-        public static final int text_headline_light=0x7f04000a;
-        public static final int text_hint_dark=0x7f04000d;
-        public static final int text_hint_light=0x7f04000e;
-        public static final int text_icon=0x7f040006;
-        public static final int text_light=0x7f040008;
+        public static final int link=0x7f040011;
+        public static final int separator_dark=0x7f040006;
+        public static final int separator_light=0x7f040007;
+        public static final int text_dark=0x7f040009;
+        public static final int text_grey_dark=0x7f04000d;
+        public static final int text_grey_light=0x7f04000e;
+        public static final int text_headline_dark=0x7f04000b;
+        public static final int text_headline_light=0x7f04000c;
+        public static final int text_hint_dark=0x7f04000f;
+        public static final int text_hint_light=0x7f040010;
+        public static final int text_icon=0x7f040008;
+        public static final int text_light=0x7f04000a;
     }
     public static final class drawable {
         public static final int action_button_dark=0x7f020000;
