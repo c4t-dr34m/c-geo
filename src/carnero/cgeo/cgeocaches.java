@@ -132,7 +132,9 @@ public class cgeocaches extends ListActivity {
 				warning.showToast("Sorry, c:geo can\'t find any geocache.");
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler: " + e.toString());
 
-				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+				if (progressBar == true) {
+					setProgressBarIndeterminateVisibility(false);
+				}
 				if (waitDialog != null) {
 					waitDialog.dismiss();
 					waitDialog.setOnCancelListener(null);
@@ -142,10 +144,12 @@ public class cgeocaches extends ListActivity {
 			}
 
 			try {
-				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+				if (progressBar == true) {
+					setProgressBarIndeterminateVisibility(false);
+				}
 				if (waitDialog != null) {
 					waitDialog.dismiss();
-                    waitDialog.setOnCancelListener(null);
+					waitDialog.setOnCancelListener(null);
 				}
 			} catch (Exception e2) {
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler.2: " + e2.toString());
@@ -165,20 +169,23 @@ public class cgeocaches extends ListActivity {
 				setAdapter();
 
 				if (cacheList == null) {
-                    warning.showToast("Sorry, c:geo failed to load cache list.");
+					warning.showToast("Sorry, c:geo failed to load cache list.");
 					setMoreCaches(false);
 				} else {
-                    final Integer count = app.getTotal(searchId);
+					final Integer count = app.getTotal(searchId);
 					final int size = cacheList.size();
-                    if (count != null && count > 0) {
-                        setTitle(title + " (" + size + "/" + count + ")");
-						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) setMoreCaches(true);
-						else setMoreCaches(false);
-                    } else {
-                        setTitle(title);
+					if (count != null && count > 0) {
+						setTitle(title + " (" + size + "/" + count + ")");
+						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) {
+							setMoreCaches(true);
+						} else {
+							setMoreCaches(false);
+						}
+					} else {
+						setTitle(title);
 						setMoreCaches(false);
-                    }
-                }
+					}
+				}
 
 				if (app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast("Sorry, c:geo failed to download caches because of " + app.getError(searchId) + ".");
@@ -189,6 +196,7 @@ public class cgeocaches extends ListActivity {
 						waitDialog.dismiss();
 						waitDialog.setOnCancelListener(null);
 					}
+					
 					finish();
 					return;
 				}
@@ -203,10 +211,12 @@ public class cgeocaches extends ListActivity {
 			}
 
 			listFooter.setOnClickListener(new moreCachesListener());
-			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+			if (progressBar == true) {
+				setProgressBarIndeterminateVisibility(false);
+			}
 			if (waitDialog != null) {
 				waitDialog.dismiss();
-                waitDialog.setOnCancelListener(null);
+				waitDialog.setOnCancelListener(null);
 			}
 		}
 	};

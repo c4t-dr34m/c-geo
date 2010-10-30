@@ -1,29 +1,27 @@
 package carnero.cgeo;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 import java.io.File;
 import java.util.ArrayList;
 
-public class cgeogpxes extends Activity {
+public class cgeogpxes extends ListActivity {
 	private ArrayList<File> files = new ArrayList<File>();
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
 	private Context activity = null;
-	private LayoutInflater inflater = null;
-	private LinearLayout addList = null;
+	private cgGPXListAdapter adapter = null;
 	private ProgressDialog waitDialog = null;
 	private ProgressDialog parseDialog = null;
 	private int imported = 0;
@@ -50,8 +48,6 @@ public class cgeogpxes extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (addList == null) addList = (LinearLayout)findViewById(R.id.gpx_list);
-
 				if (files == null || files.isEmpty()) {
 					if (waitDialog != null) waitDialog.dismiss();
 
@@ -60,22 +56,8 @@ public class cgeogpxes extends Activity {
 					finish();
 					return;
 				} else {
-					LinearLayout oneFilePre = null;
-
-					for (File file : files) {
-						if (settings.skin == 1) oneFilePre = (LinearLayout)inflater.inflate(R.layout.gpxes_button_light, null);
-						else oneFilePre = (LinearLayout)inflater.inflate(R.layout.gpxes_button_dark, null);
-
-						LinearLayout oneFile = (LinearLayout)oneFilePre.findViewById(R.id.button);
-
-						oneFile.setClickable(true);
-						oneFile.setOnTouchListener(new cgViewTouch(settings, oneFile, 0));
-						oneFile.setOnClickListener(new loadFileListener(file));
-
-						((TextView)oneFile.findViewById(R.id.filepath)).setText(file.getParent());
-						((TextView)oneFile.findViewById(R.id.filename)).setText(file.getName());
-						
-						addList.addView(oneFilePre);
+					if (adapter != null) {
+						adapter.notifyDataSetChanged();
 					}
 				}
 
@@ -116,12 +98,21 @@ public class cgeogpxes extends Activity {
 		setTitle("import gpx");
 		if (settings.skin == 1) setContentView(R.layout.gpxes_light);
 		else setContentView(R.layout.gpxes_dark);
-		inflater = getLayoutInflater();
+		setAdapter();
 
 		waitDialog = ProgressDialog.show(this, "searching", "searching for .gpx files", true);
 		waitDialog.setCancelable(false);
 
 		(new loadFiles()).start();
+	}
+
+	private void setAdapter() {
+		if (adapter == null) {
+			final ListView list = getListView();
+
+			adapter = new cgGPXListAdapter(this, settings, files);
+			setListAdapter(adapter);
+		}
 	}
 
 	private class loadFiles extends Thread {
@@ -186,21 +177,13 @@ public class cgeogpxes extends Activity {
 	   return;
 	}
 
-	private class loadFileListener implements View.OnClickListener {
-		File file = null;
+	public void loadGPX(File file) {
+		if (waitDialog != null) waitDialog.dismiss();
 
-		public loadFileListener(File fileIn) {
-			file = fileIn;
-		}
+		parseDialog = ProgressDialog.show(activity, "reading file", "loading caches from .gpx file", true);
+		parseDialog.setCancelable(false);
 
-		public void onClick(View view) {
-			if (waitDialog != null) waitDialog.dismiss();
-
-			parseDialog = ProgressDialog.show(activity, "reading file", "loading caches from .gpx file", true);
-			parseDialog.setCancelable(false);
-
-			new loadCaches(file).start();
-		}
+		new loadCaches(file).start();
 	}
 
 	private class loadCaches extends Thread {
