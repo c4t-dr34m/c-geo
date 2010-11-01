@@ -227,6 +227,7 @@
 	<string name="cache_menu_visit">log visit</string>
 	<string name="cache_menu_spoilers">spoiler images</string>
 	<string name="cache_menu_around">caches around</string>
+	<string name="cache_menu_event">add to calendar</string>
 	<string name="cache_status">status</string>
 	<string name="cache_status_found">found</string>
 	<string name="cache_status_archived">archived</string>
@@ -240,8 +241,14 @@
 	<string name="cache_rating">rating</string>
 	<string name="cache_owner">owner</string>
 	<string name="cache_hidden">hidden</string>
+	<string name="cache_event">date</string>
 	<string name="cache_location">location</string>
 	<string name="cache_coordinates">coordinates</string>
+	<string name="cache_calendars">select calendar</string>
+
+	<!-- event -->
+	<string name="event_success">Event cache added to calendar</string>
+	<string name="event_fail">Failed to add event cache to calendar</string>
 
 	<!-- popup -->
 	<string name="popup_more">more details</string>

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -25,12 +26,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.view.SubMenu;
 import android.widget.Button;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class cgeodetail extends Activity {
 	public Long searchId = null;
@@ -58,6 +64,7 @@ public class cgeodetail extends Activity {
 	private ProgressDialog storeDialog = null;
 	private ProgressDialog refreshDialog = null;
 	private ProgressDialog dropDialog = null;
+	private HashMap<Integer, String> calendars = new HashMap<Integer, String>();
 	private Handler storeCacheHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -320,6 +327,9 @@ public class cgeodetail extends Activity {
 		}
 
 		menu.add(1, 7, 0, res.getString(R.string.cache_menu_browser)).setIcon(android.R.drawable.ic_menu_info_details); // browser
+		if (cache != null && cache.hidden != null && (cache.type.equalsIgnoreCase("event") == true || cache.type.equalsIgnoreCase("mega") == true || cache.type.equalsIgnoreCase("cito") == true)) {
+			menu.add(1, 12, 0, res.getString(R.string.cache_menu_event)).setIcon(android.R.drawable.ic_menu_agenda); // add event to calendar
+		}
 		if (settings.isLogin() == true) {
 			menu.add(1, 3, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
 		}
@@ -367,6 +377,9 @@ public class cgeodetail extends Activity {
 				return true;
 			case 11:
 				cachesAround();
+				return true;
+			case 12:
+				addToCalendar();
 				return true;
 		}
 
@@ -667,7 +680,11 @@ public class cgeodetail extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				itemName.setText(res.getString(R.string.cache_hidden));
+				if (cache.type.equalsIgnoreCase("event") == true || cache.type.equalsIgnoreCase("mega") == true || cache.type.equalsIgnoreCase("cito") == true) {
+					itemName.setText(res.getString(R.string.cache_event));
+				} else {
+					itemName.setText(res.getString(R.string.cache_hidden));
+				}
 				itemValue.setText(base.dateOut.format(cache.hidden));
 				detailsList.addView(itemLayout);
 			}
@@ -1096,6 +1113,100 @@ public class cgeodetail extends Activity {
 		activity.startActivity(cachesIntent);
 
 		finish();
+	}
+
+	private void addToCalendar() {
+		String[] projection = new String[] { "_id", "displayName" };
+		Uri calendarProvider = null;
+		final int sdk = new Integer(Build.VERSION.SDK).intValue();
+		if (sdk >= 8) {
+			calendarProvider = Uri.parse("content://com.android.calendar/calendars");
+		} else {
+			calendarProvider = Uri.parse("content://calendar/calendars");
+		}
+
+		Cursor cursor = managedQuery(calendarProvider, projection, "selected=1", null, null);
+
+		calendars.clear();
+		int cnt = 0;
+		if (cursor != null) {
+			cnt = cursor.getCount();
+
+			if (cnt > 0) {
+				cursor.moveToFirst();
+
+				int calId = 0;
+				String calIdPre = null;
+				String calName = null;
+				int calIdIn = cursor.getColumnIndex("_id");
+				int calNameIn = cursor.getColumnIndex("displayName");
+
+				do {
+					calIdPre = cursor.getString(calIdIn);
+					if (calIdPre != null) {
+						calId = new Integer(calIdPre);
+					}
+					calName = cursor.getString(calNameIn);
+
+					if (calId > 0 && calName != null) {
+						calendars.put(calId, calName);
+					}
+				} while (cursor.moveToNext() == true);
+			}
+		}
+
+		final CharSequence[] items = calendars.values().toArray(new CharSequence[calendars.size()]);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		builder.setTitle(R.string.cache_calendars);
+		builder.setItems(items, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int item) {
+				addToCalendarFn(item);
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void addToCalendarFn(int index) {
+		if (calendars == null || calendars.isEmpty() == true) {
+			return;
+		}
+
+		try {
+			Uri calendarProvider = null;
+			final int sdk = new Integer(Build.VERSION.SDK).intValue();
+			if (sdk >= 8) {
+				calendarProvider = Uri.parse("content://com.android.calendar/events");
+			} else {
+				calendarProvider = Uri.parse("content://calendar/events");
+			}
+
+			final Integer[] keys = calendars.keySet().toArray(new Integer[calendars.size()]);
+			final Integer calId = keys[index];
+
+			ContentValues event = new ContentValues();
+			event.put("calendar_id", calId);
+			event.put("dtstart", cache.hidden.getTime());
+			event.put("dtend", cache.hidden.getTime());
+			event.put("title", Html.fromHtml(cache.name).toString());
+			if (cache.shortdesc != null && cache.shortdesc.length() > 0) {
+				event.put("description", Html.fromHtml(cache.shortdesc).toString());
+			}
+			if (cache.location != null && cache.location.length() > 0) {
+				event.put("eventLocation", Html.fromHtml(cache.location).toString());
+			}
+			event.put("allDay", 1);
+			event.put("hasAlarm", 0);
+
+			getContentResolver().insert(calendarProvider, event);
+			
+			warning.showToast(res.getString(R.string.event_success));
+		} catch (Exception e) {
+			warning.showToast(res.getString(R.string.event_fail));
+
+			Log.e(cgSettings.tag, "cgeodetail.addToCalendarFn: " + e.toString());
+		}
 	}
 
 	private void navigateTo() {

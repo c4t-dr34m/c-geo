@@ -227,6 +227,7 @@
 	<string name="cache_menu_visit">zapsat návštěvu</string>
 	<string name="cache_menu_spoilers">obrázky</string>
 	<string name="cache_menu_around">keš v okolí</string>
+	<string name="cache_menu_event">přidat do kalendáře</string>
 	<string name="cache_status">status</string>
 	<string name="cache_status_found">nalezena</string>
 	<string name="cache_status_archived">archivována</string>
@@ -240,8 +241,14 @@
 	<string name="cache_rating">hodnocení</string>
 	<string name="cache_owner">zakladatel</string>
 	<string name="cache_hidden">skryta</string>
+	<string name="cache_event">datum</string>
 	<string name="cache_location">místo</string>
 	<string name="cache_coordinates">souřadnice</string>
+	<string name="cache_calendars">vyberte kalendář</string>
+
+	<!-- event -->
+	<string name="event_success">Událost byla přidána do kalendáře</string>
+	<string name="event_fail">Nepodařilo se vložit událost do kalendáře</string>
 
 	<!-- popup -->
 	<string name="popup_more">více detailů</string>
