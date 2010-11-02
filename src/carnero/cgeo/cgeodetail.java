@@ -30,13 +30,11 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.text.format.DateUtils;
 import android.view.SubMenu;
 import android.widget.Button;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map.Entry;
-import java.util.Set;
 
 public class cgeodetail extends Activity {
 	public Long searchId = null;
@@ -1185,14 +1183,26 @@ public class cgeodetail extends Activity {
 			final Integer[] keys = calendars.keySet().toArray(new Integer[calendars.size()]);
 			final Integer calId = keys[index];
 
+			final Date eventDate = cache.hidden;
+			eventDate.setHours(0);
+			eventDate.setMinutes(0);
+			eventDate.setSeconds(0);
+
+			StringBuilder description = new StringBuilder();
+			description.append("http://coord.info/");
+			description.append(cache.geocode.toUpperCase());
+			description.append("\n\n");
+			if (cache.shortdesc != null && cache.shortdesc.length() > 0) {
+				description.append(Html.fromHtml(cache.shortdesc).toString());
+			}
+
 			ContentValues event = new ContentValues();
 			event.put("calendar_id", calId);
-			event.put("dtstart", cache.hidden.getTime());
-			event.put("dtend", cache.hidden.getTime());
+			event.put("dtstart", eventDate.getTime() + 43200000); // noon
+			event.put("dtend", eventDate.getTime() + 43200000 + 3600000); // + one hour
+			event.put("eventTimezone", "UTC");
 			event.put("title", Html.fromHtml(cache.name).toString());
-			if (cache.shortdesc != null && cache.shortdesc.length() > 0) {
-				event.put("description", Html.fromHtml(cache.shortdesc).toString());
-			}
+			event.put("description", description.toString());
 			if (cache.location != null && cache.location.length() > 0) {
 				event.put("eventLocation", Html.fromHtml(cache.location).toString());
 			}
