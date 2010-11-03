@@ -2348,20 +2348,22 @@ public class cgBase {
 			return null;
 		}
 
-        if (forceReload == false && reason == 0 && (app.isOffline(geocode, guid) == true || app.isThere(geocode, guid, true, true) == true)) {
-            if ((geocode == null || geocode.length() == 0) && guid != null && guid.length() > 0) geocode = app.getGeocode(guid);
+		if (forceReload == false && reason == 0 && (app.isOffline(geocode, guid) == true || app.isThere(geocode, guid, true, true) == true)) {
+			if ((geocode == null || geocode.length() == 0) && guid != null && guid.length() > 0) {
+				geocode = app.getGeocode(guid);
+			}
 
-            ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
-            cacheList.add(app.getCacheByGeocode(geocode, true, true, true, true, true));
-            search.addGeocode(geocode);
+			ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
+			cacheList.add(app.getCacheByGeocode(geocode, true, true, true, true, true));
+			search.addGeocode(geocode);
 
-            app.addSearch(search, cacheList, false, reason);
+			app.addSearch(search, cacheList, false, reason);
 
-            cacheList.clear();
-            cacheList = null;
+			cacheList.clear();
+			cacheList = null;
 
-            return search.getCurrentId();
-        }
+			return search.getCurrentId();
+		}
 
 		final String host = "www.geocaching.com";
 		final String path = "/seek/cache_details.aspx";
@@ -3799,11 +3801,12 @@ public class cgBase {
 			if (cache != null) {
 				final HashMap<String, String> params = new HashMap<String, String>();
 				params.put("geocode", cache.geocode);
-				searchByGeocode(params, 1, false);
+				final Long searchId = searchByGeocode(params, 1, false);
+				cache = app.getCache(searchId);
 			} else if (geocode != null) {
 				final HashMap<String, String> params = new HashMap<String, String>();
 				params.put("geocode", geocode);
-				Long searchId = searchByGeocode(params, 1, false);
+				final Long searchId = searchByGeocode(params, 1, false);
 				cache = app.getCache(searchId);
 			}
 
@@ -3811,13 +3814,13 @@ public class cgBase {
 
 			// store images from description
 			if (cache.description != null) {
-				Html.fromHtml(cache.description, new cgHtmlImg(activity, settings, cache.geocode, true, 0, true), null);
+				Html.fromHtml(cache.description, new cgHtmlImg(activity, settings, cache.geocode, false, 0, true), null);
 			}
 
 			// store spoilers
 			if (cache.spoilers != null && cache.spoilers.isEmpty() == false) {
 				for (cgSpoiler oneSpoiler : cache.spoilers) {
-					final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, true, 0, true);
+					final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, 0, true);
 					imgGetter.getDrawable(oneSpoiler.url);
 				}
 			}

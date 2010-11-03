@@ -415,14 +415,9 @@ public class cgeocaches extends ListActivity {
 
 		init();
 
-		if (searchId != null && searchId > 0) {
-			cacheList.clear();
-			cacheList.addAll(app.getCaches(searchId));
-            
-			if (adapter != null && geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-				adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
-				adapter.setActualHeading(northHeading);
-			}
+		if (adapter != null && geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
+			adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
+			adapter.setActualHeading(northHeading);
 		}
 
 		if (adapter != null) {
@@ -492,7 +487,7 @@ public class cgeocaches extends ListActivity {
 				}
 				
 				if (adapter != null && adapter.getChecked() > 0) {
-					menu.findItem(1).setTitle("refresh checked");
+					menu.findItem(1).setTitle("refresh selected");
 				} else {
 					menu.findItem(1).setTitle("refresh listed");
 				}

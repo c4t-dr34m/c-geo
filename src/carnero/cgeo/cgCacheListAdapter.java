@@ -263,6 +263,8 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			}
 		}
 
+		holder.checkbox.setOnClickListener(new checkBoxListener(cache));
+
 		if (distances.contains(holder.distance) == false) distances.add(holder.distance);
 		holder.distance.setContent(base, cache.latitude, cache.longitude);
 		if (compasses.contains(holder.direction) == false) compasses.add(holder.direction);
@@ -428,6 +430,26 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		distances.clear();
 		compasses.clear();
+	}
+
+	private class checkBoxListener implements View.OnClickListener {
+		private cgCache cache = null;
+
+		public checkBoxListener(cgCache cacheIn) {
+			cache = cacheIn;
+		}
+
+		public void onClick(View view) {
+			final boolean checkNow = ((CheckBox)view).isChecked();
+
+			if (checkNow == true) {
+				cache.statusChecked = true;
+				checked ++;
+			} else {
+				cache.statusChecked = false;
+				checked --;
+			}
+		}
 	}
 
 	private class touchListener implements View.OnLongClickListener, View.OnClickListener, View.OnTouchListener {

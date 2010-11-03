@@ -282,6 +282,7 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 · fix: Starting Rmaps\n
 · fix: Searching for GPX files\n
 · fix: Maximum map zoom level\n
+· fix: Loading spoilers when saving for offline\n
 \n
 <b>1.05</b> (15.10.2010)\n
 · fix: Quick fix\n

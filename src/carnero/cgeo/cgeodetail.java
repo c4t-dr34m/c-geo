@@ -30,7 +30,6 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.text.format.DateUtils;
 import android.view.SubMenu;
 import android.widget.Button;
 import java.util.Date;
