@@ -50,6 +50,7 @@ public class cgSettings {
 	public int showAddress = 1;
 	public int publicLoc = 0;
 	public int twitter = 0;
+	public String signature = null;
 	public String cacheType = null;
 	public String directoryImg = imgCacheHidden;
 	public String tokenPublic = null;
@@ -96,6 +97,7 @@ public class cgSettings {
 		showAddress = prefs.getInt("showaddress", 1);
 		publicLoc = prefs.getInt("publicloc", 0);
 		twitter = prefs.getInt("twitter", 0);
+		signature = prefs.getString("signature", null);
 		cacheType = prefs.getString("cachetype", null);
 		directoryImg = prefs.getString("directoryimg", imgCacheHidden);
 		tokenPublic = prefs.getString("tokenpublic", null);
@@ -300,6 +302,26 @@ public class cgSettings {
 		}
 
 		return login;
+	}
+
+	public boolean setSignature(String signature) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
+
+		if (signature == null || signature.length() == 0) {
+			// erase signature
+			prefsEdit.remove("signature");
+		} else {
+			// save signature
+			prefsEdit.putString("signature", signature);
+		}
+
+		this.signature = signature;
+
+		return prefsEdit.commit();
+	}
+
+	public String getSignature() {
+		return prefs.getString("signature", null);
 	}
 
 	public void deleteCookies() {

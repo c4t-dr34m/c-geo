@@ -208,6 +208,7 @@ public class cgeovisit extends cgLogForm {
 		subMenu.add(0, 1, 0, "date & time");
 		subMenu.add(0, 2, 0, "date");
 		subMenu.add(0, 3, 0, "time");
+		subMenu.add(0, 4, 0, "signature");
 
 		subMenu = menu.addSubMenu(0, 9, 0, "rating").setIcon(android.R.drawable.ic_menu_sort_by_size);
 		subMenu.add(0, 10, 0, "no rating");
@@ -222,8 +223,17 @@ public class cgeovisit extends cgLogForm {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (settings.isGCvoteLogin() && typeSelected == 2 && cache.guid != null && cache.guid.length() > 0) menu.findItem(9).setVisible(true);
-		else menu.findItem(9).setVisible(false);
+		if (settings.getSignature() == null) {
+			menu.findItem(4).setVisible(false);
+		} else {
+			menu.findItem(4).setVisible(true);
+		}
+
+		if (settings.isGCvoteLogin() && typeSelected == 2 && cache.guid != null && cache.guid.length() > 0) {
+			menu.findItem(9).setVisible(true);
+		} else {
+			menu.findItem(9).setVisible(false);
+		}
 
 		return true;
 	}
@@ -237,7 +247,7 @@ public class cgeovisit extends cgLogForm {
 		String dateString = null;
 		String timeString = null;
 
-		if (id >= 1 && id <= 3) {
+		if (id >= 1 && id <= 4) {
 			text = (EditText)findViewById(R.id.log);
 			textContent = text.getText().toString();
 			dateString = base.dateOut.format(new Date());
@@ -267,6 +277,19 @@ public class cgeovisit extends cgLogForm {
 				text.setText(timeString + "\n", TextView.BufferType.NORMAL);
 			} else {
 				text.setText(textContent + "\n" + timeString + "\n", TextView.BufferType.NORMAL);
+			}
+			text.setSelection(text.getText().toString().length());
+
+			return true;
+		} else if (id == 4) {
+			if (settings.getSignature() == null) {
+				return true;
+			}
+
+			if (textContent.length() == 0) {
+				text.setText(settings.getSignature() + "\n", TextView.BufferType.NORMAL);
+			} else {
+				text.setText(textContent + "\n" + settings.getSignature() + "\n", TextView.BufferType.NORMAL);
 			}
 			text.setSelection(text.getText().toString().length());
 

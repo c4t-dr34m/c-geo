@@ -88,19 +88,19 @@ public class cgeoinit extends Activity {
 
 	@Override
 	public void onPause() {
-		saveLogin();
+		saveValues();
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		saveLogin();
+		saveValues();
 		super.onStop();
 	}
 
 	@Override
 	public void onDestroy() {
-		saveLogin();
+		saveValues();
 		super.onDestroy();
 	}
 
@@ -120,7 +120,7 @@ public class cgeoinit extends Activity {
 			((EditText)findViewById(R.id.password)).setText("");
 			((EditText)findViewById(R.id.passvote)).setText("");
 
-			status = saveLogin();
+			status = saveValues();
 			if (status == true) warning.showToast(res.getString(R.string.init_cleared));
 			else warning.showToast(res.getString(R.string.err_init_cleared));
 
@@ -249,10 +249,11 @@ public class cgeoinit extends Activity {
 		browserButton.setOnClickListener(new cgeoChangeBrowser());
 	}
 
-	public boolean saveLogin() {
+	public boolean saveValues() {
 		String usernameNew = ((EditText)findViewById(R.id.username)).getText().toString();
 		String passwordNew = ((EditText)findViewById(R.id.password)).getText().toString();
 		String passvoteNew = ((EditText)findViewById(R.id.passvote)).getText().toString();
+		String signatureNew = ((EditText)findViewById(R.id.signature)).getText().toString();
 
 		if (usernameNew == null) usernameNew = "";
 		if (passwordNew == null) passwordNew = "";
@@ -260,8 +261,9 @@ public class cgeoinit extends Activity {
 
 		final boolean status1 = settings.setLogin(usernameNew, passwordNew);
 		final boolean status2 = settings.setGCvoteLogin(passvoteNew);
+		final boolean status3 = settings.setSignature(signatureNew);
 
-		if (status1 == true && status2 == true) return true;
+		if (status1 == true && status2 == true && status3 == true) return true;
 
 		return false;
 	}

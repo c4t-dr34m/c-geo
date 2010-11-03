@@ -157,6 +157,7 @@
 	<string name="init_go4cache_connect">připojit k go 4 cache</string>
 	<string name="init_twitter_authorize">autorizovat c:geo</string>
 	<string name="init_twitter_publish">nový status při nálezu keše</string>
+	<string name="init_signature">podpis</string>
 	<string name="init_other">další možnosti</string>
 	<string name="init_skin">světlý skin (vyžaduje restart)</string>
 	<string name="init_transparent">průhledná úvodní obrazovka</string>
@@ -280,6 +281,7 @@ grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></st
 <b>1.06</b> (__.11.2010)\n
 · new: Add event cache to calendar\n
 · new: Swipe (&#8594;) cache in list to select\n
+· new: Signature to add to logs\n
 · fix: Starting Rmaps\n
 · fix: Searching for GPX files\n
 · fix: Maximum map zoom level\n

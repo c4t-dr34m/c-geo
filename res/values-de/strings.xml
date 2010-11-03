@@ -156,6 +156,7 @@
 	<string name="init_go4cache_connect">Mit go 4 cache verbinden</string>
 	<string name="init_twitter_authorize">c:geo authorisieren</string>
 	<string name="init_twitter_publish">Status ver&#246;ffentlichen wenn ein Cache gefunden wurde</string>
+	<string name="init_signature">signature</string>
 	<string name="init_other">Weitere Optionen</string>
 	<string name="init_skin">Light Skin (Neustart erforderlich)</string>
 	<string name="init_transparent">Transparenten Startbildschirm verwenden</string>
@@ -279,6 +280,7 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 <b>1.06</b> (__.11.2010)\n
 · new: Add event cache to calendar\n
 · new: Swipe (&#8594;) cache in list to select\n
+· new: Signature to add to logs\n
 · fix: Starting Rmaps\n
 · fix: Searching for GPX files\n
 · fix: Maximum map zoom level\n
