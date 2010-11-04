@@ -1577,7 +1577,81 @@ public class cgData {
 				cursor.close();
 			}
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgData.loadAllGeocodes: " + e.toString());
+			Log.e(cgSettings.tag, "cgData.loadBatchOfStoredGeocodes: " + e.toString());
+		}
+
+        return geocodes;
+    }
+		
+	public ArrayList<String> getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
+		if (latitudeT == null || longitudeL == null || latitudeB == null || longitudeR == null) {
+			return null;
+		}
+
+		init();
+
+		Cursor cursor = null;
+		ArrayList<String> geocodes = new ArrayList<String>();
+
+		StringBuilder specifySql = new StringBuilder();
+		if (latitudeT > latitudeB) {
+			specifySql.append(" and latitude >= ");
+			specifySql.append(String.format((Locale)null, "%.5f", latitudeB));
+			specifySql.append(" and latitude <= ");
+			specifySql.append(String.format((Locale)null, "%.5f", latitudeT));
+		} else {
+			specifySql.append(" and latitude <= ");
+			specifySql.append(String.format((Locale)null, "%.5f", latitudeB));
+			specifySql.append(" and latitude >= ");
+			specifySql.append(String.format((Locale)null, "%.5f", latitudeT));
+		}
+
+		if (longitudeL > longitudeR) {
+			specifySql.append(" and longitude >= ");
+			specifySql.append(String.format((Locale)null, "%.5f", longitudeR));
+			specifySql.append(" and longitude <= ");
+			specifySql.append(String.format((Locale)null, "%.5f", longitudeL));
+		} else {
+			specifySql.append(" and longitude <= ");
+			specifySql.append(String.format((Locale)null, "%.5f", longitudeR));
+			specifySql.append(" and longitude >= ");
+			specifySql.append(String.format((Locale)null, "%.5f", longitudeL));
+		}
+
+		if (cachetype != null) {
+			specifySql.append(" and type = \"");
+			specifySql.append(cachetype);
+			specifySql.append("\"");
+		}
+
+		try {
+            cursor = databaseRO.query(
+                    dbTableCaches,
+                    new String[] {"_id", "geocode"},
+                    "reason >= 1" + specifySql.toString(),
+                    null,
+                    null,
+                    null,
+                    null,
+                    "500"
+                    );
+
+			if (cursor != null) {
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
+
+					do {
+						geocodes.add((String)cursor.getString(cursor.getColumnIndex("geocode")));
+					} while (cursor.moveToNext());
+				} else {
+					cursor.close();
+					return null;
+				}
+
+				cursor.close();
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.getOfflineInViewport: " + e.toString());
 		}
 
         return geocodes;

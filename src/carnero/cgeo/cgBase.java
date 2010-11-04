@@ -2846,7 +2846,7 @@ public class cgBase {
 	}
 
 	public Long searchByViewport(HashMap<String, String> parameters, int reason) {
-        final cgSearch search = new cgSearch();
+		final cgSearch search = new cgSearch();
 		final String latitudeT = parameters.get("latitude-t");
 		final String latitudeB = parameters.get("latitude-b");
 		final String longitudeL = parameters.get("longitude-l");
@@ -2953,7 +2953,7 @@ public class cgBase {
 					if (
 						(settings.excludeDisabled == 0 || (settings.excludeDisabled == 1 && cache.disabled == false)) &&
 						(settings.cacheType == null || (settings.cacheType.equals(cache.type) == true))
-						) {
+					) {
 						search.addGeocode(cache.geocode);
 						cacheList.add(cache);
 					}

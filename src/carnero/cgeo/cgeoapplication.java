@@ -361,17 +361,32 @@ public class cgeoapplication extends Application {
 
 	public cgSearch getBatchOfStoredCaches(boolean detailedOnly, Double latitude, Double longitude, String cachetype) {
 		if (storage == null) storage = new cgData(this);
-        cgSearch search = new cgSearch();
+		cgSearch search = new cgSearch();
 
-        ArrayList<String> geocodes = storage.loadBatchOfStoredGeocodes(detailedOnly, latitude, longitude, cachetype);
-        if (geocodes != null && geocodes.isEmpty() == false) {
-            for (String gccode : geocodes) {
-                search.addGeocode(gccode);
-            }
-        }
-        searches.put(search.getCurrentId(), search);
+		ArrayList<String> geocodes = storage.loadBatchOfStoredGeocodes(detailedOnly, latitude, longitude, cachetype);
+		if (geocodes != null && geocodes.isEmpty() == false) {
+			for (String gccode : geocodes) {
+				search.addGeocode(gccode);
+			}
+		}
+		searches.put(search.getCurrentId(), search);
 
 		return search;
+	}
+
+	public Long getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
+		if (storage == null) storage = new cgData(this);
+		cgSearch search = new cgSearch();
+
+		ArrayList<String> geocodes = storage.getOfflineInViewport(latitudeT, longitudeL, latitudeB, longitudeR, cachetype);
+		if (geocodes != null && geocodes.isEmpty() == false) {
+			for (String gccode : geocodes) {
+				search.addGeocode(gccode);
+			}
+		}
+		searches.put(search.getCurrentId(), search);
+
+		return search.getCurrentId();
 	}
 
     public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {

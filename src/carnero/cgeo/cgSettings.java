@@ -354,4 +354,22 @@ public class cgSettings {
 
 		return cacheType;
 	}
+
+	public void liveMapEnable() {
+		final SharedPreferences.Editor edit = prefs.edit();
+		edit.putInt("maplive", 1);
+
+		if (edit.commit() == true) {
+			maplive = 1;
+		}
+	}
+
+	public void liveMapDisable() {
+		final SharedPreferences.Editor edit = prefs.edit();
+		edit.putInt("maplive", 0);
+
+		if (edit.commit() == true) {
+			maplive = 0;
+		}
+	}
 }

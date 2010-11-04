@@ -188,6 +188,9 @@ public class cgeoinit extends Activity {
 		}
 		twitterButton.setOnClickListener(new cgeoChangeTwitter());
 
+		EditText sigEdit = (EditText)findViewById(R.id.signature);
+		sigEdit.setText(settings.getSignature());
+
 		CheckBox skinButton = (CheckBox)findViewById(R.id.skin);
 		if (prefs.getInt("skin", 0) == 0) skinButton.setChecked(false);
 		else skinButton.setChecked(true);

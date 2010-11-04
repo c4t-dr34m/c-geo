@@ -179,10 +179,10 @@ public class cgeomap extends MapActivity {
                     }
                 }
             } else {
-                if (waitDialog != null) {
-                    waitDialog.dismiss();
-                    waitDialog.setOnCancelListener(null);
-                }
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+					waitDialog.setOnCancelListener(null);
+				}
 
 				if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 				if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
@@ -338,8 +338,7 @@ public class cgeomap extends MapActivity {
 			followLocation = true;
 			
 			loadingThread = new loadCaches(loadCachesHandler, mapView);
-			if (settings.maplive == 1) loadingThread.enable();
-			else loadingThread.disable();
+			loadingThread.enable();
 			loadingThread.start();
 
 			myLocationInMiddle();
@@ -375,8 +374,11 @@ public class cgeomap extends MapActivity {
 		}
 
 		usersThread = new loadUsers(loadUsersHandler, mapView);
-		if (settings.publicLoc == 1) usersThread.enable();
-		else usersThread.disable();
+		if (settings.publicLoc == 1) {
+			usersThread.enable();
+		} else {
+			usersThread.disable();
+		}
 		usersThread.start();
 
 		if (geo != null) geoUpdate.updateLoc(geo);
@@ -417,14 +419,16 @@ public class cgeomap extends MapActivity {
         
 		if (live == true) {
 			loadingThread = new loadCaches(loadCachesHandler, mapView);
-			if (settings.maplive == 1) loadingThread.enable();
-			else loadingThread.disable();
+			loadingThread.enable();
 			loadingThread.start();
 		}
         
 		usersThread = new loadUsers(loadUsersHandler, mapView);
-		if (settings.publicLoc == 1) usersThread.enable();
-		else usersThread.disable();
+		if (settings.publicLoc == 1) {
+			usersThread.enable();
+		} else {
+			usersThread.disable();
+		}
 		usersThread.start();
 
 		if (geo != null) geoUpdate.updateLoc(geo);
@@ -534,8 +538,11 @@ public class cgeomap extends MapActivity {
 				item.setVisible(false);
 				item.setTitle("enable live");
 			} else {
-				if (loadingThread.enabled == true) item.setTitle("disable live");
-				else item.setTitle("enable live");
+				if (settings.maplive == 1) {
+					item.setTitle("disable live");
+				} else {
+					item.setTitle("enable live");
+				}
 			}
 
 			item = menu.findItem(4); // store loaded
@@ -595,15 +602,12 @@ public class cgeomap extends MapActivity {
 		} else if (id == 3) {
 			if (loadingThread.state() == true) {
 				dismissClose();
-				loadingThread.disable();
 
-				prefsEdit.putInt("maplive", 0);
-				prefsEdit.commit();
+				settings.liveMapDisable();
 			} else {
 				loadingThread.enable();
 
-				prefsEdit.putInt("maplive", 1);
-				prefsEdit.commit();
+				settings.liveMapEnable();
 			}
 		} else if (id == 4) {
 			ArrayList<String> geocodes = new ArrayList<String>();
@@ -688,17 +692,10 @@ public class cgeomap extends MapActivity {
 
 		if (mapView.isSatellite()) prefsEdit.putInt("maptype", settings.mapSatellite);
 		else prefsEdit.putInt("maptype", settings.mapClassic);
-		if (loadingThread != null) {
-			if (loadingThread.enabled == true) prefsEdit.putInt("maplive", 1);
-			else prefsEdit.putInt("maplive", 0);
-		}
+		
 		prefsEdit.putInt("mapzoom", mapView.getZoomLevel());
 		prefsEdit.commit();
 
-		if (loadingThread != null) {
-			if (loadingThread.enabled == true) settings.maplive = 1;
-			else settings.maplive = 0;
-		}
 		if (mapView.isSatellite()) settings.maptype = settings.mapSatellite;
 		else settings.maptype = settings.mapClassic;
 	}
@@ -1177,25 +1174,46 @@ public class cgeomap extends MapActivity {
 					searching = true;
 					startLoading.sendEmptyMessage(0);
 
-					HashMap<String, String> params = new HashMap<String, String>();
-					params.put("viewstate", viewstate);
-					params.put("latitude-t", String.format((Locale)null, "%.6f", latitudeT));
-					params.put("latitude-b", String.format((Locale)null, "%.6f", latitudeB));
-					params.put("longitude-l", String.format((Locale)null, "%.6f", longitudeL));
-					params.put("longitude-r", String.format((Locale)null, "%.6f", longitudeR));
+					if (settings.maplive == 1) { // live map - downloads caches from gc.com
+						HashMap<String, String> params = new HashMap<String, String>();
+						params.put("viewstate", viewstate);
+						params.put("latitude-t", String.format((Locale)null, "%.6f", latitudeT));
+						params.put("latitude-b", String.format((Locale)null, "%.6f", latitudeB));
+						params.put("longitude-l", String.format((Locale)null, "%.6f", longitudeL));
+						params.put("longitude-r", String.format((Locale)null, "%.6f", longitudeR));
 
-					Log.i(cgSettings.tag, "Starting download caches for: " + String.format((Locale)null, "%.6f", latitudeT) + "," + String.format((Locale)null, "%.6f", longitudeL) + " | " + String.format((Locale)null, "%.6f", latitudeB) + "," + String.format((Locale)null, "%.6f", longitudeR));
+						Log.i(cgSettings.tag, "Starting download caches for: " + String.format((Locale)null, "%.6f", latitudeT) + "," + String.format((Locale)null, "%.6f", longitudeL) + " | " + String.format((Locale)null, "%.6f", latitudeB) + "," + String.format((Locale)null, "%.6f", longitudeR));
 
-					searchId = base.searchByViewport(params, 0);
+						searchId = base.searchByViewport(params, 0);
 
-					if (searchId != null && searchId > 0) {
-						if (loadingThread != null && app.getViewstate(searchId) != null) {
-							loadingThread.setViewstate(app.getViewstate(searchId));
+						if (searchId != null && searchId > 0) {
+							if (loadingThread != null && app.getViewstate(searchId) != null) {
+								loadingThread.setViewstate(app.getViewstate(searchId));
+							}
+
+							caches.clear();
+							if (app.getCount(searchId) > 0) {
+								caches.addAll(app.getCaches(searchId, false, false, false, false, false));
+							}
 						}
+					} else { // dead map - uses stored caches
+						Log.i(cgSettings.tag, "Starting load offline caches for: " + String.format((Locale)null, "%.6f", latitudeT) + "," + String.format((Locale)null, "%.6f", longitudeL) + " | " + String.format((Locale)null, "%.6f", latitudeB) + "," + String.format((Locale)null, "%.6f", longitudeR));
 
-						caches.clear();
-						if (app.getCount(searchId) > 0) caches.addAll(app.getCaches(searchId, false, false, false, false, false));
+						searchId = app.getOfflineInViewport(latitudeT, longitudeL, latitudeB, longitudeR, settings.cacheType);
+
+						if (searchId != null && searchId > 0) {
+							if (loadingThread != null && app.getViewstate(searchId) != null) {
+								loadingThread.setViewstate(app.getViewstate(searchId));
+							}
+
+							caches.clear();
+							if (app.getCount(searchId) > 0) {
+								caches.addAll(app.getCaches(searchId, false, false, false, false, false));
+							}
+						}
 					}
+
+					Log.i(cgSettings.tag, "Caches found: " + caches.size());
 
 					handler.sendEmptyMessage(0);
 				}
