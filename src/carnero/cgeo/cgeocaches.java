@@ -629,35 +629,10 @@ public class cgeocaches extends ListActivity {
 
 			return true;
 		} else if (id == 2) { // turn-by-turn
-			if (settings.useGNavigation == 1) {
-				try {
-					// turn-by-turn navigation
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ cache.latitude + "," + cache.longitude)));
-				} catch (Exception e) {
-					try {
-						// google maps directions
-						if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ cache.latitude + "," + cache.longitude)));
-						} else {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ cache.latitude + "," + cache.longitude)));
-						}
-					} catch (Exception e2) {
-						Log.d(cgSettings.tag, "cgeocaches.onContextItemSelected.tbt: No navigation application available.");
-						warning.showToast(res.getString(R.string.err_navigation_no));
-					}
-				}
-			} else if (settings.useGNavigation == 0) {
-				try {
-					// google maps directions
-					if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ cache.latitude + "," + cache.longitude)));
-					} else {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ cache.latitude + "," + cache.longitude)));
-					}
-				} catch (Exception e) {
-					Log.d(cgSettings.tag, "cgeocaches.onContextItemSelected.tbt: No navigation application available.");
-					warning.showToast(res.getString(R.string.err_application_no));
-				}
+			if (geo != null) {
+				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
+			} else {
+				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude);
 			}
 
 			return true;
@@ -762,8 +737,11 @@ public class cgeocaches extends ListActivity {
 		if (listFooterText == null) return;
 
 		if (more == false) {
-			if (cacheList == null || cacheList.isEmpty()) listFooterText.setText(res.getString(R.string.caches_no_cache));
-			else listFooterText.setText(res.getString(R.string.caches_more_caches_no));
+			if (cacheList == null || cacheList.isEmpty()) {
+				listFooterText.setText(res.getString(R.string.caches_no_cache));
+			} else {
+				listFooterText.setText(res.getString(R.string.caches_more_caches_no));
+			}
 			listFooter.setClickable(false);
 			listFooter.setOnClickListener(null);
 		} else {
@@ -775,18 +753,27 @@ public class cgeocaches extends ListActivity {
 
 	private void init() {
 		// sensor & geolocation manager
-		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-		if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
+		if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) {
+			dir = app.startDir(activity, dirUpdate, warning);
+		}
 
-		if (cacheList != null) setTitle(title + " (" + cacheList.size() + "/" + app.getTotal(searchId) + ")");
+		if (cacheList != null) {
+			setTitle(title + " (" + cacheList.size() + "/" + app.getTotal(searchId) + ")");
+		}
 
 		if (cacheList != null && cacheList.isEmpty() == false) {
 			final Integer count = app.getTotal(searchId);
 			final int size = cacheList.size();
 			if (count != null && count > 0) {
 				setTitle(title + " (" + size + "/" + count + ")");
-				if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) setMoreCaches(true);
-				else setMoreCaches(false);
+				if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) {
+					setMoreCaches(true);
+				} else {
+					setMoreCaches(false);
+				}
 			} else {
 				setTitle(title);
 				setMoreCaches(false);

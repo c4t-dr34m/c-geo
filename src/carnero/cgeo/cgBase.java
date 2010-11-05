@@ -2378,19 +2378,7 @@ public class cgBase {
 		params.put("log", "y"); // download logs (more than 5
 		params.put("numlogs", "35"); // 35 logs
 
-		String page = request(host, path, method, params, false, false, false);
-		if (checkLogin(page) == false) {
-			int loginState = login();
-			if (loginState == 1) {
-				page = request(host, path, method, params, false, false, false);
-            } else if (loginState == -3) {
-                Log.i(cgSettings.tag, "Working as guest.");
-			} else {
-				search.error = errorRetrieve.get(loginState);
-				Log.e(cgSettings.tag, "cgeoBase.searchByGeocode Can not log in geocaching");
-				page = null;
-			}
-		}
+		String page = requestLogged(host, path, method, params, false, false, false);
 
 		if (page == null || page.length() == 0) {
             if (app.isThere(geocode, guid, true, false) == true) {
@@ -2526,19 +2514,7 @@ public class cgBase {
 		params.put("lng", longitude);
 
 		final String url = "http://" + host + path + "?" + prepareParameters(params, false, true);
-		String page = request(host, path, method, params, false, false, true);
-		if (checkLogin(page) == false) {
-			int loginState = login();
-			if (loginState == 1) {
-				page = request(host, path, method, params, false, false, true);
-			} else if (loginState == -3) {
-                Log.i(cgSettings.tag, "Working as guest.");
-			} else {
-				search.error = errorRetrieve.get(loginState);
-				Log.e(cgSettings.tag, "cgeoBase.searchByCoords: Can not log in geocaching (error: " + loginState + ")");
-				return null;
-			}
-		}
+		String page = requestLogged(host, path, method, params, false, false, true);
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByCoords: No data from server");
@@ -2611,19 +2587,7 @@ public class cgBase {
 		params.put("key", keyword);
 
 		final String url = "http://" + host + path + "?" + prepareParameters(params, false, true);
-		String page = request(host, path, method, params, false, false, true);
-		if (checkLogin(page) == false) {
-			int loginState = login();
-			if (loginState == 1) {
-				page = request(host, path, method, params, false, false, true);
-            } else if (loginState == -3) {
-                Log.i(cgSettings.tag, "Working as guest.");
-			} else {
-				search.error = errorRetrieve.get(loginState);
-				Log.e(cgSettings.tag, "cgeoBase.searchByKeyword: Can not log in geocaching (error: " + loginState + ")");
-				return null;
-			}
-		}
+		String page = requestLogged(host, path, method, params, false, false, true);
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByKeyword: No data from server");
@@ -2702,19 +2666,7 @@ public class cgBase {
 		}
 
 		final String url = "http://" + host + path + "?" + prepareParameters(params, my, true);
-		String page = request(host, path, method, params, false, my, true);
-		if (checkLogin(page) == false) {
-			int loginState = login();
-			if (loginState == 1) {
-				page = request(host, path, method, params, false, my, true);
-            } else if (loginState == -3) {
-                Log.i(cgSettings.tag, "Working as guest.");
-			} else {
-				search.error = errorRetrieve.get(loginState);
-				Log.e(cgSettings.tag, "cgeoBase.searchByUsername: Can not log in geocaching (error: " + loginState + ")");
-				return null;
-			}
-		}
+		String page = requestLogged(host, path, method, params, false, my, true);
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByUsername: No data from server");
@@ -2787,19 +2739,7 @@ public class cgBase {
 		params.put("u", userName);
 
 		final String url = "http://" + host + path + "?" + prepareParameters(params, false, true);
-		String page = request(host, path, method, params, false, false, true);
-		if (checkLogin(page) == false) {
-			int loginState = login();
-			if (loginState == 1) {
-				page = request(host, path, method, params, false, false, true);
-            } else if (loginState == -3) {
-                Log.i(cgSettings.tag, "Working as guest.");
-			} else {
-				search.error = errorRetrieve.get(loginState);
-				Log.e(cgSettings.tag, "cgeoBase.searchByOwner: Can not log in geocaching (error: " + loginState + ")");
-				return null;
-			}
-		}
+		String page = requestLogged(host, path, method, params, false, false, true);
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByOwner: No data from server");
@@ -3040,20 +2980,8 @@ public class cgBase {
 			params.put("guid", guid);
 		}
 
-		String page = request(host, path, method, params, false, false, false);
-		if (checkLogin(page) == false) {
-			int loginState = login();
-			if (loginState == 1) {
-				page = request(host, path, method, params, false, false, false);
-            } else if (loginState == -3) {
-                Log.i(cgSettings.tag, "Working as guest.");
-			} else {
-				trackable.errorRetrieve = loginState;
-				Log.e(cgSettings.tag, "cgeoBase.searchTrackable Can not log in geocaching");
-				return trackable;
-			}
-		}
-
+		String page = requestLogged(host, path, method, params, false, false, false);
+		
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchTrackable: No data from server");
 			return trackable;
@@ -3081,7 +3009,7 @@ public class cgBase {
 
 		if (log == null || log.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.postLog: No log text given");
-			return 1000;
+			return 1001;
 		}
 
 		if (trackables != null) Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: " + trackables.size());
@@ -3147,7 +3075,7 @@ public class cgBase {
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.postLog: No data from server");
-			return 1000;
+			return 1002;
 		}
 
 		// maintenance, archived needs to be confirmed
@@ -3211,7 +3139,7 @@ public class cgBase {
 
 		if (log == null || log.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: No log text given");
-			return 1000;
+			return 1001;
 		}
 
         Log.i(cgSettings.tag, "Trying to post log for trackable #" + trackingCode + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log);
@@ -3257,7 +3185,7 @@ public class cgBase {
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: No data from server");
-			return 1000;
+			return 1002;
 		}
 
 		try {
@@ -3481,6 +3409,21 @@ public class cgBase {
 		final String page = request(host, path, method, params, xContentType, my, false);
 
 		return findViewstate(page, 1);
+	}
+
+	public String requestLogged(String host, String path, String method, HashMap<String, String> params, boolean xContentType, boolean my, boolean addF) {
+		String page = request(host, path, method, params, xContentType, my, addF);
+
+		if (checkLogin(page) == false) {
+			int loginState = login();
+			if (loginState == 1) {
+				page = request(host, path, method, params, xContentType, my, addF);
+			} else {
+				Log.i(cgSettings.tag, "Working as guest.");
+			}
+		}
+
+		return page;
 	}
 
 	public String request(String host, String path, String method, HashMap<String, String> params, boolean xContentType, boolean my, boolean addF) {
@@ -4031,6 +3974,47 @@ public class cgBase {
 			if (op<oLen) { out[op++] = (byte)o2; }
 		}
 		return out;
+	}
+
+	public boolean runNavigation(Activity activity, Resources res, cgSettings settings, cgWarning warning, Double latitude, Double longitude) {
+		return runNavigation(activity, res, settings, warning, latitude, longitude, null, null);
+	}
+
+	public boolean runNavigation(Activity activity, Resources res, cgSettings settings, cgWarning warning, Double latitude, Double longitude, Double latitudeNow, Double longitudeNow) {
+		if (activity == null) return false;
+		if (settings == null) return false;
+
+		// Google Navigation
+		if (settings.useGNavigation == 1) {
+			try {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ latitude + "," + longitude)));
+
+				return true;
+			} catch (Exception e) {
+
+			}
+		}
+
+		// Google Maps Directions
+		try {
+			if (latitudeNow != null && longitudeNow != null) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ latitudeNow + "," + longitudeNow + "&daddr="+ latitude + "," + longitude)));
+			} else {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ latitude + "," + longitude)));
+			}
+
+			return true;
+		} catch (Exception e) {
+			// nothing
+		}
+
+		Log.d(cgSettings.tag, "cgBase.runNavigation.1: No navigation application available.");
+
+		if (warning != null && res != null) {
+			warning.showToast(res.getString(R.string.err_navigation_no));
+		}
+
+		return false;
 	}
 }
 

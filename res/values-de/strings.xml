@@ -281,6 +281,7 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 · new: Add event cache to calendar\n
 · new: Swipe (&#8594;) cache in list to select\n
 · new: Signature to add to logs\n
+· new: Stored caches on Live map when it\'s not live\n
 · fix: Starting Rmaps\n
 · fix: Searching for GPX files\n
 · fix: Maximum map zoom level\n

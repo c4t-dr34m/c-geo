@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -568,41 +567,16 @@ public class cgeopopup extends Activity {
 		}
 
 		public void onClick(View arg0) {
-			if (settings.useGNavigation == 1) {
-				try {
-					// turn-by-turn navigation
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ latitude + "," + longitude)));
-				} catch (Exception e) {
-					try {
-						// google maps directions
-						if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ latitude + "," + longitude)));
-						} else {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ latitude + "," + longitude)));
-						}
+			boolean status = false;
 
-                        activity.finish();
-                        return;
-					} catch (Exception e2) {
-						Log.d(cgSettings.tag, "cgeopopup.turnTo: No navigation application available.");
-						warning.showToast(res.getString(R.string.err_navigation_no));
-					}
-				}
-			} else if (settings.useGNavigation == 0) {
-				try {
-					// google maps directions
-					if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ latitude + "," + longitude)));
-					} else {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ latitude + "," + longitude)));
-					}
+			if (geo != null) {
+				status = base.runNavigation(activity, res, settings, warning, latitude, longitude, geo.latitudeNow, geo.longitudeNow);
+			} else {
+				status = base.runNavigation(activity, res, settings, warning, latitude, longitude);
+			}
 
-                    activity.finish();
-                    return;
-				} catch (Exception e) {
-					Log.d(cgSettings.tag, "cgeopopup.turnTo: No navigation application available.");
-					warning.showToast(res.getString(R.string.err_application_no));
-				}
+			if (status == true) {
+				activity.finish();
 			}
 		}
 	}

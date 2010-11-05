@@ -367,7 +367,12 @@ public class cgeodetail extends Activity {
 				radarTo();
 				return true;
 			case 9:
-				turnTo();
+				if (geo != null) {
+					base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
+				} else {
+					base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude);
+				}
+				
 				return true;
 			case 10:
 				showOnMapExt();
@@ -1275,39 +1280,6 @@ public class cgeodetail extends Activity {
 		} catch (Exception e) {
 			warning.showToast(res.getString(R.string.err_radar_generic));
 			Log.e(cgSettings.tag, "cgeodetail.radarTo: " + e.toString());
-		}
-	}
-
-	private void turnTo() {
-		if (settings.useGNavigation == 1) {
-			try {
-				// turn-by-turn navigation
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + cache.latitude + "," + cache.longitude)));
-			} catch (Exception e) {
-				try {
-					// google maps directions
-					if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr=" + geo.latitudeNow + "," + geo.longitudeNow + "&daddr=" + cache.latitude + "," + cache.longitude)));
-					} else {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr=" + cache.latitude + "," + cache.longitude)));
-					}
-				} catch (Exception e2) {
-					Log.d(cgSettings.tag, "cgeodetail.turnTo: No navigation application available.");
-					warning.showToast(res.getString(R.string.err_navigation_no));
-				}
-			}
-		} else if (settings.useGNavigation == 0) {
-			try {
-				// google maps directions
-				if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr=" + geo.latitudeNow + "," + geo.longitudeNow + "&daddr=" + cache.latitude + "," + cache.longitude)));
-				} else {
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr=" + cache.latitude + "," + cache.longitude)));
-				}
-			} catch (Exception e) {
-				Log.d(cgSettings.tag, "cgeodetail.turnTo: No navigation application available.");
-				warning.showToast(res.getString(R.string.err_application_no));
-			}
 		}
 	}
 

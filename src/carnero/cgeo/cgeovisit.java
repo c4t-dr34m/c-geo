@@ -133,7 +133,13 @@ public class cgeovisit extends cgLogForm {
 				finish();
 				return;
 			} else if (msg.what >= 1000) {
-				warning.showToast("Sorry, c:geo failed to post log.");
+				if (msg.what == 1001) {
+					warning.showToast("Please, fill some log text.");
+				} else if(msg.what == 1002) {
+					warning.showToast("Sorry, c:geo failed to post log because server is not responding.");
+				} else {
+					warning.showToast("Sorry, c:geo failed to post log.");
+				}
 			} else {
 				if (base.errorRetrieve.get(msg.what) != null) {
 					warning.showToast("Sorry, c:geo failed to post log because of " + base.errorRetrieve.get(msg.what) + ".");
