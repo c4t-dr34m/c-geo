@@ -857,7 +857,12 @@ public class cgeodetail extends Activity {
 					} else {
 						identification.setText(res.getString(R.string.waypoint_custom));
 					}
-					((TextView) waypointView.findViewById(R.id.name)).setText(Html.fromHtml(wpt.name.trim()), TextView.BufferType.SPANNABLE);
+
+					if (wpt.name.trim().length() == 0) {
+						((TextView) waypointView.findViewById(R.id.name)).setText(base.formatCoordinate(wpt.latitude, "lat", true) + " | " + base.formatCoordinate(wpt.longitude, "lon", true));
+					} else {
+						((TextView) waypointView.findViewById(R.id.name)).setText(Html.fromHtml(wpt.name.trim()), TextView.BufferType.SPANNABLE);
+					}
 					((TextView) waypointView.findViewById(R.id.note)).setText(Html.fromHtml(wpt.note.trim()), TextView.BufferType.SPANNABLE);
 
 					waypointView.setOnClickListener(new waypointInfo(wpt.id));
