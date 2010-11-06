@@ -600,15 +600,21 @@ public class cgeomap extends MapActivity {
 				settings.maptrail = 1;
 			}
 		} else if (id == 3) {
-			if (loadingThread.state() == true) {
+			if (settings.maplive == 1) {
 				dismissClose();
 
 				settings.liveMapDisable();
 			} else {
-				loadingThread.enable();
+				dismissClose();
 
 				settings.liveMapEnable();
 			}
+
+			// reset last viewport to force load caches imediatelly
+			centerLatitude = null;
+			centerLongitude = null;
+			spanLatitude = null;
+			spanLongitude = null;
 		} else if (id == 4) {
 			ArrayList<String> geocodes = new ArrayList<String>();
 			
