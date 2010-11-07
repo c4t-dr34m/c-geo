@@ -218,6 +218,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.checkbox = (CheckBox)rowView.findViewById(R.id.checkbox);
 			holder.oneInfo = (RelativeLayout)rowView.findViewById(R.id.one_info);
 			holder.foundMark = (ImageView)rowView.findViewById(R.id.found_mark);
+			holder.offlineMark = (ImageView)rowView.findViewById(R.id.offline_mark);
 			holder.ratingMark1 = (ImageView)rowView.findViewById(R.id.rating_mark_1);
 			holder.ratingMark2 = (ImageView)rowView.findViewById(R.id.rating_mark_2);
 			holder.ratingMark3 = (ImageView)rowView.findViewById(R.id.rating_mark_3);
@@ -265,14 +266,23 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		holder.checkbox.setOnClickListener(new checkBoxListener(cache));
 
-		if (distances.contains(holder.distance) == false) distances.add(holder.distance);
+		if (distances.contains(holder.distance) == false) {
+			distances.add(holder.distance);
+		}
 		holder.distance.setContent(base, cache.latitude, cache.longitude);
-		if (compasses.contains(holder.direction) == false) compasses.add(holder.direction);
+		if (compasses.contains(holder.direction) == false) {
+			compasses.add(holder.direction);
+		}
 		holder.direction.setContent(base, cache.latitude, cache.longitude);
 
-		if (cache.found == true) {
+		if (cache.logOffline == true) {
+			holder.offlineMark.setVisibility(View.VISIBLE);
+			holder.foundMark.setVisibility(View.GONE);
+		} else if (cache.found == true) {
+			holder.offlineMark.setVisibility(View.GONE);
 			holder.foundMark.setVisibility(View.VISIBLE);
 		} else {
+			holder.offlineMark.setVisibility(View.GONE);
 			holder.foundMark.setVisibility(View.GONE);
 		}
 
@@ -284,10 +294,10 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		if (cache.vote != null && cache.vote > 0) {
 			if (cache.vote > 0) holder.ratingMark1.setVisibility(View.VISIBLE);
-			else if(cache.vote > 1) holder.ratingMark2.setVisibility(View.VISIBLE);
-			else if(cache.vote > 2) holder.ratingMark3.setVisibility(View.VISIBLE);
-			else if(cache.vote > 3) holder.ratingMark4.setVisibility(View.VISIBLE);
-			else if(cache.vote > 4) holder.ratingMark5.setVisibility(View.VISIBLE);
+			else if (cache.vote > 1) holder.ratingMark2.setVisibility(View.VISIBLE);
+			else if (cache.vote > 2) holder.ratingMark3.setVisibility(View.VISIBLE);
+			else if (cache.vote > 3) holder.ratingMark4.setVisibility(View.VISIBLE);
+			else if (cache.vote > 4) holder.ratingMark5.setVisibility(View.VISIBLE);
 		} else if (cache.rating != null && cache.rating > 0) {
 			if (cache.rating > 0.0) holder.ratingMark1.setVisibility(View.VISIBLE);
 			if (cache.rating >= 1.5) holder.ratingMark2.setVisibility(View.VISIBLE);

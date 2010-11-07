@@ -2354,7 +2354,7 @@ public class cgBase {
 			}
 
 			ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
-			cacheList.add(app.getCacheByGeocode(geocode, true, true, true, true, true));
+			cacheList.add(app.getCacheByGeocode(geocode, true, true, true, true, true, true));
 			search.addGeocode(geocode);
 
 			app.addSearch(search, cacheList, false, reason);
@@ -2552,10 +2552,10 @@ public class cgBase {
 					search.addGeocode(cache.geocode);
 					cacheList.add(cache);
 				}
-            }
-        }
+			}
+		}
 
-        app.addSearch(search, cacheList, true, reason);
+		app.addSearch(search, cacheList, true, reason);
 
 		return search.getCurrentId();
 	}

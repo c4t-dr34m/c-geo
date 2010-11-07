@@ -23,10 +23,12 @@ public class cgViewTouch implements View.OnTouchListener {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			if (type == 0) {
 				view.setBackgroundResource(settings.buttonPressed);
-			} else
-			if (type == 1) {
-				if (settings.skin == 1) view.setBackgroundResource(R.color.background_light);
-				else view.setBackgroundResource(R.color.background_dark);
+			} else if (type == 1) {
+				if (settings.skin == 1) {
+					view.setBackgroundResource(R.color.background_light);
+				} else {
+					view.setBackgroundResource(R.color.background_dark);
+				}
 			}
 		}
 

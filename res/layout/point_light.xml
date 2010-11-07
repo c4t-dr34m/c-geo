@@ -155,8 +155,9 @@
 					android:gravity="center"
 					android:orientation="horizontal" >
 				<Button android:id="@+id/compass"
-						android:layout_width="75dip"
+						android:layout_width="1dip"
 						android:layout_height="wrap_content"
+						android:layout_weight="1"
 						android:layout_marginLeft="5dip"
 						android:layout_marginRight="5dip"
 						android:lines="1"
@@ -168,8 +169,9 @@
 						android:text="compass"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/radar"
-						android:layout_width="75dip"
+						android:layout_width="1dip"
 						android:layout_height="wrap_content"
+						android:layout_weight="1"
 						android:layout_marginLeft="5dip"
 						android:layout_marginRight="5dip"
 						android:lines="1"
@@ -181,8 +183,9 @@
 						android:text="radar"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/turn"
-						android:layout_width="75dip"
+						android:layout_width="1dip"
 						android:layout_height="wrap_content"
+						android:layout_weight="1"
 						android:layout_marginLeft="5dip"
 						android:layout_marginRight="5dip"
 						android:lines="1"

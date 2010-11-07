@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- versionCode: XXXYZ (XXX: version; Y: 0-8 for RCs, 9 for Market version; Z: 0-9 order) -->
+<!--
+	c:geo
+	developed by carnero, more on http://cgeo.carnero.cc
+
+	versionCode: XXXYZ
+	- XXX: version (eg. 106 for 1.06)
+	- Y: release type (1-2 for private versions; 3-8 for RC version; 9 for Market version)
+	- Z: build
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		android:versionCode="10690"
+		android:versionCode="10691"
 		android:versionName="1.06"
 		package="carnero.cgeo"
 		name="c:geo"

@@ -48,6 +48,8 @@ public class cgeovisit extends cgLogForm {
 	private int attempts = 0;
 	private boolean progressBar = false;
 	private Button post = null;
+	private Button save = null;
+	private Button clear = null;
 	private CheckBox tweetCheck = null;
 	private LinearLayout tweetBox = null;
 	private int rating = 0;
@@ -79,12 +81,17 @@ public class cgeovisit extends cgLogForm {
 
 			gettingViewstate = false; // we're done, user can post log
 
-			if (post == null) post = (Button)findViewById(R.id.post);
+			if (post == null) {
+				post = (Button)findViewById(R.id.post);
+			}
 			post.setClickable(true);
 			post.setOnTouchListener(new cgViewTouch(settings, post, 0));
 			post.setOnClickListener(new postListener());
-			if (settings.skin == 1) post.setBackgroundResource(R.drawable.action_button_light);
-			else post.setBackgroundResource(R.drawable.action_button_dark);
+			if (settings.skin == 1) {
+				post.setBackgroundResource(R.drawable.action_button_light);
+			} else {
+				post.setBackgroundResource(R.drawable.action_button_dark);
+			}
 
 			// add trackables
 			if (trackables != null && trackables.isEmpty() == false) {
@@ -125,6 +132,15 @@ public class cgeovisit extends cgLogForm {
 		public void handleMessage(Message msg) {
 			if (msg.what == 1) {
 				warning.showToast("c:geo successfully posted log.");
+
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+				}
+
+				finish();
+				return;
+			} else if (msg.what == 2) {
+				warning.showToast("c:geo successfully saved log.");
 
 				if (waitDialog != null) {
 					waitDialog.dismiss();
@@ -372,7 +388,9 @@ public class cgeovisit extends cgLogForm {
 	}
 
 	public void init() {
-		if (geocode != null) app.setAction(geocode);
+		if (geocode != null) {
+			app.setAction(geocode);
+		}
 
 		types.clear();
 		
@@ -402,7 +420,16 @@ public class cgeovisit extends cgLogForm {
 			types.add(46);
 		}
 
-		if (typeSelected < 0 && base.logTypes2.get(typeSelected) == null) typeSelected = types.get(0);
+		final cgLog log = app.loadLogOffline(geocode);
+		if (log != null) {
+			typeSelected = log.type;
+			date.setTime(new Date(log.date));
+			text = log.log;
+		}
+
+		if (typeSelected < 0 && base.logTypes2.get(typeSelected) == null) {
+			typeSelected = types.get(0);
+		}
 		setType(typeSelected);
 
 		Button typeButton = (Button)findViewById(R.id.type);
@@ -422,17 +449,34 @@ public class cgeovisit extends cgLogForm {
 		dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton, 0));
 		dateButton.setOnClickListener(new cgeovisitDateListener());
 
-		if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
-		if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
+		EditText logView = (EditText)findViewById(R.id.log);
+		if (text != null && text.length() > 0) {
+			logView.setText(text);
+		} else {
+			logView.setText("");
+		}
+
+
+		if (tweetBox == null) {
+			tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
+		}
+		if (tweetCheck == null) {
+			tweetCheck = (CheckBox)findViewById(R.id.tweet);
+		}
 		tweetCheck.setChecked(true);
         
-		if (post == null) post = (Button)findViewById(R.id.post);
+		if (post == null) {
+			post = (Button)findViewById(R.id.post);
+		}
 		if (viewstate == null || viewstate.length() == 0) {
 			post.setClickable(false);
 			post.setOnTouchListener(null);
 			post.setOnClickListener(null);
-			if (settings.skin == 1) post.setBackgroundResource(R.drawable.action_button_light_off);
-			else post.setBackgroundResource(R.drawable.action_button_dark_off);
+			if (settings.skin == 1) {
+				post.setBackgroundResource(R.drawable.action_button_light_off);
+			} else {
+				post.setBackgroundResource(R.drawable.action_button_dark_off);
+			}
 			
 			loadData thread;
 			thread = new loadData(cacheid);
@@ -444,6 +488,20 @@ public class cgeovisit extends cgLogForm {
 			if (settings.skin == 1) post.setBackgroundResource(R.drawable.action_button_light);
 			else post.setBackgroundResource(R.drawable.action_button_dark);
 		}
+
+		if (save == null) {
+			save = (Button)findViewById(R.id.save);
+		}
+		save.setClickable(true);
+		save.setOnTouchListener(new cgViewTouch(settings, save, 0));
+		save.setOnClickListener(new saveListener());
+
+		if (clear == null) {
+			clear = (Button)findViewById(R.id.clear);
+		}
+		clear.setClickable(true);
+		clear.setOnTouchListener(new cgViewTouch(settings, clear, 0));
+		clear.setOnClickListener(new clearListener());
 	}
 
 	public void setDate(Calendar dateIn) {
@@ -496,6 +554,59 @@ public class cgeovisit extends cgLogForm {
 			} else {
 				warning.showToast("c:geo is still loading data required to post log. Please wait a little while longer.");
 			}
+		}
+	}
+
+	private class saveListener implements View.OnClickListener {
+		public void onClick(View arg0) {
+			String log = ((EditText)findViewById(R.id.log)).getText().toString();
+			final boolean status = app.saveLogOffline(geocode, date.getTime(), typeSelected, log);
+			if (save == null) {
+				save = (Button)findViewById(R.id.save);
+			}
+			save.setClickable(true);
+			save.setOnTouchListener(new cgViewTouch(settings, save, 0));
+			save.setOnClickListener(new clearListener());
+
+			if (status == true) {
+				warning.showToast("Log was saved.");
+			} else {
+				warning.showToast("Sorry, c:geo failed to save log.");
+			}
+		}
+	}
+
+	private class clearListener implements View.OnClickListener {
+		public void onClick(View arg0) {
+			app.clearLogOffline(geocode);
+
+			typeSelected = types.get(0);
+			date.setTime(new Date());
+			text = null;
+
+			setType(typeSelected);
+
+			Button dateButton = (Button)findViewById(R.id.date);
+			dateButton.setText(base.dateOutShort.format(date.getTime()));
+			dateButton.setClickable(true);
+			dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton, 0));
+			dateButton.setOnClickListener(new cgeovisitDateListener());
+
+			EditText logView = (EditText)findViewById(R.id.log);
+			if (text != null && text.length() > 0) {
+				logView.setText(text);
+			} else {
+				logView.setText("");
+			}
+
+			if (clear == null) {
+				clear = (Button)findViewById(R.id.clear);
+			}
+			clear.setClickable(true);
+			clear.setOnTouchListener(new cgViewTouch(settings, clear, 0));
+			clear.setOnClickListener(new clearListener());
+
+			warning.showToast("Log was cleared.");
 		}
 	}
 

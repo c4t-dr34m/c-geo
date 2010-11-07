@@ -47,6 +47,7 @@ public class cgCache {
 	public ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
 	public ArrayList<cgLog> logs = new ArrayList<cgLog>();
 	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
+	public boolean logOffline = false;
 
 	public boolean statusChecked = false;
 	public boolean statusCheckedView = false;
@@ -64,7 +65,7 @@ public class cgCache {
 		if (logs == null || logs.isEmpty() == true) loadL = false;
 		if (inventory == null || inventory.isEmpty() == true) loadI = false;
 
-		final cgCache oldCache = storage.loadCache(geocode, guid, loadA, loadW, loadS, loadL, loadI);
+		final cgCache oldCache = storage.loadCache(geocode, guid, loadA, loadW, loadS, loadL, loadI, false);
 				
         if (oldCache == null) return this;
 

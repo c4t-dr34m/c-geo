@@ -12,6 +12,7 @@ public class cgCacheView {
 	public RelativeLayout oneInfo;
 	public CheckBox checkbox;
 	public ImageView foundMark;
+	public ImageView offlineMark;
 	public ImageView ratingMark1;
 	public ImageView ratingMark2;
 	public ImageView ratingMark3;

@@ -508,7 +508,7 @@ public class cgeodetail extends Activity {
 			detailsList.addView(itemLayout);
 
 			// cache state
-			if (cache.archived == true || cache.disabled == true || cache.members == true || cache.found == true) {
+			if (cache.logOffline == true || cache.archived == true || cache.disabled == true || cache.members == true || cache.found == true) {
 				if (settings.skin == 1) {
 					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
 				} else {
@@ -520,6 +520,12 @@ public class cgeodetail extends Activity {
 				itemName.setText(res.getString(R.string.cache_status));
 
 				StringBuilder state = new StringBuilder();
+				if (cache.logOffline == true) {
+					if (state.length() > 0) {
+						state.append(", ");
+					}
+					state.append(res.getString(R.string.cache_status_offline_log));
+				}
 				if (cache.found == true) {
 					if (state.length() > 0) {
 						state.append(", ");

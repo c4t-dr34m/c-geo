@@ -1065,12 +1065,12 @@ public class cgeomap extends MapActivity {
 			startLoading.sendEmptyMessage(0);
 
 			if (searchId != null) {
-				caches = app.getCaches(searchId, false, true, false, false, false);
+				caches = app.getCaches(searchId, false, true, false, false, false, false);
 			}
 			
 			if (geocode != null && geocode.length() > 0) {
 				caches = new ArrayList<cgCache>();
-				caches.add(app.getCacheByGeocode(geocode, false, true, false, false, false));
+				caches.add(app.getCacheByGeocode(geocode, false, true, false, false, false, false));
 			}
 			handler.sendMessage(new Message());
 		}
@@ -1199,7 +1199,7 @@ public class cgeomap extends MapActivity {
 
 							caches.clear();
 							if (app.getCount(searchId) > 0) {
-								caches.addAll(app.getCaches(searchId, false, false, false, false, false));
+								caches.addAll(app.getCaches(searchId, false, false, false, false, false, false));
 							}
 						}
 					} else { // dead map - uses stored caches
@@ -1214,7 +1214,7 @@ public class cgeomap extends MapActivity {
 
 							caches.clear();
 							if (app.getCount(searchId) > 0) {
-								caches.addAll(app.getCaches(searchId, false, false, false, false, false));
+								caches.addAll(app.getCaches(searchId, false, false, false, false, false, false));
 							}
 						}
 					}

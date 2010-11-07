@@ -202,6 +202,7 @@
 	<string name="cache_offline_time_days">vor einigen Tagen</string>
 	<string name="cache_attributes">Attribute</string>
 	<string name="cache_inventory">Inventar</string>
+	<string name="cache_log_offline">offline log</string>
 	<string name="cache_description">Beschreibung</string>
 	<string name="cache_description_long">ausf&#252;hrliche Beschreibung</string>
 	<string name="cache_waypoints">Wegpunkte</string>
@@ -230,6 +231,7 @@
 	<string name="cache_menu_event">add to calendar</string>
 	<string name="cache_menu_details">details</string>
 	<string name="cache_status">Status</string>
+	<string name="cache_status_offline_log">saved log</string>
 	<string name="cache_status_found">gefunden</string>
 	<string name="cache_status_archived">archiviert</string>
 	<string name="cache_status_disabled">deaktiviert</string>
@@ -278,11 +280,12 @@ Die Graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatec
 	<string name="about_auth_2">Ein Klick auf "c:geo authorisieren" startet die Authorisierung, wobei eine Twitter-Seite in einem Browserfenster ge&#246;ffnet wird. Durch die Anmeldung und die Best&#228;tigung wird <b>c:geo</b> erm&#246;glicht auf deinen Twitter-Account zuzugreifen. Wenn du dies best&#228;tigst, wird dir Twitter eine numerische PIN angeben, die du bitte kopierst und in <b>c:geo</b> einf&#252;gst. Das ist alles.</string>
 	<!-- changelog -->
 	<string name="changelog">
-<b>1.06</b> (__.11.2010)\n
+<b>1.06</b> (07.11.2010)\n
 · new: Add event cache to calendar\n
 · new: Swipe (&#8594;) cache in list to select\n
 · new: Signature to add to logs\n
 · new: Stored caches on Live map when it\'s not live\n
+· new: Option to save log for later posting\n
 · fix: Starting Rmaps\n
 · fix: Searching for GPX files\n
 · fix: Maximum map zoom level\n

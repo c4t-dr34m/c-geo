@@ -18,6 +18,7 @@ import java.util.Locale;
  * 039: lists
  * 040: geocode in trackables could be NULL
  * 041: cache rating
+ * 042: table for offline logs (notes)
  */
 
 public class cgData {
@@ -28,7 +29,7 @@ public class cgData {
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
 
-	private static final int dbVersion = 41;
+	private static final int dbVersion = 42;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -36,6 +37,7 @@ public class cgData {
 	private static final String dbTableWaypoints = "cg_waypoints";
 	private static final String dbTableSpoilers = "cg_spoilers";
 	private static final String dbTableLogs = "cg_logs";
+	private static final String dbTableLogsOffline = "cg_logs_offline";
 	private static final String dbTableTrackables = "cg_trackables";
 	private static final String dbCreateCaches = ""
 			+ "create table " + dbTableCaches + " ("
@@ -134,6 +136,16 @@ public class cgData {
 			+ "found integer not null default 0 "
 			+ "); ";
 
+    private static final String dbCreateLogsOffline = ""
+			+ "create table " + dbTableLogsOffline + " ("
+			+ "_id integer primary key autoincrement, "
+			+ "geocode text not null, "
+			+ "updated long not null, " // date of save
+			+ "type integer not null default 4, "
+			+ "log text, "
+			+ "date long "
+			+ "); ";
+
     private static final String dbCreateTrackables = ""
 			+ "create table " + dbTableTrackables + " ("
 			+ "_id integer primary key autoincrement, "
@@ -229,6 +241,7 @@ public class cgData {
 			db.execSQL(dbCreateWaypoints);
 			db.execSQL(dbCreateSpoilers);
 			db.execSQL(dbCreateLogs);
+			db.execSQL(dbCreateLogsOffline);
 			db.execSQL(dbCreateTrackables);
 
 			db.execSQL("create index if not exists in_a on " + dbTableCaches + " (geocode)");
@@ -241,6 +254,7 @@ public class cgData {
 			db.execSQL("create index if not exists in_b on " + dbTableWaypoints + " (geocode, type)");
 			db.execSQL("create index if not exists in_a on " + dbTableSpoilers + " (geocode)");
 			db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
+			db.execSQL("create index if not exists in_a on " + dbTableLogsOffline + " (geocode)");
 			db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
         }
 
@@ -337,6 +351,16 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 41: " + e.toString());
 						}
 					}
+
+					if (oldVersion < 42) { // upgrade to 42
+						try {
+							db.execSQL(dbCreateLogsOffline);
+
+							Log.i(cgSettings.tag, "Added table for offline logs");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 42: " + e.toString());
+						}
+					}
 				}
 
 				db.setTransactionSuccessful();
@@ -354,6 +378,7 @@ public class cgData {
 		db.execSQL("drop table if exists " + dbTableWaypoints);
 		db.execSQL("drop table if exists " + dbTableSpoilers);
 		db.execSQL("drop table if exists " + dbTableLogs);
+		db.execSQL("drop table if exists " + dbTableLogsOffline);
 		db.execSQL("drop table if exists " + dbTableTrackables);
 	}
 
@@ -958,10 +983,10 @@ public class cgData {
     }
 
     public cgCache loadCache(String geocode, String guid) {
-		return loadCache(geocode, guid, false, true, false, false, false);
+		return loadCache(geocode, guid, false, true, false, false, false, false);
 	}
 
-	public cgCache loadCache(String geocode, String guid, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
+	public cgCache loadCache(String geocode, String guid, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
         Object[] geocodes = new Object[1];
         Object[] guids = new Object[1];
 
@@ -971,22 +996,22 @@ public class cgData {
         if (guid != null && guid.length() > 0) guids[0] = guid;
         else guids = null;
 
-        ArrayList<cgCache> caches =  loadCaches(geocodes, guids, loadA, loadW, loadS, loadL, loadI);
+        ArrayList<cgCache> caches =  loadCaches(geocodes, guids, loadA, loadW, loadS, loadL, loadI, loadO);
         if (caches != null && caches.isEmpty() == false) return caches.get(0);
 
         return null;
     }
 
     public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids) {
-		return loadCaches(geocodes, guids, false, true, false, false, false);
+		return loadCaches(geocodes, guids, false, true, false, false, false, false);
 	}
 
     public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean lite) {
-		if (lite == true) return loadCaches(geocodes, guids, false, true, false, false, false);
-		else return loadCaches(geocodes, guids, true, true, true, true, true);
+		if (lite == true) return loadCaches(geocodes, guids, false, true, false, false, false, false);
+		else return loadCaches(geocodes, guids, true, true, true, true, true, true);
 	}
 
-    public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
+    public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		init();
 
 		Cursor cursor = null;
@@ -1175,15 +1200,19 @@ public class cgData {
 							}
 						}
 
-                        caches.add(cache);
-                    } while (cursor.moveToNext());
-                } else {
+						if (loadO == true) {
+							cache.logOffline = hasLogOffline(cache.geocode);
+						}
+
+						caches.add(cache);
+					} while (cursor.moveToNext());
+				} else {
 					if (cursor != null) {
 						cursor.close();
 					}
-                    
-                    return null;
-                }
+
+					return null;
+				}
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.loadCaches: " + e.toString());
@@ -1487,9 +1516,9 @@ public class cgData {
 			trackable.owner = (String)cursor.getString(cursor.getColumnIndex("owner"));
 			String releasedPre = cursor.getString(cursor.getColumnIndex("released"));
 			if (releasedPre != null && Long.getLong(releasedPre) != null) {
-					trackable.released = new Date(Long.getLong(releasedPre));
+				trackable.released = new Date(Long.getLong(releasedPre));
 			} else {
-					trackable.released = null;
+				trackable.released = null;
 			}
 			trackable.goal = (String)cursor.getString(cursor.getColumnIndex("goal"));
 			trackable.details = (String)cursor.getString(cursor.getColumnIndex("description"));
@@ -1749,6 +1778,7 @@ public class cgData {
 				databaseRW.execSQL("delete from " + dbTableAttributes + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableSpoilers + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableLogs + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
+				databaseRW.execSQL("delete from " + dbTableLogsOffline + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableWaypoints + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") and type <> \"own\"");
 				databaseRW.execSQL("delete from " + dbTableTrackables + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 
@@ -1772,7 +1802,7 @@ public class cgData {
 		ArrayList<String> geocodes = new ArrayList<String>();
 
 		try {
-            cursor = databaseRO.query(
+			cursor = databaseRO.query(
                     dbTableCaches,
                     new String[] {"_id", "geocode"},
                     "reason >= 1",
@@ -1803,6 +1833,7 @@ public class cgData {
 				databaseRW.execSQL("delete from " + dbTableAttributes + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableSpoilers + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableLogs + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
+				databaseRW.execSQL("delete from " + dbTableLogsOffline + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableWaypoints + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") and type <> \"own\"");
 				databaseRW.execSQL("delete from " + dbTableTrackables + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 
@@ -1813,7 +1844,7 @@ public class cgData {
         }
     }
 
-    public int createList(String name) {
+	public int createList(String name) {
 		init();
 
 		if (name == null) return -1;
@@ -1833,6 +1864,109 @@ public class cgData {
 			databaseRW.endTransaction();
 		}
 
-        return id;
-    }
+			return id;
+	}
+
+	public boolean saveLogOffline(String geocode, Date date, int type, String log) {
+		if (geocode == null || geocode.length() == 0) {
+			return false;
+		}
+		if (type <= 0 && (log == null || log.length() == 0)) {
+			return false;
+		}
+
+		boolean status = false;
+
+		ContentValues values = new ContentValues();
+		values.put("geocode", geocode);
+		values.put("updated", System.currentTimeMillis());
+		values.put("type", type);
+		values.put("log", log);
+		values.put("date", date.getTime());
+
+		try {
+			if (hasLogOffline(geocode) == true) {
+				final int rows = databaseRW.update(dbTableLogsOffline, values, "geocode = \"" + geocode + "\"", null);
+
+				if (rows > 0) {
+					status = true;
+				}
+			} else {
+				final long id = databaseRW.insert(dbTableLogsOffline, null, values);
+
+				if (id > 0) {
+					status = true;
+				}
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.saveLogOffline: " + e.toString());
+		}
+
+		return status;
+	}
+
+    public cgLog loadLogOffline(String geocode) {
+		init();
+
+		if (geocode == null || geocode.length() == 0) return null;
+
+		Cursor cursor = null;
+		cgLog log = null;
+
+		cursor = databaseRO.query(
+			dbTableLogsOffline,
+			new String[] {"_id", "type", "log", "date"},
+			"geocode = \"" + geocode + "\"",
+			null,
+			null,
+			null,
+			"_id desc",
+			"1"
+			);
+
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
+
+			log = new cgLog();
+			log.id = (int)cursor.getInt(cursor.getColumnIndex("_id"));
+			log.type = (int)cursor.getInt(cursor.getColumnIndex("type"));
+			log.log = (String)cursor.getString(cursor.getColumnIndex("log"));
+			log.date = (long)cursor.getLong(cursor.getColumnIndex("date"));
+		}
+
+		if (cursor != null) cursor.close();
+
+		return log;
+	}
+
+    public void clearLogOffline(String geocode) {
+		init();
+
+		if (geocode == null || geocode.length() == 0) return;
+
+		databaseRW.delete(dbTableLogsOffline, "geocode = \"" + geocode + "\"", null);
+	}
+
+	public boolean hasLogOffline(String geocode) {
+		if (geocode == null || geocode.length() == 0) {
+			return false;
+		}
+
+		init();
+
+		try {
+			final SQLiteStatement countSql = databaseRO.compileStatement("select count(_id) from " + dbTableLogsOffline + " where geocode = \"" + geocode.toUpperCase() + "\"");
+			final int count = (int)countSql.simpleQueryForLong();
+
+			if (count > 0) {
+				return true;
+			}
+
+			countSql.close();
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.hasLogOffline: " + e.toString());
+		}
+
+		return false;
+	}
 }

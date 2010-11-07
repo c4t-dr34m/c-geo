@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class cgeoapplication extends Application {
@@ -276,10 +277,10 @@ public class cgeoapplication extends Application {
     }
 
     public cgCache getCacheByGeocode(String geocode) {
-		return getCacheByGeocode(geocode, false, true, false, false, false);
+		return getCacheByGeocode(geocode, false, true, false, false, false, false);
 	}
 
-    public cgCache getCacheByGeocode(String geocode, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
+    public cgCache getCacheByGeocode(String geocode, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		if (geocode == null || geocode.length() == 0) return null;
 		
 		cgCache cache = null;
@@ -287,7 +288,7 @@ public class cgeoapplication extends Application {
 			cache = cachesCache.get(geocode);
 		} else {
 			if (storage == null) storage = new cgData(this);
-			cache = storage.loadCache(geocode, null, loadA, loadW, loadS, loadL, loadI);
+			cache = storage.loadCache(geocode, null, loadA, loadW, loadS, loadL, loadI, loadO);
 
 			if (cache.detailed == true && loadA == true && loadW == true && loadS == true && loadL == true && loadI == true) {
 				putCacheInCache(cache);
@@ -337,14 +338,14 @@ public class cgeoapplication extends Application {
 		cgSearch search = searches.get(searchId);
 		ArrayList<String> geocodeList = search.getGeocodes();
 
-		return getCacheByGeocode(geocodeList.get(0), true, true, true, true, true);
+		return getCacheByGeocode(geocodeList.get(0), true, true, true, true, true, true);
     }
 
 	public ArrayList<cgCache> getCaches(Long searchId) {
-		return getCaches(searchId, false, true, false, false, false);
+		return getCaches(searchId, false, true, false, false, false, true);
 	}
 
-	public ArrayList<cgCache> getCaches(Long searchId, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI) {
+	public ArrayList<cgCache> getCaches(Long searchId, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		if (searchId == null || searches.containsKey(searchId) == false) return null;
 
 		ArrayList<cgCache> cachesOut = new ArrayList<cgCache>();
@@ -353,7 +354,7 @@ public class cgeoapplication extends Application {
 		ArrayList<String> geocodeList = search.getGeocodes();
 
 		if (storage == null) storage = new cgData(this);
-		final ArrayList<cgCache> cachesPre = storage.loadCaches(geocodeList.toArray(), null, loadA, loadW, loadS, loadL, loadI);
+		final ArrayList<cgCache> cachesPre = storage.loadCaches(geocodeList.toArray(), null, loadA, loadW, loadS, loadL, loadI, loadO);
 		if (cachesPre != null) cachesOut.addAll(cachesPre);
 
 		return cachesOut;
@@ -546,5 +547,17 @@ public class cgeoapplication extends Application {
 
 	public Double getLastLon() {
 		return lastLongitude;
+	}
+
+	public boolean saveLogOffline(String geocode, Date date, int logtype, String log) {
+		return storage.saveLogOffline(geocode, date, logtype, log);
+	}
+
+	public cgLog loadLogOffline(String geocode) {
+		return storage.loadLogOffline(geocode);
+	}
+
+	public void clearLogOffline(String geocode) {
+		storage.clearLogOffline(geocode);
 	}
 }

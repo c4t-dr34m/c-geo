@@ -4,6 +4,8 @@
     <color name="just_black">#FF000000</color>
     <color name="background_dark">#FF191919</color>
     <color name="background_light">#FFFFFFFF</color>
+    <color name="background_dark_notice">#FF393949</color>
+    <color name="background_light_notice">#FFDFDFDF</color>
     <color name="background_dark_transparent">#CC191919</color>
     <color name="background_light_transparent">#CCFFFFFF</color>
     <color name="separator_dark">#44FFFFFF</color>

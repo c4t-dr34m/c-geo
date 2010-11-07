@@ -32,6 +32,14 @@
 			android:layout_alignParentLeft="true"
 			android:scaleType="fitXY"
 			android:src="@drawable/mark_green" />
+		<ImageView android:id="@+id/offline_mark"
+			android:visibility="gone"
+			android:layout_width="4dip"
+			android:layout_height="30dip"
+			android:layout_centerVertical="true"
+			android:layout_alignParentLeft="true"
+			android:scaleType="fitXY"
+			android:src="@drawable/mark_red" />
 		<RelativeLayout
 				android:layout_width="2dip"
 				android:layout_height="30dip"
