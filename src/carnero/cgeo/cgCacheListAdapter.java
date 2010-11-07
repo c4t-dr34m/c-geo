@@ -236,9 +236,9 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		final touchListener touchLst = new touchListener(cache.geocode, cache.name, cache);
-		rowView.setOnTouchListener(touchLst);
 		rowView.setOnClickListener(touchLst);
 		rowView.setOnLongClickListener(touchLst);
+		rowView.setOnTouchListener(touchLst);
 		rowView.setLongClickable(true);
 
 		if (selectMode == true) {
@@ -473,6 +473,10 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			if (touch == false) {
 				touch = true;
 				
+				return;
+			}
+
+			if (getSelectMode() == true || getChecked() > 0) {
 				return;
 			}
 

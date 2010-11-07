@@ -229,6 +229,7 @@
 	<string name="cache_menu_spoilers">obrázky</string>
 	<string name="cache_menu_around">keš v okolí</string>
 	<string name="cache_menu_event">přidat do kalendáře</string>
+	<string name="cache_menu_details">detaily</string>
 	<string name="cache_status">status</string>
 	<string name="cache_status_found">nalezena</string>
 	<string name="cache_status_archived">archivována</string>

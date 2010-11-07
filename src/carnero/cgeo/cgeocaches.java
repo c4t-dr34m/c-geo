@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -481,13 +482,13 @@ public class cgeocaches extends ListActivity {
 
 			if (type.equals("offline") == true) {
 				if (adapter != null && adapter.getChecked() > 0) {
-					menu.findItem(4).setTitle("drop selected");
+					menu.findItem(4).setTitle("drop selected (" + adapter.getChecked() + ")");
 				} else {
 					menu.findItem(4).setTitle("drop all");
 				}
 				
 				if (adapter != null && adapter.getChecked() > 0) {
-					menu.findItem(1).setTitle("refresh selected");
+					menu.findItem(1).setTitle("refresh selected (" + adapter.getChecked() + ")");
 				} else {
 					menu.findItem(1).setTitle("refresh listed");
 				}
@@ -498,7 +499,7 @@ public class cgeocaches extends ListActivity {
 					Log.i(cgSettings.tag, "Checked: " + adapter.getChecked());
 				}
 				if (adapter != null && adapter.getChecked() > 0) {
-					menu.findItem(1).setTitle("store selected");
+					menu.findItem(1).setTitle("store selected (" + adapter.getChecked() + ")");
 				} else {
 					menu.findItem(1).setTitle("store for offline");
 				}
@@ -554,15 +555,22 @@ public class cgeocaches extends ListActivity {
 
 		final cgCache cache = adapter.getItem(adapterInfo.position);
 
-		if (cache.name != null && cache.name.length() > 0) menu.setHeaderTitle(cache.name);
-		else menu.setHeaderTitle(cache.geocode);
+		if (cache.name != null && cache.name.length() > 0) {
+			menu.setHeaderTitle(cache.name);
+		} else {
+			menu.setHeaderTitle(cache.geocode);
+		}
 		if (cache.latitude != null && cache.longitude != null) {
-			menu.add(0, 0, 0, res.getString(R.string.cache_menu_compass));
-			menu.add(0, 1, 0, res.getString(R.string.cache_menu_radar));
-			menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
-			menu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
-			menu.add(0, 2, 0, res.getString(R.string.cache_menu_tbt));
-			menu.add(0, 5, 0, res.getString(R.string.cache_menu_visit));
+			menu.add(0, 1, 0, res.getString(R.string.cache_menu_compass));
+
+			SubMenu subMenu = menu.addSubMenu(0, 0, 0, res.getString(R.string.cache_menu_navigate) + "...");
+			subMenu.add(0, 2, 0, res.getString(R.string.cache_menu_radar));
+			subMenu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
+			subMenu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
+			subMenu.add(0, 5, 0, res.getString(R.string.cache_menu_tbt));
+
+			menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit));
+			menu.add(0, 7, 0, res.getString(R.string.cache_menu_details));
 		}
 	}
 
@@ -580,7 +588,7 @@ public class cgeocaches extends ListActivity {
 
 		final cgCache cache = adapter.getItem(adapterInfo.position);
 
-		if (id == 0) { // compass
+		if (id == 1) { // compass
 			Intent navigateIntent = new Intent(activity, cgeonavigate.class);
 			navigateIntent.putExtra("latitude", cache.latitude);
 			navigateIntent.putExtra("longitude", cache.longitude);
@@ -590,7 +598,7 @@ public class cgeocaches extends ListActivity {
 			activity.startActivity(navigateIntent);
 
 			return true;
-		} else if (id == 1) { // radar
+		} else if (id == 2) { // radar
 			try {
 				if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 					Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
@@ -628,14 +636,6 @@ public class cgeocaches extends ListActivity {
 			}
 
 			return true;
-		} else if (id == 2) { // turn-by-turn
-			if (geo != null) {
-				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
-			} else {
-				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude);
-			}
-
-			return true;
 		} else if (id == 3) { // show on map
 			Intent mapIntent = new Intent(activity, cgeomap.class);
 			mapIntent.putExtra("detail", false);
@@ -668,7 +668,15 @@ public class cgeocaches extends ListActivity {
 			}
 
 			return true;
-		} else if (id == 5) { // log visit
+		} else if (id == 5) { // turn-by-turn
+			if (geo != null) {
+				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
+			} else {
+				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude);
+			}
+
+			return true;
+		} else if (id == 6) { // log visit
 			if (cache.cacheid == null || cache.cacheid.length() == 0) {
 				warning.showToast(res.getString(R.string.err_cannot_log_visit));
 				return true;
@@ -680,6 +688,13 @@ public class cgeocaches extends ListActivity {
 			logVisitIntent.putExtra("type", cache.type.toLowerCase());
 
 			activity.startActivity(logVisitIntent);
+
+			return true;
+		} else if (id == 7) { // cache details
+			Intent cachesIntent = new Intent(activity, cgeodetail.class);
+			cachesIntent.putExtra("geocode", cache.geocode.toUpperCase());
+			cachesIntent.putExtra("name", cache.name);
+			activity.startActivity(cachesIntent);
 
 			return true;
 		}

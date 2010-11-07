@@ -229,6 +229,7 @@
 	<string name="cache_menu_spoilers">spoiler images</string>
 	<string name="cache_menu_around">caches around</string>
 	<string name="cache_menu_event">add to calendar</string>
+	<string name="cache_menu_details">details</string>
 	<string name="cache_status">status</string>
 	<string name="cache_status_found">found</string>
 	<string name="cache_status_archived">archived</string>

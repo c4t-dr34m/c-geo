@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- versionCode: XXXYZ (XXX: version; Y: 0-8 for RCs, 9 for Market version; Z: 0-9 order) -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		android:versionCode="1068"
-		android:versionName="1.06 RC8"
+		android:versionCode="10690"
+		android:versionName="1.06"
 		package="carnero.cgeo"
 		name="c:geo"
 		android:installLocation="auto" >
