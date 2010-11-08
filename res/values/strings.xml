@@ -281,6 +281,11 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start process. This process will open web browser with Twitter page where you have to login and Accept <b>c:geo</b> to access your account. When you Accept, Twitter will show you numeric PIN code. Please copy this code, paste into <b>c:geo</b> and confirm. That\'s all.</string>
 	<!-- changelog -->
 	<string name="changelog">
+<b>1.08</b> (08.11.2010)\n
+· fix: Show on external map\n
+· fix: Arrows on white skin\n
+<b>1.07</b> (07.11.2010)\n
+· fix: Loading maps\n
 <b>1.06</b> (07.11.2010)\n
 · new: Add event cache to calendar\n
 · new: Swipe (&#8594;) cache in list to select\n

@@ -562,13 +562,10 @@ public class cgeocaches extends ListActivity {
 		}
 		if (cache.latitude != null && cache.longitude != null) {
 			menu.add(0, 1, 0, res.getString(R.string.cache_menu_compass));
-
-			SubMenu subMenu = menu.addSubMenu(0, 0, 0, res.getString(R.string.cache_menu_navigate) + "...");
-			subMenu.add(0, 2, 0, res.getString(R.string.cache_menu_radar));
-			subMenu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
-			subMenu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
-			subMenu.add(0, 5, 0, res.getString(R.string.cache_menu_tbt));
-
+			menu.add(0, 2, 0, res.getString(R.string.cache_menu_radar));
+			menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
+			menu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
+			menu.add(0, 5, 0, res.getString(R.string.cache_menu_tbt));
 			menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit));
 			menu.add(0, 7, 0, res.getString(R.string.cache_menu_details));
 		}
@@ -576,8 +573,12 @@ public class cgeocaches extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		final ContextMenu.ContextMenuInfo info = item.getMenuInfo();
 		final int id = item.getItemId();
+		ContextMenu.ContextMenuInfo info = item.getMenuInfo();
+
+		if (info == null) {
+			return false;
+		}
 		
 		AdapterContextMenuInfo adapterInfo = null;
 		try {
@@ -586,7 +587,8 @@ public class cgeocaches extends ListActivity {
 			Log.w(cgSettings.tag, "cgeocaches.onContextItemSelected: " + e.toString());
 		}
 
-		final cgCache cache = adapter.getItem(adapterInfo.position);
+		final int touchedPos = adapterInfo.position;
+		final cgCache cache = adapter.getItem(touchedPos);
 
 		if (id == 1) { // compass
 			Intent navigateIntent = new Intent(activity, cgeonavigate.class);

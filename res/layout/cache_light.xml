@@ -131,7 +131,7 @@
 				android:minWidth="28px"
 				android:minHeight="28px"
 				android:gravity="center"
-				cc:skin="0" />
+				cc:skin="1" />
 		<TextView android:id="@+id/info"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
