@@ -1251,16 +1251,18 @@ public class cgBase {
 			final Matcher matcherLogs = patternLogs.matcher(page);
 			while (matcherLogs.find()) {
 				if (matcherLogs.groupCount() > 0) {
-					final Pattern patternLog = Pattern.compile("<strong><img src=\".*\\/icons\\/([^\\.]+)\\.gif\"[^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a></strong>[^\\(]*\\((\\d+) found\\)<br \\/><br \\/>(.*)<br \\/><br \\/><small><a href=");
+					final Pattern patternLog = Pattern.compile("<td[^>]*>[^<]*<strong>[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a>[<^]*</strong>[^\\(]*\\((\\d+) found\\)(<br[ ]*/>)+(.*)(<br[ ]*/>)+<small><a href=");
 					final String[] logs = matcherLogs.group(1).split("<tr>");
+					final int logsCnt = logs.length;
 
-					for (int k = 1; k < logs.length; k ++) {
+					for (int k = 1; k < logsCnt; k ++) {
 						final Matcher matcherLog = patternLog.matcher(logs[k]);
 						if (matcherLog.find()) {
 							final cgLog logDone = new cgLog();
 
-							String logTmp;
-							logTmp = Pattern.compile("<p>").matcher(matcherLog.group(6)).replaceAll("\n");
+							String logTmp = matcherLog.group(9);
+
+							logTmp = Pattern.compile("<p>").matcher(logTmp).replaceAll("\n");
 							logTmp = Pattern.compile("<br[^>]*>").matcher(logTmp).replaceAll("\n");
 							logTmp = Pattern.compile("<\\/p>").matcher(logTmp).replaceAll("");
 							logTmp = Pattern.compile("\r+").matcher(logTmp).replaceAll("\n");
@@ -1322,7 +1324,7 @@ public class cgBase {
 							logDone.author = matcherLog.group(6);
 							logDone.date = logDate;
 							logDone.found = new Integer(matcherLog.group(7));
-							logDone.log = stripParagraphs(matcherLog.group(8));
+							logDone.log = logTmp;
 
 							cache.logs.add(logDone);
 						}
@@ -1891,7 +1893,7 @@ public class cgBase {
 				if (trackableMatcher.group(5) != null) trackable.id = new Integer(trackableMatcher.group(5));
 				else continue;
 
-				Log.d(cgSettings.tag, "Trackable in inventory (#" + trackable.ctl + "/" + trackable.id + "): " + trackable.trackCode + " - " + trackable.name);
+				Log.i(cgSettings.tag, "Trackable in inventory (#" + trackable.ctl + "/" + trackable.id + "): " + trackable.trackCode + " - " + trackable.name);
 
 				trackables.add(trackable);
 			}
@@ -2985,7 +2987,7 @@ public class cgBase {
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", Integer.toString(day));
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month", Integer.toString(month));
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year", Integer.toString(year));
-		params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
+		params.put("ctl00$ContentBody$LogBookPanel1$uxLogInfo", log);
 		params.put("ctl00$ContentBody$LogBookPanel1$LogButton", "Submit Log Entry");
 		params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
 		if (trackables != null && trackables.isEmpty() == false) { //  we have some trackables to proceed
@@ -3115,7 +3117,7 @@ public class cgBase {
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", Integer.toString(day));
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month", Integer.toString(month));
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year", Integer.toString(year));
-		params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
+		params.put("ctl00$ContentBody$LogBookPanel1$uxLogInfo", log);
 		params.put("ctl00$ContentBody$LogBookPanel1$LogButton", "Submit Log Entry");
 		params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
 
@@ -3578,9 +3580,9 @@ public class cgBase {
             final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
             final Matcher matcherTitle = patternTitle.matcher(page);
             if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
-                Log.d(cgSettings.tag + " | " + requestId, "Downloaded page title: " + matcherTitle.group(1).trim());
+                Log.i(cgSettings.tag + " | " + requestId, "Downloaded page title: " + matcherTitle.group(1).trim());
             } else {
-                Log.d(cgSettings.tag + " | " + requestId, "Downloaded file has no title.");
+                Log.i(cgSettings.tag + " | " + requestId, "Downloaded file has no title.");
             }
         } else {
             return "";
@@ -3753,9 +3755,9 @@ public class cgBase {
             final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
             final Matcher matcherTitle = patternTitle.matcher(page);
             if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
-                Log.d(cgSettings.tag + " | JSON", "Downloaded page title: " + matcherTitle.group(1).trim());
+                Log.i(cgSettings.tag + " | JSON", "Downloaded page title: " + matcherTitle.group(1).trim());
             } else {
-                Log.d(cgSettings.tag + " | JSON", "Downloaded file has no title.");
+                Log.i(cgSettings.tag + " | JSON", "Downloaded file has no title.");
             }
         } else {
             return "";
@@ -4130,7 +4132,7 @@ public class cgBase {
 			// nothing
 		}
 
-		Log.d(cgSettings.tag, "cgBase.runNavigation.1: No navigation application available.");
+		Log.i(cgSettings.tag, "cgBase.runNavigation.1: No navigation application available.");
 
 		if (warning != null && res != null) {
 			warning.showToast(res.getString(R.string.err_navigation_no));

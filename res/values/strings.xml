@@ -282,7 +282,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<!-- changelog -->
 	<string name="changelog">
 <b>1.09</b> (10.11.2010)\n
-· fix: Adaptation on GC.com\'s changes\n
+· fix: Adaptation for GC.com\'s changes\n
 <b>1.08</b> (08.11.2010)\n
 · fix: Show on external map\n
 · fix: Arrows on white skin\n
