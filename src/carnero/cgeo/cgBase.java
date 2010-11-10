@@ -811,16 +811,13 @@ public class cgBase {
 							oneCache = cachesData.getJSONObject(i);
 							if (oneCache == null) break;
 
-							if (this.settings.excludeMine > 0 && oneCache.getBoolean("o") == true) {
-								continue;
-							}
-
 							final cgCache cacheToAdd = new cgCache();
 							cacheToAdd.geocode = oneCache.getString("gc");
 							cacheToAdd.latitude = oneCache.getDouble("lat");
 							cacheToAdd.longitude = oneCache.getDouble("lon");
 							cacheToAdd.name = oneCache.getString("nn");
 							cacheToAdd.found = oneCache.getBoolean("f");
+							cacheToAdd.own = oneCache.getBoolean("o");
 							cacheToAdd.disabled = !oneCache.getBoolean("ia");
 							int ctid = oneCache.getInt("ctid");
 							if (ctid == 2) {
@@ -2841,6 +2838,8 @@ public class cgBase {
 				for (cgCache cache : caches.cacheList) {
 					if (
 						(settings.excludeDisabled == 0 || (settings.excludeDisabled == 1 && cache.disabled == false)) &&
+						(settings.excludeMine == 0 || (settings.excludeMine == 1 && cache.own == false)) &&
+						(settings.excludeMine == 0 || (settings.excludeMine == 1 && cache.found == false)) &&
 						(settings.cacheType == null || (settings.cacheType.equals(cache.type) == true))
 					) {
 						search.addGeocode(cache.geocode);

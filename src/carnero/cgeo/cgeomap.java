@@ -1114,10 +1114,11 @@ public class cgeomap extends MapActivity {
 		public void run() {
 			while (requestedKill == false) {
 				try {
-					if (firstRun == true) sleep(2000);
-					else sleep(1000);
-
-					firstRun = false;
+					if (firstRun == false) {
+						sleep(700);
+					} else {
+						firstRun = false;
+					}
 
 					if (enabled == true && mapView != null && searching == false) {
 						loadCachesReal realThread = new loadCachesReal(handler, mapView, viewstate);
