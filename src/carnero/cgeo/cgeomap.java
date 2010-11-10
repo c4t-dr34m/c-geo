@@ -86,6 +86,7 @@ public class cgeomap extends MapActivity {
 	private geocachesLoadDetails threadD = null;
 	private int closeCounter = 0;
 	private boolean progressBar = false;
+	private String usertoken = null;
 	protected boolean searching = false;
 	protected boolean searchingUsers = false;
 	protected boolean searchingForClose = false;
@@ -1181,8 +1182,12 @@ public class cgeomap extends MapActivity {
 					startLoading.sendEmptyMessage(0);
 
 					if (settings.maplive == 1) { // live map - downloads caches from gc.com
+						if (usertoken == null) {
+							usertoken = base.getMapUserToken();
+						}
+
 						HashMap<String, String> params = new HashMap<String, String>();
-						params.put("viewstate", viewstate);
+						params.put("usertoken", usertoken);
 						params.put("latitude-t", String.format((Locale)null, "%.6f", latitudeT));
 						params.put("latitude-b", String.format((Locale)null, "%.6f", latitudeB));
 						params.put("longitude-l", String.format((Locale)null, "%.6f", longitudeL));

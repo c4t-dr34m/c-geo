@@ -780,37 +780,25 @@ public class cgBase {
 		return caches;
 	}
 
-	public cgCacheWrap parseMapJSON(String url, String page) {
-		if (page == null || page.length() == 0) {
-			Log.e(cgSettings.tag, "cgeoBase.parseSearch: No page given");
+	public cgCacheWrap parseMapJSON(String url, String data) {
+		if (data == null || data.length() == 0) {
+			Log.e(cgSettings.tag, "cgeoBase.parseMapJSON: No page given");
 			return null;
 		}
 
 		final cgCacheWrap caches = new cgCacheWrap();
-		String data = null;
 		caches.url = url;
 
 		try {
-			final Pattern patternData = Pattern.compile("<ExtraData><\\!\\[CDATA\\[(.*)\\]\\]><\\/ExtraData>", Pattern.CASE_INSENSITIVE);
+			final JSONObject yoDawg = new JSONObject(data);
+			final String json = yoDawg.getString("d");
 
-			caches.viewstate = findViewstate(page, 0);
-			caches.viewstate1 = findViewstate(page, 1);
-
-			// data
-			try {
-				final Matcher matecherData = patternData.matcher(page);
-				while (matecherData.find()) {
-					if (matecherData.groupCount() > 0) {
-						data = matecherData.group(1);
-					}
-				}
-			} catch (Exception e) {
-				// failed to find data
-				Log.w(cgSettings.tag, "cgeoBase.parseMapJSON: Failed to find data");
+			if (json == null || json.length() == 0) {
+				Log.e(cgSettings.tag, "cgeoBase.parseMapJSON: No JSON inside JSON");
+				return null;
 			}
 
-			final JSONObject dataJSON = new JSONObject(data);
-
+			final JSONObject dataJSON = new JSONObject(json);
 			final JSONObject extra = dataJSON.getJSONObject("cs");
 			if (extra != null && extra.length() > 0) {
 				int count = extra.getInt("count");
@@ -823,7 +811,9 @@ public class cgBase {
 							oneCache = cachesData.getJSONObject(i);
 							if (oneCache == null) break;
 
-							if (this.settings.excludeMine > 0 && (oneCache.getBoolean("f") == true || oneCache.getBoolean("o") == true)) continue;
+							if (this.settings.excludeMine > 0 && oneCache.getBoolean("o") == true) {
+								continue;
+							}
 
 							final cgCache cacheToAdd = new cgCache();
 							cacheToAdd.geocode = oneCache.getString("gc");
@@ -1261,7 +1251,7 @@ public class cgBase {
 			final Matcher matcherLogs = patternLogs.matcher(page);
 			while (matcherLogs.find()) {
 				if (matcherLogs.groupCount() > 0) {
-					final Pattern patternLog = Pattern.compile("<strong><img src=\".*\\/icons\\/([^\\.]+)\\.gif\"[^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a></strong> \\((\\d+) found\\)<br \\/><br \\/>(.*)<br \\/><br \\/><small><a href=");
+					final Pattern patternLog = Pattern.compile("<strong><img src=\".*\\/icons\\/([^\\.]+)\\.gif\"[^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a></strong>[^\\(]*\\((\\d+) found\\)<br \\/><br \\/>(.*)<br \\/><br \\/><small><a href=");
 					final String[] logs = matcherLogs.group(1).split("<tr>");
 
 					for (int k = 1; k < logs.length; k ++) {
@@ -2791,32 +2781,15 @@ public class cgBase {
 		final String latitudeB = parameters.get("latitude-b");
 		final String longitudeL = parameters.get("longitude-l");
 		final String longitudeR = parameters.get("longitude-r");
+		String usertoken = null;
+		if (parameters.get("usertoken") != null) {
+			usertoken = parameters.get("usertoken");
+		} else {
+			usertoken = "";
+		}
 		cgCacheWrap caches = new cgCacheWrap();
-		String viewstate = parameters.get("viewstate");
 
 		String page = null;
-		if (viewstate == null || viewstate.length() == 0) {
-			page = request("www.geocaching.com", "/map/default.aspx", "GET", null, false, false, false);
-			if (checkLogin(page) == false) {
-				int loginState = login();
-				if (loginState == 1) {
-					page = request("www.geocaching.com", "/map/default.aspx", "GET", null, false, false, false);
-                } else if (loginState == -3) {
-                    Log.i(cgSettings.tag, "Working as guest.");
-				} else {
-					search.error = errorRetrieve.get(loginState);
-					Log.e(cgSettings.tag, "cgeoBase.searchByViewport: Can not log in geocaching (error: " + loginState + ")");
-					return null;
-				}
-			}
-			
-			final Matcher matcherViewstate = patternViewstate.matcher(page);
-			while (matcherViewstate.find()) {
-				if (matcherViewstate.groupCount() > 0) {
-					viewstate = matcherViewstate.group(1);
-				}
-			}
-		}
 
 		if (latitudeT== null || latitudeT.length() == 0 || latitudeB == null || latitudeB.length() == 0 || longitudeL == null || longitudeL.length() == 0 || longitudeR == null || longitudeR.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByViewport: Not enough parameters to recognize viewport");
@@ -2824,38 +2797,12 @@ public class cgBase {
 		}
 
 		final String host = "www.geocaching.com";
-		final String path = "/map/default.aspx";
-		final String method = "POST";
-		final HashMap<String, String> params = new HashMap<String, String>();
-		params.put("eo_cb_id", "ctl00_ContentBody_cbAjax");
-		params.put("eo_version", "5.0.51.2");
-		params.put("eo_cb_param", "{\"c\":1,\"m\":\"\",\"d\":\"" + latitudeT + "|" + latitudeB + "|" + longitudeL + "|" + longitudeR + "\"}");
-		params.put("__eo_obj_states", "");
-		params.put("__EVENTTARGET", "");
-		params.put("__EVENTARGUMENT", "");
-		params.put("__EVENTVALIDATION", "");
-		params.put("__VIEWSTATE", viewstate);
-		params.put("^Z", "on"); // don't know
-		params.put("^0", ""); // don't know
-		params.put("^1", ""); // don't know
-		if (settings.cacheType == null || settings.cacheType.equals("traditional") == true) params.put("^2", "2"); // traditional
-		if (settings.cacheType == null || settings.cacheType.equals("multi") == true) params.put("^3", "3"); // multi
-		if (settings.cacheType == null || settings.cacheType.equals("mystery") == true) params.put("^4", "4"); // mystery
-		if (settings.cacheType == null || settings.cacheType.equals("letterbox") == true) params.put("^5", "5"); // letterbox
-		if (settings.cacheType == null || settings.cacheType.equals("event") == true) params.put("^6", "6"); // event
-		if (settings.cacheType == null || settings.cacheType.equals("virtual") == true) params.put("^7", "8"); // virtual
-		if (settings.cacheType == null || settings.cacheType.equals("webcam") == true) params.put("^8", "11"); // webcam
-		if (settings.cacheType == null || settings.cacheType.equals("cito") == true) params.put("^9", "13"); // cito
-		if (settings.cacheType == null || settings.cacheType.equals("earth") == true) params.put("^A", "137"); // earth
-		if (settings.cacheType == null || settings.cacheType.equals("mega") == true) params.put("^B", "453"); // mega-event
-		if (settings.cacheType == null || settings.cacheType.equals("wherigo") == true) params.put("^C", "1858"); // wherigo
-		if (settings.cacheType == null || settings.cacheType.equals("lostfound") == true) params.put("^D", "3653"); // lost and found
-		// params.put("^E", "on"); // my finds
-		// params.put("^F", "on"); // hidden by me
-		params.put("^G", "on"); // don't know
+		final String path = "/map/default.aspx/MapAction";
 
-		final String url = "http://" + host + path + "?" + prepareParameters(params, false, false);
-		page = request(host, path, method, params, false, false, false);
+		String params = "{\"dto\":{\"data\":{\"c\":1,\"m\":\"\",\"d\":\"" + latitudeT + "|" + latitudeB + "|" + longitudeL + "|" + longitudeR + "\"},\"ut\":\"" + usertoken + "\"}}";
+
+		final String url = "http://" + host + path + "?" + params;
+		page = requestJSON(host, path, params);
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByViewport: No data from server");
@@ -2872,21 +2819,21 @@ public class cgBase {
             return null;
         }
 
-        final ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
-        if (caches != null) {
-            if (caches.error != null && caches.error.length() > 0) {
-                search.error = caches.error;
-            }
-            if (caches.url != null && caches.url.length() > 0) {
-                search.url = caches.url;
-            }
-            if (caches.viewstate != null && caches.viewstate.length() > 0) {
-                search.viewstate = caches.viewstate;
-            }
-            if (caches.viewstate1 != null && caches.viewstate1.length() > 0) {
-                search.viewstate1 = caches.viewstate1;
-            }
-            search.totalCnt = caches.totalCnt;
+		final ArrayList<cgCache> cacheList = new ArrayList<cgCache>();
+		if (caches != null) {
+			if (caches.error != null && caches.error.length() > 0) {
+				search.error = caches.error;
+			}
+			if (caches.url != null && caches.url.length() > 0) {
+				search.url = caches.url;
+			}
+			if (caches.viewstate != null && caches.viewstate.length() > 0) {
+				search.viewstate = caches.viewstate;
+			}
+			if (caches.viewstate1 != null && caches.viewstate1.length() > 0) {
+				search.viewstate1 = caches.viewstate1;
+			}
+			search.totalCnt = caches.totalCnt;
 
 			if (caches.cacheList != null && caches.cacheList.size() > 0) {
 				for (cgCache cache : caches.cacheList) {
@@ -3646,6 +3593,181 @@ public class cgBase {
 		}
 	}
 
+	public String requestJSON(String host, String path, String params) {
+        int httpCode = -1;
+        String httpLocation = null;
+
+		// prepare cookies
+		String cookiesDone = null;
+		if (cookies != null) {
+			final Object[] keys = cookies.keySet().toArray();
+			final ArrayList<String> cookiesEncoded = new ArrayList();
+
+			for (int i = 0; i < keys.length; i++) {
+				String value = cookies.get(keys[i].toString());
+				cookiesEncoded.add(keys[i] + "=" + value);
+			}
+
+			if (cookiesEncoded.size() > 0) cookiesDone = implode("; ", cookiesEncoded.toArray());
+		}
+
+		if (cookiesDone == null) {
+			Map prefsValues = prefs.getAll();
+
+			if (prefsValues != null && prefsValues.size() > 0) {
+				final Object[] keys = prefsValues.keySet().toArray();
+				final ArrayList<String> cookiesEncoded = new ArrayList();
+				final int length = keys.length;
+
+				for (int i = 0; i < length; i++) {
+					if (keys[i].toString().length() > 7 && keys[i].toString().substring(0, 7).equals("cookie_") == true) {
+						cookiesEncoded.add(keys[i].toString().substring(7) + "=" + prefsValues.get(keys[i].toString()));
+					}
+				}
+
+				if (cookiesEncoded.size() > 0) cookiesDone = implode("; ", cookiesEncoded.toArray());
+			}
+		}
+
+		if (cookiesDone == null) cookiesDone = "";
+
+		URLConnection uc = null;
+		HttpURLConnection connection = null;
+		Integer timeout = 30000;
+		final StringBuffer buffer = new StringBuffer();
+
+		for (int i = 0; i < 3; i ++) {
+			if (i > 0) Log.w(cgSettings.tag, "Failed to download data, retrying. Attempt #" + (i + 1));
+
+			buffer.delete(0, buffer.length());
+			timeout = 30000 + (i * 15000);
+
+			try {
+				// POST
+				final URL u = new URL("http://" + host + path);
+				uc = u.openConnection();
+
+				uc.setRequestProperty("Host", host);
+				uc.setRequestProperty("Cookie", cookiesDone);
+				uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+				uc.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+				uc.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
+				uc.setRequestProperty("Referer", host + "/" + path);
+
+				if (settings.asBrowser == 1) {
+					uc.setRequestProperty("Accept-Charset", "utf-8, iso-8859-1, utf-16, *;q=0.7");
+					uc.setRequestProperty("Accept-Language", "en-US");
+					uc.setRequestProperty("User-Agent", idBrowser);
+					uc.setRequestProperty("Connection", "keep-alive");
+					uc.setRequestProperty("Keep-Alive", "300");
+				}
+
+				connection = (HttpURLConnection)uc;
+				connection.setReadTimeout(timeout);
+				connection.setRequestMethod("POST");
+				connection.setFollowRedirects(false);
+				connection.setDoInput(true);
+				connection.setDoOutput(true);
+
+				final OutputStream out = connection.getOutputStream();
+				final OutputStreamWriter wr = new OutputStreamWriter(out);
+				wr.write(params);
+				wr.flush();
+				wr.close();
+
+				String headerName = null;
+				final SharedPreferences.Editor prefsEditor = prefs.edit();
+				for (int j = 1; (headerName = uc.getHeaderFieldKey(j)) != null; j ++) {
+					if (headerName != null && headerName.equalsIgnoreCase("Set-Cookie")) {
+						int index;
+						String cookie = uc.getHeaderField(j);
+
+						index = cookie.indexOf(";");
+						if (index > -1) {
+							cookie = cookie.substring(0, cookie.indexOf(";"));
+						}
+
+						index = cookie.indexOf("=");
+						if (index > - 1 && cookie.length() > (index + 1)) {
+							String name = cookie.substring(0, cookie.indexOf("="));
+							String value = cookie.substring(cookie.indexOf("=") + 1, cookie.length());
+
+							this.cookies.put(name, value);
+							prefsEditor.putString("cookie_" + name, value);
+						}
+					}
+				}
+				prefsEditor.commit();
+
+				final String encoding = connection.getContentEncoding();
+				InputStream ins;
+
+				if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
+					ins = new GZIPInputStream(connection.getInputStream());
+				} else if (encoding != null && encoding.equalsIgnoreCase("deflate")) {
+					ins = new InflaterInputStream(connection.getInputStream(), new Inflater(true));
+				} else {
+					ins = connection.getInputStream();
+				}
+				final InputStreamReader inr = new InputStreamReader(ins);
+				final BufferedReader br = new BufferedReader(inr);
+
+				String line;
+				while ((line = br.readLine()) != null) {
+					if (line.length() > 0) {
+						buffer.append(line);
+						buffer.append("\n");
+					}
+				}
+
+				httpCode = connection.getResponseCode();
+				httpLocation = uc.getHeaderField("Location");
+
+				Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (POST " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+
+				connection.disconnect();
+				br.close();
+				ins.close();
+                inr.close();
+			} catch (IOException e) {
+				Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + e.toString());
+			} catch (Exception e) {
+			 	Log.e(cgSettings.tag, "cgeoBase.requestJSON: " + e.toString());
+			}
+
+			if (buffer != null && buffer.length() > 0) break;
+		}
+
+        String page = null;
+        if (httpCode == 302 && httpLocation != null) {
+             final Uri newLocation = Uri.parse(httpLocation);
+             if (newLocation.isRelative() == true) {
+                 page = requestJSON(host, path, params);
+             } else {
+                 page = requestJSON(newLocation.getHost(), newLocation.getPath(), params);
+             }
+        } else if (buffer != null) {
+            final Matcher matcherLines = patternLines.matcher(buffer.toString());
+            page = matcherLines.replaceAll(" ");
+
+            final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
+            final Matcher matcherTitle = patternTitle.matcher(page);
+            if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
+                Log.d(cgSettings.tag + " | JSON", "Downloaded page title: " + matcherTitle.group(1).trim());
+            } else {
+                Log.d(cgSettings.tag + " | JSON", "Downloaded file has no title.");
+            }
+        } else {
+            return "";
+        }
+
+		if (page != null) {
+			return page;
+		} else {
+			return "";
+		}
+	}
+
 	public static String rot13(String text) {
 		final String xlr13 = "abcdefghijklmnopqrstuvwxyzabcdefghijklmABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLM";
 		final StringBuilder progress = new StringBuilder();
@@ -4015,6 +4137,24 @@ public class cgBase {
 		}
 
 		return false;
+	}
+
+	public String getMapUserToken() {
+		final String page = request("www.geocaching.com", "/map/default.aspx", "GET", "", 0, false);
+		String usertoken = null;
+
+		if (page != null && page.length() > 0) {
+			final Pattern pattern = Pattern.compile("var userToken[^=]*=[^']*'([^']+)';", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+
+			final Matcher matcher = pattern.matcher(page);
+			while (matcher.find()) {
+				if (matcher.groupCount() > 0) {
+					usertoken = matcher.group(1);
+				}
+			}
+		}
+
+		return usertoken;
 	}
 }
 
