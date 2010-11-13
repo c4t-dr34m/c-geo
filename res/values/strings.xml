@@ -281,6 +281,8 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start process. This process will open web browser with Twitter page where you have to login and Accept <b>c:geo</b> to access your account. When you Accept, Twitter will show you numeric PIN code. Please copy this code, paste into <b>c:geo</b> and confirm. That\'s all.</string>
 	<!-- changelog -->
 	<string name="changelog">
+<b>1.11</b> (__.11.2010)\n
+· fix: Marking caches as found\n
 <b>1.10</b> (10.11.2010)\n
 · fix: Hiding own/found caches on live map\n
 <b>1.09</b> (10.11.2010)\n

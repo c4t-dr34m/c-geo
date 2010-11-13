@@ -880,7 +880,7 @@ public class cgBase {
 		final Pattern patternHidden = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Hidden[^:]*:[^<]*</strong>[^\\d]*((\\d+)\\/(\\d+)\\/(\\d+))[^<]*</td>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHiddenEvent = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Event[^\\w]*date[^:]*:[^<]*</strong>[^\\w]*[a-zA-Z]+,[^\\d]*((\\d+)[^\\w]*(\\w+)[^\\d]*(\\d+))[^<]*<div", Pattern.CASE_INSENSITIVE);
 
-		final Pattern patternFound = Pattern.compile("<p><img src=\".*/images/stockholm/16x16/check\\.gif\" alt=\"Found It\" />[^a-zA-Z]*You logged this as Found[^<]+</p>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternFound = Pattern.compile("<p>[^<]*<a id=\"ctl00_ContentBody_hlFoundItLog\"[^<]*<img src=\".*/images/stockholm/16x16/check\\.gif\"[^>]*>[^<]+</a>[^<]+</p>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLatLon = Pattern.compile("<span id=\"ctl00_ContentBody_LatLon\"[^>]*>(<b>)?([^<]*)(<\\/b>)?<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLocation = Pattern.compile("<span id=\"ctl00_ContentBody_Location\"[^>]*>In ([^<]*)<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHint = Pattern.compile("<p>([^<]*<strong>)?[^\\w]*Additional Hints([^<]*<\\/strong>)?[^\\(]*\\(<a[^>]+>Encrypt<\\/a>\\)[^<]*<\\/p>[^<]*<p>[^<]*<\\/p>[^<]*<div id=\"div_hint\"[^>]*>(.*)<\\/div>[^<]*<div id=\\'dk\\'[^>]+>", Pattern.CASE_INSENSITIVE);
