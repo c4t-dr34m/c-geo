@@ -450,10 +450,8 @@ public class cgeovisit extends cgLogForm {
 		dateButton.setOnClickListener(new cgeovisitDateListener());
 
 		EditText logView = (EditText)findViewById(R.id.log);
-		if (text != null && text.length() > 0) {
+		if (logView.getText().length() == 0 && text != null && text.length() > 0) {
 			logView.setText(text);
-		} else {
-			logView.setText("");
 		}
 
 

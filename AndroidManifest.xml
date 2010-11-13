@@ -9,7 +9,7 @@
 	- Z: build
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		android:versionCode="11130"
+		android:versionCode="11190"
 		android:versionName="1.11"
 		package="carnero.cgeo"
 		name="c:geo"
