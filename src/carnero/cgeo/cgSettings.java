@@ -10,16 +10,17 @@ import android.util.Log;
 
 public class cgSettings {
 	// constants
-	public final int unitsMetric = 1;
-	public final int unitsImperial = 2;
-	public final int mapSatellite = 1;
-	public final int mapClassic = 2;
-	public final String imgCache = "cgeo";
-	public final String imgCacheHidden = ".cgeo";
+	public final static int unitsMetric = 1;
+	public final static int unitsImperial = 2;
+	public final static int mapSatellite = 1;
+	public final static int mapClassic = 2;
+	public final static String imgCache = "cgeo";
+	public final static String imgCacheHidden = ".cgeo";
+	public final static String analytics = "UA-1103507-15";
 
 	// twitter api keys
-	public static final String keyConsumerPublic = "RFafPiNi3xRhcS1TPE3wTw";
-	public static final String keyConsumerSecret = "7iDJprNPI9hzRwWhpzycSr9SPZMFrdVdsxD2OauI9k";
+	public final static String keyConsumerPublic = "RFafPiNi3xRhcS1TPE3wTw";
+	public final static String keyConsumerSecret = "7iDJprNPI9hzRwWhpzycSr9SPZMFrdVdsxD2OauI9k";
 
 	// skin
 	public int skin = 0;

@@ -24,10 +24,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.IOException;
 import javax.net.ssl.HttpsURLConnection;
 
 public class cgeoauth extends Activity {
+
+	private GoogleAnalyticsTracker tracker = null;
 	private cgeoapplication app = null;
 	private Resources res = null;
 	private Context activity = null;
@@ -44,13 +47,14 @@ public class cgeoauth extends Activity {
 	private Button pinEntryButton = null;
 	private ProgressDialog requestTokenDialog = null;
 	private ProgressDialog changeTokensDialog = null;
-
 	private Handler requestTokenHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
-			if (requestTokenDialog != null && requestTokenDialog.isShowing() == true) requestTokenDialog.dismiss();
+			if (requestTokenDialog != null && requestTokenDialog.isShowing() == true) {
+				requestTokenDialog.dismiss();
+			}
 
-			startButton.setOnTouchListener(new cgViewTouch(settings, startButton, 0));
 			startButton.setOnClickListener(new startListener());
 			startButton.setClickable(true);
 
@@ -59,7 +63,6 @@ public class cgeoauth extends Activity {
 
 				pinEntry.setVisibility(View.VISIBLE);
 				pinEntryButton.setVisibility(View.VISIBLE);
-				pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton, 0));
 				pinEntryButton.setOnClickListener(new confirmPINListener());
 			} else {
 				warning.showToast(res.getString(R.string.err_auth_initialize));
@@ -67,13 +70,14 @@ public class cgeoauth extends Activity {
 			}
 		}
 	};
-
 	private Handler changeTokensHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
-			if (changeTokensDialog != null && changeTokensDialog.isShowing() == true) changeTokensDialog.dismiss();
+			if (changeTokensDialog != null && changeTokensDialog.isShowing() == true) {
+				changeTokensDialog.dismiss();
+			}
 
-			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton, 0));
 			pinEntryButton.setOnClickListener(new confirmPINListener());
 			pinEntryButton.setClickable(true);
 
@@ -81,11 +85,11 @@ public class cgeoauth extends Activity {
 				warning.showToast(res.getString(R.string.auth_dialog_completed));
 
 				pinEntryButton.setVisibility(View.GONE);
-				
+
 				finish();
 			} else {
 				warning.showToast(res.getString(R.string.err_auth_process));
-				
+
 				pinEntry.setVisibility(View.GONE);
 				pinEntryButton.setVisibility(View.GONE);
 				startButton.setText(res.getString(R.string.auth_start));
@@ -94,37 +98,54 @@ public class cgeoauth extends Activity {
 	};
 
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/auth");
 
 		// init
 		activity = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication) this.getApplication();
 		app.setAction("setting up");
-        prefs = getSharedPreferences(cgSettings.preferences, 0);
-        settings = new cgSettings(this, prefs);
-        base = new cgBase(app, settings, prefs);
-        warning = new cgWarning(this);
+		prefs = getSharedPreferences(cgSettings.preferences, 0);
+		settings = new cgSettings(this, prefs);
+		base = new cgBase(app, settings, prefs);
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle(res.getString(R.string.auth_twitter));
-		if (settings.skin == 1) setContentView(R.layout.auth_light);
-		else setContentView(R.layout.auth_dark);
+		if (settings.skin == 1) {
+			setContentView(R.layout.auth_light);
+		} else {
+			setContentView(R.layout.auth_dark);
+		}
 
 		init();
-   }
+	}
 
-   private void init() {
-		startButton = (Button)findViewById(R.id.start);
-		pinEntry = (EditText)findViewById(R.id.pin);
-		pinEntryButton = (Button)findViewById(R.id.pin_button);
+	@Override
+	public void onDestroy() {
+		if (tracker != null) {
+			tracker.stop();
+		}
+
+		super.onDestroy();
+	}
+
+	private void init() {
+		startButton = (Button) findViewById(R.id.start);
+		pinEntry = (EditText) findViewById(R.id.pin);
+		pinEntryButton = (Button) findViewById(R.id.pin_button);
 
 		OAtoken = prefs.getString("temp-token-public", null);
 		OAtokenSecret = prefs.getString("temp-token-secret", null);
 
 		startButton.setClickable(true);
-		startButton.setOnTouchListener(new cgViewTouch(settings, startButton, 0));
 		startButton.setOnClickListener(new startListener());
 
 		if (OAtoken == null || OAtoken.length() == 0 || OAtokenSecret == null || OAtokenSecret.length() == 0) {
@@ -136,10 +157,9 @@ public class cgeoauth extends Activity {
 
 			pinEntry.setVisibility(View.VISIBLE);
 			pinEntryButton.setVisibility(View.VISIBLE);
-			pinEntryButton.setOnTouchListener(new cgViewTouch(settings, pinEntryButton, 0));
 			pinEntryButton.setOnClickListener(new confirmPINListener());
 		}
-   }
+	}
 
 	private void requestToken() {
 		final String host = "twitter.com";
@@ -164,7 +184,7 @@ public class cgeoauth extends Activity {
 					Log.d(cgSettings.tag, "https://" + host + pathRequest + "?" + params);
 					final URL u = new URL("https://" + host + pathRequest + "?" + params);
 					final URLConnection uc = u.openConnection();
-					connection = (HttpsURLConnection)uc;
+					connection = (HttpsURLConnection) uc;
 
 					// connection.setHostnameVerifier(base.doNotVerify);
 					connection.setReadTimeout(30000);
@@ -183,7 +203,7 @@ public class cgeoauth extends Activity {
 					}
 
 					code = connection.getResponseCode();
-					retries ++;
+					retries++;
 
 					Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
 
@@ -195,10 +215,14 @@ public class cgeoauth extends Activity {
 				final String line = sb.toString();
 
 				if (line != null && line.length() > 0) {
-					final Matcher paramsMatcher1  = paramsPattern1.matcher(line);
-					if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) OAtoken = paramsMatcher1.group(1).toString();
+					final Matcher paramsMatcher1 = paramsPattern1.matcher(line);
+					if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) {
+						OAtoken = paramsMatcher1.group(1).toString();
+					}
 					final Matcher paramsMatcher2 = paramsPattern2.matcher(line);
-					if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) OAtokenSecret = paramsMatcher2.group(1).toString();
+					if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) {
+						OAtokenSecret = paramsMatcher2.group(1).toString();
+					}
 
 					if (OAtoken != null && OAtoken.length() > 0 && OAtokenSecret != null && OAtokenSecret.length() > 0) {
 						final SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
@@ -221,11 +245,13 @@ public class cgeoauth extends Activity {
 					}
 				}
 			} catch (IOException eio) {
-				Log.e(cgSettings.tag, "cgeoauth.requestToken(IO): " + eio.toString() + " ~ " + connection.getResponseCode() + ": "  + connection.getResponseMessage());
+				Log.e(cgSettings.tag, "cgeoauth.requestToken(IO): " + eio.toString() + " ~ " + connection.getResponseCode() + ": " + connection.getResponseMessage());
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeoauth.requestToken(1): " + e.toString());
 			} finally {
-				if (connection != null) connection.disconnect();
+				if (connection != null) {
+					connection.disconnect();
+				}
 			}
 		} catch (Exception e2) {
 			Log.e(cgSettings.tag, "cgeoauth.requestToken(3): " + e2.toString());
@@ -248,14 +274,14 @@ public class cgeoauth extends Activity {
 
 			int code = -1;
 			int retries = 0;
-			
+
 			final String params = cgOAuth.signOAuth(host, path, method, true, paramsPre, OAtoken, OAtokenSecret);
 			final StringBuilder sb = new StringBuilder();
 			do {
 				// base.trustAllHosts();
 				final URL u = new URL("https://" + host + path);
 				final URLConnection uc = u.openConnection();
-				final HttpsURLConnection connection = (HttpsURLConnection)uc;
+				final HttpsURLConnection connection = (HttpsURLConnection) uc;
 
 				// connection.setHostnameVerifier(base.doNotVerify);
 				connection.setReadTimeout(30000);
@@ -282,10 +308,10 @@ public class cgeoauth extends Activity {
 				}
 
 				code = connection.getResponseCode();
-				retries ++;
+				retries++;
 
 				Log.i(cgSettings.tag, host + ": " + connection.getResponseCode() + " " + connection.getResponseMessage());
-				
+
 				br.close();
 				ins.close();
 				in.close();
@@ -298,9 +324,13 @@ public class cgeoauth extends Activity {
 			OAtokenSecret = "";
 
 			final Matcher paramsMatcher1 = paramsPattern1.matcher(line);
-			if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) OAtoken = paramsMatcher1.group(1).toString();
+			if (paramsMatcher1.find() == true && paramsMatcher1.groupCount() > 0) {
+				OAtoken = paramsMatcher1.group(1).toString();
+			}
 			final Matcher paramsMatcher2 = paramsPattern2.matcher(line);
-			if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) OAtokenSecret = paramsMatcher2.group(1).toString();
+			if (paramsMatcher2.find() == true && paramsMatcher2.groupCount() > 0) {
+				OAtokenSecret = paramsMatcher2.group(1).toString();
+			}
 
 			if (OAtoken.length() == 0 || OAtokenSecret.length() == 0) {
 				OAtoken = "";
@@ -330,6 +360,7 @@ public class cgeoauth extends Activity {
 	}
 
 	private class startListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			if (requestTokenDialog == null) {
 				requestTokenDialog = new ProgressDialog(activity);
@@ -347,6 +378,7 @@ public class cgeoauth extends Activity {
 			prefs.commit();
 
 			(new Thread() {
+
 				@Override
 				public void run() {
 					requestToken();
@@ -356,8 +388,9 @@ public class cgeoauth extends Activity {
 	}
 
 	private class confirmPINListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
-			if (((EditText)findViewById(R.id.pin)).getText().toString().length() == 0) {
+			if (((EditText) findViewById(R.id.pin)).getText().toString().length() == 0) {
 				warning.helpDialog(res.getString(R.string.auth_dialog_pin_title), res.getString(R.string.auth_dialog_pin_message));
 				return;
 			}
@@ -373,6 +406,7 @@ public class cgeoauth extends Activity {
 			pinEntryButton.setOnClickListener(null);
 
 			(new Thread() {
+
 				@Override
 				public void run() {
 					changeToken();

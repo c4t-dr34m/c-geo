@@ -10,17 +10,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeopoint extends Activity {
-    private cgeoapplication app = null;
+	private GoogleAnalyticsTracker tracker = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private Context activity = null;
+	private Context activity = null;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private EditText latEdit = null;
@@ -30,9 +32,15 @@ public class cgeopoint extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/point");
+
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication)this.getApplication();
 		settings = new cgSettings(activity, activity.getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
@@ -62,6 +70,7 @@ public class cgeopoint extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}
@@ -85,22 +94,18 @@ public class cgeopoint extends Activity {
 
 		Button buttonCurrent = (Button)findViewById(R.id.current);
 		buttonCurrent.setClickable(true);
-		buttonCurrent.setOnTouchListener(new cgViewTouch(settings, buttonCurrent, 0));
 		buttonCurrent.setOnClickListener(new currentListener());
 
 		Button buttonCompass = (Button)findViewById(R.id.compass);
 		buttonCompass.setClickable(true);
-		buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass, 0));
 		buttonCompass.setOnClickListener(new compassListener());
 
 		Button buttonRadar = (Button)findViewById(R.id.radar);
 		buttonRadar.setClickable(true);
-		buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar, 0));
 		buttonRadar.setOnClickListener(new radarListener());
 
 		Button buttonTurn = (Button)findViewById(R.id.turn);
 		buttonTurn.setClickable(true);
-		buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn, 0));
 		buttonTurn.setOnClickListener(new turnListener());
 	}
 
@@ -117,7 +122,6 @@ public class cgeopoint extends Activity {
 				lonEdit.setHint(base.formatCoordinate(geo.longitudeNow, "lon", false));
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
-				e.printStackTrace();
 			}
 		}
 	}

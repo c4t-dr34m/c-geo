@@ -77,7 +77,6 @@ public class cgeotouch extends cgLogForm {
 
 			Button buttonPost = (Button)findViewById(R.id.post);
 			buttonPost.setClickable(true);
-			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost, 0));
 			buttonPost.setOnClickListener(new postListener());
 			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
 			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);
@@ -292,7 +291,6 @@ public class cgeotouch extends cgLogForm {
 		registerForContextMenu(typeButton);
 		typeButton.setText(base.logTypes2.get(typeSelected));
 		typeButton.setClickable(true);
-		typeButton.setOnTouchListener(new cgViewTouch(settings, typeButton, 0));
 		typeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				openContextMenu(view);
@@ -302,7 +300,6 @@ public class cgeotouch extends cgLogForm {
 		Button dateButton = (Button)findViewById(R.id.date);
 		dateButton.setText(base.dateOutShort.format(date.getTime()));
 		dateButton.setClickable(true);
-		dateButton.setOnTouchListener(new cgViewTouch(settings, dateButton, 0));
 		dateButton.setOnClickListener(new cgeotouchDateListener());
 
         if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
@@ -322,7 +319,6 @@ public class cgeotouch extends cgLogForm {
 			thread.start();
 		} else {
 			buttonPost.setClickable(true);
-			buttonPost.setOnTouchListener(new cgViewTouch(settings, buttonPost, 0));
 			buttonPost.setOnClickListener(new postListener());
 			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
 			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);

@@ -11,19 +11,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeowaypointadd extends Activity {
-    private cgeoapplication app = null;
+	private GoogleAnalyticsTracker tracker = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private Context activity = null;
-    private String geocode = null;
-    private int id = -1;
+	private Context activity = null;
+	private String geocode = null;
+	private int id = -1;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private EditText latEdit = null;
@@ -77,9 +79,15 @@ public class cgeowaypointadd extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/waypoint/new");
+
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication)this.getApplication();
 		settings = new cgSettings(activity, activity.getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
@@ -112,12 +120,10 @@ public class cgeowaypointadd extends Activity {
 
 		Button buttonCurrent = (Button)findViewById(R.id.current);
 		buttonCurrent.setClickable(true);
-		buttonCurrent.setOnTouchListener(new cgViewTouch(settings, buttonCurrent, 0));
 		buttonCurrent.setOnClickListener(new currentListener());
 
 		Button addWaypoint = (Button)findViewById(R.id.add_waypoint);
 		addWaypoint.setClickable(true);
-		addWaypoint.setOnTouchListener(new cgViewTouch(settings, addWaypoint, 0));
 		addWaypoint.setOnClickListener(new coordsListener());
 
 		if (id > 0) {
@@ -147,6 +153,7 @@ public class cgeowaypointadd extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}

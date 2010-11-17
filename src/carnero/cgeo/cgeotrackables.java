@@ -15,27 +15,34 @@ import android.text.Html;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeotrackables extends Activity {
+
+	private GoogleAnalyticsTracker tracker = null;
 	private ArrayList<cgTrackable> trackables = new ArrayList<cgTrackable>();
 	private String geocode = null;
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private Context activity = null;
+	private Context activity = null;
 	private LayoutInflater inflater = null;
 	private LinearLayout addList = null;
 	private ProgressDialog waitDialog = null;
-
 	private Handler loadInventoryHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (addList == null) addList = (LinearLayout)findViewById(R.id.trackable_list);
+				if (addList == null) {
+					addList = (LinearLayout) findViewById(R.id.trackable_list);
+				}
 
 				if (trackables.isEmpty()) {
-					if (waitDialog != null) waitDialog.dismiss();
+					if (waitDialog != null) {
+						waitDialog.dismiss();
+					}
 
 					warning.showToast("Sorry, c:geo failed to load cache inventory.");
 
@@ -43,12 +50,15 @@ public class cgeotrackables extends Activity {
 					return;
 				} else {
 					LinearLayout oneTbPre = null;
-					LinearLayout addList = (LinearLayout)findViewById(R.id.trackable_list);
+					LinearLayout addList = (LinearLayout) findViewById(R.id.trackable_list);
 					for (cgTrackable trackable : trackables) {
-						if (settings.skin == 1) oneTbPre = (LinearLayout)inflater.inflate(R.layout.trackable_button_light, null);
-						else oneTbPre = (LinearLayout)inflater.inflate(R.layout.trackable_button_dark, null);
+						if (settings.skin == 1) {
+							oneTbPre = (LinearLayout) inflater.inflate(R.layout.trackable_button_light, null);
+						} else {
+							oneTbPre = (LinearLayout) inflater.inflate(R.layout.trackable_button_dark, null);
+						}
 
-						Button oneTb = (Button)oneTbPre.findViewById(R.id.button);
+						Button oneTb = (Button) oneTbPre.findViewById(R.id.button);
 
 						if (trackable.name != null) {
 							oneTb.setText(Html.fromHtml(trackable.name), TextView.BufferType.SPANNABLE);
@@ -56,35 +66,47 @@ public class cgeotrackables extends Activity {
 							oneTb.setText("some trackable");
 						}
 						oneTb.setClickable(true);
-						oneTb.setOnTouchListener(new cgViewTouch(settings, oneTb, 0));
 						oneTb.setOnClickListener(new buttonListener(trackable.guid, trackable.geocode, trackable.name));
 						addList.addView(oneTbPre);
 					}
 				}
 
-				if (waitDialog != null) waitDialog.dismiss();
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+				}
 			} catch (Exception e) {
-				if (waitDialog != null) waitDialog.dismiss();
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+				}
 				Log.e(cgSettings.tag, "cgeotrackables.loadInventoryHandler: " + e.toString());
 			}
 		}
 	};
 
-   @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/trackable/detail");
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication) this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("inventory");
-		if (settings.skin == 1) setContentView(R.layout.trackables_light);
-		else setContentView(R.layout.trackables_dark);
+		if (settings.skin == 1) {
+			setContentView(R.layout.trackables_light);
+		} else {
+			setContentView(R.layout.trackables_dark);
+		}
 		inflater = getLayoutInflater();
 
 		// get parameters
@@ -107,9 +129,19 @@ public class cgeotrackables extends Activity {
 		(new loadInventory()).start();
 	}
 
+	@Override
+	public void onDestroy() {
+		if (tracker != null) {
+			tracker.stop();
+		}
+
+		super.onDestroy();
+	}
+
 	private class loadInventory extends Thread {
-	   @Override
-	   public void run() {
+
+		@Override
+		public void run() {
 			try {
 				trackables = app.loadInventory(geocode);
 
@@ -117,10 +149,11 @@ public class cgeotrackables extends Activity {
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeotrackables.loadInventory.run: " + e.toString());
 			}
-	   }
+		}
 	}
 
 	private class buttonListener implements View.OnClickListener {
+
 		private String guid = null;
 		private String geocode = null;
 		private String name = null;

@@ -19,10 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class cgeopopup extends Activity {
+	private GoogleAnalyticsTracker tracker = null;
 	private Activity activity = null;
 	private Resources res = null;
 	private cgeoapplication app = null;
@@ -94,6 +96,12 @@ public class cgeopopup extends Activity {
    @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/popup");
 
 		// init
 		activity = this;
@@ -323,7 +331,6 @@ public class cgeopopup extends Activity {
 
 				Button buttonMore = (Button)findViewById(R.id.more_details);
 				buttonMore.setClickable(true);
-				buttonMore.setOnTouchListener(new cgViewTouch(settings, buttonMore, 0));
 				buttonMore.setOnClickListener(new OnClickListener() {
 					public void onClick(View arg0) {
 						Intent cachesIntent = new Intent(activity, cgeodetail.class);
@@ -344,7 +351,6 @@ public class cgeopopup extends Activity {
 
 				Button buttonMore = (Button)findViewById(R.id.log_visit);
 				buttonMore.setClickable(true);
-				buttonMore.setOnTouchListener(new cgViewTouch(settings, buttonMore, 0));
 				buttonMore.setOnClickListener(new OnClickListener() {
 					public void onClick(View arg0) {
 						if (cache.cacheid == null || cache.cacheid.length() == 0) {
@@ -394,12 +400,10 @@ public class cgeopopup extends Activity {
 
 					offlineRefresh.setVisibility(View.VISIBLE);
 					offlineRefresh.setClickable(true);
-					offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh, 0));
 					offlineRefresh.setOnClickListener(new storeCache());
 
 					offlineStore.setText(res.getString(R.string.cache_offline_drop));
 					offlineStore.setClickable(true);
-					offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
 					offlineStore.setOnClickListener(new dropCache());
 				} else {
 					offlineText.setText(res.getString(R.string.cache_offline_not_ready));
@@ -411,7 +415,6 @@ public class cgeopopup extends Activity {
 
 					offlineStore.setText("store");
 					offlineStore.setClickable(true);
-					offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
 					offlineStore.setOnClickListener(new storeCache());
 				}
 			} else {
@@ -426,13 +429,11 @@ public class cgeopopup extends Activity {
 
 			Button buttonCompass = (Button)findViewById(R.id.compass);
 			buttonCompass.setClickable(true);
-			buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass, 0));
 			buttonCompass.setOnClickListener(new navigateToListener(cache.latitude, cache.longitude, cache.name, ""));
 
 			Button buttonRadar = (Button)findViewById(R.id.radar);
 			if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				buttonRadar.setClickable(true);
-				buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar, 0));
 				buttonRadar.setOnClickListener(new radarToListener(cache.latitude, cache.longitude));
 			} else {
 				buttonRadar.setBackgroundResource(settings.buttonInactive);
@@ -440,7 +441,6 @@ public class cgeopopup extends Activity {
 
 			Button buttonTurn = (Button)findViewById(R.id.turn);
 			buttonTurn.setClickable(true);
-			buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn, 0));
 			buttonTurn.setOnClickListener(new turnToListener(cache.latitude, cache.longitude));
 		} else {
 			((LinearLayout)findViewById(R.id.navigation_part)).setVisibility(View.GONE);
@@ -466,6 +466,7 @@ public class cgeopopup extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}

@@ -13,10 +13,12 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class cgeowaypoint extends Activity {
+	private GoogleAnalyticsTracker tracker = null;
 	private cgWaypoint waypoint = null;
 	private String geocode = null;
 	private int id = -1;
@@ -61,13 +63,11 @@ public class cgeowaypoint extends Activity {
 					if (waypoint.latitude != null && waypoint.longitude != null) {
 						Button buttonCompass = (Button)findViewById(R.id.compass);
 						buttonCompass.setClickable(true);
-						buttonCompass.setOnTouchListener(new cgViewTouch(settings, buttonCompass, 0));
 						buttonCompass.setOnClickListener(new navigateToListener(waypoint.latitude, waypoint.longitude, waypoint.name, ""));
 
 						Button buttonRadar = (Button)findViewById(R.id.radar);
 						if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 							buttonRadar.setClickable(true);
-							buttonRadar.setOnTouchListener(new cgViewTouch(settings, buttonRadar, 0));
 							buttonRadar.setOnClickListener(new radarToListener(waypoint.latitude, waypoint.longitude));
 						} else {
 							buttonRadar.setBackgroundResource(settings.buttonInactive);
@@ -75,17 +75,14 @@ public class cgeowaypoint extends Activity {
 
 						Button buttonMap = (Button)findViewById(R.id.map);
 						buttonMap.setClickable(true);
-						buttonMap.setOnTouchListener(new cgViewTouch(settings, buttonMap, 0));
 						buttonMap.setOnClickListener(new mapToListener(waypoint.latitude, waypoint.longitude));
 
 						Button buttonMapExt = (Button)findViewById(R.id.map_ext);
 						buttonMapExt.setClickable(true);
-						buttonMapExt.setOnTouchListener(new cgViewTouch(settings, buttonMapExt, 0));
 						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint.latitude, waypoint.longitude));
 
 						Button buttonTurn = (Button)findViewById(R.id.turn);
 						buttonTurn.setClickable(true);
-						buttonTurn.setOnTouchListener(new cgViewTouch(settings, buttonTurn, 0));
 						buttonTurn.setOnClickListener(new turnToListener(waypoint.latitude, waypoint.longitude));
 
 						navigationPart.setVisibility(View.VISIBLE);
@@ -93,13 +90,11 @@ public class cgeowaypoint extends Activity {
 
 					Button buttonEdit = (Button)findViewById(R.id.edit);
 					buttonEdit.setClickable(true);
-					buttonEdit.setOnTouchListener(new cgViewTouch(settings, buttonEdit, 0));
 					buttonEdit.setOnClickListener(new editWaypointListener(waypoint.id));
 
 					Button buttonDelete = (Button)findViewById(R.id.delete);
 					if (waypoint.type != null && waypoint.type.equalsIgnoreCase("own") == true) {
 						buttonDelete.setClickable(true);
-						buttonDelete.setOnTouchListener(new cgViewTouch(settings, buttonDelete, 0));
 						buttonDelete.setOnClickListener(new deleteWaypointListener(waypoint.id));
 						buttonDelete.setVisibility(View.VISIBLE);
 					}
@@ -122,6 +117,12 @@ public class cgeowaypoint extends Activity {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/waypoint/detail");
 
 		// init
 		activity = this;
@@ -175,6 +176,7 @@ public class cgeowaypoint extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}

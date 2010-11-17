@@ -19,9 +19,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.File;
 
 public class cgeoinit extends Activity {
+	private GoogleAnalyticsTracker tracker = null;
 	private cgeoapplication app = null;
 	private Resources res = null;
 	private Context activity = null;
@@ -29,7 +31,7 @@ public class cgeoinit extends Activity {
 	private cgBase base = null;
 	private cgWarning warning = null;
 	private SharedPreferences prefs = null;
-    private ProgressDialog loginDialog = null;
+	private ProgressDialog loginDialog = null;
 
 	private Handler logInHandler = new Handler() {
 		@Override
@@ -61,6 +63,12 @@ public class cgeoinit extends Activity {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/init");
 
 		// init
 		activity = this;
@@ -100,7 +108,10 @@ public class cgeoinit extends Activity {
 
 	@Override
 	public void onDestroy() {
+		if (tracker != null) tracker.stop();
+
 		saveValues();
+		
 		super.onDestroy();
 	}
 
@@ -146,7 +157,6 @@ public class cgeoinit extends Activity {
 
 		Button logMeIn = (Button)findViewById(R.id.log_me_in);
 		logMeIn.setClickable(true);
-		logMeIn.setOnTouchListener(new cgViewTouch(settings, logMeIn, 0));
 		logMeIn.setOnClickListener(new logIn());
 
 		TextView legalNote = (TextView)findViewById(R.id.legal_note);
@@ -172,7 +182,6 @@ public class cgeoinit extends Activity {
 
 		Button authorizeTwitter = (Button)findViewById(R.id.authorize_twitter);
 		authorizeTwitter.setClickable(true);
-		authorizeTwitter.setOnTouchListener(new cgViewTouch(settings, authorizeTwitter, 0));
 		authorizeTwitter.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 				Intent authIntent = new Intent(activity, cgeoauth.class);

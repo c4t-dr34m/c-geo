@@ -2,5 +2,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:state_pressed="true" android:drawable="@drawable/action_button_dark_pressed" />
 	<item android:state_focused="true" android:drawable="@drawable/action_button_dark_pressed" />
-	<item android:drawable="@drawable/action_button_dark_default" />
+	<item android:drawable="@drawable/action_button_dark_dialog" />
 </selector>

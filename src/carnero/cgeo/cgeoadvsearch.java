@@ -16,10 +16,12 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeoadvsearch extends Activity {
+	private GoogleAnalyticsTracker tracker = null;
 	private Resources res = null;
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private Context context = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -34,13 +36,20 @@ public class cgeoadvsearch extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/advanced-search");
+
+		// init
 		context = this;
 		res = this.getResources();
-        app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication)this.getApplication();
 		app.setAction(null);
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle(res.getString(R.string.search));
@@ -67,6 +76,7 @@ public class cgeoadvsearch extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}
@@ -98,14 +108,12 @@ public class cgeoadvsearch extends Activity {
 
 		final Button findByCoords = (Button)findViewById(R.id.search_coordinates);
 		findByCoords.setClickable(true);
-		findByCoords.setOnTouchListener(new cgViewTouch(settings, findByCoords, 0));
 		findByCoords.setOnClickListener(new findByCoordsListener());
 
 		((EditText)findViewById(R.id.address)).setOnEditorActionListener(new findByAddressAction());
 
 		final Button findByAddress = (Button)findViewById(R.id.search_address);
 		findByAddress.setClickable(true);
-		findByAddress.setOnTouchListener(new cgViewTouch(settings, findByAddress, 0));
 		findByAddress.setOnClickListener(new findByAddressListener());
 
 		final AutoCompleteTextView geocodeEdit = (AutoCompleteTextView)findViewById(R.id.geocode);
@@ -118,7 +126,6 @@ public class cgeoadvsearch extends Activity {
 
 		final Button displayByGeocode = (Button)findViewById(R.id.display_geocode);
 		displayByGeocode.setClickable(true);
-		displayByGeocode.setOnTouchListener(new cgViewTouch(settings, displayByGeocode, 0));
 		displayByGeocode.setOnClickListener(new findByGeocodeListener());
 
 
@@ -126,28 +133,24 @@ public class cgeoadvsearch extends Activity {
 
 		final Button findByKeyword = (Button)findViewById(R.id.search_keyword);
 		findByKeyword.setClickable(true);
-		findByKeyword.setOnTouchListener(new cgViewTouch(settings, findByKeyword, 0));
 		findByKeyword.setOnClickListener(new findByKeywordListener());
 
 		((EditText)findViewById(R.id.username)).setOnEditorActionListener(new findByUsernameAction());
 
 		final Button findByUserName = (Button)findViewById(R.id.search_username);
 		findByUserName.setClickable(true);
-		findByUserName.setOnTouchListener(new cgViewTouch(settings, findByUserName, 0));
 		findByUserName.setOnClickListener(new findByUsernameListener());
 
 		((EditText)findViewById(R.id.owner)).setOnEditorActionListener(new findByOwnerAction());
 
 		final Button findByOwner = (Button)findViewById(R.id.search_owner);
 		findByOwner.setClickable(true);
-		findByOwner.setOnTouchListener(new cgViewTouch(settings, findByOwner, 0));
 		findByOwner.setOnClickListener(new findByOwnerListener());
 
 		((EditText)findViewById(R.id.trackable)).setOnEditorActionListener(new findTrackableAction());
 
 		final Button displayTrackable = (Button)findViewById(R.id.display_trackable);
 		displayTrackable.setClickable(true);
-		displayTrackable.setOnTouchListener(new cgViewTouch(settings, displayTrackable, 0));
 		displayTrackable.setOnClickListener(new findTrackableListener());
 	}
 

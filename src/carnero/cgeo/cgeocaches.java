@@ -20,15 +20,16 @@ import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.Locale;
 
 public class cgeocaches extends ListActivity {
+	private GoogleAnalyticsTracker tracker = null;
 	private String action = null;
 	private String type = null;
 	private Double latitude = null;
@@ -295,6 +296,12 @@ public class cgeocaches extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/cache/list");
+
 		// init
 		activity = this;
 		res = this.getResources();
@@ -435,6 +442,7 @@ public class cgeocaches extends ListActivity {
 
 		if (dir != null) dir = app.removeDir();
 		if (geo != null) geo = app.removeGeo();
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}

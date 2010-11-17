@@ -15,29 +15,36 @@ import android.location.Geocoder;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.List;
 import java.util.Locale;
 
 public class cgeoaddresses extends Activity {
+
+	private GoogleAnalyticsTracker tracker = null;
 	private final ArrayList<Address> addresses = new ArrayList<Address>();
 	private String keyword = null;
-    private cgeoapplication app = null;
+	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-    private Context activity = null;
+	private Context activity = null;
 	private LayoutInflater inflater = null;
 	private LinearLayout addList = null;
 	private ProgressDialog waitDialog = null;
-	
 	private Handler loadPlacesHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (addList == null) addList = (LinearLayout)findViewById(R.id.address_list);
+				if (addList == null) {
+					addList = (LinearLayout) findViewById(R.id.address_list);
+				}
 
 				if (addresses.isEmpty()) {
-					if (waitDialog != null) waitDialog.dismiss();
+					if (waitDialog != null) {
+						waitDialog.dismiss();
+					}
 
 					warning.showToast("Sorry, c:geo found no matching place.");
 
@@ -46,55 +53,74 @@ public class cgeoaddresses extends Activity {
 				} else {
 					LinearLayout oneAddPre = null;
 					for (Address address : addresses) {
-						if (settings.skin == 1) oneAddPre = (LinearLayout)inflater.inflate(R.layout.address_button_light, null);
-						else oneAddPre = (LinearLayout)inflater.inflate(R.layout.address_button_dark, null);
+						if (settings.skin == 1) {
+							oneAddPre = (LinearLayout) inflater.inflate(R.layout.address_button_light, null);
+						} else {
+							oneAddPre = (LinearLayout) inflater.inflate(R.layout.address_button_dark, null);
+						}
 
-						Button oneAdd = (Button)oneAddPre.findViewById(R.id.button);
+						Button oneAdd = (Button) oneAddPre.findViewById(R.id.button);
 						int index = 0;
 						StringBuilder allAdd = new StringBuilder();
 						StringBuilder allAddLine = new StringBuilder();
 
 						while (address.getAddressLine(index) != null) {
-							if (allAdd.length() > 0) allAdd.append("\n");
-							if (allAddLine.length() > 0) allAddLine.append("; ");
+							if (allAdd.length() > 0) {
+								allAdd.append("\n");
+							}
+							if (allAddLine.length() > 0) {
+								allAddLine.append("; ");
+							}
 
 							allAdd.append(address.getAddressLine(index));
 							allAddLine.append(address.getAddressLine(index));
 
-							index ++;
+							index++;
 						}
 
 						oneAdd.setText(allAdd.toString());
 						oneAdd.setClickable(true);
-						oneAdd.setOnTouchListener(new cgViewTouch(settings, oneAdd, 0));
 						oneAdd.setOnClickListener(new buttonListener(address.getLatitude(), address.getLongitude(), allAddLine.toString()));
 						addList.addView(oneAddPre);
 					}
 				}
 
-				if (waitDialog != null) waitDialog.dismiss();
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+				}
 			} catch (Exception e) {
-				if (waitDialog != null) waitDialog.dismiss();
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+				}
 				Log.e(cgSettings.tag, "cgeoaddresses.loadCachesHandler: " + e.toString());
 			}
 		}
 	};
 
-   @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/addresses");
 
 		// init
 		activity = this;
-        app = (cgeoapplication)this.getApplication();
-        settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
-        base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
-        warning = new cgWarning(this);
+		app = (cgeoapplication) this.getApplication();
+		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		warning = new cgWarning(this);
 
 		// set layout
 		setTitle("known places");
-		if (settings.skin == 1) setContentView(R.layout.addresses_light);
-		else setContentView(R.layout.addresses_dark);
+		if (settings.skin == 1) {
+			setContentView(R.layout.addresses_light);
+		} else {
+			setContentView(R.layout.addresses_dark);
+		}
 		inflater = getLayoutInflater();
 
 		// get parameters
@@ -117,24 +143,37 @@ public class cgeoaddresses extends Activity {
 		(new loadPlaces()).start();
 	}
 
-   private class loadPlaces extends Thread {
-	   @Override
-	   public void run() {
+	@Override
+	public void onDestroy() {
+		if (tracker != null) {
+			tracker.stop();
+		}
+
+		super.onDestroy();
+	}
+
+	private class loadPlaces extends Thread {
+
+		@Override
+		public void run() {
 			Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
 			try {
 				List<Address> knownLocations = geocoder.getFromLocationName(keyword, 20);
 
 				addresses.clear();
-				for (Address address : knownLocations) addresses.add(address);
+				for (Address address : knownLocations) {
+					addresses.add(address);
+				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeoaddresses.loadPlaces.run: " + e.toString());
 			}
 
 			loadPlacesHandler.sendMessage(new Message());
-	   }
-   }
+		}
+	}
 
 	private class buttonListener implements View.OnClickListener {
+
 		private Double latitude = null;
 		private Double longitude = null;
 		private String address = null;
@@ -148,9 +187,9 @@ public class cgeoaddresses extends Activity {
 		public void onClick(View arg0) {
 			Intent addressIntent = new Intent(activity, cgeocaches.class);
 			addressIntent.putExtra("type", "address");
-			addressIntent.putExtra("latitude", (Double)latitude);
-			addressIntent.putExtra("longitude", (Double)longitude);
-			addressIntent.putExtra("address", (String)address);
+			addressIntent.putExtra("latitude", (Double) latitude);
+			addressIntent.putExtra("longitude", (Double) longitude);
+			addressIntent.putExtra("address", (String) address);
 			addressIntent.putExtra("cachetype", settings.cacheType);
 			activity.startActivity(addressIntent);
 

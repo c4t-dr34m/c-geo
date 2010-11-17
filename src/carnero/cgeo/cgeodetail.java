@@ -32,10 +32,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.view.SubMenu;
 import android.widget.Button;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.Date;
 import java.util.Locale;
 
 public class cgeodetail extends Activity {
+	private GoogleAnalyticsTracker tracker = null;
 	public Long searchId = null;
 	public cgCache cache = null;
 	public String geocode = null;
@@ -171,6 +173,12 @@ public class cgeodetail extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		tracker.trackPageView("/cache/detail");
+
 		// init
 		activity = this;
 		res = this.getResources();
@@ -286,6 +294,7 @@ public class cgeodetail extends Activity {
 		if (geo != null) {
 			geo = app.removeGeo();
 		}
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}
@@ -779,24 +788,20 @@ public class cgeodetail extends Activity {
 
 				offlineRefresh.setVisibility(View.VISIBLE);
 				offlineRefresh.setClickable(true);
-				offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh, 0));
 				offlineRefresh.setOnClickListener(new storeCache());
 
 				offlineStore.setText(res.getString(R.string.cache_offline_drop));
 				offlineStore.setClickable(true);
-				offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
 				offlineStore.setOnClickListener(new dropCache());
 			} else {
 				offlineText.setText(res.getString(R.string.cache_offline_not_ready));
 
 				offlineRefresh.setVisibility(View.VISIBLE);
 				offlineRefresh.setClickable(true);
-				offlineRefresh.setOnTouchListener(new cgViewTouch(settings, offlineRefresh, 0));
 				offlineRefresh.setOnClickListener(new refreshCache());
 
 				offlineStore.setText(res.getString(R.string.cache_offline_store));
 				offlineStore.setClickable(true);
-				offlineStore.setOnTouchListener(new cgViewTouch(settings, offlineStore, 0));
 				offlineStore.setOnClickListener(new storeCache());
 			}
 
@@ -834,7 +839,6 @@ public class cgeodetail extends Activity {
 
 				Button showDesc = (Button) findViewById(R.id.show_description);
 				showDesc.setVisibility(View.VISIBLE);
-				showDesc.setOnTouchListener(new cgViewTouch(settings, showDesc, 0));
 				showDesc.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View arg0) {
 						loadLongDesc();
@@ -879,7 +883,6 @@ public class cgeodetail extends Activity {
 
 			Button addWaypoint = (Button) findViewById(R.id.add_waypoint);
 			addWaypoint.setClickable(true);
-			addWaypoint.setOnTouchListener(new cgViewTouch(settings, addWaypoint, 0));
 			addWaypoint.setOnClickListener(new addWaypoint());
 
 			// cache hint
