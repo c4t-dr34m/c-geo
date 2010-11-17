@@ -384,7 +384,8 @@ public class cgeodetail extends Activity {
 				
 				return true;
 			case 10:
-				showOnMapExt();
+				base.runExternalMap(activity, res, warning, cache.latitude, cache.longitude, cache.geocode, cache.name);
+				
 				return true;
 			case 11:
 				cachesAround();
@@ -1095,26 +1096,6 @@ public class cgeodetail extends Activity {
 		mapIntent.putExtra("searchid", searchId);
 
 		activity.startActivity(mapIntent);
-	}
-
-	private void showOnMapExt() {
-		try {
-			if (base.isIntentAvailable(activity, "com.robert.maps.action.SHOW_POINTS") == true) {
-				// rmaps
-				final ArrayList<String> locations = new ArrayList<String>();
-				locations.add(String.format((Locale)null, "%.6f", cache.latitude) + "," + String.format((Locale)null, "%.6f", cache.longitude) + ";" + cache.geocode + ";" + cache.name);
-
-				final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
-				intent.putStringArrayListExtra("locations", locations);
-
-				activity.startActivity(intent);
-			} else {
-				// default map
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
-			}
-		} catch (Exception e) {
-			showOnMap();
-		}
 	}
 
 	private void cachesAround() {

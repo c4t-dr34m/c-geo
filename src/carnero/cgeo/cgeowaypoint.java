@@ -11,6 +11,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -23,6 +24,7 @@ public class cgeowaypoint extends Activity {
 	private String geocode = null;
 	private int id = -1;
 	private cgeoapplication app = null;
+	private Resources res = null;
 	private Activity activity = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -79,7 +81,7 @@ public class cgeowaypoint extends Activity {
 
 						Button buttonMapExt = (Button)findViewById(R.id.map_ext);
 						buttonMapExt.setClickable(true);
-						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint.latitude, waypoint.longitude));
+						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint.latitude, waypoint.longitude, waypoint.name, ""));
 
 						Button buttonTurn = (Button)findViewById(R.id.turn);
 						buttonTurn.setClickable(true);
@@ -126,6 +128,7 @@ public class cgeowaypoint extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication)this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -235,30 +238,18 @@ public class cgeowaypoint extends Activity {
 	private class mapExtToListener implements View.OnClickListener {
 		private Double latitude = null;
 		private Double longitude = null;
+		private String geocode = null;
+		private String name = null;
 
-		public mapExtToListener(Double latitudeIn, Double longitudeIn) {
+		public mapExtToListener(Double latitudeIn, Double longitudeIn, String nameIn, String geocodeIn) {
 			latitude = latitudeIn;
 			longitude = longitudeIn;
+			geocode = geocodeIn;
+			name = nameIn;
 		}
 
 		public void onClick(View arg0) {
-			try {
-				if (base.isIntentAvailable(activity, "com.robert.maps.action.SHOW_POINTS") == true) {
-					// rmaps
-					final ArrayList<String> locations = new ArrayList<String>();
-					locations.add(String.format((Locale)null, "%.6f", latitude) + "," + String.format((Locale)null, "%.6f", longitude) + ";;");
-
-					final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
-					intent.putStringArrayListExtra("locations", locations);
-
-					activity.startActivity(intent);
-				} else {
-					// default map
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longitude)));
-				}
-			} catch (Exception e) {
-				warning.showToast("Sorry, c:geo found no suitable application");
-			}
+			base.runExternalMap(activity, res, warning, latitude, longitude, geocode, name);
 		}
 	}
 
@@ -284,14 +275,6 @@ public class cgeowaypoint extends Activity {
 			navigateIntent.putExtra("geocode", geocode.toUpperCase());
 			navigateIntent.putExtra("name", name);
 
-			final cgCoord coords = new cgCoord();
-			coords.type = "waypoint";
-			coords.name = waypoint.name;
-			coords.latitude = waypoint.latitude;
-			coords.longitude = waypoint.longitude;
-
-			if (navigateActivity.coordinates != null) navigateActivity.coordinates.clear();
-			navigateActivity.coordinates.add(coords);
 			activity.startActivity(navigateIntent);
 		}
 	}
@@ -328,35 +311,10 @@ public class cgeowaypoint extends Activity {
 		}
 
 		public void onClick(View arg0) {
-			if (settings.useGNavigation == 1) {
-				try {
-					// turn-by-turn navigation
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ latitude + "," + longitude)));
-				} catch (Exception e) {
-					try {
-						// google maps directions
-						if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ latitude + "," + longitude)));
-						} else {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ latitude + "," + longitude)));
-						}
-					} catch (Exception e2) {
-						Log.d(cgSettings.tag, "cgeodetail.turnTo: No navigation application available.");
-						warning.showToast("c:geo can\'t find any supported navigation.");
-					}
-				}
-			} else if (settings.useGNavigation == 0) {
-				try {
-					// google maps directions
-					if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ latitude + "," + longitude)));
-					} else {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ latitude + "," + longitude)));
-					}
-				} catch (Exception e) {
-					Log.d(cgSettings.tag, "cgeodetail.turnTo: No navigation application available.");
-					warning.showToast("c:geo can\'t find any suitable application.");
-				}
+			if (geo != null) {
+				base.runNavigation(activity, res, settings, warning, latitude, longitude, geo.latitudeNow, geo.longitudeNow);
+			} else {
+				base.runNavigation(activity, res, settings, warning, latitude, longitude);
 			}
 		}
 	}

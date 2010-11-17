@@ -655,27 +655,7 @@ public class cgeocaches extends ListActivity {
 
 			return true;
 		} else if (id == 4) { // show on external map
-			try {
-				if (base.isIntentAvailable(activity, "com.robert.maps.action.SHOW_POINTS") == true) {
-					// rmaps
-					final ArrayList<String> locations = new ArrayList<String>();
-					locations.add(String.format((Locale)null, "%.6f", cache.latitude) + "," + String.format((Locale)null, "%.6f", cache.longitude) + ";" + cache.geocode + ";" + cache.name);
-
-					final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
-					intent.putStringArrayListExtra("locations", locations);
-
-					activity.startActivity(intent);
-				} else {
-					// default map
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
-				}
-			} catch (Exception e) {
-				Intent mapIntent = new Intent(activity, cgeomap.class);
-				mapIntent.putExtra("detail", false);
-				mapIntent.putExtra("geocode", cache.geocode);
-
-				activity.startActivity(mapIntent);
-			}
+			base.runExternalMap(activity, res, warning, cache.latitude, cache.longitude, cache.geocode, cache.name);
 
 			return true;
 		} else if (id == 5) { // turn-by-turn

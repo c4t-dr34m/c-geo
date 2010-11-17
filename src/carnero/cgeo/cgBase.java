@@ -1,6 +1,7 @@
 package carnero.cgeo;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import java.io.InputStreamReader;
@@ -35,6 +36,8 @@ import android.text.Spannable;
 import android.text.style.StrikethroughSpan;
 import android.view.Display;
 import android.view.WindowManager;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -3854,8 +3857,13 @@ public class cgBase {
 	}
 
 	public static boolean isIntentAvailable(Context context, String action) {
-		final PackageManager packageManager = context.getPackageManager();
 		final Intent intent = new Intent(action);
+		
+		return isIntentAvailable(context, intent);
+	}
+		
+	public static boolean isIntentAvailable(Context context, Intent intent) {
+		final PackageManager packageManager = context.getPackageManager();
 		final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, packageManager.MATCH_DEFAULT_ONLY);
 		
 		return list.size() > 0;
@@ -4099,6 +4107,85 @@ public class cgBase {
 		return out;
 	}
 
+	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, Double latitude, Double longitude, String geocode, String name) {
+		// locus
+		try {
+			Intent intent = new Intent();
+			intent.setAction("android.intent.action.SHOW_POINTS");
+			intent.setComponent(new ComponentName("menion.android.locus", "menion.android.locus.Main"));
+
+			if (isIntentAvailable(activity, intent) == true) {
+				final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				final DataOutputStream dos = new DataOutputStream(baos);
+
+				dos.writeInt(1); // not used
+				dos.writeInt(1); // waypoints
+
+				// dos.writeInt(image.length); // image size; 0 if no data followed
+				// dos.write(image); // image data
+				dos.write(0); // no image data
+
+				// name
+				if (geocode != null) {
+					dos.writeUTF(geocode.toUpperCase());
+				} else {
+					dos.writeUTF("");
+				}
+				// description
+				if (name != null) {
+					dos.writeUTF(name);
+				} else {
+					dos.writeUTF("");
+				}
+				dos.writeDouble(latitude); // latitude
+				dos.writeDouble(longitude); // longitude
+
+				intent.putExtra("data", baos.toByteArray());
+
+				activity.startActivity(intent);
+
+				return true;
+			}
+		} catch (Exception e) {
+			// nothing
+		}
+
+		// rmaps
+		try {
+			final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
+
+			if (isIntentAvailable(activity, intent) == true) {
+				final ArrayList<String> locations = new ArrayList<String>();
+				locations.add(String.format((Locale)null, "%.6f", latitude) + "," + String.format((Locale)null, "%.6f", longitude) + ";" + geocode + ";" + name);
+
+				intent.putStringArrayListExtra("locations", locations);
+
+				activity.startActivity(intent);
+
+				return true;
+			}
+		} catch (Exception e) {
+			// nothing
+		}
+			
+		// default map
+		try {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longitude)));
+
+			return true;
+		} catch (Exception e) {
+			// nothing
+		}
+
+		Log.i(cgSettings.tag, "cgBase.runExternalMap: No maps application available.");
+
+		if (warning != null && res != null) {
+			warning.showToast(res.getString(R.string.err_application_no));
+		}
+
+		return false;
+	}
+
 	public boolean runNavigation(Activity activity, Resources res, cgSettings settings, cgWarning warning, Double latitude, Double longitude) {
 		return runNavigation(activity, res, settings, warning, latitude, longitude, null, null);
 	}
@@ -4114,7 +4201,7 @@ public class cgBase {
 
 				return true;
 			} catch (Exception e) {
-
+				// nothing
 			}
 		}
 
@@ -4131,7 +4218,7 @@ public class cgBase {
 			// nothing
 		}
 
-		Log.i(cgSettings.tag, "cgBase.runNavigation.1: No navigation application available.");
+		Log.i(cgSettings.tag, "cgBase.runNavigation: No navigation application available.");
 
 		if (warning != null && res != null) {
 			warning.showToast(res.getString(R.string.err_navigation_no));
