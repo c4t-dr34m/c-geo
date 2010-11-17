@@ -284,7 +284,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="changelog">
 <b>1.12</b> (__.11.2010)\n
 · fix: Code cleanup and optimization\n
-· fix: Support for Locus, offline maps\n
+· fix: Support for Locus (ver. 0.4.4+)\n
 <b>1.11</b> (13.11.2010)\n
 · fix: Marking caches as found\n
 · fix: Disappearing text of log when screen rotates\n
