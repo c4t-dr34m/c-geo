@@ -28,6 +28,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -36,6 +38,7 @@ import android.text.Spannable;
 import android.text.style.StrikethroughSpan;
 import android.view.Display;
 import android.view.WindowManager;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -100,6 +103,9 @@ public class cgBase {
 	private SharedPreferences prefs = null;
 	private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
 
+	final private static HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
+	final private static HashMap<String, Integer> wpIcons = new HashMap<String, Integer>();
+	
 	public cgBase(cgeoapplication appIn, cgSettings settingsIn, SharedPreferences prefsIn) {
 		res = appIn.getBaseContext().getResources();
 
@@ -4107,23 +4113,115 @@ public class cgBase {
 		return out;
 	}
 
-	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, Double latitude, Double longitude, String geocode, String name) {
+	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, GoogleAnalyticsTracker tracker, Double latitude, Double longitude, String geocode, String name, boolean cache, String type, boolean found, boolean disabled) {
+		if (gcIcons.isEmpty()) {
+			gcIcons.put("ape", R.drawable.marker_cache_ape);
+			gcIcons.put("cito", R.drawable.marker_cache_cito);
+			gcIcons.put("earth", R.drawable.marker_cache_earth);
+			gcIcons.put("event", R.drawable.marker_cache_event);
+			gcIcons.put("letterbox", R.drawable.marker_cache_letterbox);
+			gcIcons.put("locationless", R.drawable.marker_cache_locationless);
+			gcIcons.put("mega", R.drawable.marker_cache_mega);
+			gcIcons.put("multi", R.drawable.marker_cache_multi);
+			gcIcons.put("traditional", R.drawable.marker_cache_traditional);
+			gcIcons.put("virtual", R.drawable.marker_cache_virtual);
+			gcIcons.put("webcam", R.drawable.marker_cache_webcam);
+			gcIcons.put("wherigo", R.drawable.marker_cache_wherigo);
+			gcIcons.put("mystery", R.drawable.marker_cache_mystery);
+			gcIcons.put("ape-found", R.drawable.marker_cache_ape_found);
+			gcIcons.put("cito-found", R.drawable.marker_cache_cito_found);
+			gcIcons.put("earth-found", R.drawable.marker_cache_earth_found);
+			gcIcons.put("event-found", R.drawable.marker_cache_event_found);
+			gcIcons.put("letterbox-found", R.drawable.marker_cache_letterbox_found);
+			gcIcons.put("locationless-found", R.drawable.marker_cache_locationless_found);
+			gcIcons.put("mega-found", R.drawable.marker_cache_mega_found);
+			gcIcons.put("multi-found", R.drawable.marker_cache_multi_found);
+			gcIcons.put("traditional-found", R.drawable.marker_cache_traditional_found);
+			gcIcons.put("virtual-found", R.drawable.marker_cache_virtual_found);
+			gcIcons.put("webcam-found", R.drawable.marker_cache_webcam_found);
+			gcIcons.put("wherigo-found", R.drawable.marker_cache_wherigo_found);
+			gcIcons.put("mystery-found", R.drawable.marker_cache_mystery_found);
+			gcIcons.put("ape-disabled", R.drawable.marker_cache_ape_disabled);
+			gcIcons.put("cito-disabled", R.drawable.marker_cache_cito_disabled);
+			gcIcons.put("earth-disabled", R.drawable.marker_cache_earth_disabled);
+			gcIcons.put("event-disabled", R.drawable.marker_cache_event_disabled);
+			gcIcons.put("letterbox-disabled", R.drawable.marker_cache_letterbox_disabled);
+			gcIcons.put("locationless-disabled", R.drawable.marker_cache_locationless_disabled);
+			gcIcons.put("mega-disabled", R.drawable.marker_cache_mega_disabled);
+			gcIcons.put("multi-disabled", R.drawable.marker_cache_multi_disabled);
+			gcIcons.put("traditional-disabled", R.drawable.marker_cache_traditional_disabled);
+			gcIcons.put("virtual-disabled", R.drawable.marker_cache_virtual_disabled);
+			gcIcons.put("webcam-disabled", R.drawable.marker_cache_webcam_disabled);
+			gcIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
+			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
+		}
+
+		if (wpIcons.isEmpty()) {
+			wpIcons.put("waypoint", R.drawable.marker_waypoint_waypoint);
+			wpIcons.put("flag", R.drawable.marker_waypoint_flag);
+			wpIcons.put("pkg", R.drawable.marker_waypoint_pkg);
+			wpIcons.put("puzzle", R.drawable.marker_waypoint_puzzle);
+			wpIcons.put("stage", R.drawable.marker_waypoint_stage);
+			wpIcons.put("trailhead", R.drawable.marker_waypoint_trailhead);
+		}
+
 		// locus
 		try {
 			Intent intent = new Intent();
 			intent.setAction("android.intent.action.SHOW_POINTS");
-			intent.setComponent(new ComponentName("menion.android.locus", "menion.android.locus.Main"));
+			intent.setComponent(new ComponentName("menion.android.locus", "menion.android.locus.MainActivity"));
 
 			if (isIntentAvailable(activity, intent) == true) {
+				int icon = -1;
+				String iconTxt = null;
+				
+				if (cache == true) {
+					if (type == null || type.length() == 9) {
+						iconTxt = "traditional";
+					} else {
+						if (found == true) {
+							iconTxt = type + "-found";
+						} else if (disabled == true) {
+							iconTxt = type + "-disabled";
+						} else {
+							iconTxt = type;
+						}
+					}
+
+					if (gcIcons.containsKey(iconTxt) == true) {
+						icon = gcIcons.get(iconTxt);
+					}
+				} else {
+					if (type == null || type.length() == 0) {
+						iconTxt = "waypoint";
+					} else {
+						iconTxt = type;
+					}
+
+					if (wpIcons.containsKey(iconTxt) == true) {
+						icon = wpIcons.get(iconTxt);
+					}
+				}
+
 				final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				final DataOutputStream dos = new DataOutputStream(baos);
 
 				dos.writeInt(1); // not used
 				dos.writeInt(1); // waypoints
 
-				// dos.writeInt(image.length); // image size; 0 if no data followed
-				// dos.write(image); // image data
-				dos.write(0); // no image data
+				if (icon > 0) {
+					// load icon
+					Bitmap bitmap = BitmapFactory.decodeResource(res, icon);
+					ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+					bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos2);
+					byte[] image = baos2.toByteArray();
+
+					dos.writeInt(image.length);
+					dos.write(image);
+				} else {
+					// no icon
+					dos.writeInt(0); // no image
+				}
 
 				// name
 				if (geocode != null) {
@@ -4137,12 +4235,20 @@ public class cgBase {
 				} else {
 					dos.writeUTF("");
 				}
+
+				// additional data :: keyword, button title, package, activity, data, name
+				dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeodetail;geocode;" + geocode);
+
 				dos.writeDouble(latitude); // latitude
 				dos.writeDouble(longitude); // longitude
 
 				intent.putExtra("data", baos.toByteArray());
 
 				activity.startActivity(intent);
+
+				if (tracker != null) {
+					tracker.trackPageView("/external/locus");
+				}
 
 				return true;
 			}
@@ -4162,6 +4268,10 @@ public class cgBase {
 
 				activity.startActivity(intent);
 
+				if (tracker != null) {
+					tracker.trackPageView("/external/rmaps");
+				}
+
 				return true;
 			}
 		} catch (Exception e) {
@@ -4171,6 +4281,10 @@ public class cgBase {
 		// default map
 		try {
 			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longitude)));
+
+				if (tracker != null) {
+					tracker.trackPageView("/external/native/maps");
+				}
 
 			return true;
 		} catch (Exception e) {
@@ -4186,11 +4300,11 @@ public class cgBase {
 		return false;
 	}
 
-	public boolean runNavigation(Activity activity, Resources res, cgSettings settings, cgWarning warning, Double latitude, Double longitude) {
-		return runNavigation(activity, res, settings, warning, latitude, longitude, null, null);
+	public boolean runNavigation(Activity activity, Resources res, cgSettings settings, cgWarning warning, GoogleAnalyticsTracker tracker, Double latitude, Double longitude) {
+		return runNavigation(activity, res, settings, warning, tracker, latitude, longitude, null, null);
 	}
 
-	public boolean runNavigation(Activity activity, Resources res, cgSettings settings, cgWarning warning, Double latitude, Double longitude, Double latitudeNow, Double longitudeNow) {
+	public boolean runNavigation(Activity activity, Resources res, cgSettings settings, cgWarning warning, GoogleAnalyticsTracker tracker, Double latitude, Double longitude, Double latitudeNow, Double longitudeNow) {
 		if (activity == null) return false;
 		if (settings == null) return false;
 
@@ -4198,6 +4312,10 @@ public class cgBase {
 		if (settings.useGNavigation == 1) {
 			try {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ latitude + "," + longitude)));
+
+				if (tracker != null) {
+					tracker.trackPageView("/external/native/navigation");
+				}
 
 				return true;
 			} catch (Exception e) {
@@ -4211,6 +4329,10 @@ public class cgBase {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ latitudeNow + "," + longitudeNow + "&daddr="+ latitude + "," + longitude)));
 			} else {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ latitude + "," + longitude)));
+			}
+
+			if (tracker != null) {
+				tracker.trackPageView("/external/native/maps");
 			}
 
 			return true;

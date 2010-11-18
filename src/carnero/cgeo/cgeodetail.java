@@ -198,8 +198,8 @@ public class cgeodetail extends Activity {
 		init();
 
 		// get parameters
-		Bundle extras = getIntent().getExtras();
-		Uri uri = getIntent().getData();
+		final Bundle extras = getIntent().getExtras();
+		final Uri uri = getIntent().getData();
 
 		// try to get data from extras
 		if (geocode == null && extras != null) {
@@ -377,14 +377,14 @@ public class cgeodetail extends Activity {
 				return true;
 			case 9:
 				if (geo != null) {
-					base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
+					base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
 				} else {
-					base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude);
+					base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude);
 				}
 				
 				return true;
 			case 10:
-				base.runExternalMap(activity, res, warning, cache.latitude, cache.longitude, cache.geocode, cache.name);
+				base.runExternalMap(activity, res, warning, tracker, cache.latitude, cache.longitude, cache.geocode, cache.name, true, cache.type, cache.found, cache.disabled);
 				
 				return true;
 			case 11:

@@ -655,14 +655,14 @@ public class cgeocaches extends ListActivity {
 
 			return true;
 		} else if (id == 4) { // show on external map
-			base.runExternalMap(activity, res, warning, cache.latitude, cache.longitude, cache.geocode, cache.name);
+			base.runExternalMap(activity, res, warning, tracker, cache.latitude, cache.longitude, cache.geocode, cache.name, true, cache.type, cache.found, cache.disabled);
 
 			return true;
 		} else if (id == 5) { // turn-by-turn
 			if (geo != null) {
-				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
+				base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
 			} else {
-				base.runNavigation(activity, res, settings, warning, cache.latitude, cache.longitude);
+				base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude);
 			}
 
 			return true;

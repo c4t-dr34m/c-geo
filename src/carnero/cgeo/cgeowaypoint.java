@@ -3,7 +3,6 @@ package carnero.cgeo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.net.Uri;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.util.Log;
@@ -15,8 +14,6 @@ import android.content.res.Resources;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import java.util.ArrayList;
-import java.util.Locale;
 
 public class cgeowaypoint extends Activity {
 	private GoogleAnalyticsTracker tracker = null;
@@ -81,7 +78,7 @@ public class cgeowaypoint extends Activity {
 
 						Button buttonMapExt = (Button)findViewById(R.id.map_ext);
 						buttonMapExt.setClickable(true);
-						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint.latitude, waypoint.longitude, waypoint.name, ""));
+						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint.latitude, waypoint.longitude, waypoint.name, "", waypoint.type));
 
 						Button buttonTurn = (Button)findViewById(R.id.turn);
 						buttonTurn.setClickable(true);
@@ -240,16 +237,18 @@ public class cgeowaypoint extends Activity {
 		private Double longitude = null;
 		private String geocode = null;
 		private String name = null;
+		private String type = null;
 
-		public mapExtToListener(Double latitudeIn, Double longitudeIn, String nameIn, String geocodeIn) {
+		public mapExtToListener(Double latitudeIn, Double longitudeIn, String nameIn, String geocodeIn, String typeIn) {
 			latitude = latitudeIn;
 			longitude = longitudeIn;
 			geocode = geocodeIn;
 			name = nameIn;
+			type = typeIn;
 		}
 
 		public void onClick(View arg0) {
-			base.runExternalMap(activity, res, warning, latitude, longitude, geocode, name);
+			base.runExternalMap(activity, res, warning, tracker, latitude, longitude, geocode, name, false, type, false, false);
 		}
 	}
 
@@ -312,9 +311,9 @@ public class cgeowaypoint extends Activity {
 
 		public void onClick(View arg0) {
 			if (geo != null) {
-				base.runNavigation(activity, res, settings, warning, latitude, longitude, geo.latitudeNow, geo.longitudeNow);
+				base.runNavigation(activity, res, settings, warning, tracker, latitude, longitude, geo.latitudeNow, geo.longitudeNow);
 			} else {
-				base.runNavigation(activity, res, settings, warning, latitude, longitude);
+				base.runNavigation(activity, res, settings, warning, tracker, latitude, longitude);
 			}
 		}
 	}

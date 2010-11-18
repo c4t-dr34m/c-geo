@@ -571,9 +571,9 @@ public class cgeopopup extends Activity {
 			boolean status = false;
 
 			if (geo != null) {
-				status = base.runNavigation(activity, res, settings, warning, latitude, longitude, geo.latitudeNow, geo.longitudeNow);
+				status = base.runNavigation(activity, res, settings, warning, tracker, latitude, longitude, geo.latitudeNow, geo.longitudeNow);
 			} else {
-				status = base.runNavigation(activity, res, settings, warning, latitude, longitude);
+				status = base.runNavigation(activity, res, settings, warning, tracker, latitude, longitude);
 			}
 
 			if (status == true) {
