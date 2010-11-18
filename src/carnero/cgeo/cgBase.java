@@ -4236,7 +4236,7 @@ public class cgBase {
 					dos.writeUTF("");
 				}
 
-				// additional data :: keyword, button title, package, activity, data, name
+				// additional data :: keyword, button title, package, activity, data name, data content
 				dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeodetail;geocode;" + geocode);
 
 				dos.writeDouble(latitude); // latitude
