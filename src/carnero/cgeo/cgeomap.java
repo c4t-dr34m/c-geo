@@ -26,14 +26,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class cgeomap extends MapActivity {
-	private GoogleAnalyticsTracker tracker = null;
 	private Activity activity = null;
 	private MapView mapView = null;
 	private MapController mapController = null;
@@ -281,12 +279,6 @@ public class cgeomap extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/map");
-
 		// class init
 		activity = this;
 		app = (cgeoapplication)activity.getApplication();
@@ -299,6 +291,7 @@ public class cgeomap extends MapActivity {
 		// set layout
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setTitle("map");
+		base.sendAnal(activity, "/map");
 		if (settings.skin == 1) setContentView(R.layout.map_light);
 		else setContentView(R.layout.map_dark);
 
@@ -483,7 +476,6 @@ public class cgeomap extends MapActivity {
 
 		if (dir != null) dir = app.removeDir();
 		if (geo != null) geo = app.removeGeo();
-		if (tracker != null) tracker.stop();
 
 		savePrefs();
 

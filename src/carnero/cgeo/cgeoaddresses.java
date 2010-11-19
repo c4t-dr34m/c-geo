@@ -15,13 +15,10 @@ import android.location.Geocoder;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.List;
 import java.util.Locale;
 
 public class cgeoaddresses extends Activity {
-
-	private GoogleAnalyticsTracker tracker = null;
 	private final ArrayList<Address> addresses = new ArrayList<Address>();
 	private String keyword = null;
 	private cgeoapplication app = null;
@@ -101,12 +98,6 @@ public class cgeoaddresses extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/addresses");
-
 		// init
 		activity = this;
 		app = (cgeoapplication) this.getApplication();
@@ -114,8 +105,9 @@ public class cgeoaddresses extends Activity {
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
 
-		// set layout
 		setTitle("known places");
+		base.sendAnal(activity, "/addresses");
+
 		if (settings.skin == 1) {
 			setContentView(R.layout.addresses_light);
 		} else {
@@ -145,10 +137,6 @@ public class cgeoaddresses extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
 		super.onDestroy();
 	}
 

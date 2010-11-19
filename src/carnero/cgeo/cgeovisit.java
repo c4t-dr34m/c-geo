@@ -21,15 +21,12 @@ import android.view.LayoutInflater;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 public class cgeovisit extends cgLogForm {
-
-	private GoogleAnalyticsTracker tracker = null;
 	private cgeoapplication app = null;
 	private Activity activity = null;
 	private LayoutInflater inflater = null;
@@ -190,12 +187,6 @@ public class cgeovisit extends cgLogForm {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/visit");
-
 		// init
 		activity = this;
 		app = (cgeoapplication) this.getApplication();
@@ -206,6 +197,7 @@ public class cgeovisit extends cgLogForm {
 		// set layout
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setTitle("log");
+		base.sendAnal(activity, "/visit");
 		if (settings.skin == 1) {
 			setContentView(R.layout.visit_light);
 		} else {
@@ -245,15 +237,6 @@ public class cgeovisit extends cgLogForm {
 		}
 
 		init();
-	}
-
-	@Override
-	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
-		super.onDestroy();
 	}
 
 	@Override
@@ -784,9 +767,15 @@ public class cgeovisit extends cgLogForm {
 				}
 			}
 
-			if (status == 1 && typeSelected == 2 && settings.twitter == 1
-							&& settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null && settings.tokenSecret.length() > 0
-							&& tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE) {
+			if (status == 1) {
+				app.clearLogOffline(geocode);
+			}
+
+			if (
+							status == 1 && typeSelected == 2 && settings.twitter == 1
+							&& settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null
+							&& settings.tokenSecret.length() > 0 && tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
+			) {
 				base.postTweetCache(app, settings, geocode);
 			}
 

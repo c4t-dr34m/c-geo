@@ -22,11 +22,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.SubMenu;
 import android.widget.ImageView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeotrackable extends Activity {
-
-	private GoogleAnalyticsTracker tracker = null;
 	public cgTrackable trackable = null;
 	public String geocode = null;
 	public String name = null;
@@ -287,12 +284,6 @@ public class cgeotrackable extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/trackable/list");
-
 		// init
 		activity = this;
 		app = (cgeoapplication) this.getApplication();
@@ -302,6 +293,7 @@ public class cgeotrackable extends Activity {
 
 		// set layout
 		setTitle("trackable");
+		base.sendAnal(activity, "/trackable/list");
 		if (settings.skin == 1) {
 			setContentView(R.layout.trackabledetail_light);
 		} else {
@@ -356,15 +348,6 @@ public class cgeotrackable extends Activity {
 		loadTrackable thread;
 		thread = new loadTrackable(loadTrackableHandler, geocode, guid);
 		thread.start();
-	}
-
-	@Override
-	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
-		super.onDestroy();
 	}
 
 	@Override

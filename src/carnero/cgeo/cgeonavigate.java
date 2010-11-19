@@ -15,14 +15,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class cgeonavigate extends Activity {
 	public static ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
 
-	private GoogleAnalyticsTracker tracker = null;
 	private Resources res = null;
 	private cgeoapplication app = null;
 	private Context activity = null;
@@ -65,12 +63,6 @@ public class cgeonavigate extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/navigate");
-
 		// class init
 		activity = this;
 		res = this.getResources();
@@ -81,6 +73,7 @@ public class cgeonavigate extends Activity {
 
 		// set layout
 		setTitle("navigation");
+		base.sendAnal(activity, "/navigate");
 		if (settings.skin == 1) setContentView(R.layout.navigate_light);
 		else setContentView(R.layout.navigate_dark);
 
@@ -183,7 +176,6 @@ public class cgeonavigate extends Activity {
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
 		if (dir != null) dir = app.removeDir();
-		if (tracker != null) tracker.stop();
 
 		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 

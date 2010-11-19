@@ -19,11 +19,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.File;
 
 public class cgeoinit extends Activity {
-	private GoogleAnalyticsTracker tracker = null;
 	private cgeoapplication app = null;
 	private Resources res = null;
 	private Context activity = null;
@@ -64,12 +62,6 @@ public class cgeoinit extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/init");
-
 		// init
 		activity = this;
 		res = this.getResources();
@@ -81,6 +73,7 @@ public class cgeoinit extends Activity {
 
 		// set layout
 		setTitle(res.getString(R.string.settings));
+		base.sendAnal(activity, "/init");
 		if (settings.skin == 1) setContentView(R.layout.init_light);
 		else setContentView(R.layout.init_dark);
 
@@ -108,8 +101,6 @@ public class cgeoinit extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (tracker != null) tracker.stop();
-
 		saveValues();
 		
 		super.onDestroy();

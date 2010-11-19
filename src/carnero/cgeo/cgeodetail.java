@@ -37,12 +37,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class cgeodetail extends Activity {
-	private GoogleAnalyticsTracker tracker = null;
 	public Long searchId = null;
 	public cgCache cache = null;
 	public String geocode = null;
 	public String name = null;
 	public String guid = null;
+	private GoogleAnalyticsTracker tracker = null;
 	private Resources res = null;
 	private Activity activity = null;
 	private LayoutInflater inflater = null;
@@ -173,12 +173,6 @@ public class cgeodetail extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/cache/detail");
-
 		// init
 		activity = this;
 		res = this.getResources();
@@ -186,6 +180,12 @@ public class cgeodetail extends Activity {
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		base.sendAnal(activity, tracker, "/cache/detail");
 
 		// set layout
 		setTitle(res.getString(R.string.cache));

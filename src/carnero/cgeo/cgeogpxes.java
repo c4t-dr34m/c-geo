@@ -9,13 +9,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.ListView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.File;
 import java.util.ArrayList;
 
 public class cgeogpxes extends ListActivity {
-
-	private GoogleAnalyticsTracker tracker = null;
 	private ArrayList<File> files = new ArrayList<File>();
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
@@ -98,12 +95,6 @@ public class cgeogpxes extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/gpx-import");
-
 		// init
 		activity = this;
 		app = (cgeoapplication) this.getApplication();
@@ -113,6 +104,7 @@ public class cgeogpxes extends ListActivity {
 
 		// set layout
 		setTitle("import gpx");
+		base.sendAnal(activity, "/gpx-import");
 		if (settings.skin == 1) {
 			setContentView(R.layout.gpxes_light);
 		} else {
@@ -124,15 +116,6 @@ public class cgeogpxes extends ListActivity {
 		waitDialog.setCancelable(false);
 
 		(new loadFiles()).start();
-	}
-
-	@Override
-	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
-		super.onDestroy();
 	}
 
 	private void setAdapter() {

@@ -10,11 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeoabout extends Activity {
-
-	private GoogleAnalyticsTracker tracker = null;
 	private Activity activity = null;
 	private Resources res = null;
 	private cgSettings settings = null;
@@ -24,12 +21,6 @@ public class cgeoabout extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/about");
-
 		// init
 		activity = this;
 		res = this.getResources();
@@ -38,6 +29,8 @@ public class cgeoabout extends Activity {
 
 		// set layout
 		setTitle(res.getString(R.string.about));
+		base.sendAnal(activity, "/about");
+
 		if (settings.skin == 1) {
 			setContentView(R.layout.about_light);
 		} else {
@@ -49,10 +42,6 @@ public class cgeoabout extends Activity {
 	
 	@Override
 	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-		
 		super.onDestroy();
 	}
 

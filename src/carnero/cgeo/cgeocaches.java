@@ -107,7 +107,7 @@ public class cgeocaches extends ListActivity {
 					dialog.setPositiveButton("Show License", new DialogInterface.OnClickListener() {
 					   public void onClick(DialogInterface dialog, int id) {
 						    settings.deleteCookies();
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/waypoints/agreement.aspx?ID=0")));
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/software/agreement.aspx?ID=0")));
 					   }
 					});
 
@@ -296,12 +296,6 @@ public class cgeocaches extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/cache/list");
-
 		// init
 		activity = this;
 		res = this.getResources();
@@ -310,6 +304,12 @@ public class cgeocaches extends ListActivity {
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		base.sendAnal(activity, tracker, "/cache/list");
 
 		// set layout
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);

@@ -12,11 +12,9 @@ import android.widget.LinearLayout;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.TextView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 
 public class cgeosmaps extends Activity {
-	private GoogleAnalyticsTracker tracker = null;
 	private ArrayList<Bitmap> maps = new ArrayList<Bitmap>();
 	private String geocode = null;
 	private cgeoapplication app = null;
@@ -73,12 +71,6 @@ public class cgeosmaps extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/map-static");
-
 		// init
 		activity = this;
 		app = (cgeoapplication)this.getApplication();
@@ -88,6 +80,7 @@ public class cgeosmaps extends Activity {
 
 		// set layout
 		setTitle("static maps");
+		base.sendAnal(activity, "/map-static");
 		if (settings.skin == 1) setContentView(R.layout.smaps_light);
 		else setContentView(R.layout.smaps_dark);
 
@@ -111,15 +104,6 @@ public class cgeosmaps extends Activity {
 		waitDialog.setCancelable(true);
 
 		(new loadMaps()).start();
-	}
-
-	@Override
-	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
-		super.onDestroy();
 	}
 
 	private class loadMaps extends Thread {

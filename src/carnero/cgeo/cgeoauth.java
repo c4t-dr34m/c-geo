@@ -24,13 +24,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Button;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.IOException;
 import javax.net.ssl.HttpsURLConnection;
 
 public class cgeoauth extends Activity {
-
-	private GoogleAnalyticsTracker tracker = null;
 	private cgeoapplication app = null;
 	private Resources res = null;
 	private Context activity = null;
@@ -101,12 +98,6 @@ public class cgeoauth extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/auth");
-
 		// init
 		activity = this;
 		res = this.getResources();
@@ -119,6 +110,7 @@ public class cgeoauth extends Activity {
 
 		// set layout
 		setTitle(res.getString(R.string.auth_twitter));
+		base.sendAnal(activity, "/auth");
 		if (settings.skin == 1) {
 			setContentView(R.layout.auth_light);
 		} else {
@@ -126,15 +118,6 @@ public class cgeoauth extends Activity {
 		}
 
 		init();
-	}
-
-	@Override
-	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
-		super.onDestroy();
 	}
 
 	private void init() {

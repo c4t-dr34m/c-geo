@@ -97,12 +97,6 @@ public class cgeopopup extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/popup");
-
 		// init
 		activity = this;
 		res = this.getResources();
@@ -110,6 +104,12 @@ public class cgeopopup extends Activity {
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		base.sendAnal(activity, tracker, "/popup");
 
 		// set layout
 		setTitle(res.getString(R.string.detail));

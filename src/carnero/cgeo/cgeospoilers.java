@@ -18,11 +18,8 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.ViewGroup.LayoutParams;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeospoilers extends Activity {
-
-	private GoogleAnalyticsTracker tracker = null;
 	private ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
 	private String geocode = null;
 	private cgeoapplication app = null;
@@ -122,12 +119,6 @@ public class cgeospoilers extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/spoilers");
-
 		// init
 		activity = this;
 		app = (cgeoapplication) this.getApplication();
@@ -137,6 +128,7 @@ public class cgeospoilers extends Activity {
 
 		// set layout
 		setTitle("spoiler images");
+		base.sendAnal(activity, "/spoilers");
 		if (settings.skin == 1) {
 			setContentView(R.layout.spoilers_light);
 		} else {
@@ -166,15 +158,6 @@ public class cgeospoilers extends Activity {
 		waitDialog.setCancelable(true);
 
 		(new loadSpoilers()).start();
-	}
-
-	@Override
-	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
-		super.onDestroy();
 	}
 
 	private class loadSpoilers extends Thread {

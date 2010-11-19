@@ -15,11 +15,8 @@ import android.text.Html;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeotrackables extends Activity {
-
-	private GoogleAnalyticsTracker tracker = null;
 	private ArrayList<cgTrackable> trackables = new ArrayList<cgTrackable>();
 	private String geocode = null;
 	private cgeoapplication app = null;
@@ -87,12 +84,6 @@ public class cgeotrackables extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/trackable/detail");
-
 		// init
 		activity = this;
 		app = (cgeoapplication) this.getApplication();
@@ -102,6 +93,7 @@ public class cgeotrackables extends Activity {
 
 		// set layout
 		setTitle("inventory");
+		base.sendAnal(activity, "/trackable/detail");
 		if (settings.skin == 1) {
 			setContentView(R.layout.trackables_light);
 		} else {
@@ -127,15 +119,6 @@ public class cgeotrackables extends Activity {
 		waitDialog.setCancelable(true);
 
 		(new loadInventory()).start();
-	}
-
-	@Override
-	public void onDestroy() {
-		if (tracker != null) {
-			tracker.stop();
-		}
-
-		super.onDestroy();
 	}
 
 	private class loadInventory extends Thread {

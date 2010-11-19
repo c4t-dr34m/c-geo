@@ -10,14 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeopoint extends Activity {
-	private GoogleAnalyticsTracker tracker = null;
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -32,12 +30,6 @@ public class cgeopoint extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/point");
-
 		// init
 		activity = this;
 		app = (cgeoapplication)this.getApplication();
@@ -47,6 +39,7 @@ public class cgeopoint extends Activity {
 
 		// set layout
 		setTitle("destination");
+		base.sendAnal(activity, "/point");
 		if (settings.skin == 1) setContentView(R.layout.point_light);
 		else setContentView(R.layout.point_dark);
 
@@ -70,7 +63,6 @@ public class cgeopoint extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
-		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}

@@ -3069,7 +3069,7 @@ public class cgBase {
 		}
 
 		try {
-			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>View Geocache Log[^<]*</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
+			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>[^<]*</span>[^<]*</h2>[^<]*<div id=[\"|']ctl00_ContentBody_LogBookPanel1_ViewLogPanel[\"|']>", Pattern.CASE_INSENSITIVE);
 			final Matcher matcherOk = patternOk.matcher(page);
 			if (matcherOk.find() == true) {
 				Log.i(cgSettings.tag, "Log successfully posted to cache #" + cacheid);
@@ -3146,7 +3146,7 @@ public class cgBase {
 		}
 
 		try {
-			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>View Trackable Log[^<]*</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
+			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>[^<]*</span>[^<]*</h2>[^<]*<div id=[\"|']ctl00_ContentBody_LogBookPanel1_ViewLogPanel[\"|']>", Pattern.CASE_INSENSITIVE);
 			final Matcher matcherOk = patternOk.matcher(page);
 			if (matcherOk.find() == true) {
 				Log.i(cgSettings.tag, "Log successfully posted to trackable #" + trackingCode);
@@ -4365,6 +4365,51 @@ public class cgBase {
 		}
 
 		return usertoken;
+	}
+
+	public void sendAnal(Context context, String page) {
+		(new sendAnalThread(context, null, page)).start();
+	}
+
+	public void sendAnal(Context context, GoogleAnalyticsTracker tracker, String page) {
+		(new sendAnalThread(context, tracker, page)).start();
+	}
+
+	private class sendAnalThread extends Thread {
+		Context context = null;
+		GoogleAnalyticsTracker tracker = null;
+		String page = null;
+		boolean startedHere = false;
+
+		public sendAnalThread(Context contextIn, GoogleAnalyticsTracker trackerIn, String pageIn) {
+			context = contextIn;
+			tracker = trackerIn;
+			page = pageIn;
+		}
+
+		@Override
+		public void run() {
+			try {
+				if (page == null || page.length() == 0) {
+					page = "/";
+				}
+
+				if (tracker == null && context != null) {
+					startedHere = true;
+					tracker = GoogleAnalyticsTracker.getInstance();
+					tracker.start(cgSettings.analytics, context);
+					tracker.dispatch();
+				}
+
+				tracker.trackPageView(page);
+
+				if (startedHere == true) {
+					tracker.stop();
+				}
+			} catch (Exception e) {
+				// nothing
+			}
+		}
 	}
 }
 

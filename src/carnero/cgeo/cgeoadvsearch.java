@@ -19,7 +19,6 @@ import android.widget.AutoCompleteTextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeoadvsearch extends Activity {
-	private GoogleAnalyticsTracker tracker = null;
 	private Resources res = null;
 	private cgeoapplication app = null;
 	private Context context = null;
@@ -36,12 +35,6 @@ public class cgeoadvsearch extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/advanced-search");
-
 		// init
 		context = this;
 		res = this.getResources();
@@ -53,6 +46,7 @@ public class cgeoadvsearch extends Activity {
 
 		// set layout
 		setTitle(res.getString(R.string.search));
+		base.sendAnal(context, "/advanced-search");
 		if (settings.skin == 1) setContentView(R.layout.advsearch_light);
 		else setContentView(R.layout.advsearch_dark);
 
@@ -76,7 +70,6 @@ public class cgeoadvsearch extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
-		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}

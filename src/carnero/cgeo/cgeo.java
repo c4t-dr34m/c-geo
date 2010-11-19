@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class cgeo extends Activity {
-	private GoogleAnalyticsTracker tracker = null;
 	private Resources res = null;
 	private cgeoapplication app = null;
 	private Context context = null;
@@ -109,12 +108,6 @@ public class cgeo extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/");
-
 		context = this;
 		res = this.getResources();
 		app = (cgeoapplication)this.getApplication();
@@ -127,6 +120,8 @@ public class cgeo extends Activity {
 		app.cleanDir();
 
 		setTitle("c:geo");
+		base.sendAnal(context, "/");
+
 		try {
 			if (settings.transparent == true) {
 				Log.i(cgSettings.tag, "Setting up desktop home.");
@@ -197,7 +192,6 @@ public class cgeo extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
-		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}

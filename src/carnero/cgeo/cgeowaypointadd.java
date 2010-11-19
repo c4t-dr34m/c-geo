@@ -11,14 +11,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeowaypointadd extends Activity {
-	private GoogleAnalyticsTracker tracker = null;
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -79,12 +77,6 @@ public class cgeowaypointadd extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		tracker.trackPageView("/waypoint/new");
-
 		// init
 		activity = this;
 		app = (cgeoapplication)this.getApplication();
@@ -92,8 +84,9 @@ public class cgeowaypointadd extends Activity {
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
 
-		// set layout
 		setTitle("waypoint");
+		base.sendAnal(activity, "/waypoint/new");
+
 		if (settings.skin == 1) setContentView(R.layout.waypointadd_light);
 		else  setContentView(R.layout.waypointadd_dark);
 
@@ -153,7 +146,6 @@ public class cgeowaypointadd extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
-		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}
