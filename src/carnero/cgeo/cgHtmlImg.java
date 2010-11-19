@@ -10,10 +10,12 @@ import android.graphics.Rect;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.Date;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -46,7 +48,9 @@ public class cgHtmlImg implements Html.ImageGetter {
 		String fileName = null;
 		String fileNameSec = null;
 
-		if (url == null || url.length() == 0) return null;
+		if (url == null || url.length() == 0) {
+			return null;
+		}
 
 		final String[] urlParts = url.split("\\.");
 		String urlExt = null;
@@ -93,44 +97,57 @@ public class cgHtmlImg implements Html.ImageGetter {
 		}
 
 		if (imagePre == null && reason == 0) {
+			Uri uri = null;
 			HttpClient client = null;
 			HttpGet getMethod = null;
 			HttpResponse httpResponse = null;
 			HttpEntity entity = null;
 			BufferedHttpEntity bufferedEntity = null;
 
-			for (int i = 0; i < 2; i ++) {
-				if (i > 0) Log.w(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to download data, retrying. Attempt #" + (i + 1));
+			try {
+				uri = Uri.parse(url);
 
-				try {
-					client = new DefaultHttpClient();
-					getMethod = new HttpGet(url);
-					httpResponse = client.execute(getMethod);
-					entity = httpResponse.getEntity();
-					bufferedEntity = new BufferedHttpEntity(entity);
+				if (uri.isAbsolute() == false) {
+					url = "http://www.geocaching.com" + url;
+				}
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (parse URL): " + e.toString());
+			}
 
-					final long imageSize = bufferedEntity.getContentLength();
+			if (uri != null) {
+				for (int i = 0; i < 2; i ++) {
+					if (i > 0) Log.w(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to download data, retrying. Attempt #" + (i + 1));
 
-					final BitmapFactory.Options bfOptions = new BitmapFactory.Options();
-					// large images will be downscaled on input to save memory
-					if (imageSize > (6 * 1024 * 1024)) {
-						bfOptions.inSampleSize = 48;
-					} else if (imageSize > (4 * 1024 * 1024)) {
-						bfOptions.inSampleSize = 16;
-					} else if (imageSize > (2 * 1024 * 1024)) {
-						bfOptions.inSampleSize = 10;
-					} else if (imageSize > (1 * 1024 * 1024)) {
-						bfOptions.inSampleSize = 6;
-					} else if (imageSize > (0.5 * 1024 * 1024)) {
-						bfOptions.inSampleSize = 2;
+					try {
+						client = new DefaultHttpClient();
+						getMethod = new HttpGet(url);
+						httpResponse = client.execute(getMethod);
+						entity = httpResponse.getEntity();
+						bufferedEntity = new BufferedHttpEntity(entity);
+
+						final long imageSize = bufferedEntity.getContentLength();
+
+						final BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+						// large images will be downscaled on input to save memory
+						if (imageSize > (6 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 48;
+						} else if (imageSize > (4 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 16;
+						} else if (imageSize > (2 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 10;
+						} else if (imageSize > (1 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 6;
+						} else if (imageSize > (0.5 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 2;
+						}
+
+						Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
+
+						if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
+						if (imagePre != null) break;
+					} catch (Exception e) {
+						Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (downloading from web): " + e.toString());
 					}
-
-					Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
-
-					if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
-					if (imagePre != null) break;
-				} catch (Exception e) {
-					Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (downloading from web): " + e.toString());
 				}
 			}
 
