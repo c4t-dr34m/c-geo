@@ -18,11 +18,11 @@ import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,6 +47,7 @@ public class cgeo extends Activity {
 	private Double addLon = null;
 	private List<Address> addresses = null;
 	private boolean addressObtaining = false;
+	private boolean initialized = false;
 
 	private Handler countBubbleHandler = new Handler() {
 		@Override
@@ -191,6 +192,8 @@ public class cgeo extends Activity {
 
 	@Override
 	public void onDestroy() {
+		initialized = false;
+
 		if (geo != null) geo = app.removeGeo();
 
 		super.onDestroy();
@@ -198,6 +201,8 @@ public class cgeo extends Activity {
 
 	@Override
 	public void onStop() {
+		initialized = false;
+
 		if (geo != null) geo = app.removeGeo();
 
 		super.onStop();
@@ -205,6 +210,8 @@ public class cgeo extends Activity {
 
 	@Override
 	public void onPause() {
+		initialized = false;
+
 		if (geo != null) geo = app.removeGeo();
 
 		super.onPause();
@@ -277,8 +284,24 @@ public class cgeo extends Activity {
 	}
 
 	private void init() {
+		if (initialized == true) {
+			return;
+		}
+
+		initialized = true;
+
 		settings.getLogin();
 		settings.reloadCacheType();
+
+		if (app.firstRun == true) {
+			new Thread() {
+				@Override
+				public void run() {
+					base.login();
+					app.firstRun = false;
+				}
+			}.start();
+		}
 
 		(new countBubbleUpdate()).start();
 		(new cleanDatabase()).start();

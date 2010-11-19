@@ -105,6 +105,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 			BufferedHttpEntity bufferedEntity = null;
 
 			try {
+				// check if uri is absolute or not, if not attach geocaching.com hostname and scheme
 				uri = Uri.parse(url);
 
 				if (uri.isAbsolute() == false) {

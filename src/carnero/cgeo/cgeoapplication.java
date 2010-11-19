@@ -19,6 +19,7 @@ public class cgeoapplication extends Application {
 	final private HashMap<Long, cgSearch> searches = new HashMap<Long, cgSearch>(); // information about searches
 	final private HashMap<String, cgCache> cachesCache = new HashMap<String, cgCache>(); // caching caches into memory
 
+	public boolean firstRun = true; // c:geo is just launched
 	public boolean warnedLanguage = false; // user was warned about different language settings on geocaching.com
 	public boolean warnedCompassCalibration = false; // user was warned about low compass accuracy
 	private boolean databaseCleaned = false; // database was cleaned

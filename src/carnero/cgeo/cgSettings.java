@@ -199,16 +199,16 @@ public class cgSettings {
 				Intent initIntent = new Intent(context, cgeoinit.class);
 				context.startActivity(initIntent);
 
-        		final SharedPreferences.Editor prefsEdit = prefs.edit();
-                prefsEdit.putInt("initialized", 1);
-                prefsEdit.commit();
+				final SharedPreferences.Editor prefsEdit = prefs.edit();
+				prefsEdit.putInt("initialized", 1);
+				prefsEdit.commit();
 
 				initialized = 1;
 
 				return null;
-            } else if (initialized == 1 && (preUsername == null || prePassword == null)) {
-                return null;
-            }
+			} else if (initialized == 1 && (preUsername == null || prePassword == null)) {
+				return null;
+			}
 
 			login.put("username", preUsername);
 			login.put("password", prePassword);

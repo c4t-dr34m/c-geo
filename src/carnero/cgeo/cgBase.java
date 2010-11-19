@@ -426,7 +426,7 @@ public class cgBase {
 
 	public String switchToEnglish(String viewstate, String viewstate1) {
 		final String host = "www.geocaching.com";
-		final String path = "/default.aspx";
+		final String path = "/login/default.aspx";
 		final HashMap<String, String> params = new HashMap<String, String>();
 
 		if (viewstate != null) {
