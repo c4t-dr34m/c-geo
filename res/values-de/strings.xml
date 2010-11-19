@@ -140,8 +140,8 @@
 	<string name="about_changelog">Änderungen</string>
 	<string name="about_donate">Spenden</string>
 	<string name="about_detail">Details</string>
-	<string name="about_donation_less">donate\nless</string>
-	<string name="about_donation_more">donate\ndevelopement</string>
+	<string name="about_donation_less">Kleinere\nSpende</string>
+	<string name="about_donation_more">Spenden für\nEntwicklung</string>
 
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
@@ -164,7 +164,7 @@
 	<string name="init_exclude">Eigene und gefundene Caches ausblenden</string>
 	<string name="init_disabled">Deaktivierte Caches ausblenden</string>
 	<string name="init_offline">Karten für Offline-Verwendung speichern</string>
-	<string name="init_units">Angloamerikanisches Maßsystem (Meilen) verwenden</string>
+	<string name="init_units">Imperiales Maßsystem (Meilen) verwenden</string>
 	<string name="init_nav">Google Navigation verwenden</string>
 	<string name="init_directoryimg">Bilderverzeichnis in der Galerie ausblenden</string>
 	<string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
@@ -202,9 +202,9 @@
 	<string name="cache_offline_time_days">vor einigen Tagen</string>
 	<string name="cache_attributes">Attribute</string>
 	<string name="cache_inventory">Inventar</string>
-	<string name="cache_log_offline">offline log</string>
+	<string name="cache_log_offline">Offline-Log</string>
 	<string name="cache_description">Beschreibung</string>
-	<string name="cache_description_long">ausführliche Beschreibung</string>
+	<string name="cache_description_long">Ausführliche Beschreibung</string>
 	<string name="cache_waypoints">Wegpunkte</string>
 	<string name="cache_waypoints_add">Wegpunkt hinzufügen</string>
 	<string name="cache_hint">Hinweis</string>
@@ -221,8 +221,8 @@
 	<string name="cache_menu_compass">Kompass</string>
 	<string name="cache_menu_tbt">Turn-by-Turn</string>
 	<string name="cache_menu_radar">Radar</string>
-	<string name="cache_menu_map">auf Karte zeigen</string>
-	<string name="cache_menu_map_ext">auf externer Karte zeigen</string>
+	<string name="cache_menu_map">Auf Karte zeigen</string>
+	<string name="cache_menu_map_ext">Auf externer Karte zeigen</string>
 	<string name="cache_menu_map_static">statische Karte</string>
 	<string name="cache_menu_browser">Im Browser öffnen</string>
 	<string name="cache_menu_visit">Besuch loggen</string>
@@ -259,7 +259,11 @@
 	<string name="popup_navigation">Navigation</string>
 
 	<!-- waypoint -->
-	<string name="waypoint_custom">benutzerdefiniert</string>
+	<string name="waypoint_custom">Benutzerdefiniert</string>
+	<string name="waypoint_my_coordinates">Meine Koordinaten</string>
+	<string name="waypoint_bearing">Richtung</string>
+	<string name="waypoint_distance">Entfernung</string>
+	<string name="waypoint_name">Name</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
