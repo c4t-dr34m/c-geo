@@ -181,12 +181,6 @@ public class cgeodetail extends Activity {
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
 
-		// google analytics
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(cgSettings.analytics, this);
-		tracker.dispatch();
-		base.sendAnal(activity, tracker, "/cache/detail");
-
 		// set layout
 		setTitle(res.getString(R.string.cache));
 		if (settings.skin == 1) {
@@ -244,6 +238,16 @@ public class cgeodetail extends Activity {
 					return;
 				}
 			}
+		}
+
+		// google analytics
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		if (geocode == null) {
+			base.sendAnal(activity, tracker, "/cache/detail");
+		} else {
+			base.sendAnal(activity, tracker, "/cache/detail?geocode=" + geocode);
 		}
 
 		// no given data

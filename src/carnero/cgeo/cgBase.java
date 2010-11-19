@@ -4246,9 +4246,7 @@ public class cgBase {
 
 				activity.startActivity(intent);
 
-				if (tracker != null) {
-					tracker.trackPageView("/external/locus");
-				}
+				sendAnal(activity, tracker, "/external/locus");
 
 				return true;
 			}
@@ -4268,9 +4266,7 @@ public class cgBase {
 
 				activity.startActivity(intent);
 
-				if (tracker != null) {
-					tracker.trackPageView("/external/rmaps");
-				}
+				sendAnal(activity, tracker, "/external/rmaps");
 
 				return true;
 			}
@@ -4282,9 +4278,7 @@ public class cgBase {
 		try {
 			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longitude)));
 
-				if (tracker != null) {
-					tracker.trackPageView("/external/native/maps");
-				}
+			sendAnal(activity, tracker, "/external/native/maps");
 
 			return true;
 		} catch (Exception e) {
@@ -4313,9 +4307,7 @@ public class cgBase {
 			try {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ latitude + "," + longitude)));
 
-				if (tracker != null) {
-					tracker.trackPageView("/external/native/navigation");
-				}
+				sendAnal(activity, tracker, "/external/native/navigation");
 
 				return true;
 			} catch (Exception e) {
@@ -4331,9 +4323,7 @@ public class cgBase {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ latitude + "," + longitude)));
 			}
 
-			if (tracker != null) {
-				tracker.trackPageView("/external/native/maps");
-			}
+			sendAnal(activity, tracker, "/external/native/maps");
 
 			return true;
 		} catch (Exception e) {
@@ -4402,6 +4392,7 @@ public class cgBase {
 				}
 
 				tracker.trackPageView(page);
+				Log.i(cgSettings.tag, "Logged use of " + page);
 
 				if (startedHere == true) {
 					tracker.stop();
