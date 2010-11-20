@@ -24,6 +24,7 @@ import com.google.android.maps.MapController;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.lang.reflect.Field;
@@ -44,8 +45,6 @@ public class cgeomap extends MapActivity {
 	private cgDirection dir = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private cgUpdateDir dirUpdate = new updateDir();
-	private PowerManager pm = null;
-	protected PowerManager.WakeLock  wakeLock = null;
 	private boolean followLocation = false;
 	private boolean initLocation = true;
 	private cgMapOverlay overlay = null;
@@ -289,16 +288,12 @@ public class cgeomap extends MapActivity {
 		prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
 
 		// set layout
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setTitle("map");
 		base.sendAnal(activity, "/map");
 		if (settings.skin == 1) setContentView(R.layout.map_light);
 		else setContentView(R.layout.map_dark);
-
-		// keep backlight on
-		pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-		wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "c:geo");
-		wakeLock.acquire();
 
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
@@ -405,16 +400,6 @@ public class cgeomap extends MapActivity {
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
 		
-		// keep backlight on
-		if (pm == null) {
-            pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-		}
-
-		if (wakeLock == null || wakeLock.isHeld() == false) {
-			wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "c:geo");
-			wakeLock.acquire();
-		}
-
 		// restart loading threads
 		if (loadingThread != null) loadingThread.kill();
 		if (usersThread != null) usersThread.kill();
@@ -444,7 +429,6 @@ public class cgeomap extends MapActivity {
 
 		savePrefs();
 
-		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 		if (mapView != null) mapView.destroyDrawingCache();
 
 		if (loadingThread != null) loadingThread.kill();
@@ -463,7 +447,6 @@ public class cgeomap extends MapActivity {
 
 		savePrefs();
 
-		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 		if (mapView != null) mapView.destroyDrawingCache();
         
 		super.onPause();
@@ -478,8 +461,6 @@ public class cgeomap extends MapActivity {
 		if (geo != null) geo = app.removeGeo();
 
 		savePrefs();
-
-		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 
 		if (mapView != null) {
 			mapView.destroyDrawingCache();

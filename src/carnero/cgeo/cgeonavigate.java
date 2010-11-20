@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.view.WindowManager;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -46,7 +47,6 @@ public class cgeonavigate extends Activity {
 	private TextView headingView = null;
 	private cgCompass compassView = null;
 	private updaterThread updater = null;
-	protected PowerManager.WakeLock  wakeLock = null;
 
 	private Handler updaterHandler = new Handler() {
 		@Override
@@ -72,15 +72,11 @@ public class cgeonavigate extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setTitle("navigation");
 		base.sendAnal(activity, "/navigate");
 		if (settings.skin == 1) setContentView(R.layout.navigate_light);
 		else setContentView(R.layout.navigate_dark);
-
-		// keep backlight on
-		pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-		wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "c:geo");
-		wakeLock.acquire();
 
 		// sensor & geolocation manager
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
@@ -140,11 +136,6 @@ public class cgeonavigate extends Activity {
             pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
         }
 
-        if (wakeLock == null || wakeLock.isHeld() == false) {
-            wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "c:geo");
-            wakeLock.acquire();
-        }
-
         // updater thread
 		if (updater == null) {
 			updater = new updaterThread(updaterHandler);
@@ -157,8 +148,6 @@ public class cgeonavigate extends Activity {
 		if (geo != null) geo = app.removeGeo();
 		if (dir != null) dir = app.removeDir();
 
-		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
-
         super.onStop();
 	}
 
@@ -166,8 +155,6 @@ public class cgeonavigate extends Activity {
 	public void onPause() {
 		if (geo != null) geo = app.removeGeo();
 		if (dir != null) dir = app.removeDir();
-
-		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
 
 		super.onPause();
 	}
@@ -177,10 +164,8 @@ public class cgeonavigate extends Activity {
 		if (geo != null) geo = app.removeGeo();
 		if (dir != null) dir = app.removeDir();
 
-		if (wakeLock != null && wakeLock.isHeld() == true) wakeLock.release();
-
-        compassView.destroyDrawingCache();
-        compassView = null;
+		compassView.destroyDrawingCache();
+		compassView = null;
 
 		super.onDestroy();
 	}
