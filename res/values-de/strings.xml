@@ -7,8 +7,8 @@
 	<string name="detail">Detail</string>
 	<string name="search">Suche</string>
 	<string name="settings">Einstellungen</string>
-	<string name="about">&#220;ber c:geo</string>
-	<string name="helper">Nicht vergessen, durch Drücken des <b>MEN&#220;</b> Buttons auf dem Handy erscheinen vielen Funktionen von <b>c:geo</b>!</string>
+	<string name="about">Über c:geo</string>
+	<string name="helper">Nicht vergessen, durch Drücken des <b>MENU;</b> Buttons auf dem Handy erscheinen vielen Funktionen von <b>c:geo</b>!</string>
 
 	<!-- caches -->
 	<string name="all">Alle Cachetypen</string>
@@ -40,16 +40,16 @@
 	<string name="log_found">gefunden</string>
 	<string name="log_dnf">nicht gefunden</string>
 	<string name="log_note">Bemerkung</string>
-	<string name="log_published">ver&#246;ffentlicht</string>
+	<string name="log_published">veröffentlicht</string>
 	<string name="log_enabled">aktiviert</string>
 	<string name="log_disabled">deaktiviert</string>
 	<string name="log_attend">werde teilnehmen</string>
 	<string name="log_attended">habe teilgenommen</string>
 	<string name="log_retrieved">mitgenommen</string>
 	<string name="log_grabbed">gegrabbed</string>
-	<string name="log_needs">Ben&#246;tigt Wartung</string>
+	<string name="log_needs">Benötigt Wartung</string>
 	<string name="log_maintenance">Wartung</string>
-	<string name="log_update">ge&#228;nderte Koordinaten</string>
+	<string name="log_update">geänderte Koordinaten</string>
 	<string name="log_archived">archiviert</string>
 	<string name="log_discovered">entdeckt</string>
 	<string name="log_review">Nachricht vom Reviewer</string>
@@ -65,7 +65,7 @@
 	<string name="log_new_attend">Werde teilnehmen</string>
 	<string name="log_new_attended">Habe teilgenommen</string>
 	<string name="log_new_webcam">Webcam-Foto gemacht</string>
-	<string name="log_new_maintenance">Ben&#246;tigt Wartung</string>
+	<string name="log_new_maintenance">Benötigt Wartung</string>
 	<string name="log_new_maintenance_owner">Wartung</string>
 	<string name="log_new_grab">Woanders gefunden</string>
 	<string name="log_new_retrieve">mitgenommen</string>
@@ -83,28 +83,28 @@
 	<string name="err_wrong">Falsche Anmeldedaten</string>
 	<string name="err_license">Die Geocaching.com Nutzungsbedingungen wurden nicht akzeptiert.</string>
 	<string name="err_store">Sorry, c:geo kann den Cache nicht speichern.</string>
-	<string name="err_drop">Sorry, c:geo kann den Cache nicht l&#246;schen.</string>
+	<string name="err_drop">Sorry, c:geo kann den Cache nicht löschen.</string>
 	<string name="err_title_problem">Problem</string>
-	<string name="err_detail_open">Sorry, c:geo kann Cache-Details nichts &#246;ffnen.</string>
+	<string name="err_detail_open">Sorry, c:geo kann Cache-Details nichts öffnen.</string>
 	<string name="err_detail_cache">Sorry, c:geo kann diesen Cache nicht darstellen. Ist es wirklich ein Cache?</string>
 	<string name="err_detail_cache_find">Sorry, c:geo kann keinen Cache finden.</string>
 	<string name="err_detail_cache_find_some">Sorry, c:geo kann diesen Cache nicht finden.</string>
 	<string name="err_detail_cache_forgot">Sorry, c:geo hat vergessen welcher Cache aufgerufen werden sollte.</string>
-	<string name="err_detail_cache_language">c:geo kann manche Details des Caches nicht lesen. Bitte &#252;berpr&#252;fen, ob geocaching.com auf "English" gestellt wurde. Leider versteht c:geo keine andere Spracheinstellungen.</string>
-	<string name="err_detail_no_spoiler">c:geo hat kein Hinweisbild f&#252;r diesen Cache gefunden.</string>
-	<string name="err_detail_no_map_static">c:geo hat keine statische Karte f&#252;r diesen Cache gefunden.</string>
-	<string name="err_detail_still_removing">c:geo l&#246;scht diesen Cache noch immer.</string>
+	<string name="err_detail_cache_language">c:geo kann manche Details des Caches nicht lesen. Bitte überprüfen, ob geocaching.com auf "English" gestellt wurde. Leider versteht c:geo keine andere Spracheinstellungen.</string>
+	<string name="err_detail_no_spoiler">c:geo hat kein Hinweisbild für diesen Cache gefunden.</string>
+	<string name="err_detail_no_map_static">c:geo hat keine statische Karte für diesen Cache gefunden.</string>
+	<string name="err_detail_still_removing">c:geo löscht diesen Cache noch immer.</string>
 	<string name="err_detail_still_saving">c:geo speichert diesen Cache noch immer.</string>
 	<string name="err_detail_still_refreshing">c:geo versucht noch immer diesen Cache zu aktualiseren.</string>
 	<string name="err_radar_title">Radar Anwendung ist nicht installiert.</string>
-	<string name="err_radar_message">Diese Funktion ben&#246;tigt die Radar Anwendung. Soll diese installiert werden?</string>
+	<string name="err_radar_message">Diese Funktion benötigt die Radar Anwendung. Soll diese installiert werden?</string>
 	<string name="err_radar_market">c:geo kann den Android Market nicht starten, um nach der Radar Anwendung zu suchen.</string>
 	<string name="err_radar_generic">Sorry, c:geo kann die Radar Anwendung nicht starten. Ist sie installiert?</string>
-	<string name="err_navigation_no">c:geo kann keine unterst&#252;tzte Art der Navigation finden.</string>
+	<string name="err_navigation_no">c:geo kann keine unterstützte Art der Navigation finden.</string>
 	<string name="err_application_no">c:geo kann keine passende Anwendung finden.</string>
 	<string name="err_auth_initialize">Sorry, c:geo konnte die Autorisierung nicht initialisieren.</string>
 	<string name="err_auth_process">Autorisierung fehlgeschlagen.</string>
-	<string name="err_cannot_log_visit">c:geo hat nicht gen&#252;gend Informationen um den Besuch zu loggen. Bitte &#252;ber die Cache-Details versuchen.</string>
+	<string name="err_cannot_log_visit">c:geo hat nicht genügend Informationen um den Besuch zu loggen. Bitte über die Cache-Details versuchen.</string>
 	<string name="err_init_cleared">Sorry, c:geo kann die Anmeldedaten nicht entfernen.</string>
 
 	<!-- location service -->
@@ -116,17 +116,17 @@
 	<string name="loc_no_addr">Adresse unbekannt</string>
 
 	<!-- standard menu -->
-	<string name="menu_about">&#220;ber c:geo</string>
+	<string name="menu_about">Über c:geo</string>
 	<string name="menu_settings">Einstellungen</string>
 	<string name="menu_filter">Filter</string>
 
 	<!-- main screen -->
 	<string name="live_map_button">Live-Karte</string>
-	<string name="caches_nearby_button">In der N&#228;he</string>
+	<string name="caches_nearby_button">In der Nähe</string>
 	<string name="advanced_search_button">Suche</string>
 	<string name="stored_caches_button">Gespeichert</string>
-	<string name="any_button">&#220;berall</string>
-	<string name="about_button">&#220;ber c:geo</string>
+	<string name="any_button">Überall</string>
+	<string name="about_button">Über c:geo</string>
 	<string name="settings_button">Einstellungen</string>
 	<string name="type">Filter</string>
 	<string name="now_searching">Suche...</string>
@@ -137,11 +137,11 @@
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
 
 	<!-- about -->
-	<string name="about_changelog">&#196;nderungen</string>
+	<string name="about_changelog">Änderungen</string>
 	<string name="about_donate">Spenden</string>
 	<string name="about_detail">Details</string>
-	<string name="about_donation_less">donate\nless</string>
-	<string name="about_donation_more">donate\ndevelopement</string>
+	<string name="about_donation_less">Kleinere\nSpende</string>
+	<string name="about_donation_more">Spenden für\nEntwicklung</string>
 
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
@@ -151,11 +151,11 @@
 	<string name="init_username">Benutzername</string>
 	<string name="init_password">Passwort</string>
 	<string name="init_passvote">Passwort</string>
-	<string name="init_login">Anmeldedaten &#252;berpr&#252;fen</string>
+	<string name="init_login">Anmeldedaten überprüfen</string>
 	<string name="init_legal">Impressum</string>
 	<string name="init_go4cache_connect">Mit go 4 cache verbinden</string>
 	<string name="init_twitter_authorize">c:geo autorisieren</string>
-	<string name="init_twitter_publish">Status ver&#246;ffentlichen wenn ein Cache gefunden wurde</string>
+	<string name="init_twitter_publish">Status veröffentlichen wenn ein Cache gefunden wurde</string>
 	<string name="init_signature">signature</string>
 	<string name="init_other">Weitere Optionen</string>
 	<string name="init_skin">Light Skin (Neustart erforderlich)</string>
@@ -163,14 +163,14 @@
 	<string name="init_address">Position am Startbildschirm</string>
 	<string name="init_exclude">Eigene und gefundene Caches ausblenden</string>
 	<string name="init_disabled">Deaktivierte Caches ausblenden</string>
-	<string name="init_offline">Karten f&#252;r Offline-Verwendung speichern</string>
-	<string name="init_units">Angloamerikanisches Maßsystem (Meilen) verwenden</string>
+	<string name="init_offline">Karten für Offline-Verwendung speichern</string>
+	<string name="init_units">Imperiales Maßsystem (Meilen) verwenden</string>
 	<string name="init_nav">Google Navigation verwenden</string>
 	<string name="init_directoryimg">Bilderverzeichnis in der Galerie ausblenden</string>
-	<string name="init_autoload">Ausf&#252;hrliche Beschreibung automatisch laden</string>
+	<string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
 	<string name="init_livelist">Richtung zum Cache in Cache-Liste anzeigen</string>
 	<string name="init_browser">c:geo zum Standardbrowser machen</string>
-	<string name="init_cleared">c:geo hat die Anmeldedaten gel&#246;scht.</string>
+	<string name="init_cleared">c:geo hat die Anmeldedaten gelöscht.</string>
 
 	<!-- auth -->
 	<string name="auth_twitter">Twitter</string>
@@ -181,7 +181,7 @@
 	<string name="auth_finish">Fertig</string>
 	<string name="auth_dialog_wait">Warten auf Twitter...</string>
 	<string name="auth_dialog_pin_title">PIN Code</string>
-	<string name="auth_dialog_pin_message">Bitte den Twitter-PIN Code eingeben, dies ist notwendig um die Autorisierung abzuschlie&#223;en.</string>
+	<string name="auth_dialog_pin_message">Bitte den Twitter-PIN Code eingeben, dies ist notwendig um die Autorisierung abzuschließen.</string>
 	<string name="auth_dialog_completed">c:geo ist nun autorisiert, Tweets bei Twitter zu erstellen.</string>
 
 	<!-- cache -->
@@ -190,10 +190,10 @@
 	<string name="cache_count_more">Caches</string>
 	<string name="cache_offline">Offline</string>
 	<string name="cache_offline_refresh">aktualisieren</string>
-	<string name="cache_offline_drop">l&#246;schen</string>
+	<string name="cache_offline_drop">löschen</string>
 	<string name="cache_offline_store">speichern</string>
-	<string name="cache_offline_stored">Auf dem Ger&#228;t gespeichert</string>
-	<string name="cache_offline_not_ready">nicht offline verf&#252;gbar</string>
+	<string name="cache_offline_stored">Auf dem Gerät gespeichert</string>
+	<string name="cache_offline_not_ready">nicht offline verfügbar</string>
 	<string name="cache_offline_time_about">etwa</string>
 	<string name="cache_offline_time_mins">gerade eben</string>
 	<string name="cache_offline_time_mins_few">vor ein paar Minuten</string>
@@ -202,40 +202,40 @@
 	<string name="cache_offline_time_days">vor einigen Tagen</string>
 	<string name="cache_attributes">Attribute</string>
 	<string name="cache_inventory">Inventar</string>
-	<string name="cache_log_offline">offline log</string>
+	<string name="cache_log_offline">Offline-Log</string>
 	<string name="cache_description">Beschreibung</string>
-	<string name="cache_description_long">ausf&#252;hrliche Beschreibung</string>
+	<string name="cache_description_long">Ausführliche Beschreibung</string>
 	<string name="cache_waypoints">Wegpunkte</string>
-	<string name="cache_waypoints_add">Wegpunkt hinzuf&#252;gen</string>
+	<string name="cache_waypoints_add">Wegpunkt hinzufügen</string>
 	<string name="cache_hint">Hinweis</string>
 	<string name="cache_logs">Logbuch</string>
 	<string name="cache_dialog_loading_details">Lade Cache-Details...</string>
 	<string name="cache_dialog_loading_description">Lade Cache-Beschreibung...</string>
 	<string name="cache_dialog_offline_save_title">Offline-Verwendung</string>
-	<string name="cache_dialog_offline_save_message">Speichere Cache f&#252;r Offline-Verwendung...</string>
+	<string name="cache_dialog_offline_save_message">Speichere Cache für Offline-Verwendung...</string>
 	<string name="cache_dialog_offline_drop_title">Offline-Verwendung</string>
-	<string name="cache_dialog_offline_drop_message">L&#246;sche Cache vom Ger&#228;t...</string>
+	<string name="cache_dialog_offline_drop_message">Lösche Cache vom Gerät...</string>
 	<string name="cache_dialog_refresh_title">aktualisieren</string>
 	<string name="cache_dialog_refresh_message">Aktualisieren der Cachedetails...</string>
 	<string name="cache_menu_navigate">Navigieren</string>
 	<string name="cache_menu_compass">Kompass</string>
 	<string name="cache_menu_tbt">Turn-by-Turn</string>
 	<string name="cache_menu_radar">Radar</string>
-	<string name="cache_menu_map">auf Karte zeigen</string>
-	<string name="cache_menu_map_ext">auf externer Karte zeigen</string>
+	<string name="cache_menu_map">Auf Karte zeigen</string>
+	<string name="cache_menu_map_ext">Auf externer Karte zeigen</string>
 	<string name="cache_menu_map_static">statische Karte</string>
-	<string name="cache_menu_browser">Im Browser &#246;ffnen</string>
+	<string name="cache_menu_browser">Im Browser öffnen</string>
 	<string name="cache_menu_visit">Besuch loggen</string>
 	<string name="cache_menu_spoilers">Hinweisbild</string>
 	<string name="cache_menu_around">Caches im Umkreis</string>
-	<string name="cache_menu_event">Zum Kalender hinzuf&#252;gen</string>
+	<string name="cache_menu_event">Zum Kalender hinzufügen</string>
 	<string name="cache_menu_details">Details</string>
 	<string name="cache_status">Status</string>
 	<string name="cache_status_offline_log">Gespeicherter Log</string>
 	<string name="cache_status_found">gefunden</string>
 	<string name="cache_status_archived">archiviert</string>
 	<string name="cache_status_disabled">deaktiviert</string>
-	<string name="cache_status_premium">Nur f&#252;r Premium Mitglieder</string>
+	<string name="cache_status_premium">Nur für Premium Mitglieder</string>
 	<string name="cache_geocode">GC-Code</string>
 	<string name="cache_type">Typ</string>
 	<string name="cache_distance">Entfernung</string>
@@ -250,8 +250,8 @@
 	<string name="cache_calendars">Kalender auswählen</string>
 
 	<!-- event -->
-	<string name="event_success">Event Cache zum Kalender hinzugef&#252;gt</string>
-	<string name="event_fail">Fehler beim Hinzuf&#252;gen des Event Cache zum Kalender</string>
+	<string name="event_success">Event Cache zum Kalender hinzugefügt</string>
+	<string name="event_fail">Fehler beim Hinzufügen des Event Cache zum Kalender</string>
 
 	<!-- popup -->
 	<string name="popup_more">Mehr Details</string>
@@ -259,23 +259,27 @@
 	<string name="popup_navigation">Navigation</string>
 
 	<!-- waypoint -->
-	<string name="waypoint_custom">benutzerdefiniert</string>
+	<string name="waypoint_custom">Benutzerdefiniert</string>
+	<string name="waypoint_my_coordinates">Meine Koordinaten</string>
+	<string name="waypoint_bearing">Richtung</string>
+	<string name="waypoint_distance">Entfernung</string>
+	<string name="waypoint_name">Name</string>
 
 	<!-- visit -->
-	<string name="visit_tweet">Diesen Eintrag auf Twitter ver&#246;ffentlichen</string>
+	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
 
 	<!-- next things -->
-	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu k&#246;nnen, m&#252;ssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
-	<string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und &#252;berall einsetzbarer Client f&#252;r Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterst&#252;tzen m&#246;chte, kann &#252;ber die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschl&#228;gen kann der Autor einfach per Facebook oder eMail kontaktieren.</string>
+	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
+	<string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und überall einsetzbarer Client für Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterstützen möchte, kann über die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschlägen kann der Autor einfach per Facebook oder eMail kontaktieren.</string>
 	<string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
 	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">Die Icons auf dem Startbildschirm wurden von <a href="http://iirojappinen.com/">Iiro J&#228;ppinen</a> erstellt.
+	<string name="graphic">Die Icons auf dem Startbildschirm wurden von <a href="http://iirojappinen.com/">Iiro Jäppinen</a> erstellt.
 Die graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatecký</a>.</string>
-	<string name="about_go4cache">Service <b>Go 4 cache</b> erlaubt es, andere Geocacher in Echtzeit auf der Karte zu sehen (in <b>c:geo</b> oder im Browser). Es kann beispielsweise anzeigen, welchen Cache sie suchen. <b>Go 4 cache</b> erlaubt <b>c:geo</b> die aktuelle Position zu ver&#246;ffentlichen (nur wenn <b>c:geo</b> ausgef&#252;hrt wird).</string>
-	<string name="about_twitter">Soll jeder neuen Fund auf Twitter ver&#246;ffentlicht werden, wenn er &#252;ber <b>c:geo</b> geloggt wird?</string>
-	<string name="about_auth_1">Der folgende Prozess erlaubt es <b>c:geo</b> auf den pers&#246;nlichen Twitter Account zuzugreifen, wenn gezustimmt wird.</string>
-	<string name="about_auth_2">Ein Klick auf "c:geo autorisieren" startet die Autorisierung, wobei eine Twitter-Seite in einem Browserfenster ge&#246;ffnet wird. Durch die Anmeldung und die Best&#228;tigung wird <b>c:geo</b> erm&#246;glicht auf den pers&#246;nlichen Twitter-Account zuzugreifen. Wird dies best&#228;tit, nennt Twitter eine numerische PIN , diese muss kopiert und in <b>c:geo</b> einf&#252;gt werden. Das ist alles.</string>
+	<string name="about_go4cache">Service <b>Go 4 cache</b> erlaubt es, andere Geocacher in Echtzeit auf der Karte zu sehen (in <b>c:geo</b> oder im Browser). Es kann beispielsweise anzeigen, welchen Cache sie suchen. <b>Go 4 cache</b> erlaubt <b>c:geo</b> die aktuelle Position zu veröffentlichen (nur wenn <b>c:geo</b> ausgeführt wird).</string>
+	<string name="about_twitter">Soll jeder neuen Fund auf Twitter veröffentlicht werden, wenn er über <b>c:geo</b> geloggt wird?</string>
+	<string name="about_auth_1">Der folgende Prozess erlaubt es <b>c:geo</b> auf den persönlichen Twitter Account zuzugreifen, wenn gezustimmt wird.</string>
+	<string name="about_auth_2">Ein Klick auf "c:geo autorisieren" startet die Autorisierung, wobei eine Twitter-Seite in einem Browserfenster geöffnet wird. Durch die Anmeldung und die Bestätigung wird <b>c:geo</b> ermöglicht auf den persönlichen Twitter-Account zuzugreifen. Wird dies bestätit, nennt Twitter eine numerische PIN , diese muss kopiert und in <b>c:geo</b> einfügt werden. Das ist alles.</string>
 </resources>

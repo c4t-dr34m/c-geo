@@ -54,11 +54,11 @@
 					android:textSize="22dip"
 					android:textColor="@color/text_dark"
 					android:padding="6dip"
-					android:text="my coordinates"
+					android:text="@string/waypoint_my_coordinates"
 					android:background="@drawable/action_button_dark" />
 			<EditText
 					android:id="@+id/bearing"
-					android:hint="bearing"
+					android:hint="@string/waypoint_bearing"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dip"
@@ -76,7 +76,7 @@
 					android:background="@drawable/input_bcg_dark" />
 			<EditText
 					android:id="@+id/distance"
-					android:hint="distance"
+					android:hint="@string/waypoint_distance"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dip"
@@ -93,7 +93,7 @@
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_dark" />
 			<EditText android:id="@+id/name"
-					android:hint="name"
+					android:hint="@string/waypoint_name"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dip"

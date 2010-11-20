@@ -260,7 +260,11 @@
 	<string name="popup_navigation">navigation</string>
 
 	<!-- waypoint -->
-	<string name="waypoint_custom">custom</string>
+	<string name="waypoint_custom">Custom</string>
+	<string name="waypoint_my_coordinates">My coordinates</string>
+	<string name="waypoint_bearing">Bearing</string>
+	<string name="waypoint_distance">Distance</string>
+	<string name="waypoint_name">Name</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">post this find to twitter</string>
