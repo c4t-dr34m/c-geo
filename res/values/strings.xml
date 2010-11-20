@@ -260,11 +260,11 @@
 	<string name="popup_navigation">navigation</string>
 
 	<!-- waypoint -->
-	<string name="waypoint_custom">Custom</string>
-	<string name="waypoint_my_coordinates">My coordinates</string>
-	<string name="waypoint_bearing">Bearing</string>
-	<string name="waypoint_distance">Distance</string>
-	<string name="waypoint_name">Name</string>
+	<string name="waypoint_custom">custom</string>
+	<string name="waypoint_my_coordinates">my coordinates</string>
+	<string name="waypoint_bearing">bearing</string>
+	<string name="waypoint_distance">distance</string>
+	<string name="waypoint_name">name</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">post this find to twitter</string>
@@ -286,9 +286,10 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 
 	<!-- changelog -->
 	<string name="changelog">
-<b>1.12</b> (__.11.2010)\n
+<b>1.12</b> (20.11.2010)\n
 · fix: Code cleanup and optimization\n
-· fix: Support for Locus (ver. 0.4.4+)\n
+· fix: Support for Locus (ver. 0.5+)\n
+· fix: French translation\n
 <b>1.11</b> (13.11.2010)\n
 · fix: Marking caches as found\n
 · fix: Disappearing text of log when screen rotates\n

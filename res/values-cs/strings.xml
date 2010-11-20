@@ -261,6 +261,10 @@
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">vlastní</string>
+	<string name="waypoint_my_coordinates">aktuální poloha</string>
+	<string name="waypoint_bearing">směr</string>
+	<string name="waypoint_distance">vzdálenost</string>
+	<string name="waypoint_name">název</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">informovat o nálezu na twitteru</string>
