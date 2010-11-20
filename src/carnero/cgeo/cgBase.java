@@ -4388,10 +4388,11 @@ public class cgBase {
 					startedHere = true;
 					tracker = GoogleAnalyticsTracker.getInstance();
 					tracker.start(cgSettings.analytics, context);
-					tracker.dispatch();
 				}
 
 				tracker.trackPageView(page);
+				tracker.dispatch();
+				
 				Log.i(cgSettings.tag, "Logged use of " + page);
 
 				if (startedHere == true) {
