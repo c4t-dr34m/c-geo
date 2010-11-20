@@ -196,11 +196,6 @@ public class cgeoinit extends Activity {
 		else skinButton.setChecked(true);
 		skinButton.setOnClickListener(new cgeoChangeSkin());
 
-		CheckBox transparentButton = (CheckBox)findViewById(R.id.transparent);
-		if (prefs.getBoolean("transparent", true) == false) transparentButton.setChecked(false);
-		else transparentButton.setChecked(true);
-		transparentButton.setOnClickListener(new cgeoChangeTransparent());
-
 		CheckBox addressButton = (CheckBox)findViewById(R.id.address);
 		if (prefs.getInt("showaddress", 1) == 0) addressButton.setChecked(false);
 		else addressButton.setChecked(true);
@@ -318,27 +313,6 @@ public class cgeoinit extends Activity {
 				skinButton.setChecked(false);
 			} else {
 				skinButton.setChecked(true);
-			}
-
-			return;
-		}
-	}
-
-	private class cgeoChangeTransparent implements View.OnClickListener {
-		public void onClick(View arg0) {
-			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getBoolean("transparent", true) == false) {
-				edit.putBoolean("transparent", true);
-			} else {
-				edit.putBoolean("transparent", false);
-			}
-			edit.commit();
-
-			CheckBox transparentButton = (CheckBox)findViewById(R.id.transparent);
-			if (prefs.getBoolean("transparent", true) == false) {
-				transparentButton.setChecked(false);
-			} else {
-				transparentButton.setChecked(true);
 			}
 
 			return;

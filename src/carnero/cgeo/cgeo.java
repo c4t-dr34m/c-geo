@@ -18,7 +18,6 @@ import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.LinearLayout;
@@ -122,22 +121,7 @@ public class cgeo extends Activity {
 
 		setTitle("c:geo");
 		base.sendAnal(context, "/");
-
-		try {
-			if (settings.transparent == true) {
-				Log.i(cgSettings.tag, "Setting up desktop home.");
-
-				setContentView(R.layout.main_transparent_all);
-			} else {
-				Log.i(cgSettings.tag, "Setting up blocks home.");
-
-				setTheme(R.style.cgeo);
-				if (settings.skin == 1) setContentView(R.layout.main_blocks_light);
-				else setContentView(R.layout.main_blocks_dark);
-			}
-		} catch (Exception e) {
-			Log.i(cgSettings.tag, "Failed to set mainscreen theme.");
-		}
+		setContentView(R.layout.main_transparent_all);
 
 		try {
 			if (settings.helper == 0) {
@@ -318,17 +302,11 @@ public class cgeo extends Activity {
 		findOnMap.setClickable(true);
 		findOnMap.setOnClickListener(new cgeoFindOnMapListener());
 
-		if (settings.transparent == true) {
-			final RelativeLayout findByOffline = (RelativeLayout)findViewById(R.id.search_offline);
-			findByOffline.setClickable(true);
-			findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
+		final RelativeLayout findByOffline = (RelativeLayout)findViewById(R.id.search_offline);
+		findByOffline.setClickable(true);
+		findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
 
-			(new countBubbleUpdate()).start();
-		} else {
-			final LinearLayout findByOffline = (LinearLayout)findViewById(R.id.search_offline);
-			findByOffline.setClickable(true);
-			findByOffline.setOnClickListener(new cgeoFindByOfflineListener());
-		}
+		(new countBubbleUpdate()).start();
 
 		final LinearLayout advanced = (LinearLayout)findViewById(R.id.advanced_button);
 		advanced.setClickable(true);

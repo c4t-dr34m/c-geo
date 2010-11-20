@@ -1,14 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!-- PARTIAL definitions -->
 	<style name="cgeo" parent="android:Theme">
-		<!-- <item name="android:windowNoTitle">true</item> -->
 	</style>
+
 	<style name="dialog_dark" parent="@android:style/Theme.Dialog">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:foreground">@drawable/bcg_dialog_dark</item>
-</style>
+	</style>
+
 	<style name="dialog_light" parent="@android:style/Theme.Dialog">
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:foreground">@drawable/bcg_dialog_light</item>
+	</style>
+
+<!-- FULL definitions -->
+	<!-- mainscreen icon -->
+	<style name="icon_mainscreen">
+		<item name="android:layout_width">48dip</item>
+		<item name="android:layout_height">48dip</item>
+		<item name="android:layout_gravity">center_horizontal</item>
+		<item name="android:gravity">center</item>
+		<item name="android:layout_margin">4dip</item>
+	</style>
+
+	<style name="icon_mainscreen_text">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_gravity">center_horizontal</item>
+		<item name="android:gravity">center</item>
+		<item name="android:paddingTop">1dip</item>
+		<item name="android:paddingBottom">1dip</item>
+		<item name="android:paddingLeft">5dip</item>
+		<item name="android:paddingRight">5dip</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:lines">1</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:textSize">13dip</item>
+		<item name="android:textColor">@color/text_icon</item>
+		<item name="android:background">@drawable/icon_bcg</item>
+	</style>
+
+	<style name="icon_mainscreen_count">
+		<item name="android:visibility">gone</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_gravity">center_horizontal</item>
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:layout_alignParentRight">true</item>
+		<item name="android:layout_marginRight">4dip</item>
+		<item name="android:layout_marginLeft">4dip</item>
+		<item name="android:gravity">center</item>
+		<item name="android:paddingTop">2dip</item>
+		<item name="android:paddingBottom">2dip</item>
+		<item name="android:paddingLeft">5dip</item>
+		<item name="android:paddingRight">5dip</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:lines">1</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:textSize">11dip</item>
+		<item name="android:textColor">@color/just_white</item>
+		<item name="android:background">@drawable/count_bcg</item>
+		<item name="android:text"></item>
+	</style>
+
+	<!-- current location -->
+	<style name="location_current">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:gravity">center_horizontal</item>
+		<item name="android:paddingLeft">5dip</item>
+		<item name="android:paddingRight">5dip</item>
+		<item name="android:lines">1</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:textSize">14dip</item>
+		<item name="android:textColor">@color/text_icon</item>
+		<item name="android:background">@drawable/icon_bcg</item>
+	</style>
+
+	<style name="location_current_type">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_alignParentBottom">true</item>
+		<item name="android:layout_alignParentRight">true</item>
+		<item name="android:layout_gravity">right</item>
+		<item name="android:paddingLeft">3dip</item>
+		<item name="android:paddingRight">3dip</item>
+		<item name="android:lines">1</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:textSize">12dip</item>
+		<item name="android:textColor">@color/text_dark</item>
+	</style>
+	
+	<style name="location_current_accuracy">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_alignParentBottom">true</item>
+		<item name="android:layout_centerHorizontal">true</item>
+		<item name="android:layout_gravity">right</item>
+		<item name="android:paddingLeft">3dip</item>
+		<item name="android:paddingRight">3dip</item>
+		<item name="android:lines">1</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:textSize">12dip</item>
+		<item name="android:textColor">@color/text_dark</item>
+	</style>
+
+	<style name="location_current_satellites">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_alignParentBottom">true</item>
+		<item name="android:layout_alignParentLeft">true</item>
+		<item name="android:layout_gravity">left</item>
+		<item name="android:paddingLeft">3dip</item>
+		<item name="android:paddingRight">3dip</item>
+		<item name="android:lines">1</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:textSize">12dip</item>
+		<item name="android:textColor">@color/text_dark</item>
 	</style>
 </resources>
