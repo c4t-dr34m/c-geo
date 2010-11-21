@@ -149,7 +149,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_light"
 							android:padding="6dip"
-							android:text="save"
+							android:text="@string/log_save"
 							android:background="@drawable/action_button_light" />
 					<Button android:id="@+id/clear"
 							android:layout_width="0dip"
@@ -164,7 +164,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_light"
 							android:padding="6dip"
-							android:text="clear"
+							android:text="@string/log_clear"
 							android:background="@drawable/action_button_light" />
 				</LinearLayout>
 			</LinearLayout>

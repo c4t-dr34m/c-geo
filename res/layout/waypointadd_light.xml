@@ -107,7 +107,7 @@
 					android:padding="6dip"
 					android:background="@drawable/input_bcg_light" />
 			<EditText android:id="@+id/note"
-					android:hint="note"
+					android:hint="@string/waypoint_note"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dip"
@@ -132,7 +132,7 @@
 					android:textSize="22dip"
 					android:textColor="@color/text_light"
 					android:padding="6dip"
-					android:text="save"
+					android:text="@string/waypoint_save"
 					android:background="@drawable/action_button_light" />
 		</LinearLayout>
 	</ScrollView>

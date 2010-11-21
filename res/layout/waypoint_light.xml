@@ -71,7 +71,7 @@
 						android:textSize="14dip"
 						android:textColor="@color/text_light"
 						android:padding="3dip"
-						android:text="delete"
+						android:text="@string/waypoint_delete"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/edit"
 						android:layout_width="60dip"
@@ -88,7 +88,7 @@
 						android:textSize="14dip"
 						android:textColor="@color/text_light"
 						android:padding="3dip"
-						android:text="edit"
+						android:text="@string/waypoint_edit"
 						android:background="@drawable/action_button_light" />
 			</RelativeLayout>
 			<LinearLayout android:id="@+id/navigation_part"
@@ -119,7 +119,7 @@
 							android:textSize="22dip"
 							android:textColor="@color/text_headline_light"
 							android:background="@color/background_light"
-							android:text="navigation" />
+							android:text="@string/waypoint_navigation" />
 				</RelativeLayout>
 				<Button android:id="@+id/compass"
 						android:layout_width="fill_parent"
@@ -133,7 +133,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="compass"
+						android:text="@string/waypoint_compass"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/radar"
 						android:layout_width="fill_parent"
@@ -147,7 +147,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="radar"
+						android:text="@string/waypoint_radar"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/map"
 						android:layout_width="fill_parent"
@@ -161,7 +161,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="show on map"
+						android:text="@string/waypoint_show_on_map"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/map_ext"
 						android:layout_width="fill_parent"
@@ -175,7 +175,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="show on ext. map"
+						android:text="@string/waypoint_show_on_ext_map"
 						android:background="@drawable/action_button_light" />
 				<Button android:id="@+id/turn"
 						android:layout_width="fill_parent"
@@ -189,7 +189,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_light"
 						android:padding="6dip"
-						android:text="turn by turn"
+						android:text="@string/waypoint_turn_by_turn"
 						android:background="@drawable/action_button_light" />
 			</LinearLayout>
 		</LinearLayout>

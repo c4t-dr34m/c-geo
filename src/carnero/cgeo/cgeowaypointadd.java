@@ -106,8 +106,8 @@ public class cgeowaypointadd extends Activity {
             return;
         }
 
-		if (id <= 0) setTitle("add waypoint");
-		else setTitle("edit waypoint");
+		if (id <= 0) setTitle(R.string.waypoint_add_title);
+		else setTitle(R.string.waypoint_edit_title);
 
 		if (geocode != null) app.setAction(geocode);
 
