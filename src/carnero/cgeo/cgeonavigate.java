@@ -73,10 +73,16 @@ public class cgeonavigate extends Activity {
 
 		// set layout
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		setTitle("navigation");
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
+		setTitle("compass");
+		setContentView(R.layout.navigate);
+
+		// google analytics
 		base.sendAnal(activity, "/navigate");
-		if (settings.skin == 1) setContentView(R.layout.navigate_light);
-		else setContentView(R.layout.navigate_dark);
 
 		// sensor & geolocation manager
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);

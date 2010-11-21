@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.DatePicker;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.Calendar;
 
 public class cgeodate extends Dialog {
@@ -34,14 +33,15 @@ public class cgeodate extends Dialog {
 
 		try {
 			requestWindowFeature(Window.FEATURE_NO_TITLE);
+			getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		} catch (Exception e) {
 			// nothing
 		}
 		
-		if (settings.skin == 1) setContentView(R.layout.date_dark);
-		else  setContentView(R.layout.date_light);
+		setContentView(R.layout.date);
 
-		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		// google analytics
+		base.sendAnal(this.getContext(), "/date");
 
 		DatePicker picker = (DatePicker)findViewById(R.id.picker);
 		picker.init(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE), new pickerListener());

@@ -39,9 +39,17 @@ public class cgeosmaps extends Activity {
 					finish();
 					return;
 				} else {
-					if (waitDialog != null) waitDialog.dismiss();
-					
-					if (smapsView == null) smapsView = (LinearLayout)findViewById(R.id.maps_list);
+					if (waitDialog != null) {
+						waitDialog.dismiss();
+					}
+
+					if (inflater == null) {
+						inflater = activity.getLayoutInflater();
+					}
+
+					if (smapsView == null) {
+						smapsView = (LinearLayout)findViewById(R.id.maps_list);
+					}
 					smapsView.removeAllViews();
 
 					int cnt = 1;
@@ -97,8 +105,6 @@ public class cgeosmaps extends Activity {
 			finish();
 			return;
 		}
-
-		inflater = activity.getLayoutInflater();
 
 		waitDialog = ProgressDialog.show(this, null, "loading static maps...", true);
 		waitDialog.setCancelable(true);

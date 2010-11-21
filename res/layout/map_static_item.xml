@@ -6,6 +6,7 @@
 	<RelativeLayout style="@style/separator_horizontal_layout" >
 		<View style="@style/separator_horizontal" />
 		<TextView style="@style/separator_horizontal_headline"
+				android:id="@+id/title"
 				android:text="@null" />
 	</RelativeLayout>
 	<ImageView android:id="@+id/map_image"
