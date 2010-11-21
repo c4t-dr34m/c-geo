@@ -9,6 +9,87 @@ package carnero.cgeo;
 
 public final class R {
     public static final class attr {
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int background_color=0x7f010009;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int background_color_notice=0x7f01000a;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int background_color_transparent=0x7f01000b;
+        /**  drawables 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int button=0x7f01000d;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int button_color_disabled=0x7f010008;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int button_color_enabled=0x7f010007;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int input=0x7f01000e;
+        /**  colors 
+         <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int just_color=0x7f010001;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int separator_color=0x7f01000c;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -17,6 +98,51 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int skin=0x7f010000;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int text_color=0x7f010002;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int text_color_grey=0x7f010004;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int text_color_headline=0x7f010003;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int text_color_hint=0x7f010005;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int text_color_link=0x7f010006;
     }
     public static final class color {
         public static final int background_dark=0x7f040002;
@@ -376,53 +502,52 @@ containing a value of this type.
         public static final int gpxes_light=0x7f03001b;
         public static final int imgitem_dark=0x7f03001c;
         public static final int imgitem_light=0x7f03001d;
-        public static final int init_dark=0x7f03001e;
-        public static final int init_light=0x7f03001f;
-        public static final int logitem_dark=0x7f030020;
-        public static final int logitem_light=0x7f030021;
-        public static final int main_transparent_all=0x7f030022;
-        public static final int map_dark=0x7f030023;
-        public static final int map_light=0x7f030024;
-        public static final int navigate_dark=0x7f030025;
-        public static final int navigate_light=0x7f030026;
-        public static final int point_dark=0x7f030027;
-        public static final int point_light=0x7f030028;
-        public static final int popup_dark=0x7f030029;
-        public static final int popup_light=0x7f03002a;
-        public static final int smapitem_dark=0x7f03002b;
-        public static final int smapitem_light=0x7f03002c;
-        public static final int smaps_dark=0x7f03002d;
-        public static final int smaps_light=0x7f03002e;
-        public static final int spoileritem_dark=0x7f03002f;
-        public static final int spoileritem_light=0x7f030030;
-        public static final int spoilers_dark=0x7f030031;
-        public static final int spoilers_light=0x7f030032;
-        public static final int star=0x7f030033;
-        public static final int touch_dark=0x7f030034;
-        public static final int touch_light=0x7f030035;
-        public static final int trackable_button_dark=0x7f030036;
-        public static final int trackable_button_light=0x7f030037;
-        public static final int trackable_icon_dark=0x7f030038;
-        public static final int trackable_icon_light=0x7f030039;
-        public static final int trackabledetail_dark=0x7f03003a;
-        public static final int trackabledetail_light=0x7f03003b;
-        public static final int trackableimage_all=0x7f03003c;
-        public static final int trackables_dark=0x7f03003d;
-        public static final int trackables_light=0x7f03003e;
-        public static final int types_button_dark=0x7f03003f;
-        public static final int types_button_light=0x7f030040;
-        public static final int types_dark=0x7f030041;
-        public static final int types_light=0x7f030042;
-        public static final int visit_dark=0x7f030043;
-        public static final int visit_light=0x7f030044;
-        public static final int visit_trackable_dark=0x7f030045;
-        public static final int visit_trackable_light=0x7f030046;
-        public static final int waypoint_dark=0x7f030047;
-        public static final int waypoint_light=0x7f030048;
-        public static final int waypointadd_dark=0x7f030049;
-        public static final int waypointadd_light=0x7f03004a;
-        public static final int waypointitem_dark=0x7f03004b;
-        public static final int waypointitem_light=0x7f03004c;
+        public static final int init=0x7f03001e;
+        public static final int logitem_dark=0x7f03001f;
+        public static final int logitem_light=0x7f030020;
+        public static final int main_transparent_all=0x7f030021;
+        public static final int map_dark=0x7f030022;
+        public static final int map_light=0x7f030023;
+        public static final int navigate_dark=0x7f030024;
+        public static final int navigate_light=0x7f030025;
+        public static final int point_dark=0x7f030026;
+        public static final int point_light=0x7f030027;
+        public static final int popup_dark=0x7f030028;
+        public static final int popup_light=0x7f030029;
+        public static final int smapitem_dark=0x7f03002a;
+        public static final int smapitem_light=0x7f03002b;
+        public static final int smaps_dark=0x7f03002c;
+        public static final int smaps_light=0x7f03002d;
+        public static final int spoileritem_dark=0x7f03002e;
+        public static final int spoileritem_light=0x7f03002f;
+        public static final int spoilers_dark=0x7f030030;
+        public static final int spoilers_light=0x7f030031;
+        public static final int star=0x7f030032;
+        public static final int touch_dark=0x7f030033;
+        public static final int touch_light=0x7f030034;
+        public static final int trackable_button_dark=0x7f030035;
+        public static final int trackable_button_light=0x7f030036;
+        public static final int trackable_icon_dark=0x7f030037;
+        public static final int trackable_icon_light=0x7f030038;
+        public static final int trackabledetail_dark=0x7f030039;
+        public static final int trackabledetail_light=0x7f03003a;
+        public static final int trackableimage_all=0x7f03003b;
+        public static final int trackables_dark=0x7f03003c;
+        public static final int trackables_light=0x7f03003d;
+        public static final int types_button_dark=0x7f03003e;
+        public static final int types_button_light=0x7f03003f;
+        public static final int types_dark=0x7f030040;
+        public static final int types_light=0x7f030041;
+        public static final int visit_dark=0x7f030042;
+        public static final int visit_light=0x7f030043;
+        public static final int visit_trackable_dark=0x7f030044;
+        public static final int visit_trackable_light=0x7f030045;
+        public static final int waypoint_dark=0x7f030046;
+        public static final int waypoint_light=0x7f030047;
+        public static final int waypointadd_dark=0x7f030048;
+        public static final int waypointadd_light=0x7f030049;
+        public static final int waypointitem_dark=0x7f03004a;
+        public static final int waypointitem_light=0x7f03004b;
     }
     public static final class string {
         public static final int about=0x7f060006;
@@ -430,6 +555,7 @@ containing a value of this type.
         public static final int about_auth_2=0x7f0600f3;
         public static final int about_button=0x7f06006d;
         /**  about 
+ about 
  about 
  about 
  about 
@@ -444,6 +570,7 @@ containing a value of this type.
         public static final int about_twitter=0x7f0600f1;
         public static final int advanced_search_button=0x7f06006a;
         /**  caches 
+ caches 
  caches 
  caches 
  caches 
@@ -466,10 +593,12 @@ containing a value of this type.
  auth 
  auth 
  auth 
+ auth 
          */
         public static final int auth_twitter=0x7f060094;
         public static final int author=0x7f0600ea;
         /**  basics 
+ basics 
  basics 
  basics 
  basics 
@@ -480,6 +609,7 @@ containing a value of this type.
         public static final int cache_coordinates=0x7f0600db;
         public static final int cache_count_more=0x7f0600a0;
         /**  cache 
+ cache 
  cache 
  cache 
  cache 
@@ -550,6 +680,7 @@ containing a value of this type.
  caches 
  caches 
  caches 
+ caches 
          */
         public static final int caches_no_cache=0x7f060071;
         /**  changelog 
@@ -583,6 +714,7 @@ containing a value of this type.
  errors 
  errors 
  errors 
+ errors 
          */
         public static final int err_none=0x7f06003e;
         public static final int err_parse=0x7f060040;
@@ -602,6 +734,7 @@ containing a value of this type.
  event 
  event 
  event 
+ event 
          */
         public static final int event_success=0x7f0600dd;
         public static final int facebook=0x7f0600ed;
@@ -618,6 +751,7 @@ containing a value of this type.
         public static final int init_exclude=0x7f06008a;
         public static final int init_gcvote=0x7f06007a;
         /**  init 
+ init 
  init 
  init 
  init 
@@ -645,6 +779,7 @@ containing a value of this type.
  next things 
  next things 
  next things 
+ next things 
          */
         public static final int legal_note=0x7f0600e8;
         public static final int letterbox=0x7f06000c;
@@ -652,10 +787,12 @@ containing a value of this type.
  main screen 
  main screen 
  main screen 
+ main screen 
          */
         public static final int live_map_button=0x7f060068;
         public static final int loc_gps=0x7f060061;
         /**  location service 
+ location service 
  location service 
  location service 
  location service 
@@ -676,6 +813,7 @@ containing a value of this type.
  logs 
  logs 
  logs 
+ logs 
          */
         public static final int log_found=0x7f06001e;
         public static final int log_grabbed=0x7f060027;
@@ -687,6 +825,7 @@ containing a value of this type.
         public static final int log_new_discovered=0x7f06003c;
         public static final int log_new_dnf=0x7f060032;
         /**  new logs 
+ new logs 
  new logs 
  new logs 
  new logs 
@@ -713,6 +852,7 @@ containing a value of this type.
  standard menu 
  standard menu 
  standard menu 
+ standard menu 
          */
         public static final int menu_about=0x7f060065;
         public static final int menu_filter=0x7f060067;
@@ -722,6 +862,7 @@ containing a value of this type.
         public static final int now_searching=0x7f060070;
         public static final int popup_log_visit=0x7f0600e0;
         /**  popup 
+ popup 
  popup 
  popup 
  popup 
@@ -741,10 +882,12 @@ containing a value of this type.
  visit 
  visit 
  visit 
+ visit 
          */
         public static final int visit_tweet=0x7f0600e7;
         public static final int waypoint_bearing=0x7f0600e4;
         /**  waypoint 
+ waypoint 
  waypoint 
  waypoint 
  waypoint 
@@ -760,6 +903,7 @@ containing a value of this type.
  waypoints 
  waypoints 
  waypoints 
+ waypoints 
          */
         public static final int wp_final=0x7f060018;
         public static final int wp_pkg=0x7f06001b;
@@ -769,23 +913,34 @@ containing a value of this type.
         public static final int wp_waypoint=0x7f06001d;
     }
     public static final class style {
+        /**  FULL definitions 
+ button: full width 
+         */
+        public static final int button=0x7f070001;
         /**  PARTIAL definitions 
          */
         public static final int cgeo=0x7f070000;
-        public static final int dialog_dark=0x7f070001;
-        public static final int dialog_light=0x7f070002;
-        /**  FULL definitions 
- mainscreen icon 
+        public static final int dark=0x7f07000d;
+        /**  edittext 
+         */
+        public static final int edittext=0x7f070002;
+        /**  mainscreen icon 
          */
         public static final int icon_mainscreen=0x7f070003;
         public static final int icon_mainscreen_count=0x7f070005;
         public static final int icon_mainscreen_text=0x7f070004;
+        public static final int light=0x7f07000e;
         /**  current location 
          */
         public static final int location_current=0x7f070006;
         public static final int location_current_accuracy=0x7f070008;
         public static final int location_current_satellites=0x7f070009;
         public static final int location_current_type=0x7f070007;
+        /**  separators 
+         */
+        public static final int separator_horizontal=0x7f07000a;
+        public static final int separator_horizontal_headline=0x7f07000c;
+        public static final int separator_horizontal_layout=0x7f07000b;
     }
     public static final class styleable {
         /** Attributes that can be used with a cgCompassMini.

@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:orientation="vertical"
-		android:background="@color/background_light" >
+		android:orientation="vertical" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -15,29 +14,9 @@
 				android:layout_marginTop="10dip"
 				android:orientation="vertical" >
 <!-- ** -->
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_light" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:background="@color/background_light"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/init_geocaching" />
 			</RelativeLayout>
 			<TextView android:id="@+id/legal_note"
@@ -50,129 +29,36 @@
 					android:layout_gravity="left"
 					android:padding="3dip"
 					android:textSize="14dip"
-					android:textColor="@color/text_light"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="true"
 					android:text="@string/legal_note" />
-			<EditText
+			<EditText style="@style/edittext"
 					android:id="@+id/username"
 					android:hint="@string/init_username"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:textSize="22dip"
-					android:textColor="@color/text_light"
-					android:textColorHint="@color/text_hint_light"
-					android:autoText="true"
-					android:capitalize="none"
-					android:padding="6dip"
-					android:background="@drawable/input_bcg_light" />
-			<EditText android:id="@+id/password"
+					android:capitalize="none" />
+			<EditText style="@style/edittext"
+					android:id="@+id/password"
 					android:hint="@string/init_password"
 					android:password="true"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:textSize="22dip"
-					android:textColor="@color/text_light"
-					android:textColorHint="@color/text_hint_light"
-					android:autoText="true"
-					android:capitalize="none"
-					android:padding="6dip"
-					android:background="@drawable/input_bcg_light" />
-			<Button android:id="@+id/log_me_in"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:textSize="22dip"
-					android:textColor="@color/text_light"
-					android:padding="6dip"
-					android:text="@string/init_login"
-					android:background="@drawable/action_button_light_off" />
+					android:capitalize="none" />
+			<Button style="@style/button"
+					android:id="@+id/log_me_in"
+					android:text="@string/init_login" />
 <!-- ** -->
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_light" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:background="@color/background_light"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/init_gcvote" />
 			</RelativeLayout>
-			<EditText
+			<EditText style="@style/edittext"
 					android:id="@+id/passvote"
 					android:hint="@string/init_passvote"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:password="true"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:textSize="22dip"
-					android:textColor="@color/text_light"
-					android:textColorHint="@color/text_hint_light"
-					android:autoText="true"
-					android:capitalize="none"
-					android:padding="6dip"
-					android:background="@drawable/input_bcg_light" />
+					android:password="true" />
 <!-- ** -->
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_light" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:background="@color/background_light"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/init_go4cache" />
 			</RelativeLayout>
 			<TextView android:id="@+id/about_go4cache"
@@ -185,8 +71,8 @@
 					android:layout_gravity="left"
 					android:padding="3dip"
 					android:textSize="14dip"
-					android:textColor="@color/text_light"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="true"
 					android:text="@string/about_go4cache" />
 			<LinearLayout
@@ -209,33 +95,13 @@
 						android:gravity="left"
 						android:paddingRight="3dip"
 						android:textSize="14dip"
-						android:textColor="@color/text_light"
+						android:textColor="?text_color"
 						android:text="@string/init_go4cache_connect" />
 			</LinearLayout>
 <!-- ** -->
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_light" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:background="@color/background_light"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/init_twitter" />
 			</RelativeLayout>
 			<TextView android:id="@+id/about_twitter"
@@ -248,24 +114,13 @@
 					android:layout_gravity="left"
 					android:padding="3dip"
 					android:textSize="14dip"
-					android:textColor="@color/text_light"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="true"
 					android:text="@string/about_twitter" />
-			<Button android:id="@+id/authorize_twitter"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:lines="1"
-					android:singleLine="true"
-					android:scrollHorizontally="true"
-					android:textSize="22dip"
-					android:textColor="@color/text_light"
-					android:padding="6dip"
-					android:text="@string/init_twitter_authorize"
-					android:background="@drawable/action_button_light_off" />
+			<Button style="@style/button"
+					android:id="@+id/authorize_twitter"
+					android:text="@string/init_twitter_authorize" />
 			<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
@@ -286,77 +141,24 @@
 						android:gravity="left"
 						android:paddingRight="3dip"
 						android:textSize="14dip"
-						android:textColor="@color/text_light"
+						android:textColor="?text_color"
 						android:text="@string/init_twitter_publish" />
 			</LinearLayout>
 <!-- ** -->
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_light" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:background="@color/background_light"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/init_signature" />
 			</RelativeLayout>
-			<EditText
+			<EditText style="@style/edittext"
 					android:id="@+id/signature"
 					android:hint="@string/init_signature"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:gravity="top|left"
 					android:lines="3"
-					android:scrollHorizontally="false"
-					android:textSize="22dip"
-					android:textColor="@color/text_light"
-					android:textColorHint="@color/text_hint_light"
-					android:autoText="true"
-					android:capitalize="none"
-					android:padding="6dip"
-					android:background="@drawable/input_bcg_light" />
+					android:scrollHorizontally="false" />
 <!-- ** -->
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_light" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_light"
-						android:background="@color/background_light"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/init_other" />
 			</RelativeLayout>
 			<LinearLayout
@@ -383,7 +185,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_skin" />
 				</LinearLayout>
 				<LinearLayout
@@ -404,7 +206,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_address" />
 				</LinearLayout>
 				<LinearLayout
@@ -425,7 +227,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_exclude" />
 				</LinearLayout>
 				<LinearLayout
@@ -446,7 +248,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_disabled" />
 				</LinearLayout>
 				<LinearLayout
@@ -467,7 +269,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_offline" />
 				</LinearLayout>
 				<LinearLayout
@@ -488,7 +290,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_units" />
 				</LinearLayout>
 				<LinearLayout
@@ -509,7 +311,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_nav" />
 				</LinearLayout>
 				<LinearLayout
@@ -530,7 +332,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_directoryimg" />
 				</LinearLayout>
 				<LinearLayout
@@ -551,7 +353,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_autoload" />
 				</LinearLayout>
 				<LinearLayout
@@ -572,7 +374,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_livelist" />
 				</LinearLayout>
 				<LinearLayout
@@ -593,7 +395,7 @@
 							android:gravity="left"
 							android:paddingRight="3dip"
 							android:textSize="14dip"
-							android:textColor="@color/text_light"
+							android:textColor="?text_color"
 							android:text="@string/init_browser" />
 				</LinearLayout>
 			</LinearLayout>

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.io.File;
 
 public class cgeoinit extends Activity {
+
 	private cgeoapplication app = null;
 	private Resources res = null;
 	private Context activity = null;
@@ -30,52 +31,62 @@ public class cgeoinit extends Activity {
 	private cgWarning warning = null;
 	private SharedPreferences prefs = null;
 	private ProgressDialog loginDialog = null;
-
 	private Handler logInHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-                if (loginDialog != null && loginDialog.isShowing() == true) loginDialog.dismiss();
+				if (loginDialog != null && loginDialog.isShowing() == true) {
+					loginDialog.dismiss();
+				}
 
-                if (msg.what == 1) {
-                    warning.helpDialog("login", "Login ok.");
-                } else {
-                    if (base.errorRetrieve.containsKey(msg.what) == true) {
-                        warning.helpDialog("login", "Login failed because of " + base.errorRetrieve.get(msg.what) + ".");
-                    } else {
-                        warning.helpDialog("login", "Login failed.");
-                    }
-                }
+				if (msg.what == 1) {
+					warning.helpDialog("login", "Login ok.");
+				} else {
+					if (base.errorRetrieve.containsKey(msg.what) == true) {
+						warning.helpDialog("login", "Login failed because of " + base.errorRetrieve.get(msg.what) + ".");
+					} else {
+						warning.helpDialog("login", "Login failed.");
+					}
+				}
 			} catch (Exception e) {
 				warning.showToast("Sorry, c:geo can\'t login.");
 
 				Log.e(cgSettings.tag, "cgeoinit.logInHandler: " + e.toString());
 			}
 
-            if (loginDialog != null && loginDialog.isShowing() == true) loginDialog.dismiss();
+			if (loginDialog != null && loginDialog.isShowing() == true) {
+				loginDialog.dismiss();
+			}
 
-            init();
-        }
-    };
+			init();
+		}
+	};
 
-    @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// init
 		activity = this;
 		res = this.getResources();
-		app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication) this.getApplication();
 		prefs = getSharedPreferences(cgSettings.preferences, 0);
 		settings = new cgSettings(this, prefs);
 		base = new cgBase(app, settings, prefs);
 		warning = new cgWarning(this);
 
 		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle(res.getString(R.string.settings));
+		setContentView(R.layout.init);
+
+		// google analytics
 		base.sendAnal(activity, "/init");
-		if (settings.skin == 1) setContentView(R.layout.init_light);
-		else setContentView(R.layout.init_dark);
 
 		init();
 	}
@@ -102,7 +113,7 @@ public class cgeoinit extends Activity {
 	@Override
 	public void onDestroy() {
 		saveValues();
-		
+
 		super.onDestroy();
 	}
 
@@ -118,15 +129,18 @@ public class cgeoinit extends Activity {
 		if (item.getItemId() == 0) {
 			boolean status = false;
 
-			((EditText)findViewById(R.id.username)).setText("");
-			((EditText)findViewById(R.id.password)).setText("");
-			((EditText)findViewById(R.id.passvote)).setText("");
+			((EditText) findViewById(R.id.username)).setText("");
+			((EditText) findViewById(R.id.password)).setText("");
+			((EditText) findViewById(R.id.passvote)).setText("");
 
 			status = saveValues();
-			if (status == true) warning.showToast(res.getString(R.string.init_cleared));
-			else warning.showToast(res.getString(R.string.err_init_cleared));
+			if (status == true) {
+				warning.showToast(res.getString(R.string.init_cleared));
+			} else {
+				warning.showToast(res.getString(R.string.err_init_cleared));
+			}
 
-            finish();
+			finish();
 		}
 
 		return false;
@@ -135,52 +149,58 @@ public class cgeoinit extends Activity {
 	public void init() {
 		String usernameNow = prefs.getString("username", null);
 		if (usernameNow != null) {
-			((EditText)findViewById(R.id.username)).setText(usernameNow);
+			((EditText) findViewById(R.id.username)).setText(usernameNow);
 		}
 		String passwordNow = prefs.getString("password", null);
 		if (usernameNow != null) {
-			((EditText)findViewById(R.id.password)).setText(passwordNow);
+			((EditText) findViewById(R.id.password)).setText(passwordNow);
 		}
 		String passvoteNow = prefs.getString("pass-vote", null);
 		if (passvoteNow != null) {
-			((EditText)findViewById(R.id.passvote)).setText(passvoteNow);
+			((EditText) findViewById(R.id.passvote)).setText(passvoteNow);
 		}
 
-		Button logMeIn = (Button)findViewById(R.id.log_me_in);
+		Button logMeIn = (Button) findViewById(R.id.log_me_in);
 		logMeIn.setClickable(true);
 		logMeIn.setOnClickListener(new logIn());
 
-		TextView legalNote = (TextView)findViewById(R.id.legal_note);
+		TextView legalNote = (TextView) findViewById(R.id.legal_note);
 		legalNote.setClickable(true);
 		legalNote.setOnClickListener(new View.OnClickListener() {
+
 			public void onClick(View arg0) {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/about/disclaimer.aspx")));
 			}
 		});
 
-		TextView go4cache = (TextView)findViewById(R.id.about_go4cache);
+		TextView go4cache = (TextView) findViewById(R.id.about_go4cache);
 		go4cache.setClickable(true);
 		go4cache.setOnClickListener(new View.OnClickListener() {
+
 			public void onClick(View arg0) {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://go4cache.com/")));
 			}
 		});
 
-		CheckBox publicButton = (CheckBox)findViewById(R.id.publicloc);
-		if (prefs.getInt("publicloc", 0) == 0) publicButton.setChecked(false);
-		else publicButton.setChecked(true);
+		CheckBox publicButton = (CheckBox) findViewById(R.id.publicloc);
+		if (prefs.getInt("publicloc", 0) == 0) {
+			publicButton.setChecked(false);
+		} else {
+			publicButton.setChecked(true);
+		}
 		publicButton.setOnClickListener(new cgeoChangePublic());
 
-		Button authorizeTwitter = (Button)findViewById(R.id.authorize_twitter);
+		Button authorizeTwitter = (Button) findViewById(R.id.authorize_twitter);
 		authorizeTwitter.setClickable(true);
 		authorizeTwitter.setOnClickListener(new View.OnClickListener() {
+
 			public void onClick(View arg0) {
 				Intent authIntent = new Intent(activity, cgeoauth.class);
 				activity.startActivity(authIntent);
 			}
 		});
 
-		CheckBox twitterButton = (CheckBox)findViewById(R.id.twitter_option);
+		CheckBox twitterButton = (CheckBox) findViewById(R.id.twitter_option);
 		if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
 			twitterButton.setChecked(false);
 		} else {
@@ -188,85 +208,127 @@ public class cgeoinit extends Activity {
 		}
 		twitterButton.setOnClickListener(new cgeoChangeTwitter());
 
-		EditText sigEdit = (EditText)findViewById(R.id.signature);
+		EditText sigEdit = (EditText) findViewById(R.id.signature);
 		sigEdit.setText(settings.getSignature());
 
-		CheckBox skinButton = (CheckBox)findViewById(R.id.skin);
-		if (prefs.getInt("skin", 0) == 0) skinButton.setChecked(false);
-		else skinButton.setChecked(true);
+		CheckBox skinButton = (CheckBox) findViewById(R.id.skin);
+		if (prefs.getInt("skin", 0) == 0) {
+			skinButton.setChecked(false);
+		} else {
+			skinButton.setChecked(true);
+		}
 		skinButton.setOnClickListener(new cgeoChangeSkin());
 
-		CheckBox addressButton = (CheckBox)findViewById(R.id.address);
-		if (prefs.getInt("showaddress", 1) == 0) addressButton.setChecked(false);
-		else addressButton.setChecked(true);
+		CheckBox addressButton = (CheckBox) findViewById(R.id.address);
+		if (prefs.getInt("showaddress", 1) == 0) {
+			addressButton.setChecked(false);
+		} else {
+			addressButton.setChecked(true);
+		}
 		addressButton.setOnClickListener(new cgeoChangeAddress());
 
-		CheckBox excludeButton = (CheckBox)findViewById(R.id.exclude);
-		if (prefs.getInt("excludemine", 0) == 0) excludeButton.setChecked(false);
-		else excludeButton.setChecked(true);
+		CheckBox excludeButton = (CheckBox) findViewById(R.id.exclude);
+		if (prefs.getInt("excludemine", 0) == 0) {
+			excludeButton.setChecked(false);
+		} else {
+			excludeButton.setChecked(true);
+		}
 		excludeButton.setOnClickListener(new cgeoChangeExclude());
 
-		CheckBox disabledButton = (CheckBox)findViewById(R.id.disabled);
-		if (prefs.getInt("excludedisabled", 0) == 0) disabledButton.setChecked(false);
-		else disabledButton.setChecked(true);
+		CheckBox disabledButton = (CheckBox) findViewById(R.id.disabled);
+		if (prefs.getInt("excludedisabled", 0) == 0) {
+			disabledButton.setChecked(false);
+		} else {
+			disabledButton.setChecked(true);
+		}
 		disabledButton.setOnClickListener(new cgeoChangeDisabled());
 
-		CheckBox offlineButton = (CheckBox)findViewById(R.id.offline);
-		if (prefs.getInt("offlinemaps", 1) == 0) offlineButton.setChecked(false);
-		else offlineButton.setChecked(true);
+		CheckBox offlineButton = (CheckBox) findViewById(R.id.offline);
+		if (prefs.getInt("offlinemaps", 1) == 0) {
+			offlineButton.setChecked(false);
+		} else {
+			offlineButton.setChecked(true);
+		}
 		offlineButton.setOnClickListener(new cgeoChangeOffline());
 
-		CheckBox autoloadButton = (CheckBox)findViewById(R.id.autoload);
-		if (prefs.getInt("autoloaddesc", 0) == 0) autoloadButton.setChecked(false);
-		else autoloadButton.setChecked(true);
+		CheckBox autoloadButton = (CheckBox) findViewById(R.id.autoload);
+		if (prefs.getInt("autoloaddesc", 0) == 0) {
+			autoloadButton.setChecked(false);
+		} else {
+			autoloadButton.setChecked(true);
+		}
 		autoloadButton.setOnClickListener(new cgeoChangeAutoload());
 
-		CheckBox livelistButton = (CheckBox)findViewById(R.id.livelist);
-		if (prefs.getInt("livelist", 1) == 0) livelistButton.setChecked(false);
-		else livelistButton.setChecked(true);
+		CheckBox livelistButton = (CheckBox) findViewById(R.id.livelist);
+		if (prefs.getInt("livelist", 1) == 0) {
+			livelistButton.setChecked(false);
+		} else {
+			livelistButton.setChecked(true);
+		}
 		livelistButton.setOnClickListener(new cgeoChangeLivelist());
 
-		CheckBox unitsButton = (CheckBox)findViewById(R.id.units);
-		if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) unitsButton.setChecked(false);
-		else unitsButton.setChecked(true);
+		CheckBox unitsButton = (CheckBox) findViewById(R.id.units);
+		if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
+			unitsButton.setChecked(false);
+		} else {
+			unitsButton.setChecked(true);
+		}
 		unitsButton.setOnClickListener(new cgeoChangeUnits());
 
-		CheckBox gnavButton = (CheckBox)findViewById(R.id.gnav);
-		if (prefs.getInt("usegnav", 1) == 1) gnavButton.setChecked(true);
-		else gnavButton.setChecked(false);
+		CheckBox gnavButton = (CheckBox) findViewById(R.id.gnav);
+		if (prefs.getInt("usegnav", 1) == 1) {
+			gnavButton.setChecked(true);
+		} else {
+			gnavButton.setChecked(false);
+		}
 		gnavButton.setOnClickListener(new cgeoChangeGNav());
 
-		CheckBox imgButton = (CheckBox)findViewById(R.id.directoryimg);
-		if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) imgButton.setChecked(false);
-		else imgButton.setChecked(true);
+		CheckBox imgButton = (CheckBox) findViewById(R.id.directoryimg);
+		if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
+			imgButton.setChecked(false);
+		} else {
+			imgButton.setChecked(true);
+		}
 		imgButton.setOnClickListener(new cgeoChangeImgCache());
 
-		CheckBox browserButton = (CheckBox)findViewById(R.id.browser);
-		if (prefs.getInt("asbrowser", 1) == 0) browserButton.setChecked(false);
-		else browserButton.setChecked(true);
+		CheckBox browserButton = (CheckBox) findViewById(R.id.browser);
+		if (prefs.getInt("asbrowser", 1) == 0) {
+			browserButton.setChecked(false);
+		} else {
+			browserButton.setChecked(true);
+		}
 		browserButton.setOnClickListener(new cgeoChangeBrowser());
 	}
 
 	public boolean saveValues() {
-		String usernameNew = ((EditText)findViewById(R.id.username)).getText().toString();
-		String passwordNew = ((EditText)findViewById(R.id.password)).getText().toString();
-		String passvoteNew = ((EditText)findViewById(R.id.passvote)).getText().toString();
-		String signatureNew = ((EditText)findViewById(R.id.signature)).getText().toString();
+		String usernameNew = ((EditText) findViewById(R.id.username)).getText().toString();
+		String passwordNew = ((EditText) findViewById(R.id.password)).getText().toString();
+		String passvoteNew = ((EditText) findViewById(R.id.passvote)).getText().toString();
+		String signatureNew = ((EditText) findViewById(R.id.signature)).getText().toString();
 
-		if (usernameNew == null) usernameNew = "";
-		if (passwordNew == null) passwordNew = "";
-		if (passvoteNew == null) passvoteNew = "";
+		if (usernameNew == null) {
+			usernameNew = "";
+		}
+		if (passwordNew == null) {
+			passwordNew = "";
+		}
+		if (passvoteNew == null) {
+			passvoteNew = "";
+		}
 
 		final boolean status1 = settings.setLogin(usernameNew, passwordNew);
 		final boolean status2 = settings.setGCvoteLogin(passvoteNew);
 		final boolean status3 = settings.setSignature(signatureNew);
 
-		if (status1 == true && status2 == true && status3 == true) return true;
+		if (status1 == true && status2 == true && status3 == true) {
+			return true;
+		}
 
 		return false;
 	}
 
 	private class cgeoChangeTwitter implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			settings.reloadTwitterTokens();
 
@@ -285,7 +347,7 @@ public class cgeoinit extends Activity {
 				activity.startActivity(authIntent);
 			}
 
-			CheckBox twitterButton = (CheckBox)findViewById(R.id.twitter_option);
+			CheckBox twitterButton = (CheckBox) findViewById(R.id.twitter_option);
 			if (prefs.getInt("twitter", 0) == 0) {
 				twitterButton.setChecked(false);
 			} else {
@@ -297,6 +359,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeSkin implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("skin", 0) == 0) {
@@ -308,7 +371,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox skinButton = (CheckBox)findViewById(R.id.skin);
+			CheckBox skinButton = (CheckBox) findViewById(R.id.skin);
 			if (prefs.getInt("skin", 0) == 0) {
 				skinButton.setChecked(false);
 			} else {
@@ -320,6 +383,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeAddress implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("showaddress", 1) == 0) {
@@ -329,7 +393,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox transparentButton = (CheckBox)findViewById(R.id.address);
+			CheckBox transparentButton = (CheckBox) findViewById(R.id.address);
 			if (prefs.getInt("showaddress", 1) == 0) {
 				transparentButton.setChecked(false);
 			} else {
@@ -341,6 +405,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangePublic implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("publicloc", 0) == 0) {
@@ -352,7 +417,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox publicloc = (CheckBox)findViewById(R.id.publicloc);
+			CheckBox publicloc = (CheckBox) findViewById(R.id.publicloc);
 			if (prefs.getInt("publicloc", 0) == 0) {
 				publicloc.setChecked(false);
 			} else {
@@ -364,6 +429,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeExclude implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("excludemine", 0) == 0) {
@@ -375,7 +441,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox excludeButton = (CheckBox)findViewById(R.id.exclude);
+			CheckBox excludeButton = (CheckBox) findViewById(R.id.exclude);
 			if (prefs.getInt("excludemine", 0) == 0) {
 				excludeButton.setChecked(false);
 			} else {
@@ -387,6 +453,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeDisabled implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("excludedisabled", 0) == 0) {
@@ -398,7 +465,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox disabledButton = (CheckBox)findViewById(R.id.disabled);
+			CheckBox disabledButton = (CheckBox) findViewById(R.id.disabled);
 			if (prefs.getInt("excludedisabled", 0) == 0) {
 				disabledButton.setChecked(false);
 			} else {
@@ -410,6 +477,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeOffline implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("offlinemaps", 1) == 0) {
@@ -421,7 +489,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox offlineButton = (CheckBox)findViewById(R.id.offline);
+			CheckBox offlineButton = (CheckBox) findViewById(R.id.offline);
 			if (prefs.getInt("offlinemaps", 0) == 0) {
 				offlineButton.setChecked(false);
 			} else {
@@ -433,6 +501,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeLivelist implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("livelist", 1) == 0) {
@@ -444,7 +513,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox livelistButton = (CheckBox)findViewById(R.id.livelist);
+			CheckBox livelistButton = (CheckBox) findViewById(R.id.livelist);
 			if (prefs.getInt("livelist", 1) == 0) {
 				livelistButton.setChecked(false);
 			} else {
@@ -456,6 +525,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeAutoload implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("autoloaddesc", 0) == 0) {
@@ -467,7 +537,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox autoloadButton = (CheckBox)findViewById(R.id.autoload);
+			CheckBox autoloadButton = (CheckBox) findViewById(R.id.autoload);
 			if (prefs.getInt("autoloaddesc", 0) == 0) {
 				autoloadButton.setChecked(false);
 			} else {
@@ -479,6 +549,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeUnits implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
@@ -490,7 +561,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox unitsButton = (CheckBox)findViewById(R.id.units);
+			CheckBox unitsButton = (CheckBox) findViewById(R.id.units);
 			if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
 				unitsButton.setChecked(false);
 			} else {
@@ -502,6 +573,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeGNav implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("usegnav", 1) == 1) {
@@ -513,7 +585,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox gnavButton = (CheckBox)findViewById(R.id.gnav);
+			CheckBox gnavButton = (CheckBox) findViewById(R.id.gnav);
 			if (prefs.getInt("usegnav", 1) == 1) {
 				gnavButton.setChecked(true);
 			} else {
@@ -525,11 +597,12 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeImgCache implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			File dir = null;
 			File dirNew = null;
-			
+
 			if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
 				dir = new File(settings.getStorageSpecific(false)[0]);
 				dirNew = new File(settings.getStorageSpecific(true)[0]);
@@ -551,13 +624,13 @@ public class cgeoinit extends Activity {
 				} else {
 					base.deleteDirectory(dirNew);
 				}
-				
+
 				edit.putString("directoryimg", settings.imgCache);
 				settings.directoryImg = settings.imgCache;
 			}
 			edit.commit();
 
-			CheckBox imgButton = (CheckBox)findViewById(R.id.directoryimg);
+			CheckBox imgButton = (CheckBox) findViewById(R.id.directoryimg);
 			if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
 				imgButton.setChecked(false);
 			} else {
@@ -569,6 +642,7 @@ public class cgeoinit extends Activity {
 	}
 
 	private class cgeoChangeBrowser implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("asbrowser", 1) == 0) {
@@ -580,7 +654,7 @@ public class cgeoinit extends Activity {
 			}
 			edit.commit();
 
-			CheckBox browserButton = (CheckBox)findViewById(R.id.browser);
+			CheckBox browserButton = (CheckBox) findViewById(R.id.browser);
 			if (prefs.getInt("asbrowser", 1) == 0) {
 				browserButton.setChecked(false);
 			} else {
@@ -592,9 +666,10 @@ public class cgeoinit extends Activity {
 	}
 
 	private class logIn implements View.OnClickListener {
+
 		public void onClick(View arg0) {
-			final String username = ((EditText)findViewById(R.id.username)).getText().toString();
-			final String password = ((EditText)findViewById(R.id.password)).getText().toString();
+			final String username = ((EditText) findViewById(R.id.username)).getText().toString();
+			final String password = ((EditText) findViewById(R.id.password)).getText().toString();
 
 			if (username == null || username.length() == 0 || password == null || password.length() == 0) {
 				warning.showToast("No username and/or password set.");
@@ -608,6 +683,7 @@ public class cgeoinit extends Activity {
 			settings.deleteCookies();
 
 			(new Thread() {
+
 				@Override
 				public void run() {
 					logInHandler.sendEmptyMessage(base.login());

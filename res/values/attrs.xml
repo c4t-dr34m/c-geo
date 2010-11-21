@@ -3,4 +3,22 @@
 	<declare-styleable name="cgCompassMini">
 		<attr name="skin" format="integer" />
 	</declare-styleable>
+
+	<!-- colors -->
+	<attr name="just_color" format="color" />
+	<attr name="text_color" format="color" />
+	<attr name="text_color_headline" format="color" />
+	<attr name="text_color_grey" format="color" />
+	<attr name="text_color_hint" format="color" />
+	<attr name="text_color_link" format="color" />
+	<attr name="button_color_enabled" format="color" />
+	<attr name="button_color_disabled" format="color" />
+	<attr name="background_color" format="color" />
+	<attr name="background_color_notice" format="color" />
+	<attr name="background_color_transparent" format="color" />
+	<attr name="separator_color" format="color" />
+
+	<!-- drawables -->
+	<attr name="button" format="integer" />
+	<attr name="input" format="integer" />
 </resources>
