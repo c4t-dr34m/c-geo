@@ -462,10 +462,10 @@ public class cgeovisit extends cgLogForm {
 			text = log.log;
 		}
 
-		if (typeSelected < 0 && base.logTypes2.get(typeSelected) == null) {
+		if (types.contains(typeSelected) == false) {
 			typeSelected = types.get(0);
+			setType(typeSelected);
 		}
-		setType(typeSelected);
 
 		Button typeButton = (Button) findViewById(R.id.type);
 		registerForContextMenu(typeButton);
