@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PowerManager;
 import android.text.Html;
 import android.widget.TextView;
 import com.google.android.maps.GeoPoint;
@@ -290,10 +289,17 @@ public class cgeomap extends MapActivity {
 		// set layout
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle("map");
+		setContentView(R.layout.map);
+
+		// google analytics
 		base.sendAnal(activity, "/map");
-		if (settings.skin == 1) setContentView(R.layout.map_light);
-		else setContentView(R.layout.map_dark);
 
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);

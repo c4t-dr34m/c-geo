@@ -69,11 +69,7 @@ public class cgeospoilers extends Activity {
 
 					LinearLayout rowView = null;
 					for (final cgSpoiler spl : spoilers) {
-						if (settings.skin == 1) {
-							rowView = (LinearLayout) inflater.inflate(R.layout.spoileritem_light, null);
-						} else {
-							rowView = (LinearLayout) inflater.inflate(R.layout.spoileritem_dark, null);
-						}
+						rowView = (LinearLayout) inflater.inflate(R.layout.spoiler_item, null);
 
 						((TextView) rowView.findViewById(R.id.title)).setText(Html.fromHtml(spl.title));
 
@@ -127,13 +123,16 @@ public class cgeospoilers extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
-		setTitle("spoiler images");
-		base.sendAnal(activity, "/spoilers");
 		if (settings.skin == 1) {
-			setContentView(R.layout.spoilers_light);
+			setTheme(R.style.light);
 		} else {
-			setContentView(R.layout.spoilers_dark);
+			setTheme(R.style.dark);
 		}
+		setTitle("spoiler images");
+		setContentView(R.layout.spoilers);
+
+		// google analytics
+		base.sendAnal(activity, "/spoilers");
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -189,11 +188,7 @@ public class cgeospoilers extends Activity {
 			BitmapDrawable image = (BitmapDrawable) message.obj;
 			if (image != null) {
 				ImageView spoilerImage = null;
-				if (settings.skin == 1) {
-					spoilerImage = (ImageView) inflater.inflate(R.layout.imgitem_light, null);
-				} else {
-					spoilerImage = (ImageView) inflater.inflate(R.layout.imgitem_dark, null);
-				}
+				spoilerImage = (ImageView) inflater.inflate(R.layout.image_item, null);
 
 				Rect bounds = image.getBounds();
 

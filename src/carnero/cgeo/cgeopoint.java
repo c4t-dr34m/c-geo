@@ -38,10 +38,16 @@ public class cgeopoint extends Activity {
 		warning = new cgWarning(activity);
 
 		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle("destination");
+		setContentView(R.layout.point);
+
+		// google analytics
 		base.sendAnal(activity, "/point");
-		if (settings.skin == 1) setContentView(R.layout.point_light);
-		else setContentView(R.layout.point_dark);
 
 		init();
 	}

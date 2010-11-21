@@ -9,7 +9,7 @@
 		android:paddingBottom="7dip"
 		android:paddingTop="7dip"
 		android:orientation="vertical"
-		android:background="@color/background_light" >
+		android:background="?background_color" >
 	<TextView android:id="@+id/filepath"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
 			android:lines="1"
 			android:singleLine="true"
 			android:ellipsize="marquee"
-			android:textColor="@color/text_grey_light" />
+			android:textColor="?text_color_grey" />
 	<TextView android:id="@+id/filename"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -29,5 +29,5 @@
 			android:lines="1"
 			android:singleLine="true"
 			android:ellipsize="marquee"
-			android:textColor="@color/text_light" />
+			android:textColor="?text_color" />
 </LinearLayout>

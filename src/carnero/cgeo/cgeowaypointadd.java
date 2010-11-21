@@ -84,11 +84,17 @@ public class cgeowaypointadd extends Activity {
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
 
+		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle("waypoint");
-		base.sendAnal(activity, "/waypoint/new");
+		setContentView(R.layout.waypoint_new);
 
-		if (settings.skin == 1) setContentView(R.layout.waypointadd_light);
-		else  setContentView(R.layout.waypointadd_dark);
+		// google analytics
+		base.sendAnal(activity, "/waypoint/new");
 
         if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 

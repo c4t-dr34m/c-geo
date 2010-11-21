@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:background="@color/background_light" >
+		android:background="?background_color" >
 	<TextView android:id="@+id/number"
 			android:visibility="gone"
 			android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
 			android:paddingLeft="12dip"
 			android:paddingRight="12dip"
 			android:orientation="vertical"
-			android:background="@drawable/map_close_light" >
+			android:background="?close" >
 		<TextView android:id="@+id/close_dst"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="42dip"
-				android:textColor="@color/text_light"
+				android:textColor="?text_color"
 				android:text="@null" />
 		<TextView android:id="@+id/close_gc"
 				android:layout_width="fill_parent"
@@ -54,7 +54,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="18dip"
-				android:textColor="@color/text_light"
+				android:textColor="?text_color"
 				android:text="@null" />
 	</LinearLayout>
 	<!-- developement -->

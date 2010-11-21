@@ -125,19 +125,20 @@ public class cgeowaypoint extends Activity {
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
 
+		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle("waypoint");
-		
+		setContentView(R.layout.waypoint);
+
 		// google analytics
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(cgSettings.analytics, this);
 		tracker.dispatch();
 		base.sendAnal(activity, tracker, "/waypoint/detail");
-
-		if (settings.skin == 1) {
-			setContentView(R.layout.waypoint_light);
-		} else {
-			setContentView(R.layout.waypoint_dark);
-		}
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();

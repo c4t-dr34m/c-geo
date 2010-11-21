@@ -17,7 +17,7 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="marquee"
 			android:textSize="14dip"
-			android:textColor="@color/text_light" />
+			android:textColor="?text_color" />
 	<TextView android:id="@+id/action"
 			android:layout_width="80dip"
 			android:layout_height="wrap_content"
@@ -33,5 +33,5 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="marquee"
 			android:textSize="14dip"
-			android:textColor="@color/text_light" />
+			android:textColor="?text_color" />
 </RelativeLayout>

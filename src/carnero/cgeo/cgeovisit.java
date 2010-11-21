@@ -88,13 +88,8 @@ public class cgeovisit extends cgLogForm {
 			if (post == null) {
 				post = (Button) findViewById(R.id.post);
 			}
-			post.setClickable(true);
+			post.setEnabled(true);
 			post.setOnClickListener(new postListener());
-			if (settings.skin == 1) {
-				post.setBackgroundResource(R.drawable.action_button_light);
-			} else {
-				post.setBackgroundResource(R.drawable.action_button_dark);
-			}
 
 			// add trackables
 			if (trackables != null && trackables.isEmpty() == false) {
@@ -107,11 +102,7 @@ public class cgeovisit extends cgLogForm {
 
 				for (cgTrackableLog tb : trackables) {
 					RelativeLayout inventoryItem = null;
-					if (settings.skin == 1) {
-						inventoryItem = (RelativeLayout) inflater.inflate(R.layout.visit_trackable_light, null);
-					} else {
-						inventoryItem = (RelativeLayout) inflater.inflate(R.layout.visit_trackable_dark, null);
-					}
+					inventoryItem = (RelativeLayout) inflater.inflate(R.layout.visit_trackable, null);
 
 					((TextView) inventoryItem.findViewById(R.id.name)).setText(tb.name);
 					((TextView) inventoryItem.findViewById(R.id.action)).setText(base.logTypesTrackable.get(1));
@@ -196,13 +187,16 @@ public class cgeovisit extends cgLogForm {
 
 		// set layout
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setTitle("log");
-		base.sendAnal(activity, "/visit");
 		if (settings.skin == 1) {
-			setContentView(R.layout.visit_light);
+			setTheme(R.style.light);
 		} else {
-			setContentView(R.layout.visit_dark);
+			setTheme(R.style.dark);
 		}
+		setTitle("log");
+		setContentView(R.layout.visit);
+
+		// google analytics
+		base.sendAnal(activity, "/visit");
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -500,26 +494,16 @@ public class cgeovisit extends cgLogForm {
 			post = (Button) findViewById(R.id.post);
 		}
 		if (viewstate == null || viewstate.length() == 0) {
-			post.setClickable(false);
+			post.setEnabled(false);
 			post.setOnTouchListener(null);
 			post.setOnClickListener(null);
-			if (settings.skin == 1) {
-				post.setBackgroundResource(R.drawable.action_button_light_off);
-			} else {
-				post.setBackgroundResource(R.drawable.action_button_dark_off);
-			}
 
 			loadData thread;
 			thread = new loadData(cacheid);
 			thread.start();
 		} else {
-			post.setClickable(true);
+			post.setEnabled(true);
 			post.setOnClickListener(new postListener());
-			if (settings.skin == 1) {
-				post.setBackgroundResource(R.drawable.action_button_light);
-			} else {
-				post.setBackgroundResource(R.drawable.action_button_dark);
-			}
 		}
 
 		if (save == null) {

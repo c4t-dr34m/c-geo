@@ -103,13 +103,17 @@ public class cgeogpxes extends ListActivity {
 		warning = new cgWarning(this);
 
 		// set layout
-		setTitle("import gpx");
-		base.sendAnal(activity, "/gpx-import");
 		if (settings.skin == 1) {
-			setContentView(R.layout.gpxes_light);
+			setTheme(R.style.light);
 		} else {
-			setContentView(R.layout.gpxes_dark);
+			setTheme(R.style.dark);
 		}
+		setTitle("import gpx");
+		setContentView(R.layout.gpx);
+
+		// google analytics
+		base.sendAnal(activity, "/gpx-import");
+		
 		setAdapter();
 
 		waitDialog = ProgressDialog.show(this, "searching", "searching for .gpx files", true);

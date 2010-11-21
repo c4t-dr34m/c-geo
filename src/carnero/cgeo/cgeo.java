@@ -121,7 +121,7 @@ public class cgeo extends Activity {
 
 		setTitle("c:geo");
 		base.sendAnal(context, "/");
-		setContentView(R.layout.main_transparent_all);
+		setContentView(R.layout.main);
 
 		try {
 			if (settings.helper == 0) {

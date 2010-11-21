@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:background="?background_color" >
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:padding="4dip"
+			android:orientation="vertical" >
+		<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical" >
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
+						android:text="coordinates" />
+			</RelativeLayout>
+			<EditText style="@style/edittext"
+					android:id="@+id/latitude"
+					android:hint="latitude" />
+			<EditText style="@style/edittext"
+					android:id="@+id/longitude"
+					android:hint="longitude" />
+			<Button style="@style/button"
+					android:id="@+id/current"
+					android:text="@string/waypoint_my_coordinates" />
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
+						android:text="direction" />
+			</RelativeLayout>
+			<EditText style="@style/edittext"
+					android:id="@+id/bearing"
+					android:hint="@string/waypoint_bearing" />
+			<EditText style="@style/edittext"
+					android:id="@+id/distance"
+					android:hint="@string/waypoint_distance" />
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:layout_marginTop="10dip"
+					android:gravity="center"
+					android:orientation="horizontal" >
+				<Button style="@style/button"
+						android:id="@+id/compass"
+						android:layout_width="1dip"
+						android:layout_weight="1"
+						android:text="compass" />
+				<Button style="@style/button"
+						android:id="@+id/radar"
+						android:layout_width="1dip"
+						android:layout_weight="1"
+						android:text="radar" />
+				<Button style="@style/button"
+						android:id="@+id/turn"
+						android:layout_width="1dip"
+						android:layout_weight="1"
+						android:text="turn" />
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

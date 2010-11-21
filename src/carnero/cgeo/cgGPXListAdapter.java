@@ -37,8 +37,7 @@ public class cgGPXListAdapter extends ArrayAdapter<File> {
 		File file = getItem(position);
 
 		if (rowView == null) {
-			if (settings.skin == 1) rowView = (View)inflater.inflate(R.layout.gpx_light, null);
-			else rowView = (View) inflater.inflate(R.layout.gpx_dark, null);
+			rowView = (View)inflater.inflate(R.layout.gpx_item, null);
 
 			holder = new cgGPXView();
 			holder.filepath = (TextView)rowView.findViewById(R.id.filepath);
