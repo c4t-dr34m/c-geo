@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:orientation="vertical" >
+		android:orientation="vertical"
+		android:background="?background_color" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -35,13 +36,11 @@
 					android:text="@string/legal_note" />
 			<EditText style="@style/edittext"
 					android:id="@+id/username"
-					android:hint="@string/init_username"
-					android:capitalize="none" />
+					android:hint="@string/init_username" />
 			<EditText style="@style/edittext"
 					android:id="@+id/password"
 					android:hint="@string/init_password"
-					android:password="true"
-					android:capitalize="none" />
+					android:password="true" />
 			<Button style="@style/button"
 					android:id="@+id/log_me_in"
 					android:text="@string/init_login" />

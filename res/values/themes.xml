@@ -8,7 +8,6 @@
 
 	<style name="dark" parent="cgeo">
 		<!-- system values -->
-		<item name="android:background">@color/background_dark</item>
 
 		<!-- own values: colors -->
 		<item name="just_color">@color/just_black</item>
@@ -35,7 +34,6 @@
 
 	<style name="light" parent="cgeo">
 		<!-- system values -->
-		<item name="android:background">@color/background_light</item>
 
 		<!-- own values: colors -->
 		<item name="just_color">@color/just_black</item>

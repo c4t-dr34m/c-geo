@@ -86,11 +86,7 @@ public class cgeotrackable extends Activity {
 				LinearLayout detailsList = (LinearLayout) findViewById(R.id.details_list);
 
 				// trackable geocode
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -99,11 +95,7 @@ public class cgeotrackable extends Activity {
 				detailsList.addView(itemLayout);
 
 				// trackable name
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -116,11 +108,7 @@ public class cgeotrackable extends Activity {
 				detailsList.addView(itemLayout);
 
 				// trackable type
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -133,11 +121,7 @@ public class cgeotrackable extends Activity {
 				detailsList.addView(itemLayout);
 
 				// trackable owner
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -151,11 +135,7 @@ public class cgeotrackable extends Activity {
 
 				// trackable spotted
 				if (trackable.spottedName != null && trackable.spottedName.length() > 0) {
-					if (settings.skin == 1) {
-						itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-					} else {
-						itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-					}
+					itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -177,11 +157,7 @@ public class cgeotrackable extends Activity {
 
 				// trackable origin
 				if (trackable.origin != null && trackable.origin.length() > 0) {
-					if (settings.skin == 1) {
-						itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-					} else {
-						itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-					}
+					itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -192,11 +168,7 @@ public class cgeotrackable extends Activity {
 
 				// trackable released
 				if (trackable.released != null) {
-					if (settings.skin == 1) {
-						itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-					} else {
-						itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-					}
+					itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -292,13 +264,13 @@ public class cgeotrackable extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
-		setTitle("trackable");
-		base.sendAnal(activity, "/trackable/list");
 		if (settings.skin == 1) {
-			setContentView(R.layout.trackabledetail_light);
+			setTheme(R.style.light);
 		} else {
-			setContentView(R.layout.trackabledetail_dark);
+			setTheme(R.style.dark);
 		}
+		setTitle("trackable");
+		setContentView(R.layout.trackable_detail);
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();

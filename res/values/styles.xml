@@ -28,6 +28,7 @@
 		<item name="android:background">?input</item>
 		<item name="android:focusable">true</item>
 		<item name="android:gravity">top|left</item>
+		<item name="android:capitalize">none</item>
 	</style>
 
 <!-- FULL definitions -->
@@ -38,6 +39,19 @@
 		<item name="android:layout_marginLeft">10dip</item>
 		<item name="android:layout_marginRight">10dip</item>
 		<item name="android:layout_marginBottom">5dip</item>
+	</style>
+
+	<!-- button: small -->
+	<style name="button_small">
+		<item name="android:layout_width">125dip</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_gravity">right</item>
+		<item name="android:layout_marginLeft">6dip</item>
+		<item name="android:layout_marginRight">6dip</item>
+		<item name="android:layout_marginTop">3dip</item>
+		<item name="android:layout_marginBottom">3dip</item>
+		<item name="android:padding">3dip</item>
+		<item name="android:textSize">14dip</item>
 	</style>
 
 	<!-- edittext -->

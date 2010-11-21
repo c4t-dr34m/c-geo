@@ -15,7 +15,7 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="end"
 			android:textSize="12dip"
-			android:textColor="@color/text_headline_dark"
+			android:textColor="?text_color_headline"
 			android:text="@null" />
 	<TextView android:id="@+id/value"
 			android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
 			android:layout_marginRight="6dip"
 			android:layout_gravity="left|top"
 			android:textSize="14dip"
-			android:textColor="@color/text_dark"
+			android:textColor="?text_color"
 			android:linksClickable="true"
-			android:textColorLink="@color/link" />
+			android:textColorLink="?text_color_link" />
 </RelativeLayout>

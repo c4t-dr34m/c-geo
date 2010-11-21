@@ -13,7 +13,7 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="marquee"
 			android:textSize="14dip"
-			android:textColor="@color/text_light"
+			android:textColor="?text_color"
 			android:text="@null" />
 	<LinearLayout
 			android:layout_width="fill_parent"
@@ -31,7 +31,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="12dip"
-				android:textColor="@color/text_headline_light"
+				android:textColor="?text_color_headline"
 				android:text="@null" />
 		<TextView android:id="@+id/identification"
 				android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="12dip"
-				android:textColor="@color/text_headline_light"
+				android:textColor="?text_color_headline"
 				android:text="@null" />
 	</LinearLayout>
 	<TextView android:id="@+id/note"
@@ -53,5 +53,5 @@
 			android:layout_marginRight="6dip"
 			android:padding="3dip"
 			android:textSize="12dip"
-			android:textColor="@color/text_light" />
+			android:textColor="?text_color" />
 </LinearLayout>

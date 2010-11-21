@@ -16,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class cgeoadvsearch extends Activity {
 	private Resources res = null;
@@ -45,10 +44,16 @@ public class cgeoadvsearch extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle(res.getString(R.string.search));
+		setContentView(R.layout.search);
+
+		// google analytics
 		base.sendAnal(context, "/advanced-search");
-		if (settings.skin == 1) setContentView(R.layout.advsearch_light);
-		else setContentView(R.layout.advsearch_dark);
 
 		init();
 	}

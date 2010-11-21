@@ -105,16 +105,20 @@ public class cgeopopup extends Activity {
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
 
+		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
+		setTitle(res.getString(R.string.detail));
+		setContentView(R.layout.popup);
+
 		// google analytics
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(cgSettings.analytics, this);
 		tracker.dispatch();
 		base.sendAnal(activity, tracker, "/popup");
-
-		// set layout
-		setTitle(res.getString(R.string.detail));
-		if (settings.skin == 1) setContentView(R.layout.popup_light);
-		else setContentView(R.layout.popup_dark);
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -181,8 +185,7 @@ public class cgeopopup extends Activity {
 			detailsList.removeAllViews();
 
 			// cache type
-			if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
-			else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
+			itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView)itemLayout.findViewById(R.id.name);
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
@@ -202,8 +205,7 @@ public class cgeopopup extends Activity {
 			detailsList.addView(itemLayout);
 
 			// gc-code
-			if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
-			else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
+			itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView)itemLayout.findViewById(R.id.name);
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
@@ -213,8 +215,7 @@ public class cgeopopup extends Activity {
 
 			// cache state
 			if (cache.archived == true || cache.disabled == true || cache.members == true || cache.found == true) {
-				if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
-				else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView)itemLayout.findViewById(R.id.name);
 				itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
@@ -245,8 +246,7 @@ public class cgeopopup extends Activity {
 			}
 
 			// distance
-			if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light, null);
-			else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
+			itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView)itemLayout.findViewById(R.id.name);
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
@@ -257,8 +257,7 @@ public class cgeopopup extends Activity {
 
 			// difficulty
 			if (cache.difficulty > 0f) {
-				if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light_layout, null);
-				else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_layout, null);
 				itemName = (TextView)itemLayout.findViewById(R.id.name);
 				itemValue = (TextView)itemLayout.findViewById(R.id.value);
 				itemStars = (LinearLayout)itemLayout.findViewById(R.id.stars);
@@ -281,8 +280,7 @@ public class cgeopopup extends Activity {
 
 			// terrain
 			if (cache.terrain > 0f) {
-				if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light_layout, null);
-				else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_layout, null);
 				itemName = (TextView)itemLayout.findViewById(R.id.name);
 				itemValue = (TextView)itemLayout.findViewById(R.id.value);
 				itemStars = (LinearLayout)itemLayout.findViewById(R.id.stars);
@@ -645,8 +643,7 @@ public class cgeopopup extends Activity {
 		LinearLayout itemStars;
 		LinearLayout detailsList = (LinearLayout)findViewById(R.id.details_list);
 
-		if (settings.skin == 1) itemLayout = (RelativeLayout)inflater.inflate(R.layout.cacheitem_light_layout, null);
-		else itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
+		itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_layout, null);
 		itemName = (TextView)itemLayout.findViewById(R.id.name);
 		itemValue = (TextView)itemLayout.findViewById(R.id.value);
 		itemStars = (LinearLayout)itemLayout.findViewById(R.id.stars);

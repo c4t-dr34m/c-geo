@@ -182,12 +182,13 @@ public class cgeodetail extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
-		setTitle(res.getString(R.string.cache));
 		if (settings.skin == 1) {
-			setContentView(R.layout.cachedetail_light);
+			setTheme(R.style.light);
 		} else {
-			setContentView(R.layout.cachedetail_dark);
+			setTheme(R.style.dark);
 		}
+		setTitle(res.getString(R.string.cache));
+		setContentView(R.layout.detail);
 
 		init();
 
@@ -482,11 +483,7 @@ public class cgeodetail extends Activity {
 			detailsList.removeAllViews();
 
 			// cache type
-			if (settings.skin == 1) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-			} else {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-			}
+			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView) itemLayout.findViewById(R.id.name);
 			itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -509,11 +506,7 @@ public class cgeodetail extends Activity {
 			detailsList.addView(itemLayout);
 
 			// gc-code
-			if (settings.skin == 1) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-			} else {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-			}
+			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView) itemLayout.findViewById(R.id.name);
 			itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -523,11 +516,7 @@ public class cgeodetail extends Activity {
 
 			// cache state
 			if (cache.logOffline == true || cache.archived == true || cache.disabled == true || cache.members == true || cache.found == true) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -572,11 +561,7 @@ public class cgeodetail extends Activity {
 			}
 
 			// distance
-			if (settings.skin == 1) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-			} else {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-			}
+			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView) itemLayout.findViewById(R.id.name);
 			itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -591,11 +576,7 @@ public class cgeodetail extends Activity {
 
 			// difficulty
 			if (cache.difficulty != null && cache.difficulty > 0) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light_layout, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_layout, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
@@ -618,11 +599,7 @@ public class cgeodetail extends Activity {
 
 			// terrain
 			if (cache.terrain != null && cache.terrain > 0) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light_layout, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_layout, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
@@ -645,11 +622,7 @@ public class cgeodetail extends Activity {
 
 			// rating
 			if (cache.rating != null && cache.rating > 0) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light_layout, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark_layout, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_layout, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
@@ -679,11 +652,7 @@ public class cgeodetail extends Activity {
 
 			// cache author
 			if (cache.owner != null && cache.owner.length() > 0) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -694,11 +663,7 @@ public class cgeodetail extends Activity {
 
 			// cache hidden
 			if (cache.hidden != null && cache.hidden.getTime() > 0) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -713,11 +678,7 @@ public class cgeodetail extends Activity {
 
 			// cache location
 			if (cache.location != null && cache.location.length() > 0) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -728,11 +689,7 @@ public class cgeodetail extends Activity {
 
 			// cache coordinates
 			if (cache.latitude != null && cache.longitude != null) {
-				if (settings.skin == 1) {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_light, null);
-				} else {
-					itemLayout = (RelativeLayout) inflater.inflate(R.layout.cacheitem_dark, null);
-				}
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
@@ -859,11 +816,7 @@ public class cgeodetail extends Activity {
 				LinearLayout waypointView;
 
 				for (cgWaypoint wpt : cache.waypoints) {
-					if (settings.skin == 1) {
-						waypointView = (LinearLayout) inflater.inflate(R.layout.waypointitem_light, null);
-					} else {
-						waypointView = (LinearLayout) inflater.inflate(R.layout.waypointitem_dark, null);
-					}
+					waypointView = (LinearLayout) inflater.inflate(R.layout.waypoint_item, null);
 					final TextView identification = (TextView) waypointView.findViewById(R.id.identification);
 
 					((TextView) waypointView.findViewById(R.id.type)).setText(base.waypointTypes.get(wpt.type));
@@ -931,11 +884,7 @@ public class cgeodetail extends Activity {
 
 		if (cache != null && cache.logs != null) {
 			for (cgLog log : cache.logs) {
-				if (settings.skin == 1) {
-					rowView = (RelativeLayout) inflater.inflate(R.layout.logitem_light, null);
-				} else {
-					rowView = (RelativeLayout) inflater.inflate(R.layout.logitem_dark, null);
-				}
+				rowView = (RelativeLayout) inflater.inflate(R.layout.log_item, null);
 
 				if (log.date > 0) {
 					final Date logDate = new Date(log.date);

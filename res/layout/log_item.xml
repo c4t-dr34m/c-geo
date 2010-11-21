@@ -14,7 +14,7 @@
 			android:scrollHorizontally="true"
 			android:ellipsize="marquee"
 			android:textSize="18dip"
-			android:textColor="@color/text_light" />
+			android:textColor="?text_color" />
 	<LinearLayout
 			android:layout_width="82dip"
 			android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="14dip"
-					android:textColor="@color/text_headline_light" />
+					android:textColor="?text_color_headline" />
 			<TextView android:id="@+id/type"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="14dip"
-					android:textColor="@color/text_headline_light" />
+					android:textColor="?text_color_headline" />
 			<TextView android:id="@+id/count"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
 					android:scrollHorizontally="true"
 					android:ellipsize="marquee"
 					android:textSize="14dip"
-					android:textColor="@color/text_headline_light" />
+					android:textColor="?text_color_headline" />
 		</LinearLayout>
 		<ImageView android:id="@+id/found_mark"
 				android:visibility="gone"
@@ -100,5 +100,5 @@
 			android:gravity="left"
 			android:padding="3dip"
 			android:textSize="14dip"
-			android:textColor="@color/text_light" />
+			android:textColor="?text_color" />
 </RelativeLayout>
