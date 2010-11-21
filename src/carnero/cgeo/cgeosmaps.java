@@ -47,10 +47,7 @@ public class cgeosmaps extends Activity {
 					int cnt = 1;
 					for (Bitmap image : maps) {
 						if (image != null) {
-							LinearLayout mapView = null;
-							
-							if (settings.skin == 1) mapView = (LinearLayout)inflater.inflate(R.layout.smapitem_light, null);
-							else mapView = (LinearLayout)inflater.inflate(R.layout.smapitem_dark, null);
+							final LinearLayout mapView = (LinearLayout)inflater.inflate(R.layout.map_static_item, null);
 
 							((TextView)mapView.findViewById(R.id.title)).setText("map #" + cnt);
 							((ImageView)mapView.findViewById(R.id.map_image)).setImageBitmap(image);
@@ -79,10 +76,13 @@ public class cgeosmaps extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle("static maps");
-		base.sendAnal(activity, "/map-static");
-		if (settings.skin == 1) setContentView(R.layout.smaps_light);
-		else setContentView(R.layout.smaps_dark);
+		setContentView(R.layout.map_static);
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();

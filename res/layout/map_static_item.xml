@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
+	<RelativeLayout style="@style/separator_horizontal_layout" >
+		<View style="@style/separator_horizontal" />
+		<TextView style="@style/separator_horizontal_headline"
+				android:text="@null" />
+	</RelativeLayout>
+	<ImageView android:id="@+id/map_image"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:scaleType="centerCrop"
+				android:padding="3dip"
+				android:gravity="center" />
+</LinearLayout>

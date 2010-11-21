@@ -72,6 +72,7 @@ public class cgeoaddresses extends Activity {
 						}
 
 						oneAdd.setText(allAdd.toString());
+						oneAdd.setLines(allAdd.toString().split("\n").length);
 						oneAdd.setClickable(true);
 						oneAdd.setOnClickListener(new buttonListener(address.getLatitude(), address.getLongitude(), allAddLine.toString()));
 						addList.addView(oneAddPre);

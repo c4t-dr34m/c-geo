@@ -23,7 +23,7 @@ public class cgeotrackables extends Activity {
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-	private Context activity = null;
+	private Activity activity = null;
 	private LayoutInflater inflater = null;
 	private LinearLayout addList = null;
 	private ProgressDialog waitDialog = null;
@@ -32,6 +32,10 @@ public class cgeotrackables extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
+				if (inflater == null) {
+					inflater = activity.getLayoutInflater();
+				}
+
 				if (addList == null) {
 					addList = (LinearLayout) findViewById(R.id.trackable_list);
 				}
@@ -47,7 +51,6 @@ public class cgeotrackables extends Activity {
 					return;
 				} else {
 					LinearLayout oneTbPre = null;
-					LinearLayout addList = (LinearLayout) findViewById(R.id.trackable_list);
 					for (cgTrackable trackable : trackables) {
 						oneTbPre = (LinearLayout) inflater.inflate(R.layout.trackable_button, null);
 

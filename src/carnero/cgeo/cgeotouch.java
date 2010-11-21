@@ -68,7 +68,9 @@ public class cgeotouch extends cgLogForm {
 				return;
 			} else if ((viewstate == null || viewstate.length() == 0) && attempts >= 2) {
 				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
-				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+				if (progressBar == true) {
+					setProgressBarIndeterminateVisibility(false);
+				}
 
 				return;
 			}
@@ -76,12 +78,12 @@ public class cgeotouch extends cgLogForm {
 			gettingViewstate = false; // we're done, user can post log
 
 			Button buttonPost = (Button)findViewById(R.id.post);
-			buttonPost.setClickable(true);
+			buttonPost.setEnabled(true);
 			buttonPost.setOnClickListener(new postListener());
-			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
-			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);
 
-			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+			if (progressBar == true) {
+				setProgressBarIndeterminateVisibility(false);
+			}
 		}
 	};
 	
@@ -131,9 +133,16 @@ public class cgeotouch extends cgLogForm {
 
 		// set layout
 		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
 		setTitle("touch");
-		if (settings.skin == 1) setContentView(R.layout.touch_light);
-		else setContentView(R.layout.touch_dark);
+		setContentView(R.layout.touch);
+
+		// google analytics
+		base.sendAnal(activity, "/trackable/touch");
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -308,20 +317,16 @@ public class cgeotouch extends cgLogForm {
         
 		Button buttonPost = (Button)findViewById(R.id.post);
 		if (viewstate == null || viewstate.length() == 0) {
-			buttonPost.setClickable(false);
+			buttonPost.setEnabled(false);
 			buttonPost.setOnTouchListener(null);
 			buttonPost.setOnClickListener(null);
-			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light_off);
-			else buttonPost.setBackgroundResource(R.drawable.action_button_dark_off);
 			
 			loadData thread;
 			thread = new loadData(guid);
 			thread.start();
 		} else {
-			buttonPost.setClickable(true);
+			buttonPost.setEnabled(true);
 			buttonPost.setOnClickListener(new postListener());
-			if (settings.skin == 1) buttonPost.setBackgroundResource(R.drawable.action_button_light);
-			else buttonPost.setBackgroundResource(R.drawable.action_button_dark);
 		}
 	}
 
