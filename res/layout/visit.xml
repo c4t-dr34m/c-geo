@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="?text_color" >
+		android:background="?background_color" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -25,10 +25,13 @@
 						android:orientation="horizontal" >
 					<Button style="@style/button"
 							android:id="@+id/type"
-							android:layout_width="120dip"
+							android:layout_width="0dip"
+							android:layout_weight="1"
 							android:text="type" />
 					<Button style="@style/button"
 							android:id="@+id/date"
+							android:layout_width="0dip"
+							android:layout_weight="1"
 							android:text="date" />
 				</LinearLayout>
 				<EditText style="@style/edittext"

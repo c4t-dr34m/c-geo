@@ -49,11 +49,7 @@ public class cgeotrackables extends Activity {
 					LinearLayout oneTbPre = null;
 					LinearLayout addList = (LinearLayout) findViewById(R.id.trackable_list);
 					for (cgTrackable trackable : trackables) {
-						if (settings.skin == 1) {
-							oneTbPre = (LinearLayout) inflater.inflate(R.layout.trackable_button_light, null);
-						} else {
-							oneTbPre = (LinearLayout) inflater.inflate(R.layout.trackable_button_dark, null);
-						}
+						oneTbPre = (LinearLayout) inflater.inflate(R.layout.trackable_button, null);
 
 						Button oneTb = (Button) oneTbPre.findViewById(R.id.button);
 
@@ -92,14 +88,16 @@ public class cgeotrackables extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
-		setTitle("inventory");
-		base.sendAnal(activity, "/trackable/detail");
 		if (settings.skin == 1) {
-			setContentView(R.layout.trackables_light);
+			setTheme(R.style.light);
 		} else {
-			setContentView(R.layout.trackables_dark);
+			setTheme(R.style.dark);
 		}
-		inflater = getLayoutInflater();
+		setTitle("trackable");
+		setContentView(R.layout.trackables);
+
+		// google analytics
+		base.sendAnal(activity, "/trackable/list");
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();

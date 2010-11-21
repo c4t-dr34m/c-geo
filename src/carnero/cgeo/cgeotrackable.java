@@ -200,7 +200,7 @@ public class cgeotrackable extends Activity {
 					((LinearLayout) findViewById(R.id.image_box)).setVisibility(View.VISIBLE);
 					LinearLayout imgView = (LinearLayout) findViewById(R.id.image);
 
-					final ImageView trackableImage = (ImageView) inflater.inflate(R.layout.trackableimage_all, null);
+					final ImageView trackableImage = (ImageView) inflater.inflate(R.layout.trackable_image, null);
 
 					trackableImage.setImageResource(R.drawable.image_not_loaded);
 					trackableImage.setClickable(true);
@@ -271,6 +271,9 @@ public class cgeotrackable extends Activity {
 		}
 		setTitle("trackable");
 		setContentView(R.layout.trackable_detail);
+
+		// google analytics
+		base.sendAnal(activity, "/trackable/detail");
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();

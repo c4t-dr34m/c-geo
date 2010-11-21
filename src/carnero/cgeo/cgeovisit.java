@@ -66,6 +66,13 @@ public class cgeovisit extends cgLogForm {
 
 		@Override
 		public void handleMessage(Message msg) {
+			if (types.contains(typeSelected) == false) {
+				typeSelected = types.get(0);
+				setType(typeSelected);
+				
+				warning.showToast("Type of log has been changed!");
+			}
+
 			if ((viewstate == null || viewstate.length() == 0) && attempts < 2) {
 				warning.showToast("Sorry, c:geo can\'t load data required to log visit. Trying again.");
 
@@ -680,12 +687,6 @@ public class cgeovisit extends cgLogForm {
 					types.addAll(typesPre);
 				}
 				typesPre.clear();
-
-				if (types.contains(typeSelected) == false) {
-					typeSelected = types.get(0);
-					setType(typeSelected);
-					warning.showToast("Type of log has been changed!");
-				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeovisit.loadData.run: " + e.toString());
 			}

@@ -38,26 +38,28 @@
 			<EditText style="@style/edittext"
 					android:id="@+id/distance"
 					android:hint="@string/waypoint_distance" />
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
+						android:text="navigation" />
+			</RelativeLayout>
 			<LinearLayout
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:layout_marginTop="10dip"
-					android:gravity="center"
 					android:orientation="horizontal" >
 				<Button style="@style/button"
 						android:id="@+id/compass"
-						android:layout_width="1dip"
+						android:layout_width="0dip"
 						android:layout_weight="1"
 						android:text="compass" />
 				<Button style="@style/button"
 						android:id="@+id/radar"
-						android:layout_width="1dip"
+						android:layout_width="0dip"
 						android:layout_weight="1"
 						android:text="radar" />
 				<Button style="@style/button"
 						android:id="@+id/turn"
-						android:layout_width="1dip"
+						android:layout_width="0dip"
 						android:layout_weight="1"
 						android:text="turn" />
 			</LinearLayout>

@@ -50,11 +50,7 @@ public class cgeoaddresses extends Activity {
 				} else {
 					LinearLayout oneAddPre = null;
 					for (Address address : addresses) {
-						if (settings.skin == 1) {
-							oneAddPre = (LinearLayout) inflater.inflate(R.layout.address_button_light, null);
-						} else {
-							oneAddPre = (LinearLayout) inflater.inflate(R.layout.address_button_dark, null);
-						}
+						oneAddPre = (LinearLayout) inflater.inflate(R.layout.address_button, null);
 
 						Button oneAdd = (Button) oneAddPre.findViewById(R.id.button);
 						int index = 0;
@@ -104,16 +100,19 @@ public class cgeoaddresses extends Activity {
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
-
-		setTitle("known places");
-		base.sendAnal(activity, "/addresses");
-
-		if (settings.skin == 1) {
-			setContentView(R.layout.addresses_light);
-		} else {
-			setContentView(R.layout.addresses_dark);
-		}
 		inflater = getLayoutInflater();
+
+		// set layout
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
+		setTitle("known places");
+		setContentView(R.layout.addresses);
+
+		// google analytics
+		base.sendAnal(activity, "/addresses");
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
