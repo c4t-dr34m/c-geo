@@ -305,17 +305,21 @@ public class cgeocaches extends ListActivity {
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
 
+		// set layout
+		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		if (settings.skin == 1) {
+			setTheme(R.style.light);
+		} else {
+			setTheme(R.style.dark);
+		}
+		setTitle("caches");
+		setContentView(R.layout.caches);
+
 		// google analytics
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(cgSettings.analytics, this);
 		tracker.dispatch();
 		base.sendAnal(activity, tracker, "/cache/list");
-
-		// set layout
-		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setTitle("caches");
-		if (settings.skin == 1) setContentView(R.layout.caches_light);
-		else setContentView(R.layout.caches_dark);
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -711,8 +715,7 @@ public class cgeocaches extends ListActivity {
 	private void setAdapter() {
 		if (listFooter == null) {
 			if (inflater == null) inflater = activity.getLayoutInflater();
-			if (settings.skin == 1) listFooter = inflater.inflate(R.layout.caches_footer_light, null);
-			else listFooter = inflater.inflate(R.layout.caches_footer_dark, null);
+			listFooter = inflater.inflate(R.layout.caches_footer, null);
 			
 			listFooter.setClickable(true);
 			listFooter.setOnClickListener(new moreCachesListener());

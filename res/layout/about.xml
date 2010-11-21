@@ -3,7 +3,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="@color/background_dark" >
+		android:background="?background_color" >
 	<ScrollView
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -23,31 +23,11 @@
 					android:layout_alignParentLeft="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="@color/text_dark"
+					android:textColor="?text_color"
 					android:text="@string/about_text" />
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_dark" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_dark"
-						android:background="@color/background_dark"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/about_donate" />
 			</RelativeLayout>
 			<LinearLayout
@@ -56,54 +36,20 @@
 					android:layout_marginTop="10dip"
 					android:orientation="horizontal"
 					android:gravity="center_horizontal" >
-				<Button android:id="@+id/donation_more"
+				<Button style="@style/button"
+						android:id="@+id/donation_more"
 						android:layout_width="180dip"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="10dip"
-						android:layout_marginRight="10dip"
-						android:layout_marginBottom="15dip"
-						android:lines="2"
-						android:textSize="22dip"
-						android:textColor="@color/text_dark"
-						android:padding="6dip"
-						android:text="@string/about_donation_more"
-						android:background="@drawable/action_button_dark" />
-				<Button android:id="@+id/donation_less"
+						android:onClick="donateMore"
+						android:text="@string/about_donation_more" />
+				<Button style="@style/button"
+						android:id="@+id/donation_less"
 						android:layout_width="100dip"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="10dip"
-						android:layout_marginRight="10dip"
-						android:layout_marginBottom="15dip"
-						android:lines="2"
-						android:textSize="22dip"
-						android:textColor="@color/text_dark"
-						android:padding="6dip"
-						android:text="@string/about_donation_less"
-						android:background="@drawable/action_button_dark" />
+						android:onClick="donateLess"
+						android:text="@string/about_donation_less" />
 			</LinearLayout>
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_dark" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_dark"
-						android:background="@color/background_dark"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/about_detail" />
 			</RelativeLayout>
 			<TextView android:id="@+id/author"
@@ -115,9 +61,12 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="@color/text_dark"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="false"
+					android:focusable="true"
+					android:clickable="true"
+					android:onClick="author"
 					android:text="@string/author" />
 			<TextView android:id="@+id/support"
 					android:layout_width="wrap_content"
@@ -128,9 +77,12 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="@color/text_dark"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="false"
+					android:focusable="true"
+					android:clickable="true"
+					android:onClick="support"
 					android:text="@string/support" />
 			<TextView android:id="@+id/website"
 					android:layout_width="wrap_content"
@@ -141,9 +93,12 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="@color/text_dark"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="false"
+					android:focusable="true"
+					android:clickable="true"
+					android:onClick="website"
 					android:text="@string/website" />
 			<TextView android:id="@+id/facebook"
 					android:layout_width="wrap_content"
@@ -154,9 +109,12 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="@color/text_dark"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="false"
+					android:focusable="true"
+					android:clickable="true"
+					android:onClick="facebook"
 					android:text="@string/facebook" />
 			<TextView android:id="@+id/twitter"
 					android:layout_width="wrap_content"
@@ -167,9 +125,12 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="@color/text_dark"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="false"
+					android:focusable="true"
+					android:clickable="true"
+					android:onClick="twitter"
 					android:text="@string/twitter" />
 			<TextView android:id="@+id/graphic"
 					android:layout_width="wrap_content"
@@ -180,33 +141,13 @@
 					android:layout_alignParentRight="true"
 					android:layout_gravity="left"
 					android:textSize="14dip"
-					android:textColor="@color/text_dark"
-					android:textColorLink="@color/link"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
 					android:linksClickable="false"
 					android:text="@string/graphic" />
-			<RelativeLayout
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="2dip"
-					android:layout_marginBottom="2dip" >
-				<View
-						android:layout_width="fill_parent"
-						android:layout_height="1dip"
-						android:layout_centerInParent="true"
-						android:background="@color/separator_dark" />
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_alignParentLeft="true"
-						android:layout_marginLeft="15dip"
-						android:padding="3dip"
-						android:lines="1"
-						android:singleLine="true"
-						android:scrollHorizontally="true"
-						android:ellipsize="marquee"
-						android:textSize="22dip"
-						android:textColor="@color/text_headline_dark"
-						android:background="@color/background_dark"
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/about_changelog" />
 			</RelativeLayout>
 			<TextView
@@ -219,7 +160,7 @@
 					android:layout_gravity="right"
 					android:paddingRight="3dip"
 					android:textSize="12dip"
-					android:textColor="@color/text_grey_dark"
+					android:textColor="?text_color_grey"
 					android:text="@string/changelog" />
 		</LinearLayout>
 	</ScrollView>

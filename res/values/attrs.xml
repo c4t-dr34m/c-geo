@@ -21,4 +21,8 @@
 	<!-- drawables -->
 	<attr name="button" format="integer" />
 	<attr name="input" format="integer" />
+	<attr name="inventory" format="integer" />
+
+	<!-- others -->
+	<attr name="compass" format="integer" />
 </resources>

@@ -210,8 +210,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		cgCache cache = getItem(position);
 
 		if (rowView == null) {
-			if (settings.skin == 1) rowView = (View)inflater.inflate(R.layout.cache_light, null);
-			else rowView = (View) inflater.inflate(R.layout.cache_dark, null);
+			rowView = (View)inflater.inflate(R.layout.cache, null);
 
 			holder = new cgCacheView();
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
@@ -326,30 +325,25 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		ImageView tbIcon = null;
 		if (cache.inventoryCoins == 1) {
-			if (settings.skin == 1) tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_light, null);
-			else tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_dark, null);
+			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_coin);
 			holder.inventory.addView(tbIcon);
 		} else if (cache.inventoryCoins > 1) {
-			if (settings.skin == 1) tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_light, null);
-			else tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_dark, null);
+			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_coins);
 			holder.inventory.addView(tbIcon);
 		}
 		if (cache.inventoryTags == 1) {
-			if (settings.skin == 1) tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_light, null);
-			else tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_dark, null);
+			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_tb);
 			holder.inventory.addView(tbIcon);
 		} else if (cache.inventoryTags > 1) {
-			if (settings.skin == 1) tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_light, null);
-			else tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_dark, null);
+			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_tbs);
 			holder.inventory.addView(tbIcon);
 		}
 		if (cache.inventoryUnknown > 0) {
-			if (settings.skin == 1) tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_light, null);
-			else tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon_dark, null);
+			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_all);
 			holder.inventory.addView(tbIcon);
 		}

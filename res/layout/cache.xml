@@ -6,11 +6,11 @@
 		android:layout_margin="3dip"
 		android:paddingBottom="7dip"
 		android:paddingTop="7dip"
-		android:background="@color/background_light" >
+		android:background="?background_color" >
 	<RelativeLayout android:id="@+id/one_checkbox"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:background="@color/background_light" >
+			android:background="?background_color" >
 		<CheckBox android:id="@+id/checkbox"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
 	<RelativeLayout android:id="@+id/one_info"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:background="@color/background_light" >
+			android:background="?background_color" >
 		<ImageView android:id="@+id/found_mark"
 			android:visibility="gone"
 			android:layout_width="2dip"
@@ -106,7 +106,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="18dip"
-				android:textColor="@color/text_light" />
+				android:textColor="?text_color" />
 		<view class="carnero.cgeo.cgDistanceView"
 				android:id="@+id/distance"
 				android:layout_width="78dip"
@@ -119,7 +119,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="16dip"
-				android:textColor="@color/text_light"
+				android:textColor="?text_color"
 				android:gravity="center" />
 		<view class="carnero.cgeo.cgCompassMini"
 				android:id="@+id/direction"
@@ -131,7 +131,7 @@
 				android:minWidth="28px"
 				android:minHeight="28px"
 				android:gravity="center"
-				cc:skin="1" />
+				cc:skin="?compass" />
 		<TextView android:id="@+id/info"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
 				android:scrollHorizontally="true"
 				android:ellipsize="marquee"
 				android:textSize="12dip"
-				android:textColor="@color/text_grey_light" />
+				android:textColor="?text_color_grey" />
 		<LinearLayout android:id="@+id/inventory"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
 				android:layout_alignParentTop="true"
 				android:layout_gravity="center"
 				android:orientation="horizontal"
-				android:background="@drawable/inventory_background_light" >
+				android:background="?inventory" >
 		</LinearLayout>
 	</RelativeLayout>
 </RelativeLayout>

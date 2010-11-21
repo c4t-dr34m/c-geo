@@ -63,6 +63,15 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int button_color_enabled=0x7f010007;
+        /**  others 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int compass=0x7f010010;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -71,6 +80,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int input=0x7f01000e;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int inventory=0x7f01000f;
         /**  colors 
          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -472,82 +489,77 @@ containing a value of this type.
         public static final int website=0x7f080004;
     }
     public static final class layout {
-        public static final int about_dark=0x7f030000;
-        public static final int about_light=0x7f030001;
-        public static final int address_button_dark=0x7f030002;
-        public static final int address_button_light=0x7f030003;
-        public static final int addresses_dark=0x7f030004;
-        public static final int addresses_light=0x7f030005;
-        public static final int advsearch_dark=0x7f030006;
-        public static final int advsearch_light=0x7f030007;
-        public static final int auth_dark=0x7f030008;
-        public static final int auth_light=0x7f030009;
-        public static final int cache_dark=0x7f03000a;
-        public static final int cache_light=0x7f03000b;
-        public static final int cachedetail_dark=0x7f03000c;
-        public static final int cachedetail_light=0x7f03000d;
-        public static final int cacheitem_dark=0x7f03000e;
-        public static final int cacheitem_dark_layout=0x7f03000f;
-        public static final int cacheitem_light=0x7f030010;
-        public static final int cacheitem_light_layout=0x7f030011;
-        public static final int caches_dark=0x7f030012;
-        public static final int caches_footer_dark=0x7f030013;
-        public static final int caches_footer_light=0x7f030014;
-        public static final int caches_light=0x7f030015;
-        public static final int date_dark=0x7f030016;
-        public static final int date_light=0x7f030017;
-        public static final int gpx_dark=0x7f030018;
-        public static final int gpx_light=0x7f030019;
-        public static final int gpxes_dark=0x7f03001a;
-        public static final int gpxes_light=0x7f03001b;
-        public static final int imgitem_dark=0x7f03001c;
-        public static final int imgitem_light=0x7f03001d;
-        public static final int init=0x7f03001e;
-        public static final int logitem_dark=0x7f03001f;
-        public static final int logitem_light=0x7f030020;
-        public static final int main_transparent_all=0x7f030021;
-        public static final int map_dark=0x7f030022;
-        public static final int map_light=0x7f030023;
-        public static final int navigate_dark=0x7f030024;
-        public static final int navigate_light=0x7f030025;
-        public static final int point_dark=0x7f030026;
-        public static final int point_light=0x7f030027;
-        public static final int popup_dark=0x7f030028;
-        public static final int popup_light=0x7f030029;
-        public static final int smapitem_dark=0x7f03002a;
-        public static final int smapitem_light=0x7f03002b;
-        public static final int smaps_dark=0x7f03002c;
-        public static final int smaps_light=0x7f03002d;
-        public static final int spoileritem_dark=0x7f03002e;
-        public static final int spoileritem_light=0x7f03002f;
-        public static final int spoilers_dark=0x7f030030;
-        public static final int spoilers_light=0x7f030031;
-        public static final int star=0x7f030032;
-        public static final int touch_dark=0x7f030033;
-        public static final int touch_light=0x7f030034;
-        public static final int trackable_button_dark=0x7f030035;
-        public static final int trackable_button_light=0x7f030036;
-        public static final int trackable_icon_dark=0x7f030037;
-        public static final int trackable_icon_light=0x7f030038;
-        public static final int trackabledetail_dark=0x7f030039;
-        public static final int trackabledetail_light=0x7f03003a;
-        public static final int trackableimage_all=0x7f03003b;
-        public static final int trackables_dark=0x7f03003c;
-        public static final int trackables_light=0x7f03003d;
-        public static final int types_button_dark=0x7f03003e;
-        public static final int types_button_light=0x7f03003f;
-        public static final int types_dark=0x7f030040;
-        public static final int types_light=0x7f030041;
-        public static final int visit_dark=0x7f030042;
-        public static final int visit_light=0x7f030043;
-        public static final int visit_trackable_dark=0x7f030044;
-        public static final int visit_trackable_light=0x7f030045;
-        public static final int waypoint_dark=0x7f030046;
-        public static final int waypoint_light=0x7f030047;
-        public static final int waypointadd_dark=0x7f030048;
-        public static final int waypointadd_light=0x7f030049;
-        public static final int waypointitem_dark=0x7f03004a;
-        public static final int waypointitem_light=0x7f03004b;
+        public static final int about=0x7f030000;
+        public static final int address_button_dark=0x7f030001;
+        public static final int address_button_light=0x7f030002;
+        public static final int addresses_dark=0x7f030003;
+        public static final int addresses_light=0x7f030004;
+        public static final int advsearch_dark=0x7f030005;
+        public static final int advsearch_light=0x7f030006;
+        public static final int auth_dark=0x7f030007;
+        public static final int auth_light=0x7f030008;
+        public static final int cache=0x7f030009;
+        public static final int cachedetail_dark=0x7f03000a;
+        public static final int cachedetail_light=0x7f03000b;
+        public static final int cacheitem_dark=0x7f03000c;
+        public static final int cacheitem_dark_layout=0x7f03000d;
+        public static final int cacheitem_light=0x7f03000e;
+        public static final int cacheitem_light_layout=0x7f03000f;
+        public static final int caches=0x7f030010;
+        public static final int caches_footer=0x7f030011;
+        public static final int date_dark=0x7f030012;
+        public static final int date_light=0x7f030013;
+        public static final int gpx_dark=0x7f030014;
+        public static final int gpx_light=0x7f030015;
+        public static final int gpxes_dark=0x7f030016;
+        public static final int gpxes_light=0x7f030017;
+        public static final int imgitem_dark=0x7f030018;
+        public static final int imgitem_light=0x7f030019;
+        public static final int init=0x7f03001a;
+        public static final int logitem_dark=0x7f03001b;
+        public static final int logitem_light=0x7f03001c;
+        public static final int main_transparent_all=0x7f03001d;
+        public static final int map_dark=0x7f03001e;
+        public static final int map_light=0x7f03001f;
+        public static final int navigate_dark=0x7f030020;
+        public static final int navigate_light=0x7f030021;
+        public static final int point_dark=0x7f030022;
+        public static final int point_light=0x7f030023;
+        public static final int popup_dark=0x7f030024;
+        public static final int popup_light=0x7f030025;
+        public static final int smapitem_dark=0x7f030026;
+        public static final int smapitem_light=0x7f030027;
+        public static final int smaps_dark=0x7f030028;
+        public static final int smaps_light=0x7f030029;
+        public static final int spoileritem_dark=0x7f03002a;
+        public static final int spoileritem_light=0x7f03002b;
+        public static final int spoilers_dark=0x7f03002c;
+        public static final int spoilers_light=0x7f03002d;
+        public static final int star=0x7f03002e;
+        public static final int touch_dark=0x7f03002f;
+        public static final int touch_light=0x7f030030;
+        public static final int trackable_button_dark=0x7f030031;
+        public static final int trackable_button_light=0x7f030032;
+        public static final int trackable_icon=0x7f030033;
+        public static final int trackabledetail_dark=0x7f030034;
+        public static final int trackabledetail_light=0x7f030035;
+        public static final int trackableimage_all=0x7f030036;
+        public static final int trackables_dark=0x7f030037;
+        public static final int trackables_light=0x7f030038;
+        public static final int types_button_dark=0x7f030039;
+        public static final int types_button_light=0x7f03003a;
+        public static final int types_dark=0x7f03003b;
+        public static final int types_light=0x7f03003c;
+        public static final int visit_dark=0x7f03003d;
+        public static final int visit_light=0x7f03003e;
+        public static final int visit_trackable_dark=0x7f03003f;
+        public static final int visit_trackable_light=0x7f030040;
+        public static final int waypoint_dark=0x7f030041;
+        public static final int waypoint_light=0x7f030042;
+        public static final int waypointadd_dark=0x7f030043;
+        public static final int waypointadd_light=0x7f030044;
+        public static final int waypointitem_dark=0x7f030045;
+        public static final int waypointitem_light=0x7f030046;
     }
     public static final class string {
         public static final int about=0x7f060006;

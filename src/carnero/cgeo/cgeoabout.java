@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 public class cgeoabout extends Activity {
 	private Activity activity = null;
@@ -28,14 +27,16 @@ public class cgeoabout extends Activity {
 		base = new cgBase((cgeoapplication) this.getApplication(), settings, this.getSharedPreferences(cgSettings.preferences, 0));
 
 		// set layout
-		setTitle(res.getString(R.string.about));
-		base.sendAnal(activity, "/about");
-
 		if (settings.skin == 1) {
-			setContentView(R.layout.about_light);
+			setTheme(R.style.light);
 		} else {
-			setContentView(R.layout.about_dark);
+			setTheme(R.style.dark);
 		}
+		setTitle(res.getString(R.string.about));
+		setContentView(R.layout.about);
+
+		// google analytics
+		base.sendAnal(activity, "/about");
 
 		init();
 	}
@@ -56,77 +57,33 @@ public class cgeoabout extends Activity {
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeoabout.init: Failed to obtain package version.");
 		}
+	}
 
-		TextView donateMLink = (TextView) findViewById(R.id.donation_more);
-		donateMLink.setClickable(true);
-		donateMLink.setOnClickListener(new View.OnClickListener() {
+	public void donateMore(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2Z69QWLRCBE9N&lc=US&item_name=c%3ageo&currency_code=EUR&amount=15&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted")));
+	}
 
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2Z69QWLRCBE9N&lc=US&item_name=c%3ageo&currency_code=EUR&amount=15&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted")));
-			}
-		});
+	public void donateLess(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2Z69QWLRCBE9N&lc=US&item_name=c%3ageo&currency_code=EUR&amount=7&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted")));
+	}
 
-		TextView donateLLink = (TextView) findViewById(R.id.donation_less);
-		donateLLink.setClickable(true);
-		donateLLink.setOnClickListener(new View.OnClickListener() {
+	public void author(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://carnero.cc/")));
+	}
 
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2Z69QWLRCBE9N&lc=US&item_name=c%3ageo&currency_code=EUR&amount=7&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted")));
-			}
-		});
+	public void support(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:carnero@carnero.cc")));
+	}
 
-		TextView authorLink = (TextView) findViewById(R.id.author);
-		authorLink.setClickable(true);
-		authorLink.setOnClickListener(new View.OnClickListener() {
+	public void website(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://cgeo.carnero.cc/")));
+	}
 
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://carnero.cc/")));
-			}
-		});
+	public void facebook(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/pages/cgeo/297269860090")));
+	}
 
-		TextView supportLink = (TextView) findViewById(R.id.support);
-		supportLink.setClickable(true);
-		supportLink.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:carnero@carnero.cc")));
-			}
-		});
-
-		TextView websiteLink = (TextView) findViewById(R.id.website);
-		websiteLink.setClickable(true);
-		websiteLink.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://cgeo.carnero.cc/")));
-			}
-		});
-
-		TextView facebookLink = (TextView) findViewById(R.id.facebook);
-		facebookLink.setClickable(true);
-		facebookLink.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/pages/cgeo/297269860090")));
-			}
-		});
-
-		TextView twitterLink = (TextView) findViewById(R.id.twitter);
-		twitterLink.setClickable(true);
-		twitterLink.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/android_gc")));
-			}
-		});
-
-		TextView graphicLink = (TextView) findViewById(R.id.graphic);
-		graphicLink.setClickable(true);
-		graphicLink.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jaytech.cz/")));
-			}
-		});
+	public void twitter(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/android_gc")));
 	}
 }
