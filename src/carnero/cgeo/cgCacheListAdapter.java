@@ -324,25 +324,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		ImageView tbIcon = null;
-		if (cache.inventoryCoins == 1) {
-			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
-			tbIcon.setImageResource(R.drawable.trackable_coin);
-			holder.inventory.addView(tbIcon);
-		} else if (cache.inventoryCoins > 1) {
-			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
-			tbIcon.setImageResource(R.drawable.trackable_coins);
-			holder.inventory.addView(tbIcon);
-		}
-		if (cache.inventoryTags == 1) {
-			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
-			tbIcon.setImageResource(R.drawable.trackable_tb);
-			holder.inventory.addView(tbIcon);
-		} else if (cache.inventoryTags > 1) {
-			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
-			tbIcon.setImageResource(R.drawable.trackable_tbs);
-			holder.inventory.addView(tbIcon);
-		}
-		if (cache.inventoryUnknown > 0) {
+		if (cache.inventoryItems > 0) {
 			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_all);
 			holder.inventory.addView(tbIcon);

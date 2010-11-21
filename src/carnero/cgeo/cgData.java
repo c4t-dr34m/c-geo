@@ -701,9 +701,7 @@ public class cgData {
 		else values.put("found", 0);
 		if (cache.favourite == true) values.put("favourite", 1);
 		else values.put("favourite", 0);
-		values.put("inventorycoins", cache.inventoryCoins);
-		values.put("inventorytags", cache.inventoryTags);
-		values.put("inventoryunknown", cache.inventoryUnknown);
+		values.put("inventoryunknown", cache.inventoryItems);
 
 		boolean status = false;
 		boolean statusOk = true;
@@ -1156,9 +1154,7 @@ public class cgData {
                         } else {
                             cache.favourite = false;
                         }
-                        cache.inventoryCoins = (Integer)cursor.getInt(cursor.getColumnIndex("inventorycoins"));
-                        cache.inventoryTags = (Integer)cursor.getInt(cursor.getColumnIndex("inventorytags"));
-                        cache.inventoryUnknown = (Integer)cursor.getInt(cursor.getColumnIndex("inventoryunknown"));
+                        cache.inventoryItems = (Integer)cursor.getInt(cursor.getColumnIndex("inventoryunknown"));
 
 						if (loadA == true) {
 							ArrayList<String> attributes = loadAttributes(cache.geocode);

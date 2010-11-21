@@ -567,34 +567,8 @@ public class cgBase {
 							final String inventoryItem = matcherTbsInside.group(2).toLowerCase();
 							if (inventoryItem.equals("premium member only cache")) {
 								continue;
-							} else if (inventoryItem.indexOf("geocoins:") == 0) {
-								final String inventoryGeocoins = inventoryItem.substring(9).trim();
-								final String[] inventoryGeocoin = inventoryGeocoins.split(",");
-								cache.inventoryCoins = inventoryGeocoin.length;
-							} else if (inventoryItem.indexOf("geocoin") >= 0) {
-								try {
-									final Matcher matcherTbsItem = patternTbsItem.matcher(inventoryItem);
-									if (matcherTbsItem.find()) {
-										if (matcherTbsItem.groupCount() > 0 && matcherTbsItem.group(1) != null) {
-											cache.inventoryCoins = new Integer(matcherTbsItem.group(1));
-										}
-									}
-								} catch (Exception e) {
-									cache.inventoryCoins = 1;
-								}
-							} else if (inventoryItem.indexOf("dog tag") >= 0) {
-								try {
-									final Matcher matcherTbsItem = patternTbsItem.matcher(inventoryItem);
-									if (matcherTbsItem.find()) {
-										if (matcherTbsItem.groupCount() > 0 && matcherTbsItem.group(1) != null) {
-											cache.inventoryTags = new Integer(matcherTbsItem.group(1));
-										}
-									}
-								} catch (Exception e) {
-									cache.inventoryTags = 1;
-								}
 							} else {
-								cache.inventoryUnknown = 1;
+								cache.inventoryItems = 1;
 							}
 						}
 					}
@@ -1231,6 +1205,8 @@ public class cgBase {
 
 		// cache inventory
 		try {
+			cache.inventoryItems = 0;
+
 			final Matcher matcherInventory = patternInventory.matcher(page);
 			while (matcherInventory.find()) {
 				if (matcherInventory.groupCount() > 0) {
@@ -1243,6 +1219,7 @@ public class cgBase {
 							inventoryItem.guid = matcherInventoryInside.group(1);
 							inventoryItem.name = matcherInventoryInside.group(2);
 							cache.inventory.add(inventoryItem);
+							cache.inventoryItems ++;
 						}
 					}
 				}

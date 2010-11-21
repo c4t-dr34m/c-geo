@@ -40,9 +40,7 @@ public class cgCache {
 	public Float rating = null;
 	public Integer votes = null;
 	public Integer vote = null;
-	public int inventoryCoins = 0;
-	public int inventoryTags = 0;
-	public int inventoryUnknown = 0;
+	public int inventoryItems = 0;
 	public ArrayList<String> attributes = new ArrayList<String>();
 	public ArrayList<cgWaypoint> waypoints = new ArrayList<cgWaypoint>();
 	public ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
@@ -102,9 +100,7 @@ public class cgCache {
 		if (rating == null) rating = oldCache.rating;
 		if (votes == null) votes = oldCache.votes;
 		if (vote == null) vote = oldCache.vote;
-		if (inventoryCoins == 0) inventoryCoins = oldCache.inventoryCoins;
-		if (inventoryTags == 0) inventoryTags = oldCache.inventoryTags;
-		if (inventoryUnknown == 0) inventoryUnknown = oldCache.inventoryUnknown;
+		if (inventoryItems == 0) inventoryItems = oldCache.inventoryItems;
 		if (attributes == null || attributes.isEmpty()) attributes = oldCache.attributes;
 		if (waypoints == null || waypoints.isEmpty()) waypoints = oldCache.waypoints;
 		if (spoilers == null || spoilers.isEmpty()) spoilers = oldCache.spoilers;

@@ -124,7 +124,7 @@ public class cgGPXParser {
 				) {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
 					cache.longitudeString = base.formatCoordinate(cache.longitude, "lon", true);
-					cache.inventoryUnknown = cache.inventory.size();
+					cache.inventoryItems = cache.inventory.size();
 					cache.reason = 1;
 					cache.updated = new Date().getTime();
 					cache.detailedUpdate = new Date().getTime();

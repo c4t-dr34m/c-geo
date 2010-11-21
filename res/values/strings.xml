@@ -286,22 +286,32 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 
 	<!-- changelog -->
 	<string name="changelog">
+<b>1.13</b> (__.11.2010)\n
+· fix: GUI overhaul\n
+· fix: Fixed displaying inventory in cache list\n
+\n
 <b>1.12</b> (20.11.2010)\n
 · fix: Code cleanup and optimization\n
 · fix: Support for Locus (ver. 0.5+)\n
 · fix: French translation\n
+\n
 <b>1.11</b> (13.11.2010)\n
 · fix: Marking caches as found\n
 · fix: Disappearing text of log when screen rotates\n
+\n
 <b>1.10</b> (10.11.2010)\n
 · fix: Hiding own/found caches on live map\n
+\n
 <b>1.09</b> (10.11.2010)\n
 · fix: Adaptation for GC.com\'s changes\n
+\n
 <b>1.08</b> (08.11.2010)\n
 · fix: Show on external map\n
 · fix: Arrows on white skin\n
+\n
 <b>1.07</b> (07.11.2010)\n
 · fix: Loading maps\n
+\n
 <b>1.06</b> (07.11.2010)\n
 · new: Add event cache to calendar\n
 · new: Swipe (&#8594;) cache in list to select\n

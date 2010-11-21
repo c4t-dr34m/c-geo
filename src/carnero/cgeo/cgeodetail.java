@@ -248,7 +248,7 @@ public class cgeodetail extends Activity {
 		if (geocode == null) {
 			base.sendAnal(activity, tracker, "/cache/detail");
 		} else {
-			base.sendAnal(activity, tracker, "/cache/detail?geocode=" + geocode);
+			base.sendAnal(activity, tracker, "/cache/detail#" + geocode);
 		}
 
 		// no given data
