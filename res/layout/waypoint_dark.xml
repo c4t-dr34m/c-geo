@@ -133,7 +133,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="@string/waypoint_compass"
+						android:text="@string/cache_menu_compass"
 						android:background="@drawable/action_button_dark" />
 				<Button android:id="@+id/radar"
 						android:layout_width="fill_parent"
@@ -147,7 +147,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="@string/waypoint_radar"
+						android:text="@string/cache_menu_radar"
 						android:background="@drawable/action_button_dark" />
 				<Button android:id="@+id/map"
 						android:layout_width="fill_parent"
@@ -161,7 +161,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="@string/waypoint_show_on_map"
+						android:text="@string/cache_menu_map"
 						android:background="@drawable/action_button_dark" />
 				<Button android:id="@+id/map_ext"
 						android:layout_width="fill_parent"
@@ -175,7 +175,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="@string/waypoint_show_on_ext_map"
+						android:text="@string/cache_menu_map_ext"
 						android:background="@drawable/action_button_dark" />
 				<Button android:id="@+id/turn"
 						android:layout_width="fill_parent"
@@ -189,7 +189,7 @@
 						android:textSize="22dip"
 						android:textColor="@color/text_dark"
 						android:padding="6dip"
-						android:text="@string/waypoint_turn_by_turn"
+						android:text="@string/cache_menu_tbt"
 						android:background="@drawable/action_button_dark" />
 			</LinearLayout>
 		</LinearLayout>

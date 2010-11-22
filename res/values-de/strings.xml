@@ -221,11 +221,11 @@
 	<string name="cache_dialog_refresh_message">Aktualisieren der Cachedetails...</string>
 	<string name="cache_menu_navigate">Navigieren</string>
 	<string name="cache_menu_compass">Kompass</string>
-	<string name="cache_menu_tbt">Turn-by-Turn</string>
+	<string name="cache_menu_tbt">GoogleMaps Navigation</string>
 	<string name="cache_menu_radar">Radar</string>
 	<string name="cache_menu_map">Auf Karte zeigen</string>
 	<string name="cache_menu_map_ext">Auf externer Karte zeigen</string>
-	<string name="cache_menu_map_static">statische Karte</string>
+	<string name="cache_menu_map_static">Statische Karte</string>
 	<string name="cache_menu_browser">Im Browser öffnen</string>
 	<string name="cache_menu_visit">Besuch loggen</string>
 	<string name="cache_menu_spoilers">Hinweisbild</string>
@@ -273,11 +273,6 @@
 	<string name="waypoint_note">Notiz</string>
 	<string name="waypoint_save">Speichern</string>
 	<string name="waypoint_navigation">Navigation</string>
-	<string name="waypoint_compass">Kompass</string>
-	<string name="waypoint_radar">Radar</string>
-	<string name="waypoint_show_on_map">Zeige auf Karte</string>
-	<string name="waypoint_show_on_ext_map">Zeige auf ext. Karte</string>
-	<string name="waypoint_turn_by_turn">Google Maps Navigation</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>

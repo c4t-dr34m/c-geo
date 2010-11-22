@@ -274,11 +274,6 @@
 	<string name="waypoint_note">note</string>
 	<string name="waypoint_save">save</string>
 	<string name="waypoint_navigation">navigation</string>
-	<string name="waypoint_compass">compass</string>
-	<string name="waypoint_radar">radar</string>
-	<string name="waypoint_show_on_map">show on map</string>
-	<string name="waypoint_show_on_ext_map">show on ext. map</string>
-	<string name="waypoint_turn_by_turn">turn by turn</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">post this find to twitter</string>
