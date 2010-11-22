@@ -265,6 +265,13 @@
 	<string name="waypoint_bearing">směr</string>
 	<string name="waypoint_distance">vzdálenost</string>
 	<string name="waypoint_name">název</string>
+	<string name="waypoint_edit">upravit</string>
+	<string name="waypoint_delete">smazat</string>
+	<string name="waypoint_edit_title">úprava waypointu</string>
+	<string name="waypoint_add_title">nový waypoint</string>
+	<string name="waypoint_note">poznámka</string>
+	<string name="waypoint_save">uložit</string>
+	<string name="waypoint_navigation">navigace</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">informovat o nálezu na twitteru</string>

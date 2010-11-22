@@ -57,6 +57,8 @@
 	<string name="log_tb_nothing">do nothing</string>
 	<string name="log_tb_visit">visit</string>
 	<string name="log_tb_drop">drop here</string>
+	<string name="log_save">save</string>
+	<string name="log_clear">clear</string>
 
 	<!-- new logs -->
 	<string name="log_new_found">found it</string>
@@ -265,6 +267,13 @@
 	<string name="waypoint_bearing">bearing</string>
 	<string name="waypoint_distance">distance</string>
 	<string name="waypoint_name">name</string>
+	<string name="waypoint_edit">edit</string>
+	<string name="waypoint_delete">delete</string>
+	<string name="waypoint_edit_title">edit waypoint</string>
+	<string name="waypoint_add_title">add waypoint</string>
+	<string name="waypoint_note">note</string>
+	<string name="waypoint_save">save</string>
+	<string name="waypoint_navigation">navigation</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">post this find to twitter</string>

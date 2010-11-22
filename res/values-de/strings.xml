@@ -56,6 +56,8 @@
 	<string name="log_tb_nothing">keine Aktion</string>
 	<string name="log_tb_visit">besuchen</string>
 	<string name="log_tb_drop">ablegen</string>
+	<string name="log_save">Speichern</string>
+	<string name="log_clear">Leeren</string>
 
 	<!-- new logs -->
 	<string name="log_new_found">Gefunden</string>
@@ -219,11 +221,11 @@
 	<string name="cache_dialog_refresh_message">Aktualisieren der Cachedetails...</string>
 	<string name="cache_menu_navigate">Navigieren</string>
 	<string name="cache_menu_compass">Kompass</string>
-	<string name="cache_menu_tbt">Turn-by-Turn</string>
+	<string name="cache_menu_tbt">GoogleMaps Navigation</string>
 	<string name="cache_menu_radar">Radar</string>
 	<string name="cache_menu_map">Auf Karte zeigen</string>
 	<string name="cache_menu_map_ext">Auf externer Karte zeigen</string>
-	<string name="cache_menu_map_static">statische Karte</string>
+	<string name="cache_menu_map_static">Statische Karte</string>
 	<string name="cache_menu_browser">Im Browser öffnen</string>
 	<string name="cache_menu_visit">Besuch loggen</string>
 	<string name="cache_menu_spoilers">Hinweisbild</string>
@@ -264,6 +266,13 @@
 	<string name="waypoint_bearing">Richtung</string>
 	<string name="waypoint_distance">Entfernung</string>
 	<string name="waypoint_name">Name</string>
+	<string name="waypoint_edit">Bearbeiten</string>
+	<string name="waypoint_delete">Löschen</string>
+	<string name="waypoint_edit_title">Wegpunkt bearbeiten</string>
+	<string name="waypoint_add_title">Wegpunkt hinzufügen</string>
+	<string name="waypoint_note">Notiz</string>
+	<string name="waypoint_save">Speichern</string>
+	<string name="waypoint_navigation">Navigation</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>

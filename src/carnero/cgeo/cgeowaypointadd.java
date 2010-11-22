@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
@@ -17,7 +18,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeowaypointadd extends Activity {
+
 	private cgeoapplication app = null;
+	private Resources res = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -33,8 +36,8 @@ public class cgeowaypointadd extends Activity {
 	private String type = "own";
 	private String prefix = "OWN";
 	private String lookup = "---";
-	
 	private Handler loadWaypointHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
@@ -50,13 +53,13 @@ public class cgeowaypointadd extends Activity {
 					type = waypoint.type;
 					prefix = waypoint.prefix;
 					lookup = waypoint.lookup;
-					
+
 					app.setAction(geocode);
 
-					((EditText)findViewById(R.id.latitude)).setText(base.formatCoordinate(waypoint.latitude, "lat", true));
-					((EditText)findViewById(R.id.longitude)).setText(base.formatCoordinate(waypoint.longitude, "lon", true));
-					((EditText)findViewById(R.id.name)).setText(Html.fromHtml(waypoint.name.trim()).toString());
-					((EditText)findViewById(R.id.note)).setText(Html.fromHtml(waypoint.note.trim()).toString());
+					((EditText) findViewById(R.id.latitude)).setText(base.formatCoordinate(waypoint.latitude, "lat", true));
+					((EditText) findViewById(R.id.longitude)).setText(base.formatCoordinate(waypoint.longitude, "lon", true));
+					((EditText) findViewById(R.id.name)).setText(Html.fromHtml(waypoint.name.trim()).toString());
+					((EditText) findViewById(R.id.note)).setText(Html.fromHtml(waypoint.note.trim()).toString());
 
 					if (waitDialog != null) {
 						waitDialog.dismiss();
@@ -73,13 +76,14 @@ public class cgeowaypointadd extends Activity {
 		}
 	};
 
-   @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 		// init
 		activity = this;
-		app = (cgeoapplication)this.getApplication();
+		res = this.getResources();
+		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(activity, activity.getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
@@ -96,7 +100,9 @@ public class cgeowaypointadd extends Activity {
 		// google analytics
 		base.sendAnal(activity, "/waypoint/new");
 
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -105,23 +111,28 @@ public class cgeowaypointadd extends Activity {
 			id = extras.getInt("waypoint");
 		}
 
-        if ((geocode == null || geocode.length() == 0) && id <= 0) {
-            warning.showToast("Sorry, c:geo doesn\'t know to which cache you want to add waypoint.");
+		if ((geocode == null || geocode.length() == 0) && id <= 0) {
+			warning.showToast("Sorry, c:geo doesn\'t know to which cache you want to add waypoint.");
 
-            finish();
-            return;
-        }
+			finish();
+			return;
+		}
 
-		if (id <= 0) setTitle("add waypoint");
-		else setTitle("edit waypoint");
+		if (id <= 0) {
+			setTitle(res.getString(R.string.waypoint_add_title));
+		} else {
+			setTitle(res.getString(R.string.waypoint_edit_title));
+		}
 
-		if (geocode != null) app.setAction(geocode);
+		if (geocode != null) {
+			app.setAction(geocode);
+		}
 
-		Button buttonCurrent = (Button)findViewById(R.id.current);
+		Button buttonCurrent = (Button) findViewById(R.id.current);
 		buttonCurrent.setClickable(true);
 		buttonCurrent.setOnClickListener(new currentListener());
 
-		Button addWaypoint = (Button)findViewById(R.id.add_waypoint);
+		Button addWaypoint = (Button) findViewById(R.id.add_waypoint);
 		addWaypoint.setClickable(true);
 		addWaypoint.setOnClickListener(new coordsListener());
 
@@ -130,20 +141,22 @@ public class cgeowaypointadd extends Activity {
 			waitDialog.setCancelable(true);
 
 			(new loadWaypoint()).start();
-	   }
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
 
 		if (id > 0) {
 			if (waitDialog == null) {
 				waitDialog = ProgressDialog.show(this, null, "loading waypoint...", true);
 				waitDialog.setCancelable(true);
-				
+
 				(new loadWaypoint()).start();
 			}
 		}
@@ -151,33 +164,46 @@ public class cgeowaypointadd extends Activity {
 
 	@Override
 	public void onDestroy() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onPause();
 	}
 
 	private class update extends cgUpdateLoc {
+
 		@Override
 		public void updateLoc(cgGeo geo) {
-			if (geo == null) return;
+			if (geo == null) {
+				return;
+			}
 
 			try {
-				if (latEdit == null) latEdit = (EditText)findViewById(R.id.latitude);
-				if (lonEdit == null) lonEdit = (EditText)findViewById(R.id.longitude);
+				if (latEdit == null) {
+					latEdit = (EditText) findViewById(R.id.latitude);
+				}
+				if (lonEdit == null) {
+					lonEdit = (EditText) findViewById(R.id.longitude);
+				}
 
 				latEdit.setHint(base.formatCoordinate(geo.latitudeNow, "lat", false));
 				lonEdit.setHint(base.formatCoordinate(geo.longitudeNow, "lon", false));
@@ -189,8 +215,9 @@ public class cgeowaypointadd extends Activity {
 	}
 
 	private class loadWaypoint extends Thread {
-	   @Override
-	   public void run() {
+
+		@Override
+		public void run() {
 			try {
 				waypoint = app.loadWaypoint(id);
 
@@ -198,36 +225,36 @@ public class cgeowaypointadd extends Activity {
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeowaypoint.loadWaypoint.run: " + e.toString());
 			}
-	   }
+		}
 	}
 
 	private class currentListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
 				warning.showToast("Sorry, c:geo can\'t recognize where you are.");
 				return;
 			}
 
-			((EditText)findViewById(R.id.latitude)).setText(base.formatCoordinate(geo.latitudeNow, "lat", true));
-			((EditText)findViewById(R.id.longitude)).setText(base.formatCoordinate(geo.longitudeNow, "lon", true));
+			((EditText) findViewById(R.id.latitude)).setText(base.formatCoordinate(geo.latitudeNow, "lat", true));
+			((EditText) findViewById(R.id.longitude)).setText(base.formatCoordinate(geo.longitudeNow, "lon", true));
 		}
 	}
-	
+
 	private class coordsListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			ArrayList<Double> coords = new ArrayList<Double>();
 			Double latitude = null;
 			Double longitude = null;
 
-			final String bearingText = ((EditText)findViewById(R.id.bearing)).getText().toString();
-			final String distanceText = ((EditText)findViewById(R.id.distance)).getText().toString();
-			final String latText = ((EditText)findViewById(R.id.latitude)).getText().toString();
-			final String lonText = ((EditText)findViewById(R.id.longitude)).getText().toString();
+			final String bearingText = ((EditText) findViewById(R.id.bearing)).getText().toString();
+			final String distanceText = ((EditText) findViewById(R.id.distance)).getText().toString();
+			final String latText = ((EditText) findViewById(R.id.latitude)).getText().toString();
+			final String lonText = ((EditText) findViewById(R.id.longitude)).getText().toString();
 
-			if (
-					(bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0) &&
-					(latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)
-				) {
+			if ((bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0)
+							&& (latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)) {
 				warning.helpDialog("fill it", "Fill at least distance and bearing or latitude or longitude. You can also fill all four fields.");
 				return;
 			}
@@ -247,8 +274,8 @@ public class cgeowaypointadd extends Activity {
 					return;
 				}
 
-				latitude = (Double)latParsed.get("coordinate");
-				longitude = (Double)lonParsed.get("coordinate");
+				latitude = (Double) latParsed.get("coordinate");
+				longitude = (Double) lonParsed.get("coordinate");
 			} else {
 				if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
 					warning.showToast("c:geo still doesn\'t have current coordinates. Please, wait a while.");
@@ -333,8 +360,8 @@ public class cgeowaypointadd extends Activity {
 					return;
 				}
 
-				coords.add(0, (Double)latParsed);
-				coords.add(1, (Double)lonParsed);
+				coords.add(0, (Double) latParsed);
+				coords.add(1, (Double) lonParsed);
 			} else if (latitude != null && longitude != null) {
 				Log.d(cgSettings.tag, "Blemc... coords");
 
@@ -348,30 +375,30 @@ public class cgeowaypointadd extends Activity {
 			}
 
 			Log.d(cgSettings.tag, "Blemc...");
-			
-            final String name = ((EditText)findViewById(R.id.name)).getText().toString();
-            final String note = ((EditText)findViewById(R.id.note)).getText().toString();
 
-            final cgWaypoint waypoint = new cgWaypoint();
-            waypoint.type = type;
+			final String name = ((EditText) findViewById(R.id.name)).getText().toString();
+			final String note = ((EditText) findViewById(R.id.note)).getText().toString();
+
+			final cgWaypoint waypoint = new cgWaypoint();
+			waypoint.type = type;
 			waypoint.geocode = geocode;
-            waypoint.prefix = prefix;
-            waypoint.lookup = lookup;
-            waypoint.name = name;
-            waypoint.latitude = coords.get(0);
-            waypoint.longitude = coords.get(1);
-            waypoint.latitudeString = base.formatCoordinate(coords.get(0), "lat", true);
-            waypoint.longitudeString = base.formatCoordinate(coords.get(1), "lon", true);
+			waypoint.prefix = prefix;
+			waypoint.lookup = lookup;
+			waypoint.name = name;
+			waypoint.latitude = coords.get(0);
+			waypoint.longitude = coords.get(1);
+			waypoint.latitudeString = base.formatCoordinate(coords.get(0), "lat", true);
+			waypoint.longitudeString = base.formatCoordinate(coords.get(1), "lon", true);
 			waypoint.note = note;
 
-            if (app.saveOwnWaypoint(id, geocode, waypoint) == true) {
+			if (app.saveOwnWaypoint(id, geocode, waypoint) == true) {
 				app.removeCacheFromCache(geocode);
 
-                finish();
-                return;
-            } else {
-                warning.showToast("Sorry, c:geo failed to add your waypoint.");
-            }
+				finish();
+				return;
+			} else {
+				warning.showToast("Sorry, c:geo failed to add your waypoint.");
+			}
 		}
 	}
 }
