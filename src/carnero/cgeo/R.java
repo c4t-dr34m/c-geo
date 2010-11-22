@@ -530,16 +530,10 @@ containing a value of this type.
         public static final int trackable_image=0x7f03001f;
         public static final int trackables=0x7f030020;
         public static final int visit=0x7f030021;
-        public static final int visit_dark=0x7f030022;
-        public static final int visit_light=0x7f030023;
-        public static final int visit_trackable=0x7f030024;
-        public static final int waypoint=0x7f030025;
-        public static final int waypoint_dark=0x7f030026;
-        public static final int waypoint_item=0x7f030027;
-        public static final int waypoint_light=0x7f030028;
-        public static final int waypoint_new=0x7f030029;
-        public static final int waypointadd_dark=0x7f03002a;
-        public static final int waypointadd_light=0x7f03002b;
+        public static final int visit_trackable=0x7f030022;
+        public static final int waypoint=0x7f030023;
+        public static final int waypoint_item=0x7f030024;
+        public static final int waypoint_new=0x7f030025;
     }
     public static final class string {
         public static final int about=0x7f060006;

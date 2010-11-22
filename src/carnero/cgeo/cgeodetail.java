@@ -863,6 +863,7 @@ public class cgeodetail extends Activity {
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeodetail.setView: " + e.toString());
+			e.printStackTrace();
 		}
 
 		if (waitDialog != null && waitDialog.isShowing()) waitDialog.dismiss();
