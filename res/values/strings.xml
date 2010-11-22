@@ -4,90 +4,90 @@
 	<string name="app_name_compass">c:geo compass</string>
 
 	<!-- basics -->
-	<string name="cache">cache</string>
-	<string name="detail">detail</string>
-	<string name="search">search</string>
-	<string name="settings">settings</string>
-	<string name="about">about c:geo</string>
-	<string name="helper">don\'t forget <b>MENU</b> button on your phone, it will show many functions of <b>c:geo</b>!</string>
+	<string name="cache">Cache</string>
+	<string name="detail">Detail</string>
+	<string name="search">Search</string>
+	<string name="settings">Settings</string>
+	<string name="about">About c:geo</string>
+	<string name="helper">Don\'t forget <b>MENU</b> button on your phone, it will show many functions of <b>c:geo</b>!</string>
 
 	<!-- caches -->
-	<string name="all">all caches</string>
-	<string name="traditional">traditional cache</string>
-	<string name="multi">multi-cache</string>
-	<string name="mystery">unknown cache</string>
-	<string name="letterbox">letterbox hybrid</string>
-	<string name="event">event cache</string>
-	<string name="mega">mega-event cache</string>
-	<string name="earth">earthcache</string>
-	<string name="cito">cache in trash out event</string>
-	<string name="webcam">webcam cache</string>
-	<string name="virtual">virtual cache</string>
-	<string name="wherigo">wherigo cache</string>
-	<string name="lostfound">lost &amp; found</string>
-	<string name="ape">project ape cache</string>
-	<string name="gchq">groundspeak hq</string>
-	<string name="gps">gps cache exhibit</string>
+	<string name="all">All caches</string>
+	<string name="traditional">Traditional cache</string>
+	<string name="multi">Multi-cache</string>
+	<string name="mystery">Unknown cache</string>
+	<string name="letterbox">Letterbox hybrid</string>
+	<string name="event">Event cache</string>
+	<string name="mega">Mega-event cache</string>
+	<string name="earth">Earthcache</string>
+	<string name="cito">Cache in trash out event</string>
+	<string name="webcam">Webcam cache</string>
+	<string name="virtual">Virtual cache</string>
+	<string name="wherigo">Wherigo cache</string>
+	<string name="lostfound">Lost &amp; found</string>
+	<string name="ape">Project ape cache</string>
+	<string name="gchq">Groundspeak hq</string>
+	<string name="gps">GPS cache exhibit</string>
 
 	<!-- waypoints -->
-	<string name="wp_final">final location</string>
-	<string name="wp_stage">stage of multi-cache</string>
-	<string name="wp_puzzle">question for answer</string>
-	<string name="wp_pkg">parking area</string>
-	<string name="wp_trailhead">trailhead</string>
-	<string name="wp_waypoint">reference point</string>
+	<string name="wp_final">Final location</string>
+	<string name="wp_stage">Stage of multi-cache</string>
+	<string name="wp_puzzle">Question for answer</string>
+	<string name="wp_pkg">Parking area</string>
+	<string name="wp_trailhead">Trailhead</string>
+	<string name="wp_waypoint">Reference point</string>
 
 	<!-- logs -->
-	<string name="log_found">found</string>
-	<string name="log_dnf">did not find</string>
-	<string name="log_note">note</string>
-	<string name="log_published">published</string>
-	<string name="log_enabled">enabled</string>
-	<string name="log_disabled">disabled</string>
-	<string name="log_attend">will attend</string>
-	<string name="log_attended">attended</string>
-	<string name="log_retrieved">retrieved</string>
-	<string name="log_grabbed">grabbed</string>
-	<string name="log_needs">needs maintenance</string>
-	<string name="log_maintenance">maitenance</string>
-	<string name="log_update">updated coordinates</string>
-	<string name="log_archived">archived</string>
-	<string name="log_discovered">discovered</string>
-	<string name="log_review">reviewer note</string>
-	<string name="log_tb_nothing">do nothing</string>
-	<string name="log_tb_visit">visit</string>
-	<string name="log_tb_drop">drop here</string>
-	<string name="log_save">save</string>
-	<string name="log_clear">clear</string>
+	<string name="log_found">Found</string>
+	<string name="log_dnf">Did not find</string>
+	<string name="log_note">Note</string>
+	<string name="log_published">Published</string>
+	<string name="log_enabled">Enabled</string>
+	<string name="log_disabled">Disabled</string>
+	<string name="log_attend">Will attend</string>
+	<string name="log_attended">Attended</string>
+	<string name="log_retrieved">Retrieved</string>
+	<string name="log_grabbed">Grabbed</string>
+	<string name="log_needs">Needs maintenance</string>
+	<string name="log_maintenance">Maitenance</string>
+	<string name="log_update">Updated coordinates</string>
+	<string name="log_archived">Archived</string>
+	<string name="log_discovered">Discovered</string>
+	<string name="log_review">Reviewer note</string>
+	<string name="log_tb_nothing">Do nothing</string>
+	<string name="log_tb_visit">Visit</string>
+	<string name="log_tb_drop">Drop here</string>
+	<string name="log_save">Save</string>
+	<string name="log_clear">Clear</string>
 
 	<!-- new logs -->
-	<string name="log_new_found">found it</string>
-	<string name="log_new_dnf">did not find</string>
-	<string name="log_new_note">write note</string>
-	<string name="log_new_archive">needs archived</string>
-	<string name="log_new_attend">will attend</string>
-	<string name="log_new_attended">attended</string>
-	<string name="log_new_webcam">webcam photo taken</string>
-	<string name="log_new_maintenance">needs maintenance</string>
-	<string name="log_new_maintenance_owner">maintenance</string>
-	<string name="log_new_grab">grabbed from somewhere</string>
-	<string name="log_new_retrieve">retrieved from cache</string>
-	<string name="log_new_discovered">discovered</string>
-	<string name="log_new_review">rewieved</string>
+	<string name="log_new_found">Found it</string>
+	<string name="log_new_dnf">Did not find</string>
+	<string name="log_new_note">Write note</string>
+	<string name="log_new_archive">Needs archived</string>
+	<string name="log_new_attend">Will attend</string>
+	<string name="log_new_attended">Attended</string>
+	<string name="log_new_webcam">Webcam photo taken</string>
+	<string name="log_new_maintenance">Needs maintenance</string>
+	<string name="log_new_maintenance_owner">Maintenance</string>
+	<string name="log_new_grab">Grabbed from somewhere</string>
+	<string name="log_new_retrieve">Retrieved from cache</string>
+	<string name="log_new_discovered">Discovered</string>
+	<string name="log_new_review">Rewieved</string>
 
 	<!-- errors -->
-	<string name="err_none">ok</string>
-	<string name="err_start">communication not started</string>
-	<string name="err_parse">failed login page parsing</string>
-	<string name="err_server">failed connection to geocaching.com (server or connection down?)</string>
-	<string name="err_login">no login information stored</string>
-	<string name="err_unknown">unknown error</string>
-	<string name="err_comm">unknown communication error</string>
-	<string name="err_wrong">wrong login informations</string>
-	<string name="err_license">user has not agreed to Geocaching.com license agreement</string>
+	<string name="err_none">Ok</string>
+	<string name="err_start">Communication not started</string>
+	<string name="err_parse">Failed login page parsing</string>
+	<string name="err_server">Failed connection to geocaching.com (server or connection down?)</string>
+	<string name="err_login">No login information stored</string>
+	<string name="err_unknown">Unknown error</string>
+	<string name="err_comm">Unknown communication error</string>
+	<string name="err_wrong">Wrong login informations</string>
+	<string name="err_license">User has not agreed to Geocaching.com license agreement</string>
 	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
 	<string name="err_drop">Sorry, c:geo can\'t drop cache.</string>
-	<string name="err_title_problem">problem</string>
+	<string name="err_title_problem">Problem</string>
 	<string name="err_detail_open">Sorry, c:geo can\'t open geocache details.</string>
 	<string name="err_detail_cache">Sorry, c:geo can\'t display geocache you want. Is it really geocache?</string>
 	<string name="err_detail_cache_find">Sorry, c:geo can\'t find geocache</string>
@@ -111,204 +111,204 @@
 	<string name="err_init_cleared">Sorry, c:geo can\'t clear login information.</string>
 
 	<!-- location service -->
-	<string name="loc_last">last known</string>
-	<string name="loc_net">network</string>
-	<string name="loc_gps">gps</string>
-	<string name="loc_sat">sat</string>
-	<string name="loc_trying">trying to locate</string>
-	<string name="loc_no_addr">unknown address</string>
+	<string name="loc_last">Last known</string>
+	<string name="loc_net">Network</string>
+	<string name="loc_gps">GPS</string>
+	<string name="loc_sat">Sat</string>
+	<string name="loc_trying">Trying to locate</string>
+	<string name="loc_no_addr">Unknown address</string>
 
 	<!-- standard menu -->
-	<string name="menu_about">about c:geo</string>
-	<string name="menu_settings">settings</string>
-	<string name="menu_filter">filter</string>
+	<string name="menu_about">About c:geo</string>
+	<string name="menu_settings">Settings</string>
+	<string name="menu_filter">Filter</string>
 
 	<!-- main screen -->
-	<string name="live_map_button">live map</string>
-	<string name="caches_nearby_button">nearby</string>
-	<string name="advanced_search_button">search</string>
-	<string name="stored_caches_button">stored</string>
-	<string name="any_button">any destination</string>
-	<string name="about_button">about</string>
-	<string name="settings_button">settings</string>
-	<string name="type">type</string>
-	<string name="now_searching">now searching</string>
+	<string name="live_map_button">Live map</string>
+	<string name="caches_nearby_button">Nearby</string>
+	<string name="advanced_search_button">Search</string>
+	<string name="stored_caches_button">Stored</string>
+	<string name="any_button">Any destination</string>
+	<string name="about_button">About</string>
+	<string name="settings_button">Settings</string>
+	<string name="type">Type</string>
+	<string name="now_searching">Now searching</string>
 
 	<!-- caches -->
-	<string name="caches_no_cache">no cache</string>
-	<string name="caches_more_caches">more caches</string>
-	<string name="caches_more_caches_no">no more caches</string>
+	<string name="caches_no_cache">No cache</string>
+	<string name="caches_more_caches">More caches</string>
+	<string name="caches_more_caches_no">No more caches</string>
 
 	<!-- about -->
-	<string name="about_changelog">changelog</string>
-	<string name="about_donate">donate</string>
-	<string name="about_detail">details</string>
-	<string name="about_donation_less">donate\nless</string>
-	<string name="about_donation_more">donate\ndevelopement</string>
+	<string name="about_changelog">Changelog</string>
+	<string name="about_donate">Donate</string>
+	<string name="about_detail">Details</string>
+	<string name="about_donation_less">Donate\nless</string>
+	<string name="about_donation_more">Donate\ndevelopement</string>
 
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
 	<string name="init_gcvote">GCvote.com</string>
-	<string name="init_go4cache">go 4 cache</string>
-	<string name="init_twitter">twitter</string>
-	<string name="init_username">username</string>
-	<string name="init_password">password</string>
-	<string name="init_passvote">password</string>
-	<string name="init_login">check login</string>
-	<string name="init_legal">legal note</string>
-	<string name="init_go4cache_connect">connect to go 4 cache</string>
-	<string name="init_twitter_authorize">authorize c:geo</string>
-	<string name="init_twitter_publish">publish status when cache found</string>
-	<string name="init_signature">signature</string>
-	<string name="init_other">other options</string>
-	<string name="init_skin">light skin (needs restart of c:geo)</string>
-	<string name="init_transparent">use transparent c:geo mainscreen</string>
-	<string name="init_address">show address on mainscreen</string>
-	<string name="init_exclude">exclude own and found caches</string>
-	<string name="init_disabled">exclude disabled caches</string>
-	<string name="init_offline">store maps for offline use</string>
-	<string name="init_units">use imperial distance units</string>
-	<string name="init_nav">use Google Navigation</string>
-	<string name="init_directoryimg">hide image directory from gallery</string>
-	<string name="init_autoload">auto-loading long description</string>
-	<string name="init_livelist">show direction to caches in its list</string>
-	<string name="init_browser">identify c:geo as standard browser</string>
+	<string name="init_go4cache">Go 4 Cache</string>
+	<string name="init_twitter">Twitter</string>
+	<string name="init_username">Username</string>
+	<string name="init_password">Password</string>
+	<string name="init_passvote">Password</string>
+	<string name="init_login">Check login</string>
+	<string name="init_legal">Legal note</string>
+	<string name="init_go4cache_connect">Connect to Go 4 Cache</string>
+	<string name="init_twitter_authorize">Authorize c:geo</string>
+	<string name="init_twitter_publish">Publish status when cache found</string>
+	<string name="init_signature">Signature</string>
+	<string name="init_other">Other options</string>
+	<string name="init_skin">Light skin (needs restart of c:geo)</string>
+	<string name="init_transparent">Use transparent c:geo mainscreen</string>
+	<string name="init_address">Show address on mainscreen</string>
+	<string name="init_exclude">Exclude own and found caches</string>
+	<string name="init_disabled">Exclude disabled caches</string>
+	<string name="init_offline">Store maps for offline use</string>
+	<string name="init_units">Use imperial distance units</string>
+	<string name="init_nav">Use Google Navigation</string>
+	<string name="init_directoryimg">Hide image directory from gallery</string>
+	<string name="init_autoload">Auto-loading long description</string>
+	<string name="init_livelist">Show direction to caches in its list</string>
+	<string name="init_browser">Identify c:geo as standard browser</string>
 	<string name="init_cleared">c:geo cleared login information.</string>
 
 	<!-- auth -->
 	<string name="auth_twitter">Twitter</string>
-	<string name="auth_authorize">authorize c:geo</string>
-	<string name="auth_start">start authorization</string>
-	<string name="auth_again">start again</string>
-	<string name="auth_pin_hint">pin assigned by twitter</string>
-	<string name="auth_finish">finish</string>
+	<string name="auth_authorize">Authorize c:geo</string>
+	<string name="auth_start">Start authorization</string>
+	<string name="auth_again">Start again</string>
+	<string name="auth_pin_hint">PIN assigned by Twitter</string>
+	<string name="auth_finish">Finish</string>
 	<string name="auth_dialog_wait">Waiting for Twitter...</string>
-	<string name="auth_dialog_pin_title">pin code</string>
+	<string name="auth_dialog_pin_title">PIN code</string>
 	<string name="auth_dialog_pin_message">Please type in PIN code provided by Twitter website. It\'s mandatory to complete authorization.</string>
 	<string name="auth_dialog_completed">c:geo is now authorized to post on Twitter.</string>
 
 	<!-- cache -->
-	<string name="cache_count_no">no cache</string>
-	<string name="cache_count_one">one cache</string>
-	<string name="cache_count_more">caches</string>
-	<string name="cache_offline">offline</string>
-	<string name="cache_offline_refresh">refresh</string>
-	<string name="cache_offline_drop">drop</string>
-	<string name="cache_offline_store">store</string>
-	<string name="cache_offline_stored">stored in device</string>
-	<string name="cache_offline_not_ready">not ready\nfor offline use</string>
-	<string name="cache_offline_time_about">about</string>
+	<string name="cache_count_no">No cache</string>
+	<string name="cache_count_one">One cache</string>
+	<string name="cache_count_more">Caches</string>
+	<string name="cache_offline">Offline</string>
+	<string name="cache_offline_refresh">Refresh</string>
+	<string name="cache_offline_drop">Drop</string>
+	<string name="cache_offline_store">Store</string>
+	<string name="cache_offline_stored">Stored in device</string>
+	<string name="cache_offline_not_ready">Not ready\nfor offline use</string>
+	<string name="cache_offline_time_about">About</string>
 	<string name="cache_offline_time_mins">minutes ago</string>
 	<string name="cache_offline_time_mins_few">few minutes ago</string>
 	<string name="cache_offline_time_hour">one hour ago</string>
 	<string name="cache_offline_time_hours">hours ago</string>
 	<string name="cache_offline_time_days">days ago</string>
-	<string name="cache_attributes">attributes</string>
-	<string name="cache_inventory">inventory</string>
-	<string name="cache_log_offline">offline log</string>
-	<string name="cache_description">description</string>
-	<string name="cache_description_long">long description</string>
-	<string name="cache_waypoints">waypoints</string>
-	<string name="cache_waypoints_add">add waypoint</string>
-	<string name="cache_hint">hint</string>
-	<string name="cache_logs">logbook</string>
-	<string name="cache_dialog_loading_details">loading cache details...</string>
-	<string name="cache_dialog_loading_description">loading cache description...</string>
-	<string name="cache_dialog_offline_save_title">offline</string>
+	<string name="cache_attributes">Attributes</string>
+	<string name="cache_inventory">Inventory</string>
+	<string name="cache_log_offline">Offline log</string>
+	<string name="cache_description">Description</string>
+	<string name="cache_description_long">Long description</string>
+	<string name="cache_waypoints">Waypoints</string>
+	<string name="cache_waypoints_add">Add waypoint</string>
+	<string name="cache_hint">Hint</string>
+	<string name="cache_logs">Logbook</string>
+	<string name="cache_dialog_loading_details">Loading cache details...</string>
+	<string name="cache_dialog_loading_description">Loading cache description...</string>
+	<string name="cache_dialog_offline_save_title">Offline</string>
 	<string name="cache_dialog_offline_save_message">Saving cache for offline use...</string>
-	<string name="cache_dialog_offline_drop_title">offline</string>
+	<string name="cache_dialog_offline_drop_title">Offline</string>
 	<string name="cache_dialog_offline_drop_message">Removing cache from device memory...</string>
-	<string name="cache_dialog_refresh_title">refresh</string>
+	<string name="cache_dialog_refresh_title">Refresh</string>
 	<string name="cache_dialog_refresh_message">Reloading cache details...</string>
-	<string name="cache_menu_navigate">navigate</string>
-	<string name="cache_menu_compass">compass</string>
-	<string name="cache_menu_tbt">turn-by-turn</string>
-	<string name="cache_menu_radar">radar</string>
-	<string name="cache_menu_map">show on map</string>
-	<string name="cache_menu_map_ext">show on ext. map</string>
-	<string name="cache_menu_map_static">static maps</string>
-	<string name="cache_menu_browser">open in browser</string>
-	<string name="cache_menu_visit">log visit</string>
-	<string name="cache_menu_spoilers">spoiler images</string>
-	<string name="cache_menu_around">caches around</string>
-	<string name="cache_menu_event">add to calendar</string>
-	<string name="cache_menu_details">details</string>
-	<string name="cache_status">status</string>
-	<string name="cache_status_offline_log">saved log</string>
-	<string name="cache_status_found">found</string>
-	<string name="cache_status_archived">archived</string>
-	<string name="cache_status_disabled">disabled</string>
-	<string name="cache_status_premium">premium members only</string>
-	<string name="cache_geocode">gc-code</string>
-	<string name="cache_type">type</string>
-	<string name="cache_distance">distance</string>
-	<string name="cache_difficulty">difficulty</string>
-	<string name="cache_terrain">terrain</string>
-	<string name="cache_rating">rating</string>
-	<string name="cache_owner">owner</string>
-	<string name="cache_hidden">hidden</string>
-	<string name="cache_event">date</string>
-	<string name="cache_location">location</string>
-	<string name="cache_coordinates">coordinates</string>
-	<string name="cache_calendars">select calendar</string>
+	<string name="cache_menu_navigate">Navigate</string>
+	<string name="cache_menu_compass">Compass</string>
+	<string name="cache_menu_tbt">Turn-by-turn</string>
+	<string name="cache_menu_radar">Radar</string>
+	<string name="cache_menu_map">Show on map</string>
+	<string name="cache_menu_map_ext">Show on ext. map</string>
+	<string name="cache_menu_map_static">Static maps</string>
+	<string name="cache_menu_browser">Open in browser</string>
+	<string name="cache_menu_visit">Log visit</string>
+	<string name="cache_menu_spoilers">Spoiler images</string>
+	<string name="cache_menu_around">Caches around</string>
+	<string name="cache_menu_event">Add to calendar</string>
+	<string name="cache_menu_details">Details</string>
+	<string name="cache_status">Status</string>
+	<string name="cache_status_offline_log">Saved log</string>
+	<string name="cache_status_found">Found</string>
+	<string name="cache_status_archived">Archived</string>
+	<string name="cache_status_disabled">Disabled</string>
+	<string name="cache_status_premium">Premium members only</string>
+	<string name="cache_geocode">GC-code</string>
+	<string name="cache_type">Type</string>
+	<string name="cache_distance">Distance</string>
+	<string name="cache_difficulty">Difficulty</string>
+	<string name="cache_terrain">Terrain</string>
+	<string name="cache_rating">Rating</string>
+	<string name="cache_owner">Owner</string>
+	<string name="cache_hidden">Hidden</string>
+	<string name="cache_event">Date</string>
+	<string name="cache_location">Location</string>
+	<string name="cache_coordinates">Coordinates</string>
+	<string name="cache_calendars">Select calendar</string>
 
 	<!-- event -->
 	<string name="event_success">Event cache added to calendar</string>
 	<string name="event_fail">Failed to add event cache to calendar</string>
 
 	<!-- popup -->
-	<string name="popup_more">more details</string>
-	<string name="popup_log_visit">log visit</string>
-	<string name="popup_navigation">navigation</string>
+	<string name="popup_more">More details</string>
+	<string name="popup_log_visit">Log visit</string>
+	<string name="popup_navigation">Navigation</string>
 
 	<!-- waypoint -->
-	<string name="waypoint_custom">custom</string>
-	<string name="waypoint_my_coordinates">my coordinates</string>
-	<string name="waypoint_bearing">bearing</string>
-	<string name="waypoint_distance">distance</string>
-	<string name="waypoint_name">name</string>
-	<string name="waypoint_edit">edit</string>
-	<string name="waypoint_delete">delete</string>
-	<string name="waypoint_edit_title">edit waypoint</string>
-	<string name="waypoint_add_title">add waypoint</string>
-	<string name="waypoint_note">note</string>
-	<string name="waypoint_save">save</string>
-	<string name="waypoint_navigation">navigation</string>
+	<string name="waypoint_custom">Custom</string>
+	<string name="waypoint_my_coordinates">My coordinates</string>
+	<string name="waypoint_bearing">Bearing</string>
+	<string name="waypoint_distance">Distance</string>
+	<string name="waypoint_name">Name</string>
+	<string name="waypoint_edit">Edit</string>
+	<string name="waypoint_delete">Delete</string>
+	<string name="waypoint_edit_title">Edit waypoint</string>
+	<string name="waypoint_add_title">Add waypoint</string>
+	<string name="waypoint_note">Note</string>
+	<string name="waypoint_save">Save</string>
+	<string name="waypoint_navigation">Navigation</string>
 
 	<!-- visit -->
-	<string name="visit_tweet">post this find to twitter</string>
+	<string name="visit_tweet">Post this find to Twitter</string>
 
 	<!-- search -->
-	<string name="search_coordinates">coordinates</string>
-	<string name="search_coordinates_button">search by coordinates</string>
-	<string name="search_address">address</string>
-	<string name="search_address_button">search by address</string>
-	<string name="search_gc">geocode</string>
-	<string name="search_gc_button">search by geocode</string>
-	<string name="search_kw">keywords</string>
-	<string name="search_kw_prefill">keyword</string>
-	<string name="search_kw_button">search by keyword</string>
-	<string name="search_fbu">found by user</string>
-	<string name="search_fbu_prefill"></string>
-	<string name="search_fbu_button">search by user name</string>
-	<string name="search_hbu">hidden by users</string>
-	<string name="search_hbu_prefill">owner</string>
-	<string name="search_hbu_button">search by owner name</string>
-	<string name="search_tb">trackable</string>
-	<string name="search_tb_hint">trackable identification</string>
-	<string name="search_tb_button">search for trackable</string>
+	<string name="search_coordinates">Koordinates</string>
+	<string name="search_coordinates_button">Search by coordinates</string>
+	<string name="search_address">Address</string>
+	<string name="search_address_button">Search by address</string>
+	<string name="search_gc">Geocode</string>
+	<string name="search_gc_button">Search by geocode</string>
+	<string name="search_kw">Keywords</string>
+	<string name="search_kw_prefill">Keyword</string>
+	<string name="search_kw_button">Search by keyword</string>
+	<string name="search_fbu">Found by user</string>
+	<string name="search_fbu_prefill">User name</string>
+	<string name="search_fbu_button">Search by user name</string>
+	<string name="search_hbu">Hidden by users</string>
+	<string name="search_hbu_prefill">Owner</string>
+	<string name="search_hbu_button">Search by owner name</string>
+	<string name="search_tb">Trackable</string>
+	<string name="search_tb_hint">Trackable identification</string>
+	<string name="search_tb_button">Search for trackable</string>
 
 	<!-- next things -->
 	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
 	<string name="about_text"><b>c:geo</b> is designed to be simple always ready-to-go client for geocaching.com. It is and forever will be for free. If you want to support development, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.</string>
-	<string name="author">author: <a href="http://carnero.cc/">carnero</a></string>
-	<string name="support">support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
-	<string name="website">website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
-	<string name="facebook">facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
-	<string name="twitter">twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">mainscreen icons designed by <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
+	<string name="author">Author: <a href="http://carnero.cc/">carnero</a></string>
+	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
+	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
+	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
+	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
+	<string name="graphic">Mainscreen icons designed by <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
 graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
-	<string name="about_go4cache">Service <b>Go 4 cache</b> shows other geocachers on the map (in <b>c:geo</b> or in browser) in real time. It can show, for example, what cache they\'re searching for. By connecting to <b>Go 4 cache</b> <b>c:geo</b> is allowed to publish current location when geocaching (only when <b>c:geo</b> is running).</string>
+	<string name="about_go4cache">Service <b>Go 4 Cache</b> shows other geocachers on the map (in <b>c:geo</b> or in browser) in real time. It can show, for example, what cache they\'re searching for. By connecting to <b>Go 4 Cache</b> <b>c:geo</b> is allowed to publish current location when geocaching (only when <b>c:geo</b> is running).</string>
 	<string name="about_twitter">Should <b>c:geo</b> publish new status on Twitter everytime a cache is logged?</string>
 	<string name="about_auth_1">The following proccess allows <b>c:geo</b> to access Twitter - if agreed.</string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start the process. This process will open up a web browser with Twitter page. Login on this page and allow <b>c:geo</b> to access your account. If accepted, Twitter will show up a numeric PIN code. This PIN must be pasted into <b>c:geo</b> and be confirmed. That\'s all.</string>
