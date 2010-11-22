@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!-- PARTIAL definitions -->
-	<style name="cgeo" parent="android:Theme">
+<!-- system definitions -->
+	<style name="cgeo" parent="android:Theme.NoTitleBar">
 	</style>
 
 	<style name="button" parent="@android:style/Widget.Button">
@@ -32,7 +32,52 @@
 		<item name="android:capitalize">none</item>
 	</style>
 
-<!-- FULL definitions -->
+<!-- own definitions -->
+	<!-- actionbar -->
+	<style name="action_bar">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:orientation">horizontal</item>
+		<item name="android:background">@drawable/actionbar_bcg</item>
+	</style>
+
+	<style name="action_bar_icon_cgeo">
+		<item name="android:layout_width">@dimen/actionbar_height</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:padding">4dip</item>
+		<item name="android:gravity">center</item>
+		<item name="android:scaleType">center</item>
+		<item name="android:src">@drawable/actionbar_cgeo</item>
+	</style>
+
+	<style name="action_bar_action">
+		<item name="android:layout_width">@dimen/actionbar_height</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:padding">2dip</item>
+		<item name="android:gravity">center</item>
+		<item name="android:scaleType">center</item>
+	</style>
+
+	<style name="action_bar_separator">
+		<item name="android:layout_width">@dimen/actionbar_separator_width</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:layout_marginLeft">4dip</item>
+		<item name="android:layout_marginRight">4dip</item>
+		<item name="android:gravity">center</item>
+		<item name="android:background">@drawable/actionbar_separator</item>
+	</style>
+
+	<style name="action_bar_title">
+		<item name="android:layout_width">0dip</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:padding">4dip</item>
+		<item name="android:gravity">center_vertical|left</item>
+		<item name="android:color">@color/just_white</item>
+		<item name="android:textSize">20dip</item>
+		<item name="android:text">c:geo</item>
+	</style>
+
 	<!-- button: full width -->
 	<style name="button">
 		<item name="android:layout_width">fill_parent</item>

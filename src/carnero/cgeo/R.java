@@ -194,7 +194,8 @@ containing a value of this type.
         public static final int text_light=0x7f04000c;
     }
     public static final class dimen {
-        public static final int title_height=0x7f050000;
+        public static final int actionbar_height=0x7f050000;
+        public static final int actionbar_separator_width=0x7f050001;
     }
     public static final class drawable {
         public static final int action_button_dark=0x7f020000;
@@ -207,135 +208,139 @@ containing a value of this type.
         public static final int action_button_light_dialog=0x7f020007;
         public static final int action_button_light_off=0x7f020008;
         public static final int action_button_light_pressed=0x7f020009;
-        public static final int bcg_dark=0x7f02000a;
-        public static final int bcg_dialog_dark=0x7f02000b;
-        public static final int bcg_dialog_light=0x7f02000c;
-        public static final int bcg_light=0x7f02000d;
-        public static final int cache_dark=0x7f02000e;
-        public static final int cache_dark_pressed=0x7f02000f;
-        public static final int cache_light=0x7f020010;
-        public static final int cache_light_pressed=0x7f020011;
-        public static final int cgeo=0x7f020012;
-        public static final int client_cgeo=0x7f020013;
-        public static final int client_handygeocaching=0x7f020014;
-        public static final int client_precaching=0x7f020015;
-        public static final int compass_arrow=0x7f020016;
-        public static final int compass_arrow_mini_black=0x7f020017;
-        public static final int compass_arrow_mini_white=0x7f020018;
-        public static final int compass_overlay=0x7f020019;
-        public static final int compass_rose=0x7f02001a;
-        public static final int compass_underlay=0x7f02001b;
-        public static final int count_bcg=0x7f02001c;
-        public static final int dialog_button_dark=0x7f02001d;
-        public static final int dialog_button_light=0x7f02001e;
-        public static final int helper_bcg=0x7f02001f;
-        public static final int hw_menu=0x7f020020;
-        public static final int icon_bcg=0x7f020021;
-        public static final int icon_big=0x7f020022;
-        public static final int image_no_placement=0x7f020023;
-        public static final int image_not_loaded=0x7f020024;
-        public static final int input_bcg_dark=0x7f020025;
-        public static final int input_bcg_light=0x7f020026;
-        public static final int inventory_background_dark=0x7f020027;
-        public static final int inventory_background_light=0x7f020028;
-        public static final int main_about=0x7f020029;
-        public static final int main_any=0x7f02002a;
-        public static final int main_filter=0x7f02002b;
-        public static final int main_live=0x7f02002c;
-        public static final int main_nearby=0x7f02002d;
-        public static final int main_search=0x7f02002e;
-        public static final int main_settings=0x7f02002f;
-        public static final int main_stored=0x7f020030;
-        public static final int map_close_dark=0x7f020031;
-        public static final int map_close_light=0x7f020032;
-        public static final int map_status_dark=0x7f020033;
-        public static final int map_status_light=0x7f020034;
-        public static final int mark_green=0x7f020035;
-        public static final int mark_orange=0x7f020036;
-        public static final int mark_red=0x7f020037;
-        public static final int mark_red_more=0x7f020038;
-        public static final int marker=0x7f020039;
-        public static final int marker_cache_ape=0x7f02003a;
-        public static final int marker_cache_ape_disabled=0x7f02003b;
-        public static final int marker_cache_ape_found=0x7f02003c;
-        public static final int marker_cache_cito=0x7f02003d;
-        public static final int marker_cache_cito_disabled=0x7f02003e;
-        public static final int marker_cache_cito_found=0x7f02003f;
-        public static final int marker_cache_earth=0x7f020040;
-        public static final int marker_cache_earth_disabled=0x7f020041;
-        public static final int marker_cache_earth_found=0x7f020042;
-        public static final int marker_cache_event=0x7f020043;
-        public static final int marker_cache_event_disabled=0x7f020044;
-        public static final int marker_cache_event_found=0x7f020045;
-        public static final int marker_cache_letterbox=0x7f020046;
-        public static final int marker_cache_letterbox_disabled=0x7f020047;
-        public static final int marker_cache_letterbox_found=0x7f020048;
-        public static final int marker_cache_locationless=0x7f020049;
-        public static final int marker_cache_locationless_disabled=0x7f02004a;
-        public static final int marker_cache_locationless_found=0x7f02004b;
-        public static final int marker_cache_mega=0x7f02004c;
-        public static final int marker_cache_mega_disabled=0x7f02004d;
-        public static final int marker_cache_mega_found=0x7f02004e;
-        public static final int marker_cache_multi=0x7f02004f;
-        public static final int marker_cache_multi_disabled=0x7f020050;
-        public static final int marker_cache_multi_found=0x7f020051;
-        public static final int marker_cache_mystery=0x7f020052;
-        public static final int marker_cache_mystery_disabled=0x7f020053;
-        public static final int marker_cache_mystery_found=0x7f020054;
-        public static final int marker_cache_traditional=0x7f020055;
-        public static final int marker_cache_traditional_disabled=0x7f020056;
-        public static final int marker_cache_traditional_found=0x7f020057;
-        public static final int marker_cache_virtual=0x7f020058;
-        public static final int marker_cache_virtual_disabled=0x7f020059;
-        public static final int marker_cache_virtual_found=0x7f02005a;
-        public static final int marker_cache_webcam=0x7f02005b;
-        public static final int marker_cache_webcam_disabled=0x7f02005c;
-        public static final int marker_cache_webcam_found=0x7f02005d;
-        public static final int marker_cache_wherigo=0x7f02005e;
-        public static final int marker_cache_wherigo_disabled=0x7f02005f;
-        public static final int marker_cache_wherigo_found=0x7f020060;
-        public static final int marker_waypoint_flag=0x7f020061;
-        public static final int marker_waypoint_pkg=0x7f020062;
-        public static final int marker_waypoint_puzzle=0x7f020063;
-        public static final int marker_waypoint_stage=0x7f020064;
-        public static final int marker_waypoint_trailhead=0x7f020065;
-        public static final int marker_waypoint_waypoint=0x7f020066;
-        public static final int my_location=0x7f020067;
-        public static final int my_location_arrow=0x7f020068;
-        public static final int my_location_chevron=0x7f020069;
-        public static final int my_location_off=0x7f02006a;
-        public static final int my_location_on=0x7f02006b;
-        public static final int separator_dark=0x7f02006c;
-        public static final int separator_light=0x7f02006d;
-        public static final int star_half=0x7f02006e;
-        public static final int star_off=0x7f02006f;
-        public static final int star_on=0x7f020070;
-        public static final int trackable_all=0x7f020071;
-        public static final int trackable_coin=0x7f020072;
-        public static final int trackable_coins=0x7f020073;
-        public static final int trackable_tb=0x7f020074;
-        public static final int trackable_tbs=0x7f020075;
-        public static final int type_ape=0x7f020076;
-        public static final int type_cito=0x7f020077;
-        public static final int type_earth=0x7f020078;
-        public static final int type_event=0x7f020079;
-        public static final int type_letterbox=0x7f02007a;
-        public static final int type_locationless=0x7f02007b;
-        public static final int type_mega=0x7f02007c;
-        public static final int type_multi=0x7f02007d;
-        public static final int type_mystery=0x7f02007e;
-        public static final int type_traditional=0x7f02007f;
-        public static final int type_virtual=0x7f020080;
-        public static final int type_webcam=0x7f020081;
-        public static final int type_wherigo=0x7f020082;
-        public static final int user_location=0x7f020083;
-        public static final int user_location_active=0x7f020084;
-        public static final int waypoint_flag=0x7f020085;
-        public static final int waypoint_pkg=0x7f020086;
-        public static final int waypoint_puzzle=0x7f020087;
-        public static final int waypoint_stage=0x7f020088;
-        public static final int waypoint_trailhead=0x7f020089;
-        public static final int waypoint_waypoint=0x7f02008a;
+        public static final int actionbar_bcg=0x7f02000a;
+        public static final int actionbar_cgeo=0x7f02000b;
+        public static final int actionbar_home=0x7f02000c;
+        public static final int actionbar_separator=0x7f02000d;
+        public static final int bcg_dark=0x7f02000e;
+        public static final int bcg_dialog_dark=0x7f02000f;
+        public static final int bcg_dialog_light=0x7f020010;
+        public static final int bcg_light=0x7f020011;
+        public static final int cache_dark=0x7f020012;
+        public static final int cache_dark_pressed=0x7f020013;
+        public static final int cache_light=0x7f020014;
+        public static final int cache_light_pressed=0x7f020015;
+        public static final int cgeo=0x7f020016;
+        public static final int client_cgeo=0x7f020017;
+        public static final int client_handygeocaching=0x7f020018;
+        public static final int client_precaching=0x7f020019;
+        public static final int compass_arrow=0x7f02001a;
+        public static final int compass_arrow_mini_black=0x7f02001b;
+        public static final int compass_arrow_mini_white=0x7f02001c;
+        public static final int compass_overlay=0x7f02001d;
+        public static final int compass_rose=0x7f02001e;
+        public static final int compass_underlay=0x7f02001f;
+        public static final int count_bcg=0x7f020020;
+        public static final int dialog_button_dark=0x7f020021;
+        public static final int dialog_button_light=0x7f020022;
+        public static final int helper_bcg=0x7f020023;
+        public static final int hw_menu=0x7f020024;
+        public static final int icon_bcg=0x7f020025;
+        public static final int icon_big=0x7f020026;
+        public static final int image_no_placement=0x7f020027;
+        public static final int image_not_loaded=0x7f020028;
+        public static final int input_bcg_dark=0x7f020029;
+        public static final int input_bcg_light=0x7f02002a;
+        public static final int inventory_background_dark=0x7f02002b;
+        public static final int inventory_background_light=0x7f02002c;
+        public static final int main_about=0x7f02002d;
+        public static final int main_any=0x7f02002e;
+        public static final int main_filter=0x7f02002f;
+        public static final int main_live=0x7f020030;
+        public static final int main_nearby=0x7f020031;
+        public static final int main_search=0x7f020032;
+        public static final int main_settings=0x7f020033;
+        public static final int main_stored=0x7f020034;
+        public static final int map_close_dark=0x7f020035;
+        public static final int map_close_light=0x7f020036;
+        public static final int map_status_dark=0x7f020037;
+        public static final int map_status_light=0x7f020038;
+        public static final int mark_green=0x7f020039;
+        public static final int mark_orange=0x7f02003a;
+        public static final int mark_red=0x7f02003b;
+        public static final int mark_red_more=0x7f02003c;
+        public static final int marker=0x7f02003d;
+        public static final int marker_cache_ape=0x7f02003e;
+        public static final int marker_cache_ape_disabled=0x7f02003f;
+        public static final int marker_cache_ape_found=0x7f020040;
+        public static final int marker_cache_cito=0x7f020041;
+        public static final int marker_cache_cito_disabled=0x7f020042;
+        public static final int marker_cache_cito_found=0x7f020043;
+        public static final int marker_cache_earth=0x7f020044;
+        public static final int marker_cache_earth_disabled=0x7f020045;
+        public static final int marker_cache_earth_found=0x7f020046;
+        public static final int marker_cache_event=0x7f020047;
+        public static final int marker_cache_event_disabled=0x7f020048;
+        public static final int marker_cache_event_found=0x7f020049;
+        public static final int marker_cache_letterbox=0x7f02004a;
+        public static final int marker_cache_letterbox_disabled=0x7f02004b;
+        public static final int marker_cache_letterbox_found=0x7f02004c;
+        public static final int marker_cache_locationless=0x7f02004d;
+        public static final int marker_cache_locationless_disabled=0x7f02004e;
+        public static final int marker_cache_locationless_found=0x7f02004f;
+        public static final int marker_cache_mega=0x7f020050;
+        public static final int marker_cache_mega_disabled=0x7f020051;
+        public static final int marker_cache_mega_found=0x7f020052;
+        public static final int marker_cache_multi=0x7f020053;
+        public static final int marker_cache_multi_disabled=0x7f020054;
+        public static final int marker_cache_multi_found=0x7f020055;
+        public static final int marker_cache_mystery=0x7f020056;
+        public static final int marker_cache_mystery_disabled=0x7f020057;
+        public static final int marker_cache_mystery_found=0x7f020058;
+        public static final int marker_cache_traditional=0x7f020059;
+        public static final int marker_cache_traditional_disabled=0x7f02005a;
+        public static final int marker_cache_traditional_found=0x7f02005b;
+        public static final int marker_cache_virtual=0x7f02005c;
+        public static final int marker_cache_virtual_disabled=0x7f02005d;
+        public static final int marker_cache_virtual_found=0x7f02005e;
+        public static final int marker_cache_webcam=0x7f02005f;
+        public static final int marker_cache_webcam_disabled=0x7f020060;
+        public static final int marker_cache_webcam_found=0x7f020061;
+        public static final int marker_cache_wherigo=0x7f020062;
+        public static final int marker_cache_wherigo_disabled=0x7f020063;
+        public static final int marker_cache_wherigo_found=0x7f020064;
+        public static final int marker_waypoint_flag=0x7f020065;
+        public static final int marker_waypoint_pkg=0x7f020066;
+        public static final int marker_waypoint_puzzle=0x7f020067;
+        public static final int marker_waypoint_stage=0x7f020068;
+        public static final int marker_waypoint_trailhead=0x7f020069;
+        public static final int marker_waypoint_waypoint=0x7f02006a;
+        public static final int my_location=0x7f02006b;
+        public static final int my_location_arrow=0x7f02006c;
+        public static final int my_location_chevron=0x7f02006d;
+        public static final int my_location_off=0x7f02006e;
+        public static final int my_location_on=0x7f02006f;
+        public static final int separator_dark=0x7f020070;
+        public static final int separator_light=0x7f020071;
+        public static final int star_half=0x7f020072;
+        public static final int star_off=0x7f020073;
+        public static final int star_on=0x7f020074;
+        public static final int trackable_all=0x7f020075;
+        public static final int trackable_coin=0x7f020076;
+        public static final int trackable_coins=0x7f020077;
+        public static final int trackable_tb=0x7f020078;
+        public static final int trackable_tbs=0x7f020079;
+        public static final int type_ape=0x7f02007a;
+        public static final int type_cito=0x7f02007b;
+        public static final int type_earth=0x7f02007c;
+        public static final int type_event=0x7f02007d;
+        public static final int type_letterbox=0x7f02007e;
+        public static final int type_locationless=0x7f02007f;
+        public static final int type_mega=0x7f020080;
+        public static final int type_multi=0x7f020081;
+        public static final int type_mystery=0x7f020082;
+        public static final int type_traditional=0x7f020083;
+        public static final int type_virtual=0x7f020084;
+        public static final int type_webcam=0x7f020085;
+        public static final int type_wherigo=0x7f020086;
+        public static final int user_location=0x7f020087;
+        public static final int user_location_active=0x7f020088;
+        public static final int waypoint_flag=0x7f020089;
+        public static final int waypoint_pkg=0x7f02008a;
+        public static final int waypoint_puzzle=0x7f02008b;
+        public static final int waypoint_stage=0x7f02008c;
+        public static final int waypoint_trailhead=0x7f02008d;
+        public static final int waypoint_waypoint=0x7f02008e;
     }
     public static final class id {
         public static final int about_go4cache=0x7f080040;
@@ -908,37 +913,44 @@ containing a value of this type.
         public static final int wp_waypoint=0x7f06001d;
     }
     public static final class style {
-        /**  FULL definitions 
- button: full width 
+        /**  own definitions 
+ actionbar 
+         */
+        public static final int action_bar=0x7f070003;
+        public static final int action_bar_action=0x7f070005;
+        public static final int action_bar_icon_cgeo=0x7f070004;
+        public static final int action_bar_separator=0x7f070006;
+        public static final int action_bar_title=0x7f070007;
+        /**  button: full width 
          */
         public static final int button=0x7f070001;
         /**  button: small 
          */
-        public static final int button_small=0x7f070003;
-        /**  PARTIAL definitions 
+        public static final int button_small=0x7f070008;
+        /**  system definitions 
          */
         public static final int cgeo=0x7f070000;
-        public static final int dark=0x7f07000e;
+        public static final int dark=0x7f070013;
         /**  edittext 
          */
         public static final int edittext=0x7f070002;
         /**  mainscreen icon 
          */
-        public static final int icon_mainscreen=0x7f070004;
-        public static final int icon_mainscreen_count=0x7f070006;
-        public static final int icon_mainscreen_text=0x7f070005;
-        public static final int light=0x7f07000f;
+        public static final int icon_mainscreen=0x7f070009;
+        public static final int icon_mainscreen_count=0x7f07000b;
+        public static final int icon_mainscreen_text=0x7f07000a;
+        public static final int light=0x7f070014;
         /**  current location 
          */
-        public static final int location_current=0x7f070007;
-        public static final int location_current_accuracy=0x7f070009;
-        public static final int location_current_satellites=0x7f07000a;
-        public static final int location_current_type=0x7f070008;
+        public static final int location_current=0x7f07000c;
+        public static final int location_current_accuracy=0x7f07000e;
+        public static final int location_current_satellites=0x7f07000f;
+        public static final int location_current_type=0x7f07000d;
         /**  separators 
          */
-        public static final int separator_horizontal=0x7f07000b;
-        public static final int separator_horizontal_headline=0x7f07000d;
-        public static final int separator_horizontal_layout=0x7f07000c;
+        public static final int separator_horizontal=0x7f070010;
+        public static final int separator_horizontal_headline=0x7f070012;
+        public static final int separator_horizontal_layout=0x7f070011;
     }
     public static final class styleable {
         /** Attributes that can be used with a cgCompassMini.

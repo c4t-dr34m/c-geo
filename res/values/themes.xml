@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<style name="cgeo" parent="android:Theme">
+	<style name="cgeo" parent="android:Theme.NoTitleBar">
 		<!-- system elements -->
 		<item name="android:buttonStyle">@style/button</item>
 		<item name="android:editTextStyle">@style/edittext</item>
