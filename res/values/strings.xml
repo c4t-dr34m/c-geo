@@ -278,6 +278,26 @@
 	<!-- visit -->
 	<string name="visit_tweet">post this find to twitter</string>
 
+	<!-- search -->
+	<string name="search_coordinates">coordinates</string>
+	<string name="search_coordinates_button">search by coordinates</string>
+	<string name="search_address">address</string>
+	<string name="search_address_button">search by address</string>
+	<string name="search_gc">geocode</string>
+	<string name="search_gc_button">search by geocode</string>
+	<string name="search_kw">keywords</string>
+	<string name="search_kw_prefill">keyword</string>
+	<string name="search_kw_button">search by keyword</string>
+	<string name="search_fbu">found by user</string>
+	<string name="search_fbu_prefill"></string>
+	<string name="search_fbu_button">search by user name</string>
+	<string name="search_hbu">hidden by users</string>
+	<string name="search_hbu_prefill">owner</string>
+	<string name="search_hbu_button">search by owner name</string>
+	<string name="search_tb">trackable</string>
+	<string name="search_tb_hint">trackable identification</string>
+	<string name="search_tb_button">search for trackable</string>
+
 	<!-- next things -->
 	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
 	<string name="about_text"><b>c:geo</b> is designed to be simple always ready-to-go client for geocaching.com. It is and forever will be for free. If you want to support development, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.</string>

@@ -277,6 +277,26 @@
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
 
+	<!-- search -->
+	<string name="search_coordinates">Koordinaten</string>
+	<string name="search_coordinates_button">Suche mit Koordinaten</string>
+	<string name="search_address">Adresse</string>
+	<string name="search_address_button">Suche mit Adresse</string>
+	<string name="search_gc">Geocode</string>
+	<string name="search_gc_button">Suche mit Geocode</string>
+	<string name="search_kw">Stichworte</string>
+	<string name="search_kw_prefill">Stichwörter</string>
+	<string name="search_kw_button">Suche mit Stichwörtern</string>
+	<string name="search_fbu">Gefunden von</string>
+	<string name="search_fbu_prefill">Benutzer</string>
+	<string name="search_fbu_button">Suche mit Benutzername</string>
+	<string name="search_hbu">Versteckt von</string>
+	<string name="search_hbu_prefill">Besitzer</string>
+	<string name="search_hbu_button">Suche mit Besitzername</string>
+	<string name="search_tb">Trackable</string>
+	<string name="search_tb_hint">Trackingnummer</string>
+	<string name="search_tb_button">Suche nach Trackable</string>
+
 	<!-- next things -->
 	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
 	<string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und überall einsetzbarer Client für Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterstützen möchte, kann über die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschlägen kann der Autor einfach per Facebook oder eMail kontaktieren.</string>
