@@ -37,25 +37,25 @@
 	<string name="wp_waypoint">Referenzpunkt</string>
 
 	<!-- logs -->
-	<string name="log_found">gefunden</string>
-	<string name="log_dnf">nicht gefunden</string>
+	<string name="log_found">Gefunden</string>
+	<string name="log_dnf">Nicht gefunden</string>
 	<string name="log_note">Bemerkung</string>
-	<string name="log_published">veröffentlicht</string>
-	<string name="log_enabled">aktiviert</string>
-	<string name="log_disabled">deaktiviert</string>
-	<string name="log_attend">werde teilnehmen</string>
-	<string name="log_attended">habe teilgenommen</string>
-	<string name="log_retrieved">mitgenommen</string>
-	<string name="log_grabbed">gegrabbed</string>
+	<string name="log_published">Veröffentlicht</string>
+	<string name="log_enabled">Aktiviert</string>
+	<string name="log_disabled">Deaktiviert</string>
+	<string name="log_attend">Werde teilnehmen</string>
+	<string name="log_attended">Habe teilgenommen</string>
+	<string name="log_retrieved">Mitgenommen</string>
+	<string name="log_grabbed">Gegrabbed</string>
 	<string name="log_needs">Benötigt Wartung</string>
 	<string name="log_maintenance">Wartung</string>
-	<string name="log_update">geänderte Koordinaten</string>
-	<string name="log_archived">archiviert</string>
-	<string name="log_discovered">entdeckt</string>
+	<string name="log_update">Geänderte Koordinaten</string>
+	<string name="log_archived">Archiviert</string>
+	<string name="log_discovered">Entdeckt</string>
 	<string name="log_review">Nachricht vom Reviewer</string>
-	<string name="log_tb_nothing">keine Aktion</string>
-	<string name="log_tb_visit">besuchen</string>
-	<string name="log_tb_drop">ablegen</string>
+	<string name="log_tb_nothing">Keine Aktion</string>
+	<string name="log_tb_visit">Besuchen</string>
+	<string name="log_tb_drop">Ablegen</string>
 	<string name="log_save">Speichern</string>
 	<string name="log_clear">Leeren</string>
 
@@ -70,9 +70,9 @@
 	<string name="log_new_maintenance">Benötigt Wartung</string>
 	<string name="log_new_maintenance_owner">Wartung</string>
 	<string name="log_new_grab">Woanders gefunden</string>
-	<string name="log_new_retrieve">mitgenommen</string>
-	<string name="log_new_discovered">entdeckt</string>
-	<string name="log_new_review">überprüft</string>
+	<string name="log_new_retrieve">Mitgenommen</string>
+	<string name="log_new_discovered">Entdeckt</string>
+	<string name="log_new_review">Überprüft</string>
 
 	<!-- errors -->
 	<string name="err_none">OK</string>
@@ -110,7 +110,7 @@
 	<string name="err_init_cleared">Sorry, c:geo kann die Anmeldedaten nicht entfernen.</string>
 
 	<!-- location service -->
-	<string name="loc_last">letzte Position</string>
+	<string name="loc_last">Letzte Position</string>
 	<string name="loc_net">Netzwerk</string>
 	<string name="loc_gps">GPS</string>
 	<string name="loc_sat">SAT</string>
@@ -158,7 +158,7 @@
 	<string name="init_go4cache_connect">Mit go 4 cache verbinden</string>
 	<string name="init_twitter_authorize">c:geo autorisieren</string>
 	<string name="init_twitter_publish">Status veröffentlichen wenn ein Cache gefunden wurde</string>
-	<string name="init_signature">signature</string>
+	<string name="init_signature">Signatur</string>
 	<string name="init_other">Weitere Optionen</string>
 	<string name="init_skin">Light Skin (Neustart erforderlich)</string>
 	<string name="init_transparent">Transparenten Startbildschirm verwenden</string>
@@ -191,11 +191,11 @@
 	<string name="cache_count_one">Ein Cache</string>
 	<string name="cache_count_more">Caches</string>
 	<string name="cache_offline">Offline</string>
-	<string name="cache_offline_refresh">aktualisieren</string>
-	<string name="cache_offline_drop">löschen</string>
-	<string name="cache_offline_store">speichern</string>
+	<string name="cache_offline_refresh">Aktualisieren</string>
+	<string name="cache_offline_drop">Löschen</string>
+	<string name="cache_offline_store">Speichern</string>
 	<string name="cache_offline_stored">Auf dem Gerät gespeichert</string>
-	<string name="cache_offline_not_ready">nicht offline verfügbar</string>
+	<string name="cache_offline_not_ready">Nicht offline verfügbar</string>
 	<string name="cache_offline_time_about">etwa</string>
 	<string name="cache_offline_time_mins">gerade eben</string>
 	<string name="cache_offline_time_mins_few">vor ein paar Minuten</string>
@@ -217,7 +217,7 @@
 	<string name="cache_dialog_offline_save_message">Speichere Cache für Offline-Verwendung...</string>
 	<string name="cache_dialog_offline_drop_title">Offline-Verwendung</string>
 	<string name="cache_dialog_offline_drop_message">Lösche Cache vom Gerät...</string>
-	<string name="cache_dialog_refresh_title">aktualisieren</string>
+	<string name="cache_dialog_refresh_title">Aktualisieren</string>
 	<string name="cache_dialog_refresh_message">Aktualisieren der Cachedetails...</string>
 	<string name="cache_menu_navigate">Navigieren</string>
 	<string name="cache_menu_compass">Kompass</string>
@@ -234,9 +234,9 @@
 	<string name="cache_menu_details">Details</string>
 	<string name="cache_status">Status</string>
 	<string name="cache_status_offline_log">Gespeicherter Log</string>
-	<string name="cache_status_found">gefunden</string>
-	<string name="cache_status_archived">archiviert</string>
-	<string name="cache_status_disabled">deaktiviert</string>
+	<string name="cache_status_found">Gefunden</string>
+	<string name="cache_status_archived">Archiviert</string>
+	<string name="cache_status_disabled">Deaktiviert</string>
 	<string name="cache_status_premium">Nur für Premium Mitglieder</string>
 	<string name="cache_geocode">GC-Code</string>
 	<string name="cache_type">Typ</string>
@@ -276,6 +276,26 @@
 
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
+
+	<!-- search -->
+	<string name="search_coordinates">Koordinaten</string>
+	<string name="search_coordinates_button">Suche mit Koordinaten</string>
+	<string name="search_address">Adresse</string>
+	<string name="search_address_button">Suche mit Adresse</string>
+	<string name="search_gc">Geocode</string>
+	<string name="search_gc_button">Suche mit Geocode</string>
+	<string name="search_kw">Stichworte</string>
+	<string name="search_kw_prefill">Stichwörter</string>
+	<string name="search_kw_button">Suche mit Stichwörtern</string>
+	<string name="search_fbu">Gefunden von</string>
+	<string name="search_fbu_prefill">Benutzer</string>
+	<string name="search_fbu_button">Suche mit Benutzername</string>
+	<string name="search_hbu">Versteckt von</string>
+	<string name="search_hbu_prefill">Besitzer</string>
+	<string name="search_hbu_button">Suche mit Besitzername</string>
+	<string name="search_tb">Trackable</string>
+	<string name="search_tb_hint">Trackingnummer</string>
+	<string name="search_tb_button">Suche nach Trackable</string>
 
 	<!-- next things -->
 	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
