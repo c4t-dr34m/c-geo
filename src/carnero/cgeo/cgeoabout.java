@@ -32,8 +32,8 @@ public class cgeoabout extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.about));
 		setContentView(R.layout.about);
+		base.setTitle(activity, res.getString(R.string.about));
 
 		// google analytics
 		base.sendAnal(activity, "/about");
@@ -51,7 +51,7 @@ public class cgeoabout extends Activity {
 			PackageManager manager = this.getPackageManager();
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
 
-			setTitle(res.getString(R.string.about) + " (ver. " + info.versionName + ")");
+			base.setTitle(activity, res.getString(R.string.about) + " (ver. " + info.versionName + ")");
 
 			manager = null;
 		} catch (Exception e) {
@@ -85,5 +85,9 @@ public class cgeoabout extends Activity {
 
 	public void twitter(View view) {
 		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/android_gc")));
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }
