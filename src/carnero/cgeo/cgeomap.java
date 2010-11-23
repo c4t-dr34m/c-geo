@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class cgeomap extends MapActivity {
+	private Resources res = null;
 	private Activity activity = null;
 	private MapView mapView = null;
 	private MapController mapController = null;
@@ -105,7 +107,7 @@ public class cgeomap extends MapActivity {
 		public void handleMessage(Message msg) {
 			try {
 				if (app != null && searchId != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
-					warning.showToast("Sorry, c:geo failed to load cache or caches.");
+					warning.showToast(res.getString(R.string.err_toast_no_caches));
 
 					changeTitle(false);
 					return;
@@ -125,7 +127,7 @@ public class cgeomap extends MapActivity {
 		public void handleMessage(Message msg) {
 			try {
 				if (app != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
-					warning.showToast("Sorry, c:geo failed to download caches because of " + app.getError(searchId) + ".");
+					warning.showToast(res.getString(R.string.err_download_fail) + app.getError(searchId) + ".");
 
 					searching = false;
 					changeTitle(false);
@@ -135,7 +137,7 @@ public class cgeomap extends MapActivity {
 				addOverlays(true, false);
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeomap.loadCachesHandler: " + e.toString());
-				
+
 				searching = false;
 				changeTitle(false);
 				return;
@@ -144,7 +146,7 @@ public class cgeomap extends MapActivity {
 			}
 		}
 	};
-	
+
 	final private Handler loadUsersHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -172,9 +174,9 @@ public class cgeomap extends MapActivity {
 
                     waitDialog.setProgress(detailProgress);
                     if (etaTime < (1 / 60)) {
-                        waitDialog.setMessage("downloading caches...\neta: less than minute");
+                        waitDialog.setMessage(res.getString(R.string.caches_downloading) + res.getString(R.string.caches_eta_ltm));
                     } else {
-                        waitDialog.setMessage("downloading caches...\neta: " + String.format(Locale.getDefault(), "%.0f", (etaTime / 60)) + " mins");
+                        waitDialog.setMessage(res.getString(R.string.caches_downloading) + String.format(Locale.getDefault(), "%.0f", (etaTime / 60)) + res.getString(R.string.caches_eta_mins));
                     }
                 }
             } else {
@@ -278,6 +280,7 @@ public class cgeomap extends MapActivity {
 		super.onCreate(savedInstanceState);
 
 		// class init
+		res = this.getResources();
 		activity = this;
 		app = (cgeoapplication)activity.getApplication();
 		app.setAction(null);
@@ -295,7 +298,7 @@ public class cgeomap extends MapActivity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("map");
+		setTitle(res.getString(R.string.map_map));
 		setContentView(R.layout.map);
 
 		// google analytics
@@ -334,33 +337,33 @@ public class cgeomap extends MapActivity {
 		mapController.setZoom(settings.mapzoom);
 
 		if ((searchId == null || searchId <= 0) && (oneLatitude == null || oneLongitude == null)) {
-			setTitle("live map");
+			setTitle(res.getString(R.string.map_live));
 			searchId = null;
 			live = true;
 			initLocation = false;
 			followLocation = true;
-			
+
 			loadingThread = new loadCaches(loadCachesHandler, mapView);
 			loadingThread.enable();
 			loadingThread.start();
 
 			myLocationInMiddle();
 		} else if (searchId != null && searchId > 0) {
-			setTitle("map");
+			setTitle(res.getString(R.string.map_map));
 			live = false;
 			initLocation = true;
 			followLocation = false;
-			
+
 			(new loadCacheFromDb(loadCacheFromDbHandler)).start();
 		} else if (geocode != null && geocode.length() > 0) {
-			setTitle("map");
+			setTitle(res.getString(R.string.map_map));
 			live = false;
 			initLocation = true;
 			followLocation = false;
 
 			(new loadCacheFromDb(loadCacheFromDbHandler)).start();
 		} else if (oneLatitude != null && oneLongitude != null) {
-			setTitle("map");
+			setTitle(res.getString(R.string.map_map));
 			searchId = null;
 			live = false;
 			initLocation = true;
@@ -405,17 +408,17 @@ public class cgeomap extends MapActivity {
 		app.setAction(null);
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-		
+
 		// restart loading threads
 		if (loadingThread != null) loadingThread.kill();
 		if (usersThread != null) usersThread.kill();
-        
+
 		if (live == true) {
 			loadingThread = new loadCaches(loadCachesHandler, mapView);
 			loadingThread.enable();
 			loadingThread.start();
 		}
-        
+
 		usersThread = new loadUsers(loadUsersHandler, mapView);
 		if (settings.publicLoc == 1) {
 			usersThread.enable();
@@ -454,7 +457,7 @@ public class cgeomap extends MapActivity {
 		savePrefs();
 
 		if (mapView != null) mapView.destroyDrawingCache();
-        
+
 		super.onPause();
 	}
 
@@ -491,12 +494,12 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 2, 0, "hide trail").setIcon(android.R.drawable.ic_menu_recent_history);
-		menu.add(0, 3, 0, "disable live").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-		menu.add(0, 4, 0, "store for offline").setIcon(android.R.drawable.ic_menu_set_as).setVisible(false);
-		menu.add(0, 0, 0, "map view").setIcon(android.R.drawable.ic_menu_mapmode);
+		menu.add(0, 2, 0, res.getString(R.string.map_trail_hide)).setIcon(android.R.drawable.ic_menu_recent_history);
+		menu.add(0, 3, 0, res.getString(R.string.map_live_disable)).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+		menu.add(0, 4, 0, res.getString(R.string.caches_store_offline)).setIcon(android.R.drawable.ic_menu_set_as).setVisible(false);
+		menu.add(0, 0, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
 
-		SubMenu subMenu = menu.addSubMenu(0, 5, 0, "select point").setIcon(android.R.drawable.ic_menu_myplaces);
+		SubMenu subMenu = menu.addSubMenu(0, 5, 0, res.getString(R.string.caches_select)).setIcon(android.R.drawable.ic_menu_myplaces);
 		if (coordinates.size() > 0) {
 			int cnt = 6;
 			for (cgCoord coordinate : coordinates) {
@@ -515,22 +518,22 @@ public class cgeomap extends MapActivity {
 		MenuItem item;
 		try {
 			item = menu.findItem(0); // view
-			if (mapView != null && mapView.isSatellite() == false) item.setTitle("satellite view");
-			else item.setTitle("map view");
+			if (mapView != null && mapView.isSatellite() == false) item.setTitle(res.getString(R.string.map_view_satellite));
+			else item.setTitle(res.getString(R.string.map_view_map));
 
 			item = menu.findItem(2); // show trail
-			if (settings.maptrail == 1) item.setTitle("hide trail");
-			else item.setTitle("show trail");
+			if (settings.maptrail == 1) item.setTitle(res.getString(R.string.map_trail_hide));
+			else item.setTitle(res.getString(R.string.map_trail_show));
 
 			item = menu.findItem(3); // live map
 			if (live == false) {
 				item.setVisible(false);
-				item.setTitle("enable live");
+				item.setTitle(res.getString(R.string.map_live_enable));
 			} else {
 				if (settings.maplive == 1) {
-					item.setTitle("disable live");
+					item.setTitle(res.getString(R.string.map_live_disable));
 				} else {
-					item.setTitle("enable live");
+					item.setTitle(res.getString(R.string.map_live_enable));
 				}
 			}
 
@@ -561,7 +564,7 @@ public class cgeomap extends MapActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		
+
 		if (id == 0) {
 			if (mapView != null && mapView.isSatellite() == false) {
 				mapView.setSatellite(true);
@@ -585,7 +588,7 @@ public class cgeomap extends MapActivity {
 			} else {
 				prefsEdit.putInt("maptrail", 1);
 				prefsEdit.commit();
-				
+
 				settings.maptrail = 1;
 			}
 		} else if (id == 3) {
@@ -606,7 +609,7 @@ public class cgeomap extends MapActivity {
 			spanLongitude = null;
 		} else if (id == 4) {
 			ArrayList<String> geocodes = new ArrayList<String>();
-			
+
 			try {
 				if (coordinates != null && coordinates.size() > 0) {
 					final GeoPoint mapCenter = mapView.getMapCenter();
@@ -630,8 +633,8 @@ public class cgeomap extends MapActivity {
 			detailTotal = geocodes.size();
 
 			if (detailTotal == 0) {
-				warning.showToast("There is nothing to be saved.");
-				
+				warning.showToast(res.getString(R.string.warn_save_nothing));
+
 				return true;
 			}
 
@@ -651,9 +654,9 @@ public class cgeomap extends MapActivity {
 			waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			Float etaTime = new Float((detailTotal * 7) / 60);
 			if (etaTime < 1) {
-				waitDialog.setMessage("downloading caches...\neta: less than minute");
+				waitDialog.setMessage(res.getString(R.string.caches_downloading) + res.getString(R.string.caches_eta_ltm));
 			} else {
-				waitDialog.setMessage("downloading caches...\neta: " + String.format(Locale.getDefault(), "%.0f", new Float((detailTotal * 7) / 60)) + " mins");
+				 waitDialog.setMessage(res.getString(R.string.caches_downloading) + String.format(Locale.getDefault(), "%.0f", new Float((detailTotal * 7) / 60)) + res.getString(R.string.caches_eta_mins));
 			}
 			waitDialog.setCancelable(true);
 			waitDialog.setMax(detailTotal);
@@ -687,7 +690,7 @@ public class cgeomap extends MapActivity {
 
 		if (mapView.isSatellite()) prefsEdit.putInt("maptype", settings.mapSatellite);
 		else prefsEdit.putInt("maptype", settings.mapClassic);
-		
+
 		prefsEdit.putInt("mapzoom", mapView.getZoomLevel());
 		prefsEdit.commit();
 
@@ -785,7 +788,7 @@ public class cgeomap extends MapActivity {
 				overlayUsers.disableTap();
 				overlayUsers.clearItems();
 			}
-			
+
 			for (cgUser user : users) {
 				if (user.latitude == null && user.longitude == null) continue;
 
@@ -807,7 +810,7 @@ public class cgeomap extends MapActivity {
 		}
 
 		searchingUsers = false;
-		
+
 		// geocaches
 		if (overlay == null) {
 			overlay = new cgMapOverlay(app, (Context)this, base, getResources().getDrawable(R.drawable.marker), fromDetail);
@@ -823,7 +826,7 @@ public class cgeomap extends MapActivity {
 
 		GeoPoint geopoint = null;
 		int cachesWithCoords = 0;
-        
+
 		coordinates.clear();
 		if (caches != null && caches.size() > 0) {
 			for (cgCache cache : caches) {
@@ -866,7 +869,7 @@ public class cgeomap extends MapActivity {
 			}
 
 			if (cachesWithCoords == 0) {
-				warning.showToast("There is no cache with coordinates.");
+				warning.showToast(res.getString(R.string.warn_no_cache_coord));
 				myLocationInMiddleForce();
 			}
 
@@ -1056,7 +1059,7 @@ public class cgeomap extends MapActivity {
 			if (searchId != null) {
 				caches = app.getCaches(searchId, false, true, false, false, false, false);
 			}
-			
+
 			if (geocode != null && geocode.length() > 0) {
 				caches = new ArrayList<cgCache>();
 				caches.add(app.getCacheByGeocode(geocode, false, true, false, false, false, false));
@@ -1249,7 +1252,7 @@ public class cgeomap extends MapActivity {
 
 		private loadUsers(Handler handlerIn, MapView mapViewIn) {
 			setPriority(Thread.MIN_PRIORITY);
-			
+
 			handler = handlerIn;
 			mapView = mapViewIn;
 		}
@@ -1421,8 +1424,8 @@ public class cgeomap extends MapActivity {
 
 	protected void changeTitle(boolean loading) {
 		String title = null;
-		if (live == true) title = "live map";
-		else title = "map";
+		if (live == true) title = res.getString(R.string.map_live));
+		else title = res.getString(R.string.map_map));
 
 		if (loading == true) {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
@@ -1432,7 +1435,7 @@ public class cgeomap extends MapActivity {
 			setTitle(title + " (" + caches.size() + ")");
 		} else {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
-			setTitle(title + " (no caches)");
+			setTitle(title + res.getString(R.string.caches_no_caches));
 		}
 	}
 
@@ -1490,19 +1493,19 @@ public class cgeomap extends MapActivity {
 			setNumber();
 
 			if (numberType == 0) {
-				warning.showShortToast("Current altitude");
+				warning.showShortToast(res.getString(R.string.info_altitude));
 			} else if (numberType == 1) {
 				long dstSince = 0l;
 				String dstString = null;
 				dstSince = activity.getSharedPreferences(cgSettings.preferences, 0).getLong("dst-since", 0l);
 				if (dstSince > 0) {
 					Date dstDate = new Date(dstSince);
-					dstString = "\n(since " + base.dateOut.format(dstDate) + ", " + base.timeOut.format(dstDate) +  ")";
+					dstString = res.getString(R.string.info_since) + base.dateOut.format(dstDate) + ", " + base.timeOut.format(dstDate) +  ")";
 				} else {
 					dstString = "";
 				}
 
-				warning.showShortToast("Distance traveled" + dstString);
+				warning.showShortToast(res.getString(R.string.info_distance) + dstString);
 			}
 		}
 	}
@@ -1520,7 +1523,7 @@ public class cgeomap extends MapActivity {
 				}
 
 				setNumber();
-				warning.showToast("Traveled distance was cleared");
+				warning.showToast(res.getString(R.string.info_distance_cleared));
 
 				return true;
 			}
