@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeopoint extends Activity {
+	private Resources res = null;
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
@@ -33,6 +35,7 @@ public class cgeopoint extends Activity {
 		// init
 		activity = this;
 		app = (cgeoapplication)this.getApplication();
+		res = this.getResources();
 		settings = new cgSettings(activity, activity.getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
@@ -43,7 +46,7 @@ public class cgeopoint extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("destination");
+		setTitle(res.getString(R.string.search_destination));
 		setContentView(R.layout.point);
 
 		// google analytics
