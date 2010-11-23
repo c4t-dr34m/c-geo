@@ -279,7 +279,7 @@
 	<string name="visit_tweet">Post this find to Twitter</string>
 
 	<!-- search -->
-	<string name="search_coordinates">Koordinates</string>
+	<string name="search_coordinates">Coordinates</string>
 	<string name="search_coordinates_button">Search by coordinates</string>
 	<string name="search_address">Address</string>
 	<string name="search_address_button">Search by address</string>
