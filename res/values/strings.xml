@@ -316,8 +316,9 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<!-- changelog -->
 	<string name="changelog">
 <b>1.13</b> (__.11.2010)\n
-· fix: GUI overhaul\n
 · fix: Fixed displaying inventory in cache list\n
+· change: GUI overhaul\n
+· change: English and german translation (by thiasB)\n
 \n
 <b>1.12</b> (20.11.2010)\n
 · fix: Code cleanup and optimization\n

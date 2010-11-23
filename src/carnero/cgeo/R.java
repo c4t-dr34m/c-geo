@@ -542,8 +542,8 @@ containing a value of this type.
     }
     public static final class string {
         public static final int about=0x7f060006;
-        public static final int about_auth_1=0x7f0600fb;
-        public static final int about_auth_2=0x7f0600fc;
+        public static final int about_auth_1=0x7f06010d;
+        public static final int about_auth_2=0x7f06010e;
         public static final int about_button=0x7f06006f;
         /**  about 
  about 
@@ -556,9 +556,9 @@ containing a value of this type.
         public static final int about_donate=0x7f060077;
         public static final int about_donation_less=0x7f060079;
         public static final int about_donation_more=0x7f06007a;
-        public static final int about_go4cache=0x7f0600f9;
-        public static final int about_text=0x7f0600f2;
-        public static final int about_twitter=0x7f0600fa;
+        public static final int about_go4cache=0x7f06010b;
+        public static final int about_text=0x7f060104;
+        public static final int about_twitter=0x7f06010c;
         public static final int advanced_search_button=0x7f06006c;
         /**  caches 
  caches 
@@ -587,7 +587,7 @@ containing a value of this type.
  auth 
          */
         public static final int auth_twitter=0x7f060096;
-        public static final int author=0x7f0600f3;
+        public static final int author=0x7f060105;
         /**  basics 
  basics 
  basics 
@@ -676,7 +676,7 @@ containing a value of this type.
         public static final int caches_no_cache=0x7f060073;
         /**  changelog 
          */
-        public static final int changelog=0x7f0600fd;
+        public static final int changelog=0x7f06010f;
         public static final int cito=0x7f060010;
         public static final int detail=0x7f060003;
         public static final int earth=0x7f06000f;
@@ -728,10 +728,10 @@ containing a value of this type.
  event 
          */
         public static final int event_success=0x7f0600df;
-        public static final int facebook=0x7f0600f6;
+        public static final int facebook=0x7f060108;
         public static final int gchq=0x7f060016;
         public static final int gps=0x7f060017;
-        public static final int graphic=0x7f0600f8;
+        public static final int graphic=0x7f06010a;
         public static final int helper=0x7f060007;
         public static final int init_address=0x7f06008b;
         public static final int init_autoload=0x7f060092;
@@ -772,7 +772,7 @@ containing a value of this type.
  next things 
  next things 
          */
-        public static final int legal_note=0x7f0600f1;
+        public static final int legal_note=0x7f060103;
         public static final int letterbox=0x7f06000c;
         /**  main screen 
  main screen 
@@ -863,12 +863,33 @@ containing a value of this type.
         public static final int popup_more=0x7f0600e1;
         public static final int popup_navigation=0x7f0600e3;
         public static final int search=0x7f060004;
+        public static final int search_address=0x7f0600f3;
+        public static final int search_address_button=0x7f0600f4;
+        /**  search 
+ search 
+         */
+        public static final int search_coordinates=0x7f0600f1;
+        public static final int search_coordinates_button=0x7f0600f2;
+        public static final int search_fbu=0x7f0600fa;
+        public static final int search_fbu_button=0x7f0600fc;
+        public static final int search_fbu_prefill=0x7f0600fb;
+        public static final int search_gc=0x7f0600f5;
+        public static final int search_gc_button=0x7f0600f6;
+        public static final int search_hbu=0x7f0600fd;
+        public static final int search_hbu_button=0x7f0600ff;
+        public static final int search_hbu_prefill=0x7f0600fe;
+        public static final int search_kw=0x7f0600f7;
+        public static final int search_kw_button=0x7f0600f9;
+        public static final int search_kw_prefill=0x7f0600f8;
+        public static final int search_tb=0x7f060100;
+        public static final int search_tb_button=0x7f060102;
+        public static final int search_tb_hint=0x7f060101;
         public static final int settings=0x7f060005;
         public static final int settings_button=0x7f060070;
         public static final int stored_caches_button=0x7f06006d;
-        public static final int support=0x7f0600f4;
+        public static final int support=0x7f060106;
         public static final int traditional=0x7f060009;
-        public static final int twitter=0x7f0600f7;
+        public static final int twitter=0x7f060109;
         public static final int type=0x7f060071;
         public static final int virtual=0x7f060012;
         /**  visit 
@@ -897,7 +918,7 @@ containing a value of this type.
         public static final int waypoint_note=0x7f0600ed;
         public static final int waypoint_save=0x7f0600ee;
         public static final int webcam=0x7f060011;
-        public static final int website=0x7f0600f5;
+        public static final int website=0x7f060107;
         public static final int wherigo=0x7f060013;
         /**  waypoints 
  waypoints 

@@ -61,7 +61,7 @@
 						android:text="GC" />
 				<Button style="@style/button"
 						android:id="@+id/display_geocode"
-						android:text="@string/search_geocode_button" />
+						android:text="@string/search_gc_button" />
 <!-- ** -->
 				<RelativeLayout style="@style/separator_horizontal_layout" >
 					<View style="@style/separator_horizontal" />
