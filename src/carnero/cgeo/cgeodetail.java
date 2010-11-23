@@ -187,8 +187,8 @@ public class cgeodetail extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.cache));
 		setContentView(R.layout.detail);
+		base.setTitle(activity, res.getString(R.string.cache));
 
 		init();
 
@@ -470,9 +470,9 @@ public class cgeodetail extends Activity {
 			}
 
 			if (cache.name != null && cache.name.length() > 0) {
-				setTitle(cache.name);
+				base.setTitle(activity, cache.name);
 			} else {
-				setTitle(geocode.toUpperCase());
+				base.setTitle(activity, geocode.toUpperCase());
 			}
 
 			inflater = activity.getLayoutInflater();
@@ -1426,5 +1426,9 @@ public class cgeodetail extends Activity {
 
 			activity.startActivity(addWptIntent);
 		}
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

@@ -38,6 +38,7 @@ import android.text.Spannable;
 import android.text.style.StrikethroughSpan;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -4379,6 +4380,19 @@ public class cgBase {
 				// nothing
 			}
 		}
+	}
+
+	public void goHome(Activity activity) {
+		activity.startActivity(new Intent(activity, cgeo.class));
+		activity.finish();
+	}
+
+	public void setTitle(Activity activity, String text) {
+		if (activity == null || text == null) {
+			return;
+		}
+
+		((TextView)activity.findViewById(R.id.actionbar_title)).setText(text);
 	}
 }
 

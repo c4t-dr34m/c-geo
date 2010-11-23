@@ -7,7 +7,10 @@
 			android:visibility="gone"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_margin="5dip"
+			android:layout_marginTop="55dip"
+			android:layout_marginBottom="5dip"
+			android:layout_marginLeft="5dip"
+			android:layout_marginRight="5dip"
 			android:gravity="center_horizontal"
 			android:paddingLeft="5dip"
 			android:paddingRight="5dip"
@@ -26,7 +29,7 @@
 			android:layout_alignParentRight="true"
 			android:layout_gravity="right"
 			android:gravity="left"
-			android:paddingTop="3dip"
+			android:paddingTop="50dip"
 			android:paddingBottom="4dip"
 			android:paddingLeft="12dip"
 			android:paddingRight="12dip"
@@ -75,6 +78,12 @@
 			android:clickable="true"
 			android:apiKey="0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q" />
 	-->
+	<LinearLayout style="@style/action_bar_map">
+		<ImageView style="@style/action_bar_action"
+				android:onClick="goHome" />
+		<View style="@style/action_bar_separator" />
+		<TextView style="@style/action_bar_title" />
+	</LinearLayout>
 	<ImageView android:id="@+id/my_position"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

@@ -41,6 +41,14 @@
 		<item name="android:background">@drawable/actionbar_bcg</item>
 	</style>
 
+	<style name="action_bar_map">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">@dimen/actionbar_height</item>
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:orientation">horizontal</item>
+		<item name="android:background">@drawable/actionbar_bcg_map</item>
+	</style>
+
 	<style name="action_bar_icon_cgeo">
 		<item name="android:layout_width">@dimen/actionbar_height</item>
 		<item name="android:layout_height">@dimen/actionbar_height</item>
@@ -56,6 +64,7 @@
 		<item name="android:padding">2dip</item>
 		<item name="android:gravity">center</item>
 		<item name="android:scaleType">center</item>
+		<item name="android:src">@drawable/actionbar_home</item>
 	</style>
 
 	<style name="action_bar_separator">
@@ -68,12 +77,17 @@
 	</style>
 
 	<style name="action_bar_title">
+		<item name="android:id">@id/actionbar_title</item>
 		<item name="android:layout_width">0dip</item>
 		<item name="android:layout_height">fill_parent</item>
 		<item name="android:layout_weight">1</item>
 		<item name="android:padding">4dip</item>
 		<item name="android:gravity">center_vertical|left</item>
 		<item name="android:color">@color/just_white</item>
+		<item name="android:singleLine">true</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:ellipsize">marquee</item>
+		<item name="android:lines">1</item>
 		<item name="android:textSize">20dip</item>
 		<item name="android:text">c:geo</item>
 	</style>

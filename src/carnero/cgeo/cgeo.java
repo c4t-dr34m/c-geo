@@ -119,7 +119,6 @@ public class cgeo extends Activity {
 		app.cleanGeo();
 		app.cleanDir();
 
-		setTitle("c:geo");
 		base.sendAnal(context, "/");
 		setContentView(R.layout.main);
 
@@ -213,7 +212,7 @@ public class cgeo extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final int id = item.getItemId();
 		if (id == 0) {
-			context.startActivity(new Intent(context, cgeoabout.class));
+			showAbout(null);
 			
 			return true;
 		} else if (id == 1) {
@@ -494,5 +493,9 @@ public class cgeo extends Activity {
 
 			addressObtaining = false;
 		}
+	}
+
+	public void showAbout(View view) {
+		context.startActivity(new Intent(context, cgeoabout.class));
 	}
 }
