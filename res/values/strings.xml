@@ -297,6 +297,8 @@
 	<string name="search_tb">Trackable</string>
 	<string name="search_tb_hint">Trackable identification</string>
 	<string name="search_tb_button">Search for trackable</string>
+	<string name="search_destination">Destination</string>
+	<string name="search_direction_rel">From this position</string>
 
 	<!-- next things -->
 	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> have to be agreed.</string>

@@ -16,7 +16,7 @@
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />
 				<TextView style="@style/separator_horizontal_headline"
-						android:text="coordinates" />
+						android:text="@string/search_coordinates" />
 			</RelativeLayout>
 			<EditText style="@style/edittext"
 					android:id="@+id/latitude"
@@ -30,7 +30,7 @@
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />
 				<TextView style="@style/separator_horizontal_headline"
-						android:text="direction" />
+						android:text="@string/search_direction_rel" />
 			</RelativeLayout>
 			<EditText style="@style/edittext"
 					android:id="@+id/bearing"
@@ -51,17 +51,17 @@
 						android:id="@+id/compass"
 						android:layout_width="0dip"
 						android:layout_weight="1"
-						android:text="compass" />
+						android:text="@string/cache_menu_compass" />
 				<Button style="@style/button"
 						android:id="@+id/radar"
 						android:layout_width="0dip"
 						android:layout_weight="1"
-						android:text="radar" />
+						android:text="@string/cache_menu_radar" />
 				<Button style="@style/button"
 						android:id="@+id/turn"
 						android:layout_width="0dip"
 						android:layout_weight="1"
-						android:text="turn" />
+						android:text="@string/cache_menu_navigate" />
 			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
