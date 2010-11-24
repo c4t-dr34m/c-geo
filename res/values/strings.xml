@@ -111,7 +111,7 @@
 	<string name="err_init_cleared">Sorry, c:geo can\'t clear login information.</string>
 	<string name="err_no_chaches">Sorry, c:geo failed to load cache or caches.</string>
 	<string name="err_download_fail">Sorry, c:geo failed to download caches because of </string>
-	<string name="err_download_fail">Failed to update traveled distance.</string>
+	<string name="err_update_fail">Failed to update traveled distance.</string>
 
 	<string name="warn_save_nothing">There is nothing to be saved.</string>
 	<string name="warn_no_cache_coord">There is no cache with coordinates.</string>
@@ -301,8 +301,8 @@
 	<string name="map_live">Live map</string>
 	<string name="map_view_satellite">Satellite view</string>
 	<string name="map_view_map">Map view</string>
+	<string name="map_trail_show">Show trail</string>
 	<string name="map_trail_hide">Hide trail</string>
-	<string name="map_trail_hide">Show trail</string>
 	<string name="map_live_enable">Enable live</string>
 	<string name="map_live_disable">Disable live</string>
 

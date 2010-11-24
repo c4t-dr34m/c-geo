@@ -110,7 +110,7 @@
 	<string name="err_init_cleared">Sorry, c:geo kann die Anmeldedaten nicht entfernen.</string>
 	<string name="err_no_chaches">Sorry, c:geo konnte die Caches nicht laden.</string>
 	<string name="err_download_fail">Sorry, c:geo konnte keine Caches laden, weil </string>
-	<string name="err_download_fail">Update der gereisten Strecke fehlgeschlagen.</string>
+	<string name="err_update_fail">Update der gereisten Strecke fehlgeschlagen.</string>
 
 	<string name="warn_save_nothing">Es gibt nichts zum speichern.</string>
 	<string name="warn_no_cache_coord">Es gibt hier keinen Cache mit Koordinaten.</string>
@@ -300,8 +300,8 @@
        <string name="map_live">Live-Karte</string>
        <string name="map_view_satellite">Satellit</string>
        <string name="map_view_map">Karte</string>
+       <string name="map_trail_show">Spur einblenden</string>
        <string name="map_trail_hide">Spur ausblenden</string>
-       <string name="map_trail_hide">Spur einblenden</string>
        <string name="map_live_enable">Live einschalten</string>
        <string name="map_live_disable">Live ausschalten</string>
 

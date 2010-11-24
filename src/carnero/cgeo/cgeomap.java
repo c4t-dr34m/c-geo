@@ -107,7 +107,7 @@ public class cgeomap extends MapActivity {
 		public void handleMessage(Message msg) {
 			try {
 				if (app != null && searchId != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
-					warning.showToast(res.getString(R.string.err_toast_no_caches));
+					warning.showToast(res.getString(R.string.err_no_chaches));
 
 					changeTitle(false);
 					return;
@@ -1424,8 +1424,8 @@ public class cgeomap extends MapActivity {
 
 	protected void changeTitle(boolean loading) {
 		String title = null;
-		if (live == true) title = res.getString(R.string.map_live));
-		else title = res.getString(R.string.map_map));
+		if (live == true) title = res.getString(R.string.map_live);
+		else title = res.getString(R.string.map_map);
 
 		if (loading == true) {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
