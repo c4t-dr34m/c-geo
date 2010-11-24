@@ -23,7 +23,6 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -85,7 +84,6 @@ public class cgeomap extends MapActivity {
 	private boolean firstRun = true;
 	private geocachesLoadDetails threadD = null;
 	private int closeCounter = 0;
-	private boolean progressBar = false;
 	private String usertoken = null;
 	protected boolean searching = false;
 	protected boolean searchingUsers = false;
@@ -291,7 +289,6 @@ public class cgeomap extends MapActivity {
 
 		// set layout
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		// set layout
 		if (settings.skin == 1) {
 			setTheme(R.style.light);
@@ -1428,13 +1425,13 @@ public class cgeomap extends MapActivity {
 		else title = res.getString(R.string.map_map);
 
 		if (loading == true) {
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			base.setTitle(activity, title);
 		} else if (caches != null) {
-			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+			base.showProgress(activity, false);
 			base.setTitle(activity, title + " (" + caches.size() + ")");
 		} else {
-			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+			base.showProgress(activity, false);
 			base.setTitle(activity, title + res.getString(R.string.caches_no_caches));
 		}
 	}

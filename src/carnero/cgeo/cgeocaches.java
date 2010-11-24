@@ -21,7 +21,6 @@ import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -63,7 +62,6 @@ public class cgeocaches extends ListActivity {
 	private geocachesLoadDetails threadD = null;
 	private geocachesDropDetails threadR = null;
 	private boolean offline = false;
-	private boolean progressBar = false;
 
 	private Handler loadCachesHandler = new Handler() {
 		@Override
@@ -116,7 +114,7 @@ public class cgeocaches extends ListActivity {
 				} else if (app != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast("Sorry, c:geo failed to download caches because of " + app.getError(searchId) + ".");
 
-					if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+					base.showProgress(activity, false);
 					if (waitDialog != null) {
 						waitDialog.dismiss();
 						waitDialog.setOnCancelListener(null);
@@ -134,9 +132,7 @@ public class cgeocaches extends ListActivity {
 				warning.showToast("Sorry, c:geo can\'t find any geocache.");
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler: " + e.toString());
 
-				if (progressBar == true) {
-					setProgressBarIndeterminateVisibility(false);
-				}
+				base.showProgress(activity, false);
 				if (waitDialog != null) {
 					waitDialog.dismiss();
 					waitDialog.setOnCancelListener(null);
@@ -146,9 +142,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			try {
-				if (progressBar == true) {
-					setProgressBarIndeterminateVisibility(false);
-				}
+				base.showProgress(activity, false);
 				if (waitDialog != null) {
 					waitDialog.dismiss();
 					waitDialog.setOnCancelListener(null);
@@ -193,7 +187,7 @@ public class cgeocaches extends ListActivity {
 					warning.showToast("Sorry, c:geo failed to download caches because of " + app.getError(searchId) + ".");
 
 					listFooter.setOnClickListener(new moreCachesListener());
-					if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+					base.showProgress(activity, false);
 					if (waitDialog != null) {
 						waitDialog.dismiss();
 						waitDialog.setOnCancelListener(null);
@@ -213,9 +207,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			listFooter.setOnClickListener(new moreCachesListener());
-			if (progressBar == true) {
-				setProgressBarIndeterminateVisibility(false);
-			}
+			base.showProgress(activity, false);
 			if (waitDialog != null) {
 				waitDialog.dismiss();
 				waitDialog.setOnCancelListener(null);
@@ -260,7 +252,7 @@ public class cgeocaches extends ListActivity {
 					adapter.setActualHeading(northHeading);
 				}
 
-				if (progressBar == true) setProgressBarIndeterminateVisibility(false);
+				base.showProgress(activity, false);
 				if (waitDialog != null) {
 					waitDialog.dismiss();
 					waitDialog.setOnCancelListener(null);
@@ -306,7 +298,6 @@ public class cgeocaches extends ListActivity {
 		warning = new cgWarning(this);
 
 		// set layout
-		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		if (settings.skin == 1) {
 			setTheme(R.style.light);
 		} else {
@@ -344,7 +335,7 @@ public class cgeocaches extends ListActivity {
 			action = "pending";
 			title = "nearby";
 			base.setTitle(activity, title);
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches nearby" + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
@@ -353,7 +344,7 @@ public class cgeocaches extends ListActivity {
 			title = "stored";
 			offline = true;
 			base.setTitle(activity, title);
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			waitDialog = ProgressDialog.show(this, "loading caches", "caches stored in device", true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
@@ -362,7 +353,7 @@ public class cgeocaches extends ListActivity {
 			action = "planning";
 			title = base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true);
 			base.setTitle(activity, title);
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches near\n" + base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true) + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
@@ -370,7 +361,7 @@ public class cgeocaches extends ListActivity {
 		} else if (type.equals("keyword")) {
 			title = keyword;
 			base.setTitle(activity, title);
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches by keyword " + keyword + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByKeyword(loadCachesHandler,  keyword, cachetype);
@@ -380,12 +371,12 @@ public class cgeocaches extends ListActivity {
 			if (address != null && address.length() > 0) {
 				title = address;
 				base.setTitle(activity, title);
-				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+				base.showProgress(activity, true);
 				waitDialog = ProgressDialog.show(this, "searching for caches", "caches near\n" + address + typeText, true);
 			} else {
 				title = base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true);
 				base.setTitle(activity, title);
-				if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+				base.showProgress(activity, true);
 				waitDialog = ProgressDialog.show(this, "searching for caches", "caches near\n" + base.formatCoordinate(latitude, "lat", true) + " | " + base.formatCoordinate(longitude, "lon", true) + typeText, true);
 			}
 			waitDialog.setCancelable(true);
@@ -394,7 +385,7 @@ public class cgeocaches extends ListActivity {
 		} else if (type.equals("username")) {
 			title = username;
 			base.setTitle(activity, title);
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches found by " + username + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByUserName(loadCachesHandler,  username, cachetype);
@@ -402,7 +393,7 @@ public class cgeocaches extends ListActivity {
 		} else if (type.equals("owner")) {
 			title = username;
 			base.setTitle(activity, title);
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			waitDialog = ProgressDialog.show(this, "searching for caches", "caches hidden by " + username + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByOwner(loadCachesHandler,  username, cachetype);
@@ -821,9 +812,7 @@ public class cgeocaches extends ListActivity {
 			detailTotal = cacheList.size();
 		}
 
-		if (progressBar == true) {
-			setProgressBarIndeterminateVisibility(true);
-		}
+		base.showProgress(activity, false);
 		waitDialog = new ProgressDialog(this);
 		waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 		public void onCancel(DialogInterface arg0) {
@@ -1247,7 +1236,7 @@ public class cgeocaches extends ListActivity {
 	private class moreCachesListener implements View.OnClickListener {
 		@Override
 		public void onClick(View arg0) {
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 			listFooter.setOnClickListener(null);
 
 			geocachesLoadNextPage thread;

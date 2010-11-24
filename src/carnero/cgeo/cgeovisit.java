@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -54,11 +53,10 @@ public class cgeovisit extends cgLogForm {
 	private LinearLayout tweetBox = null;
 	private int rating = 0;
 	private Handler showProgressHandler = new Handler() {
-
 		@Override
 		public void handleMessage(Message msg) {
 			if (progressBar == true) {
-				setProgressBarIndeterminateVisibility(true);
+				base.showProgress(activity, true);
 			}
 		}
 	};
@@ -83,9 +81,7 @@ public class cgeovisit extends cgLogForm {
 				return;
 			} else if ((viewstate == null || viewstate.length() == 0) && attempts >= 2) {
 				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
-				if (progressBar == true) {
-					setProgressBarIndeterminateVisibility(false);
-				}
+				base.showProgress(activity, false);
 
 				return;
 			}
@@ -132,9 +128,7 @@ public class cgeovisit extends cgLogForm {
 				}
 			}
 
-			if (progressBar == true) {
-				setProgressBarIndeterminateVisibility(false);
-			}
+			base.showProgress(activity, false);
 		}
 	};
 	private Handler postLogHandler = new Handler() {
@@ -193,7 +187,6 @@ public class cgeovisit extends cgLogForm {
 		warning = new cgWarning(this);
 
 		// set layout
-		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		if (settings.skin == 1) {
 			setTheme(R.style.light);
 		} else {

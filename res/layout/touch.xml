@@ -9,6 +9,8 @@
 				android:onClick="goHome" />
 		<View style="@style/action_bar_separator" />
 		<TextView style="@style/action_bar_title" />
+		<ProgressBar style="@style/action_bar_progress"
+				android:visibility="gone" />
 	</LinearLayout>
 	<ScrollView
 			android:layout_width="fill_parent"

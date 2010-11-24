@@ -83,6 +83,8 @@
 				android:onClick="goHome" />
 		<View style="@style/action_bar_separator" />
 		<TextView style="@style/action_bar_title" />
+		<ProgressBar style="@style/action_bar_progress"
+				android:visibility="gone" />
 	</LinearLayout>
 	<ImageView android:id="@+id/my_position"
 			android:layout_width="wrap_content"

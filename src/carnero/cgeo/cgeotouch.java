@@ -44,14 +44,13 @@ public class cgeotouch extends cgLogForm {
 	private Calendar date = Calendar.getInstance();
 	private int typeSelected = -1;
     private int attempts = 0;
-	private boolean progressBar = false;
     private CheckBox tweetCheck = null;
     private LinearLayout tweetBox = null;
 
 	private Handler showProgressHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
+			base.showProgress(activity, true);
 		}
 	};
 
@@ -68,9 +67,7 @@ public class cgeotouch extends cgLogForm {
 				return;
 			} else if ((viewstate == null || viewstate.length() == 0) && attempts >= 2) {
 				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
-				if (progressBar == true) {
-					setProgressBarIndeterminateVisibility(false);
-				}
+				base.showProgress(activity, false);
 
 				return;
 			}
@@ -81,9 +78,7 @@ public class cgeotouch extends cgLogForm {
 			buttonPost.setEnabled(true);
 			buttonPost.setOnClickListener(new postListener());
 
-			if (progressBar == true) {
-				setProgressBarIndeterminateVisibility(false);
-			}
+			base.showProgress(activity, false);
 		}
 	};
 	
@@ -132,7 +127,6 @@ public class cgeotouch extends cgLogForm {
 		warning = new cgWarning(this);
 
 		// set layout
-		progressBar = requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		if (settings.skin == 1) {
 			setTheme(R.style.light);
 		} else {
