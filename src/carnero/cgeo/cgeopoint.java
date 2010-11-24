@@ -2,7 +2,6 @@ package carnero.cgeo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -22,7 +21,7 @@ public class cgeopoint extends Activity {
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-	private Context activity = null;
+	private Activity activity = null;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private EditText latEdit = null;
@@ -351,5 +350,9 @@ public class cgeopoint extends Activity {
 		}
 
 		return coords;
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

@@ -214,4 +214,8 @@ public class cgeospoilers extends Activity {
 			}
 		}
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }

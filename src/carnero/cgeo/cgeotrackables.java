@@ -159,4 +159,8 @@ public class cgeotrackables extends Activity {
 			return;
 		}
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }

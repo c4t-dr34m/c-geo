@@ -17,7 +17,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.view.View;
 import android.widget.EditText;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
@@ -30,7 +29,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class cgeoauth extends Activity {
 	private cgeoapplication app = null;
 	private Resources res = null;
-	private Context activity = null;
+	private Activity activity = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -399,5 +398,9 @@ public class cgeoauth extends Activity {
 				}
 			}).start();
 		}
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

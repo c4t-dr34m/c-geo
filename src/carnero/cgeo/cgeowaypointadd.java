@@ -3,7 +3,6 @@ package carnero.cgeo;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
@@ -24,7 +23,7 @@ public class cgeowaypointadd extends Activity {
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-	private Context activity = null;
+	private Activity activity = null;
 	private String geocode = null;
 	private int id = -1;
 	private cgGeo geo = null;
@@ -400,5 +399,9 @@ public class cgeowaypointadd extends Activity {
 				warning.showToast("Sorry, c:geo failed to add your waypoint.");
 			}
 		}
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

@@ -775,4 +775,8 @@ public class cgeovisit extends cgLogForm {
 
 		return 1000;
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }

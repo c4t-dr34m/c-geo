@@ -668,4 +668,8 @@ public class cgeopopup extends Activity {
 		}
 		detailsList.addView(itemLayout);
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }

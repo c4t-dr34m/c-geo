@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.content.Intent;
-import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Handler;
@@ -21,11 +20,11 @@ import java.util.Locale;
 public class cgeoaddresses extends Activity {
 	private final ArrayList<Address> addresses = new ArrayList<Address>();
 	private String keyword = null;
+	private Activity activity = null;
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-	private Context activity = null;
 	private LayoutInflater inflater = null;
 	private LinearLayout addList = null;
 	private ProgressDialog waitDialog = null;
@@ -184,5 +183,9 @@ public class cgeoaddresses extends Activity {
 			finish();
 			return;
 		}
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

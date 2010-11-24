@@ -473,4 +473,8 @@ public class cgeotouch extends cgLogForm {
 
 		return 1000;
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }

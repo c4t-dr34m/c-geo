@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.view.View;
 import android.view.WindowManager;
 import java.util.HashMap;
 import java.util.Locale;
@@ -24,7 +25,7 @@ public class cgeonavigate extends Activity {
 
 	private Resources res = null;
 	private cgeoapplication app = null;
-	private Context activity = null;
+	private Activity activity = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -422,5 +423,9 @@ public class cgeonavigate extends Activity {
 				}
 			}
 		}
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

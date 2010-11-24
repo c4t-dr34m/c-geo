@@ -354,4 +354,8 @@ public class cgeowaypoint extends Activity {
             }
 		}
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }

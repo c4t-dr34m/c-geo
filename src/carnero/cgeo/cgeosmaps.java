@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
 
@@ -143,5 +144,9 @@ public class cgeosmaps extends Activity {
 				Log.e(cgSettings.tag, "cgeosmaps.loadMaps.run: " + e.toString());
 			}
 	   }
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

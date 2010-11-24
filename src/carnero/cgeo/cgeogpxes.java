@@ -1,13 +1,14 @@
 package carnero.cgeo;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import java.io.File;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class cgeogpxes extends ListActivity {
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
-	private Context activity = null;
+	private Activity activity = null;
 	private cgGPXListAdapter adapter = null;
 	private ProgressDialog waitDialog = null;
 	private ProgressDialog parseDialog = null;
@@ -229,5 +230,9 @@ public class cgeogpxes extends ListActivity {
 
 			loadCachesHandler.sendMessage(new Message());
 		}
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.content.Intent;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
@@ -19,8 +18,8 @@ import android.widget.AutoCompleteTextView;
 
 public class cgeoadvsearch extends Activity {
 	private Resources res = null;
+	private Activity activity = null;
 	private cgeoapplication app = null;
-	private Context context = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -35,7 +34,7 @@ public class cgeoadvsearch extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// init
-		context = this;
+		activity = this;
 		res = this.getResources();
 		app = (cgeoapplication)this.getApplication();
 		app.setAction(null);
@@ -53,7 +52,7 @@ public class cgeoadvsearch extends Activity {
 		setContentView(R.layout.search);
 
 		// google analytics
-		base.sendAnal(context, "/advanced-search");
+		base.sendAnal(activity, "/advanced-search");
 
 		init();
 	}
@@ -99,7 +98,7 @@ public class cgeoadvsearch extends Activity {
 
 		if (settings.cacheType != null && base.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
 
-		if (geo == null) geo = app.startGeo(context, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 
 		((EditText)findViewById(R.id.latitude)).setOnEditorActionListener(new findByCoordsAction());
 		((EditText)findViewById(R.id.longitude)).setOnEditorActionListener(new findByCoordsAction());
@@ -212,12 +211,12 @@ public class cgeoadvsearch extends Activity {
 				return;
 			}
 
-			final Intent cachesIntent = new Intent(context, cgeocaches.class);
+			final Intent cachesIntent = new Intent(activity, cgeocaches.class);
 			cachesIntent.putExtra("type", "coordinate");
 			cachesIntent.putExtra("latitude", (Double)latParsed.get("coordinate"));
 			cachesIntent.putExtra("longitude", (Double)lonParsed.get("coordinate"));
 			cachesIntent.putExtra("cachetype", settings.cacheType);
-			context.startActivity(cachesIntent);
+			activity.startActivity(cachesIntent);
 		}
 	}
 
@@ -248,11 +247,11 @@ public class cgeoadvsearch extends Activity {
 			return;
 		}
 
-		final Intent cachesIntent = new Intent(context, cgeocaches.class);
+		final Intent cachesIntent = new Intent(activity, cgeocaches.class);
 		cachesIntent.putExtra("type", "keyword");
 		cachesIntent.putExtra("keyword", keyText);
 		cachesIntent.putExtra("cachetype", settings.cacheType);
-		context.startActivity(cachesIntent);
+		activity.startActivity(cachesIntent);
 	}
 
 	private class findByAddressAction implements TextView.OnEditorActionListener {
@@ -281,9 +280,9 @@ public class cgeoadvsearch extends Activity {
 			return;
 		}
 
-		final Intent addressesIntent = new Intent(context, cgeoaddresses.class);
+		final Intent addressesIntent = new Intent(activity, cgeoaddresses.class);
 		addressesIntent.putExtra("keyword", addText);
-		context.startActivity(addressesIntent);
+		activity.startActivity(addressesIntent);
 	}
 
 	private class findByUsernameAction implements TextView.OnEditorActionListener {
@@ -312,11 +311,11 @@ public class cgeoadvsearch extends Activity {
 			return;
 		}
 
-		final Intent cachesIntent = new Intent(context, cgeocaches.class);
+		final Intent cachesIntent = new Intent(activity, cgeocaches.class);
 		cachesIntent.putExtra("type", "username");
 		cachesIntent.putExtra("username", usernameText);
 		cachesIntent.putExtra("cachetype", settings.cacheType);
-		context.startActivity(cachesIntent);
+		activity.startActivity(cachesIntent);
 	}
 
 	private class findByOwnerAction implements TextView.OnEditorActionListener {
@@ -345,11 +344,11 @@ public class cgeoadvsearch extends Activity {
 			return;
 		}
 
-		final Intent cachesIntent = new Intent(context, cgeocaches.class);
+		final Intent cachesIntent = new Intent(activity, cgeocaches.class);
 		cachesIntent.putExtra("type", "owner");
 		cachesIntent.putExtra("username", usernameText);
 		cachesIntent.putExtra("cachetype", settings.cacheType);
-		context.startActivity(cachesIntent);
+		activity.startActivity(cachesIntent);
 	}
 
 	private class findByGeocodeAction implements TextView.OnEditorActionListener {
@@ -378,9 +377,9 @@ public class cgeoadvsearch extends Activity {
 			return;
 		}
 
-		final Intent cachesIntent = new Intent(context, cgeodetail.class);
+		final Intent cachesIntent = new Intent(activity, cgeodetail.class);
 		cachesIntent.putExtra("geocode", geocodeText.toUpperCase());
-		context.startActivity(cachesIntent);
+		activity.startActivity(cachesIntent);
 	}
 
 	private class findTrackableAction implements TextView.OnEditorActionListener {
@@ -409,8 +408,12 @@ public class cgeoadvsearch extends Activity {
 			return;
 		}
 
-		final Intent trackablesIntent = new Intent(context, cgeotrackable.class);
+		final Intent trackablesIntent = new Intent(activity, cgeotrackable.class);
 		trackablesIntent.putExtra("geocode", trackableText.toUpperCase());
-		context.startActivity(trackablesIntent);
+		activity.startActivity(trackablesIntent);
+	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
 	}
 }

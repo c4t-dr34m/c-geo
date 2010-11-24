@@ -1531,4 +1531,8 @@ public class cgeomap extends MapActivity {
 			return false;
 		}
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }

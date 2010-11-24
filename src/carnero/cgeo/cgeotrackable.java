@@ -394,4 +394,8 @@ public class cgeotrackable extends Activity {
 		logTouchIntent.putExtra("guid", trackable.guid);
 		activity.startActivity(logTouchIntent);
 	}
+
+	public void goHome(View view) {
+		base.goHome(activity);
+	}
 }
