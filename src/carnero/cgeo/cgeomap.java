@@ -1500,7 +1500,7 @@ public class cgeomap extends MapActivity {
 				dstSince = activity.getSharedPreferences(cgSettings.preferences, 0).getLong("dst-since", 0l);
 				if (dstSince > 0) {
 					Date dstDate = new Date(dstSince);
-					dstString = res.getString(R.string.info_since) + base.dateOut.format(dstDate) + ", " + base.timeOut.format(dstDate) +  ")";
+					dstString = res.getString(R.string.info_since) + " " + base.dateOut.format(dstDate) + ", " + base.timeOut.format(dstDate) +  ")";
 				} else {
 					dstString = "";
 				}
