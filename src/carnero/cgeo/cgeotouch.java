@@ -138,8 +138,8 @@ public class cgeotouch extends cgLogForm {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("touch");
 		setContentView(R.layout.touch);
+		base.setTitle(activity, "touch");
 
 		// google analytics
 		base.sendAnal(activity, "/trackable/touch");
@@ -154,8 +154,11 @@ public class cgeotouch extends cgLogForm {
 
 		trackable = app.getTrackableByGeocode("logging trackable");
 
-		if (trackable.name != null && trackable.name.length() > 0) setTitle("touch " + trackable.name);
-		else setTitle("touch " + trackable.geocode.toUpperCase());
+		if (trackable.name != null && trackable.name.length() > 0) {
+			base.setTitle(activity, "touch " + trackable.name);
+		} else {
+			base.setTitle(activity, "touch " + trackable.geocode.toUpperCase());
+		}
 
 		app.setAction("logging trackable");
 

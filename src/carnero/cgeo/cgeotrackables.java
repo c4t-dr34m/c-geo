@@ -96,8 +96,8 @@ public class cgeotrackables extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("trackable");
 		setContentView(R.layout.trackables);
+		base.setTitle(activity, "trackable");
 
 		// google analytics
 		base.sendAnal(activity, "/trackable/list");

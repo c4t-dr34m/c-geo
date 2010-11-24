@@ -108,8 +108,8 @@ public class cgeoaddresses extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("known places");
 		setContentView(R.layout.addresses);
+		base.setTitle(activity, "known places");
 
 		// google analytics
 		base.sendAnal(activity, "/addresses");

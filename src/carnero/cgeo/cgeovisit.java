@@ -199,8 +199,8 @@ public class cgeovisit extends cgLogForm {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("log");
 		setContentView(R.layout.visit);
+		base.setTitle(activity, "log");
 
 		// google analytics
 		base.sendAnal(activity, "/visit");
@@ -223,9 +223,9 @@ public class cgeovisit extends cgLogForm {
 		cache = app.getCacheByGeocode(geocode);
 
 		if (cache.name != null && cache.name.length() > 0) {
-			setTitle("log " + cache.name);
+			base.setTitle(activity, "log " + cache.name);
 		} else {
-			setTitle("log " + cache.geocode.toUpperCase());
+			base.setTitle(activity, "log " + cache.geocode.toUpperCase());
 		}
 
 		app.setAction(geocode);

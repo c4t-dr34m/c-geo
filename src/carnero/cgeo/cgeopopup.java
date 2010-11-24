@@ -111,8 +111,8 @@ public class cgeopopup extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.detail));
 		setContentView(R.layout.popup);
+		base.setTitle(activity, res.getString(R.string.detail));
 
 		// google analytics
 		tracker = GoogleAnalyticsTracker.getInstance();
@@ -172,9 +172,9 @@ public class cgeopopup extends Activity {
 			}
 
 			if (cache.name != null && cache.name.length() > 0) {
-				setTitle(cache.name);
+				base.setTitle(activity, cache.name);
 			} else {
-				setTitle(geocode.toUpperCase());
+				base.setTitle(activity, geocode.toUpperCase());
 			}
 
 			inflater = activity.getLayoutInflater();

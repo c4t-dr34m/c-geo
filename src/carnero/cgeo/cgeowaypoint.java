@@ -49,8 +49,11 @@ public class cgeowaypoint extends Activity {
 					final TextView note = (TextView)findViewById(R.id.note);
 					final LinearLayout navigationPart = (LinearLayout)findViewById(R.id.navigation_part);
 
-					if (waypoint.name != null && waypoint.name.length() > 0) setTitle(Html.fromHtml(waypoint.name.trim()).toString());
-					else setTitle("waypoint");
+					if (waypoint.name != null && waypoint.name.length() > 0) {
+						base.setTitle(activity, Html.fromHtml(waypoint.name.trim()).toString());
+					} else {
+						base.setTitle(activity, "waypoint");
+					}
 
 					if (waypoint.prefix.equalsIgnoreCase("OWN") == false) identification.setText(waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
 					else identification.setText("custom");
@@ -131,8 +134,8 @@ public class cgeowaypoint extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("waypoint");
 		setContentView(R.layout.waypoint);
+		base.setTitle(activity, "waypoint");
 
 		// google analytics
 		tracker = GoogleAnalyticsTracker.getInstance();

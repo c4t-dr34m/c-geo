@@ -298,8 +298,8 @@ public class cgeomap extends MapActivity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.map_map));
 		setContentView(R.layout.map);
+		base.setTitle(activity, res.getString(R.string.map_map));
 
 		// google analytics
 		base.sendAnal(activity, "/map");
@@ -337,7 +337,7 @@ public class cgeomap extends MapActivity {
 		mapController.setZoom(settings.mapzoom);
 
 		if ((searchId == null || searchId <= 0) && (oneLatitude == null || oneLongitude == null)) {
-			setTitle(res.getString(R.string.map_live));
+			base.setTitle(activity, res.getString(R.string.map_live));
 			searchId = null;
 			live = true;
 			initLocation = false;
@@ -349,21 +349,21 @@ public class cgeomap extends MapActivity {
 
 			myLocationInMiddle();
 		} else if (searchId != null && searchId > 0) {
-			setTitle(res.getString(R.string.map_map));
+			base.setTitle(activity, res.getString(R.string.map_map));
 			live = false;
 			initLocation = true;
 			followLocation = false;
 
 			(new loadCacheFromDb(loadCacheFromDbHandler)).start();
 		} else if (geocode != null && geocode.length() > 0) {
-			setTitle(res.getString(R.string.map_map));
+			base.setTitle(activity, res.getString(R.string.map_map));
 			live = false;
 			initLocation = true;
 			followLocation = false;
 
 			(new loadCacheFromDb(loadCacheFromDbHandler)).start();
 		} else if (oneLatitude != null && oneLongitude != null) {
-			setTitle(res.getString(R.string.map_map));
+			base.setTitle(activity, res.getString(R.string.map_map));
 			searchId = null;
 			live = false;
 			initLocation = true;
@@ -1429,13 +1429,13 @@ public class cgeomap extends MapActivity {
 
 		if (loading == true) {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(true);
-			setTitle(title);
+			base.setTitle(activity, title);
 		} else if (caches != null) {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
-			setTitle(title + " (" + caches.size() + ")");
+			base.setTitle(activity, title + " (" + caches.size() + ")");
 		} else {
 			if (progressBar == true) setProgressBarIndeterminateVisibility(false);
-			setTitle(title + res.getString(R.string.caches_no_caches));
+			base.setTitle(activity, title + res.getString(R.string.caches_no_caches));
 		}
 	}
 

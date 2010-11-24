@@ -109,8 +109,8 @@ public class cgeogpxes extends ListActivity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("import gpx");
 		setContentView(R.layout.gpx);
+		base.setTitle(activity, "import gpx");
 
 		// google analytics
 		base.sendAnal(activity, "/gpx-import");

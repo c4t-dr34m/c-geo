@@ -113,8 +113,8 @@ public class cgeoauth extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.auth_twitter));
 		setContentView(R.layout.auth);
+		base.setTitle(activity, res.getString(R.string.auth_twitter));
 
 		// google analytics
 		base.sendAnal(activity, "/auth");

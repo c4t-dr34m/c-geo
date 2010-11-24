@@ -90,8 +90,8 @@ public class cgeosmaps extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("static maps");
 		setContentView(R.layout.map_static);
+		base.setTitle(activity, "static maps");
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();

@@ -128,8 +128,8 @@ public class cgeospoilers extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("spoiler images");
 		setContentView(R.layout.spoilers);
+		base.setTitle(activity, "spoiler images");
 
 		// google analytics
 		base.sendAnal(activity, "/spoilers");

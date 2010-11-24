@@ -77,9 +77,9 @@ public class cgeotrackable extends Activity {
 				geocode = trackable.geocode.toUpperCase();
 
 				if (trackable.name != null && trackable.name.length() > 0) {
-					setTitle(Html.fromHtml(trackable.name).toString());
+					base.setTitle(activity, Html.fromHtml(trackable.name).toString());
 				} else {
-					setTitle(trackable.name.toUpperCase());
+					base.setTitle(activity, trackable.name.toUpperCase());
 				}
 
 				((ScrollView) findViewById(R.id.details_list_box)).setVisibility(View.VISIBLE);
@@ -269,8 +269,8 @@ public class cgeotrackable extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("trackable");
 		setContentView(R.layout.trackable_detail);
+		base.setTitle(activity, "trackable");
 
 		// google analytics
 		base.sendAnal(activity, "/trackable/detail");

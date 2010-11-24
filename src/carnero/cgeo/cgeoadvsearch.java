@@ -48,8 +48,8 @@ public class cgeoadvsearch extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.search));
 		setContentView(R.layout.search);
+		base.setTitle(activity, res.getString(R.string.search));
 
 		// google analytics
 		base.sendAnal(activity, "/advanced-search");

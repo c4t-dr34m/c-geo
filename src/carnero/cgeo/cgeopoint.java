@@ -45,8 +45,8 @@ public class cgeopoint extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.search_destination));
 		setContentView(R.layout.point);
+		base.setTitle(activity, res.getString(R.string.search_destination));
 
 		// google analytics
 		base.sendAnal(activity, "/point");

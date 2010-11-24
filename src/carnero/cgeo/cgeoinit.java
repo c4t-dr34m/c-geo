@@ -81,8 +81,8 @@ public class cgeoinit extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle(res.getString(R.string.settings));
 		setContentView(R.layout.init);
+		base.setTitle(activity, res.getString(R.string.settings));
 
 		// google analytics
 		base.sendAnal(activity, "/init");

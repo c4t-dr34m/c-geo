@@ -93,8 +93,8 @@ public class cgeowaypointadd extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("waypoint");
 		setContentView(R.layout.waypoint_new);
+		base.setTitle(activity, "waypoint");
 
 		// google analytics
 		base.sendAnal(activity, "/waypoint/new");
@@ -118,9 +118,9 @@ public class cgeowaypointadd extends Activity {
 		}
 
 		if (id <= 0) {
-			setTitle(res.getString(R.string.waypoint_add_title));
+			base.setTitle(activity, res.getString(R.string.waypoint_add_title));
 		} else {
-			setTitle(res.getString(R.string.waypoint_edit_title));
+			base.setTitle(activity, res.getString(R.string.waypoint_edit_title));
 		}
 
 		if (geocode != null) {

@@ -79,8 +79,8 @@ public class cgeonavigate extends Activity {
 		} else {
 			setTheme(R.style.dark);
 		}
-		setTitle("compass");
 		setContentView(R.layout.navigate);
+		base.setTitle(activity, "compass");
 
 		// google analytics
 		base.sendAnal(activity, "/navigate");
@@ -273,8 +273,11 @@ public class cgeonavigate extends Activity {
 	}
 
 	private void setTitle() {
-		if (title != null && title.length() > 0) setTitle(title);
-		else setTitle("navigation");
+		if (title != null && title.length() > 0) {
+			base.setTitle(activity, title);
+		} else {
+			base.setTitle(activity, "navigation");
+		}
 	}
 
 	private void setDestCoords() {
