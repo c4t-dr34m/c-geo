@@ -74,7 +74,7 @@
 	<string name="log_new_discovered">Entdeckt</string>
 	<string name="log_new_review">Überprüft</string>
 
-	<!-- errors -->
+	<!-- errors, warnings, info toasts -->
 	<string name="err_none">OK</string>
 	<string name="err_start">Kommunikation nicht gestartet</string>
 	<string name="err_parse">Parsing der Anmeldung gescheitert</string>
@@ -108,6 +108,17 @@
 	<string name="err_auth_process">Autorisierung fehlgeschlagen.</string>
 	<string name="err_cannot_log_visit">c:geo hat nicht genügend Informationen um den Besuch zu loggen. Bitte über die Cache-Details versuchen.</string>
 	<string name="err_init_cleared">Sorry, c:geo kann die Anmeldedaten nicht entfernen.</string>
+	<string name="err_no_chaches">Sorry, c:geo konnte die Caches nicht laden.</string>
+	<string name="err_download_fail">Sorry, c:geo konnte keine Caches laden, weil </string>
+	<string name="err_download_fail">Update der gereisten Strecke fehlgeschlagen.</string>
+
+	<string name="warn_save_nothing">Es gibt nichts zum speichern.</string>
+	<string name="warn_no_cache_coord">Es gibt hier keinen Cache mit Koordinaten.</string>
+
+	<string name="info_altitude">Momentane Höhe</string>
+	<string name="info_distance">Gereiste Strecke</string>
+	<string name="info_distance_cleared">Gereiste Strecke wurde gelöscht.</string>
+	<string name="info_since">\n(seit </string>
 
 	<!-- location service -->
 	<string name="loc_last">Letzte Position</string>
@@ -137,6 +148,13 @@
 	<string name="caches_no_cache">Kein Cache</string>
 	<string name="caches_more_caches">Mehr Caches</string>
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
+	<string name="caches_downloading">Lade Caches...\nETA: </string>
+	<string name="caches_eta_ltm">Weniger als eine Minute</string>
+	<string name="caches_eta_mins"> Minuten</string>
+	<string name="caches_no_caches"> (keine Caches)</string>
+	<string name="caches_store_offline">Für Offline speichern</string>
+	<string name="caches_on_map">Zeige auf Karte</string>
+	<string name="caches_select">Wähle von Liste</string>
 
 	<!-- about -->
 	<string name="about_changelog">Änderungen</string>
@@ -276,6 +294,16 @@
 
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
+
+       <!-- map -->
+       <string name="map_map">Karte</string>
+       <string name="map_live">Live-Karte</string>
+       <string name="map_view_satellite">Satellit</string>
+       <string name="map_view_map">Karte</string>
+       <string name="map_trail_hide">Spur ausblenden</string>
+       <string name="map_trail_hide">Spur einblenden</string>
+       <string name="map_live_enable">Live einschalten</string>
+       <string name="map_live_disable">Live ausschalten</string>
 
 	<!-- search -->
 	<string name="search_coordinates">Koordinaten</string>

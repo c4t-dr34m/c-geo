@@ -75,7 +75,7 @@
 	<string name="log_new_discovered">Discovered</string>
 	<string name="log_new_review">Rewieved</string>
 
-	<!-- errors -->
+	<!-- errors, warnings, info toasts -->
 	<string name="err_none">Ok</string>
 	<string name="err_start">Communication not started</string>
 	<string name="err_parse">Failed login page parsing</string>
@@ -109,6 +109,17 @@
 	<string name="err_auth_process">Authorization process failed.</string>
 	<string name="err_cannot_log_visit">c:geo has not enough information to log visit. Please, do it from full cache details.</string>
 	<string name="err_init_cleared">Sorry, c:geo can\'t clear login information.</string>
+	<string name="err_no_chaches">Sorry, c:geo failed to load cache or caches.</string>
+	<string name="err_download_fail">Sorry, c:geo failed to download caches because of </string>
+	<string name="err_download_fail">Failed to update traveled distance.</string>
+
+	<string name="warn_save_nothing">There is nothing to be saved.</string>
+	<string name="warn_no_cache_coord">There is no cache with coordinates.</string>
+
+	<string name="info_altitude">Current altitude</string>
+	<string name="info_distance">Distance traveled</string>
+	<string name="info_distance_cleared">Traveled distance was cleared.</string>
+	<string name="info_since">\n(since </string>
 
 	<!-- location service -->
 	<string name="loc_last">Last known</string>
@@ -138,6 +149,13 @@
 	<string name="caches_no_cache">No cache</string>
 	<string name="caches_more_caches">More caches</string>
 	<string name="caches_more_caches_no">No more caches</string>
+	<string name="caches_downloading">Downloading caches...\nETA: </string>
+	<string name="caches_eta_ltm">Less than a minute</string>
+	<string name="caches_eta_mins"> minutes</string>
+	<string name="caches_no_caches"> (no caches)</string>
+	<string name="caches_store_offline">Store for Offline</string>
+	<string name="caches_on_map">Show on map</string>
+	<string name="caches_select">Select from list</string>
 
 	<!-- about -->
 	<string name="about_changelog">Changelog</string>
@@ -277,6 +295,16 @@
 
 	<!-- visit -->
 	<string name="visit_tweet">Post this find to Twitter</string>
+
+	<!-- map -->
+	<string name="map_map">Map</string>
+	<string name="map_live">Live map</string>
+	<string name="map_view_satellite">Satellite view</string>
+	<string name="map_view_map">Map view</string>
+	<string name="map_trail_hide">Hide trail</string>
+	<string name="map_trail_hide">Show trail</string>
+	<string name="map_live_enable">Enable live</string>
+	<string name="map_live_disable">Disable live</string>
 
 	<!-- search -->
 	<string name="search_coordinates">Coordinates</string>
