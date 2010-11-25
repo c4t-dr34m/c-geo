@@ -128,11 +128,9 @@ public class cgeowaypointadd extends Activity {
 		}
 
 		Button buttonCurrent = (Button) findViewById(R.id.current);
-		buttonCurrent.setClickable(true);
 		buttonCurrent.setOnClickListener(new currentListener());
 
 		Button addWaypoint = (Button) findViewById(R.id.add_waypoint);
-		addWaypoint.setClickable(true);
 		addWaypoint.setOnClickListener(new coordsListener());
 
 		if (id > 0) {

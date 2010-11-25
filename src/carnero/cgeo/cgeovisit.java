@@ -463,7 +463,6 @@ public class cgeovisit extends cgLogForm {
 		Button typeButton = (Button) findViewById(R.id.type);
 		registerForContextMenu(typeButton);
 		typeButton.setText(base.logTypes2.get(typeSelected));
-		typeButton.setClickable(true);
 		typeButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View view) {
@@ -473,7 +472,6 @@ public class cgeovisit extends cgLogForm {
 
 		Button dateButton = (Button) findViewById(R.id.date);
 		dateButton.setText(base.dateOutShort.format(date.getTime()));
-		dateButton.setClickable(true);
 		dateButton.setOnClickListener(new cgeovisitDateListener());
 
 		EditText logView = (EditText) findViewById(R.id.log);
@@ -509,13 +507,11 @@ public class cgeovisit extends cgLogForm {
 		if (save == null) {
 			save = (Button) findViewById(R.id.save);
 		}
-		save.setClickable(true);
 		save.setOnClickListener(new saveListener());
 
 		if (clear == null) {
 			clear = (Button) findViewById(R.id.clear);
 		}
-		clear.setClickable(true);
 		clear.setOnClickListener(new clearListener());
 	}
 
@@ -593,7 +589,6 @@ public class cgeovisit extends cgLogForm {
 			if (save == null) {
 				save = (Button) findViewById(R.id.save);
 			}
-			save.setClickable(true);
 			save.setOnClickListener(new clearListener());
 
 			if (status == true) {
@@ -617,7 +612,6 @@ public class cgeovisit extends cgLogForm {
 
 			Button dateButton = (Button) findViewById(R.id.date);
 			dateButton.setText(base.dateOutShort.format(date.getTime()));
-			dateButton.setClickable(true);
 			dateButton.setOnClickListener(new cgeovisitDateListener());
 
 			EditText logView = (EditText) findViewById(R.id.log);
@@ -630,7 +624,6 @@ public class cgeovisit extends cgLogForm {
 			if (clear == null) {
 				clear = (Button) findViewById(R.id.clear);
 			}
-			clear.setClickable(true);
 			clear.setOnClickListener(new clearListener());
 
 			warning.showToast("Log was cleared.");

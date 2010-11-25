@@ -160,7 +160,6 @@ public class cgeoinit extends Activity {
 		}
 
 		Button logMeIn = (Button) findViewById(R.id.log_me_in);
-		logMeIn.setClickable(true);
 		logMeIn.setOnClickListener(new logIn());
 
 		TextView legalNote = (TextView) findViewById(R.id.legal_note);
@@ -190,7 +189,6 @@ public class cgeoinit extends Activity {
 		publicButton.setOnClickListener(new cgeoChangePublic());
 
 		Button authorizeTwitter = (Button) findViewById(R.id.authorize_twitter);
-		authorizeTwitter.setClickable(true);
 		authorizeTwitter.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View arg0) {

@@ -328,7 +328,6 @@ public class cgeopopup extends Activity {
 				((LinearLayout)findViewById(R.id.more_details_box)).setVisibility(View.VISIBLE);
 
 				Button buttonMore = (Button)findViewById(R.id.more_details);
-				buttonMore.setClickable(true);
 				buttonMore.setOnClickListener(new OnClickListener() {
 					public void onClick(View arg0) {
 						Intent cachesIntent = new Intent(activity, cgeodetail.class);
@@ -348,7 +347,6 @@ public class cgeopopup extends Activity {
 				((LinearLayout)findViewById(R.id.log_visit_box)).setVisibility(View.VISIBLE);
 
 				Button buttonMore = (Button)findViewById(R.id.log_visit);
-				buttonMore.setClickable(true);
 				buttonMore.setOnClickListener(new OnClickListener() {
 					public void onClick(View arg0) {
 						if (cache.cacheid == null || cache.cacheid.length() == 0) {
@@ -397,22 +395,22 @@ public class cgeopopup extends Activity {
 					offlineText.setText(res.getString(R.string.cache_offline_stored) + "\n" + ago);
 
 					offlineRefresh.setVisibility(View.VISIBLE);
-					offlineRefresh.setClickable(true);
+					offlineRefresh.setEnabled(true);
 					offlineRefresh.setOnClickListener(new storeCache());
 
 					offlineStore.setText(res.getString(R.string.cache_offline_drop));
-					offlineStore.setClickable(true);
+					offlineStore.setEnabled(true);
 					offlineStore.setOnClickListener(new dropCache());
 				} else {
 					offlineText.setText(res.getString(R.string.cache_offline_not_ready));
 
 					offlineRefresh.setVisibility(View.GONE);
-					offlineRefresh.setClickable(false);
+					offlineRefresh.setEnabled(false);
 					offlineRefresh.setOnTouchListener(null);
 					offlineRefresh.setOnClickListener(null);
 
 					offlineStore.setText("store");
-					offlineStore.setClickable(true);
+					offlineStore.setEnabled(true);
 					offlineStore.setOnClickListener(new storeCache());
 				}
 			} else {
@@ -426,19 +424,19 @@ public class cgeopopup extends Activity {
 			((LinearLayout)findViewById(R.id.navigation_part)).setVisibility(View.VISIBLE);
 
 			Button buttonCompass = (Button)findViewById(R.id.compass);
-			buttonCompass.setClickable(true);
+			buttonCompass.setEnabled(true);
 			buttonCompass.setOnClickListener(new navigateToListener(cache.latitude, cache.longitude, cache.name, ""));
 
 			Button buttonRadar = (Button)findViewById(R.id.radar);
 			if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
-				buttonRadar.setClickable(true);
+				buttonRadar.setEnabled(true);
 				buttonRadar.setOnClickListener(new radarToListener(cache.latitude, cache.longitude));
 			} else {
 				buttonRadar.setBackgroundResource(settings.buttonInactive);
 			}
 
 			Button buttonTurn = (Button)findViewById(R.id.turn);
-			buttonTurn.setClickable(true);
+			buttonTurn.setEnabled(true);
 			buttonTurn.setOnClickListener(new turnToListener(cache.latitude, cache.longitude));
 		} else {
 			((LinearLayout)findViewById(R.id.navigation_part)).setVisibility(View.GONE);

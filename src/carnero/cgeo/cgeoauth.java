@@ -52,7 +52,7 @@ public class cgeoauth extends Activity {
 			}
 
 			startButton.setOnClickListener(new startListener());
-			startButton.setClickable(true);
+			startButton.setEnabled(true);
 
 			if (msg.what == 1) {
 				startButton.setText(res.getString(R.string.auth_again));
@@ -75,7 +75,7 @@ public class cgeoauth extends Activity {
 			}
 
 			pinEntryButton.setOnClickListener(new confirmPINListener());
-			pinEntryButton.setClickable(true);
+			pinEntryButton.setEnabled(true);
 
 			if (msg.what == 1) {
 				warning.showToast(res.getString(R.string.auth_dialog_completed));
@@ -130,7 +130,7 @@ public class cgeoauth extends Activity {
 		OAtoken = prefs.getString("temp-token-public", null);
 		OAtokenSecret = prefs.getString("temp-token-secret", null);
 
-		startButton.setClickable(true);
+		startButton.setEnabled(true);
 		startButton.setOnClickListener(new startListener());
 
 		if (OAtoken == null || OAtoken.length() == 0 || OAtokenSecret == null || OAtokenSecret.length() == 0) {
@@ -353,7 +353,7 @@ public class cgeoauth extends Activity {
 				requestTokenDialog.setMessage(res.getString(R.string.auth_dialog_wait));
 			}
 			requestTokenDialog.show();
-			startButton.setClickable(false);
+			startButton.setEnabled(false);
 			startButton.setOnTouchListener(null);
 			startButton.setOnClickListener(null);
 
@@ -386,7 +386,7 @@ public class cgeoauth extends Activity {
 				changeTokensDialog.setMessage(res.getString(R.string.auth_dialog_wait));
 			}
 			changeTokensDialog.show();
-			pinEntryButton.setClickable(false);
+			pinEntryButton.setEnabled(false);
 			pinEntryButton.setOnTouchListener(null);
 			pinEntryButton.setOnClickListener(null);
 

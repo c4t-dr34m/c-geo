@@ -296,7 +296,6 @@ public class cgeotouch extends cgLogForm {
 		Button typeButton = (Button)findViewById(R.id.type);
 		registerForContextMenu(typeButton);
 		typeButton.setText(base.logTypes2.get(typeSelected));
-		typeButton.setClickable(true);
 		typeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				openContextMenu(view);
@@ -305,7 +304,6 @@ public class cgeotouch extends cgLogForm {
 
 		Button dateButton = (Button)findViewById(R.id.date);
 		dateButton.setText(base.dateOutShort.format(date.getTime()));
-		dateButton.setClickable(true);
 		dateButton.setOnClickListener(new cgeotouchDateListener());
 
         if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);

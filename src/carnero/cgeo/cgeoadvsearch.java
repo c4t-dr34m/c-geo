@@ -104,13 +104,11 @@ public class cgeoadvsearch extends Activity {
 		((EditText)findViewById(R.id.longitude)).setOnEditorActionListener(new findByCoordsAction());
 
 		final Button findByCoords = (Button)findViewById(R.id.search_coordinates);
-		findByCoords.setClickable(true);
 		findByCoords.setOnClickListener(new findByCoordsListener());
 
 		((EditText)findViewById(R.id.address)).setOnEditorActionListener(new findByAddressAction());
 
 		final Button findByAddress = (Button)findViewById(R.id.search_address);
-		findByAddress.setClickable(true);
 		findByAddress.setOnClickListener(new findByAddressListener());
 
 		final AutoCompleteTextView geocodeEdit = (AutoCompleteTextView)findViewById(R.id.geocode);
@@ -122,32 +120,27 @@ public class cgeoadvsearch extends Activity {
 		}
 
 		final Button displayByGeocode = (Button)findViewById(R.id.display_geocode);
-		displayByGeocode.setClickable(true);
 		displayByGeocode.setOnClickListener(new findByGeocodeListener());
 
 
 		((EditText)findViewById(R.id.keyword)).setOnEditorActionListener(new findByKeywordAction());
 
 		final Button findByKeyword = (Button)findViewById(R.id.search_keyword);
-		findByKeyword.setClickable(true);
 		findByKeyword.setOnClickListener(new findByKeywordListener());
 
 		((EditText)findViewById(R.id.username)).setOnEditorActionListener(new findByUsernameAction());
 
 		final Button findByUserName = (Button)findViewById(R.id.search_username);
-		findByUserName.setClickable(true);
 		findByUserName.setOnClickListener(new findByUsernameListener());
 
 		((EditText)findViewById(R.id.owner)).setOnEditorActionListener(new findByOwnerAction());
 
 		final Button findByOwner = (Button)findViewById(R.id.search_owner);
-		findByOwner.setClickable(true);
 		findByOwner.setOnClickListener(new findByOwnerListener());
 
 		((EditText)findViewById(R.id.trackable)).setOnEditorActionListener(new findTrackableAction());
 
 		final Button displayTrackable = (Button)findViewById(R.id.display_trackable);
-		displayTrackable.setClickable(true);
 		displayTrackable.setOnClickListener(new findTrackableListener());
 	}
 

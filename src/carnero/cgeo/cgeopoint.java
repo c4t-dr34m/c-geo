@@ -93,19 +93,15 @@ public class cgeopoint extends Activity {
         if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 
 		Button buttonCurrent = (Button)findViewById(R.id.current);
-		buttonCurrent.setClickable(true);
 		buttonCurrent.setOnClickListener(new currentListener());
 
 		Button buttonCompass = (Button)findViewById(R.id.compass);
-		buttonCompass.setClickable(true);
 		buttonCompass.setOnClickListener(new compassListener());
 
 		Button buttonRadar = (Button)findViewById(R.id.radar);
-		buttonRadar.setClickable(true);
 		buttonRadar.setOnClickListener(new radarListener());
 
 		Button buttonTurn = (Button)findViewById(R.id.turn);
-		buttonTurn.setClickable(true);
 		buttonTurn.setOnClickListener(new turnListener());
 	}
 
