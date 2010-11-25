@@ -11,6 +11,9 @@
 	<string name="about">About c:geo</string>
 	<string name="helper">Don\'t forget <b>MENU</b> button on your phone, it will show many functions of <b>c:geo</b>!</string>
 
+	<!-- actionbar -->
+	<string name="action_bar_share_title">Share link to cache</string>
+
 	<!-- caches -->
 	<string name="all">All caches</string>
 	<string name="traditional">Traditional cache</string>
