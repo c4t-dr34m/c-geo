@@ -1440,11 +1440,11 @@ public class cgeodetail extends Activity {
 		final Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");
 		if (geocode != null) {
-			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + geocode.toUpperCase());
+			intent.putExtra(Intent.EXTRA_TEXT, res.getText(R.string.action_bar_share) + " http://coord.info/" + geocode.toUpperCase());
 		} else if (cache != null && cache.geocode != null) {
-			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + cache.geocode.toUpperCase());
+			intent.putExtra(Intent.EXTRA_TEXT, res.getText(R.string.action_bar_share) + " http://coord.info/" + cache.geocode.toUpperCase());
 		}
 
-		startActivity(Intent.createChooser(intent, getText(R.string.action_bar_share_title)));
+		startActivity(Intent.createChooser(intent, res.getText(R.string.action_bar_share_title)));
 	}
 }
