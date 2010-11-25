@@ -1140,7 +1140,8 @@ public class cgeocaches extends ListActivity {
 			if (dir != null) dir = app.removeDir();
 			if (geo != null) geo = app.removeGeo();
 
-			for (cgCache cache : cacheList) {
+			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>)cacheList.clone();
+			for (cgCache cache : cacheListTemp) {
 				if (checked > 0 && cache.statusChecked == false) {
 					handler.sendEmptyMessage(0);
 
@@ -1175,6 +1176,7 @@ public class cgeocaches extends ListActivity {
 					Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails: " + e.toString());
 				}
 			}
+			cacheListTemp.clear();
 
 			handler.sendEmptyMessage(-1);
 		}
@@ -1204,7 +1206,8 @@ public class cgeocaches extends ListActivity {
 			if (dir != null) dir = app.removeDir();
 			if (geo != null) geo = app.removeGeo();
 
-			for (cgCache cache : cacheList) {
+			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>)cacheList.clone();
+			for (cgCache cache : cacheListTemp) {
 				if (checked > 0 && cache.statusChecked == false) {
 					handler.sendEmptyMessage(0);
 
@@ -1228,6 +1231,7 @@ public class cgeocaches extends ListActivity {
 					Log.e(cgSettings.tag, "cgeocaches.geocachesDropDetails: " + e.toString());
 				}
 			}
+			cacheListTemp.clear();
 
 			handler.sendEmptyMessage(-1);
 		}
