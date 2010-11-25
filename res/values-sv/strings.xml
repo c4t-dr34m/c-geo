@@ -9,13 +9,13 @@
 	<string name="search">Sök</string>
 	<string name="settings">Inställningar</string>
 	<string name="about">Om c:geo</string>
-	<string name="helper">Glöm inte <b>MENU</b> knappen på din telefon, den visar många funktioner i <b>c:geo</b>!</string>
+	<string name="helper">Glöm inte <b>MENY</b> knappen på din telefon, den visar många funktioner i <b>c:geo</b>!</string>
 
 	<!-- caches -->
 	<string name="all">Alla cacher</string>
 	<string name="traditional">Traditionell cache</string>
 	<string name="multi">Multi-cache</string>
-	<string name="mystery">Okänd cache</string>
+	<string name="mystery">Mystery cache</string>
 	<string name="letterbox">Letterbox hybrid</string>
 	<string name="event">Event cache</string>
 	<string name="mega">Mega-event cache</string>
@@ -40,7 +40,7 @@
 	<!-- logs -->
 	<string name="log_found">Hittad</string>
 	<string name="log_dnf">Hittade inte</string>
-	<string name="log_note">Skriv kommentar</string>
+	<string name="log_note">Kommentar</string>
 	<string name="log_published">Publicerad</string>
 	<string name="log_enabled">Aktiverad</string>
 	<string name="log_disabled">Inaktiverad</string>
@@ -49,10 +49,10 @@
 	<string name="log_retrieved">Hämtade</string>
 	<string name="log_grabbed">Tog</string>
 	<string name="log_needs">Behöver underhåll</string>
-	<string name="log_maintenance">Underhåll</string>
+	<string name="log_maintenance">Underhåll utfört</string>
 	<string name="log_update">Uppdaterade koordinaterna</string>
 	<string name="log_archived">Arkiverad</string>
-	<string name="log_discovered">Sett</string>
+	<string name="log_discovered">Sedd</string>
 	<string name="log_review">Reviewer anteckning</string>
 	<string name="log_tb_nothing">Gör inget</string>
 	<string name="log_tb_visit">Besök</string>
@@ -172,10 +172,10 @@
 	<string name="init_username">Användare</string>
 	<string name="init_password">Lösenord</string>
 	<string name="init_passvote">Lösenord</string>
-	<string name="init_login">Provar inloggning</string>
+	<string name="init_login">Testa inloggning</string>
 	<string name="init_legal">Legal kommentar</string>
 	<string name="init_go4cache_connect">Anslut till Go 4 Cache</string>
-	<string name="init_twitter_authorize">Tillåt c:geo</string>
+	<string name="init_twitter_authorize">Inställningar för Twitter</string>
 	<string name="init_twitter_publish">Publicera status när en cache hittats</string>
 	<string name="init_signature">Signatur</string>
 	<string name="init_other">Övriga inställningar</string>
@@ -188,27 +188,27 @@
 	<string name="init_units">Använd amerikanska enheter för avstånd</string>
 	<string name="init_nav">Använd Google Navigering</string>
 	<string name="init_directoryimg">Göm bilder i galleriet</string>
-	<string name="init_autoload">Auto-ladda full beskrivning</string>
+	<string name="init_autoload">Ladda full beskrivning automatiskt</string>
 	<string name="init_livelist">Visa riktning till cacher i listan</string>
-	<string name="init_browser">Identifiera c:geo som standard webbläsare</string>
-	<string name="init_cleared">c:geo rensad inloggningsinformation.</string>
+	<string name="init_browser">Identifiera c:geo som normal webbläsare</string>
+	<string name="init_cleared">c:geo har rensat inloggningsinformationen</string>
 
 	<!-- auth -->
 	<string name="auth_twitter">Twitter</string>
-	<string name="auth_authorize">Tillåt c:geo</string>
-	<string name="auth_start">Påbörja authentisering</string>
-	<string name="auth_again">Påbörja igen</string>
+	<string name="auth_authorize">Koppla c:geo mot Twitter</string>
+	<string name="auth_start">Påbörja koppling mot Twitter</string>
+	<string name="auth_again">Påbörja koppling mot Twitter igen/string>
 	<string name="auth_pin_hint">PIN erhållen från Twitter</string>
-	<string name="auth_finish">Avsluta</string>
+	<string name="auth_finish">Bekräfta PIN</string>
 	<string name="auth_dialog_wait">Väntar på Twitter...</string>
 	<string name="auth_dialog_pin_title">PIN kod</string>
-	<string name="auth_dialog_pin_message">Vänligen skriv in PIN koden du fick på Twitters hemsida. Det krävs för att slutför authentiseringen.</string>
+	<string name="auth_dialog_pin_message">Vänligen skriv in PIN koden du fick på Twitters hemsida. Det krävs för att slutföra kopplingen.</string>
 	<string name="auth_dialog_completed">c:geo är nu godkänd att posta på Twitter.</string>
 
 	<!-- cache -->
 	<string name="cache_count_no">Ingen cache</string>
 	<string name="cache_count_one">En cache</string>
-	<string name="cache_count_more">Cacher</string>
+	<string name="cache_count_more">cacher</string>
 	<string name="cache_offline">Offline</string>
 	<string name="cache_offline_refresh">Uppdatera</string>
 	<string name="cache_offline_drop">Lämna</string>
@@ -226,7 +226,7 @@
 	<string name="cache_log_offline">Offline logg</string>
 	<string name="cache_description">Beskrivning</string>
 	<string name="cache_description_long">Lång beskrivning</string>
-	<string name="cache_waypoints">punkter</string>
+	<string name="cache_waypoints">Punkter</string>
 	<string name="cache_waypoints_add">Lägg till punkt</string>
 	<string name="cache_hint">Tips</string>
 	<string name="cache_logs">Loggbok</string>
@@ -253,7 +253,7 @@
 	<string name="cache_menu_details">Detaljer</string>
 	<string name="cache_status">Status</string>
 	<string name="cache_status_offline_log">Sparad logg</string>
-	<string name="cache_status_found">Hittad</string>
+	<string name="cache_status_found">Hittat</string>
 	<string name="cache_status_archived">Arkiverad</string>
 	<string name="cache_status_disabled">Inaktiverad</string>
 	<string name="cache_status_premium">Enbart för Premium medlemmar</string>
@@ -318,13 +318,13 @@
 	<string name="search_kw_button">Sök med nyckelord</string>
 	<string name="search_fbu">Hittad av användare</string>
 	<string name="search_fbu_prefill">Användare</string>
-	<string name="search_fbu_button">Sök efter användare</string>
+	<string name="search_fbu_button">Sök efter hittade</string>
 	<string name="search_hbu">Gömd av användare</string>
 	<string name="search_hbu_prefill">Ägare</string>
-	<string name="search_hbu_button">Sök med ägare</string>
-	<string name="search_tb">Spårbara</string>
-	<string name="search_tb_hint">Spårbaras identifikation</string>
-	<string name="search_tb_button">Sök efter spårbar</string>
+	<string name="search_hbu_button">Sök efter ägda</string>
+	<string name="search_tb">Trackables</string>
+	<string name="search_tb_hint">Identifiering av trackable</string>
+	<string name="search_tb_button">Sök efter trackable</string>
 	<string name="search_destination">Mål</string>
 	<string name="search_direction_rel">Från min plats</string>
 
@@ -336,10 +336,10 @@
 	<string name="website">Hemsida: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">Bilder på huvudskärmen designade av <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
+	<string name="graphic">Bilder på huvudskärmen designade av <a href="http://iirojappinen.com/">Iiro Jäppinen</a>,
 grafiska element av <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
-	<string name="about_go4cache">Tjänsten <b>Go 4 Cache</b> visar andra geocachare på kartan (i <b>c:geo</b> eller webbläsaren) i realtid. Den kan till exempel visa vilken cache de letar efter. Genom att ansluta till <b>Go 4 Cache</b> <b>c:geo</b> tillåts att publicera din nuvarande plats när du geocachar (bara när <b>c:geo</b> är igång).</string>
+	<string name="about_go4cache">Tjänsten <b>Go 4 Cache</b> visar andra geocachare på kartan i realtid (i <b>c:geo</b> eller webbläsaren). Du kan till exemple se vilken cache de letar efter. Genom att ansluta till <b>Go 4 Cache</b> tillåter du <b>c:geo</b> att publicera din nuvarande plats när du geocachar (bara när <b>c:geo</b> är igång).</string>
 	<string name="about_twitter">Ska <b>c:geo</b> publicera ny status på Twitter varje gång en cache loggas?</string>
-	<string name="about_auth_1">Denna process tillåter <b>c:geo</b> att ansluta till Twitter - om godkänt.</string>
-	<string name="about_auth_2">Om du klickar på "tillåt c:geo" knappen starta processen. Processen kommer att öppna en webbläsare med Twitters hemsida. Logga in på den sida och tillåt <b>c:geo</b> att ansluta till ditt konto. Om du godkänner så kommer Twitter visa en PIN kod. Denna PIN måste du klippa in i <b>c:geo</b> och bekräfta. Det är det hela.</string>
+	<string name="about_auth_1">Nedan tillåter du <b>c:geo</b> att ansluta till Twitter.</string>
+	<string name="about_auth_2">Klicka på "Påbörja koppling mot Twitter" om du vill koppla ihop <b>c:geo</b> med Twitter. Twitters hemsida kommer att öppnas i en webbläsare. Logga in på den sida och tillåt <b>c:geo</b> att ansluta till ditt konto. När du godkänt så kommer Twitter visa en PIN kod. Kom ihåg denna PIN, stäng webbläsaren och klipp in PIN koden i <b>c:geo</b> och bekräfta. Det är allt.</string>
 </resources>
