@@ -197,7 +197,7 @@
 	<string name="auth_twitter">Twitter</string>
 	<string name="auth_authorize">Koppla c:geo mot Twitter</string>
 	<string name="auth_start">Påbörja koppling mot Twitter</string>
-	<string name="auth_again">Påbörja koppling mot Twitter igen/string>
+	<string name="auth_again">Påbörja koppling mot Twitter igen</string>
 	<string name="auth_pin_hint">PIN erhållen från Twitter</string>
 	<string name="auth_finish">Bekräfta PIN</string>
 	<string name="auth_dialog_wait">Väntar på Twitter...</string>
