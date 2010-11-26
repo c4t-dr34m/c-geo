@@ -197,7 +197,7 @@
 	<string name="auth_twitter">Twitter</string>
 	<string name="auth_authorize">Koppla c:geo mot Twitter</string>
 	<string name="auth_start">Påbörja koppling mot Twitter</string>
-	<string name="auth_again">Påbörja koppling mot Twitter igen</string>
+	<string name="auth_again">Påbörja koppling mot Twitter igen/string>
 	<string name="auth_pin_hint">PIN erhållen från Twitter</string>
 	<string name="auth_finish">Bekräfta PIN</string>
 	<string name="auth_dialog_wait">Väntar på Twitter...</string>
@@ -211,11 +211,11 @@
 	<string name="cache_count_more">cacher</string>
 	<string name="cache_offline">Offline</string>
 	<string name="cache_offline_refresh">Uppdatera</string>
-	<string name="cache_offline_drop">Lämna</string>
+	<string name="cache_offline_drop">Radera</string>
 	<string name="cache_offline_store">Spara</string>
 	<string name="cache_offline_stored">Sparad i enheten</string>
 	<string name="cache_offline_not_ready">Inte redo\nför användning offline</string>
-	<string name="cache_offline_time_about">Om</string>
+	<string name="cache_offline_time_about">för</string>
 	<string name="cache_offline_time_mins">minuter sedan</string>
 	<string name="cache_offline_time_mins_few">några minuter sedan</string>
 	<string name="cache_offline_time_hour">en timme sedan</string>
