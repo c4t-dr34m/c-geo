@@ -53,7 +53,7 @@
 	<string name="log_retrieved">Retrieved</string>
 	<string name="log_grabbed">Grabbed</string>
 	<string name="log_needs">Needs maintenance</string>
-	<string name="log_maintenance">Maitenance</string>
+	<string name="log_maintenance">Maintenance performed</string>
 	<string name="log_update">Updated coordinates</string>
 	<string name="log_archived">Archived</string>
 	<string name="log_discovered">Discovered</string>

@@ -948,7 +948,7 @@ public class cgeomap extends MapActivity {
 			coord.type = "waypoint";
 			coord.latitude = oneLatitude;
 			coord.longitude = oneLongitude;
-			coord.name = "some plase";
+			coord.name = "some place";
 
 			coordinates.add(coord);
 			cgOverlayItem item = new cgOverlayItem(coord);

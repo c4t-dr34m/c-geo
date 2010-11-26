@@ -15,7 +15,7 @@
 	<string name="all">Alla cacher</string>
 	<string name="traditional">Traditionell cache</string>
 	<string name="multi">Multi-cache</string>
-	<string name="mystery">Mystery cache</string>
+	<string name="mystery">Mysterie cache</string>
 	<string name="letterbox">Letterbox hybrid</string>
 	<string name="event">Event cache</string>
 	<string name="mega">Mega-event cache</string>
@@ -25,8 +25,8 @@
 	<string name="virtual">Virtuell cache</string>
 	<string name="wherigo">Wherigo cache</string>
 	<string name="lostfound">Lost &amp; found</string>
-	<string name="ape">Project ape cache</string>
-	<string name="gchq">Groundspeak hq</string>
+	<string name="ape">Projekt APE cache</string>
+	<string name="gchq">Groundspeak HQ</string>
 	<string name="gps">GPS cache utställning</string>
 
 	<!-- waypoints -->
@@ -70,30 +70,30 @@
 	<string name="log_new_webcam">Foto taget med Webcam</string>
 	<string name="log_new_maintenance">Behöver underhåll</string>
 	<string name="log_new_maintenance_owner">Underhåll utfört</string>
-	<string name="log_new_grab">Tagen från någonstans</string>
+	<string name="log_new_grab">Tagen från annan</string>
 	<string name="log_new_retrieve">Hämtad från cache</string>
 	<string name="log_new_discovered">Sett</string>
 	<string name="log_new_review">Granskad</string>
 
 	<!-- errors -->
 	<string name="err_none">Ok</string>
-	<string name="err_start">Kommunikation har inte påbörjats</string>
+	<string name="err_start">Kommunikationen har inte påbörjats</string>
 	<string name="err_parse">Misslyckades analysera inloggningssidan</string>
 	<string name="err_server">Misslyckades att ansluta till geocaching.com (servern eller anslutningen nere?)</string>
-	<string name="err_login">Ingen inloggningsinformation sparad</string>
+	<string name="err_login">Inloggningsinformationen ej sparad</string>
 	<string name="err_unknown">Okänt fel</string>
 	<string name="err_comm">Okänt kommunikationsfel</string>
 	<string name="err_wrong">Felaktiga inloggningsuppgifter</string>
-	<string name="err_license">Användare har inte bekräftat licensavtalet med geocaching.com</string>
+	<string name="err_license">Användaren har inte bekräftat licensavtalet med geocaching.com</string>
 	<string name="err_store">Tyvärr, c:geo kan inte spara cachen.</string>
-	<string name="err_drop">Tyvärr, c:geo kan inte släppa cachen.</string>
+	<string name="err_drop">Tyvärr, c:geo kan inte ta bort cachen.</string>
 	<string name="err_title_problem">Problem</string>
-	<string name="err_detail_open">Tyvärr, c:geo kan inte öppna detaljer om geocachen.</string>
+	<string name="err_detail_open">Tyvärr, c:geo kan inte visa detaljer om geocachen.</string>
 	<string name="err_detail_cache">Tyvärr, c:geo kan inte visa den geocache du önskar. Är det verkligen en geocache?</string>
 	<string name="err_detail_cache_find">Tyvärr, c:geo kan inte hitta geocache</string>
-	<string name="err_detail_cache_find_some">Tyvärr, c:geo kan inte hitta den geocachen.</string>
-	<string name="err_detail_cache_forgot">Tyvärr, c:geo glömde vilken geocache du önskade.</string>
-	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd att visa på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
+	<string name="err_detail_cache_find_some">Tyvärr, c:geo kan inte hitta geocachen.</string>
+	<string name="err_detail_cache_forgot">Tyvärr, c:geo glömde vilken geocache du ville se.</string>
+	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd för att visas på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
 	<string name="err_detail_no_spoiler">c:geo hittade inga spoiler bilder för den här cachen.</string>
 	<string name="err_detail_no_map_static">c:geo hittade inga statiska kartor för denna cache.</string>
 	<string name="err_detail_still_removing">Fortsätter att ta bort denna cache.</string>
@@ -105,8 +105,8 @@
 	<string name="err_radar_generic">Tyvärr, c:geo kan inte starta programmet Radar. Är det verkligen installerat?</string>
 	<string name="err_navigation_no">c:geo kan inte hitta något stöd för navigering.</string>
 	<string name="err_application_no">c:geo kan inte hitta något lämpligt program.</string>
-	<string name="err_auth_initialize">Tyvärr, c:geo misslyckades att starta autheniseringsproceduren.</string>
-	<string name="err_auth_process">Authentiserings proceduren misslyckades.</string>
+	<string name="err_auth_initialize">Tyvärr, c:geo misslyckades att starta inloggningsproceduren.</string>
+	<string name="err_auth_process">Inloggningsproceduren misslyckades.</string>
 	<string name="err_cannot_log_visit">c:geo har inte tillräckligt med information för att logga ditt besök. Vänligen, försök igen från vyn men all information on cachen.</string>
 	<string name="err_init_cleared">Tyvärr, c:geo kan inte rensa inloggningsinställningarna.</string>
 	<string name="err_no_chaches">Tyvärr, c:geo misslyckades att ladda cachen eller cacherna.</string>
@@ -116,7 +116,7 @@
 	<string name="warn_save_nothing">Det finns inget att spara.</string>
 	<string name="warn_no_cache_coord">Det finns inga koordinater för cachen.</string>
 
-	<string name="info_altitude">Nuvarande altitude</string>
+	<string name="info_altitude">Nuvarande höjd</string>
 	<string name="info_distance">Rest sträcka</string>
 	<string name="info_distance_cleared">Rest sträcka har rensats.</string>
 	<string name="info_since">\n(sedan </string>
@@ -149,7 +149,7 @@
 	<string name="caches_no_cache">Ingen cache</string>
 	<string name="caches_more_caches">Fler cacher</string>
 	<string name="caches_more_caches_no">Inga fler cacher</string>
-	<string name="caches_downloading">Laddar ner cacher....\nTid kvar: </string>
+	<string name="caches_downloading">Laddar ner cacher...\nTid kvar: </string>
 	<string name="caches_eta_ltm">Mindre än en minut</string>
 	<string name="caches_eta_mins"> minuter</string>
 	<string name="caches_no_caches"> (inga cacher)</string>
@@ -180,7 +180,7 @@
 	<string name="init_signature">Signatur</string>
 	<string name="init_other">Övriga inställningar</string>
 	<string name="init_skin">Vitt skal (kräver omstart av c:geo)</string>
-	<string name="init_transparent">Använd transparent huvudmeny</string>
+	<string name="init_transparent">Transparent huvudmeny</string>
 	<string name="init_address">Visa adress på huvudskärmen</string>
 	<string name="init_exclude">Dölj egna och hittade cacher</string>
 	<string name="init_disabled">Dölj arkiverade cacher</string>
@@ -202,7 +202,7 @@
 	<string name="auth_finish">Bekräfta PIN</string>
 	<string name="auth_dialog_wait">Väntar på Twitter...</string>
 	<string name="auth_dialog_pin_title">PIN kod</string>
-	<string name="auth_dialog_pin_message">Vänligen skriv in PIN koden du fick på Twitters hemsida. Det krävs för att slutföra kopplingen.</string>
+	<string name="auth_dialog_pin_message">Vänligen skriv in PIN koden du fick på Twitters hemsida. Den krävs för att slutföra kopplingen.</string>
 	<string name="auth_dialog_completed">c:geo är nu godkänd att posta på Twitter.</string>
 
 	<!-- cache -->
@@ -244,7 +244,7 @@
 	<string name="cache_menu_radar">Radar</string>
 	<string name="cache_menu_map">Visa på kartan</string>
 	<string name="cache_menu_map_ext">Visa på extern karta</string>
-	<string name="cache_menu_map_static">Static kartor</string>
+	<string name="cache_menu_map_static">Statiska kartor</string>
 	<string name="cache_menu_browser">Öppna i webbläsare</string>
 	<string name="cache_menu_visit">Logga besök</string>
 	<string name="cache_menu_spoilers">Spoiler bilder</string>
@@ -253,7 +253,7 @@
 	<string name="cache_menu_details">Detaljer</string>
 	<string name="cache_status">Status</string>
 	<string name="cache_status_offline_log">Sparad logg</string>
-	<string name="cache_status_found">Hittat</string>
+	<string name="cache_status_found">Hittad</string>
 	<string name="cache_status_archived">Arkiverad</string>
 	<string name="cache_status_disabled">Inaktiverad</string>
 	<string name="cache_status_premium">Enbart för Premium medlemmar</string>
@@ -271,11 +271,11 @@
 	<string name="cache_calendars">Välj kalender</string>
 
 	<!-- event -->
-	<string name="event_success">Event cache tillagt i kalender</string>
-	<string name="event_fail">Misslyckades att lägga till event cache i kalender</string>
+	<string name="event_success">Event tillagd i kalender</string>
+	<string name="event_fail">Misslyckades att lägga till event i kalender</string>
 
 	<!-- popup -->
-	<string name="popup_more">Mera detaljer</string>
+	<string name="popup_more">Mer information</string>
 	<string name="popup_log_visit">Logga besök</string>
 	<string name="popup_navigation">Navigering</string>
 
@@ -302,9 +302,9 @@
 	<string name="map_view_satellite">Satellitvy</string>
 	<string name="map_view_map">Kartvy</string>
 	<string name="map_trail_show">Visa spår</string>
-	<string name="map_trail_hide">Visa spår</string>
+	<string name="map_trail_hide">Dölj spår</string>
 	<string name="map_live_enable">Aktivera live</string>
-	<string name="map_live_disable">Avaktivera live</string>
+	<string name="map_live_disable">Inaktivera live</string>
 
 	<!-- search -->
 	<string name="search_coordinates">Koordinater</string>
@@ -330,7 +330,7 @@
 
 	<!-- next things -->
 	<string name="legal_note">För att använda tjänster hos geocaching.com, måste regler och villkor i <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeaks avtal</a> godkännas.</string>
-	<string name="about_text"><b>c:geo</b> är utformat för att en enkel client som alltid är redo för geocaching.com. Den är och kommer alltid att vara gratis. Om du will bidra till utveckling, så kan du donera (via hemsidan). Frågor eller kommentarer? Använd Facebook eller e-posta till mig.</string>
+	<string name="about_text"><b>c:geo</b> är utformat för att vara ett enkelt program som alltid är redo för geocaching.com. Det är och kommer alltid att vara gratis. Om du will bidra till utvecklingen, så är du välkommen att donera (med knapparna nedan). Frågor eller kommentarer? Använd Facebook eller e-posta till mig.</string>
 	<string name="author">Upphovsman: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
 	<string name="website">Hemsida: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
@@ -338,8 +338,8 @@
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
 	<string name="graphic">Bilder på huvudskärmen designade av <a href="http://iirojappinen.com/">Iiro Jäppinen</a>,
 grafiska element av <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
-	<string name="about_go4cache">Tjänsten <b>Go 4 Cache</b> visar andra geocachare på kartan i realtid (i <b>c:geo</b> eller webbläsaren). Du kan till exemple se vilken cache de letar efter. Genom att ansluta till <b>Go 4 Cache</b> tillåter du <b>c:geo</b> att publicera din nuvarande plats när du geocachar (bara när <b>c:geo</b> är igång).</string>
+	<string name="about_go4cache">Tjänsten <b>Go 4 Cache</b> visar andra geocachare på kartan i realtid (i <b>c:geo</b> eller webbläsaren). Du kan till exempel se vilken cache de letar efter. Genom att ansluta till <b>Go 4 Cache</b> tillåter du <b>c:geo</b> att publicera din nuvarande plats när du geocachar (bara när <b>c:geo</b> är igång).</string>
 	<string name="about_twitter">Ska <b>c:geo</b> publicera ny status på Twitter varje gång en cache loggas?</string>
 	<string name="about_auth_1">Nedan tillåter du <b>c:geo</b> att ansluta till Twitter.</string>
-	<string name="about_auth_2">Klicka på "Påbörja koppling mot Twitter" om du vill koppla ihop <b>c:geo</b> med Twitter. Twitters hemsida kommer att öppnas i en webbläsare. Logga in på den sida och tillåt <b>c:geo</b> att ansluta till ditt konto. När du godkänt så kommer Twitter visa en PIN kod. Kom ihåg denna PIN, stäng webbläsaren och klipp in PIN koden i <b>c:geo</b> och bekräfta. Det är allt.</string>
+	<string name="about_auth_2">Klicka på "Påbörja koppling mot Twitter" om du vill koppla ihop <b>c:geo</b> med Twitter. Twitters hemsida kommer att öppnas i en webbläsare. Logga in på den sidan och tillåt <b>c:geo</b> att ansluta till ditt konto. När du godkänt så kommer Twitter att visa en PIN kod. Kom ihåg denna PIN kod, stäng webbläsaren och skriv in PIN koden i <b>c:geo</b> och bekräfta.</string>
 </resources>
