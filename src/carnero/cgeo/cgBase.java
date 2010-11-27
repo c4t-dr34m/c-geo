@@ -1292,7 +1292,7 @@ public class cgBase {
 							}
 
 							long logDate;
-							if (year > 0 && month > 0 && day > 0) {
+							if (year > 0 && month >= 0 && day > 0) {
 								Calendar date = Calendar.getInstance();
 								date.set(year, month, day, 12, 0, 0);
 								logDate = date.getTimeInMillis();
