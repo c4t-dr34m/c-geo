@@ -93,12 +93,12 @@
 		<item name="android:layout_weight">1</item>
 		<item name="android:padding">4dip</item>
 		<item name="android:gravity">center_vertical|left</item>
-		<item name="android:color">@color/just_white</item>
 		<item name="android:singleLine">true</item>
 		<item name="android:scrollHorizontally">true</item>
 		<item name="android:ellipsize">marquee</item>
 		<item name="android:lines">1</item>
 		<item name="android:textSize">20dip</item>
+		<item name="android:textColor">@color/just_white</item>
 		<item name="android:text">c:geo</item>
 	</style>
 
