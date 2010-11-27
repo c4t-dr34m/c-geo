@@ -930,6 +930,8 @@ public class cgeodetail extends Activity {
 					markDisabled.setVisibility(View.GONE);
 				}
 
+				rowView.setOnClickListener(new decryptLog());
+
 				listView.addView(rowView);
 			}
 
@@ -1419,12 +1421,33 @@ public class cgeodetail extends Activity {
 
 	private class addWaypoint implements View.OnClickListener {
 
-		public void onClick(View arg0) {
+		public void onClick(View view) {
 			Intent addWptIntent = new Intent(activity, cgeowaypointadd.class);
 
 			addWptIntent.putExtra("geocode", geocode);
 
 			activity.startActivity(addWptIntent);
+		}
+	}
+
+	private class decryptLog implements View.OnClickListener {
+
+		public void onClick(View view) {
+			if (view == null) {
+				return;
+			}
+
+			try {
+				final TextView logView = (TextView)view.findViewById(R.id.log);
+
+				if (logView != null) {
+					final String logText = logView.getText().toString();
+
+					logView.setText(base.rot13(logText));
+				}
+			} catch (Exception e) {
+				// nothing
+			}
 		}
 	}
 
