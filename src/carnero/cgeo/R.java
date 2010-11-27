@@ -556,6 +556,7 @@ containing a value of this type.
  about 
  about 
  about 
+ about 
          */
         public static final int about_changelog=0x7f070088;
         public static final int about_detail=0x7f07008a;
@@ -567,10 +568,12 @@ containing a value of this type.
         public static final int about_twitter=0x7f070128;
         public static final int action_bar_share=0x7f070009;
         /**  actionbar 
+ actionbar 
          */
         public static final int action_bar_share_title=0x7f070008;
         public static final int advanced_search_button=0x7f070077;
         /**  caches 
+ caches 
  caches 
  caches 
  caches 
@@ -599,10 +602,12 @@ containing a value of this type.
  auth 
  auth 
  auth 
+ auth 
          */
         public static final int auth_twitter=0x7f0700a8;
         public static final int author=0x7f070121;
         /**  basics 
+ basics 
  basics 
  basics 
  basics 
@@ -616,6 +621,7 @@ containing a value of this type.
         public static final int cache_coordinates=0x7f0700ef;
         public static final int cache_count_more=0x7f0700b4;
         /**  cache 
+ cache 
  cache 
  cache 
  cache 
@@ -695,6 +701,7 @@ containing a value of this type.
  caches 
  caches 
  caches 
+ caches 
          */
         public static final int caches_no_cache=0x7f07007e;
         public static final int caches_no_caches=0x7f070084;
@@ -734,6 +741,7 @@ containing a value of this type.
  errors 
  errors, warnings, info toasts 
  errors 
+ errors, warnings, info toasts 
  errors 
  errors 
  errors 
@@ -760,6 +768,7 @@ containing a value of this type.
  event 
  event 
  event 
+ event 
          */
         public static final int event_success=0x7f0700f1;
         public static final int facebook=0x7f070124;
@@ -780,6 +789,7 @@ containing a value of this type.
         public static final int init_exclude=0x7f07009e;
         public static final int init_gcvote=0x7f07008e;
         /**  init 
+ init 
  init 
  init 
  init 
@@ -813,6 +823,7 @@ containing a value of this type.
  next things 
  next things 
  next things 
+ next things 
          */
         public static final int legal_note=0x7f07011f;
         public static final int letterbox=0x7f07000e;
@@ -823,10 +834,12 @@ containing a value of this type.
  main screen 
  main screen 
  main screen 
+ main screen 
          */
         public static final int live_map_button=0x7f070075;
         public static final int loc_gps=0x7f07006e;
         /**  location service 
+ location service 
  location service 
  location service 
  location service 
@@ -854,6 +867,7 @@ containing a value of this type.
  logs 
  logs 
  logs 
+ logs 
          */
         public static final int log_found=0x7f070020;
         public static final int log_grabbed=0x7f070029;
@@ -865,6 +879,7 @@ containing a value of this type.
         public static final int log_new_discovered=0x7f070040;
         public static final int log_new_dnf=0x7f070036;
         /**  new logs 
+ new logs 
  new logs 
  new logs 
  new logs 
@@ -896,6 +911,7 @@ containing a value of this type.
         /**  map 
  map 
  map 
+ map 
          */
         public static final int map_map=0x7f070103;
         public static final int map_trail_hide=0x7f070108;
@@ -904,6 +920,7 @@ containing a value of this type.
         public static final int map_view_satellite=0x7f070105;
         public static final int mega=0x7f070010;
         /**  standard menu 
+ standard menu 
  standard menu 
  standard menu 
  standard menu 
@@ -925,6 +942,7 @@ containing a value of this type.
  popup 
  popup 
  popup 
+ popup 
          */
         public static final int popup_more=0x7f0700f3;
         public static final int popup_navigation=0x7f0700f5;
@@ -932,6 +950,7 @@ containing a value of this type.
         public static final int search_address=0x7f07010d;
         public static final int search_address_button=0x7f07010e;
         /**  search 
+ search 
  search 
  search 
          */
@@ -968,6 +987,7 @@ containing a value of this type.
  visit 
  visit 
  visit 
+ visit 
          */
         public static final int visit_tweet=0x7f070102;
         public static final int warn_no_cache_coord=0x7f070067;
@@ -975,6 +995,7 @@ containing a value of this type.
         public static final int waypoint_add_title=0x7f0700fe;
         public static final int waypoint_bearing=0x7f0700f8;
         /**  waypoint 
+ waypoint 
  waypoint 
  waypoint 
  waypoint 
@@ -996,6 +1017,7 @@ containing a value of this type.
         public static final int website=0x7f070123;
         public static final int wherigo=0x7f070015;
         /**  waypoints 
+ waypoints 
  waypoints 
  waypoints 
  waypoints 

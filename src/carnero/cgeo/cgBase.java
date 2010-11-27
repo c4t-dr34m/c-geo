@@ -3016,7 +3016,7 @@ public class cgBase {
 		}
 
 		// maintenance, archived needs to be confirmed
-		final Pattern pattern = Pattern.compile("<span id=\"ctl00_ContentBody_LogBookPanel1_lbConfirm\"[^>]*>(<font[^>]*>)?([^<]+)(<\\/font>)?<\\/span>", Pattern.CASE_INSENSITIVE);
+		final Pattern pattern = Pattern.compile("<span id=\"ctl00_ContentBody_LogBookPanel1_lbConfirm\"[^>]*>([^<]*<font[^>]*>)?([^<]+)(<\\/font>[^<]*)?<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Matcher matcher = pattern.matcher(page);
 
 		try {
@@ -3039,7 +3039,7 @@ public class cgBase {
 				params.put("__EVENTARGUMENT", "");
 				params.put("__LASTFOCUS", "");
 				params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
-				params.put("ctl00$ContentBody$LogBookPanel1$btnConfirm", "[Yes]");
+				params.put("ctl00$ContentBody$LogBookPanel1$btnConfirm", "Yes");
 				params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
 
 				page = request(host, path, method, params, false, false, false);
