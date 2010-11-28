@@ -349,7 +349,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 
 	<!-- changelog -->
 	<string name="changelog">
-<b>1.13</b> (__.11.2010)\n
+<b>1.13</b> (28.11.2010)\n
 · new: ActionBar\n
 · fix: Displaying inventory in cache list\n
 · fix: Ability to decrypt any log\n
