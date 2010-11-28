@@ -3038,9 +3038,29 @@ public class cgBase {
 				params.put("__EVENTTARGET", "");
 				params.put("__EVENTARGUMENT", "");
 				params.put("__LASTFOCUS", "");
-				params.put("ctl00$ContentBody$LogBookPanel1$tbLogInfo", log);
 				params.put("ctl00$ContentBody$LogBookPanel1$btnConfirm", "Yes");
+				params.put("ctl00$ContentBody$LogBookPanel1$uxLogInfo", log);
 				params.put("ctl00$ContentBody$uxVistOtherListingGC", "");
+				if (trackables != null && trackables.isEmpty() == false) { //  we have some trackables to proceed
+					final StringBuilder hdnSelected = new StringBuilder();
+
+					for (cgTrackableLog tb : trackables) {
+						String ctl = null;
+						final String action = Integer.toString(tb.id) + logTypesTrackableAction.get(tb.action);
+
+						if (tb.ctl < 10) ctl = "0" + Integer.toString(tb.ctl);
+						else ctl = Integer.toString(tb.ctl);
+
+						params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$repTravelBugs$ctl" + ctl + "$ddlAction", action);
+						if (tb.action > 0) {
+							hdnSelected.append(action);
+							hdnSelected.append(",");
+						}
+					}
+
+					params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$hdnSelectedActions", hdnSelected.toString()); // selected trackables
+					params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$hdnCurrentFilter", "");
+				}
 
 				page = request(host, path, method, params, false, false, false);
 			}

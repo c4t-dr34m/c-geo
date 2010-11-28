@@ -351,7 +351,9 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="changelog">
 <b>1.13</b> (__.11.2010)\n
 · new: ActionBar\n
-· fix: Fixed displaying inventory in cache list\n
+· fix: Displaying inventory in cache list\n
+· fix: Ability to decrypt any log\n
+· fix: Default action for TBs when logging visit\n
 · change: GUI overhaul\n
 · change: English and german translation (by thiasB)\n
 · change: Swedish translation (by YraFyra)\n
