@@ -89,7 +89,7 @@
 	<string name="err_unknown">Unknown error</string>
 	<string name="err_comm">Unknown communication error</string>
 	<string name="err_wrong">Wrong login informations</string>
-	<string name="err_license">User has not agreed to Geocaching.com license agreement, so c:geo can't load caches coordinates.</string>
+	<string name="err_license">User has not agreed to Geocaching.com license agreement, so c:geo can\'t load caches coordinates.</string>
 	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
 	<string name="err_drop">Sorry, c:geo can\'t drop cache.</string>
 	<string name="err_title_problem">Problem</string>
@@ -297,6 +297,7 @@
 	<string name="cache_location">Location</string>
 	<string name="cache_coordinates">Coordinates</string>
 	<string name="cache_calendars">Select calendar</string>
+	<string name="cache_gpx_import">Import GPX file</string>
 
 	<!-- event -->
 	<string name="event_success">Event cache added to calendar</string>
@@ -305,6 +306,7 @@
 	<!-- popup -->
 	<string name="popup_more">More details</string>
 	<string name="popup_log_visit">Log visit</string>
+	<string name="popup_offline">Offline</string>
 	<string name="popup_navigation">Navigation</string>
 
 	<!-- waypoint -->
@@ -385,6 +387,11 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 
 	<!-- changelog -->
 	<string name="changelog">
+<b>1.14</b> (29.11.2010)\n
+· change: ActionBar not shown on small screens\n
+· fix: Crashing of static maps\n
+· fix: Loading some logs\n
+\n
 <b>1.13</b> (28.11.2010)\n
 · new: ActionBar\n
 · fix: Displaying inventory in cache list\n

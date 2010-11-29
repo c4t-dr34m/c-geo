@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class cgeosmaps extends Activity {
+
 	private ArrayList<Bitmap> maps = new ArrayList<Bitmap>();
 	private String geocode = null;
 	private cgeoapplication app = null;
@@ -27,13 +28,15 @@ public class cgeosmaps extends Activity {
 	private ProgressDialog waitDialog = null;
 	private LinearLayout smapsView = null;
 	private BitmapFactory factory = null;
-
 	private Handler loadMapsHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
 				if (maps == null || maps.isEmpty()) {
-					if (waitDialog != null) waitDialog.dismiss();
+					if (waitDialog != null) {
+						waitDialog.dismiss();
+					}
 
 					warning.showToast("Sorry, c:geo failed to load static maps.");
 
@@ -49,37 +52,37 @@ public class cgeosmaps extends Activity {
 					}
 
 					if (smapsView == null) {
-						smapsView = (LinearLayout)findViewById(R.id.maps_list);
+						smapsView = (LinearLayout) findViewById(R.id.maps_list);
 					}
 					smapsView.removeAllViews();
 
 					int cnt = 1;
 					for (Bitmap image : maps) {
 						if (image != null) {
-							final LinearLayout mapView = (LinearLayout)inflater.inflate(R.layout.map_static_item, null);
-
-							((TextView)mapView.findViewById(R.id.title)).setText("map #" + cnt);
-							((ImageView)mapView.findViewById(R.id.map_image)).setImageBitmap(image);
-
-							smapsView.addView(mapView);
-							cnt ++;
+							final ImageView map = (ImageView) inflater.inflate(R.layout.map_static_item, null);
+							map.setImageBitmap(image);
+							smapsView.addView(map);
+							
+							cnt++;
 						}
 					}
 				}
 			} catch (Exception e) {
-				if (waitDialog != null) waitDialog.dismiss();
+				if (waitDialog != null) {
+					waitDialog.dismiss();
+				}
 				Log.e(cgSettings.tag, "cgeosmaps.loadMapsHandler: " + e.toString());
 			}
 		}
 	};
 
-    @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// init
 		activity = this;
-		app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
@@ -114,25 +117,32 @@ public class cgeosmaps extends Activity {
 	}
 
 	private class loadMaps extends Thread {
-	   @Override
-	   public void run() {
-			try {
-				if (factory == null) factory = new BitmapFactory();
 
-				for (int level = 1; level <= 5; level ++) {
+		@Override
+		public void run() {
+			try {
+				if (factory == null) {
+					factory = new BitmapFactory();
+				}
+
+				for (int level = 1; level <= 5; level++) {
 					try {
 						Bitmap image = factory.decodeFile(settings.getStorage() + geocode + "/map_" + level);
-						if (image != null) maps.add(image);
+						if (image != null) {
+							maps.add(image);
+						}
 					} catch (Exception e) {
 						Log.e(cgSettings.tag, "cgeosmaps.loadMaps.run.1: " + e.toString());
 					}
 				}
 
 				if (maps.isEmpty() == true) {
-					for (int level = 1; level <= 5; level ++) {
+					for (int level = 1; level <= 5; level++) {
 						try {
 							Bitmap image = factory.decodeFile(settings.getStorageSec() + geocode + "/map_" + level);
-							if (image != null) maps.add(image);
+							if (image != null) {
+								maps.add(image);
+							}
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "cgeosmaps.loadMaps.run.2: " + e.toString());
 						}
@@ -143,7 +153,7 @@ public class cgeosmaps extends Activity {
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeosmaps.loadMaps.run: " + e.toString());
 			}
-	   }
+		}
 	}
 
 	public void goHome(View view) {
