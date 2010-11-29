@@ -40,13 +40,13 @@
 					android:hint="@string/waypoint_name" />
 			<EditText style="@style/edittext"
 					android:id="@+id/note"
-					android:hint="note"
+					android:hint="@string/waypoint_note"
 					android:singleLine="false"
 					android:lines="6"
 					android:capitalize="sentences" />
 			<Button style="@style/button"
 					android:id="@+id/add_waypoint"
-					android:text="save" />
+					android:text="@string/waypoint_save" />
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
