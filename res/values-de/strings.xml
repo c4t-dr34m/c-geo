@@ -11,7 +11,8 @@
 	<string name="helper">Nicht vergessen, durch Drücken des <b>MENU;</b> Buttons auf dem Handy erscheinen vielen Funktionen von <b>c:geo</b>!</string>
 
 	<!-- caches -->
-	<string name="all">Alle Cachetypen</string>
+	<string name="all">Alle Caches</string>
+	<string name="all_types">Alle Cachetypen</string>
 	<string name="traditional">Traditional Cache</string>
 	<string name="multi">Multi-Cache</string>
 	<string name="mystery">Mystery Cache</string>
@@ -83,16 +84,18 @@
 	<string name="err_unknown">Unbekannter Fehler</string>
 	<string name="err_comm">Unbekannter Kommunikationsfehler</string>
 	<string name="err_wrong">Falsche Anmeldedaten</string>
-	<string name="err_license">Die Geocaching.com Nutzungsbedingungen wurden nicht akzeptiert.</string>
-	<string name="err_store">Sorry, c:geo kann den Cache nicht speichern.</string>
-	<string name="err_drop">Sorry, c:geo kann den Cache nicht löschen.</string>
+	<string name="err_license">Die Geocaching.com Nutzungsbedingungen wurden nicht akzeptiert. c:geo kann deshalb keine Koordinaten laden.</string>
+	<string name="err_store">c:geo konnte den Cache nicht speichern.</string>
+	<string name="err_drop">c:geo konnte den Cache nicht löschen.</string>
 	<string name="err_title_problem">Problem</string>
-	<string name="err_detail_open">Sorry, c:geo kann Cache-Details nichts öffnen.</string>
-	<string name="err_detail_cache">Sorry, c:geo kann diesen Cache nicht darstellen. Ist es wirklich ein Cache?</string>
-	<string name="err_detail_cache_find">Sorry, c:geo kann keinen Cache finden.</string>
-	<string name="err_detail_cache_find_some">Sorry, c:geo kann diesen Cache nicht finden.</string>
-	<string name="err_detail_cache_forgot">Sorry, c:geo hat vergessen welcher Cache aufgerufen werden sollte.</string>
-	<string name="err_detail_cache_language">c:geo kann manche Details des Caches nicht lesen. Bitte überprüfen, ob geocaching.com auf "English" gestellt wurde. Leider versteht c:geo keine andere Spracheinstellungen.</string>
+	<string name="err_detail_open">c:geo konnte die Cache-Details nicht öffnen.</string>
+	<string name="err_detail_cache">c:geo konnte diesen Cache nicht darstellen. Ist es wirklich ein Cache?</string>
+	<string name="err_detail_cache_find">c:geo konnte keinen Cache finden.</string>
+	<string name="err_detail_cache_find_some">c:geo konnte diesen Cache nicht finden.</string>
+	<string name="err_detail_cache_find_any">c:geo konnte keine Caches finden.</string>
+	<string name="err_detail_cache_find_next">c:geo konnte die nächsten Caches nicht finden.</string>
+	<string name="err_detail_cache_forgot">c:geo hat vergessen, welcher Cache aufgerufen werden sollte.</string>
+	<string name="err_detail_cache_language">c:geo konnte manche Details des Caches nicht lesen. Bitte überprüfen, ob geocaching.com auf "English" gestellt wurde. Leider versteht c:geo keine andere Spracheinstellungen.</string>
 	<string name="err_detail_no_spoiler">c:geo hat kein Hinweisbild für diesen Cache gefunden.</string>
 	<string name="err_detail_no_map_static">c:geo hat keine statische Karte für diesen Cache gefunden.</string>
 	<string name="err_detail_still_removing">c:geo löscht diesen Cache noch immer.</string>
@@ -100,20 +103,24 @@
 	<string name="err_detail_still_refreshing">c:geo versucht noch immer diesen Cache zu aktualiseren.</string>
 	<string name="err_radar_title">Radar Anwendung ist nicht installiert.</string>
 	<string name="err_radar_message">Diese Funktion benötigt die Radar Anwendung. Soll diese installiert werden?</string>
-	<string name="err_radar_market">c:geo kann den Android Market nicht starten, um nach der Radar Anwendung zu suchen.</string>
-	<string name="err_radar_generic">Sorry, c:geo kann die Radar Anwendung nicht starten. Ist sie installiert?</string>
-	<string name="err_navigation_no">c:geo kann keine unterstützte Art der Navigation finden.</string>
-	<string name="err_application_no">c:geo kann keine passende Anwendung finden.</string>
-	<string name="err_auth_initialize">Sorry, c:geo konnte die Autorisierung nicht initialisieren.</string>
+	<string name="err_radar_market">c:geo konnte den Android Market nicht starten, um nach der Radar Anwendung zu suchen.</string>
+	<string name="err_radar_generic">c:geo konnte die Radar Anwendung nicht starten. Ist sie installiert?</string>
+	<string name="err_navigation_no">c:geo konnte keine unterstützte Art der Navigation finden.</string>
+	<string name="err_application_no">c:geo konnte keine passende Anwendung finden.</string>
+	<string name="err_auth_initialize">c:geo konnte die Autorisierung nicht initialisieren.</string>
 	<string name="err_auth_process">Autorisierung fehlgeschlagen.</string>
 	<string name="err_cannot_log_visit">c:geo hat nicht genügend Informationen um den Besuch zu loggen. Bitte über die Cache-Details versuchen.</string>
-	<string name="err_init_cleared">Sorry, c:geo kann die Anmeldedaten nicht entfernen.</string>
-	<string name="err_no_chaches">Sorry, c:geo konnte die Caches nicht laden.</string>
-	<string name="err_download_fail">Sorry, c:geo konnte keine Caches laden, weil </string>
+	<string name="err_init_cleared">c:geo konnte die Anmeldedaten nicht entfernen.</string>
+	<string name="err_no_chaches">c:geo konnte die Caches nicht laden.</string>
+	<string name="err_download_fail">c:geo konnte keine Caches laden, weil </string>
 	<string name="err_update_fail">Update der gereisten Strecke fehlgeschlagen.</string>
+	<string name="err_list_load_fail">Laden der Cacheliste fehlgeschlagen.</string>
 
 	<string name="warn_save_nothing">Es gibt nichts zum speichern.</string>
 	<string name="warn_no_cache_coord">Es gibt hier keinen Cache mit Koordinaten.</string>
+	<string name="warn_no_coordinates">Keine Koordinaten angegeben.</string>
+	<string name="warn_no_keyword">Kein Stichwort angegeben.</string>
+	<string name="warn_no_username">Kein Benutzernamen angegeben.</string>
 
 	<string name="info_altitude">Momentane Höhe</string>
 	<string name="info_distance">Gereiste Strecke</string>
@@ -149,12 +156,27 @@
 	<string name="caches_more_caches">Mehr Caches</string>
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
 	<string name="caches_downloading">Lade Caches...\nETA: </string>
+	<string name="caches_progress_loading_title">Lade Caches</string>
+	<string name="caches_progress_loading_text">Gespeicherte Caches</string>
 	<string name="caches_eta_ltm">Weniger als eine Minute</string>
 	<string name="caches_eta_mins"> Minuten</string>
+	<string name="caches_eta_min"> Minute</string>
 	<string name="caches_no_caches"> (keine Caches)</string>
 	<string name="caches_store_offline">Für Offline speichern</string>
+	<string name="caches_store_selected">Ausgewählte speichern</string>
+	<string name="caches_stored">Gespeichert</string>
 	<string name="caches_on_map">Zeige auf Karte</string>
 	<string name="caches_select">Wähle von Liste</string>
+	<string name="caches_select_mode">Auswahlmodus</string>
+	<string name="caches_select_mode_exit">Auswahlmodus beenden</string>
+	<string name="caches_nearby">In der Nähe</string>
+	<string name="caches_drop_selected">Ausgewählte löschen</string>
+	<string name="caches_drop_selected_ask">Bist du sicher, dass die ausgewählten Caches vom Gerät gelöscht werden sollen?</string>
+	<string name="caches_drop_all">Lösche Alle</string>
+	<string name="caches_drop_all_ask">Bist du sicher, dass alle Caches vom Gerät gelöscht werden sollen?</string>
+	<string name="caches_drop_stored">Gespeicherte löschen</string>
+	<string name="caches_refresh_selected">Ausgewählte aktualisieren</string>
+	<string name="caches_refresh_all">Alle aktualisieren</string>
 
 	<!-- about -->
 	<string name="about_changelog">Änderungen</string>
@@ -268,6 +290,7 @@
 	<string name="cache_location">Bundesland</string>
 	<string name="cache_coordinates">Koordinaten</string>
 	<string name="cache_calendars">Kalender auswählen</string>
+       <string name="cache_gpx_import">Importiere GPX-Datei</string>
 
 	<!-- event -->
 	<string name="event_success">Event Cache zum Kalender hinzugefügt</string>
@@ -315,6 +338,9 @@
 	<string name="search_kw">Stichworte</string>
 	<string name="search_kw_prefill">Stichwörter</string>
 	<string name="search_kw_button">Suche mit Stichwörtern</string>
+	<string name="search_kw_caches">Caches nach Stichwort</string>
+	<string name="search_caches_found_by">Caches gefunden von</string>
+	<string name="search_caches_hidden_by">Caches versteckt von</string>
 	<string name="search_fbu">Gefunden von</string>
 	<string name="search_fbu_prefill">Benutzer</string>
 	<string name="search_fbu_button">Suche mit Benutzername</string>
@@ -326,6 +352,15 @@
 	<string name="search_tb_button">Suche nach Trackable</string>
 	<string name="search_destination">Ziel</string>
 	<string name="search_direction_rel">Vom aktuellen Standort</string>
+	<string name="search_lat">Lat</string>
+	<string name="search_lon">Lon</string>
+	<string name="search_caches">Suche nach Caches</string>
+	<string name="search_caches_near">Caches in der Nähe</string>
+
+	<!-- license -->
+	<string name="license">Lizenz</string>
+	<string name="license_show">Zeige Lizenz</string>
+	<string name="license_dismiss">Ablehnen</string>
 
 	<!-- next things -->
 	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
