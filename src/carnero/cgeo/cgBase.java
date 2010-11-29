@@ -4428,7 +4428,9 @@ public class cgBase {
 		}
 
 		final TextView title = (TextView)activity.findViewById(R.id.actionbar_title);
-		title.setText(text);
+		if (title != null) {
+			title.setText(text);
+		}
 	}
 }
 

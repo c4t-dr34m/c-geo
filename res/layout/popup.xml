@@ -48,6 +48,11 @@
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"  >
+				<RelativeLayout style="@style/separator_horizontal_layout" >
+					<View style="@style/separator_horizontal" />
+					<TextView style="@style/separator_horizontal_headline"
+							android:text="@string/popup_offline" />
+				</RelativeLayout>
 				<RelativeLayout
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content" >
@@ -82,6 +87,8 @@
 					android:orientation="vertical" >
 				<RelativeLayout style="@style/separator_horizontal_layout" >
 					<View style="@style/separator_horizontal" />
+					<TextView style="@style/separator_horizontal_headline"
+							android:text="@string/popup_navigation" />
 				</RelativeLayout>
 				<Button style="@style/button"
 						android:id="@+id/map"
