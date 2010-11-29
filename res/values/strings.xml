@@ -182,7 +182,6 @@
 	<string name="caches_drop_stored">Drop stored</string>
 	<string name="caches_refresh_selected">Refresh selected</string>
 	<string name="caches_refresh_all">Refresh all</string>
-	<string name="caches_gpx_import">Import GPX</string>
 
 	<!-- about -->
 	<string name="about_changelog">Changelog</string>
