@@ -1237,7 +1237,7 @@ public class cgBase {
 			final Matcher matcherLogs = patternLogs.matcher(page);
 			while (matcherLogs.find()) {
 				if (matcherLogs.groupCount() > 0) {
-					final Pattern patternLog = Pattern.compile("<td[^>]*>[^<]*<strong>[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a>[<^]*</strong>[^\\(]*\\((\\d+) found\\)(<br[ ]*/>)+(.*)(<br[ ]*/>)+<small><a href=");
+					final Pattern patternLog = Pattern.compile("<td[^>]*>[^<]*<strong>[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a>[<^]*</strong>([^\\(]*\\((\\d+) found\\))?(<br[ ]*/>)+(.*)(<br[ ]*/>)+<small><a href=");
 					final String[] logs = matcherLogs.group(1).split("<tr>");
 					final int logsCnt = logs.length;
 
@@ -1246,7 +1246,7 @@ public class cgBase {
 						if (matcherLog.find()) {
 							final cgLog logDone = new cgLog();
 
-							String logTmp = matcherLog.group(9);
+							String logTmp = matcherLog.group(10);
 
 							logTmp = Pattern.compile("<p>").matcher(logTmp).replaceAll("\n");
 							logTmp = Pattern.compile("<br[^>]*>").matcher(logTmp).replaceAll("\n");
@@ -1309,7 +1309,9 @@ public class cgBase {
 
 							logDone.author = matcherLog.group(6);
 							logDone.date = logDate;
-							logDone.found = new Integer(matcherLog.group(7));
+							if (matcherLog.group(8) != null) {
+								logDone.found = new Integer(matcherLog.group(8));
+							}
 							logDone.log = logTmp;
 
 							cache.logs.add(logDone);
