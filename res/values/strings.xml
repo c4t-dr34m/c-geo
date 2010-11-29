@@ -17,6 +17,7 @@
 
 	<!-- caches -->
 	<string name="all">All caches</string>
+	<string name="all_types">All caches types</string>
 	<string name="traditional">Traditional cache</string>
 	<string name="multi">Multi-cache</string>
 	<string name="mystery">Unknown cache</string>
@@ -88,7 +89,7 @@
 	<string name="err_unknown">Unknown error</string>
 	<string name="err_comm">Unknown communication error</string>
 	<string name="err_wrong">Wrong login informations</string>
-	<string name="err_license">User has not agreed to Geocaching.com license agreement</string>
+	<string name="err_license">User has not agreed to Geocaching.com license agreement, so c:geo can't load caches coordinates.</string>
 	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
 	<string name="err_drop">Sorry, c:geo can\'t drop cache.</string>
 	<string name="err_title_problem">Problem</string>
@@ -96,6 +97,8 @@
 	<string name="err_detail_cache">Sorry, c:geo can\'t display geocache you want. Is it really geocache?</string>
 	<string name="err_detail_cache_find">Sorry, c:geo can\'t find geocache</string>
 	<string name="err_detail_cache_find_some">Sorry, c:geo can\'t find that geocache.</string>
+	<string name="err_detail_cache_find_any">Sorry, c:geo can\'t find any geocache.</string>
+	<string name="err_detail_cache_find_next">Sorry, c:geo can\'t find next geocaches.</string>
 	<string name="err_detail_cache_forgot">Sorry, c:geo forgot which geocache you want.</string>
 	<string name="err_detail_cache_language">c:geo can\'t read some cache details. Please check if the geocaching.com website is set to English. Unfortunately, c:geo doesn\'t understand other localisations.</string>
 	<string name="err_detail_no_spoiler">c:geo found no spoiler images for this cache.</string>
@@ -116,9 +119,13 @@
 	<string name="err_no_chaches">Sorry, c:geo failed to load cache or caches.</string>
 	<string name="err_download_fail">Sorry, c:geo failed to download caches because of </string>
 	<string name="err_update_fail">Failed to update traveled distance.</string>
+	<string name="err_list_load_fail">Sorry, c:geo failed to load cache list.</string>
 
 	<string name="warn_save_nothing">There is nothing to be saved.</string>
 	<string name="warn_no_cache_coord">There is no cache with coordinates.</string>
+	<string name="warn_no_coordinates">No coordinates given.</string>
+	<string name="warn_no_keyword">No keyword given.</string>
+	<string name="warn_no_username">No username given.</string>
 
 	<string name="info_altitude">Current altitude</string>
 	<string name="info_distance">Distance traveled</string>
@@ -154,12 +161,28 @@
 	<string name="caches_more_caches">More caches</string>
 	<string name="caches_more_caches_no">No more caches</string>
 	<string name="caches_downloading">Downloading caches...\nETA: </string>
+	<string name="caches_progress_loading_title">Loading caches</string>
+	<string name="caches_progress_loading_text">Caches stored in device</string>
 	<string name="caches_eta_ltm">Less than a minute</string>
 	<string name="caches_eta_mins"> minutes</string>
+	<string name="caches_eta_min"> minute</string>
 	<string name="caches_no_caches"> (no caches)</string>
 	<string name="caches_store_offline">Store for Offline</string>
+	<string name="caches_store_selected">Store selected</string>
+	<string name="caches_stored">Stored</string>
 	<string name="caches_on_map">Show on map</string>
 	<string name="caches_select">Select from list</string>
+	<string name="caches_select_mode">Select mode</string>
+	<string name="caches_select_mode_exit">Exit select mode</string>
+	<string name="caches_nearby">Nearby</string>
+	<string name="caches_drop_selected">Drop selected</string>
+	<string name="caches_drop_selected_ask">Do you want to remove selected caches from device?</string>
+	<string name="caches_drop_all">Drop all</string>
+	<string name="caches_drop_all_ask">Do you want to remove all caches from device?</string>
+	<string name="caches_drop_stored">Drop stored</string>
+	<string name="caches_refresh_selected">Refresh selected</string>
+	<string name="caches_refresh_all">Refresh all</string>
+	<string name="caches_gpx_import">Import GPX</string>
 
 	<!-- about -->
 	<string name="about_changelog">Changelog</string>
@@ -321,6 +344,9 @@
 	<string name="search_kw">Keywords</string>
 	<string name="search_kw_prefill">Keyword</string>
 	<string name="search_kw_button">Search by keyword</string>
+	<string name="search_kw_caches">Caches by keyword</string>
+	<string name="search_caches_found_by">Caches found by</string>
+	<string name="search_caches_hidden_by">Caches hidden by</string>
 	<string name="search_fbu">Found by user</string>
 	<string name="search_fbu_prefill">User name</string>
 	<string name="search_fbu_button">Search by user name</string>
@@ -332,6 +358,15 @@
 	<string name="search_tb_button">Search for trackable</string>
 	<string name="search_destination">Destination</string>
 	<string name="search_direction_rel">From this position</string>
+	<string name="search_lat">Lat</string>
+	<string name="search_lon">Lon</string>
+	<string name="search_caches">Search for caches</string>
+	<string name="search_caches_near">Caches near</string>
+
+	<!-- license -->
+	<string name="license">License</string>
+	<string name="license_show">Show license</string>
+	<string name="license_dismiss">Dismiss</string>
 
 	<!-- next things -->
 	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
