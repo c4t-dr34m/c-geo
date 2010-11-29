@@ -89,7 +89,7 @@
 	<string name="err_unknown">Unknown error</string>
 	<string name="err_comm">Unknown communication error</string>
 	<string name="err_wrong">Wrong login informations</string>
-	<string name="err_license">User has not agreed to Geocaching.com license agreement, so c:geo can't load caches coordinates.</string>
+	<string name="err_license">User has not agreed to Geocaching.com license agreement, so c:geo can\'t load caches coordinates.</string>
 	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
 	<string name="err_drop">Sorry, c:geo can\'t drop cache.</string>
 	<string name="err_title_problem">Problem</string>
@@ -296,6 +296,7 @@
 	<string name="cache_location">Location</string>
 	<string name="cache_coordinates">Coordinates</string>
 	<string name="cache_calendars">Select calendar</string>
+	<string name="cache_gpx_import">Import GPX file</string>
 
 	<!-- event -->
 	<string name="event_success">Event cache added to calendar</string>
