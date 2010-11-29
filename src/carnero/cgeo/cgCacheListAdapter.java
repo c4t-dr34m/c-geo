@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -30,6 +31,7 @@ import java.util.Collections;
 import java.util.Locale;
 
 public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
+	private Resources res = null;
 	private List<cgCache> list = null;
 	private cgSettings settings = null;
 	private cgCacheView holder = null;
@@ -55,6 +57,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	public cgCacheListAdapter(Activity activityIn, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
 		super(activityIn, 0, listIn);
 
+		res = this.getResources();
 		activity = activityIn;
 		settings = settingsIn;
 		list = listIn;
@@ -107,7 +110,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 	public void switchSelectMode() {
 		selectMode = !selectMode;
-		
+
 		if (selectMode == false) {
 			for (cgCache cache : list) {
 				cache.statusChecked = false;
@@ -137,7 +140,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		latitude = latitudeIn;
 		longitude = longitudeIn;
-		
+
 		if (list != null && list.isEmpty() == false&& (System.currentTimeMillis() - lastSort) > 1000 && sort == true) {
 			try {
 				Collections.sort((List<cgCache>)list, new cgCacheComparator(latitudeIn, longitudeIn));
@@ -148,7 +151,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 			lastSort = System.currentTimeMillis();
 		}
-		
+
 		if (distances != null && distances.size() > 0) {
 			for (cgDistanceView distance : distances) {
 				distance.update(latitudeIn, longitudeIn);
@@ -164,7 +167,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 	public void setActualHeading(Float azimuthIn) {
 		if (azimuthIn == null) return;
-		
+
 		azimuth = azimuthIn;
 
 		if (compasses != null && compasses.size() > 0) {
@@ -183,7 +186,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		for (cgCache cache : list) {
 			if (cache.statusChecked == true) {
 				cache.statusChecked = false;
-				
+
 				checkChecked(-1);
 				cleared ++;
 			}
@@ -229,7 +232,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.direction = (cgCompassMini)rowView.findViewById(R.id.direction);
 			holder.inventory = (LinearLayout)rowView.findViewById(R.id.inventory);
 			holder.info = (TextView)rowView.findViewById(R.id.info);
-			
+
 			rowView.setTag(holder);
 		} else {
 			holder = (cgCacheView)rowView.getTag();
@@ -392,17 +395,17 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 		if (cache.members == true) {
 			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
-			cacheInfo.append("premium");
+			cacheInfo.append(res.getString(R.string.cache_premium));
 		}
 		if (cache.reason != null && cache.reason == 1) {
 			if (cacheInfo.length() > 0) cacheInfo.append(" | ");
-			cacheInfo.append("offline");
+			cacheInfo.append(res.getString(R.string.cache_offline));
 		}
 		holder.info.setText(cacheInfo.toString());
 
 		return rowView;
 	}
-	
+
 	@Override
 	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();
@@ -458,7 +461,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		public void onClick(View view) {
 			if (touch == false) {
 				touch = true;
-				
+
 				return;
 			}
 
@@ -546,7 +549,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 						cache.statusChecked = false;
 						moveLeft(holder, cache, false);
 					}
-					
+
 					return true;
 				}
 			} catch (Exception e) {
