@@ -299,6 +299,7 @@
 	<!-- popup -->
 	<string name="popup_more">Mehr Details</string>
 	<string name="popup_log_visit">Besuch loggen</string>
+	<string name="popup_offline">Offline</string>
 	<string name="popup_navigation">Navigation</string>
 
 	<!-- waypoint -->
