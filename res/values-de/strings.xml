@@ -121,7 +121,7 @@
 	<string name="err_list_load_fail">Laden der Cacheliste fehlgeschlagen.</string>
 
 	<string name="err_tb_display">"c:geo kann den gewünschten Trackable nicht anzeigen. Ist es wirklich einer?</string>
-	<string name="err_tb_details_open">c:geo konnte Details des Trackables nicht öffen.</string>
+	<string name="err_tb_details_open">c:geo konnte Details des Trackables nicht öffnen.</string>
 	<string name="err_tb_details_download">c:geo konnte Details des Trackables nicht laden, weil</string>
 	<string name="err_tb_forgot">c:geo hat den gewünschten Trackable vergessen.</string>
 	<string name="err_tb_find">c:geo findet nicht den Trackable</string>
