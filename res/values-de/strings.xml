@@ -10,6 +10,10 @@
 	<string name="about">Über c:geo</string>
 	<string name="helper">Nicht vergessen, durch Drücken des <b>MENU;</b> Buttons auf dem Handy erscheinen vielen Funktionen von <b>c:geo</b>!</string>
 
+        <!-- actionbar -->
+        <string name="action_bar_share_title">Link versenden</string>
+        <string name="action_bar_share">Willst du geocachen?</string>
+
 	<!-- caches -->
 	<string name="all">Alle Caches</string>
 	<string name="all_types">Alle Cachetypen</string>
