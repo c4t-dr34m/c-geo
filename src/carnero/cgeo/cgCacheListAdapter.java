@@ -57,7 +57,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	public cgCacheListAdapter(Activity activityIn, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
 		super(activityIn, 0, listIn);
 
-		res = this.getResources();
+		res = activityIn.getResources();
 		activity = activityIn;
 		settings = settingsIn;
 		list = listIn;
