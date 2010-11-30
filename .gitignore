@@ -3,3 +3,4 @@ build.xml
 build/*
 dist/*
 *~
+src/carnero/cgeo/R.java
