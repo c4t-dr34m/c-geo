@@ -120,6 +120,13 @@
 	<string name="err_update_fail">Update der gereisten Strecke fehlgeschlagen.</string>
 	<string name="err_list_load_fail">Laden der Cacheliste fehlgeschlagen.</string>
 
+	<string name="err_tb_display">"c:geo kann den gewünschten Trackable nicht anzeigen. Ist es wirklich einer?</string>
+	<string name="err_tb_details_open">c:geo konnte Details des Trackables nicht öffen.</string>
+	<string name="err_tb_details_download">c:geo konnte Details des Trackables nicht laden, weil</string>
+	<string name="err_tb_forgot">c:geo hat den gewünschten Trackable vergessen.</string>
+	<string name="err_tb_find">c:geo findet nicht den Trackable</string>
+	<string name="err_tb_find_that">c:geo konnte diesen Trackable nicht finden.</string>
+
 	<string name="warn_save_nothing">Es gibt nichts zum speichern.</string>
 	<string name="warn_no_cache_coord">Es gibt hier keinen Cache mit Koordinaten.</string>
 	<string name="warn_no_coordinates">Keine Koordinaten angegeben.</string>
@@ -294,7 +301,7 @@
 	<string name="cache_location">Bundesland</string>
 	<string name="cache_coordinates">Koordinaten</string>
 	<string name="cache_calendars">Kalender auswählen</string>
-       <string name="cache_gpx_import">Importiere GPX-Datei</string>
+	<string name="cache_gpx_import">Importiere GPX-Datei</string>
 
 	<!-- event -->
 	<string name="event_success">Event Cache zum Kalender hinzugefügt</string>
@@ -323,15 +330,15 @@
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
 
-       <!-- map -->
-       <string name="map_map">Karte</string>
-       <string name="map_live">Live-Karte</string>
-       <string name="map_view_satellite">Satellit</string>
-       <string name="map_view_map">Karte</string>
-       <string name="map_trail_show">Spur einblenden</string>
-       <string name="map_trail_hide">Spur ausblenden</string>
-       <string name="map_live_enable">Live einschalten</string>
-       <string name="map_live_disable">Live ausschalten</string>
+	<!-- map -->
+	<string name="map_map">Karte</string>
+	<string name="map_live">Live-Karte</string>
+	<string name="map_view_satellite">Satellit</string>
+	<string name="map_view_map">Karte</string>
+	<string name="map_trail_show">Spur einblenden</string>
+	<string name="map_trail_hide">Spur ausblenden</string>
+	<string name="map_live_enable">Live einschalten</string>
+	<string name="map_live_disable">Live ausschalten</string>
 
 	<!-- search -->
 	<string name="search_coordinates">Koordinaten</string>
@@ -361,6 +368,24 @@
 	<string name="search_lon">Lon</string>
 	<string name="search_caches">Suche nach Caches</string>
 	<string name="search_caches_near">Caches in der Nähe</string>
+
+	<!-- trackable -->
+	<string name="trackable">Trackable</string>
+	<string name="trackable_details_loading">Lade Details des Trackable ...</string>
+	<string name="trackable_log_touch">Logge Fund</string>
+	<string name="trackable_more">Mehr</string>
+	<string name="trackable_browser_open">Öffne in Browser</string>
+	<string name="trackable_goal">Derzeitiges Ziel</string>
+	<string name="trackable_details">Über diesen Trackable</string>
+	<string name="trackable_image">Foto</string>
+	<string name="trackable_code">TB-Code</string>
+	<string name="trackable_name">Name</string>
+	<string name="trackable_type">Typ</string>
+	<string name="trackable_owner">Eigentümer</string>
+	<string name="trackable_spotted">Zuletzt erspäht</string>
+	<string name="trackable_origin">Ursprungsort</string>
+	<string name="trackable_unknown">Unbekannt</string>
+	<string name="trackable_released">Ausgesetzt</string>
 
 	<!-- license -->
 	<string name="license">Lizenz</string>
