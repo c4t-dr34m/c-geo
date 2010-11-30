@@ -4420,7 +4420,10 @@ public class cgBase {
 	}
 
 	public void goHome(Activity activity) {
-		activity.startActivity(new Intent(activity, cgeo.class));
+		final Intent intent = new Intent(activity, cgeo.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+		activity.startActivity(intent);
 		activity.finish();
 	}
 
