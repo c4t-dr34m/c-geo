@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.SubMenu;
@@ -28,6 +29,7 @@ public class cgeotrackable extends Activity {
 	public String geocode = null;
 	public String name = null;
 	public String guid = null;
+	private Resources res = null;
 	private cgeoapplication app = null;
 	private Activity activity = null;
 	private LayoutInflater inflater = null;
@@ -44,14 +46,14 @@ public class cgeotrackable extends Activity {
 			TextView itemValue;
 
 			if (trackable != null && trackable.errorRetrieve != 0) {
-				warning.showToast("Sorry, c:geo failed to download trackable details because of " + base.errorRetrieve.get(trackable.errorRetrieve) + ".");
+				warning.showToast(res.getString(R.string.err_tb_details_download) + " " + base.errorRetrieve.get(trackable.errorRetrieve) + ".");
 
 				finish();
 				return;
 			}
 
 			if (trackable != null && trackable.error.length() > 0) {
-				warning.showToast("Sorry, c:geo failed to download trackable details because of " + trackable.error + ".");
+				warning.showToast((res.getString(R.string.err_tb_details_download)  + " " + trackable.error + ".");
 
 				finish();
 				return;
@@ -63,9 +65,9 @@ public class cgeotrackable extends Activity {
 				}
 
 				if (geocode != null && geocode.length() > 0) {
-					warning.showToast("Sorry, c:geo can\'t find trackable " + geocode + ".");
+					warning.showToast(res.getString(R.string.err_tb_find) + " " + geocode + ".");
 				} else {
-					warning.showToast("Sorry, c:geo can\'t find that trackable.");
+					warning.showToast(res.getString(R.string.err_tb_find_that));
 				}
 
 				finish();
@@ -90,7 +92,7 @@ public class cgeotrackable extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				itemName.setText("tb-code");
+				itemName.setText(res.getString(R.string.trackable_code));
 				itemValue.setText(trackable.geocode.toUpperCase());
 				detailsList.addView(itemLayout);
 
@@ -99,11 +101,11 @@ public class cgeotrackable extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				itemName.setText("name");
+				itemName.setText(res.getString(R.string.trackable_name));
 				if (trackable.name != null) {
 					itemValue.setText(Html.fromHtml(trackable.name), TextView.BufferType.SPANNABLE);
 				} else {
-					itemValue.setText("unknown");
+					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
 				detailsList.addView(itemLayout);
 
@@ -112,11 +114,11 @@ public class cgeotrackable extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				itemName.setText("type");
+				itemName.setText(res.getString(R.string.trackable_type));
 				if (trackable.type != null) {
 					itemValue.setText(Html.fromHtml(trackable.type), TextView.BufferType.SPANNABLE);
 				} else {
-					itemValue.setText("unknown");
+					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
 				detailsList.addView(itemLayout);
 
@@ -125,11 +127,11 @@ public class cgeotrackable extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				itemName.setText("owner");
+				itemName.setText(res.getString(R.string.trackable_owner));
 				if (trackable.owner != null) {
 					itemValue.setText(Html.fromHtml(trackable.owner), TextView.BufferType.SPANNABLE);
 				} else {
-					itemValue.setText("unknown");
+					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
 				detailsList.addView(itemLayout);
 
@@ -139,7 +141,7 @@ public class cgeotrackable extends Activity {
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-					itemName.setText("spotted");
+					itemName.setText(res.getString(R.string.trackable_spotted));
 					itemValue.setText(Html.fromHtml(trackable.spottedName), TextView.BufferType.SPANNABLE);
 					itemLayout.setClickable(true);
 					itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +163,7 @@ public class cgeotrackable extends Activity {
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-					itemName.setText("origin");
+					itemName.setText(res.getString(R.string.trackable_origin));
 					itemValue.setText(Html.fromHtml(trackable.origin), TextView.BufferType.SPANNABLE);
 					detailsList.addView(itemLayout);
 				}
@@ -172,7 +174,7 @@ public class cgeotrackable extends Activity {
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-					itemName.setText("released");
+					itemName.setText(res.getString(R.string.trackable_released));
 					itemValue.setText(base.dateOut.format(trackable.released));
 					detailsList.addView(itemLayout);
 				}
@@ -258,6 +260,7 @@ public class cgeotrackable extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -270,7 +273,7 @@ public class cgeotrackable extends Activity {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.trackable_detail);
-		base.setTitle(activity, "trackable");
+		base.setTitle(activity, res.getString(R.string.trackable));
 
 		// google analytics
 		base.sendAnal(activity, "/trackable/detail");
@@ -298,7 +301,7 @@ public class cgeotrackable extends Activity {
 				geocode = null;
 				guid = guid.toLowerCase();
 			} else {
-				warning.showToast("Sorry, c:geo can\'t open trackable details.");
+				warning.showToast(res.getString(R.string.err_tb_details_open));
 				finish();
 				return;
 			}
@@ -306,17 +309,17 @@ public class cgeotrackable extends Activity {
 
 		// no given data
 		if (geocode == null && guid == null) {
-			warning.showToast("Sorry, c:geo can\'t display trackable you want. Is it really trackable?");
+			warning.showToast(res.getString(R.string.err_tb_display));
 			finish();
 			return;
 		}
 
 		if (name != null && name.length() > 0) {
-			waitDialog = ProgressDialog.show(this, Html.fromHtml(name).toString(), "loading trackable details...", true);
+			waitDialog = ProgressDialog.show(this, Html.fromHtml(name).toString(), res.getString(R.string.trackable_details_loading), true);
 		} else if (geocode != null && geocode.length() > 0) {
-			waitDialog = ProgressDialog.show(this, geocode.toUpperCase(), "loading trackable details...", true);
+			waitDialog = ProgressDialog.show(this, geocode.toUpperCase(), res.getString(R.string.trackable_details_loading), true);
 		} else {
-			waitDialog = ProgressDialog.show(this, "cache", "loading trackable details...", true);
+			waitDialog = ProgressDialog.show(this, "cache", res.getString(R.string.trackable_details_loading), true);
 		}
 		waitDialog.setCancelable(true);
 
@@ -327,10 +330,10 @@ public class cgeotrackable extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 0, "log touch").setIcon(android.R.drawable.ic_menu_agenda); // log touch
+		menu.add(0, 1, 0, res.getString(R.string.trackable_log_touch)).setIcon(android.R.drawable.ic_menu_agenda); // log touch
 
-		SubMenu subMenu = menu.addSubMenu(1, 0, 0, "get more").setIcon(android.R.drawable.ic_menu_more);
-		subMenu.add(1, 2, 0, "open in browser"); // browser
+		SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.trackable_more)).setIcon(android.R.drawable.ic_menu_more);
+		subMenu.add(1, 2, 0, res.getString(R.string.trackable_browser_open)); // browser
 		return true;
 	}
 
@@ -360,7 +363,7 @@ public class cgeotrackable extends Activity {
 			guid = guidIn;
 
 			if (geocode == null && guid == null) {
-				warning.showToast("Sorry, c:geo forgot which trackable you want.");
+				warning.showToast(res.getString(R.string.err_tb_forgot));
 
 				stop();
 				finish();

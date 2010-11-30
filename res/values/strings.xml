@@ -121,6 +121,13 @@
 	<string name="err_update_fail">Failed to update traveled distance.</string>
 	<string name="err_list_load_fail">Sorry, c:geo failed to load cache list.</string>
 
+	<string name="err_tb_display">"Sorry, c:geo can\'t display trackable you want. Is it really trackable?</string>
+	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details?</string>
+	<string name="err_tb_details_download">Sorry, c:geo failed to download trackable details because of</string>
+	<string name="err_tb_forgot">Sorry, c:geo forgot which trackable you want.</string>
+	<string name="err_tb_find">Sorry, c:geo can\'t find trackable</string>
+	<string name="err_tb_find_that">Sorry, c:geo can\'t find that trackable.</string>
+
 	<string name="warn_save_nothing">There is nothing to be saved.</string>
 	<string name="warn_no_cache_coord">There is no cache with coordinates.</string>
 	<string name="warn_no_coordinates">No coordinates given.</string>
@@ -363,6 +370,24 @@
 	<string name="search_lon">Lon</string>
 	<string name="search_caches">Search for caches</string>
 	<string name="search_caches_near">Caches near</string>
+
+	<!-- trackable -->
+	<string name="trackable">Trackable</string>
+	<string name="trackable_details_loading">Loading trackable details...</string>
+	<string name="trackable_log_touch">Log touch</string>
+	<string name="trackable_more">Get more</string>
+	<string name="trackable_browser_open">Open in Browser</string>
+	<string name="trackable_goal">Goal</string>
+	<string name="trackable_details">Details</string>
+	<string name="trackable_image">Image</string>
+	<string name="trackable_code">TB-Code</string>
+	<string name="trackable_name">Name</string>
+	<string name="trackable_type">Type</string>
+	<string name="trackable_owner">Owner</string>
+	<string name="trackable_spotted">Spotted</string>
+	<string name="trackable_origin">Origin</string>
+	<string name="trackable_unknown">Unknown</string>
+	<string name="trackable_released">released</string>
 
 	<!-- license -->
 	<string name="license">License</string>
