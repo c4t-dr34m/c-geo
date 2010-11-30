@@ -182,7 +182,6 @@
 	<string name="caches_drop_stored">Drop stored</string>
 	<string name="caches_refresh_selected">Refresh selected</string>
 	<string name="caches_refresh_all">Refresh all</string>
-	<string name="caches_gpx_import">Import GPX</string>
 
 	<!-- about -->
 	<string name="about_changelog">Changelog</string>
@@ -248,6 +247,7 @@
 	<string name="cache_offline_time_hour">one hour ago</string>
 	<string name="cache_offline_time_hours">hours ago</string>
 	<string name="cache_offline_time_days">days ago</string>
+	<string name="cache_premium">Premium</string>
 	<string name="cache_attributes">Attributes</string>
 	<string name="cache_inventory">Inventory</string>
 	<string name="cache_log_offline">Offline log</string>

@@ -67,12 +67,12 @@
 						android:layout_width="60dip"
 						android:layout_marginRight="71dip"
 						android:layout_alignParentRight="true"
-						android:text="delete" />
+						android:text="@string/waypoint_delete" />
 				<Button style="@style/button_small"
 						android:id="@+id/edit"
 						android:layout_width="60dip"
 						android:layout_alignParentRight="true"
-						android:text="edit" />
+						android:text="@string/waypoint_edit" />
 			</RelativeLayout>
 			<LinearLayout android:id="@+id/navigation_part"
 					android:visibility="gone"
@@ -82,23 +82,23 @@
 				<RelativeLayout style="@style/separator_horizontal_layout" >
 					<View style="@style/separator_horizontal" />
 					<TextView style="@style/separator_horizontal_headline"
-							android:text="navigation" />
+					android:text="@string/waypoint_navigation" />
 				</RelativeLayout>
 				<Button style="@style/button"
 						android:id="@+id/compass"
-						android:text="compass" />
+						android:text="@string/cache_menu_compass" />
 				<Button style="@style/button"
 						android:id="@+id/radar"
-						android:text="radar" />
+						android:text="@string/cache_menu_radar" />
 				<Button style="@style/button"
 						android:id="@+id/map"
-						android:text="show on map" />
+						android:text="@string/cache_menu_ map" />
 				<Button style="@style/button"
 						android:id="@+id/map_ext"
-						android:text="show on ext. map" />
+						android:text="@string/cache_menu_map_ext" />
 				<Button style="@style/button"
 						android:id="@+id/turn"
-						android:text="turn by turn" />
+						android:text="@string/cache_menu_tbt" />
 			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
