@@ -67,7 +67,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class cgBase {
-	private Resources res = null;
 	public static HashMap<String, String> cacheTypes = new HashMap<String, String>();
 	public static HashMap<String, String> cacheTypesInv = new HashMap<String, String>();
 	public static HashMap<String, String> cacheIDs = new HashMap<String, String>();
@@ -90,6 +89,7 @@ public class cgBase {
 	public static DateFormat timeOut = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
 	public static DateFormat dateOutShort = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
 
+	private Resources res = null;
 	private HashMap<String, String> cookies = new HashMap<String, String>();
 	private Pattern patternLoggedIn = null;
 	private final Pattern patternViewstate = Pattern.compile("id=\"__VIEWSTATE\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);

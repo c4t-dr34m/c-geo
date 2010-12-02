@@ -52,6 +52,7 @@ public class cgeovisit extends cgLogForm {
 	private CheckBox tweetCheck = null;
 	private LinearLayout tweetBox = null;
 	private int rating = 0;
+	private boolean tbChanged = false;
 	private Handler showProgressHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -108,7 +109,7 @@ public class cgeovisit extends cgLogForm {
 					inventoryItem = (RelativeLayout) inflater.inflate(R.layout.visit_trackable, null);
 
 					((TextView) inventoryItem.findViewById(R.id.name)).setText(tb.name);
-					((TextView) inventoryItem.findViewById(R.id.action)).setText(base.logTypesTrackable.get(1));
+					((TextView) inventoryItem.findViewById(R.id.action)).setText(base.logTypesTrackable.get(0));
 
 					inventoryItem.setId(tb.id);
 					inventoryItem.setClickable(true);
@@ -398,6 +399,8 @@ public class cgeovisit extends cgLogForm {
 
 					for (cgTrackableLog tb : trackables) {
 						if (tb.id == group) {
+							tbChanged = true;
+
 							tb.action = id;
 							tbText.setText(logTbAction);
 
@@ -536,6 +539,13 @@ public class cgeovisit extends cgLogForm {
 		if (tweetBox == null) {
 			tweetBox = (LinearLayout) findViewById(R.id.tweet_box);
 		}
+
+		if (type == 2 && tbChanged == false) {
+			// TODO: change action
+		} else if (type != 2 && tbChanged == false) {
+			// TODO: change action
+		}
+
 		if (type == 2 && settings.twitter == 1) {
 			tweetBox.setVisibility(View.VISIBLE);
 		} else {
@@ -545,6 +555,7 @@ public class cgeovisit extends cgLogForm {
 		if (post == null) {
 			post = (Button) findViewById(R.id.post);
 		}
+
 		if (type == 2 && settings.isGCvoteLogin() == true) {
 			if (rating == 0) {
 				post.setText("post log & do not rate");
