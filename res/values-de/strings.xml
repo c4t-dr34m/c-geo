@@ -166,14 +166,14 @@
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
 	<string name="init_gcvote">GCvote.com</string>
-	<string name="init_go4cache">go 4 cache</string>
+	<string name="init_go4cache">Go 4 Cache</string>
 	<string name="init_twitter">Twitter</string>
 	<string name="init_username">Benutzername</string>
 	<string name="init_password">Passwort</string>
 	<string name="init_passvote">Passwort</string>
 	<string name="init_login">Anmeldedaten überprüfen</string>
 	<string name="init_legal">Impressum</string>
-	<string name="init_go4cache_connect">Mit go 4 cache verbinden</string>
+	<string name="init_go4cache_connect">Mit Go 4 Cache verbinden</string>
 	<string name="init_twitter_authorize">c:geo autorisieren</string>
 	<string name="init_twitter_publish">Status veröffentlichen wenn ein Cache gefunden wurde</string>
 	<string name="init_signature">Signatur</string>
