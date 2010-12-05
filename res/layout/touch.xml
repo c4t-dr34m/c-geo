@@ -78,7 +78,7 @@
 				</LinearLayout>
 				<Button style="@style/button"
 						android:id="@+id/post"
-						android:text="post log" />
+						android:text="@string/log_post" />
 			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>

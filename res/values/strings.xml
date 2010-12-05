@@ -63,7 +63,22 @@
 	<string name="log_tb_visit">Visit</string>
 	<string name="log_tb_drop">Drop here</string>
 	<string name="log_save">Save</string>
+	<string name="log_saving">Saving log...</string>
 	<string name="log_clear">Clear</string>
+	<string name="log_post">Post log</string>
+	<string name="log_post_rate">Post log & rate</string>
+	<string name="log_post_no_rate">Post log & do not rate</string>
+	<string name="log_add">Add</string>
+	<string name="log_date">Date</string>
+	<string name="log_time">Time</string>
+	<string name="log_date_time">Date & time</string>
+	<string name="log_rating">Rating</string>
+	<string name="log_no_rating">No rating</string>
+	<string name="log_stars_1">1 stars</string>
+	<string name="log_stars_2">2 stars</string>
+	<string name="log_stars_3">3 stars</string>
+	<string name="log_stars_4">4 stars</string>
+	<string name="log_stars_5">5 stars</string>
 
 	<!-- new logs -->
 	<string name="log_new_found">Found it</string>
@@ -78,7 +93,9 @@
 	<string name="log_new_grab">Grabbed from somewhere</string>
 	<string name="log_new_retrieve">Retrieved from cache</string>
 	<string name="log_new_discovered">Discovered</string>
-	<string name="log_new_review">Rewieved</string>
+	<string name="log_new_review">Reviewed</string>
+	<string name="log_new_log">Log</string>
+	<string name="log_new_log_text">Log text</string>
 
 	<!-- errors, warnings, info toasts -->
 	<string name="err_none">Ok</string>
@@ -100,6 +117,7 @@
 	<string name="err_detail_cache_find_any">Sorry, c:geo can\'t find any geocache.</string>
 	<string name="err_detail_cache_find_next">Sorry, c:geo can\'t find next geocaches.</string>
 	<string name="err_detail_cache_forgot">Sorry, c:geo forgot which geocache you want.</string>
+	<string name="err_detail_cache_forgot_visit">Sorry, c:geo forgot which cache you visited.</string>
 	<string name="err_detail_cache_language">c:geo can\'t read some cache details. Please check if the geocaching.com website is set to English. Unfortunately, c:geo doesn\'t understand other localisations.</string>
 	<string name="err_detail_no_spoiler">c:geo found no spoiler images for this cache.</string>
 	<string name="err_detail_no_map_static">c:geo found no static maps for this cache.</string>
@@ -125,8 +143,17 @@
 	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details?</string>
 	<string name="err_tb_details_download">Sorry, c:geo failed to download trackable details because of</string>
 	<string name="err_tb_forgot">Sorry, c:geo forgot which trackable you want.</string>
+	<string name="err_tb_forgot_saw">Sorry, c:geo forgot which trackable you saw.</string>
 	<string name="err_tb_find">Sorry, c:geo can\'t find trackable</string>
 	<string name="err_tb_find_that">Sorry, c:geo can\'t find that trackable.</string>
+
+	<string name="err_log_load_data">Sorry, c:geo can\'t load data required to log visit.</string>
+	<string name="err_log_load_data_again">Sorry, c:geo can\'t load data required to log visit. Trying again.</string>
+	<string name="err_log_load_data_still">c:geo is still loading data required to post log. Please wait a little while longer.</string>
+	<string name="err_log_failed_server">Sorry, c:geo failed to post log because server is not responding.</string>
+	<string name="err_log_post_failed">Sorry, c:geo failed to post log.</string>
+	<string name="err_log_post_failed_because">Sorry, c:geo failed to post log because of </string>
+	<string name="err_log_load_data_still">c:geo is still loading data required to post log. Please wait a little while longer.</string>
 
 	<string name="warn_save_nothing">There is nothing to be saved.</string>
 	<string name="warn_no_cache_coord">There is no cache with coordinates.</string>
@@ -134,10 +161,17 @@
 	<string name="warn_no_keyword">No keyword given.</string>
 	<string name="warn_no_username">No username given.</string>
 
+	<string name="warn_log_text_fill">Please, fill some log text.</string>
+
 	<string name="info_altitude">Current altitude</string>
 	<string name="info_distance">Distance traveled</string>
 	<string name="info_distance_cleared">Traveled distance was cleared.</string>
 	<string name="info_since">\n(since </string>
+
+	<string name="info_log_posted">c:geo successfully posted log.</string>
+	<string name="info_log_saved">c:geo successfully saved log.</string>
+	<string name="info_log_cleared">Log was cleared.</string>
+	<string name="info_log_type_changed">Type of log has been changed!</string>
 
 	<!-- location service -->
 	<string name="loc_last">Last known</string>
@@ -389,6 +423,7 @@
 	<string name="trackable_origin">Origin</string>
 	<string name="trackable_unknown">Unknown</string>
 	<string name="trackable_released">released</string>
+	<string name="trackable_touch">Touch</string>
 
 	<!-- license -->
 	<string name="license">License</string>

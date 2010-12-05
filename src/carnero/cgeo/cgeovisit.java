@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 public class cgeovisit extends cgLogForm {
 	private cgeoapplication app = null;
 	private Activity activity = null;
+	private Resources res = null;
 	private LayoutInflater inflater = null;
 	private cgBase base = null;
 	private cgSettings settings = null;
@@ -68,12 +70,12 @@ public class cgeovisit extends cgLogForm {
 			if (types.contains(typeSelected) == false) {
 				typeSelected = types.get(0);
 				setType(typeSelected);
-				
-				warning.showToast("Type of log has been changed!");
+
+				warning.showToast(res.getString(R.string.info_log_type_changed));
 			}
 
 			if ((viewstate == null || viewstate.length() == 0) && attempts < 2) {
-				warning.showToast("Sorry, c:geo can\'t load data required to log visit. Trying again.");
+				warning.showToast(res.getString(R.string.err_log_load_data_again));
 
 				loadData thread;
 				thread = new loadData(cacheid);
@@ -81,7 +83,7 @@ public class cgeovisit extends cgLogForm {
 
 				return;
 			} else if ((viewstate == null || viewstate.length() == 0) && attempts >= 2) {
-				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
+				warning.showToast(res.getString(R.string.err_log_load_data));
 				base.showProgress(activity, false);
 
 				return;
@@ -137,7 +139,7 @@ public class cgeovisit extends cgLogForm {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 1) {
-				warning.showToast("c:geo successfully posted log.");
+				warning.showToast(res.getString(R.string.info_log_posted));
 
 				if (waitDialog != null) {
 					waitDialog.dismiss();
@@ -146,7 +148,7 @@ public class cgeovisit extends cgLogForm {
 				finish();
 				return;
 			} else if (msg.what == 2) {
-				warning.showToast("c:geo successfully saved log.");
+				warning.showToast(res.getString(R.string.info_log_saved));
 
 				if (waitDialog != null) {
 					waitDialog.dismiss();
@@ -156,17 +158,17 @@ public class cgeovisit extends cgLogForm {
 				return;
 			} else if (msg.what >= 1000) {
 				if (msg.what == 1001) {
-					warning.showToast("Please, fill some log text.");
+					warning.showToast(res.getString(R.string.warn_log_text_fill));
 				} else if (msg.what == 1002) {
-					warning.showToast("Sorry, c:geo failed to post log because server is not responding.");
+					warning.showToast(res.getString(R.string.err_log_failed_server));
 				} else {
-					warning.showToast("Sorry, c:geo failed to post log.");
+					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
 			} else {
 				if (base.errorRetrieve.get(msg.what) != null) {
-					warning.showToast("Sorry, c:geo failed to post log because of " + base.errorRetrieve.get(msg.what) + ".");
+					warning.showToast(res.getString(R.string.err_log_post_failed_because) + base.errorRetrieve.get(msg.what) + ".");
 				} else {
-					warning.showToast("Sorry, c:geo failed to post log.");
+					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
 			}
 
@@ -182,6 +184,7 @@ public class cgeovisit extends cgLogForm {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -194,7 +197,7 @@ public class cgeovisit extends cgLogForm {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.visit);
-		base.setTitle(activity, "log");
+		base.setTitle(activity, res.getString(R.string.log_new_log));
 
 		// google analytics
 		base.sendAnal(activity, "/visit");
@@ -217,15 +220,15 @@ public class cgeovisit extends cgLogForm {
 		cache = app.getCacheByGeocode(geocode);
 
 		if (cache.name != null && cache.name.length() > 0) {
-			base.setTitle(activity, "log " + cache.name);
+			base.setTitle(activity, res.getString(R.string.log_new_log) + cache.name);
 		} else {
-			base.setTitle(activity, "log " + cache.geocode.toUpperCase());
+			base.setTitle(activity, res.getString(R.string.log_new_log) + cache.geocode.toUpperCase());
 		}
 
 		app.setAction(geocode);
 
 		if (cache == null) {
-			warning.showToast("Sorry, c:geo forgot which cache you visited.");
+			warning.showToast(res.getString(R.string.err_detail_cache_forgot_visit));
 
 			finish();
 			return;
@@ -245,19 +248,19 @@ public class cgeovisit extends cgLogForm {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		SubMenu subMenu = null;
 
-		subMenu = menu.addSubMenu(0, 0, 0, "add").setIcon(android.R.drawable.ic_menu_add);
-		subMenu.add(0, 1, 0, "date & time");
-		subMenu.add(0, 2, 0, "date");
-		subMenu.add(0, 3, 0, "time");
-		subMenu.add(0, 4, 0, "signature");
+		subMenu = menu.addSubMenu(0, 0, 0, res.getString(R.string.log_add)).setIcon(android.R.drawable.ic_menu_add);
+		subMenu.add(0, 1, 0, res.getString(R.string.log_date_time));
+		subMenu.add(0, 2, 0, res.getString(R.string.log_date));
+		subMenu.add(0, 3, 0, res.getString(R.string.log_time));
+		subMenu.add(0, 4, 0, res.getString(R.string.init_signature));
 
-		subMenu = menu.addSubMenu(0, 9, 0, "rating").setIcon(android.R.drawable.ic_menu_sort_by_size);
-		subMenu.add(0, 10, 0, "no rating");
-		subMenu.add(0, 15, 0, "5 stars");
-		subMenu.add(0, 14, 0, "4 stars");
-		subMenu.add(0, 13, 0, "3 stars");
-		subMenu.add(0, 12, 0, "2 stars");
-		subMenu.add(0, 11, 0, "1 star");
+		subMenu = menu.addSubMenu(0, 9, 0, res.getString(R.string.log_rating)).setIcon(android.R.drawable.ic_menu_sort_by_size);
+		subMenu.add(0, 10, 0, res.getString(R.string.log_no_rating));
+		subMenu.add(0, 15, 0, res.getString(R.string.log_stars_5));
+		subMenu.add(0, 14, 0, res.getString(R.string.log_stars_4));
+		subMenu.add(0, 13, 0, res.getString(R.string.log_stars_3));
+		subMenu.add(0, 12, 0, res.getString(R.string.log_stars_2));
+		subMenu.add(0, 11, 0, res.getString(R.string.log_stars_1));
 
 		return true;
 	}
@@ -342,9 +345,9 @@ public class cgeovisit extends cgLogForm {
 				post = (Button) findViewById(R.id.post);
 			}
 			if (rating == 0) {
-				post.setText("post log & do not rate");
+				post.setText(res.getString(R.string.log_post_no_rate));
 			} else {
-				post.setText("post log & rate " + rating + "*");
+				post.setText(res.getString(R.string.log_post_rate) + rating + "*");
 			}
 		}
 
@@ -558,12 +561,12 @@ public class cgeovisit extends cgLogForm {
 
 		if (type == 2 && settings.isGCvoteLogin() == true) {
 			if (rating == 0) {
-				post.setText("post log & do not rate");
+				post.setText(res.getString(R.string.log_post_no_rate));
 			} else {
-				post.setText("post log & rate " + rating + "*");
+				post.setText(res.getString(R.string.log_post_rate) + rating + "*");
 			}
 		} else {
-			post.setText("post log");
+			post.setText(res.getString(R.string.log_post));
 		}
 	}
 
@@ -580,14 +583,14 @@ public class cgeovisit extends cgLogForm {
 
 		public void onClick(View arg0) {
 			if (gettingViewstate == false) {
-				waitDialog = ProgressDialog.show(activity, null, "saving log...", true);
+				waitDialog = ProgressDialog.show(activity, null, res.getString(R.string.log_saving), true);
 				waitDialog.setCancelable(true);
 
 				String log = ((EditText) findViewById(R.id.log)).getText().toString();
 				Thread thread = new postLog(postLogHandler, log);
 				thread.start();
 			} else {
-				warning.showToast("c:geo is still loading data required to post log. Please wait a little while longer.");
+				warning.showToast(res.getString(R.string.err_log_load_data_still));
 			}
 		}
 	}
@@ -603,9 +606,9 @@ public class cgeovisit extends cgLogForm {
 			save.setOnClickListener(new clearListener());
 
 			if (status == true) {
-				warning.showToast("Log was saved.");
+				warning.showToast(res.getString(R.string.info_log_saved));
 			} else {
-				warning.showToast("Sorry, c:geo failed to save log.");
+				warning.showToast(res.getString(R.string.err_log_post_failed));
 			}
 		}
 	}
@@ -637,7 +640,7 @@ public class cgeovisit extends cgLogForm {
 			}
 			clear.setOnClickListener(new clearListener());
 
-			warning.showToast("Log was cleared.");
+			warning.showToast(res.getString(R.string.info_log_cleared));
 		}
 	}
 
@@ -649,7 +652,7 @@ public class cgeovisit extends cgLogForm {
 			cacheid = cacheidIn;
 
 			if (cacheid == null) {
-				warning.showToast("Sorry, c:geo forgot which geocache you visited.");
+				warning.showToast(res.getString(R.string.err_detail_cache_forgot_visit));
 
 				finish();
 				return;

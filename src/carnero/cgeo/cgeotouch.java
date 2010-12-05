@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 public class cgeotouch extends cgLogForm {
 	private cgeoapplication app = null;
 	private Activity activity = null;
+	private Resources res = null;
 	private LayoutInflater inflater = null;
 	private cgBase base = null;
 	private cgSettings settings = null;
@@ -43,9 +45,9 @@ public class cgeotouch extends cgLogForm {
 	private Boolean gettingViewstate = true;
 	private Calendar date = Calendar.getInstance();
 	private int typeSelected = -1;
-    private int attempts = 0;
-    private CheckBox tweetCheck = null;
-    private LinearLayout tweetBox = null;
+	private int attempts = 0;
+	private CheckBox tweetCheck = null;
+	private LinearLayout tweetBox = null;
 
 	private Handler showProgressHandler = new Handler() {
 		@Override
@@ -58,15 +60,15 @@ public class cgeotouch extends cgLogForm {
 		@Override
 		public void handleMessage(Message msg) {
 			if ((viewstate == null || viewstate.length() == 0) && attempts < 2) {
-				warning.showToast("Sorry, c:geo can\'t load data required to log visit. Trying again.");
+				warning.showToast(res.getString(R.string.err_log_load_data_again));
 
 				loadData thread;
 				thread = new loadData(guid);
 				thread.start();
-				
+
 				return;
 			} else if ((viewstate == null || viewstate.length() == 0) && attempts >= 2) {
-				warning.showToast("Sorry, c:geo can\'t load data required to log visit.");
+				warning.showToast(res.getString(R.string.err_log_load_data));
 				base.showProgress(activity, false);
 
 				return;
@@ -81,12 +83,12 @@ public class cgeotouch extends cgLogForm {
 			base.showProgress(activity, false);
 		}
 	};
-	
+
 	private Handler postLogHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 1) {
-				warning.showToast("c:geo successfully posted log.");
+				warning.showToast(res.getString(R.string.info_log_posted));
 
 				if (waitDialog != null) {
 					waitDialog.dismiss();
@@ -95,20 +97,20 @@ public class cgeotouch extends cgLogForm {
 				return;
 			} else if (msg.what >= 1000) {
 				if (msg.what == 1001) {
-					warning.showToast("Please, fill some log text.");
+					warning.showToast(res.getString(R.string.warn_log_text_fill));
 				} else if(msg.what == 1002) {
-					warning.showToast("Sorry, c:geo failed to post log because server is not responding.");
+					warning.showToast(res.getString(R.string.err_log_failed_server));
 				} else {
-					warning.showToast("Sorry, c:geo failed to post log.");
+					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
 			} else {
 				if (base.errorRetrieve.get(msg.what) != null) {
-					warning.showToast("Sorry, c:geo failed to post log because of " + base.errorRetrieve.get(msg.what) + ".");
+					warning.showToast(res.getString(R.string.err_log_post_failed_because) + base.errorRetrieve.get(msg.what) + ".");
 				} else {
-					warning.showToast("Sorry, c:geo failed to post log.");
+					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
 			}
-			
+
 			if (waitDialog != null) {
 				waitDialog.dismiss();
 			}
@@ -121,6 +123,7 @@ public class cgeotouch extends cgLogForm {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication)this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -133,7 +136,7 @@ public class cgeotouch extends cgLogForm {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.touch);
-		base.setTitle(activity, "touch");
+		base.setTitle(activity, res.getString(R.string.trackable_touch));
 
 		// google analytics
 		base.sendAnal(activity, "/trackable/touch");
@@ -149,20 +152,20 @@ public class cgeotouch extends cgLogForm {
 		trackable = app.getTrackableByGeocode("logging trackable");
 
 		if (trackable.name != null && trackable.name.length() > 0) {
-			base.setTitle(activity, "touch " + trackable.name);
+			base.setTitle(activity, res.getString(R.string.trackable_touch) + trackable.name);
 		} else {
-			base.setTitle(activity, "touch " + trackable.geocode.toUpperCase());
+			base.setTitle(activity, res.getString(R.string.trackable_touch) + trackable.geocode.toUpperCase());
 		}
 
 		app.setAction("logging trackable");
 
 		if (trackable == null || guid == null) {
-			warning.showToast("Sorry, c:geo forgot which trackable you saw.");
-			
+			warning.showToast(res.getString(R.string.err_tb_forgot_saw));
+
 			finish();
 			return;
 		}
-		
+
 		init();
 	}
 
@@ -175,12 +178,12 @@ public class cgeotouch extends cgLogForm {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		SubMenu subMenu = menu.addSubMenu(0, 0, 0, "add").setIcon(android.R.drawable.ic_menu_add);
+		SubMenu subMenu = menu.addSubMenu(0, 0, 0, res.getString(R.string.log_add)).setIcon(android.R.drawable.ic_menu_add);
 
-		subMenu.add(0, 1, 0, "date & time");
-		subMenu.add(0, 2, 0, "date");
-		subMenu.add(0, 3, 0, "time");
-		subMenu.add(0, 4, 0, "signature");
+		subMenu.add(0, 1, 0, res.getString(R.string.log_date_time));
+		subMenu.add(0, 2, 0, res.getString(R.string.log_date));
+		subMenu.add(0, 3, 0, res.getString(R.string.log_time));
+		subMenu.add(0, 4, 0, res.getString(R.string.init_signature));
 
 		return true;
 	}
@@ -309,13 +312,13 @@ public class cgeotouch extends cgLogForm {
         if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
         if (tweetCheck == null) tweetCheck = (CheckBox)findViewById(R.id.tweet);
         tweetCheck.setChecked(true);
-        
+
 		Button buttonPost = (Button)findViewById(R.id.post);
 		if (viewstate == null || viewstate.length() == 0) {
 			buttonPost.setEnabled(false);
 			buttonPost.setOnTouchListener(null);
 			buttonPost.setOnClickListener(null);
-			
+
 			loadData thread;
 			thread = new loadData(guid);
 			thread.start();
@@ -355,7 +358,7 @@ public class cgeotouch extends cgLogForm {
 	private class postListener implements View.OnClickListener {
 		public void onClick(View arg0) {
 			if (gettingViewstate == false) {
-				waitDialog = ProgressDialog.show(activity, null, "saving log...", true);
+				waitDialog = ProgressDialog.show(activity, null, res.getString(R.string.log_saving), true);
 				waitDialog.setCancelable(true);
 
 				String tracking = ((EditText)findViewById(R.id.tracking)).getText().toString();
@@ -363,7 +366,7 @@ public class cgeotouch extends cgLogForm {
 				Thread thread = new postLog(postLogHandler, tracking, log);
 				thread.start();
 			} else {
-				warning.showToast("c:geo is still loading data required to post log. Please wait a little while longer.");
+				warning.showToast(res.getString(R.string.err_log_load_data_still));
 			}
 		}
 	}
@@ -375,7 +378,7 @@ public class cgeotouch extends cgLogForm {
 			guid = guidIn;
 
 			if (guid == null) {
-				warning.showToast("Sorry, c:geo forgot which trackable you saw.");
+				warning.showToast(res.getString(R.string.err_tb_forgot_saw));
 
 				finish();
 				return;
@@ -413,7 +416,7 @@ public class cgeotouch extends cgLogForm {
 				if (types.contains(typeSelected) == false) {
 					typeSelected = types.get(0);
 					setType(typeSelected);
-					warning.showToast("Type of log has been changed!");
+					warning.showToast(res.getString(R.string.info_log_type_changed));
 				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeotouch.loadData.run: " + e.toString());
@@ -427,7 +430,7 @@ public class cgeotouch extends cgLogForm {
 		Handler handler = null;
 		String tracking = null;
 		String log = null;
-		
+
 		public postLog(Handler handlerIn, String trackingIn, String logIn) {
 			handler = handlerIn;
 			tracking = trackingIn;
