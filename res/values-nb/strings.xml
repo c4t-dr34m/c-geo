@@ -147,14 +147,14 @@
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
 	<string name="init_gcvote">GCVote.com</string>
-	<string name="init_go4cache">go 4 cache</string>
+	<string name="init_go4cache">Go 4 Cache</string>
 	<string name="init_twitter">twitter</string>
 	<string name="init_username">brukernavn</string>
 	<string name="init_password">passord</string>
 	<string name="init_passvote">passord</string>
 	<string name="init_login">sjekk innlogging</string>
 	<string name="init_legal">juridisk informasjon</string>
-	<string name="init_go4cache_connect">koble til go 4 cache</string>
+	<string name="init_go4cache_connect">koble til Go 4 Cache</string>
 	<string name="init_twitter_authorize">autoriser c:geo</string>
 	<string name="init_twitter_publish">del på Twitter når du finner cacher</string>
 	<string name="init_signature">signatur</string>
