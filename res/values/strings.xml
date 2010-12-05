@@ -153,7 +153,6 @@
 	<string name="err_log_failed_server">Sorry, c:geo failed to post log because server is not responding.</string>
 	<string name="err_log_post_failed">Sorry, c:geo failed to post log.</string>
 	<string name="err_log_post_failed_because">Sorry, c:geo failed to post log because of </string>
-	<string name="err_log_load_data_still">c:geo is still loading data required to post log. Please wait a little while longer.</string>
 
 	<string name="warn_save_nothing">There is nothing to be saved.</string>
 	<string name="warn_no_cache_coord">There is no cache with coordinates.</string>
