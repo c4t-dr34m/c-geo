@@ -53,7 +53,7 @@ public class cgeotrackable extends Activity {
 			}
 
 			if (trackable != null && trackable.error.length() > 0) {
-				warning.showToast((res.getString(R.string.err_tb_details_download)  + " " + trackable.error + ".");
+				warning.showToast(res.getString(R.string.err_tb_details_download)  + " " + trackable.error + ".");
 
 				finish();
 				return;
