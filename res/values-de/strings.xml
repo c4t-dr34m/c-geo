@@ -62,7 +62,22 @@
 	<string name="log_tb_visit">Besuchen</string>
 	<string name="log_tb_drop">Ablegen</string>
 	<string name="log_save">Speichern</string>
+	<string name="log_saving">Log wird gespeichert...</string>
 	<string name="log_clear">Leeren</string>
+	<string name="log_post">Loggen</string>
+	<string name="log_post_rate">Loggen & bewerten</string>
+	<string name="log_post_no_rate">Loggen ohne Bewertung</string>
+	<string name="log_add">Hinzufügen</string>
+	<string name="log_date">Datum</string>
+	<string name="log_time">Uhrzeit</string>
+	<string name="log_date_time">Datum & Uhrzeit</string>
+	<string name="log_rating">Bewertung</string>
+	<string name="log_no_rating">Keine Bewertung</string>
+	<string name="log_stars_1">1 Stern</string>
+	<string name="log_stars_2">2 Sterne</string>
+	<string name="log_stars_3">3 Sterne</string>
+	<string name="log_stars_4">4 Sterne</string>
+	<string name="log_stars_5">5 Sterne</string>
 
 	<!-- new logs -->
 	<string name="log_new_found">Gefunden</string>
@@ -78,6 +93,8 @@
 	<string name="log_new_retrieve">Mitgenommen</string>
 	<string name="log_new_discovered">Entdeckt</string>
 	<string name="log_new_review">Überprüft</string>
+	<string name="log_new_log">Logge</string>
+	<string name="log_new_log_text">Log-Text</string>
 
 	<!-- errors, warnings, info toasts -->
 	<string name="err_none">OK</string>
@@ -99,6 +116,7 @@
 	<string name="err_detail_cache_find_any">c:geo konnte keine Caches finden.</string>
 	<string name="err_detail_cache_find_next">c:geo konnte die nächsten Caches nicht finden.</string>
 	<string name="err_detail_cache_forgot">c:geo hat vergessen, welcher Cache aufgerufen werden sollte.</string>
+	<string name="err_detail_cache_forgot_visit">c:geo hat vergessen, welchen Cache Sie besucht haben.</string>
 	<string name="err_detail_cache_language">c:geo konnte manche Details des Caches nicht lesen. Bitte überprüfen, ob geocaching.com auf "English" gestellt wurde. Leider versteht c:geo keine andere Spracheinstellungen.</string>
 	<string name="err_detail_no_spoiler">c:geo hat kein Hinweisbild für diesen Cache gefunden.</string>
 	<string name="err_detail_no_map_static">c:geo hat keine statische Karte für diesen Cache gefunden.</string>
@@ -124,8 +142,16 @@
 	<string name="err_tb_details_open">c:geo konnte Details des Trackables nicht öffnen.</string>
 	<string name="err_tb_details_download">c:geo konnte Details des Trackables nicht laden, weil</string>
 	<string name="err_tb_forgot">c:geo hat den gewünschten Trackable vergessen.</string>
+	<string name="err_tb_forgot_saw">c:geo hat vergessen, welchen Trackable Sie gesehen haben.</string>
 	<string name="err_tb_find">c:geo findet nicht den Trackable</string>
 	<string name="err_tb_find_that">c:geo konnte diesen Trackable nicht finden.</string>
+
+	<string name="err_log_load_data">c:geo konnte die benötigten Daten nicht laden, um den Besuch zu loggen.</string>
+	<string name="err_log_load_data_again">c:geo konnte die benötigten Daten nicht laden, um den Besuch zu loggen. Bitte erneut versuchen.</string>
+	<string name="err_log_load_data_still">c:geo läd gerade die benötigten Daten. Bitte kurz warten.</string>
+	<string name="err_log_failed_server">c:geo konnte Log nicht senden, weil der Server nicht antwortete.</string>
+	<string name="err_log_post_failed">c:geo konnte Log nicht absenden.</string>
+	<string name="err_log_post_failed_because">c:geo konnte Log nicht absenden, wegen </string>
 
 	<string name="warn_save_nothing">Es gibt nichts zum speichern.</string>
 	<string name="warn_no_cache_coord">Es gibt hier keinen Cache mit Koordinaten.</string>
@@ -133,10 +159,17 @@
 	<string name="warn_no_keyword">Kein Stichwort angegeben.</string>
 	<string name="warn_no_username">Kein Benutzernamen angegeben.</string>
 
+	<string name="warn_log_text_fill">Bitte Text einfügen.</string>
+
 	<string name="info_altitude">Momentane Höhe</string>
 	<string name="info_distance">Gereiste Strecke</string>
 	<string name="info_distance_cleared">Gereiste Strecke wurde gelöscht.</string>
 	<string name="info_since">\n(seit </string>
+
+	<string name="info_log_posted">Log erfolgreich gesendet.</string>
+	<string name="info_log_saved">Log erfolgreich gespeichert.</string>
+	<string name="info_log_cleared">Log wurde geleert.</string>
+	<string name="info_log_type_changed">Logtyp wurde verändert!</string>
 
 	<!-- location service -->
 	<string name="loc_last">Letzte Position</string>
@@ -387,6 +420,7 @@
 	<string name="trackable_origin">Ursprungsort</string>
 	<string name="trackable_unknown">Unbekannt</string>
 	<string name="trackable_released">Ausgesetzt</string>
+	<string name="trackable_touch">Berühren</string>
 
 	<!-- license -->
 	<string name="license">Lizenz</string>
