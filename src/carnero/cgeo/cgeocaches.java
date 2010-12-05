@@ -336,7 +336,7 @@ public class cgeocaches extends ListActivity {
 			title = res.getString(R.string.caches_nearby);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
-			waitDialog = ProgressDialog.show(this, "searching for caches", "caches nearby" + typeText, true);
+			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_searching), res.getString(R.string.caches_nearby) + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
 			thread.start();
