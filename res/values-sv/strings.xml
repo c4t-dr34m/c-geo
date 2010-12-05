@@ -12,7 +12,7 @@
 	<string name="helper">Glöm inte <b>MENY</b> knappen på din telefon, den visar många funktioner i <b>c:geo</b>!</string>
 
 	<!-- actionbar -->
-	<string name="action_bar_share_title">Skicka länk till cachen</string>
+	<string name="action_bar_share_title">Skicka cachens länk via</string>
 	<string name="action_bar_share">Dags att geocacha?</string>
 
 	<!-- caches -->
@@ -306,7 +306,7 @@
 	<string name="cache_gpx_import">Importera GPX fil</string>
 
 	<!-- event -->
-	<string name="event_success">Event tillagd i kalender</string>
+	<string name="event_success">Event tillagt i kalender</string>
 	<string name="event_fail">Misslyckades att lägga till event i kalender</string>
 
 	<!-- popup -->
@@ -386,7 +386,7 @@
 	<string name="trackable_owner">Ägare</string>
 	<string name="trackable_spotted">Position</string>
 	<string name="trackable_origin">Ursprung</string>
-	<string name="trackable_unknown">Okänt</string>
+	<string name="trackable_unknown">Okänd</string>
 	<string name="trackable_released">Släppt</string>
 
 	<!-- license -->
