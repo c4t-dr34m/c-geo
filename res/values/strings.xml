@@ -78,7 +78,7 @@
 	<string name="log_new_grab">Grabbed from somewhere</string>
 	<string name="log_new_retrieve">Retrieved from cache</string>
 	<string name="log_new_discovered">Discovered</string>
-	<string name="log_new_review">Rewieved</string>
+	<string name="log_new_review">Reviewed</string>
 
 	<!-- errors, warnings, info toasts -->
 	<string name="err_none">Ok</string>
@@ -122,7 +122,7 @@
 	<string name="err_list_load_fail">Sorry, c:geo failed to load cache list.</string>
 
 	<string name="err_tb_display">"Sorry, c:geo can\'t display trackable you want. Is it really trackable?</string>
-	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details?</string>
+	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details.</string>
 	<string name="err_tb_details_download">Sorry, c:geo failed to download trackable details because of</string>
 	<string name="err_tb_forgot">Sorry, c:geo forgot which trackable you want.</string>
 	<string name="err_tb_find">Sorry, c:geo can\'t find trackable</string>
