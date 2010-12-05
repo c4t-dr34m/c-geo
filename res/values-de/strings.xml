@@ -163,6 +163,7 @@
 	<string name="now_searching">Suche...</string>
 
 	<!-- caches -->
+	<string name="caches_searching">Suche nach Caches</string>
 	<string name="caches_no_cache">Kein Cache</string>
 	<string name="caches_more_caches">Mehr Caches</string>
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
