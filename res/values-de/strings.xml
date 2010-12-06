@@ -65,12 +65,12 @@
 	<string name="log_saving">Log wird gespeichert...</string>
 	<string name="log_clear">Leeren</string>
 	<string name="log_post">Loggen</string>
-	<string name="log_post_rate">Loggen & bewerten</string>
+	<string name="log_post_rate">Loggen &amp; bewerten</string>
 	<string name="log_post_no_rate">Loggen ohne Bewertung</string>
 	<string name="log_add">Hinzufügen</string>
 	<string name="log_date">Datum</string>
 	<string name="log_time">Uhrzeit</string>
-	<string name="log_date_time">Datum & Uhrzeit</string>
+	<string name="log_date_time">Datum &amp; Uhrzeit</string>
 	<string name="log_rating">Bewertung</string>
 	<string name="log_no_rating">Keine Bewertung</string>
 	<string name="log_stars_1">1 Stern</string>

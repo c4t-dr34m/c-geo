@@ -66,12 +66,12 @@
 	<string name="log_saving">Saving log...</string>
 	<string name="log_clear">Clear</string>
 	<string name="log_post">Post log</string>
-	<string name="log_post_rate">Post log & rate</string>
-	<string name="log_post_no_rate">Post log & do not rate</string>
+	<string name="log_post_rate">Post log &amp; rate</string>
+	<string name="log_post_no_rate">Post log &amp; do not rate</string>
 	<string name="log_add">Add</string>
 	<string name="log_date">Date</string>
 	<string name="log_time">Time</string>
-	<string name="log_date_time">Date & time</string>
+	<string name="log_date_time">Date &amp; time</string>
 	<string name="log_rating">Rating</string>
 	<string name="log_no_rating">No rating</string>
 	<string name="log_stars_1">1 stars</string>
@@ -140,7 +140,7 @@
 	<string name="err_list_load_fail">Sorry, c:geo failed to load cache list.</string>
 
 	<string name="err_tb_display">"Sorry, c:geo can\'t display trackable you want. Is it really trackable?</string>
-	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details?</string>
+	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details.</string>
 	<string name="err_tb_details_download">Sorry, c:geo failed to download trackable details because of</string>
 	<string name="err_tb_forgot">Sorry, c:geo forgot which trackable you want.</string>
 	<string name="err_tb_forgot_saw">Sorry, c:geo forgot which trackable you saw.</string>
@@ -449,7 +449,7 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 <b>1.15</b> (__.12.2010)\n
 · new: Danish translation (by <a href="http://webfora.dk/geocaching/">webfora.dk/geocaching</a>)\n
 · fix: default action for trackables\n
-· fix: many localization fixes (by thiasB)\n
+· fix: many localization fixes (by thiasB &amp; YraFyra)\n
 \n
 <b>1.14</b> (29.11.2010)\n
 · change: ActionBar not shown on small screens\n

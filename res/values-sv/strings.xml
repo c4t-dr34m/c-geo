@@ -11,8 +11,13 @@
 	<string name="about">Om c:geo</string>
 	<string name="helper">Glöm inte <b>MENY</b> knappen på din telefon, den visar många funktioner i <b>c:geo</b>!</string>
 
+	<!-- actionbar -->
+	<string name="action_bar_share_title">Skicka cachens länk via</string>
+	<string name="action_bar_share">Dags att geocacha?</string>
+
 	<!-- caches -->
 	<string name="all">Alla cacher</string>
+	<string name="all_types">Alla typer av cacher</string>
 	<string name="traditional">Traditionell cache</string>
 	<string name="multi">Multi-cache</string>
 	<string name="mystery">Mysterie cache</string>
@@ -75,7 +80,7 @@
 	<string name="log_new_discovered">Sett</string>
 	<string name="log_new_review">Granskad</string>
 
-	<!-- errors -->
+	<!-- errors, warnings, info toasts -->
 	<string name="err_none">Ok</string>
 	<string name="err_start">Kommunikationen har inte påbörjats</string>
 	<string name="err_parse">Misslyckades analysera inloggningssidan</string>
@@ -92,6 +97,8 @@
 	<string name="err_detail_cache">Tyvärr, c:geo kan inte visa den geocache du önskar. Är det verkligen en geocache?</string>
 	<string name="err_detail_cache_find">Tyvärr, c:geo kan inte hitta geocache</string>
 	<string name="err_detail_cache_find_some">Tyvärr, c:geo kan inte hitta geocachen.</string>
+	<string name="err_detail_cache_find_any">Tyvärr, c:geo kan inte hitta någon geocache.</string>
+	<string name="err_detail_cache_find_next">Tyvärr, c:geo kan inte hitta nästa geocache.</string>
 	<string name="err_detail_cache_forgot">Tyvärr, c:geo glömde vilken geocache du ville se.</string>
 	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd för att visas på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
 	<string name="err_detail_no_spoiler">c:geo hittade inga spoiler bilder för den här cachen.</string>
@@ -112,9 +119,20 @@
 	<string name="err_no_chaches">Tyvärr, c:geo misslyckades att ladda cachen eller cacherna.</string>
 	<string name="err_download_fail">Tyvärr, c:geo misslyckades att ladda ner cacher eftersom </string>
 	<string name="err_update_fail">Misslyckades att uppdatera rest sträcka.</string>
+	<string name="err_list_load_fail">Tyvärr, c:geo misslyckades att ladda listan med cacher.</string>
+
+	<string name="err_tb_display">"Tyvärr, c:geo kan inte visa den trackable du önskar. Är den verkligen trackable?</string>
+	<string name="err_tb_details_open">Tyvärr, c:geo kan inte öppna detaljer för trackable.</string>
+	<string name="err_tb_details_download">Tyvärr, c:geo misslyckades att ladda ner detaljer för trackable eftersom</string>
+	<string name="err_tb_forgot">Tyvärr, c:geo glömde vilken trackable önskade.</string>
+	<string name="err_tb_find">Tyvärr, c:geo kunde inte hitta trackable</string>
+	<string name="err_tb_find_that">Tyvärr, c:geo kan inte hitta önskad trackable.</string>
 
 	<string name="warn_save_nothing">Det finns inget att spara.</string>
 	<string name="warn_no_cache_coord">Det finns inga koordinater för cachen.</string>
+	<string name="warn_no_coordinates">Inga koordinater angivna.</string>
+	<string name="warn_no_keyword">Inget nyckelord angett.</string>
+	<string name="warn_no_username">Inget användarnamn angett.</string>
 
 	<string name="info_altitude">Nuvarande höjd</string>
 	<string name="info_distance">Rest sträcka</string>
@@ -150,12 +168,27 @@
 	<string name="caches_more_caches">Fler cacher</string>
 	<string name="caches_more_caches_no">Inga fler cacher</string>
 	<string name="caches_downloading">Laddar ner cacher...\nTid kvar: </string>
+	<string name="caches_progress_loading_title">Laddar cacher</string>
+	<string name="caches_progress_loading_text">Cacherna sparade i enheten</string>
 	<string name="caches_eta_ltm">Mindre än en minut</string>
 	<string name="caches_eta_mins"> minuter</string>
+	<string name="caches_eta_min"> minut</string>
 	<string name="caches_no_caches"> (inga cacher)</string>
 	<string name="caches_store_offline">Spara för Offline</string>
+	<string name="caches_store_selected">Spara valda</string>
+	<string name="caches_stored">Sparad</string>
 	<string name="caches_on_map">Visa på karta</string>
 	<string name="caches_select">Välj från lista</string>
+	<string name="caches_select_mode">Markeringsläge</string>
+	<string name="caches_select_mode_exit">Avsluta markeringsläge</string>
+	<string name="caches_nearby">Nära</string>
+	<string name="caches_drop_selected">Ta bort valda</string>
+	<string name="caches_drop_selected_ask">Vill du ta bort valda cacher från enheten?</string>
+	<string name="caches_drop_all">Ta bort alla</string>
+	<string name="caches_drop_all_ask">Vill du ta bort alla cacher från enheten?</string>
+	<string name="caches_drop_stored">Ta bort sparade</string>
+	<string name="caches_refresh_selected">Uppdatera valda</string>
+	<string name="caches_refresh_all">Uppdatera alla</string>
 
 	<!-- about -->
 	<string name="about_changelog">Historik</string>
@@ -221,6 +254,7 @@
 	<string name="cache_offline_time_hour">en timme sedan</string>
 	<string name="cache_offline_time_hours">timmar sedan</string>
 	<string name="cache_offline_time_days">dagar sedan</string>
+	<string name="cache_premium">Premium</string>
 	<string name="cache_attributes">Attribut</string>
 	<string name="cache_inventory">Innehåll</string>
 	<string name="cache_log_offline">Offline logg</string>
@@ -269,14 +303,16 @@
 	<string name="cache_location">Plats</string>
 	<string name="cache_coordinates">Koordinater</string>
 	<string name="cache_calendars">Välj kalender</string>
+	<string name="cache_gpx_import">Importera GPX fil</string>
 
 	<!-- event -->
-	<string name="event_success">Event tillagd i kalender</string>
+	<string name="event_success">Event tillagt i kalender</string>
 	<string name="event_fail">Misslyckades att lägga till event i kalender</string>
 
 	<!-- popup -->
 	<string name="popup_more">Mer information</string>
 	<string name="popup_log_visit">Logga besök</string>
+	<string name="popup_offline">Offline</string>
 	<string name="popup_navigation">Navigering</string>
 
 	<!-- waypoint -->
@@ -316,17 +352,47 @@
 	<string name="search_kw">Nyckelord</string>
 	<string name="search_kw_prefill">Nyckelord</string>
 	<string name="search_kw_button">Sök med nyckelord</string>
+	<string name="search_kw_caches">Cacher med nyckelord</string>
+	<string name="search_caches_found_by">Cacher hittade av</string>
+	<string name="search_caches_hidden_by">Cacher gömda av</string>
 	<string name="search_fbu">Hittad av användare</string>
 	<string name="search_fbu_prefill">Användare</string>
-	<string name="search_fbu_button">Sök efter hittade</string>
+	<string name="search_fbu_button">Sök baserat på hittare</string>
 	<string name="search_hbu">Gömd av användare</string>
 	<string name="search_hbu_prefill">Ägare</string>
-	<string name="search_hbu_button">Sök efter ägda</string>
+	<string name="search_hbu_button">Sök baserat på ägare</string>
 	<string name="search_tb">Trackables</string>
 	<string name="search_tb_hint">Identifiering av trackable</string>
 	<string name="search_tb_button">Sök efter trackable</string>
 	<string name="search_destination">Mål</string>
 	<string name="search_direction_rel">Från min plats</string>
+	<string name="search_lat">Lat</string>
+	<string name="search_lon">Lon</string>
+	<string name="search_caches">Sök efter cache</string>
+	<string name="search_caches_near">Cacher nära</string>
+
+	<!-- trackable -->
+	<string name="trackable">Trackable</string>
+	<string name="trackable_details_loading">Laddar detaljer för trackable...</string>
+	<string name="trackable_log_touch">Logga</string>
+	<string name="trackable_more">Visa mer</string>
+	<string name="trackable_browser_open">Öppna i webbläsare</string>
+	<string name="trackable_goal">Uppdrag</string>
+	<string name="trackable_details">Detaljer</string>
+	<string name="trackable_image">Bild</string>
+	<string name="trackable_code">TB-kod</string>
+	<string name="trackable_name">Namn</string>
+	<string name="trackable_type">Typ</string>
+	<string name="trackable_owner">Ägare</string>
+	<string name="trackable_spotted">Position</string>
+	<string name="trackable_origin">Ursprung</string>
+	<string name="trackable_unknown">Okänd</string>
+	<string name="trackable_released">Släppt</string>
+
+	<!-- license -->
+	<string name="license">Licens</string>
+	<string name="license_show">Visa licens</string>
+	<string name="license_dismiss">Avbryt</string>
 
 	<!-- next things -->
 	<string name="legal_note">För att använda tjänster hos geocaching.com, måste regler och villkor i <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeaks avtal</a> godkännas.</string>
