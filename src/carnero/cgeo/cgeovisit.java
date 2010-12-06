@@ -220,7 +220,7 @@ public class cgeovisit extends cgLogForm {
 		cache = app.getCacheByGeocode(geocode);
 
 		if (cache.name != null && cache.name.length() > 0) {
-			base.setTitle(activity, res.getString(R.string.log_new_log) + cache.name);
+			base.setTitle(activity, res.getString(R.string.log_new_log) + " " + cache.name);
 		} else {
 			base.setTitle(activity, res.getString(R.string.log_new_log) + cache.geocode.toUpperCase());
 		}
@@ -347,7 +347,7 @@ public class cgeovisit extends cgLogForm {
 			if (rating == 0) {
 				post.setText(res.getString(R.string.log_post_no_rate));
 			} else {
-				post.setText(res.getString(R.string.log_post_rate) + rating + "*");
+				post.setText(res.getString(R.string.log_post_rate) + " " + rating + "*");
 			}
 		}
 
