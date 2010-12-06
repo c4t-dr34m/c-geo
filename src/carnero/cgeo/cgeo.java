@@ -229,7 +229,7 @@ public class cgeo extends Activity {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle(res.getString(R.string.menu_filter));
 		
-		menu.add(0, 0, 0, res.getString(R.string.all));
+		menu.add(0, 0, 0, res.getString(R.string.all_types));
 		int cnt = 1;
 		for (String choice : base.cacheTypesInv.values()) {
 			menu.add(0, cnt, 0, choice);
