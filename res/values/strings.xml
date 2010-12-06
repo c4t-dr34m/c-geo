@@ -66,7 +66,7 @@
 	<string name="log_saving">Saving log...</string>
 	<string name="log_clear">Clear</string>
 	<string name="log_post">Post log</string>
-	<string name="log_post_rate">Post log &amp; rate </string>
+	<string name="log_post_rate">Post log &amp; rate</string>
 	<string name="log_post_no_rate">Post log &amp; do not rate</string>
 	<string name="log_add">Add</string>
 	<string name="log_date">Date</string>

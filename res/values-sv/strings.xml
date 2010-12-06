@@ -66,7 +66,7 @@
 	<string name="log_saving">Sparar logg...</string>
 	<string name="log_clear">Rensa</string>
 	<string name="log_post">Posta logg</string>
-	<string name="log_post_rate">Posta logg &amp; ge betyget </string>
+	<string name="log_post_rate">Posta logg &amp; ge betyget</string>
 	<string name="log_post_no_rate">Posta logg utan betyg</string>
 	<string name="log_add">Lägg till</string>
 	<string name="log_date">Datum</string>
@@ -94,7 +94,7 @@
 	<string name="log_new_retrieve">Hämtad från cache</string>
 	<string name="log_new_discovered">Sett</string>
 	<string name="log_new_review">Granskad</string>
-	<string name="log_new_log">Logg</string>
+	<string name="log_new_log">Logga</string>
 	<string name="log_new_log_text">Loggtext</string>
 
 	<!-- errors, warnings, info toasts -->
@@ -407,7 +407,7 @@
 
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>
-	<string name="trackable_details_loading">Laddar detaljer för trackable...</string>
+	<string name="trackable_details_loading">Laddar detaljer om trackable...</string>
 	<string name="trackable_log_touch">Logga</string>
 	<string name="trackable_more">Visa mer</string>
 	<string name="trackable_browser_open">Öppna i webbläsare</string>
