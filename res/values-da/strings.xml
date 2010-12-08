@@ -13,7 +13,6 @@
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Del link til cache</string>
-	<string name="action_bar_share">Vil du med på geocaching?</string>
 
 	<!-- caches -->
 	<string name="all">Alle cacher</string>
