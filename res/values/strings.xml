@@ -347,7 +347,6 @@
 	<string name="popup_more">More details</string>
 	<string name="popup_log_visit">Log visit</string>
 	<string name="popup_offline">Offline</string>
-	<string name="popup_navigation">Navigation</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">Custom</string>
@@ -361,7 +360,6 @@
 	<string name="waypoint_add_title">Add waypoint</string>
 	<string name="waypoint_note">Note</string>
 	<string name="waypoint_save">Save</string>
-	<string name="waypoint_navigation">Navigation</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Post this find to Twitter</string>
@@ -423,6 +421,14 @@
 	<string name="trackable_unknown">Unknown</string>
 	<string name="trackable_released">released</string>
 	<string name="trackable_touch">Touch</string>
+
+	<!-- navigation -->
+	<string name="navigation">Navigation</string>
+	<string name="compass_title">Compass</string>
+	<string name="use_gps">Use GPS</string>
+	<string name="use_compass">Use compass</string>
+	<string name="destination_select">Select destination</string>
+	<string name="destination_set">Set destination</string>
 
 	<!-- license -->
 	<string name="license">License</string>

@@ -80,7 +80,7 @@ public class cgeonavigate extends Activity {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.navigate);
-		base.setTitle(activity, "compass");
+		base.setTitle(activity, res.getString(R.string.compass_title));
 
 		// google analytics
 		base.sendAnal(activity, "/navigate");
@@ -88,7 +88,7 @@ public class cgeonavigate extends Activity {
 		// sensor & geolocation manager
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-		
+
 		// get parameters
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -180,14 +180,14 @@ public class cgeonavigate extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (settings.useCompass == 1) {
-			menu.add(0, 1, 0, "use gps").setIcon(android.R.drawable.ic_menu_compass);
+			menu.add(0, 1, 0, res.getString(R.string.use_gps)).setIcon(android.R.drawable.ic_menu_compass);
 		} else {
-			menu.add(0, 1, 0, "use compass").setIcon(android.R.drawable.ic_menu_compass);
+			menu.add(0, 1, 0, res.getString(R.string.use_compass).setIcon(android.R.drawable.ic_menu_compass);
 		}
-		menu.add(0, 0, 0, "show on map").setIcon(android.R.drawable.ic_menu_mapmode);
-		menu.add(0, 2, 0, "set destination").setIcon(android.R.drawable.ic_menu_edit);
+		menu.add(0, 0, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
+		menu.add(0, 2, 0, res.getString(R.string.destination_set)).setIcon(android.R.drawable.ic_menu_edit);
 		if (coordinates != null && coordinates.size() > 1) {
-			SubMenu subMenu = menu.addSubMenu(0, 3, 0, "select destination").setIcon(android.R.drawable.ic_menu_myplaces);
+			SubMenu subMenu = menu.addSubMenu(0, 3, 0, res.getString(R.string.destination_select)).setIcon(android.R.drawable.ic_menu_myplaces);
 
 			int cnt = 4;
 			for (cgCoord coordinate : coordinates) {
@@ -197,7 +197,7 @@ public class cgeonavigate extends Activity {
 
 			return true;
 		} else {
-			menu.add(0, 3, 0, "select destination").setIcon(android.R.drawable.ic_menu_myplaces).setEnabled(false);
+			menu.add(0, 3, 0, res.getString(R.string.destination_select)).setIcon(android.R.drawable.ic_menu_myplaces).setEnabled(false);
 
 			return true;
 		}
@@ -210,9 +210,9 @@ public class cgeonavigate extends Activity {
 		MenuItem item;
 		item = menu.findItem(1);
 		if (settings.useCompass == 1) {
-			item.setTitle("use gps");
+			item.setTitle(res.getString(R.string.use_gps));
 		} else {
-			item.setTitle("use compass");
+			item.setTitle(res.getString(R.string.use_compass));
 		}
 
 		return true;
@@ -242,7 +242,7 @@ public class cgeonavigate extends Activity {
 				prefsEdit.commit();
 			} else {
 				settings.useCompass = 1;
-				
+
 				if (dir == null) dir = app.startDir(activity, dirUpdate, warning);
 
 				SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
@@ -276,7 +276,7 @@ public class cgeonavigate extends Activity {
 		if (title != null && title.length() > 0) {
 			base.setTitle(activity, title);
 		} else {
-			base.setTitle(activity, "navigation");
+			base.setTitle(activity, res.getString(R.string.navigation));
 		}
 	}
 
@@ -296,7 +296,7 @@ public class cgeonavigate extends Activity {
 		title = "some place";
 		setTitle();
 		setDestCoords();
-		
+
 		dstLatitude = lat;
 		dstLongitude = lon;
 		updateDistanceInfo();
@@ -321,7 +321,7 @@ public class cgeonavigate extends Activity {
 		distanceView.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude)));
 		headingView.setText(String.format(Locale.getDefault(), "%.0f", cacheHeading) + "°");
 	}
-	
+
 	private class update extends cgUpdateLoc {
 		@Override
 		public void updateLoc(cgGeo geo) {
