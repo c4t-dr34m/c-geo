@@ -324,6 +324,7 @@
   <string name="cache_status_disabled">Deaktiviert</string>
   <string name="cache_status_premium">Nur für Premium Mitglieder</string>
   <string name="cache_geocode">GC-Code</string>
+  <string name="cache_name">Name</string>
   <string name="cache_type">Typ</string>
   <string name="cache_distance">Entfernung</string>
   <string name="cache_difficulty">Schwierigkeit</string>
