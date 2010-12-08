@@ -505,6 +505,15 @@ public class cgeodetail extends Activity {
 			}
 			detailsList.addView(itemLayout);
 
+			// cache name (full name)
+			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
+			itemName = (TextView) itemLayout.findViewById(R.id.name);
+			itemValue = (TextView) itemLayout.findViewById(R.id.value);
+
+			itemName.setText(res.getString(R.string.cache_name));
+			itemValue.setText(Html.fromHtml(cache.name).toString());
+			detailsList.addView(itemLayout);
+
 			// gc-code
 			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView) itemLayout.findViewById(R.id.name);
