@@ -1,84 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
+		android:orientation="vertical"
 		android:background="?background_color" >
-	<TextView android:id="@+id/number"
-			android:visibility="gone"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="55dip"
-			android:layout_marginBottom="5dip"
-			android:layout_marginLeft="5dip"
-			android:layout_marginRight="5dip"
-			android:gravity="center_horizontal"
-			android:paddingLeft="5dip"
-			android:paddingRight="5dip"
-			android:lines="1"
-			android:singleLine="true"
-			android:scrollHorizontally="true"
-			android:ellipsize="marquee"
-			android:textSize="12dip"
-			android:textColor="@color/text_icon"
-			android:background="@drawable/icon_bcg" />
-	<LinearLayout android:id="@+id/close"
-			android:visibility="visible"
-			android:layout_width="200dip"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentRight="true"
-			android:layout_gravity="right"
-			android:gravity="left"
-			android:paddingTop="50dip"
-			android:paddingBottom="4dip"
-			android:paddingLeft="12dip"
-			android:paddingRight="12dip"
-			android:orientation="vertical"
-			android:background="?close" >
-		<TextView android:id="@+id/close_dst"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:gravity="center"
-				android:lines="1"
-				android:singleLine="true"
-				android:scrollHorizontally="true"
-				android:ellipsize="marquee"
-				android:textSize="42dip"
-				android:textColor="?text_color"
-				android:text="@null" />
-		<TextView android:id="@+id/close_gc"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:gravity="left"
-				android:lines="1"
-				android:singleLine="true"
-				android:scrollHorizontally="true"
-				android:ellipsize="marquee"
-				android:textSize="18dip"
-				android:textColor="?text_color"
-				android:text="@null" />
-	</LinearLayout>
-	<!-- developement -->
-	<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:keepScreenOn="true"
-			android:enabled="true"
-			android:clickable="true"
-			android:apiKey="0aqvjxNlVeQ9BA0IK9ZpTU-GsacjVio1fa3mpaw" />
-	<!-- market -->
-	<!--
-	<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:keepScreenOn="true"
-			android:enabled="true"
-			android:clickable="true"
-			android:apiKey="0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q" />
-	-->
-	<LinearLayout style="@style/action_bar_map">
+	<LinearLayout style="@style/action_bar">
 		<ImageView style="@style/action_bar_action"
 				android:onClick="goHome" />
 		<View style="@style/action_bar_separator" />
@@ -86,12 +12,88 @@
 		<ProgressBar style="@style/action_bar_progress"
 				android:visibility="gone" />
 	</LinearLayout>
-	<ImageView android:id="@+id/my_position"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentRight="true"
-			android:layout_margin="7dip"
-			android:padding="7dip"
-			android:src="@drawable/my_location_off" />
-</RelativeLayout>
+	<RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" >
+		<TextView android:id="@+id/number"
+				android:visibility="gone"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="5dip"
+				android:gravity="center_horizontal"
+				android:paddingLeft="5dip"
+				android:paddingRight="5dip"
+				android:lines="1"
+				android:singleLine="true"
+				android:scrollHorizontally="true"
+				android:ellipsize="marquee"
+				android:textSize="12dip"
+				android:textColor="@color/text_icon"
+				android:background="@drawable/icon_bcg" />
+		<LinearLayout android:id="@+id/close"
+				android:visibility="visible"
+				android:layout_width="200dip"
+				android:layout_height="wrap_content"
+				android:layout_alignParentTop="true"
+				android:layout_alignParentRight="true"
+				android:layout_gravity="right"
+				android:gravity="left"
+				android:paddingTop="50dip"
+				android:paddingBottom="4dip"
+				android:paddingLeft="12dip"
+				android:paddingRight="12dip"
+				android:orientation="vertical"
+				android:background="?close" >
+			<TextView android:id="@+id/close_dst"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:gravity="center"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="42dip"
+					android:textColor="?text_color"
+					android:text="@null" />
+			<TextView android:id="@+id/close_gc"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:gravity="left"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="18dip"
+					android:textColor="?text_color"
+					android:text="@null" />
+		</LinearLayout>
+		<!-- developement -->
+		<!--
+		<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:keepScreenOn="true"
+				android:enabled="true"
+				android:clickable="true"
+				android:apiKey="0aqvjxNlVeQ9BA0IK9ZpTU-GsacjVio1fa3mpaw" />
+		-->
+		<!-- market -->
+		<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:keepScreenOn="true"
+				android:enabled="true"
+				android:clickable="true"
+				android:apiKey="0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q" />
+		<ImageView android:id="@+id/my_position"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentBottom="true"
+				android:layout_alignParentRight="true"
+				android:layout_margin="5dip"
+				android:padding="5dip"
+				android:src="@drawable/my_location_off" />
+	</RelativeLayout>
+</LinearLayout>

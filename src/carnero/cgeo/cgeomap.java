@@ -1156,10 +1156,10 @@ public class cgeomap extends MapActivity {
 					))
 				) {
 
-				latitudeT = (latitudeCenter + (latitudeSpan / 2)) / 1e6;
-				latitudeB = (latitudeCenter - (latitudeSpan / 2)) / 1e6;
-				longitudeL = (longitudeCenter + (longitudeSpan / 2)) / 1e6;
-				longitudeR = (longitudeCenter - (longitudeSpan / 2)) / 1e6;
+				latitudeT = (latitudeCenter + (latitudeSpan / 2) + (latitudeSpan / 10)) / 1e6;
+				latitudeB = (latitudeCenter - (latitudeSpan / 2) - (latitudeSpan / 10)) / 1e6;
+				longitudeL = (longitudeCenter + (longitudeSpan / 2) + (longitudeSpan / 10)) / 1e6;
+				longitudeR = (longitudeCenter - (longitudeSpan / 2) - (longitudeSpan / 10)) / 1e6;
 
 				centerLatitude = latitudeCenter;
 				centerLongitude = longitudeCenter;

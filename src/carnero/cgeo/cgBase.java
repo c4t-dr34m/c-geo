@@ -4007,10 +4007,11 @@ public class cgBase {
 	public boolean isCacheInViewPort(int centerLat, int centerLon, int spanLat, int spanLon, Double cacheLat, Double cacheLon) {
 		if (cacheLat == null || cacheLon == null) return false;
 
-		int minLat = centerLat - (spanLat / 2);
-		int maxLat = centerLat + (spanLat / 2);
-		int minLon = centerLon - (spanLon / 2);
-		int maxLon = centerLon + (spanLon / 2);
+		// viewport is defined by center, span and some (10%) reserve on every side
+		int minLat = centerLat - (spanLat / 2) - (spanLat / 10);
+		int maxLat = centerLat + (spanLat / 2) + (spanLat / 10);
+		int minLon = centerLon - (spanLon / 2) - (spanLon / 10);
+		int maxLon = centerLon + (spanLon / 2) + (spanLon / 10);
 		int cLat = (int)Math.round(cacheLat * 1e6);
 		int cLon = (int)Math.round(cacheLon * 1e6);
 		int mid = 0;
