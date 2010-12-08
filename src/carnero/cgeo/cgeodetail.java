@@ -1470,4 +1470,24 @@ public class cgeodetail extends Activity {
 
 		startActivity(Intent.createChooser(intent, res.getText(R.string.action_bar_share_title)));
 	}
+
+	public void goCompass(View view) {
+		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			return;
+		}
+
+		cgeonavigate navigateActivity = new cgeonavigate();
+
+		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
+		navigateIntent.putExtra("latitude", cache.latitude);
+		navigateIntent.putExtra("longitude", cache.longitude);
+		navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());
+		navigateIntent.putExtra("name", cache.name);
+
+		if (navigateActivity.coordinates != null) {
+			navigateActivity.coordinates.clear();
+		}
+		navigateActivity.coordinates = getCoordinates();
+		activity.startActivity(navigateIntent);
+	}
 }
