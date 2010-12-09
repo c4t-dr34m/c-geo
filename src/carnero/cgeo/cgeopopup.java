@@ -409,7 +409,7 @@ public class cgeopopup extends Activity {
 					offlineRefresh.setOnTouchListener(null);
 					offlineRefresh.setOnClickListener(null);
 
-					offlineStore.setText("store");
+					offlineStore.setText(res.getString(R.string.cache_offline_store));
 					offlineStore.setEnabled(true);
 					offlineStore.setOnClickListener(new storeCache());
 				}

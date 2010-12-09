@@ -290,7 +290,7 @@
 	<string name="cache_offline_not_ready">Inte redo\nför användning offline</string>
 	<string name="cache_offline_time_about">för</string>
 	<string name="cache_offline_time_mins">minuter sedan</string>
-	<string name="cache_offline_time_mins_few">några minuter sedan</string>
+	<string name="cache_offline_time_mins_few">för några minuter sedan</string>
 	<string name="cache_offline_time_hour">en timme sedan</string>
 	<string name="cache_offline_time_hours">timmar sedan</string>
 	<string name="cache_offline_time_days">dagar sedan</string>

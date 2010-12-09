@@ -288,9 +288,9 @@
 	<string name="cache_offline_store">Store</string>
 	<string name="cache_offline_stored">Stored in device</string>
 	<string name="cache_offline_not_ready">Not ready\nfor offline use</string>
-	<string name="cache_offline_time_about">About</string>
+	<string name="cache_offline_time_about">about</string>
 	<string name="cache_offline_time_mins">minutes ago</string>
-	<string name="cache_offline_time_mins_few">few minutes ago</string>
+	<string name="cache_offline_time_mins_few">a few minutes ago</string>
 	<string name="cache_offline_time_hour">one hour ago</string>
 	<string name="cache_offline_time_hours">hours ago</string>
 	<string name="cache_offline_time_days">days ago</string>
