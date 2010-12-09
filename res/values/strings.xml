@@ -105,6 +105,7 @@
 	<string name="err_login">No login information stored</string>
 	<string name="err_unknown">Unknown error</string>
 	<string name="err_comm">Unknown communication error</string>
+	<string name="err_missing_auth">No username and/or password set.</string>
 	<string name="err_wrong">Wrong login informations</string>
 	<string name="err_license">User has not agreed to Geocaching.com license agreement, so c:geo can\'t load caches coordinates.</string>
 	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
@@ -240,6 +241,11 @@
 	<string name="init_password">Password</string>
 	<string name="init_passvote">Password</string>
 	<string name="init_login">Check login</string>
+	<string name="init_login_popup">Login</string>
+	<string name="init_login_popup_working">Logging to geocaching.com...</string>
+	<string name="init_login_popup_ok">Login ok.</string>
+	<string name="init_login_popup_failed">Login failed.</string>
+	<string name="init_login_popup_failed_reason">Login failed because of </string>
 	<string name="init_legal">Legal note</string>
 	<string name="init_go4cache_connect">Connect to Go 4 Cache</string>
 	<string name="init_twitter_authorize">Authorize c:geo</string>
