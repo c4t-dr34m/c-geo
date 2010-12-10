@@ -362,7 +362,7 @@ public class cgeocaches extends ListActivity {
 			title = keyword;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_kw_caches) + keyword + typeText, true);
+			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_kw_caches) + ": " + keyword + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByKeyword(loadCachesHandler,  keyword, cachetype);
 			thread.start();
@@ -386,7 +386,7 @@ public class cgeocaches extends ListActivity {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_found_by) + username + typeText, true);
+			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_found_by) + ": " + username + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByUserName(loadCachesHandler,  username, cachetype);
 			thread.start();
@@ -394,7 +394,7 @@ public class cgeocaches extends ListActivity {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_hidden_by) + username + typeText, true);
+			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_hidden_by) + ": " + username + typeText, true);
 			waitDialog.setCancelable(true);
 			thread = new geocachesLoadByOwner(loadCachesHandler,  username, cachetype);
 			thread.start();

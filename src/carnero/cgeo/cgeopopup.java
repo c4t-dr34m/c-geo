@@ -189,7 +189,7 @@ public class cgeopopup extends Activity {
 			itemName = (TextView)itemLayout.findViewById(R.id.name);
 			itemValue = (TextView)itemLayout.findViewById(R.id.value);
 
-			itemName.setText("type");
+			itemName.setText(res.getString(R.string.cache_type));
 			if (base.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
 				if (cache.size != null && cache.size.length() > 0) itemValue.setText(base.cacheTypesInv.get(cache.type) + " (" + cache.size + ")");
 				else itemValue.setText(base.cacheTypesInv.get(cache.type));
@@ -409,7 +409,7 @@ public class cgeopopup extends Activity {
 					offlineRefresh.setOnTouchListener(null);
 					offlineRefresh.setOnClickListener(null);
 
-					offlineStore.setText("store");
+					offlineStore.setText(res.getString(R.string.cache_offline_store));
 					offlineStore.setEnabled(true);
 					offlineStore.setOnClickListener(new storeCache());
 				}

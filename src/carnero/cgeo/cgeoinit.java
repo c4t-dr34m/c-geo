@@ -40,12 +40,13 @@ public class cgeoinit extends Activity {
 				}
 
 				if (msg.what == 1) {
-					warning.helpDialog("login", "Login ok.");
+					warning.helpDialog(res.getString(R.string.init_login_popup), res.getString(R.string.init_login_popup_ok));
 				} else {
 					if (base.errorRetrieve.containsKey(msg.what) == true) {
-						warning.helpDialog("login", "Login failed because of " + base.errorRetrieve.get(msg.what) + ".");
+						warning.helpDialog(res.getString(R.string.init_login_popup),
+								res.getString(R.string.init_login_popup_failed_reason) + " " + base.errorRetrieve.get(msg.what) + ".");
 					} else {
-						warning.helpDialog("login", "Login failed.");
+						warning.helpDialog(res.getString(R.string.init_login_popup), res.getString(R.string.init_login_popup_failed));
 					}
 				}
 			} catch (Exception e) {
@@ -669,11 +670,11 @@ public class cgeoinit extends Activity {
 			final String password = ((EditText) findViewById(R.id.password)).getText().toString();
 
 			if (username == null || username.length() == 0 || password == null || password.length() == 0) {
-				warning.showToast("No username and/or password set.");
+				warning.showToast(res.getString(R.string.err_missing_auth));
 				return;
 			}
 
-			loginDialog = ProgressDialog.show(activity, "login", "Logging to geocaching.com...", true);
+			loginDialog = ProgressDialog.show(activity, res.getString(R.string.init_login_popup), res.getString(R.string.init_login_popup_working), true);
 			loginDialog.setCancelable(false);
 
 			settings.setLogin(username, password);

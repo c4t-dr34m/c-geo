@@ -68,6 +68,9 @@
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
 					android:padding="7dip" >
+				<Button style="@style/button"
+						android:id="@+id/start"
+						android:text="@string/auth_authorize" />
 				<EditText style="@style/edittext"
 						android:id="@+id/pin"
 						android:visibility="gone"
@@ -77,9 +80,6 @@
 						android:id="@+id/pin_button"
 						android:visibility="gone"
 						android:text="@string/auth_finish" />
-				<Button style="@style/button"
-						android:id="@+id/start"
-						android:text="@string/auth_authorize" />
 			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>

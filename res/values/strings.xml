@@ -104,6 +104,7 @@
 	<string name="err_login">No login information stored</string>
 	<string name="err_unknown">Unknown error</string>
 	<string name="err_comm">Unknown communication error</string>
+	<string name="err_missing_auth">No username and/or password set.</string>
 	<string name="err_wrong">Wrong login informations</string>
 	<string name="err_license">User has not agreed to Geocaching.com license agreement, so c:geo can\'t load caches coordinates.</string>
 	<string name="err_store">Sorry, c:geo can\'t store cache.</string>
@@ -239,6 +240,11 @@
 	<string name="init_password">Password</string>
 	<string name="init_passvote">Password</string>
 	<string name="init_login">Check login</string>
+	<string name="init_login_popup">Login</string>
+	<string name="init_login_popup_working">Logging to geocaching.com...</string>
+	<string name="init_login_popup_ok">Login ok.</string>
+	<string name="init_login_popup_failed">Login failed.</string>
+	<string name="init_login_popup_failed_reason">Login failed because of </string>
 	<string name="init_legal">Legal note</string>
 	<string name="init_go4cache_connect">Connect to Go 4 Cache</string>
 	<string name="init_twitter_authorize">Authorize c:geo</string>
@@ -281,9 +287,9 @@
 	<string name="cache_offline_store">Store</string>
 	<string name="cache_offline_stored">Stored in device</string>
 	<string name="cache_offline_not_ready">Not ready\nfor offline use</string>
-	<string name="cache_offline_time_about">About</string>
+	<string name="cache_offline_time_about">about</string>
 	<string name="cache_offline_time_mins">minutes ago</string>
-	<string name="cache_offline_time_mins_few">few minutes ago</string>
+	<string name="cache_offline_time_mins_few">a few minutes ago</string>
 	<string name="cache_offline_time_hour">one hour ago</string>
 	<string name="cache_offline_time_hours">hours ago</string>
 	<string name="cache_offline_time_days">days ago</string>
@@ -441,7 +447,7 @@
 graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_go4cache">Service <b>Go 4 Cache</b> shows other geocachers on the map (in <b>c:geo</b> or in browser) in real time. It can show, for example, what cache they\'re searching for. By connecting to <b>Go 4 Cache</b> <b>c:geo</b> is allowed to publish current location when geocaching (only when <b>c:geo</b> is running).</string>
 	<string name="about_twitter">Should <b>c:geo</b> publish new status on Twitter everytime a cache is logged?</string>
-	<string name="about_auth_1">The following proccess allows <b>c:geo</b> to access Twitter - if agreed.</string>
+	<string name="about_auth_1">The following process allows <b>c:geo</b> to access Twitter - if agreed.</string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start the process. This process will open up a web browser with Twitter page. Login on this page and allow <b>c:geo</b> to access your account. If accepted, Twitter will show up a numeric PIN code. This PIN must be pasted into <b>c:geo</b> and be confirmed. That\'s all.</string>
 
 	<!-- changelog -->
