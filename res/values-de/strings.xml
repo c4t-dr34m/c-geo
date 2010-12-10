@@ -344,7 +344,6 @@
 	<string name="popup_more">Mehr Details</string>
 	<string name="popup_log_visit">Besuch loggen</string>
 	<string name="popup_offline">Offline</string>
-	<string name="popup_navigation">Navigation</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">Benutzerdefiniert</string>
@@ -358,7 +357,6 @@
 	<string name="waypoint_add_title">Wegpunkt hinzufügen</string>
 	<string name="waypoint_note">Notiz</string>
 	<string name="waypoint_save">Speichern</string>
-	<string name="waypoint_navigation">Navigation</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
@@ -420,6 +418,9 @@
 	<string name="trackable_unknown">Unbekannt</string>
 	<string name="trackable_released">Ausgesetzt</string>
 	<string name="trackable_touch">Berühren</string>
+
+	<!-- navigation -->
+	<string name="navigation">Navigation</string>
 
 	<!-- license -->
 	<string name="license">Lizenz</string>

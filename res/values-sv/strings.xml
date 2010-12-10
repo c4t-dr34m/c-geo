@@ -62,22 +62,7 @@
 	<string name="log_tb_visit">Besök</string>
 	<string name="log_tb_drop">Lämna här</string>
 	<string name="log_save">Spara</string>
-	<string name="log_saving">Sparar logg...</string>
 	<string name="log_clear">Rensa</string>
-	<string name="log_post">Posta logg</string>
-	<string name="log_post_rate">Posta logg &amp; ge betyget</string>
-	<string name="log_post_no_rate">Posta logg utan betyg</string>
-	<string name="log_add">Lägg till</string>
-	<string name="log_date">Datum</string>
-	<string name="log_time">Tid</string>
-	<string name="log_date_time">Datum &amp; tid</string>
-	<string name="log_rating">Betyg</string>
-	<string name="log_no_rating">Inget betyg</string>
-	<string name="log_stars_1">1 stjärna</string>
-	<string name="log_stars_2">2 stjärnor</string>
-	<string name="log_stars_3">3 stjärnor</string>
-	<string name="log_stars_4">4 stjärnor</string>
-	<string name="log_stars_5">5 stjärnor</string>
 
 	<!-- new logs -->
 	<string name="log_new_found">Hittad</string>
@@ -93,20 +78,17 @@
 	<string name="log_new_retrieve">Hämtad från cache</string>
 	<string name="log_new_discovered">Sett</string>
 	<string name="log_new_review">Granskad</string>
-	<string name="log_new_log">Logga</string>
-	<string name="log_new_log_text">Loggtext</string>
 
 	<!-- errors, warnings, info toasts -->
 	<string name="err_none">Ok</string>
 	<string name="err_start">Kommunikationen har inte påbörjats</string>
-	<string name="err_parse">misslyckades analysera inloggningssidan</string>
-	<string name="err_server">misslyckades att ansluta till geocaching.com (servern eller anslutningen nere?)</string>
+	<string name="err_parse">Misslyckades analysera inloggningssidan</string>
+	<string name="err_server">Misslyckades att ansluta till geocaching.com (servern eller anslutningen nere?)</string>
 	<string name="err_login">Inloggningsinformationen ej sparad</string>
-	<string name="err_unknown">okänt fel</string>
-	<string name="err_comm">ett okänt kommunikationsfel</string>
-	<string name="err_missing_auth">användarnamn och/eller lösenord saknas</string>
-	<string name="err_wrong">inloggningsuppgifterna inte är korrekta</string>
-	<string name="err_license">användaren inte har bekräftat licensavtalet med geocaching.com</string>
+	<string name="err_unknown">Okänt fel</string>
+	<string name="err_comm">Okänt kommunikationsfel</string>
+	<string name="err_wrong">Felaktiga inloggningsuppgifter</string>
+	<string name="err_license">Användaren har inte bekräftat licensavtalet med geocaching.com</string>
 	<string name="err_store">Tyvärr, c:geo kan inte spara cachen.</string>
 	<string name="err_drop">Tyvärr, c:geo kan inte ta bort cachen.</string>
 	<string name="err_title_problem">Problem</string>
@@ -117,7 +99,6 @@
 	<string name="err_detail_cache_find_any">Tyvärr, c:geo kan inte hitta någon geocache.</string>
 	<string name="err_detail_cache_find_next">Tyvärr, c:geo kan inte hitta nästa geocache.</string>
 	<string name="err_detail_cache_forgot">Tyvärr, c:geo glömde vilken geocache du ville se.</string>
-	<string name="err_detail_cache_forgot_visit">Tyvärr, c:geo glömde vilken cache tittade på.</string>
 	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd för att visas på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
 	<string name="err_detail_no_spoiler">c:geo hittade inga spoiler bilder för den här cachen.</string>
 	<string name="err_detail_no_map_static">c:geo hittade inga statiska kartor för denna cache.</string>
@@ -132,27 +113,19 @@
 	<string name="err_application_no">c:geo kan inte hitta något lämpligt program.</string>
 	<string name="err_auth_initialize">Tyvärr, c:geo misslyckades att starta inloggningsproceduren.</string>
 	<string name="err_auth_process">Inloggningsproceduren misslyckades.</string>
-	<string name="err_cannot_log_visit">c:geo har inte tillräckligt med information för att logga ditt besök. Vänligen försök igen från vyn med all information om cachen.</string>
+	<string name="err_cannot_log_visit">c:geo har inte tillräckligt med information för att logga ditt besök. Vänligen, försök igen från vyn men all information on cachen.</string>
 	<string name="err_init_cleared">Tyvärr, c:geo kan inte rensa inloggningsinställningarna.</string>
 	<string name="err_no_chaches">Tyvärr, c:geo misslyckades att ladda cachen eller cacherna.</string>
-	<string name="err_download_fail">Tyvärr, c:geo misslyckades att ladda ner cacher pga</string>
+	<string name="err_download_fail">Tyvärr, c:geo misslyckades att ladda ner cacher eftersom </string>
 	<string name="err_update_fail">Misslyckades att uppdatera rest sträcka.</string>
 	<string name="err_list_load_fail">Tyvärr, c:geo misslyckades att ladda listan med cacher.</string>
 
 	<string name="err_tb_display">"Tyvärr, c:geo kan inte visa den trackable du önskar. Är den verkligen trackable?</string>
 	<string name="err_tb_details_open">Tyvärr, c:geo kan inte öppna detaljer för trackable.</string>
-	<string name="err_tb_details_download">Tyvärr, c:geo misslyckades att ladda ner detaljer för trackable pga</string>
+	<string name="err_tb_details_download">Tyvärr, c:geo misslyckades att ladda ner detaljer för trackable eftersom</string>
 	<string name="err_tb_forgot">Tyvärr, c:geo glömde vilken trackable önskade.</string>
-	<string name="err_tb_forgot_saw">Tyvärr, c:geo fglömde vilken trackable du såg.</string>
 	<string name="err_tb_find">Tyvärr, c:geo kunde inte hitta trackable</string>
 	<string name="err_tb_find_that">Tyvärr, c:geo kan inte hitta önskad trackable.</string>
-
-	<string name="err_log_load_data">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök.</string>
-	<string name="err_log_load_data_again">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök. Försöker igen.</string>
-	<string name="err_log_load_data_still">c:geo laddar fortfarande data för att kunna posta loggen. Vänligen vänta en stund till.</string>
-	<string name="err_log_failed_server">Tyvärr, c:geo misslyckades att posta loggen eftersom servern inte svarade.</string>
-	<string name="err_log_post_failed">Tyvärr, c:geo misslyckades att posta loggen.</string>
-	<string name="err_log_post_failed_because">Tyvärr, c:geo misslyckades att posta loggen pga </string>
 
 	<string name="warn_save_nothing">Det finns inget att spara.</string>
 	<string name="warn_no_cache_coord">Det finns inga koordinater för cachen.</string>
@@ -160,17 +133,10 @@
 	<string name="warn_no_keyword">Inget nyckelord angett.</string>
 	<string name="warn_no_username">Inget användarnamn angett.</string>
 
-	<string name="warn_log_text_fill">Vänligen skriv någon text i loggen.</string>
-
 	<string name="info_altitude">Nuvarande höjd</string>
 	<string name="info_distance">Rest sträcka</string>
 	<string name="info_distance_cleared">Rest sträcka har rensats.</string>
 	<string name="info_since">\n(sedan </string>
-
-	<string name="info_log_posted">c:geo har postat din logg.</string>
-	<string name="info_log_saved">c:geo har sparat din logg.</string>
-	<string name="info_log_cleared">Loggen har rensats.</string>
-	<string name="info_log_type_changed">Typen av logg har ändrats!</string>
 
 	<!-- location service -->
 	<string name="loc_last">Senast kända</string>
@@ -197,7 +163,6 @@
 	<string name="now_searching">Söker</string>
 
 	<!-- caches -->
-	<string name="caches_searching">Söker efter cacher</string>
 	<string name="caches_no_cache">Ingen cache</string>
 	<string name="caches_more_caches">Fler cacher</string>
 	<string name="caches_more_caches_no">Inga fler cacher</string>
@@ -210,7 +175,7 @@
 	<string name="caches_no_caches"> (inga cacher)</string>
 	<string name="caches_store_offline">Spara för Offline</string>
 	<string name="caches_store_selected">Spara valda</string>
-	<string name="caches_stored">Sparade cacher</string>
+	<string name="caches_stored">Sparad</string>
 	<string name="caches_on_map">Visa på karta</string>
 	<string name="caches_select">Välj från lista</string>
 	<string name="caches_select_mode">Markeringsläge</string>
@@ -240,11 +205,6 @@
 	<string name="init_password">Lösenord</string>
 	<string name="init_passvote">Lösenord</string>
 	<string name="init_login">Testa inloggning</string>
-	<string name="init_login_popup">Inloggning</string>
-	<string name="init_login_popup_working">Testar inloggning mot geocaching.com...</string>
-	<string name="init_login_popup_ok">Inloggning ok.</string>
-	<string name="init_login_popup_failed">Inloggning misslyckades.</string>
-	<string name="init_login_popup_failed_reason">Inloggning misslyckades pga </string>
 	<string name="init_legal">Legal kommentar</string>
 	<string name="init_go4cache_connect">Anslut till Go 4 Cache</string>
 	<string name="init_twitter_authorize">Inställningar för Twitter</string>
@@ -255,7 +215,7 @@
 	<string name="init_transparent">Transparent huvudmeny</string>
 	<string name="init_address">Visa adress på huvudskärmen</string>
 	<string name="init_exclude">Dölj egna och hittade cacher</string>
-	<string name="init_disabled">Dölj inaktiva cacher</string>
+	<string name="init_disabled">Dölj arkiverade cacher</string>
 	<string name="init_offline">Spara kartor för användning offline</string>
 	<string name="init_units">Använd amerikanska enheter för avstånd</string>
 	<string name="init_nav">Använd Google Navigering</string>
@@ -289,7 +249,7 @@
 	<string name="cache_offline_not_ready">Inte redo\nför användning offline</string>
 	<string name="cache_offline_time_about">för</string>
 	<string name="cache_offline_time_mins">minuter sedan</string>
-	<string name="cache_offline_time_mins_few">för några minuter sedan</string>
+	<string name="cache_offline_time_mins_few">några minuter sedan</string>
 	<string name="cache_offline_time_hour">en timme sedan</string>
 	<string name="cache_offline_time_hours">timmar sedan</string>
 	<string name="cache_offline_time_days">dagar sedan</string>
@@ -352,7 +312,6 @@
 	<string name="popup_more">Mer information</string>
 	<string name="popup_log_visit">Logga besök</string>
 	<string name="popup_offline">Offline</string>
-	<string name="popup_navigation">Navigering</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">Egna</string>
@@ -366,7 +325,6 @@
 	<string name="waypoint_add_title">Lägg till punkt</string>
 	<string name="waypoint_note">Kommentar</string>
 	<string name="waypoint_save">Spara</string>
-	<string name="waypoint_navigation">Navigering</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Skicka att du hittat till Twitter</string>
@@ -412,7 +370,7 @@
 
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>
-	<string name="trackable_details_loading">Laddar detaljer om trackable...</string>
+	<string name="trackable_details_loading">Laddar detaljer för trackable...</string>
 	<string name="trackable_log_touch">Logga</string>
 	<string name="trackable_more">Visa mer</string>
 	<string name="trackable_browser_open">Öppna i webbläsare</string>
@@ -427,7 +385,9 @@
 	<string name="trackable_origin">Ursprung</string>
 	<string name="trackable_unknown">Okänd</string>
 	<string name="trackable_released">Släppt</string>
-	<string name="trackable_touch">Logga</string>
+
+	<!-- navigation -->
+	<string name="navigation">Navigering</string>
 
 	<!-- license -->
 	<string name="license">Licens</string>
@@ -436,7 +396,7 @@
 
 	<!-- next things -->
 	<string name="legal_note">För att använda tjänster hos geocaching.com, måste regler och villkor i <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeaks avtal</a> godkännas.</string>
-	<string name="about_text"><b>c:geo</b> är utformat för att vara ett enkelt program som alltid är redo för geocaching.com. Det är och kommer alltid att vara gratis. Om du vill bidra till utvecklingen, så är du välkommen att donera (med knapparna nedan). Frågor eller kommentarer? Använd Facebook eller e-posta till mig.</string>
+	<string name="about_text"><b>c:geo</b> är utformat för att vara ett enkelt program som alltid är redo för geocaching.com. Det är och kommer alltid att vara gratis. Om du will bidra till utvecklingen, så är du välkommen att donera (med knapparna nedan). Frågor eller kommentarer? Använd Facebook eller e-posta till mig.</string>
 	<string name="author">Upphovsman: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
 	<string name="website">Hemsida: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>

@@ -47,7 +47,7 @@
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />
 				<TextView style="@style/separator_horizontal_headline"
-						android:text="@string/waypoint_navigation" />
+						android:text="@string/navigation" />
 			</RelativeLayout>
 			<LinearLayout
 					android:layout_width="fill_parent"

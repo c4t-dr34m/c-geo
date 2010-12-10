@@ -280,7 +280,6 @@
 	<!-- popup -->
 	<string name="popup_more">További részletek</string>
 	<string name="popup_log_visit">Megtalálás bejelentése</string>
-	<string name="popup_navigation">Navigáció</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">Egyedi</string>
@@ -294,7 +293,6 @@
 	<string name="waypoint_add_title">Útpont hozzáadás</string>
 	<string name="waypoint_note">Jegyzet</string>
 	<string name="waypoint_save">Mentés</string>
-	<string name="waypoint_navigation">Navigáció</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Találat megjelenítése Twitteren</string>
@@ -330,6 +328,9 @@
 	<string name="search_tb_button">Keresés TB alapján</string>
 	<string name="search_destination">Cél</string>
 	<string name="search_direction_rel">Ettől a pozíciótól</string>
+
+	<!-- navigation -->
+	<string name="navigation">Navigáció</string>
 
 	<!-- next things -->
 	<string name="legal_note">A geocaching.com szolgáltatásainak használatához, a <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> feltételeinek elfogadása szükséges.</string>

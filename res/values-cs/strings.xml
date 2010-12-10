@@ -1,293 +1,294 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string name="app_name">c:geo</string>
-	<string name="app_name_compass">c:geo kompas</string>
+  <string name="app_name">c:geo</string>
+  <string name="app_name_compass">c:geo kompas</string>
 
-	<!-- basics -->
-	<string name="cache">keš</string>
-	<string name="detail">detail</string>
-	<string name="search">vyhledávání</string>
-	<string name="settings">nastavení</string>
-	<string name="about">o aplikaci</string>
-	<string name="helper">nezapomeňte na tlačítko <b>MENU</b> na Vašem telefonu, nabídne Vám spustu funkcí aplikace <b>c:geo</b>!</string>
+  <!-- basics -->
+  <string name="cache">keš</string>
+  <string name="detail">detail</string>
+  <string name="search">vyhledávání</string>
+  <string name="settings">nastavení</string>
+  <string name="about">o aplikaci</string>
+  <string name="helper">nezapomeňte na tlačítko <b>MENU</b> na Vašem telefonu, nabídne Vám spustu funkcí aplikace <b>c:geo</b>!</string>
 
-	<!-- caches -->
-	<string name="all">všechny kešky</string>
-	<string name="traditional">tradiční keš</string>
-	<string name="multi">multi-keš</string>
-	<string name="mystery">neznámá keš</string>
-	<string name="letterbox">dopisní schránka</string>
-	<string name="event">událost</string>
-	<string name="mega">mega-událost</string>
-	<string name="earth">earthcache</string>
-	<string name="cito">událost cache in trash out</string>
-	<string name="webcam">webcam keš</string>
-	<string name="virtual">virtuální keš</string>
-	<string name="wherigo">wherigo keš</string>
-	<string name="lostfound">ztraceno a nalezeno</string>
-	<string name="ape">keš projektu ape</string>
-	<string name="gchq">ústředí groundspeaku</string>
-	<string name="gps">gps cache exhibit</string>
+  <!-- caches -->
+  <string name="all">všechny kešky</string>
+  <string name="traditional">tradiční keš</string>
+  <string name="multi">multi-keš</string>
+  <string name="mystery">neznámá keš</string>
+  <string name="letterbox">dopisní schránka</string>
+  <string name="event">událost</string>
+  <string name="mega">mega-událost</string>
+  <string name="earth">earthcache</string>
+  <string name="cito">událost cache in trash out</string>
+  <string name="webcam">webcam keš</string>
+  <string name="virtual">virtuální keš</string>
+  <string name="wherigo">wherigo keš</string>
+  <string name="lostfound">ztraceno a nalezeno</string>
+  <string name="ape">keš projektu ape</string>
+  <string name="gchq">ústředí groundspeaku</string>
+  <string name="gps">gps cache exhibit</string>
 
-	<!-- waypoints -->
-	<string name="wp_final">cíl</string>
-	<string name="wp_stage">část multi-keše</string>
-	<string name="wp_puzzle">otázka</string>
-	<string name="wp_pkg">parkoviště</string>
-	<string name="wp_trailhead">rozcestník</string>
-	<string name="wp_waypoint">referenční bod</string>
+  <!-- waypoints -->
+  <string name="wp_final">cíl</string>
+  <string name="wp_stage">část multi-keše</string>
+  <string name="wp_puzzle">otázka</string>
+  <string name="wp_pkg">parkoviště</string>
+  <string name="wp_trailhead">rozcestník</string>
+  <string name="wp_waypoint">referenční bod</string>
 
-	<!-- logs -->
-	<string name="log_found">nález</string>
-	<string name="log_dnf">nenalezeno</string>
-	<string name="log_note">poznámka</string>
-	<string name="log_published">zveřejněno</string>
-	<string name="log_enabled">aktivováno</string>
-	<string name="log_disabled">deaktivováno</string>
-	<string name="log_attend">zúčastní se</string>
-	<string name="log_attended">účastnil se</string>
-	<string name="log_retrieved">vytažen z keše</string>
-	<string name="log_grabbed">převzat</string>
-	<string name="log_needs">požadavek na údržbu</string>
-	<string name="log_maintenance">údržba</string>
-	<string name="log_update">změna souřadnic</string>
-	<string name="log_archived">archivace</string>
-	<string name="log_discovered">nalezen</string>
-	<string name="log_review">poznámka kontroly</string>
-	<string name="log_tb_nothing">beze změny</string>
-	<string name="log_tb_visit">návštěva</string>
-	<string name="log_tb_drop">nechat zde</string>
+  <!-- logs -->
+  <string name="log_found">nález</string>
+  <string name="log_dnf">nenalezeno</string>
+  <string name="log_note">poznámka</string>
+  <string name="log_published">zveřejněno</string>
+  <string name="log_enabled">aktivováno</string>
+  <string name="log_disabled">deaktivováno</string>
+  <string name="log_attend">zúčastní se</string>
+  <string name="log_attended">účastnil se</string>
+  <string name="log_retrieved">vytažen z keše</string>
+  <string name="log_grabbed">převzat</string>
+  <string name="log_needs">požadavek na údržbu</string>
+  <string name="log_maintenance">údržba</string>
+  <string name="log_update">změna souřadnic</string>
+  <string name="log_archived">archivace</string>
+  <string name="log_discovered">nalezen</string>
+  <string name="log_review">poznámka kontroly</string>
+  <string name="log_tb_nothing">beze změny</string>
+  <string name="log_tb_visit">návštěva</string>
+  <string name="log_tb_drop">nechat zde</string>
 
-	<!-- new logs -->
-	<string name="log_new_found">nalezeno</string>
-	<string name="log_new_dnf">nenalezeno</string>
-	<string name="log_new_note">poznámka</string>
-	<string name="log_new_archive">vyžaduje archivaci</string>
-	<string name="log_new_attend">zůčastním se</string>
-	<string name="log_new_attended">zůčastnil jsem se</string>
-	<string name="log_new_webcam">vyfocen webkamerou</string>
-	<string name="log_new_maintenance">vyžaduje údržbu</string>
-	<string name="log_new_maintenance_owner">údržba</string>
-	<string name="log_new_grab">získáno odjinud</string>
-	<string name="log_new_retrieve">vyzvednuto z keše</string>
-	<string name="log_new_discovered">objeveno</string>
-	<string name="log_new_review">zkontrolováno</string>
+  <!-- new logs -->
+  <string name="log_new_found">nalezeno</string>
+  <string name="log_new_dnf">nenalezeno</string>
+  <string name="log_new_note">poznámka</string>
+  <string name="log_new_archive">vyžaduje archivaci</string>
+  <string name="log_new_attend">zůčastním se</string>
+  <string name="log_new_attended">zůčastnil jsem se</string>
+  <string name="log_new_webcam">vyfocen webkamerou</string>
+  <string name="log_new_maintenance">vyžaduje údržbu</string>
+  <string name="log_new_maintenance_owner">údržba</string>
+  <string name="log_new_grab">získáno odjinud</string>
+  <string name="log_new_retrieve">vyzvednuto z keše</string>
+  <string name="log_new_discovered">objeveno</string>
+  <string name="log_new_review">zkontrolováno</string>
 
-	<!-- errors -->
-	<string name="err_none">ok</string>
-	<string name="err_start">komunikace nezačala</string>
-	<string name="err_parse">selhalo čtení logovací stránky</string>
-	<string name="err_server">selhalo připojení k serveru geocaching.com (server umřel?)</string>
-	<string name="err_login">nejsou uložené žádné přihlašovací údaje</string>
-	<string name="err_unknown">nastala neznámá chyba</string>
-	<string name="err_comm">nastala neznámá chyba při komunikaci</string>
-	<string name="err_wrong">uložené přihlašovací údaje jsou špatné</string>
-	<string name="err_license">uživatel nepotvrdil souhlas s licenčním ujednáním serveru Geocaching.com</string>
-	<string name="err_store">c:geo nemůže uložit keš.</string>
-	<string name="err_drop">c:geo nemůže smazat keš.</string>
-	<string name="err_title_problem">problém</string>
-	<string name="err_detail_open">c:geo nedokáže načíst detaily keše.</string>
-	<string name="err_detail_cache">c:geo nedokáže načíst detaily keše. Je to opravdu keš?</string>
-	<string name="err_detail_cache_find">c:geo nemůže najít keš</string>
-	<string name="err_detail_cache_find_some">c:geo nemůže najít požadovanou keš.</string>
-	<string name="err_detail_cache_forgot">c:geo zapomnělo, jakou keš chcete zobrazit.</string>
-	<string name="err_detail_cache_language">c:geo nemůže přečíst některé detaily. Prosím zkontrolujte, zda máte web Geocaching.com nastavený na anglický jazyk. c:geo zatím bohužel nedokáže přečíst jiné jazyky.</string>
-	<string name="err_detail_no_spoiler">c:geo nenašlo žádný obrázek pro tuto keš.</string>
-	<string name="err_detail_no_map_static">c:geo nenašlo žádnou statickou mapu pro tuto keš.</string>
-	<string name="err_detail_still_removing">Ještě odstraňuji keš.</string>
-	<string name="err_detail_still_saving">Ještě ukládám keš.</string>
-	<string name="err_detail_still_refreshing">Ještě aktualizuji keš.</string>
-	<string name="err_radar_title">Radar není nainstalován.</string>
-	<string name="err_radar_message">Tato funkce vyžaduje aplikaci Radar. Chcete ji nainstalovat?</string>
-	<string name="err_radar_market">c:geo nedokáže spustit Androdid Market a vyhledat aplikaci Radar.</string>
-	<string name="err_radar_generic">c:geo nedokáže spustit aplikaci Radar. Je nainstalovaná?</string>
-	<string name="err_navigation_no">c:geo nemůže najíž žádnou podporovanou navigaci.</string>
-	<string name="err_application_no">c:geo nemůže najít žádnou použitelnou aplikaci.</string>
-	<string name="err_auth_initialize">c:geo nedokázalo zahájit autorizaci.</string>
-	<string name="err_auth_process">Autorizace selhala.</string>
-	<string name="err_cannot_log_visit">c:geo nemá dostatek informací pro zapsání návštěvy. Prosím udělejte to z kompletního detailu keše.</string>
-	<string name="err_init_cleared">c:geo nedokázalo smazat přihlašovací údaje.</string>
+  <!-- errors -->
+  <string name="err_none">ok</string>
+  <string name="err_start">komunikace nezačala</string>
+  <string name="err_parse">selhalo čtení logovací stránky</string>
+  <string name="err_server">selhalo připojení k serveru geocaching.com (server umřel?)</string>
+  <string name="err_login">nejsou uložené žádné přihlašovací údaje</string>
+  <string name="err_unknown">nastala neznámá chyba</string>
+  <string name="err_comm">nastala neznámá chyba při komunikaci</string>
+  <string name="err_wrong">uložené přihlašovací údaje jsou špatné</string>
+  <string name="err_license">uživatel nepotvrdil souhlas s licenčním ujednáním serveru Geocaching.com</string>
+  <string name="err_store">c:geo nemůže uložit keš.</string>
+  <string name="err_drop">c:geo nemůže smazat keš.</string>
+  <string name="err_title_problem">problém</string>
+  <string name="err_detail_open">c:geo nedokáže načíst detaily keše.</string>
+  <string name="err_detail_cache">c:geo nedokáže načíst detaily keše. Je to opravdu keš?</string>
+  <string name="err_detail_cache_find">c:geo nemůže najít keš</string>
+  <string name="err_detail_cache_find_some">c:geo nemůže najít požadovanou keš.</string>
+  <string name="err_detail_cache_forgot">c:geo zapomnělo, jakou keš chcete zobrazit.</string>
+  <string name="err_detail_cache_language">c:geo nemůže přečíst některé detaily. Prosím zkontrolujte, zda máte web Geocaching.com nastavený na anglický jazyk. c:geo zatím bohužel nedokáže přečíst jiné jazyky.</string>
+  <string name="err_detail_no_spoiler">c:geo nenašlo žádný obrázek pro tuto keš.</string>
+  <string name="err_detail_no_map_static">c:geo nenašlo žádnou statickou mapu pro tuto keš.</string>
+  <string name="err_detail_still_removing">Ještě odstraňuji keš.</string>
+  <string name="err_detail_still_saving">Ještě ukládám keš.</string>
+  <string name="err_detail_still_refreshing">Ještě aktualizuji keš.</string>
+  <string name="err_radar_title">Radar není nainstalován.</string>
+  <string name="err_radar_message">Tato funkce vyžaduje aplikaci Radar. Chcete ji nainstalovat?</string>
+  <string name="err_radar_market">c:geo nedokáže spustit Androdid Market a vyhledat aplikaci Radar.</string>
+  <string name="err_radar_generic">c:geo nedokáže spustit aplikaci Radar. Je nainstalovaná?</string>
+  <string name="err_navigation_no">c:geo nemůže najíž žádnou podporovanou navigaci.</string>
+  <string name="err_application_no">c:geo nemůže najít žádnou použitelnou aplikaci.</string>
+  <string name="err_auth_initialize">c:geo nedokázalo zahájit autorizaci.</string>
+  <string name="err_auth_process">Autorizace selhala.</string>
+  <string name="err_cannot_log_visit">c:geo nemá dostatek informací pro zapsání návštěvy. Prosím udělejte to z kompletního detailu keše.</string>
+  <string name="err_init_cleared">c:geo nedokázalo smazat přihlašovací údaje.</string>
 
-	<!-- location service -->
-	<string name="loc_last">poslední známá</string>
-	<string name="loc_net">síť</string>
-	<string name="loc_gps">gps</string>
-	<string name="loc_sat">sat</string>
-	<string name="loc_trying">zjišťuji pozici</string>
-	<string name="loc_no_addr">neznámá adresa</string>
+  <!-- location service -->
+  <string name="loc_last">poslední známá</string>
+  <string name="loc_net">síť</string>
+  <string name="loc_gps">gps</string>
+  <string name="loc_sat">sat</string>
+  <string name="loc_trying">zjišťuji pozici</string>
+  <string name="loc_no_addr">neznámá adresa</string>
 
-	<!-- standard menu -->
-	<string name="menu_about">o aplikaci</string>
-	<string name="menu_settings">nastavení</string>
-	<string name="menu_filter">filtr</string>
+  <!-- standard menu -->
+  <string name="menu_about">o aplikaci</string>
+  <string name="menu_settings">nastavení</string>
+  <string name="menu_filter">filtr</string>
 
-	<!-- main screen -->
-	<string name="live_map_button">aktivní mapa</string>
-	<string name="caches_nearby_button">nejbližší</string>
-	<string name="advanced_search_button">hledání</string>
-	<string name="stored_caches_button">uložené</string>
-	<string name="any_button">cíl</string>
-	<string name="about_button">o aplikaci</string>
-	<string name="settings_button">nastavení</string>
-	<string name="type">typ</string>
-	<string name="now_searching">vyhledávám</string>
+  <!-- main screen -->
+  <string name="live_map_button">aktivní mapa</string>
+  <string name="caches_nearby_button">nejbližší</string>
+  <string name="advanced_search_button">hledání</string>
+  <string name="stored_caches_button">uložené</string>
+  <string name="any_button">cíl</string>
+  <string name="about_button">o aplikaci</string>
+  <string name="settings_button">nastavení</string>
+  <string name="type">typ</string>
+  <string name="now_searching">vyhledávám</string>
 
-	<!-- caches -->
-	<string name="caches_no_cache">žádná keš</string>
-	<string name="caches_more_caches">další keše</string>
-	<string name="caches_more_caches_no">žádné další keše</string>
+  <!-- caches -->
+  <string name="caches_no_cache">žádná keš</string>
+  <string name="caches_more_caches">další keše</string>
+  <string name="caches_more_caches_no">žádné další keše</string>
 
-	<!-- about -->
-	<string name="about_changelog">změny</string>
-	<string name="about_donate">podpora vývoje</string>
-	<string name="about_detail">detaily</string>
-	<string name="about_donation_less">darujte\nméně</string>
-	<string name="about_donation_more">podpořte\nvývoj</string>
+  <!-- about -->
+  <string name="about_changelog">změny</string>
+  <string name="about_donate">podpora vývoje</string>
+  <string name="about_detail">detaily</string>
+  <string name="about_donation_less">darujte\nméně</string>
+  <string name="about_donation_more">podpořte\nvývoj</string>
 
-	<!-- init -->
-	<string name="init_geocaching">geocaching.com</string>
-	<string name="init_gcvote">gcvote.com</string>
-	<string name="init_go4cache">Go 4 Cache</string>
-	<string name="init_twitter">twitter</string>
-	<string name="init_username">uživatelské heslo</string>
-	<string name="init_password">heslo</string>
-	<string name="init_passvote">heslo</string>
-	<string name="init_login">zkontrolovat</string>
-	<string name="init_legal">poznámka</string>
-	<string name="init_go4cache_connect">připojit k Go 4 Cache</string>
-	<string name="init_twitter_authorize">autorizovat c:geo</string>
-	<string name="init_twitter_publish">nový status při nálezu keše</string>
-	<string name="init_signature">podpis</string>
-	<string name="init_other">další možnosti</string>
-	<string name="init_skin">světlý skin (vyžaduje restart)</string>
-	<string name="init_transparent">průhledná úvodní obrazovka</string>
-	<string name="init_address">adresa na úvodní obrazovce</string>
-	<string name="init_exclude">nezobrazovat vlastní a nalezené keše</string>
-	<string name="init_disabled">nezobrazovat zrušené keše</string>
-	<string name="init_offline">ukládat mapy pro offline použití</string>
-	<string name="init_units">používat imperiální jednotky vzdálenosti</string>
-	<string name="init_nav">používat Google Navigation</string>
-	<string name="init_directoryimg">nezobrazovat stažené obrázky v galerii</string>
-	<string name="init_autoload">automaticky stahovat dlouhé popisy</string>
-	<string name="init_livelist">zobrazovat směr v seznamu keší</string>
-	<string name="init_browser">tvářit se jako běžný webový  prohlížeč</string>
-	<string name="init_cleared">c:geo smazalo přihlašovací údaje.</string>
+  <!-- init -->
+  <string name="init_geocaching">geocaching.com</string>
+  <string name="init_gcvote">gcvote.com</string>
+  <string name="init_go4cache">Go 4 Cache</string>
+  <string name="init_twitter">twitter</string>
+  <string name="init_username">uživatelské heslo</string>
+  <string name="init_password">heslo</string>
+  <string name="init_passvote">heslo</string>
+  <string name="init_login">zkontrolovat</string>
+  <string name="init_legal">poznámka</string>
+  <string name="init_go4cache_connect">připojit k Go 4 Cache</string>
+  <string name="init_twitter_authorize">autorizovat c:geo</string>
+  <string name="init_twitter_publish">nový status při nálezu keše</string>
+  <string name="init_signature">podpis</string>
+  <string name="init_other">další možnosti</string>
+  <string name="init_skin">světlý skin (vyžaduje restart)</string>
+  <string name="init_transparent">průhledná úvodní obrazovka</string>
+  <string name="init_address">adresa na úvodní obrazovce</string>
+  <string name="init_exclude">nezobrazovat vlastní a nalezené keše</string>
+  <string name="init_disabled">nezobrazovat zrušené keše</string>
+  <string name="init_offline">ukládat mapy pro offline použití</string>
+  <string name="init_units">používat imperiální jednotky vzdálenosti</string>
+  <string name="init_nav">používat Google Navigation</string>
+  <string name="init_directoryimg">nezobrazovat stažené obrázky v galerii</string>
+  <string name="init_autoload">automaticky stahovat dlouhé popisy</string>
+  <string name="init_livelist">zobrazovat směr v seznamu keší</string>
+  <string name="init_browser">tvářit se jako běžný webový  prohlížeč</string>
+  <string name="init_cleared">c:geo smazalo přihlašovací údaje.</string>
 
-	<!-- auth -->
-	<string name="auth_twitter">twitter</string>
-	<string name="auth_authorize">autorizovat c:geo</string>
-	<string name="auth_start">zahájit autorizaci</string>
-	<string name="auth_again">znovu autorizovat</string>
-	<string name="auth_pin_hint">pin přidělený twitterem</string>
-	<string name="auth_finish">dokončit</string>
-	<string name="auth_dialog_wait">Čekám na Twitter...</string>
-	<string name="auth_dialog_pin_title">pin kód</string>
-	<string name="auth_dialog_pin_message">Prosím, napište PIN kód který Vám byl přidelen Twitterem. Je potřeba pro dokončení autorizace.</string>
-	<string name="auth_dialog_completed">c:geo nyní může posílat zprávy na Váš Twitter.</string>
+  <!-- auth -->
+  <string name="auth_twitter">twitter</string>
+  <string name="auth_authorize">autorizovat c:geo</string>
+  <string name="auth_start">zahájit autorizaci</string>
+  <string name="auth_again">znovu autorizovat</string>
+  <string name="auth_pin_hint">pin přidělený twitterem</string>
+  <string name="auth_finish">dokončit</string>
+  <string name="auth_dialog_wait">Čekám na Twitter...</string>
+  <string name="auth_dialog_pin_title">pin kód</string>
+  <string name="auth_dialog_pin_message">Prosím, napište PIN kód který Vám byl přidelen Twitterem. Je potřeba pro dokončení autorizace.</string>
+  <string name="auth_dialog_completed">c:geo nyní může posílat zprávy na Váš Twitter.</string>
 
-	<!-- cache -->
-	<string name="cache_count_no">žádná keš</string>
-	<string name="cache_count_one">jedna keš</string>
-	<string name="cache_count_more">keší</string>
-	<string name="cache_offline">offline</string>
-	<string name="cache_offline_refresh">obnovit</string>
-	<string name="cache_offline_drop">smazat</string>
-	<string name="cache_offline_store">uložit</string>
-	<string name="cache_offline_stored">uložena v zařízení</string>
-	<string name="cache_offline_not_ready">není připravena\npro použití offline</string>
-	<string name="cache_offline_time_about">přibližně před</string>
-	<string name="cache_offline_time_mins"> minutami</string>
-	<string name="cache_offline_time_mins_few">několika minutami</string>
-	<string name="cache_offline_time_hour">jednou hodinou</string>
-	<string name="cache_offline_time_hours">hodinami</string>
-	<string name="cache_offline_time_days">dny</string>
-	<string name="cache_attributes">atributy</string>
-	<string name="cache_inventory">inventář</string>
-	<string name="cache_log_offline">offline log</string>
-	<string name="cache_description">popis</string>
-	<string name="cache_description_long">dlouhý popis</string>
-	<string name="cache_waypoints">waypointy</string>
-	<string name="cache_waypoints_add">přidat waypoint</string>
-	<string name="cache_hint">nápověda</string>
-	<string name="cache_logs">logbook</string>
-	<string name="cache_dialog_loading_details">načítám detaily keše...</string>
-	<string name="cache_dialog_loading_description">načítám popis keše...</string>
-	<string name="cache_dialog_offline_save_title">offline</string>
-	<string name="cache_dialog_offline_save_message">Ukládám keš pro použití offline...</string>
-	<string name="cache_dialog_offline_drop_title">offline</string>
-	<string name="cache_dialog_offline_drop_message">Odstraňuji keš z paměti zařízení...</string>
-	<string name="cache_dialog_refresh_title">aktualizace</string>
-	<string name="cache_dialog_refresh_message">Aktualizuji detaily keše...</string>
-	<string name="cache_menu_navigate">navigovat</string>
-	<string name="cache_menu_compass">kompas</string>
-	<string name="cache_menu_tbt">turn-by-turn</string>
-	<string name="cache_menu_radar">radar</string>
-	<string name="cache_menu_map">zobrazit na mapě</string>
-	<string name="cache_menu_map_ext">zobrazit na jiné mapě</string>
-	<string name="cache_menu_map_static">statické mapy</string>
-	<string name="cache_menu_browser">otevřít v prohlížečí</string>
-	<string name="cache_menu_visit">zapsat návštěvu</string>
-	<string name="cache_menu_spoilers">obrázky</string>
-	<string name="cache_menu_around">keš v okolí</string>
-	<string name="cache_menu_event">přidat do kalendáře</string>
-	<string name="cache_menu_details">detaily</string>
-	<string name="cache_status">status</string>
-	<string name="cache_status_offline_log">připravený log</string>
-	<string name="cache_status_found">nalezena</string>
-	<string name="cache_status_archived">archivována</string>
-	<string name="cache_status_disabled">zrušena</string>
-	<string name="cache_status_premium">pouze pro platící uživatele</string>
-	<string name="cache_geocode">gc kód</string>
-	<string name="cache_type">typ</string>
-	<string name="cache_distance">vzdálenost</string>
-	<string name="cache_difficulty">obtížnost</string>
-	<string name="cache_terrain">terén</string>
-	<string name="cache_rating">hodnocení</string>
-	<string name="cache_owner">zakladatel</string>
-	<string name="cache_hidden">skryta</string>
-	<string name="cache_event">datum</string>
-	<string name="cache_location">místo</string>
-	<string name="cache_coordinates">souřadnice</string>
-	<string name="cache_calendars">vyberte kalendář</string>
+  <!-- cache -->
+  <string name="cache_count_no">žádná keš</string>
+  <string name="cache_count_one">jedna keš</string>
+  <string name="cache_count_more">keší</string>
+  <string name="cache_offline">offline</string>
+  <string name="cache_offline_refresh">obnovit</string>
+  <string name="cache_offline_drop">smazat</string>
+  <string name="cache_offline_store">uložit</string>
+  <string name="cache_offline_stored">uložena v zařízení</string>
+  <string name="cache_offline_not_ready">není připravena\npro použití offline</string>
+  <string name="cache_offline_time_about">přibližně před</string>
+  <string name="cache_offline_time_mins"> minutami</string>
+  <string name="cache_offline_time_mins_few">několika minutami</string>
+  <string name="cache_offline_time_hour">jednou hodinou</string>
+  <string name="cache_offline_time_hours">hodinami</string>
+  <string name="cache_offline_time_days">dny</string>
+  <string name="cache_attributes">atributy</string>
+  <string name="cache_inventory">inventář</string>
+  <string name="cache_log_offline">offline log</string>
+  <string name="cache_description">popis</string>
+  <string name="cache_description_long">dlouhý popis</string>
+  <string name="cache_waypoints">waypointy</string>
+  <string name="cache_waypoints_add">přidat waypoint</string>
+  <string name="cache_hint">nápověda</string>
+  <string name="cache_logs">logbook</string>
+  <string name="cache_dialog_loading_details">načítám detaily keše...</string>
+  <string name="cache_dialog_loading_description">načítám popis keše...</string>
+  <string name="cache_dialog_offline_save_title">offline</string>
+  <string name="cache_dialog_offline_save_message">Ukládám keš pro použití offline...</string>
+  <string name="cache_dialog_offline_drop_title">offline</string>
+  <string name="cache_dialog_offline_drop_message">Odstraňuji keš z paměti zařízení...</string>
+  <string name="cache_dialog_refresh_title">aktualizace</string>
+  <string name="cache_dialog_refresh_message">Aktualizuji detaily keše...</string>
+  <string name="cache_menu_navigate">navigovat</string>
+  <string name="cache_menu_compass">kompas</string>
+  <string name="cache_menu_tbt">turn-by-turn</string>
+  <string name="cache_menu_radar">radar</string>
+  <string name="cache_menu_map">zobrazit na mapě</string>
+  <string name="cache_menu_map_ext">zobrazit na jiné mapě</string>
+  <string name="cache_menu_map_static">statické mapy</string>
+  <string name="cache_menu_browser">otevřít v prohlížečí</string>
+  <string name="cache_menu_visit">zapsat návštěvu</string>
+  <string name="cache_menu_spoilers">obrázky</string>
+  <string name="cache_menu_around">keš v okolí</string>
+  <string name="cache_menu_event">přidat do kalendáře</string>
+  <string name="cache_menu_details">detaily</string>
+  <string name="cache_status">status</string>
+  <string name="cache_status_offline_log">připravený log</string>
+  <string name="cache_status_found">nalezena</string>
+  <string name="cache_status_archived">archivována</string>
+  <string name="cache_status_disabled">zrušena</string>
+  <string name="cache_status_premium">pouze pro platící uživatele</string>
+  <string name="cache_geocode">gc kód</string>
+  <string name="cache_type">typ</string>
+  <string name="cache_distance">vzdálenost</string>
+  <string name="cache_difficulty">obtížnost</string>
+  <string name="cache_terrain">terén</string>
+  <string name="cache_rating">hodnocení</string>
+  <string name="cache_owner">zakladatel</string>
+  <string name="cache_hidden">skryta</string>
+  <string name="cache_event">datum</string>
+  <string name="cache_location">místo</string>
+  <string name="cache_coordinates">souřadnice</string>
+  <string name="cache_calendars">vyberte kalendář</string>
 
-	<!-- event -->
-	<string name="event_success">Událost byla přidána do kalendáře</string>
-	<string name="event_fail">Nepodařilo se vložit událost do kalendáře</string>
+  <!-- event -->
+  <string name="event_success">Událost byla přidána do kalendáře</string>
+  <string name="event_fail">Nepodařilo se vložit událost do kalendáře</string>
 
-	<!-- popup -->
-	<string name="popup_more">více detailů</string>
-	<string name="popup_log_visit">zapsat návštěvu</string>
-	<string name="popup_navigation">navigace</string>
+  <!-- popup -->
+  <string name="popup_more">více detailů</string>
+  <string name="popup_log_visit">zapsat návštěvu</string>
 
-	<!-- waypoint -->
-	<string name="waypoint_custom">vlastní</string>
-	<string name="waypoint_my_coordinates">aktuální poloha</string>
-	<string name="waypoint_bearing">směr</string>
-	<string name="waypoint_distance">vzdálenost</string>
-	<string name="waypoint_name">název</string>
-	<string name="waypoint_edit">upravit</string>
-	<string name="waypoint_delete">smazat</string>
-	<string name="waypoint_edit_title">úprava waypointu</string>
-	<string name="waypoint_add_title">nový waypoint</string>
-	<string name="waypoint_note">poznámka</string>
-	<string name="waypoint_save">uložit</string>
-	<string name="waypoint_navigation">navigace</string>
+  <!-- waypoint -->
+  <string name="waypoint_custom">vlastní</string>
+  <string name="waypoint_my_coordinates">aktuální poloha</string>
+  <string name="waypoint_bearing">směr</string>
+  <string name="waypoint_distance">vzdálenost</string>
+  <string name="waypoint_name">název</string>
+  <string name="waypoint_edit">upravit</string>
+  <string name="waypoint_delete">smazat</string>
+  <string name="waypoint_edit_title">úprava waypointu</string>
+  <string name="waypoint_add_title">nový waypoint</string>
+  <string name="waypoint_note">poznámka</string>
+  <string name="waypoint_save">uložit</string>
 
-	<!-- visit -->
-	<string name="visit_tweet">informovat o nálezu na twitteru</string>
+  <!-- visit -->
+  <string name="visit_tweet">informovat o nálezu na twitteru</string>
 
-	<!-- next things -->
-	<string name="legal_note">Před používáním služeb serveru geocaching.com je potřeba souhlasit s <a href="http://www.geocaching.com/about/disclaimer.aspx">licenčním ujednáním Groundspeaku</a>.</string>
-	<string name="about_text">Cílem <b>c:geo</b> je dát Vám jednoduchého klienta pro geocaching.com, který bude vždy připraven k použití. <b>c:geo</b> je a vždy bude zdarma. Pokud chcete podpořit vývoj aplikace, můžete přispět libovolnou finanční částkou (pomocí odkazu na webu). Otázky? Návrhy? Použijte Facebook nebo pošlete e-mail.</string>
-	<string name="author">autor <a href="http://carnero.cc/">carnero</a></string>
-	<string name="support">podpora <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
-	<string name="website">web: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
-	<string name="facebook">facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
-	<string name="twitter">twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">ikony na úvodní stránce vytvořil <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
-grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
-	<string name="about_go4cache">Služba <b>Go 4 cache</b> umožňuje sledovat v reálném čase ostatní kačery na mapě (v <b>c:geo</b> nebo v prohlížeči). Můžete se tak podívat třeba na to, jakou kešku právě hledají. Připojením ke službě <b>Go 4 cache</b> umožníte aplikaci <b>c:geo</b> zveřejňovat Vaši aktuální polohu (pouze pokud <b>c:geo</b> běží).</string>
-	<string name="about_twitter">Chcete aby <b>c:geo</b> napsalo na Váš Twitter pokaždé, když zapíšete nález kešky?</string>
-	<string name="about_auth_1">Pomocí následujícího procesu můžete aplikaci <b>c:geo</b> umožnit odesílání příspěvků na Váš Twitter.</string>
-	<string name="about_auth_2">Tapnutím na tlačítko "zahájit autorizaci" celý proces začne. Tento proces otevře webovou stránku Twitteru, kde se budete muset přihlásit a tlačítkem Accept pak umožnit aplikaci <b>c:geo</b> přístup k Vašemu Twitteru. Twitter Vám přidělí PIN kód pokud tapnete na Accept. Tento kód zkopírujte a vložte do aplikace <b>c:geo</b>. A potvrďte. To je vše.</string>
+  <!-- navigation -->
+  <string name="navigation">navigace</string>
+
+  <!-- next things -->
+  <string name="legal_note">Před používáním služeb serveru geocaching.com je potřeba souhlasit s <a href="http://www.geocaching.com/about/disclaimer.aspx">licenčním ujednáním Groundspeaku</a>.</string>
+  <string name="about_text">Cílem <b>c:geo</b> je dát Vám jednoduchého klienta pro geocaching.com, který bude vždy připraven k použití. <b>c:geo</b> je a vždy bude zdarma. Pokud chcete podpořit vývoj aplikace, můžete přispět libovolnou finanční částkou (pomocí odkazu na webu). Otázky? Návrhy? Použijte Facebook nebo pošlete e-mail.</string>
+  <string name="author">autor <a href="http://carnero.cc/">carnero</a></string>
+  <string name="support">podpora <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
+  <string name="website">web: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
+  <string name="facebook">facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
+  <string name="twitter">twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
+  <string name="graphic">ikony na úvodní stránce vytvořil <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
+    grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
+  <string name="about_go4cache">Služba <b>Go 4 cache</b> umožňuje sledovat v reálném čase ostatní kačery na mapě (v <b>c:geo</b> nebo v prohlížeči). Můžete se tak podívat třeba na to, jakou kešku právě hledají. Připojením ke službě <b>Go 4 cache</b> umožníte aplikaci <b>c:geo</b> zveřejňovat Vaši aktuální polohu (pouze pokud <b>c:geo</b> běží).</string>
+  <string name="about_twitter">Chcete aby <b>c:geo</b> napsalo na Váš Twitter pokaždé, když zapíšete nález kešky?</string>
+  <string name="about_auth_1">Pomocí následujícího procesu můžete aplikaci <b>c:geo</b> umožnit odesílání příspěvků na Váš Twitter.</string>
+  <string name="about_auth_2">Tapnutím na tlačítko "zahájit autorizaci" celý proces začne. Tento proces otevře webovou stránku Twitteru, kde se budete muset přihlásit a tlačítkem Accept pak umožnit aplikaci <b>c:geo</b> přístup k Vašemu Twitteru. Twitter Vám přidělí PIN kód pokud tapnete na Accept. Tento kód zkopírujte a vložte do aplikace <b>c:geo</b>. A potvrďte. To je vše.</string>
 </resources>

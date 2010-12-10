@@ -88,7 +88,7 @@
 				<RelativeLayout style="@style/separator_horizontal_layout" >
 					<View style="@style/separator_horizontal" />
 					<TextView style="@style/separator_horizontal_headline"
-							android:text="@string/popup_navigation" />
+							android:text="@string/navigation" />
 				</RelativeLayout>
 				<Button style="@style/button"
 						android:id="@+id/map"
