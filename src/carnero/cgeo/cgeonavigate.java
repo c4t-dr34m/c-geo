@@ -182,7 +182,7 @@ public class cgeonavigate extends Activity {
 		if (settings.useCompass == 1) {
 			menu.add(0, 1, 0, res.getString(R.string.use_gps)).setIcon(android.R.drawable.ic_menu_compass);
 		} else {
-			menu.add(0, 1, 0, res.getString(R.string.use_compass).setIcon(android.R.drawable.ic_menu_compass);
+			menu.add(0, 1, 0, res.getString(R.string.use_compass)).setIcon(android.R.drawable.ic_menu_compass);
 		}
 		menu.add(0, 0, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
 		menu.add(0, 2, 0, res.getString(R.string.destination_set)).setIcon(android.R.drawable.ic_menu_edit);
