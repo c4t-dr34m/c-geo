@@ -78,7 +78,7 @@ public class cgeowaypoint extends Activity {
 						buttonMap.setOnClickListener(new mapToListener(waypoint.latitude, waypoint.longitude));
 
 						Button buttonMapExt = (Button)findViewById(R.id.map_ext);
-						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint.latitude, waypoint.longitude, waypoint.name, "", waypoint.type));
+						buttonMapExt.setOnClickListener(new mapExtToListener(waypoint));
 
 						Button buttonTurn = (Button)findViewById(R.id.turn);
 						buttonTurn.setOnClickListener(new turnToListener(waypoint.latitude, waypoint.longitude));
@@ -234,22 +234,14 @@ public class cgeowaypoint extends Activity {
 	}
 
 	private class mapExtToListener implements View.OnClickListener {
-		private Double latitude = null;
-		private Double longitude = null;
-		private String geocode = null;
-		private String name = null;
-		private String type = null;
+		private cgWaypoint waypoint = null;
 
-		public mapExtToListener(Double latitudeIn, Double longitudeIn, String nameIn, String geocodeIn, String typeIn) {
-			latitude = latitudeIn;
-			longitude = longitudeIn;
-			geocode = geocodeIn;
-			name = nameIn;
-			type = typeIn;
+		public mapExtToListener(cgWaypoint waypointIn) {
+			waypoint = waypointIn;
 		}
 
 		public void onClick(View arg0) {
-			base.runExternalMap(activity, res, warning, tracker, latitude, longitude, geocode, name, false, type, false, false);
+			base.runExternalMap(activity, res, warning, tracker, waypoint);
 		}
 	}
 

@@ -389,7 +389,7 @@ public class cgeodetail extends Activity {
 				
 				return true;
 			case 10:
-				base.runExternalMap(activity, res, warning, tracker, cache.latitude, cache.longitude, cache.geocode, cache.name, true, cache.type, cache.found, cache.disabled);
+				base.runExternalMap(activity, res, warning, tracker, cache);
 				
 				return true;
 			case 11:
