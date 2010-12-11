@@ -1,7 +1,6 @@
 package carnero.cgeo;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import java.io.InputStreamReader;
@@ -2951,6 +2950,23 @@ public class cgBase {
 			return 1001;
 		}
 
+		// fix log (non-Latin characters)
+		final int logLen = log.length();
+		final StringBuilder logUpdated = new StringBuilder();
+
+		for (int i = 0; i < logLen; i ++) {
+			char c = log.charAt(i);
+
+			if (c > 300) {
+				logUpdated.append("&#");
+				logUpdated.append(Integer.toString((int)c));
+				logUpdated.append(";");
+			} else {
+				logUpdated.append(c);
+			}
+		}
+		log = logUpdated.toString();
+
 		if (trackables != null) Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: " + trackables.size());
 		else Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: 0");
 
@@ -4170,11 +4186,10 @@ public class cgBase {
 
 		// locus
 		try {
-			Intent intent = new Intent();
-			intent.setAction("android.intent.action.SHOW_POINTS");
-			intent.setComponent(new ComponentName("menion.android.locus", "menion.android.locus.MainActivity"));
+			final Intent intentTest = new Intent(Intent.ACTION_VIEW);
+			intentTest.setData(Uri.parse("menion.points:x"));
 
-			if (isIntentAvailable(activity, intent) == true) {
+			if (isIntentAvailable(activity, intentTest) == true) {
 				int icon = -1;
 				String iconTxt = null;
 				
@@ -4210,7 +4225,7 @@ public class cgBase {
 				final DataOutputStream dos = new DataOutputStream(baos);
 
 				dos.writeInt(1); // not used
-				dos.writeInt(1); // waypoints
+				dos.writeInt(1); // number of waypoints
 
 				if (icon > 0) {
 					// load icon
@@ -4245,6 +4260,9 @@ public class cgBase {
 				dos.writeDouble(latitude); // latitude
 				dos.writeDouble(longitude); // longitude
 
+				final Intent intent = new Intent();
+				intent.setAction(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("menion.points:data"));
 				intent.putExtra("data", baos.toByteArray());
 
 				activity.startActivity(intent);

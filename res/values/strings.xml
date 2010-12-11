@@ -460,8 +460,10 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="changelog">
 <b>1.15</b> (__.12.2010)\n
 · new: Danish translation (by <a href="http://webfora.dk/geocaching/">webfora.dk/geocaching</a>)\n
-· fix: default action for trackables\n
-· fix: many localization fixes (by thiasB &amp; YraFyra)\n
+· new: Japanese translation (by Ray\n
+· changed: Support of new Locus\n
+· fix: Default action for trackables\n
+· fix: Many localization fixes (by thiasB &amp; YraFyra)\n
 \n
 <b>1.14</b> (29.11.2010)\n
 · change: ActionBar not shown on small screens\n
