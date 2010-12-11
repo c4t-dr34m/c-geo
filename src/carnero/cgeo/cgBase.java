@@ -2950,7 +2950,7 @@ public class cgBase {
 			return 1001;
 		}
 
-		// fix log (non-Latin characters)
+		// fix log (non-Latin characters converted to HTML entities)
 		final int logLen = log.length();
 		final StringBuilder logUpdated = new StringBuilder();
 
