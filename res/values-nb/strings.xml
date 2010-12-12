@@ -256,7 +256,6 @@
 
 	<!-- popup -->
 	<string name="popup_more">mer detaljer</string>
-	<string name="popup_log_visit">logg funn</string>
 	<string name="popup_navigation">navigasjon</string>
 
 	<!-- waypoint -->

@@ -255,7 +255,6 @@
 
 	<!-- popup -->
 	<string name="popup_more">plus de détails</string>
-	<string name="popup_log_visit">enregistrement de votre visite</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">personnalisé</string>

@@ -279,7 +279,6 @@
 
 	<!-- popup -->
 	<string name="popup_more">További részletek</string>
-	<string name="popup_log_visit">Megtalálás bejelentése</string>
 
 	<!-- waypoint -->
 	<string name="waypoint_custom">Egyedi</string>

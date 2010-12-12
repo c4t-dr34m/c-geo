@@ -351,7 +351,6 @@
 
 	<!-- popup -->
 	<string name="popup_more">詳細を見る</string>
-	<string name="popup_log_visit">ログを書く</string>
 	<string name="popup_offline">オフライン</string>
 
 	<!-- waypoint -->

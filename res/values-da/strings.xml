@@ -279,7 +279,6 @@
 
   <!-- popup -->
   <string name="popup_more">Flere detaljer</string>
-  <string name="popup_log_visit">Log besøg</string>
 
   <!-- waypoint -->
   <string name="waypoint_custom">Tilpasset</string>

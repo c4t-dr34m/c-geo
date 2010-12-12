@@ -34,15 +34,6 @@
 						android:id="@+id/more_details"
 						android:text="@string/popup_more" />
 			</LinearLayout>
-			<LinearLayout android:id="@+id/log_visit_box"
-					android:visibility="gone"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:orientation="vertical"  >
-				<Button style="@style/button_small"
-						android:id="@+id/log_visit"
-						android:text="@string/popup_log_visit" />
-			</LinearLayout>
 			<LinearLayout android:id="@+id/offline_box"
 					android:visibility="gone"
 					android:layout_width="fill_parent"

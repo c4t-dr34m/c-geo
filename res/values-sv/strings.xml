@@ -349,7 +349,6 @@
 
 	<!-- popup -->
 	<string name="popup_more">Mer information</string>
-	<string name="popup_log_visit">Logga besök</string>
 	<string name="popup_offline">Offline</string>
 
 	<!-- waypoint -->

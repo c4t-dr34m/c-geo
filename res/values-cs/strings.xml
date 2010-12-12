@@ -256,7 +256,6 @@
 
   <!-- popup -->
   <string name="popup_more">více detailů</string>
-  <string name="popup_log_visit">zapsat návštěvu</string>
 
   <!-- waypoint -->
   <string name="waypoint_custom">vlastní</string>

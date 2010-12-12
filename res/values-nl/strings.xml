@@ -258,7 +258,6 @@
 
   <!-- popup -->
   <string name="popup_more">meer details</string>
-  <string name="popup_log_visit">log bezoek</string>
 
   <!-- waypoint -->
   <string name="waypoint_custom">aangepast</string>
