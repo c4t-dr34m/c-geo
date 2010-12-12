@@ -4239,15 +4239,24 @@ public class cgBase {
 			intentTest.setData(Uri.parse("menion.points:x"));
 
 			if (isIntentAvailable(activity, intentTest) == true) {
+				final ArrayList<cgWaypoint> waypoints = new ArrayList<cgWaypoint>();
+				if (cache != null && cache.waypoints != null && cache.waypoints.isEmpty() == false) {
+					for (cgWaypoint wp : cache.waypoints) {
+						if (wp.latitude != null && wp.longitude != null) {
+							waypoints.add(wp);
+						}
+					}
+				}
+
 				final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				final DataOutputStream dos = new DataOutputStream(baos);
 
 				dos.writeInt(1); // not used
 				if (cache != null) {
-					if (cache.waypoints == null || cache.waypoints.isEmpty() == true) {
+					if (waypoints == null || waypoints.isEmpty() == true) {
 						dos.writeInt(1); // cache only
 					} else {
-						dos.writeInt((1 + cache.waypoints.size())); // cache and waypoints
+						dos.writeInt((1 + waypoints.size())); // cache and waypoints
 					}
 				} else {
 					dos.writeInt(1); // one waypoint
@@ -4295,7 +4304,7 @@ public class cgBase {
 				// additional data :: keyword, button title, package, activity, data name, data content
 				if (cache != null && cache.geocode != null && cache.geocode.length() > 0) {
 					dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeodetail;geocode;" + cache.geocode);
-				} else if (waypoint != null && waypoint.geocode != null && waypoint.geocode.length() > 0) {
+				} else if (waypoint != null && waypoint.id != null && waypoint.id > 0) {
 					dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeowaypoint;id" + waypoint.id);
 				} else {
 					dos.writeUTF("");
@@ -4310,9 +4319,9 @@ public class cgBase {
 				}
 
 				// cache waypoints
-				if (cache != null && cache.waypoints != null && cache.waypoints.size() > 0) {
-					for (cgWaypoint wp : cache.waypoints) {
-						if (wp == null) {
+				if (waypoints != null && waypoints.isEmpty() == false) {
+					for (cgWaypoint wp : waypoints) {
+						if (wp == null || wp.latitude == null || wp.longitude == null) {
 							continue;
 						}
 
@@ -4353,10 +4362,8 @@ public class cgBase {
 							dos.writeUTF("");
 						}
 
-						if (wp.latitude != null && wp.longitude != null) {
-							dos.writeDouble(wp.latitude); // latitude
-							dos.writeDouble(wp.longitude); // longitude
-						}
+						dos.writeDouble(wp.latitude); // latitude
+						dos.writeDouble(wp.longitude); // longitude
 					}
 				}
 
