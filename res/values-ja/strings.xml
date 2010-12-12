@@ -12,11 +12,11 @@
 	<string name="helper"><b>MENU</b>ボタンを忘れないで! たくさんの機能があります。</string>
 
 	<!-- actionbar -->
-	<string name="action_bar_share_title">キャッシュへのリンクを他の人へ送る</string>
+	<string name="action_bar_share_title">キャッシュのリンクを他の人へ送る</string>
 
 	<!-- caches -->
-	<string name="all">すべてのキャッシュ</string>
-	<string name="all_types">すべてのタイプのキャッシュ</string>
+	<string name="all">全てのキャッシュ</string>
+	<string name="all_types">全てのタイプのキャッシュ</string>
 	<string name="traditional">トラディショナルキャッシュ</string>
 	<string name="multi">マルチキャッシュ</string>
 	<string name="mystery">ミステリーキャッシュ</string>
@@ -132,7 +132,7 @@
 	<string name="err_application_no">適切なアプリケーションが見つかりません。</string>
 	<string name="err_auth_initialize">認証プロセスの初期化に失敗しました。</string>
 	<string name="err_auth_process">認証プロセスに失敗しました。</string>
-	<string name="err_cannot_log_visit">ログを保存するのに十分な情報がありません。キャッシュの詳細をすべて入力してください。c:geo has not enough information to log visit. Please, do it from full cache details.</string>
+	<string name="err_cannot_log_visit">ログを保存するのに十分な情報がありません。キャッシュの詳細を全て入力してください。c:geo has not enough information to log visit. Please, do it from full cache details.</string>
 	<string name="err_init_cleared">ログイン情報を消去することができません。</string>
 	<string name="err_no_chaches">キャッシュ情報のロードに失敗しました。</string>
 	<string name="err_download_fail">キャッシュ情報のダウンロードに失敗しました。原因:</string>
@@ -186,8 +186,8 @@
 	<string name="menu_filter">フィルター</string>
 
 	<!-- main screen -->
-	<string name="live_map_button">現在地の地図</string>
-	<string name="caches_nearby_button">現在地の近く</string>
+	<string name="live_map_button">地図</string>
+	<string name="caches_nearby_button">近く</string>
 	<string name="advanced_search_button">検索</string>
 	<string name="stored_caches_button">保存済み</string>
 	<string name="any_button">場所を入力</string>
@@ -218,18 +218,18 @@
 	<string name="caches_nearby">現在地の近く</string>
 	<string name="caches_drop_selected">選択したキャッシュを削除</string>
 	<string name="caches_drop_selected_ask">選択したキャッシュをデバイスから削除しますか?</string>
-	<string name="caches_drop_all">すべて削除</string>
-	<string name="caches_drop_all_ask">すべてのキャッシュをデバイスから削除しますか?</string>
+	<string name="caches_drop_all">全て削除</string>
+	<string name="caches_drop_all_ask">全てのキャッシュをデバイスから削除しますか?</string>
 	<string name="caches_drop_stored">削除</string>
 	<string name="caches_refresh_selected">選択したキャッシュを更新</string>
-	<string name="caches_refresh_all">すべてのキャッシュを更新</string>
+	<string name="caches_refresh_all">全てのキャッシュを更新</string>
 
 	<!-- about -->
 	<string name="about_changelog">更新履歴</string>
 	<string name="about_donate">寄付</string>
 	<string name="about_detail">詳細</string>
-	<string name="about_donation_less">ちょっと寄付する</string>
-	<string name="about_donation_more">寄付する</string>
+	<string name="about_donation_less">ちょっと\n寄付する</string>
+	<string name="about_donation_more">開発に\n寄付する</string>
 
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
@@ -280,7 +280,7 @@
 	<!-- cache -->
 	<string name="cache_count_no">キャッシュがありません</string>
 	<string name="cache_count_one">1つのキャッシュ</string>
-	<string name="cache_count_more">複数のキャッシュ</string>
+	<string name="cache_count_more">個のキャッシュ</string>
 	<string name="cache_offline">オフライン</string>
 	<string name="cache_offline_refresh">更新</string>
 	<string name="cache_offline_drop">削除</string>
@@ -300,7 +300,7 @@
 	<string name="cache_description">説明</string>
 	<string name="cache_description_long">全ての説明</string>
 	<string name="cache_waypoints">ウェイポイント</string>
-	<string name="cache_waypoints_add">ウェイポイントを追加</string>
+	<string name="cache_waypoints_add">ウェイポイント追加</string>
 	<string name="cache_hint">ヒント</string>
 	<string name="cache_logs">ログブック</string>
 	<string name="cache_dialog_loading_details">キャッシュの詳細をロード中...</string>
@@ -350,7 +350,7 @@
 	<string name="event_fail">イベントキャッシュをカレンダーに追加するのに失敗しました</string>
 
 	<!-- popup -->
-	<string name="popup_more">もっと詳細を見る</string>
+	<string name="popup_more">詳細を見る</string>
 	<string name="popup_log_visit">ログを書く</string>
 	<string name="popup_offline">オフライン</string>
 
@@ -402,7 +402,7 @@
 	<string name="search_tb">追跡可能アイテム</string>
 	<string name="search_tb_hint">Trackable identification</string>
 	<string name="search_tb_button">追跡可能アイテムを検索</string>
-	<string name="search_destination">Destination</string>
+	<string name="search_destination">目的地</string>
 	<string name="search_direction_rel">この地点から</string>
 	<string name="search_lat">緯度</string>
 	<string name="search_lon">緯度</string>
@@ -450,7 +450,7 @@
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
 	<string name="graphic">Mainscreen icons designed by <a href="http://iirojappinen.com/">Iiro Jappinen</a>
-graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecky</a></string>
+graphic elements by <a href="http://www.jaytech.cz/">Jan ﾅｽatecky</a></string>
 	<string name="about_go4cache"><b>Go 4 cache</b>サービスにより他のジオキャッシャーを(<b>c:geo</b>またはブラウザで)地図上にリアルタイムで表示できます。例えば、彼らがどのキャッシュを探しているのか表示できます。<b>Go 4 cache</b>に接続すれば<b>c:geo</b>でジオキャッシング中に現在地を(<b>c:geo</b>が起動している間だけ)公開することができます。</string>
 	<string name="about_twitter">キャッシュのログを書いたら<b>c:geo</b>がTwitterでつぶやいてほしい?</string>
 	<string name="about_auth_1"><b>c:geo</b>がTwitterにアクセスする許可を得るには次のことをしてください。</string>
