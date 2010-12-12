@@ -27,7 +27,7 @@
 	<string name="cito">CITOイベント</string>
 	<string name="webcam">ウェブカムキャッシュ</string>
 	<string name="virtual">バーチャルキャッシュ</string>
-	<string name="wherigo">Wherigo キャッシュ</string>
+	<string name="wherigo">Wherigoキャッシュ</string>
 	<string name="lostfound">Lost &amp; found</string>
 	<string name="ape">Project A.P.E.キャッシュ</string>
 	<string name="gchq">Groundspeak hq</string>
@@ -248,7 +248,7 @@
 	<string name="init_legal">法律に関する文章</string>
 	<string name="init_go4cache_connect">Go 4 Cacheに接続する</string>
 	<string name="init_twitter_authorize">c:geoを認証する</string>
-	<string name="init_twitter_publish">キャッシュが見つかったら状況をパブリッシュする</string>
+	<string name="init_twitter_publish">キャッシュが見つかったら状況をツイートする</string>
 	<string name="init_signature">署名</string>
 	<string name="init_other">その他のオプション</string>
 	<string name="init_skin">明るい色のスキン (c:geoの再起動が必要)</string>
@@ -375,10 +375,10 @@
 	<string name="map_live">現在地の地図</string>
 	<string name="map_view_satellite">航空写真表示</string>
 	<string name="map_view_map">地図表示</string>
-	<string name="map_trail_show">Show trail</string>
-	<string name="map_trail_hide">Hide trail</string>
-	<string name="map_live_enable">Enable live</string>
-	<string name="map_live_disable">Disable live</string>
+	<string name="map_trail_show">軌跡表示</string>
+	<string name="map_trail_hide">軌跡非表示</string>
+	<string name="map_live_enable">オンラインで取得</string>
+	<string name="map_live_disable">保存済みキャッシュ</string>
 
 	<!-- search -->
 	<string name="search_coordinates">座標</string>
