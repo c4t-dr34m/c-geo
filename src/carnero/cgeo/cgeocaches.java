@@ -788,6 +788,10 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private void showOnMap() {
+		if (searchId == null || searchId == 0) {
+			return;
+		}
+
 		cgeomap mapActivity = new cgeomap();
 
 		Intent mapIntent = new Intent(activity, mapActivity.getClass());
@@ -1247,6 +1251,10 @@ public class cgeocaches extends ListActivity {
 			thread = new geocachesLoadNextPage(loadNextPageHandler);
 			thread.start();
 		}
+	}
+
+	public void goMap(View view) {
+		showOnMap();
 	}
 
 	public void goHome(View view) {

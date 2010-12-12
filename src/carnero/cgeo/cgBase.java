@@ -4244,7 +4244,7 @@ public class cgBase {
 
 				dos.writeInt(1); // not used
 				if (cache != null) {
-					if (cache.waypoints == null || cache.waypoints.size() == 0) {
+					if (cache.waypoints == null || cache.waypoints.isEmpty() == true) {
 						dos.writeInt(1); // cache only
 					} else {
 						dos.writeInt((1 + cache.waypoints.size())); // cache and waypoints
@@ -4347,7 +4347,7 @@ public class cgBase {
 						}
 
 						// additional data :: keyword, button title, package, activity, data name, data content
-						if (wp.geocode != null && wp.geocode.length() > 0) {
+						if (wp.id != null && wp.id > 0) {
 							dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeowaypoint;id" + wp.id);
 						} else {
 							dos.writeUTF("");
@@ -4373,8 +4373,6 @@ public class cgBase {
 			}
 		} catch (Exception e) {
 			// nothing
-			Log.d(cgSettings.tag, ">>> " + e.toString());
-			e.printStackTrace();
 		}
 
 		// rmaps

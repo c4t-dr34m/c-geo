@@ -11,6 +11,10 @@
 		<TextView style="@style/action_bar_title" />
 		<ProgressBar style="@style/action_bar_progress"
 				android:visibility="gone" />
+		<View style="@style/action_bar_separator" />
+		<ImageView style="@style/action_bar_action"
+				android:src="@drawable/actionbar_map"
+				android:onClick="goMap" />
 	</LinearLayout>
 	<ListView
 			android:id="@android:id/list"
