@@ -4240,6 +4240,7 @@ public class cgBase {
 
 			if (isIntentAvailable(activity, intentTest) == true) {
 				final ArrayList<cgWaypoint> waypoints = new ArrayList<cgWaypoint>();
+				// get only waypoints with coordinates
 				if (cache != null && cache.waypoints != null && cache.waypoints.isEmpty() == false) {
 					for (cgWaypoint wp : cache.waypoints) {
 						if (wp.latitude != null && wp.longitude != null) {
