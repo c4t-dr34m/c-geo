@@ -113,6 +113,24 @@
 						android:layout_height="wrap_content"
 						android:orientation="vertical" >
 				</LinearLayout>
+				<LinearLayout android:id="@+id/inventory_changeall"
+						android:visibility="gone"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right"
+						android:orientation="vertical" >
+					<Button style="@style/button"
+							android:id="@+id/changebutton"
+							android:layout_width="wrap_content"
+							android:layout_weight="1"
+							android:layout_marginLeft="10dip"
+							android:layout_marginRight="10dip"
+							android:layout_marginBottom="5dip"
+							android:layout_alignParentRight="true"
+							android:gravity="right"
+							android:textSize="14dip"
+							android:text="@string/log_tb_changeall" />
+				</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>

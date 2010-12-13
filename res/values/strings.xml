@@ -61,6 +61,7 @@
 	<string name="log_tb_nothing">Do nothing</string>
 	<string name="log_tb_visit">Visit</string>
 	<string name="log_tb_drop">Drop here</string>
+	<string name="log_tb_changeall">Change all</string>
 	<string name="log_save">Save</string>
 	<string name="log_saving">Saving log...</string>
 	<string name="log_clear">Clear</string>

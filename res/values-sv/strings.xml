@@ -61,6 +61,7 @@
 	<string name="log_tb_nothing">Gör inget</string>
 	<string name="log_tb_visit">Besök</string>
 	<string name="log_tb_drop">Lämna här</string>
+	<string name="log_tb_changeall">Ändra alla</string>
 	<string name="log_save">Spara</string>
 	<string name="log_saving">Sparar logg...</string>
  	<string name="log_clear">Rensa</string>
@@ -131,7 +132,7 @@
 	<string name="err_application_no">c:geo kan inte hitta något lämpligt program.</string>
 	<string name="err_auth_initialize">Tyvärr, c:geo misslyckades att starta inloggningsproceduren.</string>
 	<string name="err_auth_process">Inloggningsproceduren misslyckades.</string>
-	<string name="err_cannot_log_visit">c:geo har inte tillräckligt med information för att logga ditt besök. Vänligen försök igen från vyn men all information on cachen.</string>
+	<string name="err_cannot_log_visit">c:geo har inte tillräckligt med information för att logga ditt besök. Vänligen försök igen från vyn men all information om cachen.</string>
 	<string name="err_init_cleared">Tyvärr, c:geo kan inte rensa inloggningsinställningarna.</string>
 	<string name="err_no_chaches">Tyvärr, c:geo misslyckades att ladda cachen eller cacherna.</string>
 	<string name="err_download_fail">Tyvärr, c:geo misslyckades att ladda ner cacher pga</string>

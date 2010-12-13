@@ -129,6 +129,20 @@ public class cgeovisit extends cgLogForm {
 				if (inventoryView.getChildCount() > 0) {
 					((LinearLayout) findViewById(R.id.inventory_box)).setVisibility(View.VISIBLE);
 				}
+				if (inventoryView.getChildCount() > 1) {
+					final LinearLayout inventoryChangeAllView = (LinearLayout) findViewById(R.id.inventory_changeall);
+
+					Button changeButton = (Button) inventoryChangeAllView.findViewById(R.id.changebutton);
+					registerForContextMenu(changeButton);
+					changeButton.setOnClickListener(new View.OnClickListener() {
+
+						public void onClick(View view) {
+							openContextMenu(view);
+						}
+					});
+
+					((LinearLayout) findViewById(R.id.inventory_changeall)).setVisibility(View.VISIBLE);				
+				}
 			}
 
 			base.showProgress(activity, false);
@@ -363,6 +377,13 @@ public class cgeovisit extends cgLogForm {
 			for (final int typeOne : types) {
 				menu.add(viewId, typeOne, 0, base.logTypes2.get(typeOne));
 			}
+		} else if (viewId == R.id.changebutton) {
+			final int textId = ((TextView) findViewById(viewId)).getId();
+
+			menu.setHeaderTitle(res.getString(R.string.log_tb_changeall));
+			for (final int logTbAction : base.logTypesTrackable.keySet()) {
+				menu.add(textId, logTbAction, 0, base.logTypesTrackable.get(logTbAction));
+			}
 		} else {
 			final int realViewId = ((RelativeLayout) findViewById(viewId)).getId();
 
@@ -386,6 +407,32 @@ public class cgeovisit extends cgLogForm {
 			setType(id);
 
 			return true;
+		} else if (group == R.id.changebutton) {
+			try {
+				final String logTbAction = base.logTypesTrackable.get(id);
+				if (logTbAction != null) {
+					final LinearLayout inventView = (LinearLayout) findViewById(R.id.inventory);
+					for (int count = 0; count < inventView.getChildCount() ; count++) {
+						final RelativeLayout tbView = (RelativeLayout) inventView.getChildAt(count);
+						if (tbView == null) {
+							return false;
+						}
+	
+						final TextView tbText = (TextView) tbView.findViewById(R.id.action);
+						if (tbText == null) {
+							return false;
+						}
+						tbText.setText(logTbAction);
+					}
+					for (cgTrackableLog tb : trackables) {
+						tb.action = id;
+					}
+					tbChanged = true;
+					return true;
+				}
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgeovisit.onContextItemSelected: " + e.toString());
+			}
 		} else {
 			try {
 				final String logTbAction = base.logTypesTrackable.get(id);
