@@ -234,11 +234,11 @@ public class cgeocaches extends ListActivity {
 
 					waitDialog.setProgress(detailProgress);
 					if (etaTime < 1) {
-						waitDialog.setMessage(res.getString(R.string.caches_downloading) + res.getString(R.string.caches_eta_ltm));
+						waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + res.getString(R.string.caches_eta_ltm));
 					} else if (etaTime == 1) {
-						waitDialog.setMessage(res.getString(R.string.caches_downloading) + etaTime + res.getString(R.string.caches_eta_min));
+						waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + etaTime + " " + res.getString(R.string.caches_eta_min));
 					} else {
-						waitDialog.setMessage(res.getString(R.string.caches_downloading) + etaTime + res.getString(R.string.caches_eta_mins));
+						waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + etaTime + " " + res.getString(R.string.caches_eta_mins));
 					}
 				}
 			} else {
@@ -834,11 +834,11 @@ public class cgeocaches extends ListActivity {
 		waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		int etaTime = (int)((detailTotal * 25) / 60);
 		if (etaTime < 1) {
-			waitDialog.setMessage(res.getString(R.string.caches_downloading) + res.getString(R.string.caches_eta_ltm));
+			waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + res.getString(R.string.caches_eta_ltm));
 		} else if (etaTime == 1) {
-			waitDialog.setMessage(res.getString(R.string.caches_downloading) + etaTime + res.getString(R.string.caches_eta_min));
+			waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + etaTime + " " + res.getString(R.string.caches_eta_min));
 		} else {
-			waitDialog.setMessage(res.getString(R.string.caches_downloading) + etaTime + res.getString(R.string.caches_eta_mins));
+			waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + etaTime + " " + res.getString(R.string.caches_eta_mins));
 		}
 		waitDialog.setCancelable(true);
 		waitDialog.setMax(detailTotal);
