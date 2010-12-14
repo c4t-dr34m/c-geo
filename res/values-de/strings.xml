@@ -60,6 +60,7 @@
 	<string name="log_tb_nothing">Keine Aktion</string>
 	<string name="log_tb_visit">Besuchen</string>
 	<string name="log_tb_drop">Ablegen</string>
+	<string name="log_tb_changeall">Alle ändern</string>
 	<string name="log_save">Speichern</string>
 	<string name="log_saving">Log wird gespeichert...</string>
 	<string name="log_clear">Leeren</string>
