@@ -412,7 +412,7 @@ public class cgeovisit extends cgLogForm {
 				final String logTbAction = base.logTypesTrackable.get(id);
 				if (logTbAction != null) {
 					final LinearLayout inventView = (LinearLayout) findViewById(R.id.inventory);
-					for (int count = 0; count < inventView.getChildCount() ; count++) {
+					for (int count = 0; count < inventView.getChildCount(); count++) {
 						final RelativeLayout tbView = (RelativeLayout) inventView.getChildAt(count);
 						if (tbView == null) {
 							return false;
