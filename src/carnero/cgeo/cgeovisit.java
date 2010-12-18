@@ -650,7 +650,7 @@ public class cgeovisit extends cgLogForm {
 			if (save == null) {
 				save = (Button) findViewById(R.id.save);
 			}
-			save.setOnClickListener(new clearListener());
+			save.setOnClickListener(new saveListener());
 
 			if (status == true) {
 				warning.showToast(res.getString(R.string.info_log_saved));
