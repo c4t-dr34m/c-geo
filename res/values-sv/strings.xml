@@ -103,8 +103,10 @@
 	<string name="err_parse">misslyckades analysera inloggningssidan</string>
 	<string name="err_server">misslyckades att ansluta till geocaching.com (servern eller anslutningen nere?)</string>
 	<string name="err_login">Inloggningsinformationen ej sparad</string>
+	<string name="err_login_failed">Tyvärr, c:geo kan inte logga in.</string>
 	<string name="err_unknown">okänt fel</string>
 	<string name="err_comm">okänt kommunikationsfel</string>
+	<string name="err_missing_auth">Användarnamn och/eller lösenord saknas.</string>
 	<string name="err_wrong">felaktiga inloggningsuppgifter</string>
 	<string name="err_license">användaren inte har bekräftat licensavtalet med geocaching.com</string>
 	<string name="err_store">Tyvärr, c:geo kan inte spara cachen.</string>
@@ -138,6 +140,13 @@
 	<string name="err_download_fail">Tyvärr, c:geo misslyckades att ladda ner cacher pga</string>
 	<string name="err_update_fail">Misslyckades att uppdatera rest sträcka.</string>
 	<string name="err_list_load_fail">Tyvärr, c:geo misslyckades att ladda listan med cacher.</string>
+	<string name="err_store_failed">Tyvärr, c:geo kan inte spara geocachen.</string>
+	<string name="err_refresh_failed">Tyvärr, c:geo kan inte uppdatera geocachen.</string>
+	<string name="err_drop_failed">Tyvärr, c:geo kan inte radera geocachen.</string>
+	<string name="err_dwld_details_failed">Tyvärr, c:geo misslyckades att ladda detaljer.</string>
+	<string name="err_dwld_details_failed_reason">Tyvärr, c:geo misslyckades att ladda detaljer pga</string>
+	<string name="err_load_descr_failed">Tyvärr, c:geo kan inte ladda beskrivningen.</string>
+	<string name="err_location_unknown">c:geo har inte koordinaterna för cachen.</string>
 
 	<string name="err_tb_display">"Tyvärr, c:geo kan inte visa den trackable du önskar. Är den verkligen trackable?</string>
 	<string name="err_tb_details_open">Tyvärr, c:geo kan inte öppna detaljer för trackable.</string>
@@ -154,11 +163,25 @@
 	<string name="err_log_post_failed">Tyvärr, c:geo misslyckades att posta loggen.</string>
 	<string name="err_log_post_failed_because">Tyvärr, c:geo misslyckades att posta loggen pga </string>
 
+	<string name="err_search_address_no_match">Tyvärr, c:geo hittade ingen plats som stämde.</string>
+	<string name="err_search_address_forgot">Tyvärr, c:geo glömde adressen du sökte efter.</string>
+	<string name="err_search_address">Söker efter platser</string>
+	<string name="err_parse_lat">Tyvärr, c:geo kan inte tolka latitud.</string>
+	<string name="err_parse_lon">Tyvärr, c:geo kan inte tolka longitud.</string>
+	<string name="err_parse_bear">Tyvärr, c:geo kan inte tolka riktning.</string>
+	<string name="err_parse_dist">Tyvärr, c:geo kan inte tolka avstånd.</string>
+
 	<string name="warn_save_nothing">Det finns inget att spara.</string>
 	<string name="warn_no_cache_coord">Det finns inga koordinater för cachen.</string>
 	<string name="warn_no_coordinates">Inga koordinater angivna.</string>
 	<string name="warn_no_keyword">Inget nyckelord angett.</string>
 	<string name="warn_no_username">Inget användarnamn angett.</string>
+	<string name="warn_search_help_title">Tips!</string>
+	<string name="warn_search_help_address">"Ange adress eller namn på en plats. Använd tex gatunamn \"Kungsgatan 10, Stockholm\", namn på ort \"Malmö\" eller annat sorts namn \"Avenyn\".</string>
+	<string name="warn_search_help_gccode">Ange geocachens kod. Tex \"GC1VCAZ\".</string>
+	<string name="warn_search_help_keyword">Ange ett ord som du tror finns i titeln på cachen du söker.</string>
+	<string name="warn_search_help_user">Ange en användare på Geocaching.com.</string>
+	<string name="warn_search_help_tb">Ange koden för en trackable. Tex \"TB29QMZ\".</string>
 
 	<string name="warn_log_text_fill">Vänligen skriv någon text i loggen.</string>
 	
@@ -263,6 +286,7 @@
 	<string name="init_autoload">Ladda full beskrivning automatiskt</string>
 	<string name="init_livelist">Visa riktning till cacher i listan</string>
 	<string name="init_browser">Identifiera c:geo som normal webbläsare</string>
+	<string name="init_clear">Rensa inloggningsinfo</string>
 	<string name="init_cleared">c:geo har rensat inloggningsinformationen</string>
 
 	<!-- auth -->
@@ -331,6 +355,7 @@
 	<string name="cache_status_disabled">Inaktiverad</string>
 	<string name="cache_status_premium">Enbart för Premium medlemmar</string>
 	<string name="cache_geocode">GC-kod</string>
+	<string name="cache_name">Namn</string>
 	<string name="cache_type">Typ</string>
 	<string name="cache_distance">Avstånd</string>
 	<string name="cache_difficulty">Svårighet</string>
@@ -343,6 +368,18 @@
 	<string name="cache_coordinates">Koordinater</string>
 	<string name="cache_calendars">Välj kalender</string>
 	<string name="cache_gpx_import">Importera GPX fil</string>
+
+	<!-- gpx -->
+	<string name="gpx_import_searching_in">Söker efter .gpx filer\ni</string>
+	<string name="gpx_import_loading_stored">Laddar cacher från .gpx fil\Sparat:</string>
+	<string name="gpx_import_no_files">Tyvärr, c:geo hittade ingen .gpx fil.</string>
+	<string name="gpx_import_caches_imported">cacher importerade</string>
+	<string name="gpx_import_searching">Söker efter .gpx filer</string>
+	<string name="gpx_import_loading">Laddar cacher från .gpx fil</string>
+	<string name="gpx_import_title">Importera GPX</string>
+	<string name="gpx_import_title_reading_file">Läser fil</string>
+	<string name="gpx_import_title_searching">Söker</string>
+	<string name="gpx_import_title_caches_imported">Resultat</string>
 
 	<!-- event -->
 	<string name="event_success">Event tillagt i kalender</string>
@@ -404,8 +441,10 @@
 	<string name="search_direction_rel">Från min plats</string>
 	<string name="search_lat">Lat</string>
 	<string name="search_lon">Lon</string>
-	<string name="search_caches">Sök efter cache</string>
+	<string name="search_caches">Sök efter cacher</string>
 	<string name="search_caches_near">Cacher nära</string>
+	<string name="search_address_started">Söker efter platser</string>
+	<string name="search_address_result">Hittade platser</string>
 
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>
@@ -420,7 +459,7 @@
 	<string name="trackable_name">Namn</string>
 	<string name="trackable_type">Typ</string>
 	<string name="trackable_owner">Ägare</string>
-	<string name="trackable_spotted">Position</string>
+	<string name="trackable_spotted">Plats</string>
 	<string name="trackable_origin">Ursprung</string>
 	<string name="trackable_unknown">Okänd</string>
 	<string name="trackable_released">Släppt</string>

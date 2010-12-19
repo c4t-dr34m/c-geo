@@ -70,7 +70,7 @@ public class cgeodetail extends Activity {
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
-				warning.showToast("Sorry, c:geo can\'t store geocache.");
+				warning.showToast(res.getString(R.string.err_store_failed));
 
 				Log.e(cgSettings.tag, "cgeodetail.storeCacheHandler: " + e.toString());
 			}
@@ -85,7 +85,7 @@ public class cgeodetail extends Activity {
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
-				warning.showToast("Sorry, c:geo can\'t refresh geocache.");
+				warning.showToast(res.getString(R.string.err_refresh_failed));
 
 				Log.e(cgSettings.tag, "cgeodetail.refreshCacheHandler: " + e.toString());
 			}
@@ -100,7 +100,7 @@ public class cgeodetail extends Activity {
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
-				warning.showToast("Sorry, c:geo can\'t drop geocache.");
+				warning.showToast(res.getString(R.string.err_drop_failed));
 
 				Log.e(cgSettings.tag, "cgeodetail.dropCacheHandler: " + e.toString());
 			}
@@ -113,14 +113,14 @@ public class cgeodetail extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			if (searchId == null || searchId <= 0) {
-				warning.showToast("Sorry, c:geo failed to download cache details.");
+				warning.showToast(res.getString(R.string.err_dwld_details_failed));
 
 				finish();
 				return;
 			}
 
 			if (app.getError(searchId) != null) {
-				warning.showToast("Sorry, c:geo failed to download cache details because of " + app.getError(searchId) + ".");
+				warning.showToast(res.getString(R.string.err_dwld_details_failed_reason) + " " + app.getError(searchId) + ".");
 
 				finish();
 				return;
@@ -158,7 +158,7 @@ public class cgeodetail extends Activity {
 				showDesc.setOnTouchListener(null);
 				showDesc.setOnClickListener(null);
 			} else {
-				warning.showToast("Sorry, c:geo can't load description.");
+				warning.showToast(res.getString(R.string.err_load_descr_failed));
 			}
 
 			if (descDialog != null && descDialog.isShowing()) {
@@ -1184,7 +1184,7 @@ public class cgeodetail extends Activity {
 
 	private void navigateTo() {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
-			warning.showToast("c:geo doesn't know location of cache.");
+			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
 		cgeonavigate navigateActivity = new cgeonavigate();
