@@ -469,7 +469,7 @@ public class cgeocaches extends ListActivity {
 		if (type.equals("offline") == true) {
 			menu.add(0, 4, 0, res.getString(R.string.caches_drop_all)).setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
 			menu.add(0, 1, 0, res.getString(R.string.cache_offline_refresh)).setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
-			menu.add(0, 5, 0, res.getString(R.string.cache_gpx_import)).setIcon(android.R.drawable.ic_menu_upload); // import gpx file
+			menu.add(0, 5, 0, res.getString(R.string.gpx_import_title)).setIcon(android.R.drawable.ic_menu_upload); // import gpx file
 		} else {
 			menu.add(0, 1, 0, res.getString(R.string.caches_store_offline)).setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
 		}
