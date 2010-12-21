@@ -200,7 +200,7 @@
 	<string name="caches_no_cache">Kein Cache</string>
 	<string name="caches_more_caches">Mehr Caches</string>
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
-	<string name="caches_downloading">Lade Caches...\nETA: </string>
+	<string name="caches_downloading">Lade Caches...\nETE: </string>
 	<string name="caches_progress_loading_title">Lade Caches</string>
 	<string name="caches_progress_loading_text">Gespeicherte Caches</string>
 	<string name="caches_eta_ltm">Weniger als eine Minute</string>
