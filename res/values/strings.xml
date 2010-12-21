@@ -103,6 +103,7 @@
 	<string name="err_parse">Failed login page parsing</string>
 	<string name="err_server">Failed connection to geocaching.com (server or connection down?)</string>
 	<string name="err_login">No login information stored</string>
+	<string name="err_login_failed">Sorry, c:geo can\'t login.</string>
 	<string name="err_unknown">Unknown error</string>
 	<string name="err_comm">Unknown communication error</string>
 	<string name="err_missing_auth">No username and/or password set.</string>
@@ -139,6 +140,13 @@
 	<string name="err_download_fail">Sorry, c:geo failed to download caches because of </string>
 	<string name="err_update_fail">Failed to update traveled distance.</string>
 	<string name="err_list_load_fail">Sorry, c:geo failed to load cache list.</string>
+	<string name="err_store_failed">Sorry, c:geo can\'t store geocache.</string>
+	<string name="err_refresh_failed">Sorry, c:geo can\'t refresh geocache.</string>
+	<string name="err_drop_failed">Sorry, c:geo can\'t drop geocache.</string>
+	<string name="err_dwld_details_failed">Sorry, c:geo failed to download cache details.</string>
+	<string name="err_dwld_details_failed_reason">Sorry, c:geo failed to download cache details because of</string>
+	<string name="err_load_descr_failed">Sorry, c:geo can\'t load description.</string>
+	<string name="err_location_unknown">c:geo doesn\'t know location of cache.</string>
 
 	<string name="err_tb_display">"Sorry, c:geo can\'t display trackable you want. Is it really trackable?</string>
 	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details.</string>
@@ -155,11 +163,25 @@
 	<string name="err_log_post_failed">Sorry, c:geo failed to post log.</string>
 	<string name="err_log_post_failed_because">Sorry, c:geo failed to post log because of </string>
 
+	<string name="err_search_address_no_match">Sorry, c:geo found no matching place.</string>
+	<string name="err_search_address_forgot">Sorry, c:geo forgot address you try to find.</string>
+	<string name="err_search_address">Searching for places</string>
+	<string name="err_parse_lat">Sorry, c:geo can\'t parse latitude.</string>
+	<string name="err_parse_lon">Sorry, c:geo can\'t parse longitude.</string>
+	<string name="err_parse_bear">Sorry, c:geo can\'t parse bearing.</string>
+	<string name="err_parse_dist">Sorry, c:geo can\'t parse distance.</string>
+
 	<string name="warn_save_nothing">There is nothing to be saved.</string>
 	<string name="warn_no_cache_coord">There is no cache with coordinates.</string>
 	<string name="warn_no_coordinates">No coordinates given.</string>
 	<string name="warn_no_keyword">No keyword given.</string>
 	<string name="warn_no_username">No username given.</string>
+	<string name="warn_search_help_title">Need some help?</string>
+	<string name="warn_search_help_address">"Fill address or location name. For example use street address \"Radlicka 100, Prague, Czech Republic\", city name \"Berlin\" or just name of something like \"Yellowstone Park\".</string>
+	<string name="warn_search_help_gccode">Fill code of geocache. For example \"GC1VCAZ\".</string>
+	<string name="warn_search_help_keyword">Fill some word that is supposed to be somewhere in cache name you are trying to find.</string>
+	<string name="warn_search_help_user">Fill name of user at Geocaching.com.</string>
+	<string name="warn_search_help_tb">Fill code of trackable. For example \"TB29QMZ\".</string>
 
 	<string name="warn_log_text_fill">Please, fill some log text.</string>
 
@@ -264,6 +286,7 @@
 	<string name="init_autoload">Auto-loading long description</string>
 	<string name="init_livelist">Show direction to caches in its list</string>
 	<string name="init_browser">Identify c:geo as standard browser</string>
+	<string name="init_clear">Clear login</string>
 	<string name="init_cleared">c:geo cleared login information.</string>
 
 	<!-- auth -->
@@ -346,6 +369,19 @@
 	<string name="cache_calendars">Select calendar</string>
 	<string name="cache_gpx_import">Import GPX file</string>
 
+	<!-- gpx -->
+	<string name="gpx_import_searching_in">searching for .gpx files\nin</string>
+	<string name="gpx_import_loading_stored">loading caches from .gpx file\nstored:</string>
+	<string name="gpx_import_no_files">Sorry, c:geo found no .gpx files.</string>
+	<string name="gpx_import_caches_imported">caches imported</string>
+	<string name="gpx_import_searching">Searching for .gpx files</string>
+	<string name="gpx_import_loading">Loading caches from .gpx file</string>
+	<string name="gpx_import_title">Import GPX</string>
+	<string name="gpx_import_title_reading_file">Reading file</string>
+	<string name="gpx_import_title_searching">Searching</string>
+	<string name="gpx_import_title_caches_imported">Result</string>
+	
+
 	<!-- event -->
 	<string name="event_success">Event cache added to calendar</string>
 	<string name="event_fail">Failed to add event cache to calendar</string>
@@ -408,6 +444,8 @@
 	<string name="search_lon">Lon</string>
 	<string name="search_caches">Search for caches</string>
 	<string name="search_caches_near">Caches near</string>
+	<string name="search_address_started">Searching for places</string>
+	<string name="search_address_result">Found places</string>
 
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>

@@ -195,12 +195,12 @@ public class cgeoadvsearch extends Activity {
 			HashMap lonParsed = base.parseCoordinate(lonText, "lat");
 
 			if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse latitude.");
+				warning.showToast(res.getString(R.string.err_parse_lat));
 				return;
 			}
 
 			if (lonParsed == null || lonParsed.get("coordinate") == null || lonParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse longitude.");
+				warning.showToast(res.getString(R.string.err_parse_lon));
 				return;
 			}
 
@@ -236,7 +236,7 @@ public class cgeoadvsearch extends Activity {
 		String keyText = ((EditText)findViewById(R.id.keyword)).getText().toString();
 
 		if (keyText == null || keyText.length() == 0) {
-			warning.helpDialog("need some help?", "Fill some word that is supposed to be somewhere in cache name you are trying to find.");
+			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_keyword));
 			return;
 		}
 
@@ -269,7 +269,7 @@ public class cgeoadvsearch extends Activity {
 		final String addText = ((EditText)findViewById(R.id.address)).getText().toString();
 
 		if (addText == null || addText.length() == 0) {
-			warning.helpDialog("need some help?", "Fill address or location name. For example use street address \"Radlicka 100, Prague, Czech Republic\", city name \"Berlin\" or just name of something like \"Yellowstone Park\".");
+			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_address));
 			return;
 		}
 
@@ -300,7 +300,7 @@ public class cgeoadvsearch extends Activity {
 		final String usernameText = ((EditText)findViewById(R.id.username)).getText().toString();
 
 		if (usernameText == null || usernameText.length() == 0) {
-			warning.helpDialog("need some help?", "Fill name of user of Geocaching.com.");
+			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_user));
 			return;
 		}
 
@@ -333,7 +333,7 @@ public class cgeoadvsearch extends Activity {
 		final String usernameText = ((EditText)findViewById(R.id.owner)).getText().toString();
 
 		if (usernameText == null || usernameText.length() == 0) {
-			warning.helpDialog("need some help?", "Fill name of user of Geocaching.com.");
+			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_user));
 			return;
 		}
 
@@ -366,7 +366,7 @@ public class cgeoadvsearch extends Activity {
 		final String geocodeText = ((EditText)findViewById(R.id.geocode)).getText().toString();
 
 		if (geocodeText == null || geocodeText.length() == 0 || geocodeText.equalsIgnoreCase("GC")) {
-			warning.helpDialog("need some help?", "Fill code of geocache. For example \"GC1VCAZ\".");
+			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_gccode));
 			return;
 		}
 
@@ -397,7 +397,7 @@ public class cgeoadvsearch extends Activity {
 		final String trackableText = ((EditText)findViewById(R.id.trackable)).getText().toString();
 
 		if (trackableText == null || trackableText.length() == 0 || trackableText.equalsIgnoreCase("TB")) {
-			warning.helpDialog("need some help?", "Fill code of trackable. For example \"TB29QMZ\".");
+			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_tb));
 			return;
 		}
 

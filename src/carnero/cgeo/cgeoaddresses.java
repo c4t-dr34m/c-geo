@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Handler;
@@ -24,6 +25,7 @@ public class cgeoaddresses extends Activity {
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
+	private Resources res = null;
 	private cgWarning warning = null;
 	private LayoutInflater inflater = null;
 	private LinearLayout addList = null;
@@ -42,7 +44,7 @@ public class cgeoaddresses extends Activity {
 						waitDialog.dismiss();
 					}
 
-					warning.showToast("Sorry, c:geo found no matching place.");
+					warning.showToast(res.getString(R.string.err_search_address_no_match));
 
 					finish();
 					return;
@@ -96,6 +98,7 @@ public class cgeoaddresses extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -109,7 +112,7 @@ public class cgeoaddresses extends Activity {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.addresses);
-		base.setTitle(activity, "known places");
+		base.setTitle(activity, res.getString(R.string.search_address_result));
 
 		// google analytics
 		base.sendAnal(activity, "/addresses");
@@ -123,12 +126,12 @@ public class cgeoaddresses extends Activity {
 		}
 
 		if (keyword == null) {
-			warning.showToast("Sorry, c:geo forgot address you try to find.");
+			warning.showToast(res.getString(R.string.err_search_address_forgot));
 			finish();
 			return;
 		}
 
-		waitDialog = ProgressDialog.show(this, "searching for places", keyword, true);
+		waitDialog = ProgressDialog.show(this, res.getString(R.string.search_address_started), keyword, true);
 		waitDialog.setCancelable(true);
 
 		(new loadPlaces()).start();

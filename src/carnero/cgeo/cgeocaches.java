@@ -372,7 +372,7 @@ public class cgeocaches extends ListActivity {
 				title = address;
 				base.setTitle(activity, title);
 				base.showProgress(activity, true);
-				waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + address + typeText, true);
+				waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + " " + address + typeText, true);
 			} else {
 				title = base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true);
 				base.setTitle(activity, title);
@@ -1069,7 +1069,7 @@ public class cgeocaches extends ListActivity {
 			cachetype = cachetypeIn;
 
 			if (username == null || username.length() == 0) {
-				warning.showToast("No username given.");
+				warning.showToast(res.getString(R.string.warn_no_username));
 
 				finish();
 				return;

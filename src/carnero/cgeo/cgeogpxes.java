@@ -3,6 +3,7 @@ package carnero.cgeo;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,13 +24,14 @@ public class cgeogpxes extends ListActivity {
 	private cgGPXListAdapter adapter = null;
 	private ProgressDialog waitDialog = null;
 	private ProgressDialog parseDialog = null;
+	private Resources res = null;
 	private int imported = 0;
 	final private Handler changeWaitDialogHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.obj != null && waitDialog != null) {
-				waitDialog.setMessage("searching for .gpx files\nin " + (String) msg.obj);
+				waitDialog.setMessage(res.getString(R.string.gpx_import_searching_in) + " " + (String) msg.obj);
 			}
 		}
 	};
@@ -38,7 +40,7 @@ public class cgeogpxes extends ListActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.obj != null && parseDialog != null) {
-				parseDialog.setMessage("loading caches from .gpx file\nstored: " + (Integer) msg.obj);
+				parseDialog.setMessage(res.getString(R.string.gpx_import_loading_stored) + " " + (Integer) msg.obj);
 			}
 		}
 	};
@@ -52,7 +54,7 @@ public class cgeogpxes extends ListActivity {
 						waitDialog.dismiss();
 					}
 
-					warning.showToast("Sorry, c:geo found no .gpx files.");
+					warning.showToast(res.getString(R.string.gpx_import_no_files));
 
 					finish();
 					return;
@@ -82,7 +84,8 @@ public class cgeogpxes extends ListActivity {
 					parseDialog.dismiss();
 				}
 
-				warning.helpDialog("import", imported + " caches imported");
+				warning.helpDialog(res.getString(R.string.gpx_import_title_caches_imported),
+						imported + " " + res.getString(R.string.gpx_import_caches_imported));
 				imported = 0;
 			} catch (Exception e) {
 				if (parseDialog != null) {
@@ -98,6 +101,7 @@ public class cgeogpxes extends ListActivity {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -110,14 +114,14 @@ public class cgeogpxes extends ListActivity {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.gpx);
-		base.setTitle(activity, "import gpx");
+		base.setTitle(activity, res.getString(R.string.gpx_import_title));
 
 		// google analytics
 		base.sendAnal(activity, "/gpx-import");
 		
 		setAdapter();
 
-		waitDialog = ProgressDialog.show(this, "searching", "searching for .gpx files", true);
+		waitDialog = ProgressDialog.show(this, res.getString(R.string.gpx_import_title_searching), res.getString(R.string.gpx_import_searching), true);
 		waitDialog.setCancelable(false);
 
 		(new loadFiles()).start();
@@ -208,7 +212,8 @@ public class cgeogpxes extends ListActivity {
 			waitDialog.dismiss();
 		}
 
-		parseDialog = ProgressDialog.show(activity, "reading file", "loading caches from .gpx file", true);
+		parseDialog = ProgressDialog.show(activity, res.getString(R.string.gpx_import_title_reading_file),
+				res.getString(R.string.gpx_import_loading), true);
 		parseDialog.setCancelable(false);
 
 		new loadCaches(file).start();

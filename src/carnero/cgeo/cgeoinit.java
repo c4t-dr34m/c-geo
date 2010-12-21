@@ -50,7 +50,7 @@ public class cgeoinit extends Activity {
 					}
 				}
 			} catch (Exception e) {
-				warning.showToast("Sorry, c:geo can\'t login.");
+				warning.showToast(res.getString(R.string.err_login_failed));
 
 				Log.e(cgSettings.tag, "cgeoinit.logInHandler: " + e.toString());
 			}
@@ -119,7 +119,7 @@ public class cgeoinit extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 0, "clear login").setIcon(android.R.drawable.ic_menu_delete);
+		menu.add(0, 0, 0, res.getString(R.string.init_clear)).setIcon(android.R.drawable.ic_menu_delete);
 
 		return true;
 	}
