@@ -255,7 +255,7 @@
 	<string name="init_nav">Google Navigation verwenden</string>
 	<string name="init_directoryimg">Bilderverzeichnis in der Galerie ausblenden</string>
 	<string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
-	<string name="init_livelist">Richtung zum Cache in Cache-Liste anzeigen</string>
+	<string name="init_livelist">Richtung zum Cache in der Cache-Liste anzeigen</string>
 	<string name="init_browser">c:geo zum Standardbrowser machen</string>
 	<string name="init_cleared">c:geo hat die Anmeldedaten gelöscht.</string>
 
