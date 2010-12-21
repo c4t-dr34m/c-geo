@@ -282,7 +282,7 @@
 	<string name="cache_offline_stored">Auf dem Gerät gespeichert</string>
 	<string name="cache_offline_not_ready">Nicht offline verfügbar</string>
 	<string name="cache_offline_time_about">etwa</string>
-	<string name="cache_offline_time_mins">gerade eben</string>
+	<string name="cache_offline_time_mins">Minuten</string>
 	<string name="cache_offline_time_mins_few">vor ein paar Minuten</string>
 	<string name="cache_offline_time_hour">vor einer Stunde</string>
 	<string name="cache_offline_time_hours">vor einigen Stunden</string>
