@@ -456,12 +456,12 @@ public class cgBase {
 
 		caches.url = url;
 
-		final Pattern patternCacheTypeTbs = Pattern.compile("<td>[^<]*<a[^>]+>[^<]*<img src=\".*\\/WptTypes\\/[^.]+\\.gif\" alt=\"([^\"]+)\" title=\"[^\"]+\" width=\"32\" height=\"32\"[^>]*><\\/a>[^<]*((<img[^>]+>[^<]*)*)<\\/td>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+		final Pattern patternCacheType = Pattern.compile("<td>[^<]*<a[^>]+>[^<]*<img src=\".*/wpttypes/sm/[^\\.]+\\.gif\" alt=\"([^\"]+)\" title=\"[^\"]+\"[^>]*>[^<*]</a>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+		final Pattern patternTbs = Pattern.compile("<a id=\"ctl00_ContentBody_dlResults_ctl01_uxTravelBugList\" class=\"tblist\" data-tbcount=\"([0-9]+)\" data-id=\"[^\"]*\"[^>]*>(.*)</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTbsInside = Pattern.compile("(<img src=\"[^\"]+\" alt=\"([^\"]+)\" title=\"[^\"]*\" />[^<]*)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-		final Pattern patternTbsItem = Pattern.compile("\\(([0-9]+) item(\\(?s\\)?)?\\)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDirection = Pattern.compile(">([SWEN]+)<br[^>]*>([0-9\\.]+)((km)?(mi)?)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCacheDiffAndSize = Pattern.compile("\\(([0-9\\.\\,]+)/([0-9\\.\\,]+)\\)<br[^>]*>[^<]*<img src=\".*\\/icons\\/container\\/[a-z_]+.gif\" alt=\"Size: ([^\"]+)\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-		final Pattern patternGuidAndDisabled = Pattern.compile("guid=([a-z0-9\\-]+)\">(<span class=\"([^\"]+)\">)?([^<]+)(<\\/span>)*</a>[^<]*<br />([^<]+)(<[^>]+>[^<]+)*</td>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+		final Pattern patternGuidAndDisabled = Pattern.compile("<a href=\"(.*)/seek/cache_details\\.aspx\\?guid=([a-z0-9\\-]+)\" class=\"lnk  (.*)\">(<span>)?([^<]*)(</span>)?</a>[^<]+<br />([^<]+)</td>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 		final Pattern patternCode = Pattern.compile("\\((GC[a-z0-9]+)\\)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternId = Pattern.compile("name=\"CID\"[^v]*value=\"([0-9]+)\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTotalCnt = Pattern.compile("<td class=\"PageBuilderWidget\"><span>Total Records[^<]*<b>(\\d+)<\\/b>", Pattern.CASE_INSENSITIVE);
@@ -497,7 +497,9 @@ public class cgBase {
 			String row = rows[z];
 
 			// check for cache type presence
-			if(row.indexOf("images/WptTypes") == -1) continue;
+			if (row.indexOf("images/wpttypes") == -1) {
+				continue;
+			}
 
 			try {
 				final Matcher matcherGuidAndDisabled = patternGuidAndDisabled.matcher(row);
@@ -505,16 +507,23 @@ public class cgBase {
 				while (matcherGuidAndDisabled.find()) {
 					if (matcherGuidAndDisabled.groupCount() > 0) {
 						guids.add(matcherGuidAndDisabled.group(1));
-						cache.guid = matcherGuidAndDisabled.group(1);
-						cache.name = Html.fromHtml(matcherGuidAndDisabled.group(4)).toString();
-						cache.location = Html.fromHtml(matcherGuidAndDisabled.group(6).trim()).toString();
+						cache.guid = matcherGuidAndDisabled.group(2);
+						cache.name = Html.fromHtml(matcherGuidAndDisabled.group(5)).toString();
+						cache.location = Html.fromHtml(matcherGuidAndDisabled.group(7).trim()).toString();
 
 						final String attr = matcherGuidAndDisabled.group(3);
 						if (attr != null) {
-							if (attr.contains("Strike") == true) cache.disabled = true;
-							else cache.disabled = false;
-							if (attr.contains("OldWarning") == true) cache.archived = true;
-							else cache.archived = false;
+							if (attr.contains("Strike") == true) {
+								cache.disabled = true;
+							} else {
+								cache.disabled = false;
+							}
+
+							if (attr.contains("OldWarning") == true) {
+								cache.archived = true;
+							} else {
+								cache.archived = false;
+							}
 						}
 					}
 				}
@@ -546,13 +555,10 @@ public class cgBase {
 
 			// cache type
 			try {
-				final Matcher matcherCacheTypeTbs = patternCacheTypeTbs.matcher(row);
-				while (matcherCacheTypeTbs.find()) {
-					if (matcherCacheTypeTbs.groupCount() > 0) {
-						cache.type = cacheTypes.get(matcherCacheTypeTbs.group(1).toLowerCase());
-					}
-					if (matcherCacheTypeTbs.groupCount() > 1) {
-						inventoryPre = matcherCacheTypeTbs.group(2);
+				final Matcher matcherCacheType = patternCacheType.matcher(row);
+				while (matcherCacheType.find()) {
+					if (matcherCacheType.groupCount() > 0) {
+						cache.type = cacheTypes.get(matcherCacheType.group(1).toLowerCase());
 					}
 				}
 			} catch (Exception e) {
@@ -561,6 +567,19 @@ public class cgBase {
 			}
 
 			// cache inventory
+			try {
+				final Matcher matcherTbs = patternTbs.matcher(row);
+				while (matcherTbs.find()) {
+					if (matcherTbs.groupCount() > 0) {
+						cache.inventoryItems = Integer.parseInt(matcherTbs.group(1));
+						inventoryPre = matcherTbs.group(2);
+					}
+				}
+			} catch (Exception e) {
+				// failed to parse inventory
+				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache inventory");
+			}
+
 			if (inventoryPre != null && inventoryPre.trim().length() > 0) {
 				try {
 					final Matcher matcherTbsInside = patternTbsInside.matcher(inventoryPre);
@@ -570,7 +589,9 @@ public class cgBase {
 							if (inventoryItem.equals("premium member only cache")) {
 								continue;
 							} else {
-								cache.inventoryItems = 1;
+								if (cache.inventoryItems <= 0) {
+									cache.inventoryItems = 1;
+								}
 							}
 						}
 					}
@@ -622,7 +643,7 @@ public class cgBase {
 			}
 
 			// found it
-			if (row.indexOf("images/WptTypes/check.gif") != -1) {
+			if (row.indexOf("images/silk/emoticon_smile.png") != -1) {
 				cache.found = true;
 			} else {
 				cache.found = false;
@@ -857,7 +878,7 @@ public class cgBase {
 		final Pattern patternCacheGuid = Pattern.compile("<link rel=\"alternate\" href=\".*rss_galleryimages\\.ashx\\?guid=([a-z0-9\\-]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternType = Pattern.compile("<img src=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/WptTypes\\/\\d+.gif\" alt=\"([^\"]+)\" width=\"32\" height=\"32\"[^>]*>", Pattern.CASE_INSENSITIVE);
 
-		final Pattern patternTable = Pattern.compile("<h2 class=\"NoSpacing\">[^<]*<a[^>]+>[^<]*<img[^>]+>[^<]*<\\/a>[^<]*<span id=\"ctl00_ContentBody_CacheName\">([^<]+)<\\/span>[^<]*<\\/h2>[^<]*<table width=\"100%\" cellpadding=\"3\">(.*)<\\/table>[^<]*<br \\/>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternTable = Pattern.compile("<h2 class=\"NoSpacing\"[^>]*>[^<]*<a[^>]+>[^<]*<img[^>]+>[^<]*<\\/a>[^<]*<span id=\"ctl00_ContentBody_CacheName\">([^<]+)<\\/span>[^<]*<\\/h2>[^<]*<div id=\"favorite\"[^>]*>[^<]*<a[^<]*<div[^<]*<span[^<]*</span[^<]*<br[^<]*</div[^<]*</a[^<]*<small[^<]*<a[^<]*</a[^<]*</small[^<]*</div[^<]*<table width=\"100%\" cellpadding=\"3\">(.*)<\\/table>[^<]*<br \\/>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternSize = Pattern.compile("<td[^>]*>[^<]*<strong>[^S]*Size[^:]*:[^<]*</strong>[^<]*<img src=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/icons\\/container\\/[a-z_]+.gif\" alt=\"Size: ([^\"]+)\" />[^<]*<small>[^<]*<\\/small>[^<]*<\\/td>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDifficulty = Pattern.compile("<td>[^>]*[^<]*<strong>[^S]*Difficulty[^:]*:[^<]*</strong>[^<]*<img src=\"[^>]*\\/stars\\/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTerrain = Pattern.compile("<td[^>]*>[^<]*<strong>[^S]*Terrain[^:]*:[^<]*</strong>[^<]*<img src=\"[^>]*\\/stars\\/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
@@ -963,7 +984,7 @@ public class cgBase {
 			while (matcherTable.find()) {
 				if (matcherTable.groupCount() > 0) {
 					cache.name = Html.fromHtml(matcherTable.group(1)).toString();
-                    tableInside = matcherTable.group(2);
+					tableInside = matcherTable.group(2);
 				}
 			}
 		} catch (Exception e) {
