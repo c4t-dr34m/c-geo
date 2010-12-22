@@ -339,8 +339,6 @@
 	<string name="website">Weboldal: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">A főoldali ikonokat <a href="http://iirojappinen.com/">Iiro Jäppinen</a> készítette.
-A grafika elemeit <a href="http://www.jaytech.cz/">Jan Žatecký</a> készítette</string>
 	<string name="about_go4cache">A <b>Go 4 Cache</b> más geocacherek valós idejű pozícióját mutatja (<b>c:geo</b>-ban vagy böngészőben). Például megtekinthető, hogy mely rejtést keresik éppen. A <b>Go 4 Cache</b> csatlokzással a <b>c:geo</b> publikája az aktuális pozíciódat játék közben (csak ha fut a <b>c:geo</b>).</string>
 	<string name="about_twitter">Publikája a <b>c:geo</b> Twitter üzenetként a megtalálásaidat?</string>
 	<string name="about_auth_1">A következő folyamattal a <b>c:geo</b> hozzáfér a Twitter fiókodhoz - ha elfogadod.</string>

@@ -339,8 +339,6 @@
   <string name="website">Hjemmeside: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
   <string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
   <string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-  <string name="graphic">Hovedskærmens ikoner er designet af <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
-    grafiske elementer af <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
   <string name="about_go4cache">Servicen <b>Go 4 Cache</b> viser andre geocachere på kortet (i <b>c:geo</b> eller i browser) i realtime. Servicen kan f.eks. vise hvilken cache de er på vej hen til. Ved forbindelse til <b>Go 4 Cache</b> tillader du at <b>c:geo</b> offentliggør din position når du geocacher (kun når <b>c:geo</b> er startet).</string>
   <string name="about_twitter">Skal <b>c:geo</b> sende status til Twitter hvergang du logger en cache?</string>
   <string name="about_auth_1">Med denne proces tillader du at <b>c:geo</b> får adgang til din Twitter.</string>

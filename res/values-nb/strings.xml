@@ -272,7 +272,6 @@
 	<string name="website">web-side: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">meny-ikonene er designet av <a href="http://iirojappinen.com/">Iiro Jäppinen</a>, og grafikk elementene av <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_go4cache">Tjenesten <b>Go 4 cache</b> gjør det mulig for deg å se andre geocachere på kartet (i <b>c:geo</b> eller i web-leseren). Det kan for eksempel vise hvilken cache de er ute etter. Ved å koble til <b>Go 4 cache</b> får <b>c:geo</b> din tillatelse til oppgi dine koordinater til andre brukere av <b>Go 4 cache</b>, men bare mens <b>c:geo</b> kjører.</string>
 	<string name="about_twitter">Ønsker du at <b>c:geo</b> poster en status på Twitter hver gang du logger ett funn via <b>c:geo</b>?</string>
 	<string name="about_auth_1">Den følgende prosessen tillater <b>c:geo</b> tilgang til Twitter - hvis bruker samtykker.</string>

@@ -142,19 +142,6 @@
 					android:clickable="true"
 					android:onClick="twitter"
 					android:text="@string/twitter" />
-			<TextView android:id="@+id/graphic"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="left"
-					android:textSize="14dip"
-					android:textColor="?text_color"
-					android:textColorLink="?text_color_link"
-					android:linksClickable="false"
-					android:text="@string/graphic" />
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />
 				<TextView style="@style/separator_horizontal_headline"
@@ -163,12 +150,12 @@
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="12dip"
-					android:layout_marginLeft="7dip"
-					android:layout_marginRight="7dip"
+					android:layout_margin="7dip"
 					android:layout_gravity="left"
 					android:paddingLeft="3dip"
 					android:textSize="14dip"
+					android:linksClickable="false"
+					android:textColorLink="?text_color_link"
 					android:textColor="?text_color"
 					android:text="@string/contributors" />
 			<RelativeLayout style="@style/separator_horizontal_layout" >
@@ -179,9 +166,7 @@
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="12dip"
-					android:layout_marginLeft="7dip"
-					android:layout_marginRight="7dip"
+					android:layout_margin="7dip"
 					android:layout_gravity="left"
 					android:paddingLeft="3dip"
 					android:textSize="12dip"

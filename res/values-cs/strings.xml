@@ -284,8 +284,6 @@
   <string name="website">web: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
   <string name="facebook">facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
   <string name="twitter">twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-  <string name="graphic">ikony na úvodní stránce vytvořil <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
-    grafické prvky vytvořil <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
   <string name="about_go4cache">Služba <b>Go 4 cache</b> umožňuje sledovat v reálném čase ostatní kačery na mapě (v <b>c:geo</b> nebo v prohlížeči). Můžete se tak podívat třeba na to, jakou kešku právě hledají. Připojením ke službě <b>Go 4 cache</b> umožníte aplikaci <b>c:geo</b> zveřejňovat Vaši aktuální polohu (pouze pokud <b>c:geo</b> běží).</string>
   <string name="about_twitter">Chcete aby <b>c:geo</b> napsalo na Váš Twitter pokaždé, když zapíšete nález kešky?</string>
   <string name="about_auth_1">Pomocí následujícího procesu můžete aplikaci <b>c:geo</b> umožnit odesílání příspěvků na Váš Twitter.</string>

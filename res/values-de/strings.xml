@@ -441,8 +441,6 @@
 	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">Die Icons auf dem Startbildschirm wurden von <a href="http://iirojappinen.com/">Iiro Jäppinen</a> erstellt.
-Die graphischen Elemente stammen von <a href="http://www.jaytech.cz/">Jan Žatecký</a>.</string>
 	<string name="about_go4cache">Service <b>Go 4 cache</b> erlaubt es, andere Geocacher in Echtzeit auf der Karte zu sehen (in <b>c:geo</b> oder im Browser). Es kann beispielsweise anzeigen, welchen Cache sie suchen. <b>Go 4 cache</b> erlaubt <b>c:geo</b> die aktuelle Position zu veröffentlichen (nur wenn <b>c:geo</b> ausgeführt wird).</string>
 	<string name="about_twitter">Soll jeder neuen Fund auf Twitter veröffentlicht werden, wenn er über <b>c:geo</b> geloggt wird?</string>
 	<string name="about_auth_1">Der folgende Prozess erlaubt es <b>c:geo</b> auf den persönlichen Twitter Account zuzugreifen, wenn gezustimmt wird.</string>

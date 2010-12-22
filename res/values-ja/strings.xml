@@ -448,8 +448,6 @@
 	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="graphic">Mainscreen icons designed by <a href="http://iirojappinen.com/">Iiro Jäppinen</a>
-graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_go4cache"><b>Go 4 cache</b>サービスにより他のジオキャッシャーを(<b>c:geo</b>またはブラウザで)地図上にリアルタイムで表示できます。例えば、彼らがどのキャッシュを探しているのか表示できます。<b>Go 4 cache</b>に接続すれば<b>c:geo</b>でジオキャッシング中に現在地を(<b>c:geo</b>が起動している間だけ)公開することができます。</string>
 	<string name="about_twitter">キャッシュのログを書いたら<b>c:geo</b>がTwitterでつぶやいてほしい?</string>
 	<string name="about_auth_1"><b>c:geo</b>がTwitterにアクセスする許可を得るには次のことをしてください。</string>
