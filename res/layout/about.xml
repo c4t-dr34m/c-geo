@@ -158,6 +158,22 @@
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />
 				<TextView style="@style/separator_horizontal_headline"
+						android:text="@string/about_contributors" />
+			</RelativeLayout>
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="12dip"
+					android:layout_marginLeft="7dip"
+					android:layout_marginRight="7dip"
+					android:layout_gravity="left"
+					android:paddingLeft="3dip"
+					android:textSize="14dip"
+					android:textColor="?text_color"
+					android:text="@string/contributors" />
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/about_changelog" />
 			</RelativeLayout>
 			<TextView
@@ -166,11 +182,10 @@
 					android:layout_marginTop="12dip"
 					android:layout_marginLeft="7dip"
 					android:layout_marginRight="7dip"
-					android:layout_alignParentRight="true"
-					android:layout_gravity="right"
-					android:paddingRight="3dip"
+					android:layout_gravity="left"
+					android:paddingLeft="3dip"
 					android:textSize="12dip"
-					android:textColor="?text_color_grey"
+					android:textColor="?text_color"
 					android:text="@string/changelog" />
 		</LinearLayout>
 	</ScrollView>

@@ -253,6 +253,7 @@
 	<string name="about_detail">Details</string>
 	<string name="about_donation_less">Donate\nless</string>
 	<string name="about_donation_more">Donate\ndevelopement</string>
+	<string name="about_contributors">Contributors</string>
 
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
@@ -493,6 +494,20 @@ graphic elements by <a href="http://www.jaytech.cz/">Jan Žatecký</a></string>
 	<string name="about_twitter">Should <b>c:geo</b> publish new status on Twitter everytime a cache is logged?</string>
 	<string name="about_auth_1">The following process allows <b>c:geo</b> to access Twitter - if agreed.</string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start the process. This process will open up a web browser with Twitter page. Login on this page and allow <b>c:geo</b> to access your account. If accepted, Twitter will show up a numeric PIN code. This PIN must be pasted into <b>c:geo</b> and be confirmed. That\'s all.</string>
+
+	<!-- contributors -->
+	<string name="contributors">
+· 0xErnie (localization DE)\n
+· Charles (localization FR)\n
+· Denny (localization DA)\n
+· Pascal (localization NL)\n
+· Peter (localization HU)\n
+· Ray (code, localization JA)\n
+· serenity (localization FR)\n
+· Shan (localization NB)\n
+· thiasB (code, localization DE EN)\n
+· YraFyra (code, localization SV)\n
+	</string>
 
 	<!-- changelog -->
 	<string name="changelog">
