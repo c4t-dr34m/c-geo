@@ -200,7 +200,7 @@
 	<string name="caches_no_cache">Kein Cache</string>
 	<string name="caches_more_caches">Mehr Caches</string>
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
-	<string name="caches_downloading">Lade Caches...\nETA: </string>
+	<string name="caches_downloading">Lade Caches...\nETE: </string>
 	<string name="caches_progress_loading_title">Lade Caches</string>
 	<string name="caches_progress_loading_text">Gespeicherte Caches</string>
 	<string name="caches_eta_ltm">Weniger als eine Minute</string>
@@ -247,7 +247,7 @@
 	<string name="init_other">Weitere Optionen</string>
 	<string name="init_skin">Light Skin (Neustart erforderlich)</string>
 	<string name="init_transparent">Transparenten Startbildschirm verwenden</string>
-	<string name="init_address">Position am Startbildschirm</string>
+	<string name="init_address">Position am Startbildschirm anzeigen</string>
 	<string name="init_exclude">Eigene und gefundene Caches ausblenden</string>
 	<string name="init_disabled">Deaktivierte Caches ausblenden</string>
 	<string name="init_offline">Karten für Offline-Verwendung speichern</string>
@@ -255,7 +255,7 @@
 	<string name="init_nav">Google Navigation verwenden</string>
 	<string name="init_directoryimg">Bilderverzeichnis in der Galerie ausblenden</string>
 	<string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
-	<string name="init_livelist">Richtung zum Cache in Cache-Liste anzeigen</string>
+	<string name="init_livelist">Richtung zum Cache in der Cache-Liste anzeigen</string>
 	<string name="init_browser">c:geo zum Standardbrowser machen</string>
 	<string name="init_cleared">c:geo hat die Anmeldedaten gelöscht.</string>
 
@@ -282,7 +282,7 @@
 	<string name="cache_offline_stored">Auf dem Gerät gespeichert</string>
 	<string name="cache_offline_not_ready">Nicht offline verfügbar</string>
 	<string name="cache_offline_time_about">etwa</string>
-	<string name="cache_offline_time_mins">gerade eben</string>
+	<string name="cache_offline_time_mins">Minuten</string>
 	<string name="cache_offline_time_mins_few">vor ein paar Minuten</string>
 	<string name="cache_offline_time_hour">vor einer Stunde</string>
 	<string name="cache_offline_time_hours">vor einigen Stunden</string>
@@ -435,7 +435,7 @@
 
 	<!-- next things -->
 	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
-	<string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und überall einsetzbarer Client für Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterstützen möchte, kann über die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschlägen kann der Autor einfach per Facebook oder eMail kontaktieren.</string>
+	<string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und überall einsetzbarer Client für Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterstützen möchte, kann über die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschlägen kann man den Autor einfach per Facebook oder eMail kontaktieren.</string>
 	<string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
 	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>

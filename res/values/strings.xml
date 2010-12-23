@@ -224,7 +224,7 @@
 	<string name="caches_no_cache">No cache</string>
 	<string name="caches_more_caches">More caches</string>
 	<string name="caches_more_caches_no">No more caches</string>
-	<string name="caches_downloading">Downloading caches...\nETA: </string>
+	<string name="caches_downloading">Downloading caches...\nETE: </string>
 	<string name="caches_progress_loading_title">Loading caches</string>
 	<string name="caches_progress_loading_text">Caches stored in device</string>
 	<string name="caches_eta_ltm">Less than a minute</string>
