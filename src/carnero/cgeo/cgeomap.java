@@ -493,7 +493,7 @@ public class cgeomap extends MapActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 2, 0, res.getString(R.string.map_trail_hide)).setIcon(android.R.drawable.ic_menu_recent_history);
 		menu.add(0, 3, 0, res.getString(R.string.map_live_disable)).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-		menu.add(0, 4, 0, res.getString(R.string.caches_store_offline)).setIcon(android.R.drawable.ic_menu_set_as).setVisible(false);
+		menu.add(0, 4, 0, res.getString(R.string.caches_store_offline)).setIcon(android.R.drawable.ic_menu_set_as).setEnabled(false);
 		menu.add(0, 0, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
 
 		SubMenu subMenu = menu.addSubMenu(0, 5, 0, res.getString(R.string.caches_select)).setIcon(android.R.drawable.ic_menu_myplaces);
@@ -524,7 +524,7 @@ public class cgeomap extends MapActivity {
 
 			item = menu.findItem(3); // live map
 			if (live == false) {
-				item.setVisible(false);
+				item.setEnabled(false);
 				item.setTitle(res.getString(R.string.map_live_enable));
 			} else {
 				if (settings.maplive == 1) {
@@ -535,11 +535,14 @@ public class cgeomap extends MapActivity {
 			}
 
 			item = menu.findItem(4); // store loaded
-			if (live == true && caches != null && caches.size() > 0 && searching == false) item.setVisible(true);
-			else item.setVisible(false);
+			if (live == true && caches != null && caches.size() > 0 && searching == false) {
+				item.setEnabled(true);
+			} else {
+				item.setEnabled(false);
+			}
 
 			item = menu.findItem(5);
-			item.setVisible(false);
+			item.setEnabled(false);
 
 			SubMenu subMenu = item.getSubMenu();
 			subMenu.clear();
@@ -549,7 +552,7 @@ public class cgeomap extends MapActivity {
 					subMenu.add(0, cnt, 0, Html.fromHtml(coordinate.name) + " (" + coordinate.type + ")");
 					cnt ++;
 				}
-				item.setVisible(true);
+				item.setEnabled(true);
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeomap.onPrepareOptionsMenu: " + e.toString());
