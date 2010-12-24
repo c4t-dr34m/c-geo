@@ -535,7 +535,7 @@ public class cgeomap extends MapActivity {
 			}
 
 			item = menu.findItem(4); // store loaded
-			if (live == true && caches != null && caches.size() > 0 && searching == false) {
+			if ((searchId != null && app.getNotOfflineCount(searchId) > 0) && caches != null && caches.size() > 0 && searching == false) {
 				item.setEnabled(true);
 			} else {
 				item.setEnabled(false);
