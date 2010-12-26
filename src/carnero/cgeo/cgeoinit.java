@@ -330,28 +330,36 @@ public class cgeoinit extends Activity {
 	private class cgeoChangeTwitter implements View.OnClickListener {
 
 		public void onClick(View arg0) {
-			settings.reloadTwitterTokens();
+			CheckBox twitterButton = (CheckBox) findViewById(R.id.twitter_option);
 
-			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
-				edit.putInt("twitter", 1);
-				settings.twitter = 1;
+			if (twitterButton.isChecked() == true) {
+				settings.reloadTwitterTokens();
+
+				SharedPreferences.Editor edit = prefs.edit();
+				if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
+					edit.putInt("twitter", 1);
+					settings.twitter = 1;
+				} else {
+					edit.putInt("twitter", 0);
+					settings.twitter = 0;
+				}
+				edit.commit();
+
+				if (settings.twitter == 1 && (settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0)) {
+					Intent authIntent = new Intent(activity, cgeoauth.class);
+					activity.startActivity(authIntent);
+				}
+
+				if (prefs.getInt("twitter", 0) == 0) {
+					twitterButton.setChecked(false);
+				} else {
+					twitterButton.setChecked(true);
+				}
 			} else {
+				SharedPreferences.Editor edit = prefs.edit();
 				edit.putInt("twitter", 0);
 				settings.twitter = 0;
-			}
-			edit.commit();
-
-			if (settings.twitter == 1 && (settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0)) {
-				Intent authIntent = new Intent(activity, cgeoauth.class);
-				activity.startActivity(authIntent);
-			}
-
-			CheckBox twitterButton = (CheckBox) findViewById(R.id.twitter_option);
-			if (prefs.getInt("twitter", 0) == 0) {
 				twitterButton.setChecked(false);
-			} else {
-				twitterButton.setChecked(true);
 			}
 
 			return;
