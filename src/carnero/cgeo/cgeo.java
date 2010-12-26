@@ -119,8 +119,21 @@ public class cgeo extends Activity {
 		app.cleanGeo();
 		app.cleanDir();
 
-		base.sendAnal(context, "/");
 		setContentView(R.layout.main);
+
+		try {
+			PackageManager manager = this.getPackageManager();
+			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+
+			base.sendAnal(context, "/?ver=" + info.versionCode);
+			Log.i(cgSettings.tag, "Starting " + info.packageName + " " + info.versionCode + " a.k.a " + info.versionName + "...");
+
+			info = null;
+			manager = null;
+		} catch(Exception e) {
+			base.sendAnal(context, "/");
+			Log.i(cgSettings.tag, "No info.");
+		}
 
 		try {
 			if (settings.helper == 0) {
@@ -142,18 +155,6 @@ public class cgeo extends Activity {
 			}
 		} catch (Exception e) {
 			// nothing
-		}
-
-		try {
-			PackageManager manager = this.getPackageManager();
-			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-
-			Log.i(cgSettings.tag, "Starting " + info.packageName + " " + info.versionCode + " a.k.a " + info.versionName + "...");
-
-			info = null;
-			manager = null;
-		} catch(Exception e) {
-			Log.i(cgSettings.tag, "No info.");
 		}
 
 		init();
