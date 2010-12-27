@@ -489,19 +489,4 @@
 	<string name="about_auth_1">Den følgende prosessen tillater <b>c:geo</b> tilgang til Twitter - hvis bruker samtykker.</string>
 	<string name="about_auth_2">Trykk på "Start autorisasjon" knappen for å starte prosessen. Denne prosessen vil åpne Twitter i web-leseren. Logg inn, og tillat <b>c:geo</b> tilgang til kontoen din. Hvis du aksepterer, vil Twitter oppgi en numerisk PIN-kode. Denne PIN-koden må så limes inn i <b>c:geo</b>. Verre er det ikke.</string>
 
-	<!-- contributors -->
-	<string name="Bidragsytere">\n
-· 0xErnie (localization DE)\n
-· Charles (localization FR)\n
-· Denny (localization DA)\n
-· <a href="http://iirojappinen.com/">Iiro Jäppinen</a> (graphic)\n
-· <a href="http://www.jaytech.cz/">Jan Žatecký</a> (graphic)\n
-· Pascal (localization NL)\n
-· Peter (localization HU)\n
-· Ray (code, localization JA)\n
-· serenity (localization FR)\n
-· Shan, a.k.a. ShakurNO (localization NO)\n
-· thiasB (code, localization DE EN)\n
-· YraFyra (code, localization SV)\n
-	</string>
 </resources>
