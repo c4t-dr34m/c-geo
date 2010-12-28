@@ -3,6 +3,7 @@ package carnero.cgeo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
@@ -12,6 +13,7 @@ import android.view.Display;
 import android.view.Surface;
 
 public class cgDirection {
+	private Resources res = null;
 	private cgDirection dir = null;
 	private cgeoapplication app = null;
 	private Context context = null;
@@ -64,7 +66,7 @@ public class cgDirection {
 		@Override
 		 public void onAccuracyChanged(Sensor sensor, int accuracy) {
 			if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW && app.warnedCompassCalibration == false && warning != null) {
-				warning.showToast("Compass in your device needs calibration.\nYou can do it with waving phone around in figures of number eight in the air.");
+				warning.showToast(res.getString(R.string.compass_needs_calib));
 				app.warnedCompassCalibration = true;
 			}
 		 }

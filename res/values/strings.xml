@@ -476,6 +476,7 @@
 	<string name="use_compass">Use compass</string>
 	<string name="destination_select">Select destination</string>
 	<string name="destination_set">Set destination</string>
+	<string name="compass_needs_calib">Compass in your device needs calibration.\nYou can do it by waving the phone around in figures of number eight in the air.</string>
 
 	<!-- license -->
 	<string name="license">License</string>
