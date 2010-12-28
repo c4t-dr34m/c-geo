@@ -435,7 +435,7 @@
 	<string name="search_hbu_button">Søk med</string>
 	<string name="search_tb">Trackable</string>
 	<string name="search_tb_hint">Trackable-identifisering</string>
-	<string name="jesearch_tb_button">Søk etter trackable</string>
+	<string name="search_tb_button">Søk etter trackable</string>
 	<string name="search_destination">Lokaliser ved hjelp av koordinater</string>
 	<string name="search_direction_rel">Fra denne plassen</string>
 	<string name="search_lat">Peiling</string>
