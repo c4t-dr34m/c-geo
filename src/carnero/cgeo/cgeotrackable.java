@@ -109,6 +109,7 @@ public class cgeotrackable extends Activity {
 				}
 				detailsList.addView(itemLayout);
 
+				/*
 				// trackable type
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
@@ -121,6 +122,7 @@ public class cgeotrackable extends Activity {
 					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
 				detailsList.addView(itemLayout);
+				*/
 
 				// trackable owner
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
