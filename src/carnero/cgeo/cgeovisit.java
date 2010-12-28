@@ -180,7 +180,7 @@ public class cgeovisit extends cgLogForm {
 				}
 			} else {
 				if (base.errorRetrieve.get(msg.what) != null) {
-					warning.showToast(res.getString(R.string.err_log_post_failed_because) + base.errorRetrieve.get(msg.what) + ".");
+					warning.showToast(res.getString(R.string.err_log_post_failed_because) + " " + base.errorRetrieve.get(msg.what) + ".");
 				} else {
 					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
@@ -236,7 +236,7 @@ public class cgeovisit extends cgLogForm {
 		if (cache.name != null && cache.name.length() > 0) {
 			base.setTitle(activity, res.getString(R.string.log_new_log) + " " + cache.name);
 		} else {
-			base.setTitle(activity, res.getString(R.string.log_new_log) + cache.geocode.toUpperCase());
+			base.setTitle(activity, res.getString(R.string.log_new_log) + " " + cache.geocode.toUpperCase());
 		}
 
 		app.setAction(geocode);
@@ -506,6 +506,12 @@ public class cgeovisit extends cgLogForm {
 			typeSelected = log.type;
 			date.setTime(new Date(log.date));
 			text = log.log;
+			if (typeSelected == 2 && settings.isGCvoteLogin() == true) {
+				if (post == null) {
+					post = (Button) findViewById(R.id.post);
+				}
+				post.setText(res.getString(R.string.log_post_no_rate));
+			}
 		}
 
 		if (types.contains(typeSelected) == false) {
@@ -610,7 +616,7 @@ public class cgeovisit extends cgLogForm {
 			if (rating == 0) {
 				post.setText(res.getString(R.string.log_post_no_rate));
 			} else {
-				post.setText(res.getString(R.string.log_post_rate) + rating + "*");
+				post.setText(res.getString(R.string.log_post_rate) + " " + rating + "*");
 			}
 		} else {
 			post.setText(res.getString(R.string.log_post));
