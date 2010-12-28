@@ -469,7 +469,7 @@
 	<string name="navigation">Navigering</string>
 	<string name="compass_title">Kompass</string>
 	<string name="use_gps">Använd GPS</string>
-	<string name="use_compass">Använd compass</string>
+	<string name="use_compass">Använd kompass</string>
 	<string name="destination_select">Välj målpunkt</string>
 	<string name="destination_set">Sätt målpunkt</string>
 
