@@ -73,8 +73,12 @@ public class cgeocaches extends ListActivity {
 		public void handleMessage(Message msg) {
 			try {
 				if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-					cacheList.clear();
-					cacheList.addAll(app.getCaches(searchId));
+					final ArrayList<cgCache> cacheListTmp = app.getCaches(searchId);
+					if (cacheListTmp != null && cacheListTmp.isEmpty() == false) {
+						cacheList.clear();
+						cacheList.addAll(cacheListTmp);
+						cacheListTmp.clear();
+					}
 				}
 
 				setAdapter();
@@ -163,8 +167,12 @@ public class cgeocaches extends ListActivity {
 		public void handleMessage(Message msg) {
 			try {
 				if (searchId != null && searchId > 0 && app.getCount(searchId) > 0) {
-					cacheList.clear();
-					cacheList.addAll(app.getCaches(searchId));
+					final ArrayList<cgCache> cacheListTmp = app.getCaches(searchId);
+					if (cacheListTmp != null && cacheListTmp.isEmpty() == false) {
+						cacheList.clear();
+						cacheList.addAll(cacheListTmp);
+						cacheListTmp.clear();
+					}
 				}
 
 				setAdapter();
@@ -248,8 +256,12 @@ public class cgeocaches extends ListActivity {
 				}
 			} else {
 				if (cacheList != null && searchId != null) {
-					cacheList.clear();
-					cacheList.addAll(app.getCaches(searchId));
+					final ArrayList<cgCache> cacheListTmp = app.getCaches(searchId);
+					if (cacheListTmp != null && cacheListTmp.isEmpty() == false) {
+						cacheList.clear();
+						cacheList.addAll(cacheListTmp);
+						cacheListTmp.clear();
+					}
 				}
 
 				if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
