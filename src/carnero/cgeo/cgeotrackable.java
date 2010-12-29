@@ -109,7 +109,7 @@ public class cgeotrackable extends Activity {
 				}
 				detailsList.addView(itemLayout);
 
-				/*
+				/* disabled by YraFyra, not used
 				// trackable type
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
