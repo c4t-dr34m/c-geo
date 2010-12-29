@@ -245,9 +245,7 @@ public class cgeodetail extends Activity {
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(cgSettings.analytics, this);
 		tracker.dispatch();
-		if (geocode == null) {
-			base.sendAnal(activity, tracker, "/cache/detail");
-		} else {
+		if (geocode != null) {
 			base.sendAnal(activity, tracker, "/cache/detail#" + geocode);
 		}
 
@@ -445,6 +443,12 @@ public class cgeodetail extends Activity {
 
 			finish();
 			return;
+		}
+
+		if (cache.reason > 0) {
+			base.sendAnal(activity, tracker, "/cache/detail/stored");
+		} else {
+			base.sendAnal(activity, tracker, "/cache/detail/online");
 		}
 
 		if (app.warnedLanguage == false && cache.reason == 0 && (cache.owner == null || cache.owner.length() == 0 || cache.hidden == null)) {

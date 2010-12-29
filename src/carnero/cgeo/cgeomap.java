@@ -298,11 +298,12 @@ public class cgeomap extends MapActivity {
 		setContentView(R.layout.map);
 		base.setTitle(activity, res.getString(R.string.map_map));
 
-		// google analytics
-		base.sendAnal(activity, "/map");
-
-		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
+		if (settings.useCompass == 1 && dir == null) {
+			dir = app.startDir(activity, dirUpdate, warning);
+		}
 
 		mapView = (MapView)findViewById(R.id.map);
 		mapController = mapView.getController();
@@ -367,6 +368,13 @@ public class cgeomap extends MapActivity {
 			followLocation = false;
 
 			addOverlays(true, true);
+		}
+
+		// google analytics
+		if (live == false) {
+			base.sendAnal(activity, "/map/normal");
+		} else {
+			base.sendAnal(activity, "/map/live");
 		}
 
 		if (myLocation == null) {

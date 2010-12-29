@@ -1026,8 +1026,6 @@ public class cgBase {
 
 		tableInside = tableInside.substring(0, pos);
 
-		Log.d(cgSettings.tag, tableInside);
-
 		if (tableInside != null && tableInside.length() > 0) {
             // cache terrain
             try {
