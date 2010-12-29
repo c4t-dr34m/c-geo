@@ -52,11 +52,11 @@ public class cgeowaypoint extends Activity {
 					if (waypoint.name != null && waypoint.name.length() > 0) {
 						base.setTitle(activity, Html.fromHtml(waypoint.name.trim()).toString());
 					} else {
-						base.setTitle(activity, "waypoint");
+						base.setTitle(activity, res.getString(R.string.waypoint_title));
 					}
 
 					if (waypoint.prefix.equalsIgnoreCase("OWN") == false) identification.setText(waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
-					else identification.setText("custom");
+					else identification.setText(res.getString(R.string.waypoint_custom));
 					
 					if (waypoint.note != null && waypoint.note.length() > 0) {
 						note.setText(Html.fromHtml(waypoint.note.trim()), TextView.BufferType.SPANNABLE);

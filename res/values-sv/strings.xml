@@ -393,7 +393,8 @@
 	<string name="popup_offline">Offline</string>
 
 	<!-- waypoint -->
-	<string name="waypoint_custom">Egna</string>
+	<string name="waypoint_title">Punkt</string>
+	<string name="waypoint_custom">Egen</string>
 	<string name="waypoint_my_coordinates">Mina koordinater</string>
 	<string name="waypoint_bearing">Riktning</string>
 	<string name="waypoint_distance">Avstånd</string>
