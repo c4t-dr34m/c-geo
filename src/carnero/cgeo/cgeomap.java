@@ -289,6 +289,7 @@ public class cgeomap extends MapActivity {
 
 		// set layout
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		
 		// set layout
 		if (settings.skin == 1) {
 			setTheme(R.style.light);
@@ -392,10 +393,16 @@ public class cgeomap extends MapActivity {
 		}
 		usersThread.start();
 
-		if (geo != null) geoUpdate.updateLoc(geo);
-		if (dir != null) dirUpdate.updateDir(dir);
+		if (geo != null) {
+			geoUpdate.updateLoc(geo);
+		}
+		if (dir != null) {
+			dirUpdate.updateDir(dir);
+		}
 
-		if (numberView == null) numberView = (TextView)findViewById(R.id.number);
+		if (numberView == null) {
+			numberView = (TextView)findViewById(R.id.number);
+		}
 		numberView.setClickable(true);
 		numberView.setOnClickListener(new changeNumber());
 		numberView.setOnLongClickListener(new resetNumber());
@@ -722,7 +729,7 @@ public class cgeomap extends MapActivity {
 		if (mapView == null) return;
 
 		// init images
-		if (gcIconsClear.isEmpty()) {
+		if (gcIconsClear.isEmpty() == true) {
 			gcIconsClear.put("ape", R.drawable.type_ape);
 			gcIconsClear.put("cito", R.drawable.type_cito);
 			gcIconsClear.put("earth", R.drawable.type_earth);
@@ -738,7 +745,7 @@ public class cgeomap extends MapActivity {
 			gcIconsClear.put("mystery", R.drawable.type_mystery);
 		}
 
-		if (gcIcons.isEmpty()) {
+		if (gcIcons.isEmpty() == true) {
 			gcIcons.put("ape", R.drawable.marker_cache_ape);
 			gcIcons.put("cito", R.drawable.marker_cache_cito);
 			gcIcons.put("earth", R.drawable.marker_cache_earth);
@@ -780,7 +787,7 @@ public class cgeomap extends MapActivity {
 			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
 		}
 
-		if (wpIcons.isEmpty()) {
+		if (wpIcons.isEmpty() == true) {
 			wpIcons.put("waypoint", R.drawable.marker_waypoint_waypoint);
 			wpIcons.put("flag", R.drawable.marker_waypoint_flag);
 			wpIcons.put("pkg", R.drawable.marker_waypoint_pkg);
@@ -1091,14 +1098,17 @@ public class cgeomap extends MapActivity {
 
 		protected void kill() {
 			requestedKill = true;
+			usertoken = null;
 		}
 
 		protected void enable() {
 			enabled = true;
+			usertoken = null;
 		}
 
 		protected void disable() {
 			enabled = false;
+			usertoken = null;
 		}
 
 		public boolean state() {
@@ -1213,10 +1223,6 @@ public class cgeomap extends MapActivity {
 						searchId = app.getOfflineInViewport(latitudeT, longitudeL, latitudeB, longitudeR, settings.cacheType);
 
 						if (searchId != null && searchId > 0) {
-							if (loadingThread != null && app.getViewstate(searchId) != null) {
-								loadingThread.setViewstate(app.getViewstate(searchId));
-							}
-
 							caches.clear();
 							if (app.getCount(searchId) > 0) {
 								caches.addAll(app.getCaches(searchId, false, false, false, false, false, false));

@@ -345,6 +345,8 @@
 	<string name="cache_menu_map">Show on map</string>
 	<string name="cache_menu_map_ext">Show on ext. map</string>
 	<string name="cache_menu_map_static">Static maps</string>
+	<string name="cache_menu_map_short">Maps</string>
+	<string name="cache_menu_map_ext_short">Ext. map</string>
 	<string name="cache_menu_browser">Open in browser</string>
 	<string name="cache_menu_visit">Log visit</string>
 	<string name="cache_menu_spoilers">Spoiler images</string>
@@ -513,10 +515,13 @@
 · YraFyra (code, localization SV)\n
 	</string>
 
+<!-- ====== please, do not translate things below this line ====== -->
+
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>1.17</b> (__.12.2010)\n
 · update: Norwegian translation (by Shan)\n
+· update: Czech translation (by Viktor K.)\n
 \n
 <b>1.16</b> (22.12.2010)\n
 · fix: Adaptation for GC.com changes\n
