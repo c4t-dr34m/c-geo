@@ -281,8 +281,11 @@ public class cgeo extends Activity {
 			new Thread() {
 				@Override
 				public void run() {
-					base.login();
-					app.firstRun = false;
+					int status = base.login();
+
+					if (status == 1) {
+						app.firstRun = false;
+					}
 				}
 			}.start();
 		}
