@@ -345,6 +345,8 @@
 	<string name="cache_menu_map">Visa på kartan</string>
 	<string name="cache_menu_map_ext">Visa på extern karta</string>
 	<string name="cache_menu_map_static">Statiska kartor</string>
+	<string name="cache_menu_map_short">Kartor</string>
+	<string name="cache_menu_map_ext_short">Ext. karta</string>
 	<string name="cache_menu_browser">Öppna i webbläsare</string>
 	<string name="cache_menu_visit">Logga besök</string>
 	<string name="cache_menu_spoilers">Spoiler bilder</string>
