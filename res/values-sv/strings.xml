@@ -490,10 +490,26 @@
 	<string name="author">Upphovsman: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
 	<string name="website">Hemsida: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
-	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
+	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
 	<string name="about_go4cache">Tjänsten <b>Go 4 Cache</b> visar andra geocachare på kartan i realtid (i <b>c:geo</b> eller webbläsaren). Du kan till exempel se vilken cache de letar efter. Genom att ansluta till <b>Go 4 Cache</b> tillåter du <b>c:geo</b> att publicera din nuvarande plats när du geocachar (bara när <b>c:geo</b> är igång).</string>
 	<string name="about_twitter">Ska <b>c:geo</b> publicera ny status på Twitter varje gång en cache loggas?</string>
 	<string name="about_auth_1">Nedan tillåter du <b>c:geo</b> att ansluta till Twitter.</string>
 	<string name="about_auth_2">Klicka på "Påbörja koppling mot Twitter" om du vill koppla ihop <b>c:geo</b> med Twitter. Twitters hemsida kommer att öppnas i en webbläsare. Logga in på den sidan och tillåt <b>c:geo</b> att ansluta till ditt konto. När du godkänt så kommer Twitter att visa en PIN kod. Kom ihåg denna PIN kod, stäng webbläsaren och skriv in PIN koden i <b>c:geo</b> och bekräfta.</string>
+
+	<!-- contributors -->
+	<string name="contributors">
+· 0xErnie (tysk översättn.)\n
+· Charles (fransk översättn.)\n
+· Denny (dansk översättn.)\n
+· <a href="http://iirojappinen.com/">Iiro Jäppinen</a> (grafik)\n
+· <a href="http://www.jaytech.cz/">Jan Žatecký</a> (grafik)\n
+· Pascal (holländsk översättn.)\n
+· Peter (ungersk översättn.)\n
+· Ray (kod, japansk översättn.)\n
+· serenity (fransk översättn.)\n
+· Shan, a.k.a. ShakurNO (norsk översättn.)\n
+· thiasB (kod, tysk &amp; engelsk översättn.)\n
+· YraFyra (kod, svensk översättn.)\n
+	</string>
 </resources>

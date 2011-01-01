@@ -499,7 +499,7 @@
 	<string name="about_auth_2">Click on "authorize c:geo" button will start the process. This process will open up a web browser with Twitter page. Login on this page and allow <b>c:geo</b> to access your account. If accepted, Twitter will show up a numeric PIN code. This PIN must be pasted into <b>c:geo</b> and be confirmed. That\'s all.</string>
 
 	<!-- contributors -->
-	<string name="contributors">\n
+	<string name="contributors">
 · 0xErnie (localization DE)\n
 · Charles (localization FR)\n
 · Denny (localization DA)\n
@@ -527,6 +527,7 @@
 <b>1.16</b> (22.12.2010)\n
 · fix: Adaptation for GC.com changes\n
 · fix: Localization fixes (by thiasB &amp; YraFyra)\n
+· new: Change actions for all TBs (by YraFyra)\n
 · removed: Some details from cache list (due to GC.com)\n
 \n
 <b>1.15</b> (12.12.2010)\n
