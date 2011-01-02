@@ -229,7 +229,7 @@ public class cgeowaypointadd extends Activity {
 
 		public void onClick(View arg0) {
 			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
-				warning.showToast(res.getString(R.string.err_waypoint_unknown_position));
+				warning.showToast(res.getString(R.string.err_point_unknown_position));
 				return;
 			}
 
@@ -252,7 +252,7 @@ public class cgeowaypointadd extends Activity {
 
 			if ((bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0)
 							&& (latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)) {
-				warning.helpDialog(res.getString(R.string.err_waypoint_no_position_given_title), res.getString(R.string.err_waypoint_no_position_given));
+				warning.helpDialog(res.getString(R.string.err_point_no_position_given_title), res.getString(R.string.err_point_no_position_given));
 				return;
 			}
 
@@ -275,7 +275,7 @@ public class cgeowaypointadd extends Activity {
 				longitude = (Double) lonParsed.get("coordinate");
 			} else {
 				if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
-					warning.showToast(res.getString(R.string.err_waypoint_curr_position_unavailable));
+					warning.showToast(res.getString(R.string.err_point_curr_position_unavailable));
 					return;
 				}
 
@@ -294,7 +294,7 @@ public class cgeowaypointadd extends Activity {
 					// probably not a number
 				}
 				if (bearing == null) {
-					warning.helpDialog(res.getString(R.string.err_waypoint_bear_and_dist_title), res.getString(R.string.err_waypoint_bear_and_dist));
+					warning.helpDialog(res.getString(R.string.err_point_bear_and_dist_title), res.getString(R.string.err_point_bear_and_dist));
 					return;
 				}
 
@@ -353,7 +353,7 @@ public class cgeowaypointadd extends Activity {
 				lonParsed = coordsDst.get("longitude");
 
 				if (latParsed == null || lonParsed == null) {
-					warning.showToast(res.getString(R.string.err_waypoint_location_error));
+					warning.showToast(res.getString(R.string.err_point_location_error));
 					return;
 				}
 
@@ -367,7 +367,7 @@ public class cgeowaypointadd extends Activity {
 			} else {
 				Log.d(cgSettings.tag, "Blemc... last");
 
-				warning.showToast(res.getString(R.string.err_waypoint_location_error));
+				warning.showToast(res.getString(R.string.err_point_location_error));
 				return;
 			}
 

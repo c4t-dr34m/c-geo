@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ public class cgeosmaps extends Activity {
 
 	private ArrayList<Bitmap> maps = new ArrayList<Bitmap>();
 	private String geocode = null;
+	private Resources res = null;
 	private cgeoapplication app = null;
 	private Activity activity = null;
 	private cgSettings settings = null;
@@ -82,6 +84,7 @@ public class cgeosmaps extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -94,7 +97,7 @@ public class cgeosmaps extends Activity {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.map_static);
-		base.setTitle(activity, "static maps");
+		base.setTitle(activity, res.getString(R.string.map_static_title));
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -110,7 +113,7 @@ public class cgeosmaps extends Activity {
 			return;
 		}
 
-		waitDialog = ProgressDialog.show(this, null, "loading static maps...", true);
+		waitDialog = ProgressDialog.show(this, null, res.getString(R.string.map_static_loading), true);
 		waitDialog.setCancelable(true);
 
 		(new loadMaps()).start();

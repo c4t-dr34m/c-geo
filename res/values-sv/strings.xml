@@ -122,7 +122,7 @@
 	<string name="err_detail_cache_forgot_visit">Tyvärr, c:geo glömde vilken cache tittade på.</string>
 	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd för att visas på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
 	<string name="err_detail_no_spoiler">c:geo hittade inga spoiler bilder för den här cachen.</string>
-	<string name="err_detail_no_map_static">c:geo hittade inga statiska kartor för denna cache.</string>
+	<string name="err_detail_no_map_static">c:geo hittade inga sparade kartor för denna cache.</string>
 	<string name="err_detail_still_removing">Fortsätter att ta bort denna cache.</string>
 	<string name="err_detail_still_saving">Fortsätter att spara denna cache.</string>
 	<string name="err_detail_still_refreshing">Fortsätter att ladda om denna cache.</string>
@@ -158,16 +158,17 @@
 
 	<string name="err_waypoint_cache_unknown">Tyvärr, c:geo vet inte till vilken cache du vill lägga till en punkt.</string>
 	<string name="err_waypoint_unknown">Tyvärr, c:geo glömde vilken punkt du ville visa.</string>
-	<string name="err_waypoint_unknown_position">Tyvärr, c:geo kan inte bestämma din position.</string>
-	<string name="err_waypoint_no_position_given_title">Mer info krävs</string>
-	<string name="err_waypoint_no_position_given">Ange minst latitud och longitud eller avstånd och riktning. Du kan också ange alla fyra.</string>
-	<string name="err_waypoint_curr_position_unavailable">c:geo har ännu inte nuvarande koordinater. Vänta en stund...</string>
-	<string name="err_waypoint_bear_and_dist_title">Tips!</string>
-	<string name="err_waypoint_bear_and_dist">Ange både riktning och avstånd. Rikting är en vinkel mellan 0 och 360 grader relativt norr. Avstånd anges med eller utan enhet.</string>
-	<string name="err_waypoint_location_error">Tyvärr, c:geo kan inte få fram platsen för din punkt.</string>
 	<string name="err_waypoint_add_failed">Tyvärr, c:geo misslyckades att lägga till din punkt.</string>
 	<string name="err_waypoint_load_failed">Tyvärr, c:geo misslyckades att ladda punkten.</string>
 	<string name="err_waypoint_delete_failed">Tyvärr, c:geo kan inte ta bort punkten.</string>
+	<string name="err_point_unknown_position">Tyvärr, c:geo kan inte bestämma din position.</string>
+	<string name="err_point_no_position_given_title">Mer info krävs</string>
+	<string name="err_point_no_position_given">Ange minst latitud och longitud eller avstånd och riktning. Du kan också ange alla fyra.</string>
+	<string name="err_point_curr_position_unavailable">c:geo har ännu inte nuvarande koordinater. Vänta en stund...</string>
+	<string name="err_point_bear_and_dist_title">Tips!</string>
+	<string name="err_point_bear_and_dist">Ange både riktning och avstånd. Rikting är en vinkel mellan 0 och 360 grader relativt norr. Avstånd anges med eller utan enhet.</string>
+	<string name="err_point_location_error">Tyvärr, c:geo kan inte få fram platsen för din punkt.</string>
+	<string name="err_navigation_not_found">c:geo kan inte hitta något sätt att navigera.</string>
 
 	<string name="err_log_load_data">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök.</string>
 	<string name="err_log_load_data_again">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök. Försöker igen.</string>
@@ -355,9 +356,9 @@
 	<string name="cache_menu_compass">Kompass</string>
 	<string name="cache_menu_tbt">Sväng-för-sväng</string>
 	<string name="cache_menu_radar">Radar</string>
-	<string name="cache_menu_map">Visa på kartan</string>
+	<string name="cache_menu_map">Visa på karta</string>
 	<string name="cache_menu_map_ext">Visa på extern karta</string>
-	<string name="cache_menu_map_static">Statiska kartor</string>
+	<string name="cache_menu_map_static">Sparade kartor</string>
 	<string name="cache_menu_map_short">Kartor</string>
 	<string name="cache_menu_map_ext_short">Ext. karta</string>
 	<string name="cache_menu_browser">Öppna i webbläsare</string>
@@ -385,6 +386,8 @@
 	<string name="cache_location">Plats</string>
 	<string name="cache_coordinates">Koordinater</string>
 	<string name="cache_calendars">Välj kalender</string>
+	<string name="cache_spoiler_images_title">Spoiler bilder</string>
+	<string name="cache_spoiler_images_loading">Laddar spoiler bilder...</string>
 
 	<!-- gpx -->
 	<string name="gpx_import_searching_in">Söker efter .gpx filer\ni</string>
@@ -433,6 +436,8 @@
 	<string name="map_trail_hide">Dölj spår</string>
 	<string name="map_live_enable">Aktivera live</string>
 	<string name="map_live_disable">Inaktivera live</string>
+	<string name="map_static_title">Sparade kartor</string>
+	<string name="map_static_loading">Laddar sparade kartor...</string>
 
 	<!-- search -->
 	<string name="search_coordinates">Koordinater</string>
@@ -467,6 +472,7 @@
 
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>
+	<string name="trackable_select_title">Trackables</string>
 	<string name="trackable_details_loading">Laddar detaljer om trackable...</string>
 	<string name="trackable_log_touch">Logga</string>
 	<string name="trackable_more">Visa mer</string>
