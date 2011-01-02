@@ -46,6 +46,7 @@ public class cgeowaypoint extends Activity {
 					return;
 				} else {
 					final TextView identification = (TextView)findViewById(R.id.identification);
+					final TextView coords = (TextView)findViewById(R.id.coordinates);
 					final TextView note = (TextView)findViewById(R.id.note);
 					final LinearLayout navigationPart = (LinearLayout)findViewById(R.id.navigation_part);
 
@@ -57,6 +58,8 @@ public class cgeowaypoint extends Activity {
 
 					if (waypoint.prefix.equalsIgnoreCase("OWN") == false) identification.setText(waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
 					else identification.setText(res.getString(R.string.waypoint_custom));
+					
+					coords.setText(Html.fromHtml(base.formatCoordinate(waypoint.latitude, "lat", true) + " | " + base.formatCoordinate(waypoint.longitude, "lon", true)), TextView.BufferType.SPANNABLE);
 					
 					if (waypoint.note != null && waypoint.note.length() > 0) {
 						note.setText(Html.fromHtml(waypoint.note.trim()), TextView.BufferType.SPANNABLE);
