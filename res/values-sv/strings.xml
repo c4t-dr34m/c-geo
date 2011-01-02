@@ -156,6 +156,19 @@
 	<string name="err_tb_find">Tyvärr, c:geo kunde inte hitta trackable</string>
 	<string name="err_tb_find_that">Tyvärr, c:geo kan inte hitta önskad trackable.</string>
 
+	<string name="err_waypoint_cache_unknown">Tyvärr, c:geo vet inte till vilken cache du vill lägga till en punkt.</string>
+	<string name="err_waypoint_unknown">Tyvärr, c:geo glömde vilken punkt du ville visa.</string>
+	<string name="err_waypoint_unknown_position">Tyvärr, c:geo kan inte bestämma din position.</string>
+	<string name="err_waypoint_no_position_given_title">Mer info krävs</string>
+	<string name="err_waypoint_no_position_given">Ange minst latitud och longitud eller avstånd och riktning. Du kan också ange alla fyra.</string>
+	<string name="err_waypoint_curr_position_unavailable">c:geo har ännu inte nuvarande koordinater. Vänta en stund...</string>
+	<string name="err_waypoint_bear_and_dist_title">Tips!</string>
+	<string name="err_waypoint_bear_and_dist">Ange både riktning och avstånd. Rikting är en vinkel mellan 0 och 360 grader relativt norr. Avstånd anges med eller utan enhet.</string>
+	<string name="err_waypoint_location_error">Tyvärr, c:geo kan inte få fram platsen för din punkt.</string>
+	<string name="err_waypoint_add_failed">Tyvärr, c:geo misslyckades att lägga till din punkt.</string>
+	<string name="err_waypoint_load_failed">Tyvärr, c:geo misslyckades att ladda punkten.</string>
+	<string name="err_waypoint_delete_failed">Tyvärr, c:geo kan inte ta bort punkten.</string>
+
 	<string name="err_log_load_data">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök.</string>
 	<string name="err_log_load_data_again">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök. Försöker igen.</string>
 	<string name="err_log_load_data_still">c:geo laddar fortfarande data för att kunna posta loggen. Vänligen vänta en stund till.</string>
@@ -406,6 +419,7 @@
 	<string name="waypoint_add_title">Lägg till punkt</string>
 	<string name="waypoint_note">Kommentar</string>
 	<string name="waypoint_save">Spara</string>
+	<string name="waypoint_loading">Laddar punkt...</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Skicka att du hittat till Twitter</string>

@@ -156,6 +156,19 @@
 	<string name="err_tb_find">Sorry, c:geo can\'t find trackable</string>
 	<string name="err_tb_find_that">Sorry, c:geo can\'t find that trackable.</string>
 
+	<string name="err_waypoint_cache_unknown">Sorry, c:geo doesn\'t know to which cache you want to add waypoint.</string>
+	<string name="err_waypoint_unknown">Sorry, c:geo forgot what waypoint you want to display.</string>
+	<string name="err_waypoint_unknown_position">Sorry, c:geo can\'t recognize where you are.</string>
+	<string name="err_waypoint_no_position_given_title">Info required</string>
+	<string name="err_waypoint_no_position_given">Fill at least latitude or longitude or distance and bearing. You can also fill all four fields.</string>
+	<string name="err_waypoint_curr_position_unavailable">c:geo still doesn\'t have current coordinates. Please, wait a while...</string>
+	<string name="err_waypoint_bear_and_dist_title">Need some help?</string>
+	<string name="err_waypoint_bear_and_dist">Fill both bearing and distance. Bearing is angle 0 to 360 degrees relative to north. Distance with or without units.</string>
+	<string name="err_waypoint_location_error">Sorry, c:geo can\'t get location of waypoint.</string>
+	<string name="err_waypoint_add_failed">Sorry, c:geo failed to add your waypoint.</string>
+	<string name="err_waypoint_load_failed">Sorry, c:geo failed to load waypoint.</string>
+	<string name="err_waypoint_delete_failed">Sorry, c:geo can\'t delete waypoint.</string>
+
 	<string name="err_log_load_data">Sorry, c:geo can\'t load data required to log visit.</string>
 	<string name="err_log_load_data_again">Sorry, c:geo can\'t load data required to log visit. Trying again.</string>
 	<string name="err_log_load_data_still">c:geo is still loading data required to post log. Please wait a little while longer.</string>
@@ -407,6 +420,7 @@
 	<string name="waypoint_add_title">Add waypoint</string>
 	<string name="waypoint_note">Note</string>
 	<string name="waypoint_save">Save</string>
+	<string name="waypoint_loading">Loading waypoint...</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Post this find to Twitter</string>

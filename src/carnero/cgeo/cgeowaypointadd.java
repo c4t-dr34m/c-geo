@@ -111,7 +111,7 @@ public class cgeowaypointadd extends Activity {
 		}
 
 		if ((geocode == null || geocode.length() == 0) && id <= 0) {
-			warning.showToast("Sorry, c:geo doesn\'t know to which cache you want to add waypoint.");
+			warning.showToast(res.getString(R.string.err_waypoint_cache_unknown));
 
 			finish();
 			return;
@@ -134,7 +134,7 @@ public class cgeowaypointadd extends Activity {
 		addWaypoint.setOnClickListener(new coordsListener());
 
 		if (id > 0) {
-			waitDialog = ProgressDialog.show(this, null, "loading waypoint...", true);
+			waitDialog = ProgressDialog.show(this, null, res.getString(R.string.waypoint_loading), true);
 			waitDialog.setCancelable(true);
 
 			(new loadWaypoint()).start();
@@ -151,7 +151,7 @@ public class cgeowaypointadd extends Activity {
 
 		if (id > 0) {
 			if (waitDialog == null) {
-				waitDialog = ProgressDialog.show(this, null, "loading waypoint...", true);
+				waitDialog = ProgressDialog.show(this, null, res.getString(R.string.waypoint_loading), true);
 				waitDialog.setCancelable(true);
 
 				(new loadWaypoint()).start();
@@ -229,7 +229,7 @@ public class cgeowaypointadd extends Activity {
 
 		public void onClick(View arg0) {
 			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
-				warning.showToast("Sorry, c:geo can\'t recognize where you are.");
+				warning.showToast(res.getString(R.string.err_waypoint_unknown_position));
 				return;
 			}
 
@@ -252,7 +252,7 @@ public class cgeowaypointadd extends Activity {
 
 			if ((bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0)
 							&& (latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)) {
-				warning.helpDialog("fill it", "Fill at least distance and bearing or latitude or longitude. You can also fill all four fields.");
+				warning.helpDialog(res.getString(R.string.err_waypoint_no_position_given_title), res.getString(R.string.err_waypoint_no_position_given));
 				return;
 			}
 
@@ -262,12 +262,12 @@ public class cgeowaypointadd extends Activity {
 				HashMap lonParsed = base.parseCoordinate(lonText, "lat");
 
 				if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
-					warning.showToast("Sorry, c:geo can\'t parse latitude.");
+					warning.showToast(res.getString(R.string.err_parse_lat));
 					return;
 				}
 
 				if (lonParsed == null || lonParsed.get("coordinate") == null || lonParsed.get("string") == null) {
-					warning.showToast("Sorry, c:geo can\'t parse longitude.");
+					warning.showToast(res.getString(R.string.err_parse_lon));
 					return;
 				}
 
@@ -275,7 +275,7 @@ public class cgeowaypointadd extends Activity {
 				longitude = (Double) lonParsed.get("coordinate");
 			} else {
 				if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
-					warning.showToast("c:geo still doesn\'t have current coordinates. Please, wait a while.");
+					warning.showToast(res.getString(R.string.err_waypoint_curr_position_unavailable));
 					return;
 				}
 
@@ -294,7 +294,7 @@ public class cgeowaypointadd extends Activity {
 					// probably not a number
 				}
 				if (bearing == null) {
-					warning.helpDialog("need some help?", "Fill both bearing and distance. Bearing is angle 0 to 360 degrees relative to north. Distance with or without units.");
+					warning.helpDialog(res.getString(R.string.err_waypoint_bear_and_dist_title), res.getString(R.string.err_waypoint_bear_and_dist));
 					return;
 				}
 
@@ -335,12 +335,12 @@ public class cgeowaypointadd extends Activity {
 				}
 
 				if (bearing == null) {
-					warning.showToast("Sorry, c:geo can\'t parse bearing.");
+					warning.showToast(res.getString(R.string.err_parse_bear));
 					return;
 				}
 
 				if (distance == null) {
-					warning.showToast("Sorry, c:geo can\'t parse distance.");
+					warning.showToast(res.getString(R.string.err_parse_dist));
 					return;
 				}
 
@@ -353,7 +353,7 @@ public class cgeowaypointadd extends Activity {
 				lonParsed = coordsDst.get("longitude");
 
 				if (latParsed == null || lonParsed == null) {
-					warning.showToast("Sorry, c:geo can\'t get location of waypoint.");
+					warning.showToast(res.getString(R.string.err_waypoint_location_error));
 					return;
 				}
 
@@ -367,7 +367,7 @@ public class cgeowaypointadd extends Activity {
 			} else {
 				Log.d(cgSettings.tag, "Blemc... last");
 
-				warning.showToast("Sorry, c:geo can\'t get location of waypoint.");
+				warning.showToast(res.getString(R.string.err_waypoint_location_error));
 				return;
 			}
 
@@ -394,7 +394,7 @@ public class cgeowaypointadd extends Activity {
 				finish();
 				return;
 			} else {
-				warning.showToast("Sorry, c:geo failed to add your waypoint.");
+				warning.showToast(res.getString(R.string.err_waypoint_add_failed));
 			}
 		}
 	}

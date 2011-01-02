@@ -40,7 +40,7 @@ public class cgeowaypoint extends Activity {
 						waitDialog = null;
 					}
 
-					warning.showToast("Sorry, c:geo failed to load waypoint.");
+					warning.showToast(res.getString(R.string.err_waypoint_load_failed));
 
 					finish();
 					return;
@@ -147,14 +147,14 @@ public class cgeowaypoint extends Activity {
 		}
 
 		if (id <= 0) {
-			warning.showToast("Sorry, c:geo forgot for what waypoint you want to display.");
+			warning.showToast(res.getString(R.string.err_waypoint_unknown));
 			finish();
 			return;
 		}
 
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		
-		waitDialog = ProgressDialog.show(this, null, "loading waypoint...", true);
+		waitDialog = ProgressDialog.show(this, null, res.getString(R.string.waypoint_loading), true);
 		waitDialog.setCancelable(true);
 
 		(new loadWaypoint()).start();
@@ -167,7 +167,7 @@ public class cgeowaypoint extends Activity {
         if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 
 		if (waitDialog == null) {
-			waitDialog = ProgressDialog.show(this, null, "loading waypoint...", true);
+			waitDialog = ProgressDialog.show(this, null, res.getString(R.string.waypoint_loading), true);
 			waitDialog.setCancelable(true);
 
 			(new loadWaypoint()).start();
@@ -287,7 +287,7 @@ public class cgeowaypoint extends Activity {
 				radarIntent.putExtra("longitude", new Float(longitude));
 				activity.startActivity(radarIntent);
 			} catch (Exception e) {
-				warning.showToast("c:geo can\'t use Radar because this application isn't installed.");
+				warning.showToast(res.getString(R.string.err_radar_generic));
 				Log.w(cgSettings.tag, "Radar not installed");
 			}
 		}
@@ -334,7 +334,7 @@ public class cgeowaypoint extends Activity {
 
 		public void onClick(View arg0) {
             if (app.deleteWaypoint(id) == false) {
-                warning.showToast("Sorry, c:geo can\'t delete waypoint.");
+                warning.showToast(res.getString(R.string.err_waypoint_delete_failed));
             } else {
 				app.removeCacheFromCache(geocode);
 
