@@ -19,17 +19,16 @@ import java.util.Locale;
  * 040: geocode in trackables could be NULL
  * 041: cache rating
  * 042: table for offline logs (notes)
+ * 043: direction in double
  */
-
 public class cgData {
+
 	public cgCacheWrap caches;
 	private Context context = null;
-
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-
-	private static final int dbVersion = 42;
+	private static final int dbVersion = 43;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -61,7 +60,7 @@ public class cgData {
 			+ "latitude_string text, "
 			+ "longitude_string text, "
 			+ "location text, "
-			+ "direction text, "
+			+ "direction double, "
 			+ "distance double, "
 			+ "latitude double, "
 			+ "longitude double, "
@@ -79,8 +78,7 @@ public class cgData {
 			+ "inventorytags integer default 0, "
 			+ "inventoryunknown integer default 0 "
 			+ "); ";
-
-    private static final String dbCreateLists = ""
+	private static final String dbCreateLists = ""
 			+ "create table " + dbTableLists + " ("
 			+ "_id integer primary key autoincrement, "
 			+ "title text not null, "
@@ -88,16 +86,14 @@ public class cgData {
 			+ "latitude double, "
 			+ "longitude double "
 			+ "); ";
-
-    private static final String dbCreateAttributes = ""
+	private static final String dbCreateAttributes = ""
 			+ "create table " + dbTableAttributes + " ("
 			+ "_id integer primary key autoincrement, "
 			+ "geocode text not null, "
 			+ "updated long not null, " // date of save
 			+ "attribute text "
 			+ "); ";
-
-    private static final String dbCreateWaypoints = ""
+	private static final String dbCreateWaypoints = ""
 			+ "create table " + dbTableWaypoints + " ("
 			+ "_id integer primary key autoincrement, "
 			+ "geocode text not null, "
@@ -113,8 +109,7 @@ public class cgData {
 			+ "longitude double, "
 			+ "note text "
 			+ "); ";
-
-    private static final String dbCreateSpoilers = ""
+	private static final String dbCreateSpoilers = ""
 			+ "create table " + dbTableSpoilers + " ("
 			+ "_id integer primary key autoincrement, "
 			+ "geocode text not null, "
@@ -123,8 +118,7 @@ public class cgData {
 			+ "title text, "
 			+ "description text "
 			+ "); ";
-
-    private static final String dbCreateLogs = ""
+	private static final String dbCreateLogs = ""
 			+ "create table " + dbTableLogs + " ("
 			+ "_id integer primary key autoincrement, "
 			+ "geocode text not null, "
@@ -135,8 +129,7 @@ public class cgData {
 			+ "date long, "
 			+ "found integer not null default 0 "
 			+ "); ";
-
-    private static final String dbCreateLogsOffline = ""
+	private static final String dbCreateLogsOffline = ""
 			+ "create table " + dbTableLogsOffline + " ("
 			+ "_id integer primary key autoincrement, "
 			+ "geocode text not null, "
@@ -145,8 +138,7 @@ public class cgData {
 			+ "log text, "
 			+ "date long "
 			+ "); ";
-
-    private static final String dbCreateTrackables = ""
+	private static final String dbCreateTrackables = ""
 			+ "create table " + dbTableTrackables + " ("
 			+ "_id integer primary key autoincrement, "
 			+ "updated long not null, " // date of save
@@ -171,7 +163,9 @@ public class cgData {
 	public void init() {
 		if (databaseRW == null || databaseRW.isOpen() == false) {
 			try {
-				if (dbHelper == null) dbHelper = new cgDbHelper(context);
+				if (dbHelper == null) {
+					dbHelper = new cgDbHelper(context);
+				}
 				databaseRW = dbHelper.getWritableDatabase();
 
 				if (databaseRW != null && databaseRW.isOpen()) {
@@ -180,7 +174,9 @@ public class cgData {
 					Log.e(cgSettings.tag, "Failed to open connection to RW database.");
 				}
 
-				if (databaseRW.inTransaction() == true) databaseRW.endTransaction();
+				if (databaseRW.inTransaction() == true) {
+					databaseRW.endTransaction();
+				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgData.openDb.RW: " + e.toString());
 			}
@@ -188,10 +184,14 @@ public class cgData {
 
 		if (databaseRO == null || databaseRO.isOpen() == false) {
 			try {
-				if (dbHelper == null) dbHelper = new cgDbHelper(context);
+				if (dbHelper == null) {
+					dbHelper = new cgDbHelper(context);
+				}
 				databaseRO = dbHelper.getReadableDatabase();
 
-				if (databaseRO.needUpgrade(dbVersion) == true) databaseRO = null;
+				if (databaseRO.needUpgrade(dbVersion) == true) {
+					databaseRO = null;
+				}
 
 				if (databaseRO != null && databaseRO.isOpen()) {
 					Log.i(cgSettings.tag, "Connection to RO database established.");
@@ -199,25 +199,31 @@ public class cgData {
 					Log.e(cgSettings.tag, "Failed to open connection to RO database.");
 				}
 
-				if (databaseRO.inTransaction() == true) databaseRO.endTransaction();
+				if (databaseRO.inTransaction() == true) {
+					databaseRO.endTransaction();
+				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgData.openDb.RO: " + e.toString());
 			}
 		}
 	}
 
-    public void closeDb() {
+	public void closeDb() {
 		if (databaseRO != null) {
-			if (databaseRO.inTransaction() == true) databaseRO.endTransaction();
-			
+			if (databaseRO.inTransaction() == true) {
+				databaseRO.endTransaction();
+			}
+
 			databaseRO.close();
 			databaseRO.releaseMemory();
 
 			Log.d(cgSettings.tag, "Closing RO database");
 		}
-		
+
 		if (databaseRW != null) {
-			if (databaseRW.inTransaction() == true) databaseRW.endTransaction();
+			if (databaseRW.inTransaction() == true) {
+				databaseRW.endTransaction();
+			}
 
 			databaseRW.close();
 			databaseRW.releaseMemory();
@@ -225,16 +231,19 @@ public class cgData {
 			Log.d(cgSettings.tag, "Closing RW database");
 		}
 
-		if (dbHelper != null) dbHelper.close();
-    }
+		if (dbHelper != null) {
+			dbHelper.close();
+		}
+	}
 
-    private class cgDbHelper extends SQLiteOpenHelper {
-        cgDbHelper(Context context) {
-            super(context, dbName, null, dbVersion);
-        }
-		
-        @Override
-        public void onCreate(SQLiteDatabase db) {
+	private class cgDbHelper extends SQLiteOpenHelper {
+
+		cgDbHelper(Context context) {
+			super(context, dbName, null, dbVersion);
+		}
+
+		@Override
+		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(dbCreateCaches);
 			db.execSQL(dbCreateLists);
 			db.execSQL(dbCreateAttributes);
@@ -256,23 +265,25 @@ public class cgData {
 			db.execSQL("create index if not exists in_a on " + dbTableLogs + " (geocode)");
 			db.execSQL("create index if not exists in_a on " + dbTableLogsOffline + " (geocode)");
 			db.execSQL("create index if not exists in_a on " + dbTableTrackables + " (geocode)");
-        }
+		}
 
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion +" to ver. " + newVersion + ": start");
-			
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion + " to ver. " + newVersion + ": start");
+
 			try {
-				if (db.isReadOnly() == true) return;
+				if (db.isReadOnly() == true) {
+					return;
+				}
 
 				db.beginTransaction();
 
-                if (oldVersion <= 0) { // new table
+				if (oldVersion <= 0) { // new table
 					dropDatabase(db);
 					onCreate(db);
 
-    				Log.i(cgSettings.tag, "Database structure created.");
-                }
+					Log.i(cgSettings.tag, "Database structure created.");
+				}
 
 				if (oldVersion > 0) {
 					db.execSQL("delete from " + dbTableCaches + " where reason = 0");
@@ -361,6 +372,63 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 42: " + e.toString());
 						}
 					}
+					
+					if (oldVersion < 43) { // upgrade to 43
+						try {
+							final String dbCreateCachesTemp = ""
+									+ "create temporary table " + dbTableCaches + "_temp ("
+									+ "_id integer primary key autoincrement, "
+									+ "updated long not null, "
+									+ "detailed integer not null default 0, "
+									+ "detailedupdate long, "
+									+ "geocode text unique not null, "
+									+ "reason integer not null default 0, " // cached, favourite...
+									+ "cacheid text, "
+									+ "guid text, "
+									+ "type text, "
+									+ "name text, "
+									+ "owner text, "
+									+ "hidden long, "
+									+ "hint text, "
+									+ "size text, "
+									+ "difficulty float, "
+									+ "terrain float, "
+									+ "latlon text, "
+									+ "latitude_string text, "
+									+ "longitude_string text, "
+									+ "location text, "
+									+ "distance double, "
+									+ "latitude double, "
+									+ "longitude double, "
+									+ "shortdesc text, "
+									+ "description text, "
+									+ "rating float, "
+									+ "votes integer, "
+									+ "vote integer, "
+									+ "disabled integer not null default 0, "
+									+ "archived integer not null default 0, "
+									+ "members integer not null default 0, "
+									+ "found integer not null default 0, "
+									+ "favourite integer not null default 0, "
+									+ "inventorycoins integer default 0, "
+									+ "inventorytags integer default 0, "
+									+ "inventoryunknown integer default 0 "
+									+ "); ";
+							
+							db.beginTransaction();
+							db.execSQL(dbCreateCachesTemp);
+							db.execSQL("insert into " + dbTableCaches + "_temp select _id, updated, detailed, detailedupdate, geocode, reason, cacheid, guid, type, name, owner, hidden, hint, size, difficulty, terrain, latlon, latitude_string, longitude_string, location, distance, latitude, longitude, shortdesc, description, rating, votes, vote, disabled, archived, members, found, favourite, inventorycoins, inventorytags, inventoryunknown from " + dbTableCaches);
+							db.execSQL("drop table " + dbTableCaches);
+							db.execSQL(dbCreateCaches);
+							db.execSQL("insert into " + dbTableCaches + " select _id, updated, detailed, detailedupdate, geocode, reason, cacheid, guid, type, name, owner, hidden, hint, size, difficulty, terrain, latlon, latitude_string, longitude_string, location, null, distance, latitude, longitude, shortdesc, description, rating, votes, vote, disabled, archived, members, found, favourite, inventorycoins, inventorytags, inventoryunknown from " + dbTableCaches + "_temp");
+							db.execSQL("drop table " + dbTableCaches + "_temp");
+							db.endTransaction();
+
+							Log.i(cgSettings.tag, "Changed direction column");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 43: " + e.toString());
+						}
+					}
 				}
 
 				db.setTransactionSuccessful();
@@ -368,8 +436,8 @@ public class cgData {
 				db.endTransaction();
 			}
 
-			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion +" to ver. " + newVersion + ": completed");
-        }
+			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion + " to ver. " + newVersion + ": completed");
+		}
 	}
 
 	private static void dropDatabase(SQLiteDatabase db) {
@@ -390,16 +458,15 @@ public class cgData {
 
 		try {
 			cursor = databaseRO.query(
-				dbTableCaches,
-				new String[] {"_id", "geocode"},
-				"(detailed = 1 and detailedupdate > " +  (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + ") or reason > 0",
-				null,
-				null,
-				null,
-				"detailedupdate desc",
-				"100"
-				);
-								
+					dbTableCaches,
+					new String[]{"_id", "geocode"},
+					"(detailed = 1 and detailedupdate > " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + ") or reason > 0",
+					null,
+					null,
+					null,
+					"detailedupdate desc",
+					"100");
+
 			if (cursor != null) {
 				int index = 0;
 				String geocode = null;
@@ -409,12 +476,14 @@ public class cgData {
 
 					do {
 						index = cursor.getColumnIndex("geocode");
-						geocode = (String)cursor.getString(index);
-						
+						geocode = (String) cursor.getString(index);
+
 						thereA.add(geocode);
 					} while (cursor.moveToNext());
 				} else {
-						if (cursor != null) cursor.close();
+					if (cursor != null) {
+						cursor.close();
+					}
 
 					return null;
 				}
@@ -423,7 +492,9 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.allDetailedThere: " + e.toString());
 		}
 
-		if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
 		return thereA.toArray(new String[thereA.size()]);
 	}
@@ -439,52 +510,52 @@ public class cgData {
 		int dataDetailed = 0;
 
 		try {
-            if (geocode != null && geocode.length() > 0) {
-                cursor = databaseRO.query(
-                        dbTableCaches,
-                        new String[] {"_id", "detailed", "detailedupdate", "updated"},
-                        "geocode = \"" + geocode + "\"",
-                        null,
-                        null,
-                        null,
-                        null,
-                        "1"
-                        );
-            } else if (guid != null && guid.length() > 0) {
-                cursor = databaseRO.query(
-                        dbTableCaches,
-                        new String[] {"_id", "detailed", "detailedupdate", "updated"},
-                        "guid = \"" + guid + "\"",
-                        null,
-                        null,
-                        null,
-                        null,
-                        "1"
-                        );
-            } else {
-                return false;
-            }
+			if (geocode != null && geocode.length() > 0) {
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[]{"_id", "detailed", "detailedupdate", "updated"},
+						"geocode = \"" + geocode + "\"",
+						null,
+						null,
+						null,
+						null,
+						"1");
+			} else if (guid != null && guid.length() > 0) {
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[]{"_id", "detailed", "detailedupdate", "updated"},
+						"guid = \"" + guid + "\"",
+						null,
+						null,
+						null,
+						null,
+						"1");
+			} else {
+				return false;
+			}
 
 			if (cursor != null) {
-                int index = 0;
+				int index = 0;
 				cnt = cursor.getCount();
 
-                if (cnt > 0) {
-                    cursor.moveToFirst();
-                    
-                    index = cursor.getColumnIndex("updated");
-                    dataUpdated = (long)cursor.getLong(index);
-                    index = cursor.getColumnIndex("detailedupdate");
-                    dataDetailedUpdate = (long)cursor.getLong(index);
-                    index = cursor.getColumnIndex("detailed");
-                    dataDetailed = (int)cursor.getInt(index);
-                }
+				if (cnt > 0) {
+					cursor.moveToFirst();
+
+					index = cursor.getColumnIndex("updated");
+					dataUpdated = (long) cursor.getLong(index);
+					index = cursor.getColumnIndex("detailedupdate");
+					dataDetailedUpdate = (long) cursor.getLong(index);
+					index = cursor.getColumnIndex("detailed");
+					dataDetailed = (int) cursor.getInt(index);
+				}
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.isThere: " + e.toString());
 		}
 
-		if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
 		if (cnt > 0) {
 			if (detailed == true && dataDetailed == 0) {
@@ -507,10 +578,10 @@ public class cgData {
 		}
 
 		// we have no such cache stored in cache
-        return false;
-    }
+		return false;
+	}
 
-    public boolean isOffline(String geocode, String guid) {
+	public boolean isOffline(String geocode, String guid) {
 		init();
 
 		Cursor cursor = null;
@@ -519,26 +590,24 @@ public class cgData {
 		try {
 			if (geocode != null && geocode.length() > 0) {
 				cursor = databaseRO.query(
-					dbTableCaches,
-					new String[] {"reason"},
-					"geocode = \"" + geocode + "\"",
-					null,
-					null,
-					null,
-					null,
-					"1"
-					);
+						dbTableCaches,
+						new String[]{"reason"},
+						"geocode = \"" + geocode + "\"",
+						null,
+						null,
+						null,
+						null,
+						"1");
 			} else if (guid != null && guid.length() > 0) {
 				cursor = databaseRO.query(
-					dbTableCaches,
-					new String[] {"reason"},
-					"guid = \"" + guid + "\"",
-					null,
-					null,
-					null,
-					null,
-					"1"
-					);
+						dbTableCaches,
+						new String[]{"reason"},
+						"guid = \"" + guid + "\"",
+						null,
+						null,
+						null,
+						null,
+						"1");
 			} else {
 				return false;
 			}
@@ -551,7 +620,7 @@ public class cgData {
 					cursor.moveToFirst();
 
 					index = cursor.getColumnIndex("reason");
-					reason = (long)cursor.getLong(index);
+					reason = (long) cursor.getLong(index);
 				}
 
 				cursor.close();
@@ -560,39 +629,43 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
 		}
 
-		if (reason >= 1) return true;
-		else return false;
-    }
+		if (reason >= 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    public String getGeocodeForGuid(String guid) {
+	public String getGeocodeForGuid(String guid) {
 		init();
 
-		if (guid == null || guid.length() == 0) return null;
+		if (guid == null || guid.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		String geocode = null;
 
 		try {
 			cursor = databaseRO.query(
-                    dbTableCaches,
-                    new String[] {"_id", "geocode"},
-                    "guid = \"" + guid + "\"",
-                    null,
-                    null,
-                    null,
-                    null,
-                    "1"
-                    );
+					dbTableCaches,
+					new String[]{"_id", "geocode"},
+					"guid = \"" + guid + "\"",
+					null,
+					null,
+					null,
+					null,
+					"1");
 
 			if (cursor != null) {
-                int index = 0;
+				int index = 0;
 
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
 
-                    index = cursor.getColumnIndex("geocode");
-                    geocode = (String)cursor.getString(index);
-                }
+					index = cursor.getColumnIndex("geocode");
+					geocode = (String) cursor.getString(index);
+				}
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.getGeocodeForGuid: " + e.toString());
@@ -602,38 +675,39 @@ public class cgData {
 			cursor.close();
 		}
 
-        return geocode;
-    }
+		return geocode;
+	}
 
-    public String getCacheidForGeocode(String geocode) {
+	public String getCacheidForGeocode(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		String cacheid = null;
 
 		try {
-            cursor = databaseRO.query(
-                    dbTableCaches,
-                    new String[] {"_id", "cacheid"},
-                    "geocode = \"" + geocode + "\"",
-                    null,
-                    null,
-                    null,
-                    null,
-                    "1"
-                    );
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{"_id", "cacheid"},
+					"geocode = \"" + geocode + "\"",
+					null,
+					null,
+					null,
+					null,
+					"1");
 
 			if (cursor != null) {
-                int index = 0;
+				int index = 0;
 
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
 
-                    index = cursor.getColumnIndex("cacheid");
-                    cacheid = (String)cursor.getString(index);
-                }
+					index = cursor.getColumnIndex("cacheid");
+					cacheid = (String) cursor.getString(index);
+				}
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.getCacheidForGeocode: " + e.toString());
@@ -643,11 +717,13 @@ public class cgData {
 			cursor.close();
 		}
 
-        return cacheid;
-    }
+		return cacheid;
+	}
 
 	public boolean saveCache(cgCache cache) {
-		if (cache == null) return false;
+		if (cache == null) {
+			return false;
+		}
 
 		ContentValues values = new ContentValues();
 
@@ -691,16 +767,31 @@ public class cgData {
 		values.put("rating", cache.rating);
 		values.put("votes", cache.votes);
 		values.put("vote", cache.vote);
-		if (cache.disabled == true) values.put("disabled", 1);
-		else values.put("disabled", 0);
-		if (cache.archived == true) values.put("archived", 1);
-		else values.put("archived", 0);
-		if (cache.members == true) values.put("members", 1);
-		else values.put("members", 0);
-		if (cache.found == true) values.put("found", 1);
-		else values.put("found", 0);
-		if (cache.favourite == true) values.put("favourite", 1);
-		else values.put("favourite", 0);
+		if (cache.disabled == true) {
+			values.put("disabled", 1);
+		} else {
+			values.put("disabled", 0);
+		}
+		if (cache.archived == true) {
+			values.put("archived", 1);
+		} else {
+			values.put("archived", 0);
+		}
+		if (cache.members == true) {
+			values.put("members", 1);
+		} else {
+			values.put("members", 0);
+		}
+		if (cache.found == true) {
+			values.put("found", 1);
+		} else {
+			values.put("found", 0);
+		}
+		if (cache.favourite == true) {
+			values.put("favourite", 1);
+		} else {
+			values.put("favourite", 0);
+		}
 		values.put("inventoryunknown", cache.inventoryItems);
 
 		boolean status = false;
@@ -708,27 +799,37 @@ public class cgData {
 
 		if (cache.attributes != null && cache.attributes.isEmpty() == false) {
 			status = saveAttributes(cache.geocode, cache.attributes);
-			if (status == false) statusOk = false;
+			if (status == false) {
+				statusOk = false;
+			}
 		}
 
 		if (cache.waypoints != null && cache.waypoints.isEmpty() == false) {
 			status = saveWaypoints(cache.geocode, cache.waypoints, true);
-			if (status == false) statusOk = false;
+			if (status == false) {
+				statusOk = false;
+			}
 		}
 
 		if (cache.spoilers != null && cache.spoilers.isEmpty() == false) {
 			status = saveSpoilers(cache.geocode, cache.spoilers);
-			if (status == false) statusOk = false;
+			if (status == false) {
+				statusOk = false;
+			}
 		}
 
 		if (cache.logs != null && cache.logs.isEmpty() == false) {
 			status = saveLogs(cache.geocode, cache.logs);
-			if (status == false) statusOk = false;
+			if (status == false) {
+				statusOk = false;
+			}
 		}
 
 		if (cache.inventory != null && cache.inventory.isEmpty() == false) {
 			status = saveInventory(cache.geocode, cache.inventory);
-			if (status == false) statusOk = false;
+			if (status == false) {
+				statusOk = false;
+			}
 		}
 
 		if (statusOk == false) {
@@ -747,7 +848,7 @@ public class cgData {
 		} catch (Exception e) {
 			// nothing
 		}
-		
+
 		try {
 			long id = databaseRW.insert(dbTableCaches, null, values);
 			if (id > 0) {
@@ -761,12 +862,14 @@ public class cgData {
 		values = null;
 
 		return false;
-    }
+	}
 
-    public boolean saveAttributes(String geocode, ArrayList<String> attributes) {
+	public boolean saveAttributes(String geocode, ArrayList<String> attributes) {
 		init();
 
-		if (geocode == null || geocode.length() == 0 || attributes == null || attributes.isEmpty()) return false;
+		if (geocode == null || geocode.length() == 0 || attributes == null || attributes.isEmpty()) {
+			return false;
+		}
 
 		databaseRW.beginTransaction();
 		try {
@@ -786,22 +889,28 @@ public class cgData {
 			databaseRW.endTransaction();
 		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public boolean saveWaypoints(String geocode, ArrayList<cgWaypoint> waypoints, boolean drop) {
+	public boolean saveWaypoints(String geocode, ArrayList<cgWaypoint> waypoints, boolean drop) {
 		init();
 
-		if (geocode == null || geocode.length() == 0 || waypoints == null || waypoints.isEmpty()) return false;
+		if (geocode == null || geocode.length() == 0 || waypoints == null || waypoints.isEmpty()) {
+			return false;
+		}
 
 		boolean ok = false;
 		databaseRW.beginTransaction();
 		try {
-			if (drop == true) databaseRW.delete(dbTableWaypoints, "geocode = \"" + geocode + "\" and type <> \"own\"", null);
+			if (drop == true) {
+				databaseRW.delete(dbTableWaypoints, "geocode = \"" + geocode + "\" and type <> \"own\"", null);
+			}
 
 			ContentValues values = new ContentValues();
 			for (cgWaypoint oneWaypoint : waypoints) {
-				if (oneWaypoint.type.equalsIgnoreCase("own") == true) continue;
+				if (oneWaypoint.type.equalsIgnoreCase("own") == true) {
+					continue;
+				}
 
 				values.clear();
 				values.put("geocode", geocode);
@@ -826,12 +935,14 @@ public class cgData {
 		}
 
 		return ok;
-    }
+	}
 
-    public boolean saveOwnWaypoint(int id, String geocode, cgWaypoint waypoint) {
+	public boolean saveOwnWaypoint(int id, String geocode, cgWaypoint waypoint) {
 		init();
 
-		if (((geocode == null || geocode.length() == 0) && id <= 0) || waypoint == null) return false;
+		if (((geocode == null || geocode.length() == 0) && id <= 0) || waypoint == null) {
+			return false;
+		}
 
 		boolean ok = false;
 		databaseRW.beginTransaction();
@@ -855,8 +966,11 @@ public class cgData {
 				ok = true;
 			} else {
 				final int rows = databaseRW.update(dbTableWaypoints, values, "_id = " + id, null);
-				if (rows > 0) ok = true;
-				else ok = false;
+				if (rows > 0) {
+					ok = true;
+				} else {
+					ok = false;
+				}
 			}
 			databaseRW.setTransactionSuccessful();
 		} finally {
@@ -864,26 +978,30 @@ public class cgData {
 		}
 
 		return ok;
-    }
+	}
 
-    public boolean deleteWaypoint(int id) {
+	public boolean deleteWaypoint(int id) {
 		init();
 
-		if (id == 0) return false;
+		if (id == 0) {
+			return false;
+		}
 
 		int deleted = databaseRW.delete(dbTableWaypoints, "_id = " + id, null);
 
-		if (deleted > 0) return true;
+		if (deleted > 0) {
+			return true;
+		}
 
 		return false;
-    }
+	}
 
-
-
-    public boolean saveSpoilers(String geocode, ArrayList<cgSpoiler> spoilers) {
+	public boolean saveSpoilers(String geocode, ArrayList<cgSpoiler> spoilers) {
 		init();
 
-		if (geocode == null || geocode.length() == 0 || spoilers == null || spoilers.isEmpty()) return false;
+		if (geocode == null || geocode.length() == 0 || spoilers == null || spoilers.isEmpty()) {
+			return false;
+		}
 
 		databaseRW.beginTransaction();
 		try {
@@ -905,21 +1023,25 @@ public class cgData {
 			databaseRW.endTransaction();
 		}
 
-        return true;
-    }
+		return true;
+	}
 
 	public boolean saveLogs(String geocode, ArrayList<cgLog> logs) {
 		return saveLogs(geocode, logs, true);
 	}
 
-    public boolean saveLogs(String geocode, ArrayList<cgLog> logs, boolean drop) {
+	public boolean saveLogs(String geocode, ArrayList<cgLog> logs, boolean drop) {
 		init();
 
-		if (geocode == null || geocode.length() == 0 || logs == null || logs.isEmpty()) return false;
+		if (geocode == null || geocode.length() == 0 || logs == null || logs.isEmpty()) {
+			return false;
+		}
 
 		databaseRW.beginTransaction();
 		try {
-			if (drop == true) databaseRW.delete(dbTableLogs, "geocode = \"" + geocode + "\"", null);
+			if (drop == true) {
+				databaseRW.delete(dbTableLogs, "geocode = \"" + geocode + "\"", null);
+			}
 
 			ContentValues values = new ContentValues();
 			for (cgLog oneLog : logs) {
@@ -939,22 +1061,28 @@ public class cgData {
 			databaseRW.endTransaction();
 		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public boolean saveInventory(String geocode, ArrayList<cgTrackable> trackables) {
+	public boolean saveInventory(String geocode, ArrayList<cgTrackable> trackables) {
 		init();
 
-		if (trackables == null || trackables.isEmpty()) return false;
+		if (trackables == null || trackables.isEmpty()) {
+			return false;
+		}
 
 		databaseRW.beginTransaction();
 		try {
-			if (geocode != null) databaseRW.delete(dbTableTrackables, "geocode = \"" + geocode + "\"", null);
+			if (geocode != null) {
+				databaseRW.delete(dbTableTrackables, "geocode = \"" + geocode + "\"", null);
+			}
 
 			ContentValues values = new ContentValues();
 			for (cgTrackable oneTrackable : trackables) {
 				values.clear();
-				if (geocode != null) values.put("geocode", geocode);
+				if (geocode != null) {
+					values.put("geocode", geocode);
+				}
 				values.put("updated", System.currentTimeMillis());
 				values.put("tbcode", oneTrackable.geocode);
 				values.put("guid", oneTrackable.guid);
@@ -977,184 +1105,193 @@ public class cgData {
 			databaseRW.endTransaction();
 		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public cgCache loadCache(String geocode, String guid) {
+	public cgCache loadCache(String geocode, String guid) {
 		return loadCache(geocode, guid, false, true, false, false, false, false);
 	}
 
 	public cgCache loadCache(String geocode, String guid, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
-        Object[] geocodes = new Object[1];
-        Object[] guids = new Object[1];
+		Object[] geocodes = new Object[1];
+		Object[] guids = new Object[1];
 
-        if (geocode != null && geocode.length() > 0) geocodes[0] = geocode;
-        else geocodes = null;
+		if (geocode != null && geocode.length() > 0) {
+			geocodes[0] = geocode;
+		} else {
+			geocodes = null;
+		}
 
-        if (guid != null && guid.length() > 0) guids[0] = guid;
-        else guids = null;
+		if (guid != null && guid.length() > 0) {
+			guids[0] = guid;
+		} else {
+			guids = null;
+		}
 
-        ArrayList<cgCache> caches =  loadCaches(geocodes, guids, loadA, loadW, loadS, loadL, loadI, loadO);
-        if (caches != null && caches.isEmpty() == false) return caches.get(0);
+		ArrayList<cgCache> caches = loadCaches(geocodes, guids, loadA, loadW, loadS, loadL, loadI, loadO);
+		if (caches != null && caches.isEmpty() == false) {
+			return caches.get(0);
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids) {
+	public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids) {
 		return loadCaches(geocodes, guids, false, true, false, false, false, false);
 	}
 
-    public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean lite) {
-		if (lite == true) return loadCaches(geocodes, guids, false, true, false, false, false, false);
-		else return loadCaches(geocodes, guids, true, true, true, true, true, true);
+	public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean lite) {
+		if (lite == true) {
+			return loadCaches(geocodes, guids, false, true, false, false, false, false);
+		} else {
+			return loadCaches(geocodes, guids, true, true, true, true, true, true);
+		}
 	}
 
-    public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
+	public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		init();
 
 		Cursor cursor = null;
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
 
 		try {
-            if (geocodes != null && geocodes.length > 0) {
+			if (geocodes != null && geocodes.length > 0) {
 				StringBuilder all = new StringBuilder();
 				for (Object one : geocodes) {
 					if (all.length() > 0) {
 						all.append(", ");
 					}
 					all.append("\"");
-					all.append((String)one);
+					all.append((String) one);
 					all.append("\"");
 				}
 
 				cursor = databaseRO.query(
-					dbTableCaches,
-					new String[] {
-						"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
-						"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
-						"description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
-						"inventoryunknown"
-					},
-					"geocode in (" + all.toString() + ")",
-					null,
-					null,
-					null,
-					null,
-					null
-					);
-            } else if (guids != null && guids.length > 0) {
-                StringBuilder all = new StringBuilder();
-                for (Object one : guids) {
-                    if (all.length() > 0) {
-                        all.append(", ");
-                    }
-                    all.append("\"");
-					all.append((String)one);
+						dbTableCaches,
+						new String[]{
+							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
+							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
+							"description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+							"inventoryunknown"
+						},
+						"geocode in (" + all.toString() + ")",
+						null,
+						null,
+						null,
+						null,
+						null);
+			} else if (guids != null && guids.length > 0) {
+				StringBuilder all = new StringBuilder();
+				for (Object one : guids) {
+					if (all.length() > 0) {
+						all.append(", ");
+					}
 					all.append("\"");
-                }
+					all.append((String) one);
+					all.append("\"");
+				}
 
-                cursor = databaseRO.query(
-                        dbTableCaches,
-                        new String[] {
-                            "_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
-                            "difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude","shortdesc",
-                            "description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
-						"inventoryunknown"
-                        },
-                        "guid in (" + all.toString() + ")",
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                        );
-            } else {
-                return null;
-            }
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[]{
+							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
+							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
+							"description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+							"inventoryunknown"
+						},
+						"guid in (" + all.toString() + ")",
+						null,
+						null,
+						null,
+						null,
+						null);
+			} else {
+				return null;
+			}
 
 			if (cursor != null) {
-                int index = 0;
+				int index = 0;
 
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
 
-                    do {
-                        cgCache cache = new cgCache();
+					do {
+						cgCache cache = new cgCache();
 
-                        cache.updated = (long)cursor.getLong(cursor.getColumnIndex("updated"));
-                        cache.reason = (int)cursor.getInt(cursor.getColumnIndex("reason"));
-                        index = cursor.getColumnIndex("detailed");
-                        if ((int)cursor.getInt(index) == 1) {
-                            cache.detailed = true;
-                        } else {
-                            cache.detailed = false;
-                        }
-                        cache.detailedUpdate = (Long)cursor.getLong(cursor.getColumnIndex("detailedupdate"));
-                        cache.geocode = (String)cursor.getString(cursor.getColumnIndex("geocode"));
-                        cache.cacheid = (String)cursor.getString(cursor.getColumnIndex("cacheid"));
-                        cache.guid = (String)cursor.getString(cursor.getColumnIndex("guid"));
-                        cache.type = (String)cursor.getString(cursor.getColumnIndex("type"));
-                        cache.name = (String)cursor.getString(cursor.getColumnIndex("name"));
-                        cache.owner = (String)cursor.getString(cursor.getColumnIndex("owner"));
-                        cache.hidden = new Date((long)cursor.getLong(cursor.getColumnIndex("hidden")));
-                        cache.hint = (String)cursor.getString(cursor.getColumnIndex("hint"));
-                        cache.size = (String)cursor.getString(cursor.getColumnIndex("size"));
-                        cache.difficulty = (Float)cursor.getFloat(cursor.getColumnIndex("difficulty"));
-                        cache.direction = (String)cursor.getString(cursor.getColumnIndex("direction"));
-                        cache.distance = (Double)cursor.getDouble(cursor.getColumnIndex("distance"));
-                        cache.terrain = (Float)cursor.getFloat(cursor.getColumnIndex("terrain"));
-                        cache.latlon = (String)cursor.getString(cursor.getColumnIndex("latlon"));
-                        cache.latitudeString = (String)cursor.getString(cursor.getColumnIndex("latitude_string"));
-                        cache.longitudeString = (String)cursor.getString(cursor.getColumnIndex("longitude_string"));
-                        cache.location = (String)cursor.getString(cursor.getColumnIndex("location"));
-                        index = cursor.getColumnIndex("latitude");
-                        if (cursor.isNull(index) == true) {
-                            cache.latitude = null;
-                        } else {
-                            cache.latitude = (Double)cursor.getDouble(index);
-                        }
-                        index = cursor.getColumnIndex("longitude");
-                        if (cursor.isNull(index) == true) {
-                            cache.longitude = null;
-                        } else {
-                            cache.longitude = (Double)cursor.getDouble(index);
-                        }
-                        cache.shortdesc = (String)cursor.getString(cursor.getColumnIndex("shortdesc"));
-                        cache.description = (String)cursor.getString(cursor.getColumnIndex("description"));
-                        cache.rating = (Float)cursor.getFloat(cursor.getColumnIndex("rating"));
-                        cache.votes = (Integer)cursor.getInt(cursor.getColumnIndex("votes"));
-                        cache.vote = (Integer)cursor.getInt(cursor.getColumnIndex("vote"));
-                        index = cursor.getColumnIndex("disabled");
-                        if ((int)cursor.getLong(index) == 1) {
-                            cache.disabled = true;
-                        } else {
-                            cache.disabled = false;
-                        }
-                        index = cursor.getColumnIndex("archived");
-                        if ((int)cursor.getLong(index) == 1) {
-                            cache.archived = true;
-                        } else {
-                            cache.archived = false;
-                        }
-                        index = cursor.getColumnIndex("members");
-                        if ((int)cursor.getLong(index) == 1) {
-                            cache.members = true;
-                        } else {
-                            cache.members = false;
-                        }
-                        index = cursor.getColumnIndex("found");
-                        if ((int)cursor.getLong(index) == 1) {
-                            cache.found = true;
-                        } else {
-                            cache.found = false;
-                        }
-                        index = cursor.getColumnIndex("favourite");
-                        if ((int)cursor.getLong(index) == 1) {
-                            cache.favourite = true;
-                        } else {
-                            cache.favourite = false;
-                        }
-                        cache.inventoryItems = (Integer)cursor.getInt(cursor.getColumnIndex("inventoryunknown"));
+						cache.updated = (long) cursor.getLong(cursor.getColumnIndex("updated"));
+						cache.reason = (int) cursor.getInt(cursor.getColumnIndex("reason"));
+						index = cursor.getColumnIndex("detailed");
+						if ((int) cursor.getInt(index) == 1) {
+							cache.detailed = true;
+						} else {
+							cache.detailed = false;
+						}
+						cache.detailedUpdate = (Long) cursor.getLong(cursor.getColumnIndex("detailedupdate"));
+						cache.geocode = (String) cursor.getString(cursor.getColumnIndex("geocode"));
+						cache.cacheid = (String) cursor.getString(cursor.getColumnIndex("cacheid"));
+						cache.guid = (String) cursor.getString(cursor.getColumnIndex("guid"));
+						cache.type = (String) cursor.getString(cursor.getColumnIndex("type"));
+						cache.name = (String) cursor.getString(cursor.getColumnIndex("name"));
+						cache.owner = (String) cursor.getString(cursor.getColumnIndex("owner"));
+						cache.hidden = new Date((long) cursor.getLong(cursor.getColumnIndex("hidden")));
+						cache.hint = (String) cursor.getString(cursor.getColumnIndex("hint"));
+						cache.size = (String) cursor.getString(cursor.getColumnIndex("size"));
+						cache.difficulty = (Float) cursor.getFloat(cursor.getColumnIndex("difficulty"));
+						cache.direction = (Double) cursor.getDouble(cursor.getColumnIndex("direction"));
+						cache.distance = (Double) cursor.getDouble(cursor.getColumnIndex("distance"));
+						cache.terrain = (Float) cursor.getFloat(cursor.getColumnIndex("terrain"));
+						cache.latlon = (String) cursor.getString(cursor.getColumnIndex("latlon"));
+						cache.latitudeString = (String) cursor.getString(cursor.getColumnIndex("latitude_string"));
+						cache.longitudeString = (String) cursor.getString(cursor.getColumnIndex("longitude_string"));
+						cache.location = (String) cursor.getString(cursor.getColumnIndex("location"));
+						index = cursor.getColumnIndex("latitude");
+						if (cursor.isNull(index) == true) {
+							cache.latitude = null;
+						} else {
+							cache.latitude = (Double) cursor.getDouble(index);
+						}
+						index = cursor.getColumnIndex("longitude");
+						if (cursor.isNull(index) == true) {
+							cache.longitude = null;
+						} else {
+							cache.longitude = (Double) cursor.getDouble(index);
+						}
+						cache.shortdesc = (String) cursor.getString(cursor.getColumnIndex("shortdesc"));
+						cache.description = (String) cursor.getString(cursor.getColumnIndex("description"));
+						cache.rating = (Float) cursor.getFloat(cursor.getColumnIndex("rating"));
+						cache.votes = (Integer) cursor.getInt(cursor.getColumnIndex("votes"));
+						cache.vote = (Integer) cursor.getInt(cursor.getColumnIndex("vote"));
+						index = cursor.getColumnIndex("disabled");
+						if ((int) cursor.getLong(index) == 1) {
+							cache.disabled = true;
+						} else {
+							cache.disabled = false;
+						}
+						index = cursor.getColumnIndex("archived");
+						if ((int) cursor.getLong(index) == 1) {
+							cache.archived = true;
+						} else {
+							cache.archived = false;
+						}
+						index = cursor.getColumnIndex("members");
+						if ((int) cursor.getLong(index) == 1) {
+							cache.members = true;
+						} else {
+							cache.members = false;
+						}
+						index = cursor.getColumnIndex("found");
+						if ((int) cursor.getLong(index) == 1) {
+							cache.found = true;
+						} else {
+							cache.found = false;
+						}
+						index = cursor.getColumnIndex("favourite");
+						if ((int) cursor.getLong(index) == 1) {
+							cache.favourite = true;
+						} else {
+							cache.favourite = false;
+						}
+						cache.inventoryItems = (Integer) cursor.getInt(cursor.getColumnIndex("inventoryunknown"));
 
 						if (loadA == true) {
 							ArrayList<String> attributes = loadAttributes(cache.geocode);
@@ -1214,352 +1351,383 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.loadCaches: " + e.toString());
 		}
 
-        if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
-        return caches;
-    }
+		return caches;
+	}
 
-    public ArrayList<String> loadAttributes(String geocode) {
+	public ArrayList<String> loadAttributes(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		ArrayList<String> attributes = new ArrayList<String>();
 
 		cursor = databaseRO.query(
-                dbTableAttributes,
-                new String[] {"_id", "attribute"},
-                "geocode = \"" + geocode + "\"",
-                null,
-                null,
-                null,
-                null,
-                "100"
-                );
+				dbTableAttributes,
+				new String[]{"_id", "attribute"},
+				"geocode = \"" + geocode + "\"",
+				null,
+				null,
+				null,
+				null,
+				"100");
 
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
 
-            do {
-                attributes.add((String)cursor.getString(cursor.getColumnIndex("attribute")));
-            } while (cursor.moveToNext());
-        }
+			do {
+				attributes.add((String) cursor.getString(cursor.getColumnIndex("attribute")));
+			} while (cursor.moveToNext());
+		}
 
-        if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
-        return attributes;
-    }
+		return attributes;
+	}
 
-    public cgWaypoint loadWaypoint(Integer id) {
+	public cgWaypoint loadWaypoint(Integer id) {
 		init();
 
-		if (id == null || id == 0) return null;
+		if (id == null || id == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		cgWaypoint waypoint = new cgWaypoint();
 
 		cursor = databaseRO.query(
-                dbTableWaypoints,
-                new String[] {"_id", "geocode", "updated", "type", "prefix", "lookup", "name", "latlon", "latitude_string", "longitude_string", "latitude", "longitude", "note"},
-                "_id = " + id,
-                null,
-                null,
-                null,
-                null,
-                "100"
-                );
+				dbTableWaypoints,
+				new String[]{"_id", "geocode", "updated", "type", "prefix", "lookup", "name", "latlon", "latitude_string", "longitude_string", "latitude", "longitude", "note"},
+				"_id = " + id,
+				null,
+				null,
+				null,
+				null,
+				"100");
 
-        if (cursor != null && cursor.getCount() > 0) {
-            int index;
-            cursor.moveToFirst();
+		if (cursor != null && cursor.getCount() > 0) {
+			int index;
+			cursor.moveToFirst();
 
-            waypoint.id = (int)cursor.getInt(cursor.getColumnIndex("_id"));
-            waypoint.geocode = (String)cursor.getString(cursor.getColumnIndex("geocode"));
-            waypoint.type = (String)cursor.getString(cursor.getColumnIndex("type"));
-            waypoint.prefix = (String)cursor.getString(cursor.getColumnIndex("prefix"));
-            waypoint.lookup = (String)cursor.getString(cursor.getColumnIndex("lookup"));
-            waypoint.name = (String)cursor.getString(cursor.getColumnIndex("name"));
-            waypoint.latlon = (String)cursor.getString(cursor.getColumnIndex("latlon"));
-            waypoint.latitudeString = (String)cursor.getString(cursor.getColumnIndex("latitude_string"));
-            waypoint.longitudeString = (String)cursor.getString(cursor.getColumnIndex("longitude_string"));
-            index = cursor.getColumnIndex("latitude");
-            if (cursor.isNull(index) == true) {
-                waypoint.latitude = null;
-            } else {
-                waypoint.latitude = (Double)cursor.getDouble(index);
-            }
-            index = cursor.getColumnIndex("longitude");
-            if (cursor.isNull(index) == true) {
-                waypoint.longitude = null;
-            } else {
-                waypoint.longitude = (Double)cursor.getDouble(index);
-            }
-            waypoint.note = (String)cursor.getString(cursor.getColumnIndex("note"));
-        }
+			waypoint.id = (int) cursor.getInt(cursor.getColumnIndex("_id"));
+			waypoint.geocode = (String) cursor.getString(cursor.getColumnIndex("geocode"));
+			waypoint.type = (String) cursor.getString(cursor.getColumnIndex("type"));
+			waypoint.prefix = (String) cursor.getString(cursor.getColumnIndex("prefix"));
+			waypoint.lookup = (String) cursor.getString(cursor.getColumnIndex("lookup"));
+			waypoint.name = (String) cursor.getString(cursor.getColumnIndex("name"));
+			waypoint.latlon = (String) cursor.getString(cursor.getColumnIndex("latlon"));
+			waypoint.latitudeString = (String) cursor.getString(cursor.getColumnIndex("latitude_string"));
+			waypoint.longitudeString = (String) cursor.getString(cursor.getColumnIndex("longitude_string"));
+			index = cursor.getColumnIndex("latitude");
+			if (cursor.isNull(index) == true) {
+				waypoint.latitude = null;
+			} else {
+				waypoint.latitude = (Double) cursor.getDouble(index);
+			}
+			index = cursor.getColumnIndex("longitude");
+			if (cursor.isNull(index) == true) {
+				waypoint.longitude = null;
+			} else {
+				waypoint.longitude = (Double) cursor.getDouble(index);
+			}
+			waypoint.note = (String) cursor.getString(cursor.getColumnIndex("note"));
+		}
 
-        if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
-        return waypoint;
-    }
+		return waypoint;
+	}
 
-    public ArrayList<cgWaypoint> loadWaypoints(String geocode) {
+	public ArrayList<cgWaypoint> loadWaypoints(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		ArrayList<cgWaypoint> waypoints = new ArrayList<cgWaypoint>();
 
 		cursor = databaseRO.query(
-                dbTableWaypoints,
-                new String[] {"_id", "geocode", "updated", "type", "prefix", "lookup", "name", "latlon", "latitude_string", "longitude_string", "latitude", "longitude", "note"},
-                "geocode = \"" + geocode + "\"",
-                null,
-                null,
-                null,
-                null,
-                "100"
-                );
+				dbTableWaypoints,
+				new String[]{"_id", "geocode", "updated", "type", "prefix", "lookup", "name", "latlon", "latitude_string", "longitude_string", "latitude", "longitude", "note"},
+				"geocode = \"" + geocode + "\"",
+				null,
+				null,
+				null,
+				null,
+				"100");
 
-        if (cursor != null && cursor.getCount() > 0) {
-            int index;
-            cursor.moveToFirst();
+		if (cursor != null && cursor.getCount() > 0) {
+			int index;
+			cursor.moveToFirst();
 
-            do {
-                cgWaypoint waypoint = new cgWaypoint();
-                waypoint.id = (int)cursor.getInt(cursor.getColumnIndex("_id"));
-                waypoint.geocode = (String)cursor.getString(cursor.getColumnIndex("geocode"));
-                waypoint.type = (String)cursor.getString(cursor.getColumnIndex("type"));
-                waypoint.prefix = (String)cursor.getString(cursor.getColumnIndex("prefix"));
-                waypoint.lookup = (String)cursor.getString(cursor.getColumnIndex("lookup"));
-                waypoint.name = (String)cursor.getString(cursor.getColumnIndex("name"));
-                waypoint.latlon = (String)cursor.getString(cursor.getColumnIndex("latlon"));
-                waypoint.latitudeString = (String)cursor.getString(cursor.getColumnIndex("latitude_string"));
-                waypoint.longitudeString = (String)cursor.getString(cursor.getColumnIndex("longitude_string"));
-                index = cursor.getColumnIndex("latitude");
-                if (cursor.isNull(index) == true) {
-                    waypoint.latitude = null;
-                } else {
-                    waypoint.latitude = (Double)cursor.getDouble(index);
-                }
-                index = cursor.getColumnIndex("longitude");
-                if (cursor.isNull(index) == true) {
-                    waypoint.longitude = null;
-                } else {
-                    waypoint.longitude = (Double)cursor.getDouble(index);
-                }
-                waypoint.note = (String)cursor.getString(cursor.getColumnIndex("note"));
-                
-                waypoints.add(waypoint);
-            } while (cursor.moveToNext());
-        }
+			do {
+				cgWaypoint waypoint = new cgWaypoint();
+				waypoint.id = (int) cursor.getInt(cursor.getColumnIndex("_id"));
+				waypoint.geocode = (String) cursor.getString(cursor.getColumnIndex("geocode"));
+				waypoint.type = (String) cursor.getString(cursor.getColumnIndex("type"));
+				waypoint.prefix = (String) cursor.getString(cursor.getColumnIndex("prefix"));
+				waypoint.lookup = (String) cursor.getString(cursor.getColumnIndex("lookup"));
+				waypoint.name = (String) cursor.getString(cursor.getColumnIndex("name"));
+				waypoint.latlon = (String) cursor.getString(cursor.getColumnIndex("latlon"));
+				waypoint.latitudeString = (String) cursor.getString(cursor.getColumnIndex("latitude_string"));
+				waypoint.longitudeString = (String) cursor.getString(cursor.getColumnIndex("longitude_string"));
+				index = cursor.getColumnIndex("latitude");
+				if (cursor.isNull(index) == true) {
+					waypoint.latitude = null;
+				} else {
+					waypoint.latitude = (Double) cursor.getDouble(index);
+				}
+				index = cursor.getColumnIndex("longitude");
+				if (cursor.isNull(index) == true) {
+					waypoint.longitude = null;
+				} else {
+					waypoint.longitude = (Double) cursor.getDouble(index);
+				}
+				waypoint.note = (String) cursor.getString(cursor.getColumnIndex("note"));
 
-        if (cursor != null) cursor.close();
+				waypoints.add(waypoint);
+			} while (cursor.moveToNext());
+		}
 
-        return waypoints;
-    }
+		if (cursor != null) {
+			cursor.close();
+		}
 
-    public ArrayList<cgSpoiler> loadSpoilers(String geocode) {
+		return waypoints;
+	}
+
+	public ArrayList<cgSpoiler> loadSpoilers(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
 
 		cursor = databaseRO.query(
-                dbTableSpoilers,
-                new String[] {"_id", "url", "title", "description"},
-                "geocode = \"" + geocode + "\"",
-                null,
-                null,
-                null,
-                null,
-                "100"
-                );
+				dbTableSpoilers,
+				new String[]{"_id", "url", "title", "description"},
+				"geocode = \"" + geocode + "\"",
+				null,
+				null,
+				null,
+				null,
+				"100");
 
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
 
-            do {
-                cgSpoiler spoiler = new cgSpoiler();
-                spoiler.url = (String)cursor.getString(cursor.getColumnIndex("url"));
-                spoiler.title = (String)cursor.getString(cursor.getColumnIndex("title"));
-                spoiler.description = (String)cursor.getString(cursor.getColumnIndex("description"));
+			do {
+				cgSpoiler spoiler = new cgSpoiler();
+				spoiler.url = (String) cursor.getString(cursor.getColumnIndex("url"));
+				spoiler.title = (String) cursor.getString(cursor.getColumnIndex("title"));
+				spoiler.description = (String) cursor.getString(cursor.getColumnIndex("description"));
 
-                spoilers.add(spoiler);
-            } while (cursor.moveToNext());
-        }
+				spoilers.add(spoiler);
+			} while (cursor.moveToNext());
+		}
 
-        if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
-        return spoilers;
-    }
+		return spoilers;
+	}
 
-    public ArrayList<cgLog> loadLogs(String geocode) {
+	public ArrayList<cgLog> loadLogs(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		ArrayList<cgLog> logs = new ArrayList<cgLog>();
 
 		cursor = databaseRO.query(
-			dbTableLogs,
-			new String[] {"_id", "type", "author", "log", "date", "found"},
-			"geocode = \"" + geocode + "\"",
-			null,
-			null,
-			null,
-			"date desc, _id asc",
-			"100"
-			);
+				dbTableLogs,
+				new String[]{"_id", "type", "author", "log", "date", "found"},
+				"geocode = \"" + geocode + "\"",
+				null,
+				null,
+				null,
+				"date desc, _id asc",
+				"100");
 
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 
 			do {
 				cgLog log = new cgLog();
-				log.id = (int)cursor.getInt(cursor.getColumnIndex("_id"));
-				log.type = (int)cursor.getInt(cursor.getColumnIndex("type"));
-				log.author = (String)cursor.getString(cursor.getColumnIndex("author"));
-				log.log = (String)cursor.getString(cursor.getColumnIndex("log"));
-				log.date = (long)cursor.getLong(cursor.getColumnIndex("date"));
-				log.found = (int)cursor.getInt(cursor.getColumnIndex("found"));
+				log.id = (int) cursor.getInt(cursor.getColumnIndex("_id"));
+				log.type = (int) cursor.getInt(cursor.getColumnIndex("type"));
+				log.author = (String) cursor.getString(cursor.getColumnIndex("author"));
+				log.log = (String) cursor.getString(cursor.getColumnIndex("log"));
+				log.date = (long) cursor.getLong(cursor.getColumnIndex("date"));
+				log.found = (int) cursor.getInt(cursor.getColumnIndex("found"));
 
 				logs.add(log);
 			} while (cursor.moveToNext());
 		}
 
-		if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
 		return logs;
-    }
+	}
 
-    public ArrayList<cgTrackable> loadInventory(String geocode) {
+	public ArrayList<cgTrackable> loadInventory(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		ArrayList<cgTrackable> trackables = new ArrayList<cgTrackable>();
 
 		cursor = databaseRO.query(
-                dbTableTrackables,
-                new String[] {"_id", "updated", "tbcode", "guid", "title", "owner", "released", "goal", "description"},
-                "geocode = \"" + geocode + "\"",
-                null,
-                null,
-                null,
-                null,
-                "100"
-                );
+				dbTableTrackables,
+				new String[]{"_id", "updated", "tbcode", "guid", "title", "owner", "released", "goal", "description"},
+				"geocode = \"" + geocode + "\"",
+				null,
+				null,
+				null,
+				null,
+				"100");
 
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 
 			do {
-					cgTrackable trackable = new cgTrackable();
-					trackable.geocode = (String)cursor.getString(cursor.getColumnIndex("tbcode"));
-					trackable.guid = (String)cursor.getString(cursor.getColumnIndex("guid"));
-					trackable.name = (String)cursor.getString(cursor.getColumnIndex("title"));
-					trackable.owner = (String)cursor.getString(cursor.getColumnIndex("owner"));
-					String releasedPre = cursor.getString(cursor.getColumnIndex("released"));
-					if (releasedPre != null && Long.getLong(releasedPre) != null) {
-							trackable.released = new Date(Long.getLong(releasedPre));
-					} else {
-							trackable.released = null;
-					}
-					trackable.goal = (String)cursor.getString(cursor.getColumnIndex("goal"));
-					trackable.details = (String)cursor.getString(cursor.getColumnIndex("description"));
-					trackable.logs = loadLogs(trackable.geocode);
+				cgTrackable trackable = new cgTrackable();
+				trackable.geocode = (String) cursor.getString(cursor.getColumnIndex("tbcode"));
+				trackable.guid = (String) cursor.getString(cursor.getColumnIndex("guid"));
+				trackable.name = (String) cursor.getString(cursor.getColumnIndex("title"));
+				trackable.owner = (String) cursor.getString(cursor.getColumnIndex("owner"));
+				String releasedPre = cursor.getString(cursor.getColumnIndex("released"));
+				if (releasedPre != null && Long.getLong(releasedPre) != null) {
+					trackable.released = new Date(Long.getLong(releasedPre));
+				} else {
+					trackable.released = null;
+				}
+				trackable.goal = (String) cursor.getString(cursor.getColumnIndex("goal"));
+				trackable.details = (String) cursor.getString(cursor.getColumnIndex("description"));
+				trackable.logs = loadLogs(trackable.geocode);
 
-					trackables.add(trackable);
+				trackables.add(trackable);
 			} while (cursor.moveToNext());
 		}
 
-		if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
 		return trackables;
-    }
+	}
 
-    public cgTrackable loadTrackable(String geocode) {
+	public cgTrackable loadTrackable(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		cgTrackable trackable = new cgTrackable();
 
 		cursor = databaseRO.query(
-                dbTableTrackables,
-                new String[] {"_id", "updated", "tbcode", "guid", "title", "owner", "released", "goal", "description"},
-                "tbcode = \"" + geocode + "\"",
-                null,
-                null,
-                null,
-                null,
-                "1"
-                );
+				dbTableTrackables,
+				new String[]{"_id", "updated", "tbcode", "guid", "title", "owner", "released", "goal", "description"},
+				"tbcode = \"" + geocode + "\"",
+				null,
+				null,
+				null,
+				null,
+				"1");
 
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 
-			trackable.geocode = (String)cursor.getString(cursor.getColumnIndex("tbcode"));
-			trackable.guid = (String)cursor.getString(cursor.getColumnIndex("guid"));
-			trackable.name = (String)cursor.getString(cursor.getColumnIndex("title"));
-			trackable.owner = (String)cursor.getString(cursor.getColumnIndex("owner"));
+			trackable.geocode = (String) cursor.getString(cursor.getColumnIndex("tbcode"));
+			trackable.guid = (String) cursor.getString(cursor.getColumnIndex("guid"));
+			trackable.name = (String) cursor.getString(cursor.getColumnIndex("title"));
+			trackable.owner = (String) cursor.getString(cursor.getColumnIndex("owner"));
 			String releasedPre = cursor.getString(cursor.getColumnIndex("released"));
 			if (releasedPre != null && Long.getLong(releasedPre) != null) {
 				trackable.released = new Date(Long.getLong(releasedPre));
 			} else {
 				trackable.released = null;
 			}
-			trackable.goal = (String)cursor.getString(cursor.getColumnIndex("goal"));
-			trackable.details = (String)cursor.getString(cursor.getColumnIndex("description"));
+			trackable.goal = (String) cursor.getString(cursor.getColumnIndex("goal"));
+			trackable.details = (String) cursor.getString(cursor.getColumnIndex("description"));
 			trackable.logs = loadLogs(trackable.geocode);
 		}
 
-		if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
 		return trackable;
-    }
+	}
 
-    public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
+	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
 		init();
 
 		int count = 0;
 
 		try {
-			if (sqlCount == null) sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1");
-			if (sqlCountDetailed == null) sqlCountDetailed = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1");
-			if (sqlCountTyped == null) sqlCountTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and type = ?");
-			if (sqlCountDetailedTyped == null) sqlCountDetailedTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1 and type = ?");
+			if (sqlCount == null) {
+				sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1");
+			}
+			if (sqlCountDetailed == null) {
+				sqlCountDetailed = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1");
+			}
+			if (sqlCountTyped == null) {
+				sqlCountTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and type = ?");
+			}
+			if (sqlCountDetailedTyped == null) {
+				sqlCountDetailedTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1 and type = ?");
+			}
 
 			if (detailedOnly == false) {
 				if (cachetype == null) {
-					count = (int)sqlCount.simpleQueryForLong();
+					count = (int) sqlCount.simpleQueryForLong();
 				} else {
 					sqlCountTyped.bindString(1, cachetype);
-					count = (int)sqlCountTyped.simpleQueryForLong();
+					count = (int) sqlCountTyped.simpleQueryForLong();
 				}
 			} else {
 				if (cachetype == null) {
-					count = (int)sqlCountDetailed.simpleQueryForLong();
+					count = (int) sqlCountDetailed.simpleQueryForLong();
 				} else {
 					sqlCountDetailedTyped.bindString(1, cachetype);
-					count = (int)sqlCountDetailedTyped.simpleQueryForLong();
+					count = (int) sqlCountDetailedTyped.simpleQueryForLong();
 				}
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.loadAllStoredCachesCount: " + e.toString());
 		}
 
-        return count;
-    }
+		return count;
+	}
 
-    public ArrayList<String> loadBatchOfStoredGeocodes(boolean detailedOnly, Double latitude, Double longitude, String cachetype) {
+	public ArrayList<String> loadBatchOfStoredGeocodes(boolean detailedOnly, Double latitude, Double longitude, String cachetype) {
 		init();
 
 		Cursor cursor = null;
@@ -1576,28 +1744,27 @@ public class cgData {
 		}
 
 		try {
-            cursor = databaseRO.query(
-                    dbTableCaches,
-                    new String[] {"_id", "geocode", "(abs(latitude-" + String.format((Locale)null, "%.6f", latitude) + ") + abs(longitude-" + String.format((Locale)null, "%.6f", longitude) + ")) as dif"},
-                    "reason >= 1" + specifySql.toString(),
-                    null,
-                    null,
-                    null,
-                    "dif",
-                    "1000"
-                    );
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{"_id", "geocode", "(abs(latitude-" + String.format((Locale) null, "%.6f", latitude) + ") + abs(longitude-" + String.format((Locale) null, "%.6f", longitude) + ")) as dif"},
+					"reason >= 1" + specifySql.toString(),
+					null,
+					null,
+					null,
+					"dif",
+					"1000");
 
 			if (cursor != null) {
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
 
-                    do {
-                        geocodes.add((String)cursor.getString(cursor.getColumnIndex("geocode")));
-                    } while (cursor.moveToNext());
-                } else {
-                    cursor.close();
-                    return null;
-                }
+					do {
+						geocodes.add((String) cursor.getString(cursor.getColumnIndex("geocode")));
+					} while (cursor.moveToNext());
+				} else {
+					cursor.close();
+					return null;
+				}
 
 				cursor.close();
 			}
@@ -1605,9 +1772,9 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.loadBatchOfStoredGeocodes: " + e.toString());
 		}
 
-        return geocodes;
-    }
-		
+		return geocodes;
+	}
+
 	public ArrayList<String> getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
 		if (latitudeT == null || longitudeL == null || latitudeB == null || longitudeR == null) {
 			return null;
@@ -1621,26 +1788,26 @@ public class cgData {
 		StringBuilder specifySql = new StringBuilder();
 		if (latitudeT > latitudeB) {
 			specifySql.append(" and latitude >= ");
-			specifySql.append(String.format((Locale)null, "%.5f", latitudeB));
+			specifySql.append(String.format((Locale) null, "%.5f", latitudeB));
 			specifySql.append(" and latitude <= ");
-			specifySql.append(String.format((Locale)null, "%.5f", latitudeT));
+			specifySql.append(String.format((Locale) null, "%.5f", latitudeT));
 		} else {
 			specifySql.append(" and latitude <= ");
-			specifySql.append(String.format((Locale)null, "%.5f", latitudeB));
+			specifySql.append(String.format((Locale) null, "%.5f", latitudeB));
 			specifySql.append(" and latitude >= ");
-			specifySql.append(String.format((Locale)null, "%.5f", latitudeT));
+			specifySql.append(String.format((Locale) null, "%.5f", latitudeT));
 		}
 
 		if (longitudeL > longitudeR) {
 			specifySql.append(" and longitude >= ");
-			specifySql.append(String.format((Locale)null, "%.5f", longitudeR));
+			specifySql.append(String.format((Locale) null, "%.5f", longitudeR));
 			specifySql.append(" and longitude <= ");
-			specifySql.append(String.format((Locale)null, "%.5f", longitudeL));
+			specifySql.append(String.format((Locale) null, "%.5f", longitudeL));
 		} else {
 			specifySql.append(" and longitude <= ");
-			specifySql.append(String.format((Locale)null, "%.5f", longitudeR));
+			specifySql.append(String.format((Locale) null, "%.5f", longitudeR));
 			specifySql.append(" and longitude >= ");
-			specifySql.append(String.format((Locale)null, "%.5f", longitudeL));
+			specifySql.append(String.format((Locale) null, "%.5f", longitudeL));
 		}
 
 		if (cachetype != null) {
@@ -1650,23 +1817,22 @@ public class cgData {
 		}
 
 		try {
-            cursor = databaseRO.query(
-                    dbTableCaches,
-                    new String[] {"_id", "geocode"},
-                    "reason >= 1" + specifySql.toString(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    "500"
-                    );
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{"_id", "geocode"},
+					"reason >= 1" + specifySql.toString(),
+					null,
+					null,
+					null,
+					null,
+					"500");
 
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
 					cursor.moveToFirst();
 
 					do {
-						geocodes.add((String)cursor.getString(cursor.getColumnIndex("geocode")));
+						geocodes.add((String) cursor.getString(cursor.getColumnIndex("geocode")));
 					} while (cursor.moveToNext());
 				} else {
 					cursor.close();
@@ -1679,13 +1845,15 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.getOfflineInViewport: " + e.toString());
 		}
 
-        return geocodes;
-    }
+		return geocodes;
+	}
 
-    public boolean markStored(String geocode) {
+	public boolean markStored(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return false;
+		if (geocode == null || geocode.length() == 0) {
+			return false;
+		}
 
 		ContentValues values = new ContentValues();
 		values.put("reason", 1);
@@ -1696,43 +1864,51 @@ public class cgData {
 		} else {
 			return false;
 		}
-    }
+	}
 
-    public boolean markDropped(String geocode) {
+	public boolean markDropped(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return false;
+		if (geocode == null || geocode.length() == 0) {
+			return false;
+		}
 
 		try {
 			ContentValues values = new ContentValues();
 			values.put("reason", 0);
 			int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\"", null);
 
-			if (rows > 0) return true;
-		} catch(Exception e) {
+			if (rows > 0) {
+				return true;
+			}
+		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.markDropped: " + e.toString());
 		}
 
 		return false;
-    }
+	}
 
-    public boolean markFound(String geocode) {
+	public boolean markFound(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return false;
+		if (geocode == null || geocode.length() == 0) {
+			return false;
+		}
 
 		try {
 			ContentValues values = new ContentValues();
 			values.put("found", 1);
 			int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\"", null);
 
-			if (rows > 0) return true;
-		} catch(Exception e) {
+			if (rows > 0) {
+				return true;
+			}
+		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.markFound: " + e.toString());
 		}
 
-        return false;
-    }
+		return false;
+	}
 
 	public void clean() {
 		init();
@@ -1743,23 +1919,22 @@ public class cgData {
 		ArrayList<String> geocodes = new ArrayList<String>();
 
 		try {
-            cursor = databaseRO.query(
-                    dbTableCaches,
-                    new String[] {"_id", "geocode"},
-                    "reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                    );
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{"_id", "geocode"},
+					"reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)),
+					null,
+					null,
+					null,
+					null,
+					null);
 
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
 					cursor.moveToFirst();
 
 					do {
-						geocodes.add("\"" + (String)cursor.getString(cursor.getColumnIndex("geocode")) + "\"");
+						geocodes.add("\"" + (String) cursor.getString(cursor.getColumnIndex("geocode")) + "\"");
 					} while (cursor.moveToNext());
 				}
 
@@ -1782,16 +1957,16 @@ public class cgData {
 			}
 
 			final SQLiteStatement countSql = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 0");
-			final int count = (int)countSql.simpleQueryForLong();
+			final int count = (int) countSql.simpleQueryForLong();
 			Log.d(cgSettings.tag, "Database clean: " + count + " cached geocaches remaining");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgData.clean: " + e.toString());
 		}
 
 		Log.d(cgSettings.tag, "Database clean: finished");
 	}
 
-    public void dropStored() {
+	public void dropStored() {
 		init();
 
 		Cursor cursor = null;
@@ -1799,27 +1974,26 @@ public class cgData {
 
 		try {
 			cursor = databaseRO.query(
-                    dbTableCaches,
-                    new String[] {"_id", "geocode"},
-                    "reason >= 1",
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                    );
+					dbTableCaches,
+					new String[]{"_id", "geocode"},
+					"reason >= 1",
+					null,
+					null,
+					null,
+					null,
+					null);
 
 			if (cursor != null) {
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
 
-                    do {
-                        geocodes.add("\"" + (String)cursor.getString(cursor.getColumnIndex("geocode")) + "\"");
-                    } while (cursor.moveToNext());
-                } else {
-                    cursor.close();
-                    return;
-                }
+					do {
+						geocodes.add("\"" + (String) cursor.getString(cursor.getColumnIndex("geocode")) + "\"");
+					} while (cursor.moveToNext());
+				} else {
+					cursor.close();
+					return;
+				}
 
 				cursor.close();
 			}
@@ -1835,15 +2009,17 @@ public class cgData {
 
 				geocodes.clear();
 			}
-        } catch(Exception e) {
-            Log.e(cgSettings.tag, "cgData.dropStored: " + e.toString());
-        }
-    }
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.dropStored: " + e.toString());
+		}
+	}
 
 	public int createList(String name) {
 		init();
 
-		if (name == null) return -1;
+		if (name == null) {
+			return -1;
+		}
 
 		int id = -1;
 
@@ -1854,13 +2030,13 @@ public class cgData {
 			values.clear();
 			values.put("name", name);
 
-			id = (int)databaseRW.insert(dbTableAttributes, null, values);
+			id = (int) databaseRW.insert(dbTableAttributes, null, values);
 			databaseRW.setTransactionSuccessful();
 		} finally {
 			databaseRW.endTransaction();
 		}
 
-			return id;
+		return id;
 	}
 
 	public boolean saveLogOffline(String geocode, Date date, int type, String log) {
@@ -1901,44 +2077,49 @@ public class cgData {
 		return status;
 	}
 
-    public cgLog loadLogOffline(String geocode) {
+	public cgLog loadLogOffline(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return null;
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		Cursor cursor = null;
 		cgLog log = null;
 
 		cursor = databaseRO.query(
-			dbTableLogsOffline,
-			new String[] {"_id", "type", "log", "date"},
-			"geocode = \"" + geocode + "\"",
-			null,
-			null,
-			null,
-			"_id desc",
-			"1"
-			);
+				dbTableLogsOffline,
+				new String[]{"_id", "type", "log", "date"},
+				"geocode = \"" + geocode + "\"",
+				null,
+				null,
+				null,
+				"_id desc",
+				"1");
 
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 
 			log = new cgLog();
-			log.id = (int)cursor.getInt(cursor.getColumnIndex("_id"));
-			log.type = (int)cursor.getInt(cursor.getColumnIndex("type"));
-			log.log = (String)cursor.getString(cursor.getColumnIndex("log"));
-			log.date = (long)cursor.getLong(cursor.getColumnIndex("date"));
+			log.id = (int) cursor.getInt(cursor.getColumnIndex("_id"));
+			log.type = (int) cursor.getInt(cursor.getColumnIndex("type"));
+			log.log = (String) cursor.getString(cursor.getColumnIndex("log"));
+			log.date = (long) cursor.getLong(cursor.getColumnIndex("date"));
 		}
 
-		if (cursor != null) cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 
 		return log;
 	}
 
-    public void clearLogOffline(String geocode) {
+	public void clearLogOffline(String geocode) {
 		init();
 
-		if (geocode == null || geocode.length() == 0) return;
+		if (geocode == null || geocode.length() == 0) {
+			return;
+		}
 
 		databaseRW.delete(dbTableLogsOffline, "geocode = \"" + geocode + "\"", null);
 	}
@@ -1952,7 +2133,7 @@ public class cgData {
 
 		try {
 			final SQLiteStatement countSql = databaseRO.compileStatement("select count(_id) from " + dbTableLogsOffline + " where geocode = \"" + geocode.toUpperCase() + "\"");
-			final int count = (int)countSql.simpleQueryForLong();
+			final int count = (int) countSql.simpleQueryForLong();
 
 			if (count > 0) {
 				return true;

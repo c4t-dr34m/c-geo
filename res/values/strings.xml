@@ -520,6 +520,7 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>1.17</b> (__.12.2010)\n
+· fix: Distances in list\n
 · update: Norwegian translation (by Shan)\n
 · update: Czech translation (by Viktor K.)\n
 \n

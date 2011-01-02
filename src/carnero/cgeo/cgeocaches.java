@@ -55,7 +55,7 @@ public class cgeocaches extends ListActivity {
 	private cgBase base = null;
 	private cgWarning warning = null;
 	private ProgressDialog waitDialog = null;
-	private Float northHeading = 0.0f;
+	private Double northHeading = new Double(0);
 	private cgGeo geo = null;
 	private cgDirection dir = null;
 	private cgUpdateLoc geoUpdate = new update();
@@ -1041,7 +1041,7 @@ public class cgeocaches extends ListActivity {
 				if (settings.useCompass == 0 || (geo.speedNow != null && geo.speedNow > 5)) { // use GPS when speed is higher than 18 km/h
 					if (settings.useCompass == 0) {
 						if (geo.bearingNow != null) adapter.setActualHeading(geo.bearingNow);
-						else adapter.setActualHeading(0.0f);
+						else adapter.setActualHeading(new Double(0));
 					}
 					if (northHeading != null) adapter.setActualHeading(northHeading);
 				}

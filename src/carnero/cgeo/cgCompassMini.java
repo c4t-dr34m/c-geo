@@ -18,8 +18,8 @@ public class cgCompassMini extends View {
 	private Double cacheLat = null;
 	private Double cacheLon = null;
 	private Bitmap compassArrow = null;
-	private float azimuth = 0.0f;
-	private float heading = 0.0f;
+	private Double azimuth = new Double(0);
+	private Double heading = new Double(0);
 	private PaintFlagsDrawFilter setfil = null;
 	private PaintFlagsDrawFilter remfil = null;
 
@@ -60,13 +60,13 @@ public class cgCompassMini extends View {
 		cacheLon = cacheLonIn;
 	}
 
-	protected void updateAzimuth(float azimuthIn) {
+	protected void updateAzimuth(Double azimuthIn) {
 		azimuth = azimuthIn;
 
 		updateDirection();
 	}
 
-	protected void updateHeading(float headingIn) {
+	protected void updateHeading(Double headingIn) {
 		heading = headingIn;
 
 		updateDirection();
@@ -102,7 +102,7 @@ public class cgCompassMini extends View {
 		
 		super.onDraw(canvas);
 
-		float azimuthRelative = azimuth - heading;
+		Double azimuthRelative = azimuth - heading;
 		if (azimuthRelative < 0) {
 			azimuthRelative = azimuthRelative + 360;
 		} else if (azimuthRelative >= 360) {

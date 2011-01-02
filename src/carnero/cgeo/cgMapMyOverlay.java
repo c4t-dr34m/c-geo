@@ -18,7 +18,7 @@ public class cgMapMyOverlay extends Overlay {
 	private cgSettings settings = null;
 	private Location coordinates = null;
 	private GeoPoint location = null;
-	private float heading = 0f;
+	private Double heading = new Double(0);
 	private Paint accuracyCircle = null;
 	private Paint historyLine = null;
 	private Paint historyLineShadow = null;
@@ -43,7 +43,7 @@ public class cgMapMyOverlay extends Overlay {
 		location = new GeoPoint((int)(coordinatesIn.getLatitude() * 1e6), (int)(coordinatesIn.getLongitude() * 1e6));
 	}
 
-	public void setHeading(float headingIn) {
+	public void setHeading(Double headingIn) {
 		heading = headingIn;
 	}
 
@@ -171,9 +171,9 @@ public class cgMapMyOverlay extends Overlay {
 		marginLeft = center.x - (widthArrow / 2);
 		marginTop = center.y - (heightArrow / 2);
 
-		canvas.rotate(heading, center.x, center.y);
+		canvas.rotate(new Float(heading), center.x, center.y);
 		canvas.drawBitmap(arrow, marginLeft, marginTop, null);
-		canvas.rotate(-heading, center.x, center.y);
+		canvas.rotate(-(new Float(heading)), center.x, center.y);
 
 		canvas.setDrawFilter(remfil);
     }

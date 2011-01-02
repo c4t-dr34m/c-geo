@@ -1038,7 +1038,7 @@ public class cgeomap extends MapActivity {
 
 				if (settings.useCompass == 0 || (geo.speedNow != null && geo.speedNow > 5)) { // use GPS when speed is higher than 18 km/h
 					if (geo.bearingNow != null) overlayMyLoc.setHeading(geo.bearingNow);
-					else overlayMyLoc.setHeading(0.0f);
+					else overlayMyLoc.setHeading(new Double(0));
 				}
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");

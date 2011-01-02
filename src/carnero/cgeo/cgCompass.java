@@ -24,8 +24,8 @@ public class cgCompass extends View {
 	private Bitmap compassOverlay = null;
 	private Double azimuth = new Double(0);
 	private Double heading = new Double(0);
-	private float cacheHeading = 0.0f;
-	private float northHeading = 0.0f;
+	private Double cacheHeading = new Double(0);
+	private Double northHeading = new Double(0);
 	private PaintFlagsDrawFilter setfil = null;
 	private PaintFlagsDrawFilter remfil = null;
 	private int compassUnderlayWidth = 0;
@@ -103,7 +103,7 @@ public class cgCompass extends View {
 		}
 	}
 
-	protected void updateNorth(float northHeadingIn, float cacheHeadingIn) {
+	protected void updateNorth(Double northHeadingIn, Double cacheHeadingIn) {
 		northHeading = northHeadingIn;
 		cacheHeading = cacheHeadingIn;
 	}

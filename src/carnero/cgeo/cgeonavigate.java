@@ -36,8 +36,8 @@ public class cgeonavigate extends Activity {
 	private cgUpdateDir dirUpdate = new updateDir();
 	private Double dstLatitude = null;
 	private Double dstLongitude = null;
-	private float cacheHeading = 0.0f;
-	private float northHeading = 0.0f;
+	private Double cacheHeading = new Double(0);
+	private Double northHeading = new Double(0);
 	private String title = null;
 	private String name = null;
 	private TextView navType = null;
@@ -387,7 +387,7 @@ public class cgeonavigate extends Activity {
 					if (geo != null && geo.bearingNow != null) {
 						northHeading = geo.bearingNow;
 					} else {
-						northHeading = 0.0f;
+						northHeading = new Double(0);
 					}
 				}
 			} catch (Exception e) {

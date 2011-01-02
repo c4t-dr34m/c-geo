@@ -40,7 +40,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private cgBase base = null;
 	private Double latitude = null;
 	private Double longitude = null;
-	private float azimuth = 0.0f;
+	private Double azimuth = new Double(0);
 	private long lastSort = 0l;
 	private boolean sort = true;
 	private int checked = 0;
@@ -165,7 +165,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 	}
 
-	public void setActualHeading(Float azimuthIn) {
+	public void setActualHeading(Double azimuthIn) {
 		if (azimuthIn == null) return;
 
 		azimuth = azimuthIn;
@@ -347,23 +347,10 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 				holder.distance.setDistance(cache.distance);
 				setDiDi = true;
             }
-			if (cache.direction != null && cache.direction.length() > 0) {
-				String letters = cache.direction.toUpperCase();
-				int numbersFromLetters = 0;
-
-				if (letters.equals("N")) { numbersFromLetters = 0; }
-				else if (letters.equals("NE")) { numbersFromLetters = 45; }
-				else if (letters.equals("E")) { numbersFromLetters = 90; }
-				else if (letters.equals("SE")) { numbersFromLetters = 135; }
-				else if (letters.equals("S")) { numbersFromLetters = 180; }
-				else if (letters.equals("SW")) { numbersFromLetters = 225; }
-				else if (letters.equals("W")) { numbersFromLetters = 270; }
-				else if (letters.equals("NW")) { numbersFromLetters = 315; }
-				else { numbersFromLetters = 0; }
-
+			if (cache.direction != null) {
 				holder.direction.setVisibility(View.VISIBLE);
 				holder.direction.updateAzimuth(azimuth);
-				holder.direction.updateHeading(new Float(numbersFromLetters));
+				holder.direction.updateHeading(cache.direction);
 				setDiDi = true;
 			}
 		}

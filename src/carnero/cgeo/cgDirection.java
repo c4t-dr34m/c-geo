@@ -23,7 +23,7 @@ public class cgDirection {
 	private cgUpdateDir dirUpdate = null;
 	private cg8wrap cg8 = null;
 
-	public Float directionNow = null;
+	public Double directionNow = null;
 
 	public cgDirection(cgeoapplication appIn, Context contextIn, cgUpdateDir dirUpdateIn, cgWarning warningIn) {
 		app = appIn;
@@ -73,7 +73,7 @@ public class cgDirection {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			Float directionNowPre = event.values[0];
+			Double directionNowPre = new Double(event.values[0]);
 
 			if (cg8 != null) {
 				final int rotation = cg8.getRotation();
