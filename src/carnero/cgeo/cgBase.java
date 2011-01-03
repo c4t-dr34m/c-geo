@@ -577,13 +577,13 @@ public class cgBase {
 				while (matcherDirection.find()) {
 					if (matcherDirection.groupCount() > 0) {
 						final String directionPre = xorEnDecrypt(URLDecoder.decode(matcherDirection.group(1)));
-						final String[] directionParts = directionPre.split("|");
+						final String[] directionParts = directionPre.split("\\|");
 
 						cache.distance = parseDistance(directionParts[0]);
 
 						try {
 							cache.direction = new Double(directionParts[1]);
-						} finally {
+						} catch (Exception e) {
 							cache.direction = new Double(0);
 						}
 					}
@@ -2086,14 +2086,14 @@ public class cgBase {
 	public static Double parseDistance(String dst) {
 		Double distance = null;
 		
-		final Pattern pattern = Pattern.compile("([0-9\\.])[ ]+(km|mi)", Pattern.CASE_INSENSITIVE);
+		final Pattern pattern = Pattern.compile("([0-9\\.,]+)[ ]+(km|mi)", Pattern.CASE_INSENSITIVE);
 		final Matcher matcher = pattern.matcher(dst);
 		while (matcher.find()) {
-			if (matcher.groupCount() > 0) {
-				if (matcher.group(1).equalsIgnoreCase("km") == true) {
-					distance = new Double(matcher.group(0));
+			if (matcher.groupCount() > 1) {
+				if (matcher.group(2).equalsIgnoreCase("km") == true) {
+					distance = new Double(matcher.group(1));
 				} else {
-					distance = new Double(matcher.group(0)) / kmInMiles;
+					distance = new Double(matcher.group(1)) / kmInMiles;
 				}
 			}
 		}
