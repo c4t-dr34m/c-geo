@@ -422,11 +422,13 @@ public class cgData {
 							db.execSQL(dbCreateCaches);
 							db.execSQL("insert into " + dbTableCaches + " select _id, updated, detailed, detailedupdate, geocode, reason, cacheid, guid, type, name, owner, hidden, hint, size, difficulty, terrain, latlon, latitude_string, longitude_string, location, null, distance, latitude, longitude, shortdesc, description, rating, votes, vote, disabled, archived, members, found, favourite, inventorycoins, inventorytags, inventoryunknown from " + dbTableCaches + "_temp");
 							db.execSQL("drop table " + dbTableCaches + "_temp");
-							db.endTransaction();
+							db.setTransactionSuccessful();
 
 							Log.i(cgSettings.tag, "Changed direction column");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 43: " + e.toString());
+						} finally {
+							db.endTransaction();
 						}
 					}
 				}
