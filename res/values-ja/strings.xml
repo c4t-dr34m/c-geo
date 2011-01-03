@@ -473,7 +473,7 @@
 	<string name="trackable_touch">Touch</string>
 
 	<!-- navigation -->
-	<string name="ナビゲーション">Navigation</string>
+	<string name="navigation">ナビゲーション</string>
 	<string name="compass_title">コンパス</string>
 	<string name="use_gps">GPSを使う</string>
 	<string name="use_compass">コンパスを使う</string>
