@@ -122,7 +122,7 @@
 	<string name="err_detail_cache_forgot_visit">Tyvärr, c:geo glömde vilken cache tittade på.</string>
 	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd för att visas på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
 	<string name="err_detail_no_spoiler">c:geo hittade inga spoiler bilder för den här cachen.</string>
-	<string name="err_detail_no_map_static">c:geo hittade inga statiska kartor för denna cache.</string>
+	<string name="err_detail_no_map_static">c:geo hittade inga sparade kartor för denna cache.</string>
 	<string name="err_detail_still_removing">Fortsätter att ta bort denna cache.</string>
 	<string name="err_detail_still_saving">Fortsätter att spara denna cache.</string>
 	<string name="err_detail_still_refreshing">Fortsätter att ladda om denna cache.</string>
@@ -155,6 +155,20 @@
 	<string name="err_tb_forgot_saw">Tyvärr, c:geo fglömde vilken trackable du såg.</string>
 	<string name="err_tb_find">Tyvärr, c:geo kunde inte hitta trackable</string>
 	<string name="err_tb_find_that">Tyvärr, c:geo kan inte hitta önskad trackable.</string>
+
+	<string name="err_waypoint_cache_unknown">Tyvärr, c:geo vet inte till vilken cache du vill lägga till en punkt.</string>
+	<string name="err_waypoint_unknown">Tyvärr, c:geo glömde vilken punkt du ville visa.</string>
+	<string name="err_waypoint_add_failed">Tyvärr, c:geo misslyckades att lägga till din punkt.</string>
+	<string name="err_waypoint_load_failed">Tyvärr, c:geo misslyckades att ladda punkten.</string>
+	<string name="err_waypoint_delete_failed">Tyvärr, c:geo kan inte ta bort punkten.</string>
+	<string name="err_point_unknown_position">Tyvärr, c:geo kan inte bestämma din position.</string>
+	<string name="err_point_no_position_given_title">Mer info krävs</string>
+	<string name="err_point_no_position_given">Ange minst latitud och longitud eller avstånd och riktning. Du kan också ange alla fyra.</string>
+	<string name="err_point_curr_position_unavailable">c:geo har ännu inte nuvarande koordinater. Vänta en stund...</string>
+	<string name="err_point_bear_and_dist_title">Tips!</string>
+	<string name="err_point_bear_and_dist">Ange både riktning och avstånd. Rikting är en vinkel mellan 0 och 360 grader relativt norr. Avstånd anges med eller utan enhet.</string>
+	<string name="err_point_location_error">Tyvärr, c:geo kan inte få fram platsen för din punkt.</string>
+	<string name="err_navigation_not_found">c:geo kan inte hitta något sätt att navigera.</string>
 
 	<string name="err_log_load_data">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök.</string>
 	<string name="err_log_load_data_again">Tyvärr, c:geo kan inte ladda information som krävs för att logga ditt besök. Försöker igen.</string>
@@ -342,9 +356,11 @@
 	<string name="cache_menu_compass">Kompass</string>
 	<string name="cache_menu_tbt">Sväng-för-sväng</string>
 	<string name="cache_menu_radar">Radar</string>
-	<string name="cache_menu_map">Visa på kartan</string>
+	<string name="cache_menu_map">Visa på karta</string>
 	<string name="cache_menu_map_ext">Visa på extern karta</string>
-	<string name="cache_menu_map_static">Statiska kartor</string>
+	<string name="cache_menu_map_static">Sparade kartor</string>
+	<string name="cache_menu_map_short">Kartor</string>
+	<string name="cache_menu_map_ext_short">Ext. karta</string>
 	<string name="cache_menu_browser">Öppna i webbläsare</string>
 	<string name="cache_menu_visit">Logga besök</string>
 	<string name="cache_menu_spoilers">Spoiler bilder</string>
@@ -370,6 +386,8 @@
 	<string name="cache_location">Plats</string>
 	<string name="cache_coordinates">Koordinater</string>
 	<string name="cache_calendars">Välj kalender</string>
+	<string name="cache_spoiler_images_title">Spoiler bilder</string>
+	<string name="cache_spoiler_images_loading">Laddar spoiler bilder...</string>
 
 	<!-- gpx -->
 	<string name="gpx_import_searching_in">Söker efter .gpx filer\ni</string>
@@ -404,6 +422,7 @@
 	<string name="waypoint_add_title">Lägg till punkt</string>
 	<string name="waypoint_note">Kommentar</string>
 	<string name="waypoint_save">Spara</string>
+	<string name="waypoint_loading">Laddar punkt...</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Skicka att du hittat till Twitter</string>
@@ -417,6 +436,8 @@
 	<string name="map_trail_hide">Dölj spår</string>
 	<string name="map_live_enable">Aktivera live</string>
 	<string name="map_live_disable">Inaktivera live</string>
+	<string name="map_static_title">Sparade kartor</string>
+	<string name="map_static_loading">Laddar sparade kartor...</string>
 
 	<!-- search -->
 	<string name="search_coordinates">Koordinater</string>
@@ -451,6 +472,7 @@
 
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>
+	<string name="trackable_select_title">Trackables</string>
 	<string name="trackable_details_loading">Laddar detaljer om trackable...</string>
 	<string name="trackable_log_touch">Logga</string>
 	<string name="trackable_more">Visa mer</string>
@@ -488,10 +510,26 @@
 	<string name="author">Upphovsman: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
 	<string name="website">Hemsida: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
-	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
+	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
 	<string name="about_go4cache">Tjänsten <b>Go 4 Cache</b> visar andra geocachare på kartan i realtid (i <b>c:geo</b> eller webbläsaren). Du kan till exempel se vilken cache de letar efter. Genom att ansluta till <b>Go 4 Cache</b> tillåter du <b>c:geo</b> att publicera din nuvarande plats när du geocachar (bara när <b>c:geo</b> är igång).</string>
 	<string name="about_twitter">Ska <b>c:geo</b> publicera ny status på Twitter varje gång en cache loggas?</string>
 	<string name="about_auth_1">Nedan tillåter du <b>c:geo</b> att ansluta till Twitter.</string>
 	<string name="about_auth_2">Klicka på "Påbörja koppling mot Twitter" om du vill koppla ihop <b>c:geo</b> med Twitter. Twitters hemsida kommer att öppnas i en webbläsare. Logga in på den sidan och tillåt <b>c:geo</b> att ansluta till ditt konto. När du godkänt så kommer Twitter att visa en PIN kod. Kom ihåg denna PIN kod, stäng webbläsaren och skriv in PIN koden i <b>c:geo</b> och bekräfta.</string>
+
+	<!-- contributors -->
+	<string name="contributors">
+· 0xErnie (tysk översättn.)\n
+· Charles (fransk översättn.)\n
+· Denny (dansk översättn.)\n
+· <a href="http://iirojappinen.com/">Iiro Jäppinen</a> (grafik)\n
+· <a href="http://www.jaytech.cz/">Jan Žatecký</a> (grafik)\n
+· Pascal (holländsk översättn.)\n
+· Peter (ungersk översättn.)\n
+· Ray (kod, japansk översättn.)\n
+· serenity (fransk översättn.)\n
+· Shan, a.k.a. ShakurNO (norsk översättn.)\n
+· thiasB (kod, tysk &amp; engelsk översättn.)\n
+· YraFyra (kod, svensk översättn.)\n
+	</string>
 </resources>

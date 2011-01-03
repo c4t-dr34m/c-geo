@@ -50,6 +50,14 @@
 						android:textColor="?text_color_headline"
 						android:text="@null" />
 			</LinearLayout>
+			<TextView android:id="@+id/coordinates"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="6dip"
+					android:layout_marginRight="6dip"
+					android:padding="3dip"
+					android:textSize="14dip"
+					android:textColor="?text_color" />
 			<TextView android:id="@+id/note"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"

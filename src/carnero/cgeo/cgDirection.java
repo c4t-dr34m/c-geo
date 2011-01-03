@@ -30,6 +30,7 @@ public class cgDirection {
 		context = contextIn;
 		dirUpdate = dirUpdateIn;
 		warning = warningIn;
+		res = context.getResources();
 
 		try {
 			final int sdk = new Integer(Build.VERSION.SDK).intValue();

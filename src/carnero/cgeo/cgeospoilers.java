@@ -15,12 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.ViewGroup.LayoutParams;
 
 public class cgeospoilers extends Activity {
 	private ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
+	private Resources res = null;
 	private String geocode = null;
 	private cgeoapplication app = null;
 	private Activity activity = null;
@@ -62,7 +64,7 @@ public class cgeospoilers extends Activity {
 					count = spoilers.size();
 					progressDialog = new ProgressDialog(activity);
 					progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-					progressDialog.setMessage("loading spoiler images...");
+					progressDialog.setMessage(res.getString(R.string.cache_spoiler_images_loading));
 					progressDialog.setCancelable(true);
 					progressDialog.setMax(count);
 					progressDialog.show();
@@ -117,6 +119,7 @@ public class cgeospoilers extends Activity {
 
 		// init
 		activity = this;
+		res = this.getResources();
 		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -129,7 +132,7 @@ public class cgeospoilers extends Activity {
 			setTheme(R.style.dark);
 		}
 		setContentView(R.layout.spoilers);
-		base.setTitle(activity, "spoiler images");
+		base.setTitle(activity, res.getString(R.string.cache_spoiler_images_title));
 
 		// google analytics
 		base.sendAnal(activity, "/spoilers");
@@ -143,7 +146,7 @@ public class cgeospoilers extends Activity {
 		}
 
 		if (geocode == null) {
-			warning.showToast("Sorry, c:geo forgot for what cache you want to load trackables.");
+			warning.showToast("Sorry, c:geo forgot for what cache you want to load spoiler images.");
 			finish();
 			return;
 		}
@@ -153,7 +156,7 @@ public class cgeospoilers extends Activity {
 			spoilerView = (LinearLayout) findViewById(R.id.spoiler_list);
 		}
 
-		waitDialog = ProgressDialog.show(this, null, "loading spoiler images...", true);
+		waitDialog = ProgressDialog.show(this, null, res.getString(R.string.cache_spoiler_images_loading), true);
 		waitDialog.setCancelable(true);
 
 		(new loadSpoilers()).start();

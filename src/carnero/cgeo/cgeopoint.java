@@ -125,7 +125,7 @@ public class cgeopoint extends Activity {
 	private class currentListener implements View.OnClickListener {
 		public void onClick(View arg0) {
 			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
-				warning.showToast("Sorry, c:geo can\'t recognize where you are.");
+				warning.showToast(res.getString(R.string.err_point_unknown_position));
 				return;
 			}
 
@@ -168,7 +168,7 @@ public class cgeopoint extends Activity {
 				finish();
 				return;
 			} catch (Exception e) {
-				warning.showToast("c:geo can\'t use Radar because this application isn't installed.");
+				warning.showToast(res.getString(R.string.err_radar_generic));
 				Log.w(cgSettings.tag, "Radar not installed");
 			}
 		}
@@ -197,7 +197,7 @@ public class cgeopoint extends Activity {
 						return;
 					} catch (Exception e2) {
 						Log.d(cgSettings.tag, "cgeodetail.turnTo: No navigation application available.");
-						warning.showToast("c:geo can\'t find any supported navigation.");
+						warning.showToast(res.getString(R.string.err_navigation_not_found));
 					}
 				}
 			} else if (settings.useGNavigation == 0) {
@@ -213,7 +213,7 @@ public class cgeopoint extends Activity {
 					return;
 				} catch (Exception e) {
 					Log.d(cgSettings.tag, "cgeopoint.turnTo: No navigation application available.");
-					warning.showToast("c:geo can\'t find any suitable application.");
+					warning.showToast(res.getString(R.string.err_navigation_not_found));
 				}
 			}
 		}
@@ -233,7 +233,7 @@ public class cgeopoint extends Activity {
 				(bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0) &&
 				(latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)
 			) {
-			warning.helpDialog("fill it", "Fill at least distance and bearing or latitude or longitude. You can also fill all four fields.");
+			warning.helpDialog(res.getString(R.string.err_point_no_position_given_title), res.getString(R.string.err_point_no_position_given));
 			return null;
 		}
 
@@ -243,12 +243,12 @@ public class cgeopoint extends Activity {
 			HashMap lonParsed = base.parseCoordinate(lonText, "lat");
 
 			if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse latitude.");
+				warning.showToast(res.getString(R.string.err_parse_lat));
 				return null;
 			}
 
 			if (lonParsed == null || lonParsed.get("coordinate") == null || lonParsed.get("string") == null) {
-				warning.showToast("Sorry, c:geo can\'t parse longitude.");
+				warning.showToast(res.getString(R.string.err_parse_lon));
 				return null;
 			}
 
@@ -256,7 +256,7 @@ public class cgeopoint extends Activity {
 			longitude = (Double)lonParsed.get("coordinate");
 		} else {
 			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
-				warning.showToast("c:geo still doesn\'t have current coordinates. Please, wait a while.");
+				warning.showToast(res.getString(R.string.err_point_curr_position_unavailable));
 				return null;
 			}
 			
@@ -273,7 +273,7 @@ public class cgeopoint extends Activity {
                 // probably not a number
             }
 			if (bearing == null) {
-				warning.helpDialog("need some help?", "Fill both bearing and distance. Bearing is angle 0 to 360 degrees relative to north. Distance with or without units.");
+				warning.helpDialog(res.getString(R.string.err_point_bear_and_dist_title), res.getString(R.string.err_point_bear_and_dist));
 				return null;
 			}
 
@@ -314,12 +314,12 @@ public class cgeopoint extends Activity {
 			}
 
 			if (bearing == null) {
-				warning.showToast("Sorry, c:geo can\'t parse bearing.");
+				warning.showToast(res.getString(R.string.err_parse_bear));
 				return null;
 			}
 
 			if (distance == null) {
-				warning.showToast("Sorry, c:geo can\'t parse distance.");
+				warning.showToast(res.getString(R.string.err_parse_dist));
 				return null;
 			}
 
@@ -332,7 +332,7 @@ public class cgeopoint extends Activity {
 			lonParsed = coordsDst.get("longitude");
 
 			if (latParsed == null || lonParsed == null) {
-				warning.showToast("Sorry, c:geo can\'t get direction to place you want.");
+				warning.showToast(res.getString(R.string.err_point_location_error));
 				return null;
 			}
 
