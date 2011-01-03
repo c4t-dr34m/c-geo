@@ -68,8 +68,8 @@ public class cgDirection {
 		 public void onAccuracyChanged(Sensor sensor, int accuracy) {
 			if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW && app.warnedCompassCalibration == false && warning != null) {
 				try {
-					warning.showToast(res.getString(R.string.compass_needs_calib));
 					app.warnedCompassCalibration = true;
+					warning.showToast(res.getString(R.string.compass_needs_calib));
 				} catch (Exception e) {
 					// nothing (we have no window)
 				}
