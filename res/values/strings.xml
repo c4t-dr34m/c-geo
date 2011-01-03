@@ -498,6 +498,8 @@
 	<string name="about_auth_1">The following process allows <b>c:geo</b> to access Twitter - if agreed.</string>
 	<string name="about_auth_2">Click on "authorize c:geo" button will start the process. This process will open up a web browser with Twitter page. Login on this page and allow <b>c:geo</b> to access your account. If accepted, Twitter will show up a numeric PIN code. This PIN must be pasted into <b>c:geo</b> and be confirmed. That\'s all.</string>
 
+<!-- ====== please, do not translate (and include in translation) things below this line ====== -->
+
 	<!-- contributors -->
 	<string name="contributors">\n
 · 0xErnie (localization DE)\n
@@ -514,12 +516,10 @@
 · YraFyra (code, localization SV)\n
 	</string>
 
-<!-- ====== please, do not translate things below this line ====== -->
-
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>1.17</b> (__.01.2011)\n
-· fix: Distances in list (thanks to Sven)\n
+· fix: Cache info back in caches list (thanks to Sven)\n
 · update: Norwegian translation (by Shan)\n
 · update: Czech translation (by Viktor K.)\n
 · update: Japanese translation (by Ray)\n

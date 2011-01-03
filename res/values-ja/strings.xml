@@ -473,7 +473,7 @@
 	<string name="trackable_touch">Touch</string>
 
 	<!-- navigation -->
-	<string name="ナビゲーション">Navigation</string>
+	<string name="navigation">ナビゲーション</string>
 	<string name="compass_title">コンパス</string>
 	<string name="use_gps">GPSを使う</string>
 	<string name="use_compass">コンパスを使う</string>
@@ -498,20 +498,4 @@
 	<string name="about_twitter">キャッシュのログを書いたら<b>c:geo</b>がTwitterでつぶやいてほしい?</string>
 	<string name="about_auth_1"><b>c:geo</b>がTwitterにアクセスする許可を得るには次のことをしてください。</string>
 	<string name="about_auth_2">"c:geoを認証する"ボタンを押すとブラウザでTwitterのページが開きます。そのページにログインすれば<b>c:geo</b>があなたのアカウントにアクセルする許可が得られます。ログインに成功したら数字のPINコードが表示されます。そのPINコードをこの下の入力欄にコピー&amp;ペーストして完了ボタンを押してください。</string>
-
-	<!-- contributors -->
-	<string name="contributors">\n
-· 0xErnie (localization DE)\n
-· Charles (localization FR)\n
-· Denny (localization DA)\n
-· <a href="http://iirojappinen.com/">Iiro Jäppinen</a> (graphic)\n
-· <a href="http://www.jaytech.cz/">Jan Žatecký</a> (graphic)\n
-· Pascal (localization NL)\n
-· Peter (localization HU)\n
-· Ray (code, localization JA)\n
-· serenity (localization FR)\n
-· Shan, a.k.a. ShakurNO (localization NO)\n
-· thiasB (code, localization DE EN)\n
-· YraFyra (code, localization SV)\n
-	</string>
 </resources>

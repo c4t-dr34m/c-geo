@@ -89,6 +89,7 @@ public class cgBase {
 	public static DateFormat dateOut = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
 	public static DateFormat timeOut = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
 	public static DateFormat dateOutShort = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+	public static String ratingKey = "hbM9fjmrxy7z42LFD58BkKgPGdHscvCqNnw3ptO6lJ";
 	public static String xorKey = "groundspeak";
 	private Resources res = null;
 	private HashMap<String, String> cookies = new HashMap<String, String>();
@@ -590,6 +591,23 @@ public class cgBase {
 			} catch (Exception e) {
 				// failed to parse direction
 				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache direction");
+			}
+
+			// cache rating
+			try {
+				final Matcher matcherRating = patternRating.matcher(row);
+				while (matcherRating.find()) {
+					if (matcherRating.groupCount() > 0) {
+						final HashMap<String, Object> rating = ratingDecrypt(matcherRating.group(1));
+
+                        cache.size = (String)rating.get("size");
+                        cache.terrain = (Float)rating.get("terrain");
+                        cache.difficulty = (Float)rating.get("difficulty");
+					}
+				}
+			} catch (Exception e) {
+				// failed to parse rating
+				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache rating");
 			}
 
 			// cache inventory
@@ -4860,6 +4878,122 @@ public class cgBase {
 		if (title != null) {
 			title.setText(text);
 		}
+	}
+	
+	public static HashMap<String, Object> ratingDecrypt(String text) {
+		final HashMap<String, Object> rating = new HashMap<String, Object>();
+        String size = null;
+        Float difficulty = null;
+        Float terrain = null;
+		
+		final StringBuilder sb = new StringBuilder(text);
+        int sbLen = sb.length();
+
+        if (sbLen > 6) {
+            // cut leading zero
+            while (sb.length() > 6) {
+                sb.delete(0, 1);
+            }
+        } else if (sbLen < 6) {
+            // add missing leading zero
+            while (sb.length() < 6) {
+                sb.insert(0, "h");
+            }
+        }
+
+        sbLen = sb.length(); // have to be six
+        long value = 0;
+        for (int i = 0; i < sbLen; i ++) {
+            value += ratingKey.indexOf(sb.charAt(i)) * Math.pow(42, (5 - i));
+        }
+
+        long mod = (value - 131586) % 16777216;
+        long sizePre = (long)(mod / Math.pow(42, 3));
+
+        long diff = -1;
+        if (sizePre == 0) {
+            diff = 0;
+        } else if (sizePre == 1) {
+            diff = 131072;
+        } else if (sizePre == 3) {
+            diff = 262144;
+        } else if (sizePre == 5) {
+            diff = 393217;
+        } else if (sizePre == 7) {
+            diff = 524288;
+        } else if (sizePre == 8) {
+            diff = 655360;
+        } else if (sizePre == 12) {
+            diff = 917504;
+        }
+
+        long terrainPre = (long)((mod - diff) / 252);
+        long difficultyPre = (long)(((mod - diff) % 42) - (terrainPre * 4));
+
+        // cache size
+        if (sizePre == 0) {
+            size = "not chosen";
+        } else if (sizePre == 1) {
+            size = "micro";
+        } else if (sizePre == 3) {
+            size = "regular";
+        } else if (sizePre == 5) {
+            size = "large";
+        } else if (sizePre == 7) {
+            size = "virtual";
+        } else if (sizePre == 8) {
+            size = "unknown";
+        } else if (sizePre == 12) {
+            size = "small";
+        }
+
+        // terrain rating
+        if (terrainPre == 0) {
+            terrain = new Float(1.0);
+        } else if (terrainPre == 1) {
+            terrain = new Float(1.5);
+        } else if (terrainPre == 2) {
+            terrain = new Float(2.0);
+        } else if (terrainPre == 3) {
+            terrain = new Float(2.5);
+        } else if (terrainPre == 5) {
+            terrain = new Float(3.0);
+        } else if (terrainPre == 6) {
+            terrain = new Float(3.5);
+        } else if (terrainPre == 6) {
+            terrain = new Float(4.0);
+        } else if (terrainPre == 7) {
+            terrain = new Float(4.5);
+        } else {
+            terrain = new Float(5.0);
+        }
+
+        // difficulty rating
+        if (difficultyPre == 0) {
+            difficulty = new Float(1.0);
+        } else if (difficultyPre == 1) {
+            difficulty = new Float(1.5);
+        } else if (difficultyPre == 2) {
+            difficulty = new Float(2.0);
+        } else if (difficultyPre == 3) {
+            difficulty = new Float(2.5);
+        } else if (difficultyPre == 5) {
+            difficulty = new Float(3.0);
+        } else if (difficultyPre == 6) {
+            difficulty = new Float(3.5);
+        } else if (difficultyPre == 6) {
+            difficulty = new Float(4.0);
+        } else if (difficultyPre == 7) {
+            difficulty = new Float(4.5);
+        } else {
+            difficulty = new Float(5.0);
+        }
+
+        rating.put("size", size);
+        rating.put("terrain", terrain);
+        rating.put("difficulty", difficulty);
+
+		return rating;
 	}
 
 	public static String xorEnDecrypt(String text) {
