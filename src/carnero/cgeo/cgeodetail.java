@@ -848,7 +848,7 @@ public class cgeodetail extends Activity {
 
 					waypointView.setOnClickListener(new waypointInfo(wpt.id));
 
-					waypoints.addView(waypointView, 0);
+					waypoints.addView(waypointView);
 				}
 			}
 
