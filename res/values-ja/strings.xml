@@ -61,6 +61,7 @@
 	<string name="log_tb_nothing">何もしない</string>
 	<string name="log_tb_visit">訪問</string>
 	<string name="log_tb_drop">ここに置く</string>
+	<string name="log_tb_changeall">Change all</string>
 	<string name="log_save">保存</string>
 	<string name="log_saving">ログを保存中...</string>
 	<string name="log_clear">消去</string>
@@ -102,6 +103,7 @@
 	<string name="err_parse">ログインページの解析に失敗しました</string>
 	<string name="err_server">geocaching.comに接続できません(サーバーまたはネット接続がダウンしてる?)</string>
 	<string name="err_login">ログイン情報が保存されていません</string>
+	<string name="err_login_failed">ログインできません。</string>
 	<string name="err_unknown">未知のエラー</string>
 	<string name="err_comm">未知の通信エラー</string>
 	<string name="err_missing_auth">ユーザ名またはパスワードが入力されていません</string>
@@ -132,12 +134,19 @@
 	<string name="err_application_no">適切なアプリケーションが見つかりません。</string>
 	<string name="err_auth_initialize">認証プロセスの初期化に失敗しました。</string>
 	<string name="err_auth_process">認証プロセスに失敗しました。</string>
-	<string name="err_cannot_log_visit">ログを保存するのに十分な情報がありません。キャッシュの詳細を全て入力してください。c:geo has not enough information to log visit. Please, do it from full cache details.</string>
+	<string name="err_cannot_log_visit">ログを保存するのに十分な情報がありません。キャッシュの詳細を全て入力してください。</string>
 	<string name="err_init_cleared">ログイン情報を消去することができません。</string>
 	<string name="err_no_chaches">キャッシュ情報のロードに失敗しました。</string>
 	<string name="err_download_fail">キャッシュ情報のダウンロードに失敗しました。原因:</string>
 	<string name="err_update_fail">移動距離の更新に失敗しました。</string>
 	<string name="err_list_load_fail">キャッシュリストのロードに失敗しました。</string>
+	<string name="err_store_failed">キャッシュ情報を保存することができません。</string>
+	<string name="err_refresh_failed">キャッシュ情報を更新することができません。</string>
+	<string name="err_drop_failed">キャッシュ情報を破棄することができません。</string>
+	<string name="err_dwld_details_failed">キャッシュ情報の詳細をダウンロードすることができません。</string>
+	<string name="err_dwld_details_failed_reason">キャッシュ情報の詳細をダウンロードすることができません。原因:</string>
+	<string name="err_load_descr_failed">キャッシュの説明をロードすることができません。</string>
+	<string name="err_location_unknown">キャッシュの場所が分かりません。</string>
 
 	<string name="err_tb_display">"追跡可能アイテムを表示することができません。本等に追跡可能アイテムですか?</string>
 	<string name="err_tb_details_open">追跡可能アイテムの詳細を開くことができません。</string>
@@ -154,11 +163,25 @@
 	<string name="err_log_post_failed">ログを投稿することができませんでした。</string>
 	<string name="err_log_post_failed_because">ログを投稿することができませんでした。原因: </string>
 
+	<string name="err_search_address_no_match">該当する場所が見つかりません。</string>
+	<string name="err_search_address_forgot">Sorry, c:geo forgot address you try to find.</string>
+	<string name="err_search_address">場所を検索中</string>
+	<string name="err_parse_lat">緯度の解析ができません。</string>
+	<string name="err_parse_lon">経度の解析ができません。</string>
+	<string name="err_parse_bear">方位の解析ができません。</string>
+	<string name="err_parse_dist">距離の解析ができません。</string>
+
 	<string name="warn_save_nothing">保存すべきものがありません。</string>
 	<string name="warn_no_cache_coord">座標のあるキャッシュがありません。</string>
 	<string name="warn_no_coordinates">座標が入力されていません。</string>
 	<string name="warn_no_keyword">キーワードが入力されていません。</string>
 	<string name="warn_no_username">ユーザ名が入力されていません。</string>
+	<string name="warn_search_help_title">ヘルプが必要?</string>
+	<string name="warn_search_help_address">住所、地名や名称を入力してください。例:住所の「Radlicka 100, Prague, Czech Republic」、都市名の「ベルリン」、または「イエローストーン国立公園」のような名称。</string>
+	<string name="warn_search_help_gccode">ジオキャッシュのコードを入力してください。例:「GC1VCAZ」。</string>
+	<string name="warn_search_help_keyword">キャッシュ名の一部を入力してください。検索対象はキャッシュ名だけです。キャッシュの詳細内は対象ではありません。</string>
+	<string name="warn_search_help_user">Geocaching.comのユーザ名を入力してください。</string>
+	<string name="warn_search_help_tb">追跡可能アイテムのコードを入力してください。例:「TB29QMZ」。</string>
 
 	<string name="warn_log_text_fill">ログの本文を書いてください。</string>
 
@@ -190,7 +213,7 @@
 	<string name="caches_nearby_button">近く</string>
 	<string name="advanced_search_button">検索</string>
 	<string name="stored_caches_button">保存済み</string>
-	<string name="any_button">場所を入力</string>
+	<string name="any_button">目的地</string>
 	<string name="about_button">About</string>
 	<string name="settings_button">設定</string>
 	<string name="type">タイプ</string>
@@ -223,13 +246,16 @@
 	<string name="caches_drop_stored">削除</string>
 	<string name="caches_refresh_selected">選択したキャッシュを更新</string>
 	<string name="caches_refresh_all">全てのキャッシュを更新</string>
+	<string name="caches_map_cgeo">c:geo</string>
+	<string name="caches_map_locus">Locus</string>
 
 	<!-- about -->
 	<string name="about_changelog">更新履歴</string>
 	<string name="about_donate">寄付</string>
 	<string name="about_detail">詳細</string>
-	<string name="about_donation_less">ちょっと\n寄付する</string>
+	<string name="about_donation_less">少し\n寄付する</string>
 	<string name="about_donation_more">開発に\n寄付する</string>
+	<string name="about_contributors">貢献者</string>
 
 	<!-- init -->
 	<string name="init_geocaching">Geocaching.com</string>
@@ -263,6 +289,7 @@
 	<string name="init_autoload">キャッシュの説明を自動的に全て表示する</string>
 	<string name="init_livelist">キャッシュの一覧で方向をアイコン表示する</string>
 	<string name="init_browser">c:geoが既定のブラウザかどうか確認する</string>
+	<string name="init_clear">Clear login</string>
 	<string name="init_cleared">ログイン情報を消去しました。</string>
 
 	<!-- auth -->
@@ -286,7 +313,7 @@
 	<string name="cache_offline_drop">削除</string>
 	<string name="cache_offline_store">保存</string>
 	<string name="cache_offline_stored">デバイスに保存済み</string>
-	<string name="cache_offline_not_ready">オフラインで使う準備ができていません</string>
+	<string name="cache_offline_not_ready">オフライン用に保存されていません</string>
 	<string name="cache_offline_time_about">約</string>
 	<string name="cache_offline_time_mins">分前</string>
 	<string name="cache_offline_time_mins_few">数分前</string>
@@ -318,6 +345,8 @@
 	<string name="cache_menu_map">地図で表示</string>
 	<string name="cache_menu_map_ext">外部地図で表示</string>
 	<string name="cache_menu_map_static">Static maps</string>
+	<string name="cache_menu_map_short">Maps</string>
+	<string name="cache_menu_map_ext_short">外部地図</string>
 	<string name="cache_menu_browser">ブラウザで開く</string>
 	<string name="cache_menu_visit">ログを書く</string>
 	<string name="cache_menu_spoilers">スポイラー画像</string>
@@ -343,6 +372,20 @@
 	<string name="cache_location">場所</string>
 	<string name="cache_coordinates">座標</string>
 	<string name="cache_calendars">カレンダーを選択</string>
+	<string name="cache_gpx_import">GPXファイルを読み込む</string>
+
+	<!-- gpx -->
+	<string name="gpx_import_searching_in">GPXファイルを検索中\nフォルダ:</string>
+	<string name="gpx_import_loading_stored">GPXファイルをロード中\n保存済み:</string>
+	<string name="gpx_import_no_files">GPXファイルが見つかりません。</string>
+	<string name="gpx_import_caches_imported">個のキャッシュを読み込みました</string>
+	<string name="gpx_import_searching">GPXファイルを検索中</string>
+	<string name="gpx_import_loading">GPXファイルをロード中</string>
+	<string name="gpx_import_title">GPXファイルの読み込み</string>
+	<string name="gpx_import_title_reading_file">ファイルを読み込み中</string>
+	<string name="gpx_import_title_searching">検索中</string>
+	<string name="gpx_import_title_caches_imported">結果</string>
+	
 
 	<!-- event -->
 	<string name="event_success">イベントキャッシュがカレンダーに追加されました</string>
@@ -353,6 +396,7 @@
 	<string name="popup_offline">オフライン</string>
 
 	<!-- waypoint -->
+	<string name="waypoint_title">ウェイポイント</string>
 	<string name="waypoint_custom">カスタム</string>
 	<string name="waypoint_my_coordinates">現在地</string>
 	<string name="waypoint_bearing">方位</string>
@@ -406,6 +450,8 @@
 	<string name="search_lon">緯度</string>
 	<string name="search_caches">Search for caches</string>
 	<string name="search_caches_near">近くのキャッシュ</string>
+	<string name="search_address_started">Searching for places</string>
+	<string name="search_address_result">Found places</string>
 
 	<!-- trackable -->
 	<string name="trackable">追跡可能アイテム</string>
@@ -427,12 +473,13 @@
 	<string name="trackable_touch">Touch</string>
 
 	<!-- navigation -->
-	<string name="navigation">ナビゲーション</string>
+	<string name="ナビゲーション">Navigation</string>
 	<string name="compass_title">コンパス</string>
 	<string name="use_gps">GPSを使う</string>
 	<string name="use_compass">コンパスを使う</string>
 	<string name="destination_select">目的地を選択</string>
 	<string name="destination_set">目的地に設定</string>
+	<string name="compass_needs_calib">アンドロイド端末の電子コンパスは調整が必要です。\n端末をしっかり持って手首を∞(8の字)を描くように回転させてください。</string>
 
 	<!-- license -->
 	<string name="license">ライセンス</string>
@@ -451,4 +498,20 @@
 	<string name="about_twitter">キャッシュのログを書いたら<b>c:geo</b>がTwitterでつぶやいてほしい?</string>
 	<string name="about_auth_1"><b>c:geo</b>がTwitterにアクセスする許可を得るには次のことをしてください。</string>
 	<string name="about_auth_2">"c:geoを認証する"ボタンを押すとブラウザでTwitterのページが開きます。そのページにログインすれば<b>c:geo</b>があなたのアカウントにアクセルする許可が得られます。ログインに成功したら数字のPINコードが表示されます。そのPINコードをこの下の入力欄にコピー&amp;ペーストして完了ボタンを押してください。</string>
+
+	<!-- contributors -->
+	<string name="contributors">\n
+· 0xErnie (localization DE)\n
+· Charles (localization FR)\n
+· Denny (localization DA)\n
+· <a href="http://iirojappinen.com/">Iiro Jäppinen</a> (graphic)\n
+· <a href="http://www.jaytech.cz/">Jan Žatecký</a> (graphic)\n
+· Pascal (localization NL)\n
+· Peter (localization HU)\n
+· Ray (code, localization JA)\n
+· serenity (localization FR)\n
+· Shan, a.k.a. ShakurNO (localization NO)\n
+· thiasB (code, localization DE EN)\n
+· YraFyra (code, localization SV)\n
+	</string>
 </resources>
