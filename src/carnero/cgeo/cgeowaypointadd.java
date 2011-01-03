@@ -284,8 +284,6 @@ public class cgeowaypointadd extends Activity {
 			}
 
 			if (bearingText != null && bearingText.length() > 0 && distanceText != null && distanceText.length() > 0) {
-				Log.d(cgSettings.tag, "Blemc... bearing");
-
 				// bearing & distance
 				Double bearing = null;
 				try {
@@ -360,18 +358,12 @@ public class cgeowaypointadd extends Activity {
 				coords.add(0, (Double) latParsed);
 				coords.add(1, (Double) lonParsed);
 			} else if (latitude != null && longitude != null) {
-				Log.d(cgSettings.tag, "Blemc... coords");
-
 				coords.add(0, latitude);
 				coords.add(1, longitude);
 			} else {
-				Log.d(cgSettings.tag, "Blemc... last");
-
 				warning.showToast(res.getString(R.string.err_point_location_error));
 				return;
 			}
-
-			Log.d(cgSettings.tag, "Blemc...");
 
 			final String name = ((EditText) findViewById(R.id.name)).getText().toString();
 			final String note = ((EditText) findViewById(R.id.note)).getText().toString();
