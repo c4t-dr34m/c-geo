@@ -4956,9 +4956,9 @@ public class cgBase {
             terrain = new Float(2.0);
         } else if (terrainPre == 3) {
             terrain = new Float(2.5);
-        } else if (terrainPre == 5) {
+        } else if (terrainPre == 4) {
             terrain = new Float(3.0);
-        } else if (terrainPre == 6) {
+        } else if (terrainPre == 5) {
             terrain = new Float(3.5);
         } else if (terrainPre == 6) {
             terrain = new Float(4.0);
