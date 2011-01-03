@@ -370,7 +370,6 @@
 	<string name="cache_location">Plats</string>
 	<string name="cache_coordinates">Koordinater</string>
 	<string name="cache_calendars">Välj kalender</string>
-	<string name="cache_gpx_import">Importera GPX fil</string>
 
 	<!-- gpx -->
 	<string name="gpx_import_searching_in">Söker efter .gpx filer\ni</string>

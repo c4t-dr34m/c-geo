@@ -101,7 +101,8 @@
 	<string name="err_start">Kommunikation nicht gestartet</string>
 	<string name="err_parse">Parsing der Anmeldung gescheitert</string>
 	<string name="err_server">Verbindung zu geocaching.com konnte nicht hergestellt werden (Server oder Verbindung inaktiv?)</string>
-	<string name="err_login">Keine Anmeldedaten gespeichert</string>
+	<string name="err_login">Keine Anmeldedaten gespeichert.</string>
+	<string name="err_login_failed">Login fehlgeschlagen.</string>
 	<string name="err_unknown">Unbekannter Fehler</string>
 	<string name="err_comm">Unbekannter Kommunikationsfehler</string>
 	<string name="err_wrong">Falsche Anmeldedaten</string>
@@ -137,6 +138,13 @@
 	<string name="err_download_fail">c:geo konnte keine Caches laden, weil </string>
 	<string name="err_update_fail">Update der gereisten Strecke fehlgeschlagen.</string>
 	<string name="err_list_load_fail">Laden der Cacheliste fehlgeschlagen.</string>
+	<string name="err_store_failed">Speichern des Caches fehlgeschlagen.</string>
+	<string name="err_refresh_failed">Aktualisierung fehlgeschlagen.</string>
+	<string name="err_drop_failed">Löschen des Caches fehlgeschlagen.</string>
+	<string name="err_dwld_details_failed">Download der Cache-Details fehlgeschlagen.</string>
+	<string name="err_dwld_details_failed_reason">Download der Cache-Details fehlgeschlagen, wegen</string>
+	<string name="err_load_descr_failed">Laden der Cachebeschreibung fehlgeschlagen.</string>
+	<string name="err_location_unknown">c:geo erkennt die Position des Caches nicht.</string>
 
 	<string name="err_tb_display">"c:geo kann den gewünschten Trackable nicht anzeigen. Ist es wirklich einer?</string>
 	<string name="err_tb_details_open">c:geo konnte Details des Trackables nicht öffnen.</string>
@@ -153,11 +161,25 @@
 	<string name="err_log_post_failed">c:geo konnte Log nicht absenden.</string>
 	<string name="err_log_post_failed_because">c:geo konnte Log nicht absenden, wegen </string>
 
+	<string name="err_search_address_no_match">Keinen passenden Ort gefunden.</string>
+	<string name="err_search_address_forgot">c:geo hat die Adresse, die du suchst, vergessen.</string>
+	<string name="err_search_address">Suche nach Orten</string>
+	<string name="err_parse_lat">c:geo konnte den Breitengrad nicht verarbeiten.</string>
+	<string name="err_parse_lon">c:geo konnte den Längengrad nicht verarbeiten.</string>
+	<string name="err_parse_bear">c:geo konnte die Richtung nicht verarbeiten.</string>
+	<string name="err_parse_dist">c:geo konnte die Entfernung nicht verarbeiten.</string>
+
 	<string name="warn_save_nothing">Es gibt nichts zum speichern.</string>
 	<string name="warn_no_cache_coord">Es gibt hier keinen Cache mit Koordinaten.</string>
 	<string name="warn_no_coordinates">Keine Koordinaten angegeben.</string>
 	<string name="warn_no_keyword">Kein Stichwort angegeben.</string>
 	<string name="warn_no_username">Kein Benutzernamen angegeben.</string>
+	<string name="warn_search_help_title">Hilfe benötigt?</string>
+	<string name="warn_search_help_address">Adresse oder Ort eingeben. zB. Straßenname und Ort \"Dorfstraße 333, Berlin, Deutschland\", Ort \"Berlin\" oder den Namen eines beliebigen Ortes wie zB. \"Tiergarten\".</string>
+	<string name="warn_search_help_gccode">Geocode eingeben. zB. \"GC1VCAZ\".</string>
+	<string name="warn_search_help_keyword">Stichwörter eingeben, die im Namen des zu suchenden Caches enthalten sind.</string>
+	<string name="warn_search_help_user">Name eines Benutzers auf Geocaching.com eingeben.</string>
+	<string name="warn_search_help_tb">Code des Trackables eingeben, zB. \"TB29QMZ\".</string>
 
 	<string name="warn_log_text_fill">Bitte Text einfügen.</string>
 
@@ -257,6 +279,7 @@
 	<string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
 	<string name="init_livelist">Richtung zum Cache in der Cache-Liste anzeigen</string>
 	<string name="init_browser">c:geo zum Standardbrowser machen</string>
+	<string name="init_clear">Login zurücksetzen</string>
 	<string name="init_cleared">c:geo hat die Anmeldedaten gelöscht.</string>
 
 	<!-- auth -->
@@ -336,7 +359,18 @@
 	<string name="cache_location">Bundesland</string>
 	<string name="cache_coordinates">Koordinaten</string>
 	<string name="cache_calendars">Kalender auswählen</string>
-	<string name="cache_gpx_import">Importiere GPX-Datei</string>
+
+	<!-- gpx -->
+	<string name="gpx_import_searching_in">Suche nach GPX-Dateien\nin</string>
+	<string name="gpx_import_loading_stored">Lade Caches aus GPX-Datei\nGespeichert:</string>
+	<string name="gpx_import_no_files">c:geo hat keine GPX-Dateien gefunden.</string>
+	<string name="gpx_import_caches_imported">Caches importiert.</string>
+	<string name="gpx_import_searching">Suche nach GPX-Dateien</string>
+	<string name="gpx_import_loading">Lade Caches aus GPX-Datei</string>
+	<string name="gpx_import_title">Importiere GPX-Datei</string>
+	<string name="gpx_import_title_reading_file">Lese Datei</string>
+	<string name="gpx_import_title_searching">Suche</string>
+	<string name="gpx_import_title_caches_imported">Ergebnis</string>
 
 	<!-- event -->
 	<string name="event_success">Event Cache zum Kalender hinzugefügt</string>
@@ -400,6 +434,8 @@
 	<string name="search_lon">Lon</string>
 	<string name="search_caches">Suche nach Caches</string>
 	<string name="search_caches_near">Caches in der Nähe</string>
+	<string name="search_address_started">Suche nach Orten</string>
+	<string name="search_address_result">Gefundene Orte</string>
 
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>

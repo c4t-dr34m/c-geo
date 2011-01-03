@@ -372,7 +372,6 @@
 	<string name="cache_location">Location</string>
 	<string name="cache_coordinates">Coordinates</string>
 	<string name="cache_calendars">Select calendar</string>
-	<string name="cache_gpx_import">Import GPX file</string>
 
 	<!-- gpx -->
 	<string name="gpx_import_searching_in">searching for .gpx files\nin</string>
