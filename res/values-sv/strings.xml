@@ -516,20 +516,4 @@
 	<string name="about_twitter">Ska <b>c:geo</b> publicera ny status på Twitter varje gång en cache loggas?</string>
 	<string name="about_auth_1">Nedan tillåter du <b>c:geo</b> att ansluta till Twitter.</string>
 	<string name="about_auth_2">Klicka på "Påbörja koppling mot Twitter" om du vill koppla ihop <b>c:geo</b> med Twitter. Twitters hemsida kommer att öppnas i en webbläsare. Logga in på den sidan och tillåt <b>c:geo</b> att ansluta till ditt konto. När du godkänt så kommer Twitter att visa en PIN kod. Kom ihåg denna PIN kod, stäng webbläsaren och skriv in PIN koden i <b>c:geo</b> och bekräfta.</string>
-
-	<!-- contributors -->
-	<string name="contributors">
-· 0xErnie (tysk översättn.)\n
-· Charles (fransk översättn.)\n
-· Denny (dansk översättn.)\n
-· <a href="http://iirojappinen.com/">Iiro Jäppinen</a> (grafik)\n
-· <a href="http://www.jaytech.cz/">Jan Žatecký</a> (grafik)\n
-· Pascal (holländsk översättn.)\n
-· Peter (ungersk översättn.)\n
-· Ray (kod, japansk översättn.)\n
-· serenity (fransk översättn.)\n
-· Shan, a.k.a. ShakurNO (norsk översättn.)\n
-· thiasB (kod, tysk &amp; engelsk översättn.)\n
-· YraFyra (kod, svensk översättn.)\n
-	</string>
 </resources>
