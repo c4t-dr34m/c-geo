@@ -530,6 +530,7 @@
 · Pascal (localization NL)\n
 · Peter (localization HU)\n
 · Ray (code, localization JA)\n
+· Ricardo (localization PT)\n
 · serenity (localization FR)\n
 · Shan, a.k.a. ShakurNO (localization NO)\n
 · thiasB (code, localization DE EN)\n
@@ -539,7 +540,7 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>1.19</b> (__.01.2011)\n
-· fix: ___\n
+· fix: Portugese translation (by Ricardo)\n
 \n
 <b>1.18</b> (03.01.2011)\n
 · fix: Cache distances\n
