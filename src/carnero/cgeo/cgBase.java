@@ -4977,9 +4977,9 @@ public class cgBase {
             difficulty = new Float(2.0);
         } else if (difficultyPre == 3) {
             difficulty = new Float(2.5);
-        } else if (difficultyPre == 5) {
+        } else if (difficultyPre == 4) {
             difficulty = new Float(3.0);
-        } else if (difficultyPre == 6) {
+        } else if (difficultyPre == 5) {
             difficulty = new Float(3.5);
         } else if (difficultyPre == 6) {
             difficulty = new Float(4.0);
