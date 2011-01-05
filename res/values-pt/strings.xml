@@ -483,18 +483,4 @@
 	<!-- license -->
 	<string name="license">Licença</string>
 	<string name="license_show">Mostrar licença</string>
-	<string name="license_dismiss">Dismiss</string>
-
-	<!-- next things -->
-	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
-	<string name="about_text"><b>c:geo</b> is designed to be simple always ready-to-go client for geocaching.com. It is and forever will be for free. If you want to support development, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.</string>
-	<string name="author">Author: <a href="http://carnero.cc/">carnero</a></string>
-	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
-	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
-	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
-	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-	<string name="about_go4cache">Service <b>Go 4 Cache</b> shows other geocachers on the map (in <b>c:geo</b> or in browser) in real time. It can show, for example, what cache they\'re searching for. By connecting to <b>Go 4 Cache</b> <b>c:geo</b> is allowed to publish current location when geocaching (only when <b>c:geo</b> is running).</string>
-	<string name="about_twitter">Should <b>c:geo</b> publish new status on Twitter everytime a cache is logged?</string>
-	<string name="about_auth_1">The following process allows <b>c:geo</b> to access Twitter - if agreed.</string>
-	<string name="about_auth_2">Click on "authorize c:geo" button will start the process. This process will open up a web browser with Twitter page. Login on this page and allow <b>c:geo</b> to access your account. If accepted, Twitter will show up a numeric PIN code. This PIN must be pasted into <b>c:geo</b> and be confirmed. That\'s all.</string>
 </resources>
