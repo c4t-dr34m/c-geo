@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class cgeoabout extends Activity {
 	private Activity activity = null;
@@ -54,6 +56,8 @@ public class cgeoabout extends Activity {
 			base.setTitle(activity, res.getString(R.string.about) + " (ver. " + info.versionName + ")");
 
 			manager = null;
+
+			((TextView)findViewById(R.id.contributors)).setMovementMethod(LinkMovementMethod.getInstance());
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeoabout.init: Failed to obtain package version.");
 		}

@@ -147,14 +147,13 @@
 				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/about_contributors" />
 			</RelativeLayout>
-			<TextView
+			<TextView android:id="@+id/contributors"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_margin="7dip"
 					android:layout_gravity="left"
 					android:paddingLeft="3dip"
 					android:textSize="14dip"
-					android:autoLink="web"
 					android:linksClickable="true"
 					android:textColorLink="?text_color_link"
 					android:textColor="?text_color"
