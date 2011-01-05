@@ -541,6 +541,8 @@
 	<string name="changelog">\n
 <b>1.19</b> (__.01.2011)\n
 · fix: Portugese translation (by Ricardo)\n
+· fix: Trackable icon in caches list\n
+· fix: Cache D/T ratings in caches list\n
 \n
 <b>1.18</b> (03.01.2011)\n
 · fix: Cache distances\n
