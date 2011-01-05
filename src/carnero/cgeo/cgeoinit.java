@@ -168,7 +168,7 @@ public class cgeoinit extends Activity {
 		legalNote.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View arg0) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/about/disclaimer.aspx")));
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/about/termsofuse.aspx")));
 			}
 		});
 

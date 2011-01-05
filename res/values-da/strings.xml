@@ -332,7 +332,7 @@
   <string name="navigation">Navigation</string>
 
   <!-- next things -->
-  <string name="legal_note">For at benytte geocaching.com, skal betingelserne i <a href="http://www.geocaching.com/about/disclaimer.aspx">"Groundspeak disclaimer"</a> accepteres.</string>
+  <string name="legal_note">For at benytte geocaching.com, skal betingelserne i <a href="http://www.geocaching.com/about/termsofuse.aspx">"Groundspeak disclaimer"</a> accepteres.</string>
   <string name="about_text"><b>c:geo</b> er designet som en simpel altid-klar klient til geocaching.com. Det er, og vil altid være fri software (gratis). Ønsker du at støtte udviklingen, kan du donere et beløb (via hjemmesiden). Spørgsmål og forslag kan sendes via Facebook eller e-mail.</string>
   <string name="author">Udviklet af: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>

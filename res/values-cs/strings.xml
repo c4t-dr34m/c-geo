@@ -486,7 +486,7 @@
 	<string name="license_dismiss">zamítnutí</string>
 
 	<!-- next things -->
-	<string name="legal_note">Před používáním služeb serveru geocaching.com je potřeba souhlasit s <a href="http://www.geocaching.com/about/disclaimer.aspx">licenčním ujednáním Groundspeaku</a>.</string>
+	<string name="legal_note">Před používáním služeb serveru geocaching.com je potřeba souhlasit s <a href="http://www.geocaching.com/about/termsofuse.aspx">licenčním ujednáním Groundspeaku</a>.</string>
 	<string name="about_text">Cílem <b>c:geo</b> je dát Vám jednoduchého klienta pro geocaching.com, který bude vždy připraven k použití. <b>c:geo</b> je a vždy bude zdarma. Pokud chcete podpořit vývoj aplikace, můžete přispět libovolnou finanční částkou (pomocí odkazu na webu). Otázky? Návrhy? Použijte Facebook nebo pošlete e-mail.</string>
 	<string name="author">autor <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">podpora <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>

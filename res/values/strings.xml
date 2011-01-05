@@ -506,7 +506,7 @@
 	<string name="license_dismiss">Dismiss</string>
 
 	<!-- next things -->
-	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
+	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
 	<string name="about_text"><b>c:geo</b> is designed to be simple always ready-to-go client for geocaching.com. It is and forever will be for free. If you want to support development, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.</string>
 	<string name="author">Author: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
@@ -530,7 +530,7 @@
 · Pascal (localization NL)\n
 · Peter (localization HU)\n
 · Ray (code, localization JA)\n
-· Ricardo (localization PT)\n
+· <a href="http://seromenho.com/">Ricardo Seromenho</a> (localization PT)\n
 · serenity (localization FR)\n
 · Shan, a.k.a. ShakurNO (localization NO)\n
 · thiasB (code, localization DE EN)\n

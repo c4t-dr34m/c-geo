@@ -487,7 +487,7 @@
 	<string name="license_dismiss">Dismiss</string>
 
 	<!-- next things -->
-	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
+	<string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
 	<string name="about_text"><b>c:geo</b>はgeocaching.comのための簡単でいつでも使えるクライアントです。現在もこれからも無料です。開発を支援したいのならウェブサイトで寄付することができます。質問や提案があればFacebookかe-mailで知らせてください。</string>
 	<string name="author">Author: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>

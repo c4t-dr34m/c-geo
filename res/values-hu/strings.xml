@@ -332,7 +332,7 @@
 	<string name="navigation">Navigáció</string>
 
 	<!-- next things -->
-	<string name="legal_note">A geocaching.com szolgáltatásainak használatához, a <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak disclaimer</a> feltételeinek elfogadása szükséges.</string>
+	<string name="legal_note">A geocaching.com szolgáltatásainak használatához, a <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> feltételeinek elfogadása szükséges.</string>
 	<string name="about_text">A <b>c:geo</b> egy egyszerű, mindig kéznél levő kliens a geocaching.com-hoz. Most és a továbbiakban is ingyenes lesz. Ha szeretnéd támogatni a projectet, megteheted a weboldalon keresztül. Kérdésed vagy javaslatod van? Használd a Facebook-ot vagy írj emailt!</string>
 	<string name="author">Szerző: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Támogatás: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
