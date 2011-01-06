@@ -540,24 +540,25 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>1.19</b> (__.01.2011)\n
-· fix: Portugese translation (by Ricardo)\n
 · fix: Trackable icon in caches list\n
 · fix: Cache D/T ratings in caches list\n
+· update: Portugese translation\n
+· update: Czech translation\n
 \n
 <b>1.18</b> (03.01.2011)\n
 · fix: Cache distances\n
 \n
 <b>1.17</b> (03.01.2011)\n
 · fix: Cache info back in caches list (thanks to Sven)\n
-· update: Norwegian translation (by Shan)\n
-· update: Czech translation (by Viktor K.)\n
-· update: Japanese translation (by Ray)\n
-· update: Swedish translation (by YraFyra)\n
+· update: Norwegian translation\n
+· update: Czech translation\n
+· update: Japanese translation\n
+· update: Swedish translation\n
 \n
 <b>1.16</b> (22.12.2010)\n
 · fix: Adaptation for GC.com changes\n
-· fix: Localization fixes (by thiasB &amp; YraFyra)\n
-· new: Change actions for all TBs (by YraFyra)\n
+· fix: Localization fixes\n
+· new: Change actions for all TBs\n
 · removed: Some details from cache list (due to GC.com)\n
 \n
 <b>1.15</b> (12.12.2010)\n
@@ -566,7 +567,7 @@
 · new: Cache waypoints on Locus\n
 · changed: Support of new Locus\n
 · fix: Default action for trackables\n
-· fix: Many localization fixes (by thiasB &amp; YraFyra)\n
+· fix: Many localization fixes\n
 \n
 <b>1.14</b> (29.11.2010)\n
 · change: ActionBar not shown on small screens\n
@@ -575,14 +576,14 @@
 \n
 <b>1.13</b> (28.11.2010)\n
 · new: ActionBar\n
-· new: Swedish translation (by YraFyra)\n
-· new: Dutch translation (by Quidje)\n
-· new: Hungarian translation (by keep)\n
+· new: Swedish translation\n
+· new: Dutch translation\n
+· new: Hungarian translation\n
 · fix: Displaying inventory in cache list\n
 · fix: Ability to decrypt any log\n
 · fix: Default action for TBs when logging visit\n
 · change: GUI overhaul\n
-· change: English and german translation (by thiasB)\n
+· change: English and german translation\n
 \n
 <b>1.12</b> (20.11.2010)\n
 · fix: Code cleanup and optimization\n
