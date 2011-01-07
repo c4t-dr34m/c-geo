@@ -594,6 +594,7 @@ public class cgBase {
 			}
 
 			// cache rating
+			/* due to geocaching.com image encryption, this is not working
 			try {
 				final Matcher matcherRating = patternRating.matcher(row);
 				while (matcherRating.find()) {
@@ -609,6 +610,7 @@ public class cgBase {
 				// failed to parse rating
 				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache rating");
 			}
+			 */
 
 			// cache inventory
 			try {
