@@ -19,6 +19,7 @@ public class cgCacheView {
 	public ImageView ratingMark4;
 	public ImageView ratingMark5;
 	public TextView text;
+	public TextView favourite;
 	public TextView info;
 	public LinearLayout inventory;
 	public cgDistanceView distance;

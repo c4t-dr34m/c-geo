@@ -231,6 +231,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.distance = (cgDistanceView)rowView.findViewById(R.id.distance);
 			holder.direction = (cgCompassMini)rowView.findViewById(R.id.direction);
 			holder.inventory = (LinearLayout)rowView.findViewById(R.id.inventory);
+			holder.favourite = (TextView)rowView.findViewById(R.id.favourite);
 			holder.info = (TextView)rowView.findViewById(R.id.info);
 
 			rowView.setTag(holder);
@@ -359,6 +360,12 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.distance.clear();
 			holder.direction.setVisibility(View.GONE);
         }
+
+		if (cache.favouriteCnt != null) {
+			holder.favourite.setText(String.format("%d", cache.favouriteCnt));
+		} else {
+			holder.favourite.setText("---");
+		}
 
 		StringBuilder cacheInfo = new StringBuilder();
 		if (cache.geocode != null && cache.geocode.length() > 0) {

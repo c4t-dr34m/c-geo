@@ -38,6 +38,7 @@ public class cgCache {
 	public boolean found = false;
 	public boolean favourite = false;
 	public boolean own = false; // not saved; used for parsing live map json
+	public Integer favouriteCnt = null;
 	public Float rating = null;
 	public Integer votes = null;
 	public Integer vote = null;
@@ -154,6 +155,9 @@ public class cgCache {
 		}
 		if (description == null || description.length() == 0) {
 			description = oldCache.description;
+		}
+		if (favouriteCnt == null) {
+			favouriteCnt = oldCache.favouriteCnt;
 		}
 		if (rating == null) {
 			rating = oldCache.rating;

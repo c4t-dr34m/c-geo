@@ -27,6 +27,7 @@
 		<item name="button">@drawable/action_button_dark</item>
 		<item name="input">@drawable/input_bcg_dark</item>
 		<item name="inventory">@drawable/inventory_background_dark</item>
+		<item name="favourite">@drawable/favourite_background_dark</item>
 		<item name="close">@drawable/map_close_dark</item>
 
 		<!-- own values: other -->
@@ -54,6 +55,7 @@
 		<item name="button">@drawable/action_button_light</item>
 		<item name="input">@drawable/input_bcg_light</item>
 		<item name="inventory">@drawable/inventory_background_light</item>
+		<item name="favourite">@drawable/favourite_background_light</item>
 		<item name="close">@drawable/map_close_light</item>
 
 		<!-- own values: other -->

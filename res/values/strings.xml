@@ -383,6 +383,7 @@
 	<string name="cache_difficulty">Difficulty</string>
 	<string name="cache_terrain">Terrain</string>
 	<string name="cache_rating">Rating</string>
+	<string name="cache_favourite">Favorite</string>
 	<string name="cache_owner">Owner</string>
 	<string name="cache_hidden">Hidden</string>
 	<string name="cache_event">Date</string>

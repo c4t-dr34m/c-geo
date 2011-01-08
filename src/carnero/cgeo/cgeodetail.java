@@ -663,6 +663,17 @@ public class cgeodetail extends Activity {
 
 			itemStars = null;
 
+			// favourite count
+			if (cache.favouriteCnt != null) {
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
+				itemName = (TextView) itemLayout.findViewById(R.id.name);
+				itemValue = (TextView) itemLayout.findViewById(R.id.value);
+
+				itemName.setText(res.getString(R.string.cache_favourite));
+				itemValue.setText(String.format("%d", cache.favouriteCnt) + "×");
+				detailsList.addView(itemLayout);
+			}
+
 			// cache author
 			if (cache.owner != null && cache.owner.length() > 0) {
 				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);

@@ -45,7 +45,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.math.BigInteger;
-import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -469,6 +468,7 @@ public class cgBase {
 		// final Pattern patternRating = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDTCacheTypeImage\" src=\"[^\"]*/seek/CacheInfo\\.ashx\\?v=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCode = Pattern.compile("\\((GC[a-z0-9]+)\\)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternId = Pattern.compile("name=\"CID\"[^v]*value=\"([0-9]+)\"", Pattern.CASE_INSENSITIVE);
+		final Pattern patternFavourite = Pattern.compile("<span id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxFavoritesValue\" title=\"[^\"]*\" class=\"favorite-rank\">([0-9]+)</span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTotalCnt = Pattern.compile("<td class=\"PageBuilderWidget\"><span>Total Records[^<]*<b>(\\d+)<\\/b>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternRecaptcha = Pattern.compile("<script[^>]*src=\"[^\"]*/recaptcha/api/challenge\\?k=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternRecaptchaChallenge = Pattern.compile("challenge : '([^']+)'", Pattern.CASE_INSENSITIVE);
@@ -710,6 +710,19 @@ public class cgBase {
 			} catch (Exception e) {
 				// failed to parse cache id
 				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache id");
+			}
+
+			// favourite count
+			try {
+				final Matcher matcherFavourite = patternFavourite.matcher(row);
+				while (matcherFavourite.find()) {
+					if (matcherFavourite.groupCount() > 0) {
+						cache.favouriteCnt = Integer.parseInt(matcherFavourite.group(1));
+					}
+				}
+			} catch (Exception e) {
+				// failed to parse favourite count
+				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse favourite count");
 			}
 
 			if (cache.nameSp == null) {
@@ -1009,6 +1022,7 @@ public class cgBase {
 		final Pattern patternOwner = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*An?([^\\w]*Event)?[^\\w]*cache[^<]*<\\/strong>[^\\w]*by[^<]*<a href=\"[^\"]+\">([^<]+)<\\/a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHidden = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Hidden[^:]*:[^<]*</strong>[^\\d]*((\\d+)\\/(\\d+)\\/(\\d+))[^<]*</td>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHiddenEvent = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Event[^\\w]*date[^:]*:[^<]*</strong>[^\\w]*[a-zA-Z]+,[^\\d]*((\\d+)[^\\w]*(\\w+)[^\\d]*(\\d+))[^<]*<div", Pattern.CASE_INSENSITIVE);
+		final Pattern patternFavourite = Pattern.compile("<div class=\"favorite-container\">[^<]*<span class=\"favorite-value\">[^\\w]*([0-9]+)[^<]*</span>[^<]*<br />[^<]+</div>", Pattern.CASE_INSENSITIVE);
 
 		final Pattern patternFound = Pattern.compile("<p>[^<]*<a id=\"ctl00_ContentBody_hlFoundItLog\"[^<]*<img src=\".*/images/stockholm/16x16/check\\.gif\"[^>]*>[^<]+</a>[^<]+</p>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLatLon = Pattern.compile("<span id=\"ctl00_ContentBody_LatLon\"[^>]*>(<b>)?([^<]*)(<\\/b>)?<\\/span>", Pattern.CASE_INSENSITIVE);
@@ -1215,6 +1229,19 @@ public class cgBase {
 					// failed to parse cache event date
 					Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache event date");
 				}
+			}
+
+			// favourite
+			try {
+				final Matcher matcherFavourite = patternFavourite.matcher(tableInside);
+				while (matcherFavourite.find()) {
+					if (matcherFavourite.groupCount() > 0) {
+						cache.favouriteCnt = Integer.parseInt(matcherFavourite.group(1));
+					}
+				}
+			} catch (Exception e) {
+				// failed to parse favourite count
+				Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse favourite count");
 			}
 
 			// cache size

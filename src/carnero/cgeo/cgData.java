@@ -20,6 +20,7 @@ import java.util.Locale;
  * 041: cache rating
  * 042: table for offline logs (notes)
  * 043: direction in double
+ * 044: favourite from GC.com
  */
 public class cgData {
 
@@ -28,7 +29,7 @@ public class cgData {
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-	private static final int dbVersion = 43;
+	private static final int dbVersion = 44;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -66,6 +67,7 @@ public class cgData {
 			+ "longitude double, "
 			+ "shortdesc text, "
 			+ "description text, "
+			+ "favourite_cnt integer, "
 			+ "rating float, "
 			+ "votes integer, "
 			+ "vote integer, "
@@ -431,6 +433,16 @@ public class cgData {
 							db.endTransaction();
 						}
 					}
+
+					if (oldVersion < 44) { // upgrade to 44
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column favourite_cnt integer");
+
+							Log.i(cgSettings.tag, "Column favourite_cnt added to " + dbTableCaches + ".");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 44: " + e.toString());
+						}
+					}
 				}
 
 				db.setTransactionSuccessful();
@@ -766,6 +778,7 @@ public class cgData {
 		values.put("longitude", cache.longitude);
 		values.put("shortdesc", cache.shortdesc);
 		values.put("description", cache.description);
+		values.put("favourite_cnt", cache.favouriteCnt);
 		values.put("rating", cache.rating);
 		values.put("votes", cache.votes);
 		values.put("vote", cache.vote);
@@ -1173,7 +1186,7 @@ public class cgData {
 						new String[]{
 							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
 							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
-							"description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
 						},
 						"geocode in (" + all.toString() + ")",
@@ -1198,7 +1211,7 @@ public class cgData {
 						new String[]{
 							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
 							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
-							"description", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
 						},
 						"guid in (" + all.toString() + ")",
@@ -1270,6 +1283,7 @@ public class cgData {
 						}
 						cache.shortdesc = (String) cursor.getString(cursor.getColumnIndex("shortdesc"));
 						cache.description = (String) cursor.getString(cursor.getColumnIndex("description"));
+						cache.favouriteCnt = (Integer) cursor.getInt(cursor.getColumnIndex("favourite_cnt"));
 						cache.rating = (Float) cursor.getFloat(cursor.getColumnIndex("rating"));
 						cache.votes = (Integer) cursor.getInt(cursor.getColumnIndex("votes"));
 						cache.vote = (Integer) cursor.getInt(cursor.getColumnIndex("vote"));
