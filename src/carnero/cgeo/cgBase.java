@@ -782,10 +782,9 @@ public class cgBase {
 					params.append(urlencode_rfc3986(recaptchaText));
 				}
 				params.append("&");
-				params.append("Download=Download+Waypoints");
+				params.append("ctl00%24ContentBody%24uxDownloadLoc=Download+Waypoints");
 
 				final String coordinates = request(host, path, "POST", params.toString(), 0, true);
-				Log.d(cgSettings.tag, ">" + coordinates);
 
 				if (coordinates != null && coordinates.length() > 0) {
 					if (coordinates.indexOf("You have not agreed to the license agreement. The license agreement is required before you can start downloading GPX or LOC files from Geocaching.com") > -1) {

@@ -542,6 +542,7 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>1.19</b> (__.01.2011)\n
+· new: Ability to fill waypoint CAPTCHA\n
 · fix: Trackable icon in caches list\n
 · fix: Cache D/T ratings in caches list\n
 · update: Portugese translation\n
