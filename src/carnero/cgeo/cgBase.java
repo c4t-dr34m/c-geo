@@ -733,9 +733,12 @@ public class cgBase {
 					final Pattern patternCidCode = Pattern.compile("name id=\"([^\"]+)\"");
 					final Pattern patternCidLat = Pattern.compile("lat=\"([^\"]+)\"");
 					final Pattern patternCidLon = Pattern.compile("lon=\"([^\"]+)\"");
+					// premium only >>
 					final Pattern patternCidDif = Pattern.compile("<difficulty>([^<]+)</difficulty>");
 					final Pattern patternCidTer = Pattern.compile("<terrain>([^<]+)</terrain>");
 					final Pattern patternCidCon = Pattern.compile("<container>([^<]+)</container>");
+					// >> premium only
+					
 					final String[] points = coordinates.split("<waypoint>");
 
 					// parse coordinates
@@ -777,6 +780,8 @@ public class cgBase {
 								pointCoord.size = "regular";
 							} else if (size == 4) {
 								pointCoord.size = "large";
+							} else if (size == 5) {
+								pointCoord.size = "virtual";
 							} else if (size == 6) {
 								pointCoord.size = "other";
 							} else if (size == 8) {

@@ -1239,8 +1239,18 @@ public class cgData {
 						cache.hint = (String) cursor.getString(cursor.getColumnIndex("hint"));
 						cache.size = (String) cursor.getString(cursor.getColumnIndex("size"));
 						cache.difficulty = (Float) cursor.getFloat(cursor.getColumnIndex("difficulty"));
-						cache.direction = (Double) cursor.getDouble(cursor.getColumnIndex("direction"));
-						cache.distance = (Double) cursor.getDouble(cursor.getColumnIndex("distance"));
+						index = cursor.getColumnIndex("direction");
+						if (cursor.isNull(index) == true) {
+							cache.direction = null;
+						} else {
+							cache.direction = (Double) cursor.getDouble(index);
+						}
+						index = cursor.getColumnIndex("distance");
+						if (cursor.isNull(index) == true) {
+							cache.distance = null;
+						} else {
+							cache.distance = (Double) cursor.getDouble(index);
+						}
 						cache.terrain = (Float) cursor.getFloat(cursor.getColumnIndex("terrain"));
 						cache.latlon = (String) cursor.getString(cursor.getColumnIndex("latlon"));
 						cache.latitudeString = (String) cursor.getString(cursor.getColumnIndex("latitude_string"));
