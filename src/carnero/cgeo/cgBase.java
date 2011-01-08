@@ -733,9 +733,9 @@ public class cgBase {
 					final Pattern patternCidCode = Pattern.compile("name id=\"([^\"]+)\"");
 					final Pattern patternCidLat = Pattern.compile("lat=\"([^\"]+)\"");
 					final Pattern patternCidLon = Pattern.compile("lon=\"([^\"]+)\"");
-					final Pattern patternCidDif = Pattern.compile("difficulty=\"([^\"]+)\"");
-					final Pattern patternCidTer = Pattern.compile("terrain=\"([^\"]+)\"");
-					final Pattern patternCidCon = Pattern.compile("container=\"([^\"]+)\"");
+					final Pattern patternCidDif = Pattern.compile("<difficulty>([^<]+)</difficulty>");
+					final Pattern patternCidTer = Pattern.compile("<terrain>([^<]+)</terrain>");
+					final Pattern patternCidCon = Pattern.compile("<container>([^<]+)</container>");
 					final String[] points = coordinates.split("<waypoint>");
 
 					// parse coordinates
