@@ -572,6 +572,7 @@ public class cgBase {
 			}
 
 			// cache direction
+			/* due to geocaching.com image encryption, this is not working
 			try {
 				final Matcher matcherDirection = patternDirection.matcher(row);
 				while (matcherDirection.find()) {
@@ -592,6 +593,7 @@ public class cgBase {
 				// failed to parse direction
 				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache direction");
 			}
+			*/
 
 			// cache rating
 			/* due to geocaching.com image encryption, this is not working

@@ -154,7 +154,7 @@
 	<string name="err_tb_find">c:geo findet nicht den Trackable</string>
 	<string name="err_tb_find_that">c:geo konnte diesen Trackable nicht finden.</string>
 
-	<string name="err_waypoint_cache_unknown">c:geo weiß nicht, zu welchem Cache der Wegpunkt hinzugefügt werden soll.</sting>
+	<string name="err_waypoint_cache_unknown">c:geo weiß nicht, zu welchem Cache der Wegpunkt hinzugefügt werden soll.</string>
 	<string name="err_waypoint_unknown">c:geo hat vergessen, welchen Wegpunkt du ansehen wolltest.</string>
 	<string name="err_waypoint_add_failed">c:geo konnte den Wegpunkt nicht hinzufügen.</string>
 	<string name="err_waypoint_load_failed">c:geo konnte den Wegpunkt nicht laden.</string>
