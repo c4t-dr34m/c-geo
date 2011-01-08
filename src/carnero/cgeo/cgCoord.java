@@ -10,6 +10,9 @@ public class cgCoord {
 	public boolean disabled = false;
 	public Double latitude = new Double(0);
 	public Double longitude = new Double(0);
+	public Float difficulty = null;
+	public Float terrain = null;
+	public String size = null;
 
     public cgCoord() {
 
@@ -24,6 +27,9 @@ public class cgCoord {
         name = cache.name;
         type = "cache";
         typeSpec = cache.type;
+		difficulty = cache.difficulty;
+		terrain = cache.terrain;
+		size = cache.size;
     }
 
     public cgCoord(cgWaypoint waypoint) {

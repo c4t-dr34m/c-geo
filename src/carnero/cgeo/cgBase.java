@@ -463,9 +463,8 @@ public class cgBase {
 		final Pattern patternGuidAndDisabled = Pattern.compile("<img src=\"[^\"]*/wpttypes/sm/[^>]*>[^<]*</a>[^<]*<a href=\"[^\"]*/seek/cache_details\\.aspx\\?guid=([a-z0-9\\-]+)\" class=\"lnk ?([^<\"]*)\">(<span>)?([^<]*)(</span>)?</a>[^<]+<br />([^<]+)(<img[^>]*>)?([^<]*)</td>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 		final Pattern patternTbs = Pattern.compile("<a id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxTravelBugList\" class=\"tblist\" data-tbcount=\"([0-9]+)\" data-id=\"[^\"]*\"[^>]*>(.*)</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTbsInside = Pattern.compile("(<img src=\"[^\"]+\" alt=\"([^\"]+)\" title=\"[^\"]*\" />[^<]*)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-		final Pattern patternDirection = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDistanceAndHeading\" title=\"[^\"]*\" src=\"[^\"]*/seek/CacheDir\\.ashx\\?k=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternRating = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDTCacheTypeImage\" src=\"[^\"]*/seek/CacheInfo\\.ashx\\?v=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternCacheDiffAndSize = Pattern.compile("\\(([0-9\\.\\,]+)/([0-9\\.\\,]+)\\)<br[^>]*>[^<]*<img src=\".*\\/icons\\/container\\/[a-z_]+.gif\" alt=\"Size: ([^\"]+)\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+		// final Pattern patternDirection = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDistanceAndHeading\" title=\"[^\"]*\" src=\"[^\"]*/seek/CacheDir\\.ashx\\?k=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
+		// final Pattern patternRating = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDTCacheTypeImage\" src=\"[^\"]*/seek/CacheInfo\\.ashx\\?v=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCode = Pattern.compile("\\((GC[a-z0-9]+)\\)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternId = Pattern.compile("name=\"CID\"[^v]*value=\"([0-9]+)\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTotalCnt = Pattern.compile("<td class=\"PageBuilderWidget\"><span>Total Records[^<]*<b>(\\d+)<\\/b>", Pattern.CASE_INSENSITIVE);
@@ -649,21 +648,6 @@ public class cgBase {
 				}
 			}
 
-			// cache size, difficulty and terrain
-			try {
-				final Matcher matcherCacheDiffSize = patternCacheDiffAndSize.matcher(row);
-				while (matcherCacheDiffSize.find()) {
-					if (matcherCacheDiffSize.groupCount() > 0) {
-						cache.difficulty = new Float(matcherCacheDiffSize.group(1));
-						cache.terrain = new Float(matcherCacheDiffSize.group(2));
-						cache.size = matcherCacheDiffSize.group(3).toLowerCase();
-					}
-				}
-			} catch (Exception e) {
-				// failed to parse size
-				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache size, difficulty or terrain");
-			}
-
 			// premium cache
 			if (row.indexOf("images/small_profile.gif") != -1) {
 				cache.members = true;
@@ -749,6 +733,9 @@ public class cgBase {
 					final Pattern patternCidCode = Pattern.compile("name id=\"([^\"]+)\"");
 					final Pattern patternCidLat = Pattern.compile("lat=\"([^\"]+)\"");
 					final Pattern patternCidLon = Pattern.compile("lon=\"([^\"]+)\"");
+					final Pattern patternCidDif = Pattern.compile("difficulty=\"([^\"]+)\"");
+					final Pattern patternCidTer = Pattern.compile("terrain=\"([^\"]+)\"");
+					final Pattern patternCidCon = Pattern.compile("container=\"([^\"]+)\"");
 					final String[] points = coordinates.split("<waypoint>");
 
 					// parse coordinates
@@ -757,6 +744,9 @@ public class cgBase {
 						final Matcher matcherCidCode = patternCidCode.matcher(point);
 						final Matcher matcherLatCode = patternCidLat.matcher(point);
 						final Matcher matcherLonCode = patternCidLon.matcher(point);
+						final Matcher matcherDifCode = patternCidDif.matcher(point);
+						final Matcher matcherTerCode = patternCidTer.matcher(point);
+						final Matcher matcherConCode = patternCidCon.matcher(point);
 						HashMap tmp = null;
 
 						if (matcherCidCode.find() == true) {
@@ -770,6 +760,33 @@ public class cgBase {
 							tmp = parseCoordinate(matcherLonCode.group(1), "lon");
 							pointCoord.longitude = (Double) tmp.get("coordinate");
 						}
+						if (matcherDifCode.find() == true) {
+							pointCoord.difficulty = new Float(matcherDifCode.group(1));
+						}
+						if (matcherTerCode.find() == true) {
+							pointCoord.terrain = new Float(matcherTerCode.group(1));
+						}
+						if (matcherConCode.find() == true) {
+							final int size = Integer.parseInt(matcherConCode.group(1));
+
+							if (size == 0) {
+								pointCoord.size = "not chosen";
+							} else if (size == 1) {
+								pointCoord.size = "micro";
+							} else if (size == 3) {
+								pointCoord.size = "regular";
+							} else if (size == 5) {
+								pointCoord.size = "large";
+							} else if (size == 7) {
+								pointCoord.size = "virtual";
+							} else if (size == 8) {
+								pointCoord.size = "unknown";
+							} else if (size == 12) {
+								pointCoord.size = "small";
+							} else {
+								pointCoord.size = "unknown";
+							}
+						}
 
 						cidCoords.put(pointCoord.name, pointCoord);
 					}
@@ -781,6 +798,9 @@ public class cgBase {
 
 							oneCache.latitude = thisCoords.latitude;
 							oneCache.longitude = thisCoords.longitude;
+							oneCache.difficulty = thisCoords.difficulty;
+							oneCache.terrain = thisCoords.terrain;
+							oneCache.size = thisCoords.size;
 						}
 					}
 				}
