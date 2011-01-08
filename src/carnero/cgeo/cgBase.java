@@ -769,19 +769,17 @@ public class cgBase {
 						if (matcherConCode.find() == true) {
 							final int size = Integer.parseInt(matcherConCode.group(1));
 
-							if (size == 0) {
+							if (size == 1) {
 								pointCoord.size = "not chosen";
-							} else if (size == 1) {
+							} else if (size == 2) {
 								pointCoord.size = "micro";
 							} else if (size == 3) {
 								pointCoord.size = "regular";
-							} else if (size == 5) {
+							} else if (size == 4) {
 								pointCoord.size = "large";
-							} else if (size == 7) {
-								pointCoord.size = "virtual";
+							} else if (size == 6) {
+								pointCoord.size = "other";
 							} else if (size == 8) {
-								pointCoord.size = "unknown";
-							} else if (size == 12) {
 								pointCoord.size = "small";
 							} else {
 								pointCoord.size = "unknown";
