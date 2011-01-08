@@ -66,7 +66,6 @@ public class cgeocaches extends ListActivity {
 	private Long detailProgressTime = 0l;
 	private geocachesLoadDetails threadD = null;
 	private geocachesDropDetails threadR = null;
-	private boolean offline = false;
 
 	private Handler loadCachesHandler = new Handler() {
 		@Override
@@ -347,41 +346,53 @@ public class cgeocaches extends ListActivity {
 		if (cachetype != null && base.cacheTypesInv.containsKey(cachetype) == true) typeText = "\n" + res.getString(R.string.type) + ": " + base.cacheTypesInv.get(cachetype);
 		else typeText = "\n" + res.getString(R.string.type) + ": " + res.getString(R.string.all_types);
 
-		Thread thread;
-		if (type.equals("nearest")) {
+		Thread threadPure;
+		cgSearchThread thread;
+
+		if (type.equals("offline")) {
+			title = res.getString(R.string.caches_stored);
+			base.setTitle(activity, title);
+			base.showProgress(activity, true);
+
+			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_progress_loading_title), res.getString(R.string.caches_progress_loading_text), true);
+			waitDialog.setCancelable(true);
+
+			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
+			threadPure.start();
+		} else if (type.equals("nearest")) {
 			action = "pending";
 			title = res.getString(R.string.caches_nearby);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+
 			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_searching), res.getString(R.string.caches_nearby) + typeText, true);
 			waitDialog.setCancelable(true);
+
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
-			thread.start();
-		} else if (type.equals("offline")) {
-			title = res.getString(R.string.caches_stored);
-			offline = true;
-			base.setTitle(activity, title);
-			base.showProgress(activity, true);
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_progress_loading_title), res.getString(R.string.caches_progress_loading_text), true);
-			waitDialog.setCancelable(true);
-			thread = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
+			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("coordinate")) {
 			action = "planning";
 			title = base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+
 			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + "\n" + base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true) + typeText, true);
 			waitDialog.setCancelable(true);
+
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
+			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("keyword")) {
 			title = keyword;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+
 			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_kw_caches) + ": " + keyword + typeText, true);
 			waitDialog.setCancelable(true);
+
 			thread = new geocachesLoadByKeyword(loadCachesHandler,  keyword, cachetype);
+			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("address")) {
 			action = "planning";
@@ -389,31 +400,42 @@ public class cgeocaches extends ListActivity {
 				title = address;
 				base.setTitle(activity, title);
 				base.showProgress(activity, true);
+
 				waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + " " + address + typeText, true);
 			} else {
 				title = base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true);
 				base.setTitle(activity, title);
 				base.showProgress(activity, true);
+
 				waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true) + typeText, true);
 			}
+
 			waitDialog.setCancelable(true);
+
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
+			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("username")) {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+
 			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_found_by) + ": " + username + typeText, true);
 			waitDialog.setCancelable(true);
+
 			thread = new geocachesLoadByUserName(loadCachesHandler,  username, cachetype);
+			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("owner")) {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+
 			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_hidden_by) + ": " + username + typeText, true);
 			waitDialog.setCancelable(true);
+
 			thread = new geocachesLoadByOwner(loadCachesHandler,  username, cachetype);
+			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else {
 			title = "caches";
@@ -1064,21 +1086,6 @@ public class cgeocaches extends ListActivity {
 		}
 	}
 
-	private class geocachesLoadNextPage extends Thread {
-		private Handler handler = null;
-
-		public geocachesLoadNextPage(Handler handlerIn) {
-			handler = handlerIn;
-		}
-
-		@Override
-		public void run() {
-			searchId = base.searchByNextPage(searchId, 0);
-
-			handler.sendMessage(new Message());
-		}
-	}
-
 	private class geocachesLoadByOffline extends Thread {
 		private Handler handler = null;
 		private Double latitude = null;
@@ -1105,7 +1112,22 @@ public class cgeocaches extends ListActivity {
 		}
 	}
 
-	private class geocachesLoadByCoords extends Thread {
+	private class geocachesLoadNextPage extends cgSearchThread {
+		private Handler handler = null;
+
+		public geocachesLoadNextPage(Handler handlerIn) {
+			handler = handlerIn;
+		}
+
+		@Override
+		public void run() {
+			searchId = base.searchByNextPage(this, searchId, 0);
+
+			handler.sendMessage(new Message());
+		}
+	}
+
+	private class geocachesLoadByCoords extends cgSearchThread {
 		private Handler handler = null;
 		private Double latitude = null;
 		private Double longitude = null;
@@ -1134,13 +1156,13 @@ public class cgeocaches extends ListActivity {
 			params.put("longitude", String.format((Locale)null, "%.6f", longitude));
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByCoords(params, 0);
+			searchId = base.searchByCoords(this, params, 0);
 
 			handler.sendMessage(new Message());
 		}
 	}
 
-	private class geocachesLoadByKeyword extends Thread {
+	private class geocachesLoadByKeyword extends cgSearchThread {
 		private Handler handler = null;
 		private String keyword = null;
 		private String cachetype = null;
@@ -1166,13 +1188,13 @@ public class cgeocaches extends ListActivity {
 			params.put("keyword", keyword);
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByKeyword(params, 0);
+			searchId = base.searchByKeyword(this, params, 0);
 
 			handler.sendMessage(new Message());
 		}
 	}
 
-	private class geocachesLoadByUserName extends Thread {
+	private class geocachesLoadByUserName extends cgSearchThread {
 		private Handler handler = null;
 		private String username = null;
 		private String cachetype = null;
@@ -1198,13 +1220,13 @@ public class cgeocaches extends ListActivity {
 			params.put("username", username);
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByUsername(params, 0);
+			searchId = base.searchByUsername(this, params, 0);
 
 			handler.sendMessage(new Message());
 		}
 	}
 
-	private class geocachesLoadByOwner extends Thread {
+	private class geocachesLoadByOwner extends cgSearchThread {
 		private Handler handler = null;
 		private String username = null;
 		private String cachetype = null;
@@ -1230,7 +1252,7 @@ public class cgeocaches extends ListActivity {
 			params.put("username", username);
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByOwner(params, 0);
+			searchId = base.searchByOwner(this, params, 0);
 
 			handler.sendMessage(new Message());
 		}
@@ -1365,6 +1387,7 @@ public class cgeocaches extends ListActivity {
 
 			geocachesLoadNextPage thread;
 			thread = new geocachesLoadNextPage(loadNextPageHandler);
+			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		}
 	}
