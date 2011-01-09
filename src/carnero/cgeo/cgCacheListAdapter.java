@@ -329,7 +329,6 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		boolean setDiDi = false;
-
 		if (cache.latitude != null && cache.longitude != null) {
 			holder.direction.setVisibility(View.VISIBLE);
 			holder.direction.updateAzimuth(azimuth);
@@ -353,6 +352,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		if (setDiDi == true) {
 			holder.directionLayout.setVisibility(View.VISIBLE);
+			holder.dirImgLayout.setVisibility(View.GONE);
 		} else {
 			holder.directionLayout.setVisibility(View.GONE);
 			holder.distance.clear();
