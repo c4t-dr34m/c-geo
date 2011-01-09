@@ -49,8 +49,10 @@ public class cgCache {
 	public ArrayList<cgLog> logs = new ArrayList<cgLog>();
 	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
 	public boolean logOffline = false;
+	// temporary values
 	public boolean statusChecked = false;
 	public boolean statusCheckedView = false;
+	public String directionImg = null;
 
 	public cgCache merge(cgData storage) {
 		boolean loadA = true;

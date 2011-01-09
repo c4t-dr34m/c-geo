@@ -464,7 +464,7 @@ public class cgBase {
 		final Pattern patternGuidAndDisabled = Pattern.compile("<img src=\"[^\"]*/wpttypes/sm/[^>]*>[^<]*</a>[^<]*<a href=\"[^\"]*/seek/cache_details\\.aspx\\?guid=([a-z0-9\\-]+)\" class=\"lnk ?([^<\"]*)\">(<span>)?([^<]*)(</span>)?</a>[^<]+<br />([^<]+)(<img[^>]*>)?([^<]*)</td>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 		final Pattern patternTbs = Pattern.compile("<a id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxTravelBugList\" class=\"tblist\" data-tbcount=\"([0-9]+)\" data-id=\"[^\"]*\"[^>]*>(.*)</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTbsInside = Pattern.compile("(<img src=\"[^\"]+\" alt=\"([^\"]+)\" title=\"[^\"]*\" />[^<]*)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-		// final Pattern patternDirection = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDistanceAndHeading\" title=\"[^\"]*\" src=\"[^\"]*/seek/CacheDir\\.ashx\\?k=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternDirection = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDistanceAndHeading\" title=\"[^\"]*\" src=\"[^\"]*/seek/CacheDir\\.ashx\\?k=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		// final Pattern patternRating = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDTCacheTypeImage\" src=\"[^\"]*/seek/CacheInfo\\.ashx\\?v=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCode = Pattern.compile("\\((GC[a-z0-9]+)\\)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternId = Pattern.compile("name=\"CID\"[^v]*value=\"([0-9]+)\"", Pattern.CASE_INSENSITIVE);
@@ -650,6 +650,19 @@ public class cgBase {
 				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache rating");
 			}
 			 */
+
+			// cache direction - image
+			try {
+				final Matcher matcherDirection = patternDirection.matcher(row);
+				while (matcherDirection.find()) {
+					if (matcherDirection.groupCount() > 0) {
+						cache.directionImg = matcherDirection.group(1);
+					}
+				}
+			} catch (Exception e) {
+				// failed to parse direction image
+				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache direction image");
+			}
 
 			// cache inventory
 			try {
@@ -897,6 +910,16 @@ public class cgBase {
 			}
 		}
 
+		// get direction images
+		cgDirectionImg dirImgDownloader = new cgDirectionImg(settings);
+		for (cgCache oneCache : caches.cacheList) {
+			if (oneCache.latitude == null && oneCache.longitude == null && oneCache.direction == null && oneCache.directionImg != null) {
+				dirImgDownloader.getDrawable(oneCache.geocode, oneCache.directionImg);
+			}
+		}
+		dirImgDownloader = null;
+
+		// get ratings
 		if (guids.size() > 0) {
 			Log.i(cgSettings.tag, "Trying to get ratings for " + cids.size() + " caches");
 

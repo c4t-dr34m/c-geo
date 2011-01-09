@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -25,7 +27,6 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -48,6 +49,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private HashMap<String, Drawable> gcIcons = new HashMap<String, Drawable>();
 	private ArrayList<cgCompassMini> compasses = new ArrayList<cgCompassMini>();
 	private ArrayList<cgDistanceView> distances = new ArrayList<cgDistanceView>();
+	private int[] ratingBcgs = new int[3];
 	private float pixelDensity = 1f;
 	private static final int SWIPE_MIN_DISTANCE = 100;
 	private static final int SWIPE_MAX_OFF_PATH = 200;
@@ -81,6 +83,16 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			gcIcons.put("webcam", (Drawable)activity.getResources().getDrawable(R.drawable.type_webcam));
 			gcIcons.put("wherigo", (Drawable)activity.getResources().getDrawable(R.drawable.type_wherigo));
 			gcIcons.put("mystery", (Drawable)activity.getResources().getDrawable(R.drawable.type_mystery));
+		}
+
+		if (settings.skin == 0) {
+			ratingBcgs[0] = R.drawable.favourite_background_red_dark;
+			ratingBcgs[1] = R.drawable.favourite_background_orange_dark;
+			ratingBcgs[2] = R.drawable.favourite_background_green_dark;
+		} else {
+			ratingBcgs[0] = R.drawable.favourite_background_red_light;
+			ratingBcgs[1] = R.drawable.favourite_background_orange_light;
+			ratingBcgs[2] = R.drawable.favourite_background_green_light;
 		}
 	}
 
@@ -221,16 +233,14 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.oneInfo = (RelativeLayout)rowView.findViewById(R.id.one_info);
 			holder.foundMark = (ImageView)rowView.findViewById(R.id.found_mark);
 			holder.offlineMark = (ImageView)rowView.findViewById(R.id.offline_mark);
-			holder.ratingMark1 = (ImageView)rowView.findViewById(R.id.rating_mark_1);
-			holder.ratingMark2 = (ImageView)rowView.findViewById(R.id.rating_mark_2);
-			holder.ratingMark3 = (ImageView)rowView.findViewById(R.id.rating_mark_3);
-			holder.ratingMark4 = (ImageView)rowView.findViewById(R.id.rating_mark_4);
-			holder.ratingMark5 = (ImageView)rowView.findViewById(R.id.rating_mark_5);
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
 			holder.text = (TextView)rowView.findViewById(R.id.text);
+			holder.directionLayout = (RelativeLayout)rowView.findViewById(R.id.direction_layout);
 			holder.distance = (cgDistanceView)rowView.findViewById(R.id.distance);
 			holder.direction = (cgCompassMini)rowView.findViewById(R.id.direction);
-			holder.inventory = (LinearLayout)rowView.findViewById(R.id.inventory);
+			holder.dirImgLayout = (RelativeLayout)rowView.findViewById(R.id.dirimg_layout);
+			holder.dirImg = (ImageView)rowView.findViewById(R.id.dirimg);
+			holder.inventory = (RelativeLayout)rowView.findViewById(R.id.inventory);
 			holder.favourite = (TextView)rowView.findViewById(R.id.favourite);
 			holder.info = (TextView)rowView.findViewById(R.id.info);
 
@@ -289,26 +299,6 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.foundMark.setVisibility(View.GONE);
 		}
 
-		holder.ratingMark1.setVisibility(View.GONE);
-		holder.ratingMark2.setVisibility(View.GONE);
-		holder.ratingMark3.setVisibility(View.GONE);
-		holder.ratingMark4.setVisibility(View.GONE);
-		holder.ratingMark5.setVisibility(View.GONE);
-
-		if (cache.vote != null && cache.vote > 0) {
-			if (cache.vote > 0) holder.ratingMark1.setVisibility(View.VISIBLE);
-			else if (cache.vote > 1) holder.ratingMark2.setVisibility(View.VISIBLE);
-			else if (cache.vote > 2) holder.ratingMark3.setVisibility(View.VISIBLE);
-			else if (cache.vote > 3) holder.ratingMark4.setVisibility(View.VISIBLE);
-			else if (cache.vote > 4) holder.ratingMark5.setVisibility(View.VISIBLE);
-		} else if (cache.rating != null && cache.rating > 0) {
-			if (cache.rating > 0.0) holder.ratingMark1.setVisibility(View.VISIBLE);
-			if (cache.rating >= 1.5) holder.ratingMark2.setVisibility(View.VISIBLE);
-			if (cache.rating >= 2.5) holder.ratingMark3.setVisibility(View.VISIBLE);
-			if (cache.rating >= 3.5) holder.ratingMark4.setVisibility(View.VISIBLE);
-			if (cache.rating >= 4.5) holder.ratingMark5.setVisibility(View.VISIBLE);
-		}
-
 		if (cache.nameSp == null) {
 			cache.nameSp = (new Spannable.Factory()).newSpannable(cache.name);
 			if (cache.disabled == true || cache.archived == true) { // strike
@@ -331,6 +321,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		if (cache.inventoryItems > 0) {
 			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_all);
+			
 			holder.inventory.addView(tbIcon);
 			holder.inventory.setVisibility(View.VISIBLE);
 		} else {
@@ -338,6 +329,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		boolean setDiDi = false;
+
 		if (cache.latitude != null && cache.longitude != null) {
 			holder.direction.setVisibility(View.VISIBLE);
 			holder.direction.updateAzimuth(azimuth);
@@ -359,15 +351,54 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			}
 		}
 
-		if (setDiDi == false) {
+		if (setDiDi == true) {
+			holder.directionLayout.setVisibility(View.VISIBLE);
+		} else {
+			holder.directionLayout.setVisibility(View.GONE);
 			holder.distance.clear();
-			holder.direction.setVisibility(View.GONE);
+
+			Bitmap dirImg = null;
+			try {
+				BitmapFactory dirImgFactory = new BitmapFactory();
+				dirImg = dirImgFactory.decodeFile(settings.getStorage() + cache.geocode + "/direction.png");
+				dirImgFactory = null;
+			} catch (Exception e) {
+				// nothing
+			}
+
+			if (dirImg != null) {
+				int length = dirImg.getWidth() * dirImg.getHeight();
+				int[] pixels = new int[length];
+				dirImg.getPixels(pixels, 0, dirImg.getWidth(), 0, 0, dirImg.getWidth(), dirImg.getHeight());
+				for (int i=0; i < length; i ++){
+					if (pixels[i] == 0xff000000){ // replace black with white
+						pixels[i] = 0xffffffff;
+					}
+				}
+				dirImg.setPixels(pixels, 0, dirImg.getWidth(), 0, 0, dirImg.getWidth(), dirImg.getHeight());
+
+				holder.dirImg.setImageBitmap(dirImg);
+				holder.dirImgLayout.setVisibility(View.VISIBLE);
+			} else {
+				holder.dirImg.setImageBitmap(null);
+				holder.dirImgLayout.setVisibility(View.GONE);
+			}
         }
 
 		if (cache.favouriteCnt != null) {
 			holder.favourite.setText(String.format("%d", cache.favouriteCnt));
 		} else {
 			holder.favourite.setText("---");
+		}
+
+		if (cache.vote != null && cache.vote > 0) {
+			if (cache.vote > 0) holder.favourite.setBackgroundResource(ratingBcgs[0]);
+			else if (cache.vote > 1) holder.favourite.setBackgroundResource(ratingBcgs[1]);
+			else if (cache.vote > 3) holder.favourite.setBackgroundResource(ratingBcgs[2]);
+		} else if (cache.rating != null && cache.rating > 0) {
+			if (cache.rating > 0.0) holder.favourite.setBackgroundResource(ratingBcgs[0]);
+			if (cache.rating >= 1.5) holder.favourite.setBackgroundResource(ratingBcgs[1]);
+			if (cache.rating >= 3.5) holder.favourite.setBackgroundResource(ratingBcgs[2]);
 		}
 
 		StringBuilder cacheInfo = new StringBuilder();

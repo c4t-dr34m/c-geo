@@ -23,6 +23,9 @@
 	<attr name="input" format="integer" />
 	<attr name="inventory" format="integer" />
 	<attr name="favourite" format="integer" />
+	<attr name="favourite_r" format="integer" />
+	<attr name="favourite_o" format="integer" />
+	<attr name="favourite_g" format="integer" />
 	<attr name="close" format="integer" />
 
 	<!-- others -->
