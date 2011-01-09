@@ -45,8 +45,7 @@
 				android:layout_height="30dip"
 				android:layout_centerVertical="true"
 				android:layout_alignParentRight="true"
-				android:layout_marginRight="5dip"
-				android:orientation="vertical" >
+				android:layout_marginRight="5dip" >
 			<ImageView android:id="@+id/rating_mark_5"
 					android:visibility="gone"
 					android:layout_width="fill_parent"
@@ -148,35 +147,44 @@
 				android:ellipsize="marquee"
 				android:textSize="12dip"
 				android:textColor="?text_color_grey" />
-		<TextView android:id="@+id/favourite"
+		<RelativeLayout
 				android:layout_width="28dip"
 				android:layout_height="wrap_content"
-				android:layout_marginRight="74dip"
-				android:layout_marginTop="28dip"
-				android:layout_alignParentBottom="true"
+				android:layout_centerVertical="true"
 				android:layout_alignParentRight="true"
-				android:layout_gravity="right"
-				android:gravity="center"
-				android:paddingLeft="3dip"
-				android:paddingRight="3dip"
-				android:lines="1"
-				android:singleLine="true"
-				android:scrollHorizontally="true"
-				android:ellipsize="marquee"
-				android:textSize="12dip"
-				android:textStyle="bold"
-				android:background="?favourite"
-				android:textColor="?background_color" />
-		<LinearLayout android:id="@+id/inventory"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
 				android:layout_marginTop="1dip"
-				android:layout_marginRight="74dip"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentTop="true"
-				android:layout_gravity="center"
-				android:orientation="horizontal"
-				android:background="?inventory" >
-		</LinearLayout>
+				android:layout_marginBottom="1dip"
+				android:layout_marginRight="74dip" >
+			<LinearLayout android:id="@+id/inventory"
+					android:visibility="gone"
+					android:layout_width="28dip"
+					android:layout_height="22dip"
+					android:layout_marginTop="2dip"
+					android:layout_centerHorizontal="true"
+					android:layout_alignParentTop="true"
+					android:layout_gravity="center"
+					android:orientation="horizontal"
+					android:background="?inventory" >
+			</LinearLayout>
+			<TextView android:id="@+id/favourite"
+					android:layout_width="28dip"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="24dip"
+					android:layout_centerHorizontal="true"
+					android:layout_alignParentBottom="true"
+					android:layout_gravity="center"
+					android:gravity="center"
+					android:paddingLeft="3dip"
+					android:paddingRight="3dip"
+					android:paddingBottom="1dip"
+					android:lines="1"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:ellipsize="marquee"
+					android:textSize="12dip"
+					android:textStyle="bold"
+					android:background="?favourite"
+					android:textColor="?background_color" />
+		</RelativeLayout>
 	</RelativeLayout>
 </RelativeLayout>

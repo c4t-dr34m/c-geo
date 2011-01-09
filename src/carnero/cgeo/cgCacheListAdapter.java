@@ -332,6 +332,9 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			tbIcon = (ImageView)inflater.inflate(R.layout.trackable_icon, null);
 			tbIcon.setImageResource(R.drawable.trackable_all);
 			holder.inventory.addView(tbIcon);
+			holder.inventory.setVisibility(View.VISIBLE);
+		} else {
+			holder.inventory.setVisibility(View.GONE);
 		}
 
 		boolean setDiDi = false;

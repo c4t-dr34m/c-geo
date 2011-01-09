@@ -227,7 +227,7 @@ public class cgeomap extends MapActivity {
 				close.setClickable(false);
 				close.setOnClickListener(null);
 
-				if (cache != null && geo != null && followLocation == true && geo.speedNow != null && geo.speedNow > 6) { // more than 6 m/s
+				if (cache != null && geo != null && followLocation == true && geo.speedNow != null && geo.speedNow > 9) { // more than 9 m/s
 					if (closeCounter < 5) {
 						closeCounter ++;
 					} else {
