@@ -13,6 +13,7 @@ import android.content.ContentValues;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +54,7 @@ public class cgeodetail extends Activity {
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private TextView cacheDistance = null;
+	private String contextMenuUser = null;
 	private ProgressDialog waitDialog = null;
 	private ProgressDialog descDialog = null;
 	private Spanned longDesc = null;
@@ -320,6 +322,52 @@ public class cgeodetail extends Activity {
 		super.onPause();
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {
+		super.onCreateContextMenu(menu, view, info);
+		final int viewId = view.getId();
+		
+		if (viewId == R.id.author || viewId == R.id.value) {
+			TextView textView = (TextView)view;
+			contextMenuUser = textView.getText().toString();
+			menu.setHeaderTitle(res.getString(R.string.user_menu_title) + " " + contextMenuUser);
+			menu.add(viewId, 1, 0, res.getString(R.string.user_menu_view_hidden) + " " + contextMenuUser);
+			menu.add(viewId, 2, 0, res.getString(R.string.user_menu_view_found) + " " + contextMenuUser);
+			menu.add(viewId, 3, 0, res.getString(R.string.user_menu_open_browser));
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		final int group = item.getGroupId();
+		if (group == R.id.author || group == R.id.value) {
+			switch (item.getItemId()) {
+				case 1:
+				{
+					final Intent cachesIntent = new Intent(activity, cgeocaches.class);
+					cachesIntent.putExtra("type", "owner");
+					cachesIntent.putExtra("username", contextMenuUser);
+					cachesIntent.putExtra("cachetype", settings.cacheType);
+					activity.startActivity(cachesIntent);
+					return true;
+				}
+				case 2:
+				{
+					final Intent cachesIntent = new Intent(activity, cgeocaches.class);
+					cachesIntent.putExtra("type", "username");
+					cachesIntent.putExtra("username", contextMenuUser);
+					cachesIntent.putExtra("cachetype", settings.cacheType);
+					activity.startActivity(cachesIntent);
+					return true;
+				}
+				case 3:
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + contextMenuUser)));
+					return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (cache.latitude != null && cache.longitude != null) {
@@ -682,6 +730,7 @@ public class cgeodetail extends Activity {
 
 				itemName.setText(res.getString(R.string.cache_owner));
 				itemValue.setText(Html.fromHtml(cache.owner), TextView.BufferType.SPANNABLE);
+				itemValue.setOnClickListener(new userActions());
 				detailsList.addView(itemLayout);
 			}
 
@@ -954,7 +1003,8 @@ public class cgeodetail extends Activity {
 					markDisabled.setVisibility(View.GONE);
 				}
 
-				rowView.setOnClickListener(new decryptLog());
+				((TextView) rowView.findViewById(R.id.author)).setOnClickListener(new userActions());
+				((TextView) rowView.findViewById(R.id.log)).setOnClickListener(new decryptLog());
 
 				listView.addView(rowView);
 			}
@@ -1462,19 +1512,33 @@ public class cgeodetail extends Activity {
 			}
 
 			try {
-				final TextView logView = (TextView)view.findViewById(R.id.log);
+				final TextView logView = (TextView)view;
+				final String logText = logView.getText().toString();
 
-				if (logView != null) {
-					final String logText = logView.getText().toString();
-
-					logView.setText(base.rot13(logText));
-				}
+				logView.setText(base.rot13(logText));
 			} catch (Exception e) {
 				// nothing
 			}
 		}
 	}
 
+	private class userActions implements View.OnClickListener {
+
+		public void onClick(View view) {
+			if (view == null) {
+				return;
+			}
+
+			try {
+				registerForContextMenu(view);
+				openContextMenu(view);
+			} catch (Exception e) {
+				// nothing
+			}
+		}
+	}
+
+	
 	public void goHome(View view) {
 		base.goHome(activity);
 	}
