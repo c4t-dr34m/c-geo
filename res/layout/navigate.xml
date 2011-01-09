@@ -20,7 +20,7 @@
 				android:layout_centerHorizontal="true"
 				android:layout_gravity="center"
 				android:textSize="14dip"
-				android:textColor="@color/text_dark"
+				android:textColor="?text_color"
 				android:text="destination" />
 		<TextView android:id="@+id/heading"
 				android:layout_width="wrap_content"
@@ -73,11 +73,14 @@
 					android:layout_width="fill_parent"
 					android:layout_height="16dip" >
 				<TextView android:id="@+id/nav_type"
-						style="@style/location_current_type" />
+						style="@style/location_current_type"
+						android:textColor="?text_color_grey" />
 				<TextView android:id="@+id/nav_accuracy"
-						style="@style/location_current_accuracy" />
+						style="@style/location_current_accuracy"
+						android:textColor="?text_color_grey" />
 				<TextView android:id="@+id/nav_satellites"
-						style="@style/location_current_satellites" />
+						style="@style/location_current_satellites"
+						android:textColor="?text_color_grey" />
 			</RelativeLayout>
 		</LinearLayout>
 	</RelativeLayout>
