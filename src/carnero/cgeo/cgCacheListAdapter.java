@@ -357,25 +357,32 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.directionLayout.setVisibility(View.GONE);
 			holder.distance.clear();
 
+			Bitmap dirImgPre = null;
 			Bitmap dirImg = null;
 			try {
 				BitmapFactory dirImgFactory = new BitmapFactory();
-				dirImg = dirImgFactory.decodeFile(settings.getStorage() + cache.geocode + "/direction.png");
+				dirImgPre = dirImgFactory.decodeFile(settings.getStorage() + cache.geocode + "/direction.png");
+				dirImg = dirImgPre.copy(Bitmap.Config.ARGB_8888, true);
+
+				dirImgPre.recycle();
+				dirImgPre = null;
 				dirImgFactory = null;
 			} catch (Exception e) {
 				// nothing
 			}
 
 			if (dirImg != null) {
-				int length = dirImg.getWidth() * dirImg.getHeight();
-				int[] pixels = new int[length];
-				dirImg.getPixels(pixels, 0, dirImg.getWidth(), 0, 0, dirImg.getWidth(), dirImg.getHeight());
-				for (int i=0; i < length; i ++){
-					if (pixels[i] == 0xff000000){ // replace black with white
-						pixels[i] = 0xffffffff;
+				if (settings.skin == 0) {
+					int length = dirImg.getWidth() * dirImg.getHeight();
+					int[] pixels = new int[length];
+					dirImg.getPixels(pixels, 0, dirImg.getWidth(), 0, 0, dirImg.getWidth(), dirImg.getHeight());
+					for (int i=0; i < length; i ++){
+						if (pixels[i] == 0xff000000){ // replace black with white
+							pixels[i] = 0xffffffff;
+						}
 					}
+					dirImg.setPixels(pixels, 0, dirImg.getWidth(), 0, 0, dirImg.getWidth(), dirImg.getHeight());
 				}
-				dirImg.setPixels(pixels, 0, dirImg.getWidth(), 0, 0, dirImg.getWidth(), dirImg.getHeight());
 
 				holder.dirImg.setImageBitmap(dirImg);
 				holder.dirImgLayout.setVisibility(View.VISIBLE);

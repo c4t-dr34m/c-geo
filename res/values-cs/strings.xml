@@ -9,8 +9,9 @@
 	<string name="search">vyhledávání</string>
 	<string name="settings">nastavení</string>
 	<string name="about">o aplikaci</string>
-	<string name="helper">nezapomeňte na tlačítko<b>MENU</b>na Vašem telefonu, nabídne Vám spoustu funkcí aplikace<b>c:geo</b>!</string>
-
+    <string name="helper">nezapomeňte na tlačítko
+      <b>MENU</b>na Vašem telefonu, nabídne Vám spoustu funkcí aplikace
+      <b>c:geo</b>!</string>
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Sdílet odkaz ke keši</string>
 
@@ -254,6 +255,10 @@
 	<string name="caches_refresh_all">aktualizovat vše</string>
 	<string name="caches_map_cgeo">c:geo</string>
 	<string name="caches_map_locus">Locus</string>
+                        <string name="caches_recaptcha_title">reCAPTCHA</string>
+<string name="caches_recaptcha_explanation">Opište text z obrázků. Je to důležité pro stažení souřadnic keší.</string>
+<string name="caches_recaptcha_hint">Text z obrázku</string>
+<string name="caches_recaptcha_continue">pokračovat</string>
 
 	<!-- about -->
 	<string name="about_changelog">změny</string>

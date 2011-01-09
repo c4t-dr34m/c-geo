@@ -125,6 +125,17 @@
 		<item name="android:layout_marginBottom">5dip</item>
 	</style>
 
+	<style name="edittext_dialog">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginLeft">10dip</item>
+		<item name="android:layout_marginRight">10dip</item>
+		<item name="android:layout_marginBottom">5dip</item>
+		<item name="android:textColor">@color/text_dark</item>
+		<item name="android:textColorHint">@color/text_hint_dark</item>
+		<item name="android:background">@drawable/input_bcg_dark</item>
+	</style>
+
 	<!-- mainscreen icon -->
 	<style name="icon_mainscreen">
 		<item name="android:layout_width">48dip</item>
