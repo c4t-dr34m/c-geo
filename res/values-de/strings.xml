@@ -258,6 +258,9 @@
 	<string name="caches_drop_stored">Gespeicherte löschen</string>
 	<string name="caches_refresh_selected">Ausgewählte aktualisieren</string>
 	<string name="caches_refresh_all">Alle aktualisieren</string>
+	<string name="caches_recaptcha_explanation">Bitte Text vom Bild abschreiben. Wichtig, um Koordinaten des Caches laden zu können.</string>
+	<string name="caches_recaptcha_hint">Text vom Bild</string>
+	<string name="caches_recaptcha_continue">Fortfahren</string>
 
 	<!-- about -->
 	<string name="about_changelog">Änderungen</string>
@@ -370,6 +373,7 @@
 	<string name="cache_difficulty">Schwierigkeit</string>
 	<string name="cache_terrain">Terrain</string>
 	<string name="cache_rating">Bewertung</string>
+	<string name="cache_favourite">Favorit</string>
 	<string name="cache_owner">Besitzer</string>
 	<string name="cache_hidden">versteckt</string>
 	<string name="cache_event">Zeitangabe</string>
