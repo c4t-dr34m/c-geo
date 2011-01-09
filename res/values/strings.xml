@@ -262,7 +262,7 @@
 	<string name="caches_map_cgeo">c:geo</string>
 	<string name="caches_map_locus">Locus</string>
 	<string name="caches_recaptcha_title">reCAPTCHA</string>
-	<string name="caches_recaptcha_explanation">Please, write text from image. It\'s important to download coordinates of caches.</string>
+	<string name="caches_recaptcha_explanation">Please, write text from image. It\'s important to download coordinates of caches. It\'s optional.</string>
 	<string name="caches_recaptcha_hint">Text from image</string>
 	<string name="caches_recaptcha_continue">Continue</string>
 
@@ -543,6 +543,9 @@
 
 	<!-- changelog -->
 	<string name="changelog">\n
+<b>1.20</b> (__.01.2011)\n
+· fix: ___\n
+\n
 <b>1.19</b> (09.01.2011)\n
 · new: Ability to fill waypoint CAPTCHA\n
 · fix: Trackable icon in caches list\n
