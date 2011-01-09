@@ -227,6 +227,14 @@ public class cgeoinit extends Activity {
 		}
 		addressButton.setOnClickListener(new cgeoChangeAddress());
 
+		CheckBox captchaButton = (CheckBox) findViewById(R.id.captcha);
+		if (prefs.getBoolean("showcaptcha", true) == false) {
+			captchaButton.setChecked(false);
+		} else {
+			captchaButton.setChecked(true);
+		}
+		captchaButton.setOnClickListener(new cgeoChangeCaptcha());
+
 		CheckBox excludeButton = (CheckBox) findViewById(R.id.exclude);
 		if (prefs.getInt("excludemine", 0) == 0) {
 			excludeButton.setChecked(false);
@@ -430,6 +438,30 @@ public class cgeoinit extends Activity {
 				publicloc.setChecked(false);
 			} else {
 				publicloc.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeCaptcha implements View.OnClickListener {
+
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getBoolean("showcaptcha", true) == false) {
+				edit.putBoolean("showcaptcha", true);
+				settings.showCaptcha = true;
+			} else {
+				edit.putBoolean("showcaptcha", false);
+				settings.showCaptcha = false;
+			}
+			edit.commit();
+
+			CheckBox captchaButton = (CheckBox) findViewById(R.id.captcha);
+			if (prefs.getBoolean("showcaptcha", true) == false) {
+				captchaButton.setChecked(false);
+			} else {
+				captchaButton.setChecked(true);
 			}
 
 			return;

@@ -1121,7 +1121,7 @@ public class cgeocaches extends ListActivity {
 
 		@Override
 		public void run() {
-			searchId = base.searchByNextPage(this, searchId, 0);
+			searchId = base.searchByNextPage(this, searchId, 0, settings.showCaptcha);
 
 			handler.sendMessage(new Message());
 		}
@@ -1156,7 +1156,7 @@ public class cgeocaches extends ListActivity {
 			params.put("longitude", String.format((Locale)null, "%.6f", longitude));
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByCoords(this, params, 0);
+			searchId = base.searchByCoords(this, params, 0, settings.showCaptcha);
 
 			handler.sendMessage(new Message());
 		}
@@ -1188,7 +1188,7 @@ public class cgeocaches extends ListActivity {
 			params.put("keyword", keyword);
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByKeyword(this, params, 0);
+			searchId = base.searchByKeyword(this, params, 0, settings.showCaptcha);
 
 			handler.sendMessage(new Message());
 		}
@@ -1220,7 +1220,7 @@ public class cgeocaches extends ListActivity {
 			params.put("username", username);
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByUsername(this, params, 0);
+			searchId = base.searchByUsername(this, params, 0, settings.showCaptcha);
 
 			handler.sendMessage(new Message());
 		}
@@ -1252,7 +1252,7 @@ public class cgeocaches extends ListActivity {
 			params.put("username", username);
 			params.put("cachetype", cachetype);
 
-			searchId = base.searchByOwner(this, params, 0);
+			searchId = base.searchByOwner(this, params, 0, settings.showCaptcha);
 
 			handler.sendMessage(new Message());
 		}

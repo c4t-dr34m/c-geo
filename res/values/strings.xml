@@ -297,6 +297,7 @@
 	<string name="init_skin">Light skin (needs restart of c:geo)</string>
 	<string name="init_transparent">Use transparent c:geo mainscreen</string>
 	<string name="init_address">Show address on mainscreen</string>
+	<string name="init_captcha">Show CAPTCHA if necessary</string>
 	<string name="init_exclude">Exclude own and found caches</string>
 	<string name="init_disabled">Exclude disabled caches</string>
 	<string name="init_offline">Store maps for offline use</string>

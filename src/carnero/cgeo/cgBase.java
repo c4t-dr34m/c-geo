@@ -446,7 +446,7 @@ public class cgBase {
 		return request(host, path, "POST", params, false, false, false);
 	}
 
-	public cgCacheWrap parseSearch(cgSearchThread thread, String url, String page) {
+	public cgCacheWrap parseSearch(cgSearchThread thread, String url, String page, boolean showCaptcha) {
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.parseSearch: No page given");
 			return null;
@@ -477,35 +477,37 @@ public class cgBase {
 		caches.viewstate1 = findViewstate(page, 1);
 
 		// recaptcha
-		try {
-			String recaptchaJsParam = null;
-			final Matcher matcherRecaptcha = patternRecaptcha.matcher(page);
-			while (matcherRecaptcha.find()) {
-				if (matcherRecaptcha.groupCount() > 0) {
-					recaptchaJsParam = matcherRecaptcha.group(1);
+		if (showCaptcha == true) {
+			try {
+				String recaptchaJsParam = null;
+				final Matcher matcherRecaptcha = patternRecaptcha.matcher(page);
+				while (matcherRecaptcha.find()) {
+					if (matcherRecaptcha.groupCount() > 0) {
+						recaptchaJsParam = matcherRecaptcha.group(1);
+					}
 				}
-			}
 
-			if (recaptchaJsParam != null) {
-				final String recaptchaJs = request("www.google.com", "/recaptcha/api/challenge", "GET", "k=" + urlencode_rfc3986(recaptchaJsParam.trim()), 0, true);
+				if (recaptchaJsParam != null) {
+					final String recaptchaJs = request("www.google.com", "/recaptcha/api/challenge", "GET", "k=" + urlencode_rfc3986(recaptchaJsParam.trim()), 0, true);
 
-				if (recaptchaJs != null && recaptchaJs.length() > 0) {
-					final Matcher matcherRecaptchaChallenge = patternRecaptchaChallenge.matcher(recaptchaJs);
-					while (matcherRecaptchaChallenge.find()) {
-						if (matcherRecaptchaChallenge.groupCount() > 0) {
-							recaptchaChallenge = matcherRecaptchaChallenge.group(1).trim();
+					if (recaptchaJs != null && recaptchaJs.length() > 0) {
+						final Matcher matcherRecaptchaChallenge = patternRecaptchaChallenge.matcher(recaptchaJs);
+						while (matcherRecaptchaChallenge.find()) {
+							if (matcherRecaptchaChallenge.groupCount() > 0) {
+								recaptchaChallenge = matcherRecaptchaChallenge.group(1).trim();
+							}
 						}
 					}
 				}
+			} catch (Exception e) {
+				// failed to parse recaptcha challenge
+				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse recaptcha challenge");
 			}
-		} catch (Exception e) {
-			// failed to parse recaptcha challenge
-			Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse recaptcha challenge");
-		}
 
-		if (thread != null && recaptchaChallenge != null && recaptchaChallenge.length() > 0) {
-			thread.setChallenge(recaptchaChallenge);
-			thread.notifyNeed();
+			if (thread != null && recaptchaChallenge != null && recaptchaChallenge.length() > 0) {
+				thread.setChallenge(recaptchaChallenge);
+				thread.notifyNeed();
+			}
 		}
 
 		int startPos = -1;
@@ -2544,7 +2546,7 @@ public class cgBase {
 		}
 	}
 
-	public Long searchByNextPage(cgSearchThread thread, Long searchId, int reason) {
+	public Long searchByNextPage(cgSearchThread thread, Long searchId, int reason, boolean showCaptcha) {
 		final String viewstate = app.getViewstate(searchId);
 		final String viewstate1 = app.getViewstate1(searchId);
 		cgCacheWrap caches = new cgCacheWrap();
@@ -2613,7 +2615,7 @@ public class cgBase {
 			return searchId;
 		}
 
-		caches = parseSearch(thread, url, page);
+		caches = parseSearch(thread, url, page, showCaptcha);
 		if (caches == null || caches.cacheList == null || caches.cacheList.isEmpty()) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByNextPage: No cache parsed");
 			return searchId;
@@ -2777,7 +2779,7 @@ public class cgBase {
 		return search.getCurrentId();
 	}
 
-	public Long searchByCoords(cgSearchThread thread, HashMap<String, String> parameters, int reason) {
+	public Long searchByCoords(cgSearchThread thread, HashMap<String, String> parameters, int reason, boolean showCaptcha) {
 		final cgSearch search = new cgSearch();
 		final String latitude = parameters.get("latitude");
 		final String longitude = parameters.get("longitude");
@@ -2818,7 +2820,7 @@ public class cgBase {
 			return null;
 		}
 
-		caches = parseSearch(thread, url, page);
+		caches = parseSearch(thread, url, page, showCaptcha);
 		if (caches == null || caches.cacheList == null || caches.cacheList.isEmpty()) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByCoords: No cache parsed");
 		}
@@ -2857,7 +2859,7 @@ public class cgBase {
 		return search.getCurrentId();
 	}
 
-	public Long searchByKeyword(cgSearchThread thread, HashMap<String, String> parameters, int reason) {
+	public Long searchByKeyword(cgSearchThread thread, HashMap<String, String> parameters, int reason, boolean showCaptcha) {
 		final cgSearch search = new cgSearch();
 		final String keyword = parameters.get("keyword");
 		cgCacheWrap caches = new cgCacheWrap();
@@ -2891,7 +2893,7 @@ public class cgBase {
 			return null;
 		}
 
-		caches = parseSearch(thread, url, page);
+		caches = parseSearch(thread, url, page, showCaptcha);
 		if (caches == null || caches.cacheList == null || caches.cacheList.isEmpty()) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByKeyword: No cache parsed");
 		}
@@ -2930,7 +2932,7 @@ public class cgBase {
 		return search.getCurrentId();
 	}
 
-	public Long searchByUsername(cgSearchThread thread, HashMap<String, String> parameters, int reason) {
+	public Long searchByUsername(cgSearchThread thread, HashMap<String, String> parameters, int reason, boolean showCaptcha) {
 		final cgSearch search = new cgSearch();
 		final String userName = parameters.get("username");
 		cgCacheWrap caches = new cgCacheWrap();
@@ -2970,7 +2972,7 @@ public class cgBase {
 			return null;
 		}
 
-		caches = parseSearch(thread, url, page);
+		caches = parseSearch(thread, url, page, showCaptcha);
 		if (caches == null || caches.cacheList == null || caches.cacheList.isEmpty()) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByUsername: No cache parsed");
 		}
@@ -3009,7 +3011,7 @@ public class cgBase {
 		return search.getCurrentId();
 	}
 
-	public Long searchByOwner(cgSearchThread thread, HashMap<String, String> parameters, int reason) {
+	public Long searchByOwner(cgSearchThread thread, HashMap<String, String> parameters, int reason, boolean showCaptcha) {
 		final cgSearch search = new cgSearch();
 		final String userName = parameters.get("username");
 		cgCacheWrap caches = new cgCacheWrap();
@@ -3043,7 +3045,7 @@ public class cgBase {
 			return null;
 		}
 
-		caches = parseSearch(thread, url, page);
+		caches = parseSearch(thread, url, page, showCaptcha);
 		if (caches == null || caches.cacheList == null || caches.cacheList.isEmpty()) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByOwner: No cache parsed");
 		}
