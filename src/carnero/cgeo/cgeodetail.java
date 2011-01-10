@@ -328,8 +328,11 @@ public class cgeodetail extends Activity {
 		final int viewId = view.getId();
 		
 		if (viewId == R.id.author || viewId == R.id.value) {
-			TextView textView = (TextView)view;
-			contextMenuUser = textView.getText().toString();
+			if (viewId == R.id.author) { // Author of a log entry
+				contextMenuUser = ((TextView)view).getText().toString();
+			} else if (viewId == R.id.value) { // The owner of the cache
+				contextMenuUser = cache.ownerReal;
+			}
 			menu.setHeaderTitle(res.getString(R.string.user_menu_title) + " " + contextMenuUser);
 			menu.add(viewId, 1, 0, res.getString(R.string.user_menu_view_hidden) + " " + contextMenuUser);
 			menu.add(viewId, 2, 0, res.getString(R.string.user_menu_view_found) + " " + contextMenuUser);
@@ -734,10 +737,10 @@ public class cgeodetail extends Activity {
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 				itemName.setText(res.getString(R.string.cache_owner));
-				if (cache.ownerReal != null && cache.ownerReal.length() > 0) {
-					itemValue.setText(Html.fromHtml(cache.ownerReal), TextView.BufferType.SPANNABLE);
-				} else if(cache.owner != null && cache.owner.length() > 0) {
+				if (cache.owner != null && cache.owner.length() > 0) {
 					itemValue.setText(Html.fromHtml(cache.owner), TextView.BufferType.SPANNABLE);
+				} else if (cache.ownerReal != null && cache.ownerReal.length() > 0) {
+					itemValue.setText(Html.fromHtml(cache.ownerReal), TextView.BufferType.SPANNABLE);
 				}
 				itemValue.setOnClickListener(new userActions());
 				detailsList.addView(itemLayout);
