@@ -550,7 +550,7 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>1.21</b> (__.01.2011)\n
-· fix: __\n
+· new: Context menu for geocachers (in cache detail)\n
 \n
 <b>1.20</b> (09.01.2011)\n
 · fix: Lists and map\n
