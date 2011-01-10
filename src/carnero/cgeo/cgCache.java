@@ -17,6 +17,7 @@ public class cgCache {
 	public String name = "";
 	public Spannable nameSp = null;
 	public String owner = "";
+	public String ownerReal = "";
 	public Date hidden = null;
 	public String hint = "";
 	public String size = "";
@@ -112,6 +113,9 @@ public class cgCache {
 		}
 		if (owner == null || owner.length() == 0) {
 			owner = oldCache.owner;
+		}
+		if (ownerReal == null || ownerReal.length() == 0) {
+			ownerReal = oldCache.ownerReal;
 		}
 		if (hidden == null) {
 			hidden = oldCache.hidden;

@@ -1045,6 +1045,7 @@ public class cgBase {
 		final Pattern patternDifficulty = Pattern.compile("<td[^>]*>[^<]*<strong>[^S]*Difficulty[^:]*:[^<]*</strong>[^<]*<img src=\"[^>]*/stars/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTerrain = Pattern.compile("<td[^>]*>[^<]*<strong>[^S]*Terrain[^:]*:[^<]*</strong>[^<]*<img src=\"[^>]*/stars/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternOwner = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*An?([^\\w]*Event)?[^\\w]*cache[^<]*<\\/strong>[^\\w]*by[^<]*<a href=\"[^\"]+\">([^<]+)<\\/a>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternOwnerReal = Pattern.compile("<span id=\"ctl00_ContentBody_FindText\">[^<]*</span>[^<]*<ul>[^<]*<li>[^<]*<a id=\"ctl00_ContentBody_uxFindLinksHiddenByThisUser\" href=\"[^\"]*/seek/nearest\\.aspx\\?u=*([^\"]+)\">hidden</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHidden = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Hidden[^:]*:[^<]*</strong>[^\\d]*((\\d+)\\/(\\d+)\\/(\\d+))[^<]*</td>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHiddenEvent = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*Event[^\\w]*date[^:]*:[^<]*</strong>[^\\w]*[a-zA-Z]+,[^\\d]*((\\d+)[^\\w]*(\\w+)[^\\d]*(\\d+))[^<]*<div", Pattern.CASE_INSENSITIVE);
 		final Pattern patternFavourite = Pattern.compile("<div class=\"favorite-container\">[^<]*<span class=\"favorite-value\">[^\\w]*([0-9]+)[^<]*</span>[^<]*<br />[^<]+</div>", Pattern.CASE_INSENSITIVE);
@@ -1151,6 +1152,19 @@ public class cgBase {
 		} catch (Exception e) {
 			// failed to parse cache name
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache name");
+		}
+
+		// owner real name
+		try {
+			final Matcher matcherOwnerReal = patternOwnerReal.matcher(page);
+			while (matcherOwnerReal.find()) {
+				if (matcherOwnerReal.groupCount() > 0) {
+					cache.ownerReal = matcherOwnerReal.group(1);
+				}
+			}
+		} catch (Exception e) {
+			// failed to parse owner real name
+			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache owner real name");
 		}
 
 		int pos = -1;

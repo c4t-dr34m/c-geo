@@ -340,29 +340,34 @@ public class cgeodetail extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final int group = item.getGroupId();
+
 		if (group == R.id.author || group == R.id.value) {
-			switch (item.getItemId()) {
-				case 1:
-				{
-					final Intent cachesIntent = new Intent(activity, cgeocaches.class);
-					cachesIntent.putExtra("type", "owner");
-					cachesIntent.putExtra("username", contextMenuUser);
-					cachesIntent.putExtra("cachetype", settings.cacheType);
-					activity.startActivity(cachesIntent);
-					return true;
-				}
-				case 2:
-				{
-					final Intent cachesIntent = new Intent(activity, cgeocaches.class);
-					cachesIntent.putExtra("type", "username");
-					cachesIntent.putExtra("username", contextMenuUser);
-					cachesIntent.putExtra("cachetype", settings.cacheType);
-					activity.startActivity(cachesIntent);
-					return true;
-				}
-				case 3:
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + contextMenuUser)));
-					return true;
+			final int id = item.getItemId();
+
+			if (id == 1) {
+				final Intent cachesIntent = new Intent(activity, cgeocaches.class);
+
+				cachesIntent.putExtra("type", "owner");
+				cachesIntent.putExtra("username", contextMenuUser);
+				cachesIntent.putExtra("cachetype", settings.cacheType);
+
+				activity.startActivity(cachesIntent);
+
+				return true;
+			} else if (id == 2) {
+				final Intent cachesIntent = new Intent(activity, cgeocaches.class);
+
+				cachesIntent.putExtra("type", "username");
+				cachesIntent.putExtra("username", contextMenuUser);
+				cachesIntent.putExtra("cachetype", settings.cacheType);
+
+				activity.startActivity(cachesIntent);
+
+				return true;
+			} else if (id == 3) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + contextMenuUser)));
+				
+				return true;
 			}
 		}
 		return false;
@@ -723,13 +728,17 @@ public class cgeodetail extends Activity {
 			}
 
 			// cache author
-			if (cache.owner != null && cache.owner.length() > 0) {
+			if ((cache.owner != null && cache.owner.length() > 0) || (cache.ownerReal != null && cache.ownerReal.length() > 0)) {
 				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 				itemName.setText(res.getString(R.string.cache_owner));
-				itemValue.setText(Html.fromHtml(cache.owner), TextView.BufferType.SPANNABLE);
+				if (cache.ownerReal != null && cache.ownerReal.length() > 0) {
+					itemValue.setText(Html.fromHtml(cache.ownerReal), TextView.BufferType.SPANNABLE);
+				} else if(cache.owner != null && cache.owner.length() > 0) {
+					itemValue.setText(Html.fromHtml(cache.owner), TextView.BufferType.SPANNABLE);
+				}
 				itemValue.setOnClickListener(new userActions());
 				detailsList.addView(itemLayout);
 			}

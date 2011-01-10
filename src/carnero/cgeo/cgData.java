@@ -21,6 +21,7 @@ import java.util.Locale;
  * 042: table for offline logs (notes)
  * 043: direction in double
  * 044: favourite from GC.com
+ * 045: real owner username
  */
 public class cgData {
 
@@ -29,7 +30,7 @@ public class cgData {
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-	private static final int dbVersion = 44;
+	private static final int dbVersion = 45;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -52,6 +53,7 @@ public class cgData {
 			+ "type text, "
 			+ "name text, "
 			+ "owner text, "
+			+ "owner_real text, "
 			+ "hidden long, "
 			+ "hint text, "
 			+ "size text, "
@@ -443,6 +445,16 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 44: " + e.toString());
 						}
 					}
+
+					if (oldVersion < 45) { // upgrade to 45
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column owner_real text");
+
+							Log.i(cgSettings.tag, "Column owner_real added to " + dbTableCaches + ".");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 45: " + e.toString());
+						}
+					}
 				}
 
 				db.setTransactionSuccessful();
@@ -759,6 +771,7 @@ public class cgData {
 		values.put("type", cache.type);
 		values.put("name", cache.name);
 		values.put("owner", cache.owner);
+		values.put("owner_real", cache.ownerReal);
 		if (cache.hidden == null) {
 			values.put("hidden", 0);
 		} else {
@@ -1184,7 +1197,7 @@ public class cgData {
 				cursor = databaseRO.query(
 						dbTableCaches,
 						new String[]{
-							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
+							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "owner_real", "hidden", "hint", "size",
 							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
 							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
@@ -1209,7 +1222,7 @@ public class cgData {
 				cursor = databaseRO.query(
 						dbTableCaches,
 						new String[]{
-							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "hidden", "hint", "size",
+							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "owner_real", "hidden", "hint", "size",
 							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
 							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
@@ -1248,6 +1261,7 @@ public class cgData {
 						cache.type = (String) cursor.getString(cursor.getColumnIndex("type"));
 						cache.name = (String) cursor.getString(cursor.getColumnIndex("name"));
 						cache.owner = (String) cursor.getString(cursor.getColumnIndex("owner"));
+						cache.ownerReal = (String) cursor.getString(cursor.getColumnIndex("owner_real"));
 						cache.hidden = new Date((long) cursor.getLong(cursor.getColumnIndex("hidden")));
 						cache.hint = (String) cursor.getString(cursor.getColumnIndex("hint"));
 						cache.size = (String) cursor.getString(cursor.getColumnIndex("size"));
