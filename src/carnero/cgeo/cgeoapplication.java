@@ -291,7 +291,7 @@ public class cgeoapplication extends Application {
 			if (storage == null) storage = new cgData(this);
 			cache = storage.loadCache(geocode, null, loadA, loadW, loadS, loadL, loadI, loadO);
 
-			if (cache.detailed == true && loadA == true && loadW == true && loadS == true && loadL == true && loadI == true) {
+			if (cache != null && cache.detailed == true && loadA == true && loadW == true && loadS == true && loadL == true && loadI == true) {
 				putCacheInCache(cache);
 			}
 		}
