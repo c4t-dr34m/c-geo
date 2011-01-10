@@ -262,6 +262,10 @@
 	<string name="caches_refresh_all">Uppdatera alla</string>
 	<string name="caches_map_cgeo">c:geo</string>
 	<string name="caches_map_locus">Locus</string>
+	<string name="caches_recaptcha_title">reCAPTCHA</string>
+	<string name="caches_recaptcha_explanation">Skriv texten som syns i bilden. Det krävs för att hämta koordinaterna för cacherna i listan. Det går att fortsätta ändå (men med sämre funktionalitet).</string>
+	<string name="caches_recaptcha_hint">Text från bilden</string>
+	<string name="caches_recaptcha_continue">Fortsätt</string>
 	
 	<!-- about -->
 	<string name="about_changelog">Historik</string>
@@ -294,6 +298,7 @@
 	<string name="init_skin">Vitt skal (kräver omstart av c:geo)</string>
 	<string name="init_transparent">Transparent huvudmeny</string>
 	<string name="init_address">Visa adress på huvudskärmen</string>
+	<string name="init_captcha">Visa CAPTCHA (robotfällor) vid behov</string>
 	<string name="init_exclude">Dölj egna och hittade cacher</string>
 	<string name="init_disabled">Dölj inaktiva cacher</string>
 	<string name="init_offline">Spara kartor för användning offline</string>
@@ -380,6 +385,7 @@
 	<string name="cache_difficulty">Svårighet</string>
 	<string name="cache_terrain">Terräng</string>
 	<string name="cache_rating">Betyg</string>
+	<string name="cache_favourite">Favorit</string>
 	<string name="cache_owner">Ägare</string>
 	<string name="cache_hidden">Gömd</string>
 	<string name="cache_event">Datum</string>
@@ -489,6 +495,12 @@
 	<string name="trackable_unknown">Okänd</string>
 	<string name="trackable_released">Släppt</string>
 	<string name="trackable_touch">Logga</string>
+
+	<!--  user -->
+	<string name="user_menu_title">Om</string>
+	<string name="user_menu_view_hidden">Cacher gömda av</string>
+	<string name="user_menu_view_found">Cacher hittade av</string>
+	<string name="user_menu_open_browser">Öppna profil i webbläsaren</string>
 
 	<!-- navigation -->
 	<string name="navigation">Navigering</string>
