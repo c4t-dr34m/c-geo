@@ -397,7 +397,7 @@
 
 	<!-- gpx -->
 	<string name="gpx_import_searching_in">Söker efter .gpx filer\ni</string>
-	<string name="gpx_import_loading_stored">Laddar cacher från .gpx fil\Sparat:</string>
+	<string name="gpx_import_loading_stored">Laddar cacher från .gpx fil\nSparat:</string>
 	<string name="gpx_import_no_files">Tyvärr, c:geo hittade ingen .gpx fil.</string>
 	<string name="gpx_import_caches_imported">cacher importerade</string>
 	<string name="gpx_import_searching">Söker efter .gpx filer</string>
