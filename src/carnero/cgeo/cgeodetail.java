@@ -331,7 +331,11 @@ public class cgeodetail extends Activity {
 			if (viewId == R.id.author) { // Author of a log entry
 				contextMenuUser = ((TextView)view).getText().toString();
 			} else if (viewId == R.id.value) { // The owner of the cache
-				contextMenuUser = cache.ownerReal;
+				if (cache.ownerReal != null && cache.ownerReal.length() > 0) {
+					contextMenuUser = cache.ownerReal;
+				} else {
+					contextMenuUser = cache.owner;
+				}
 			}
 			menu.setHeaderTitle(res.getString(R.string.user_menu_title) + " " + contextMenuUser);
 			menu.add(viewId, 1, 0, res.getString(R.string.user_menu_view_hidden) + " " + contextMenuUser);
