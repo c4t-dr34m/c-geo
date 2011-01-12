@@ -184,6 +184,7 @@ public class cgeotouch extends cgLogForm {
 		subMenu.add(0, 2, 0, res.getString(R.string.log_date));
 		subMenu.add(0, 3, 0, res.getString(R.string.log_time));
 		subMenu.add(0, 4, 0, res.getString(R.string.init_signature));
+		subMenu.add(0, 5, 0, res.getString(R.string.log_date_time) + " & " + res.getString(R.string.init_signature));
 
 		return true;
 	}
@@ -192,8 +193,10 @@ public class cgeotouch extends cgLogForm {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (settings.getSignature() == null) {
 			menu.findItem(4).setVisible(false);
+			menu.findItem(5).setVisible(false);
 		} else {
 			menu.findItem(4).setVisible(true);
+			menu.findItem(5).setVisible(true);
 		}
 
 		return true;
@@ -208,7 +211,7 @@ public class cgeotouch extends cgLogForm {
 		String dateString = null;
 		String timeString = null;
 
-		if (id >= 1 && id <= 4) {
+		if ((id >= 1 && id <= 4) || id == 5) {
 			text = (EditText)findViewById(R.id.log);
 			textContent = text.getText().toString();
 			dateString = base.dateOut.format(new Date());
@@ -251,6 +254,19 @@ public class cgeotouch extends cgLogForm {
 				text.setText(settings.getSignature() + "\n", TextView.BufferType.NORMAL);
 			} else {
 				text.setText(textContent + "\n" + settings.getSignature() + "\n", TextView.BufferType.NORMAL);
+			}
+			text.setSelection(text.getText().toString().length());
+
+			return true;
+		} else if (id == 5) {
+			if (settings.getSignature() == null) {
+				return true;
+			}
+
+			if (textContent.length() == 0) {
+				text.setText(dateString + " | " + timeString + "\n" + settings.getSignature() + "\n", TextView.BufferType.NORMAL);
+			} else {
+				text.setText(textContent + "\n" + dateString + " | " + timeString + "\n" + settings.getSignature() + "\n", TextView.BufferType.NORMAL);
 			}
 			text.setSelection(text.getText().toString().length());
 
