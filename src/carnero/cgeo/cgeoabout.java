@@ -91,6 +91,10 @@ public class cgeoabout extends Activity {
 		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/android_gc")));
 	}
 
+	public void nutshellmanual(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://itw.bidix.info/cgeo/")));
+	}
+
 	public void goHome(View view) {
 		base.goHome(activity);
 	}
