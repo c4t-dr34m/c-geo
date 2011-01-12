@@ -4003,26 +4003,31 @@ public class cgBase {
 		}
 
 		String page = null;
-		if (httpCode == 302 && httpLocation != null) {
-			final Uri newLocation = Uri.parse(httpLocation);
-			if (newLocation.isRelative() == true) {
-				page = request(host, path, "GET", new HashMap<String, String>(), requestId, false, false, false);
-			} else {
-				page = request(newLocation.getHost(), newLocation.getPath(), "GET", new HashMap<String, String>(), requestId, false, false, false);
-			}
-		} else if (buffer != null) {
-			final Matcher matcherLines = patternLines.matcher(buffer.toString());
-			page = matcherLines.replaceAll(" ");
+		
+		try {
+			if (httpCode == 302 && httpLocation != null) {
+				final Uri newLocation = Uri.parse(httpLocation);
+				if (newLocation.isRelative() == true) {
+					page = request(host, path, "GET", new HashMap<String, String>(), requestId, false, false, false);
+				} else {
+					page = request(newLocation.getHost(), newLocation.getPath(), "GET", new HashMap<String, String>(), requestId, false, false, false);
+				}
+			} else if (buffer != null) {
+				final Matcher matcherLines = patternLines.matcher(buffer.toString());
+				page = matcherLines.replaceAll(" ");
 
-			final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
-			final Matcher matcherTitle = patternTitle.matcher(page);
-			if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
-				Log.i(cgSettings.tag + " | " + requestId, "Downloaded page title: " + matcherTitle.group(1).trim());
+				final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
+				final Matcher matcherTitle = patternTitle.matcher(page);
+				if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
+					Log.i(cgSettings.tag + " | " + requestId, "Downloaded page title: " + matcherTitle.group(1).trim());
+				} else {
+					Log.i(cgSettings.tag + " | " + requestId, "Downloaded file has no title.");
+				}
 			} else {
-				Log.i(cgSettings.tag + " | " + requestId, "Downloaded file has no title.");
+				return "";
 			}
-		} else {
-			return "";
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgeoBase.302: " + e.toString());
 		}
 
 		if (page != null) {
