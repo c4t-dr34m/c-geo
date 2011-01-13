@@ -92,7 +92,7 @@ public class cgeoabout extends Activity {
 	}
 
 	public void nutshellmanual(View view) {
-		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://itw.bidix.info/cgeo/")));
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://cgeo.carnero.cc/manual/")));
 	}
 
 	public void goHome(View view) {
