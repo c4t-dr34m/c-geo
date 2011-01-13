@@ -236,7 +236,7 @@
 	<string name="caches_no_cache">Kein Cache</string>
 	<string name="caches_more_caches">Mehr Caches</string>
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
-	<string name="caches_downloading">Lade Caches...\nETE: </string>
+	<string name="caches_downloading">Lade Caches...\nETA: </string>
 	<string name="caches_progress_loading_title">Lade Caches</string>
 	<string name="caches_progress_loading_text">Gespeicherte Caches</string>
 	<string name="caches_eta_ltm">Weniger als eine Minute</string>
@@ -258,7 +258,7 @@
 	<string name="caches_drop_stored">Gespeicherte löschen</string>
 	<string name="caches_refresh_selected">Ausgewählte aktualisieren</string>
 	<string name="caches_refresh_all">Alle aktualisieren</string>
-	<string name="caches_recaptcha_explanation">Bitte Text vom Bild abschreiben. Wichtig, um Koordinaten des Caches laden zu können.</string>
+	<string name="caches_recaptcha_explanation">Bitte Text vom Bild abschreiben. Wichtig, um Koordinaten des Caches laden zu können. Optional, kann in den Einstellungen deaktiviert werden.</string>
 	<string name="caches_recaptcha_hint">Text vom Bild</string>
 	<string name="caches_recaptcha_continue">Fortfahren</string>
 
@@ -485,6 +485,12 @@
 	<string name="trackable_released">Ausgesetzt</string>
 	<string name="trackable_touch">Berühren</string>
 
+	<!--  user -->
+	<string name="user_menu_title">Über</string>
+	<string name="user_menu_view_hidden">Versteckte Caches</string>
+	<string name="user_menu_view_found">Gefundene Caches</string>
+	<string name="user_menu_open_browser">Profil in Browser öffnen</string>
+
 	<!-- navigation -->
 	<string name="navigation">Navigation</string>
 	<string name="compass_title">Kompass</string>
@@ -507,6 +513,7 @@
 	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
+	<string name="nutshellmanual">Benutzung: <a href="http://cgeo.carnero.cc/manual/">c:geo Kurzanleitung</a></string>
 	<string name="about_go4cache">Service <b>Go 4 cache</b> erlaubt es, andere Geocacher in Echtzeit auf der Karte zu sehen (in <b>c:geo</b> oder im Browser). Es kann beispielsweise anzeigen, welchen Cache sie suchen. <b>Go 4 cache</b> erlaubt <b>c:geo</b> die aktuelle Position zu veröffentlichen (nur wenn <b>c:geo</b> ausgeführt wird).</string>
 	<string name="about_twitter">Soll jeder neuen Fund auf Twitter veröffentlicht werden, wenn er über <b>c:geo</b> geloggt wird?</string>
 	<string name="about_auth_1">Der folgende Prozess erlaubt es <b>c:geo</b> auf den persönlichen Twitter Account zuzugreifen, wenn gezustimmt wird.</string>
