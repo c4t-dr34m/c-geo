@@ -3985,7 +3985,11 @@ public class cgBase {
 				httpCode = connection.getResponseCode();
 				httpLocation = uc.getHeaderField("Location");
 
-				Log.i(cgSettings.tag + " | " + requestId, "[" + buffer.length() + "B] Downloading server response (" + method + " " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+				if (buffer != null && connection != null) {
+					Log.i(cgSettings.tag + " | " + requestId, "[" + buffer.length() + "B] Downloading server response (" + method + " " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+				} else {
+					Log.i(cgSettings.tag + " | " + requestId, "Failed to download server response (" + method + " " + httpCode + ") " + "http://" + host + path + "?" + params);
+				}
 
 				connection.disconnect();
 				br.close();
@@ -4029,7 +4033,7 @@ public class cgBase {
 				return "";
 			}
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeoBase.302: " + e.toString());
+			Log.e(cgSettings.tag, "cgeoBase.page: " + e.toString());
 		}
 
 		if (page != null) {
