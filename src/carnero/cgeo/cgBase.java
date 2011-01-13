@@ -3864,14 +3864,14 @@ public class cgBase {
 		URLConnection uc = null;
 		HttpURLConnection connection = null;
 		Integer timeout = 30000;
-		final StringBuffer buffer = new StringBuffer();
+		StringBuffer buffer = null;
 
 		for (int i = 0; i < 3; i++) {
 			if (i > 0) {
 				Log.w(cgSettings.tag, "Failed to download data, retrying. Attempt #" + (i + 1));
 			}
 
-			buffer.delete(0, buffer.length());
+			buffer = new StringBuffer();
 			timeout = 30000 + (i * 15000);
 
 			try {
@@ -4003,8 +4003,13 @@ public class cgBase {
 		}
 
 		String page = null;
-		
 		try {
+			if (buffer != null && buffer.length() > 0) {
+				final Matcher matcherLines = patternLines.matcher(buffer.toString());
+				page = matcherLines.replaceAll(" ");
+				buffer = null;
+			}
+		
 			if (httpCode == 302 && httpLocation != null) {
 				final Uri newLocation = Uri.parse(httpLocation);
 				if (newLocation.isRelative() == true) {
@@ -4012,10 +4017,7 @@ public class cgBase {
 				} else {
 					page = request(newLocation.getHost(), newLocation.getPath(), "GET", new HashMap<String, String>(), requestId, false, false, false);
 				}
-			} else if (buffer != null) {
-				final Matcher matcherLines = patternLines.matcher(buffer.toString());
-				page = matcherLines.replaceAll(" ");
-
+			} else if (page != null && page.length() > 0) {
 				final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
 				final Matcher matcherTitle = patternTitle.matcher(page);
 				if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
