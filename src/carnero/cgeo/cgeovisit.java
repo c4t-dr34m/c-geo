@@ -148,6 +148,7 @@ public class cgeovisit extends cgLogForm {
 			base.showProgress(activity, false);
 		}
 	};
+
 	private Handler postLogHandler = new Handler() {
 
 		@Override
