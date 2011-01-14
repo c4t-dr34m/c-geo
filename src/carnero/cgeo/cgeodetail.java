@@ -34,6 +34,7 @@ import android.os.Build;
 import android.view.SubMenu;
 import android.widget.Button;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Locale;
 
@@ -337,6 +338,7 @@ public class cgeodetail extends Activity {
 					contextMenuUser = cache.owner;
 				}
 			}
+
 			menu.setHeaderTitle(res.getString(R.string.user_menu_title) + " " + contextMenuUser);
 			menu.add(viewId, 1, 0, res.getString(R.string.user_menu_view_hidden) + " " + contextMenuUser);
 			menu.add(viewId, 2, 0, res.getString(R.string.user_menu_view_found) + " " + contextMenuUser);
@@ -372,7 +374,7 @@ public class cgeodetail extends Activity {
 
 				return true;
 			} else if (id == 3) {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + contextMenuUser)));
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(contextMenuUser))));
 				
 				return true;
 			}

@@ -45,6 +45,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.math.BigInteger;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -1159,7 +1160,7 @@ public class cgBase {
 			final Matcher matcherOwnerReal = patternOwnerReal.matcher(page);
 			while (matcherOwnerReal.find()) {
 				if (matcherOwnerReal.groupCount() > 0) {
-					cache.ownerReal = matcherOwnerReal.group(1);
+					cache.ownerReal = URLDecoder.decode(matcherOwnerReal.group(1));
 				}
 			}
 		} catch (Exception e) {
@@ -1234,7 +1235,7 @@ public class cgBase {
 				final Matcher matcherOwner = patternOwner.matcher(tableInside);
 				while (matcherOwner.find()) {
 					if (matcherOwner.groupCount() > 0) {
-						cache.owner = matcherOwner.group(2);
+						cache.owner = Html.fromHtml(matcherOwner.group(2)).toString();
 					}
 				}
 			} catch (Exception e) {
@@ -1566,7 +1567,7 @@ public class cgBase {
 								logDone.type = logTypes.get("icon_note");
 							}
 
-							logDone.author = matcherLog.group(6);
+							logDone.author = Html.fromHtml(matcherLog.group(6)).toString();
 							logDone.date = logDate;
 							if (matcherLog.group(8) != null) {
 								logDone.found = new Integer(matcherLog.group(8));
