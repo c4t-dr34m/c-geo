@@ -399,13 +399,33 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		if (cache.vote != null && cache.vote > 0) {
-			if (cache.vote > 0) holder.favourite.setBackgroundResource(ratingBcgs[0]);
-			else if (cache.vote > 1) holder.favourite.setBackgroundResource(ratingBcgs[1]);
-			else if (cache.vote > 3) holder.favourite.setBackgroundResource(ratingBcgs[2]);
+			if (cache.vote > 0) {
+				holder.favourite.setBackgroundResource(ratingBcgs[0]);
+			} else if (cache.vote > 1) {
+				holder.favourite.setBackgroundResource(ratingBcgs[1]);
+			} else if (cache.vote > 3) {
+				holder.favourite.setBackgroundResource(ratingBcgs[2]);
+			} else {
+				if (settings.skin == 1) {
+					holder.favourite.setBackgroundResource(R.drawable.favourite_background_light);
+				} else {
+					holder.favourite.setBackgroundResource(R.drawable.favourite_background_dark);
+				}
+			}
 		} else if (cache.rating != null && cache.rating > 0) {
-			if (cache.rating > 0.0) holder.favourite.setBackgroundResource(ratingBcgs[0]);
-			if (cache.rating >= 1.5) holder.favourite.setBackgroundResource(ratingBcgs[1]);
-			if (cache.rating >= 3.5) holder.favourite.setBackgroundResource(ratingBcgs[2]);
+			if (cache.rating > 0.0) {
+				holder.favourite.setBackgroundResource(ratingBcgs[0]);
+			} else if (cache.rating >= 1.5) {
+				holder.favourite.setBackgroundResource(ratingBcgs[1]);
+			} else if (cache.rating >= 3.5) {
+				holder.favourite.setBackgroundResource(ratingBcgs[2]);
+			} else {
+				if (settings.skin == 1) {
+					holder.favourite.setBackgroundResource(R.drawable.favourite_background_light);
+				} else {
+					holder.favourite.setBackgroundResource(R.drawable.favourite_background_dark);
+				}
+			}
 		}
 
 		StringBuilder cacheInfo = new StringBuilder();

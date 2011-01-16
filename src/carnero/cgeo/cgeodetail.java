@@ -340,8 +340,8 @@ public class cgeodetail extends Activity {
 			}
 
 			menu.setHeaderTitle(res.getString(R.string.user_menu_title) + " " + contextMenuUser);
-			menu.add(viewId, 1, 0, res.getString(R.string.user_menu_view_hidden) + " " + contextMenuUser);
-			menu.add(viewId, 2, 0, res.getString(R.string.user_menu_view_found) + " " + contextMenuUser);
+			menu.add(viewId, 1, 0, res.getString(R.string.user_menu_view_hidden));
+			menu.add(viewId, 2, 0, res.getString(R.string.user_menu_view_found));
 			menu.add(viewId, 3, 0, res.getString(R.string.user_menu_open_browser));
 		}
 	}
