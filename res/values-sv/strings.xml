@@ -498,8 +498,8 @@
 
 	<!--  user -->
 	<string name="user_menu_title">Om</string>
-	<string name="user_menu_view_hidden">Cacher gömda av</string>
-	<string name="user_menu_view_found">Cacher hittade av</string>
+	<string name="user_menu_view_hidden">Cacher gömda</string>
+	<string name="user_menu_view_found">Cacher hittade</string>
 	<string name="user_menu_open_browser">Öppna profil i webbläsaren</string>
 
 	<!-- navigation -->
