@@ -195,8 +195,7 @@
 	<string name="warn_search_help_gccode">ジオキャッシュのコードを入力してください。例:「GC1VCAZ」。</string>
 	<string name="warn_search_help_keyword">キャッシュ名の一部を入力してください。検索対象はキャッシュ名だけです。キャッシュの詳細内は対象ではありません。</string>
 	<string name="warn_search_help_user">Geocaching.comのユーザ名を入力してください。</string>
-	<string name="warn_search_help_tb">追跡可能アイテムのコードを入力してください。例:「TB29QMZ」。</string>
-
+	<string name="warn_search_help_tb">追跡可能アイテムのコード(多くはTBかTCで始まります)を入力してください。例:「TB29QMZ」。</string>
 	<string name="warn_log_text_fill">ログの本文を書いてください。</string>
 
 	<string name="info_altitude">現在地の標高</string>
@@ -262,6 +261,10 @@
 	<string name="caches_refresh_all">全てのキャッシュを更新</string>
 	<string name="caches_map_cgeo">c:geo</string>
 	<string name="caches_map_locus">Locus</string>
+	<string name="caches_recaptcha_title">reCAPTCHA</string>
+	<string name="caches_recaptcha_explanation">画像の文字を半角英数字で入力してください。キャッシュの座標を得るのには重要ですが必須ではありません。設定(メイン画面のメニューボタンから)で、このダイアログを表示しないようにできます。</string>
+	<string name="caches_recaptcha_hint">画像の文字</string>
+	<string name="caches_recaptcha_continue">続ける</string>
 
 	<!-- about -->
 	<string name="about_changelog">更新履歴</string>
@@ -294,6 +297,7 @@
 	<string name="init_skin">明るい色のスキン (c:geoの再起動が必要)</string>
 	<string name="init_transparent">c:geoのメイン画面を透明化する</string>
 	<string name="init_address">メイン画面での現在地を地名で表示する</string>
+	<string name="init_captcha">必要ならCAPTCHA(画像認識)を表示する</string>
 	<string name="init_exclude">自分で所有または見つけたキャッシュは除く</string>
 	<string name="init_disabled">無効化キャッシュは除く</string>
 	<string name="init_offline">オフライン用に地図を保存する</string>
@@ -380,6 +384,7 @@
 	<string name="cache_difficulty">難易度</string>
 	<string name="cache_terrain">地形</string>
 	<string name="cache_rating">評価</string>
+	<string name="cache_favourite">お気に入り</string>
 	<string name="cache_owner">所有者</string>
 	<string name="cache_hidden">隠した日</string>
 	<string name="cache_event">日時</string>
@@ -401,7 +406,6 @@
 	<string name="gpx_import_title_searching">検索中</string>
 	<string name="gpx_import_title_caches_imported">結果</string>
 	
-
 	<!-- event -->
 	<string name="event_success">イベントキャッシュがカレンダーに追加されました</string>
 	<string name="event_fail">イベントキャッシュをカレンダーに追加するのに失敗しました</string>
@@ -430,7 +434,7 @@
 
 	<!-- map -->
 	<string name="map_map">地図</string>
-	<string name="map_live">現在地の地図</string>
+	<string name="map_live">オンライン地図</string>
 	<string name="map_view_satellite">航空写真表示</string>
 	<string name="map_view_map">地図表示</string>
 	<string name="map_trail_show">軌跡表示</string>
@@ -450,9 +454,9 @@
 	<string name="search_kw">キーワード</string>
 	<string name="search_kw_prefill">キーワード</string>
 	<string name="search_kw_button">キーワードで検索</string>
-	<string name="search_kw_caches">Caches by keyword</string>
-	<string name="search_caches_found_by">Caches found by</string>
-	<string name="search_caches_hidden_by">Caches hidden by</string>
+	<string name="search_kw_caches">キーワード</string>
+	<string name="search_caches_found_by">見つけたユーザ</string>
+	<string name="search_caches_hidden_by">隠したユーザ</string>
 	<string name="search_fbu">ユーザが見つけたキャッシュ</string>
 	<string name="search_fbu_prefill">ユーザ名</string>
 	<string name="search_fbu_button">ユーザ名で検索</string>
@@ -460,25 +464,25 @@
 	<string name="search_hbu_prefill">所有者名</string>
 	<string name="search_hbu_button">所有者名で検索</string>
 	<string name="search_tb">追跡可能アイテム</string>
-	<string name="search_tb_hint">Trackable identification</string>
+	<string name="search_tb_hint">追跡可能アイテムコード(TBコード)</string>
 	<string name="search_tb_button">追跡可能アイテムを検索</string>
 	<string name="search_destination">目的地</string>
 	<string name="search_direction_rel">この地点から</string>
 	<string name="search_lat">緯度</string>
 	<string name="search_lon">緯度</string>
-	<string name="search_caches">Search for caches</string>
+	<string name="search_caches">キャッシュの検索</string>
 	<string name="search_caches_near">近くのキャッシュ</string>
-	<string name="search_address_started">Searching for places</string>
-	<string name="search_address_result">Found places</string>
+	<string name="search_address_started">場所を検索中</string>
+	<string name="search_address_result">検索結果:場所</string>
 
 	<!-- trackable -->
 	<string name="trackable">追跡可能アイテム</string>
 	<string name="trackable_select_title">追跡可能アイテム</string>
 	<string name="trackable_details_loading">追跡可能アイテムの詳細をロード中...</string>
 	<string name="trackable_log_touch">Log touch</string>
-	<string name="trackable_more">Get more</string>
+	<string name="trackable_more">もっと詳しく</string>
 	<string name="trackable_browser_open">ブラウザで開く</string>
-	<string name="trackable_goal">ゴール</string>
+	<string name="trackable_goal">目的</string>
 	<string name="trackable_details">詳細</string>
 	<string name="trackable_image">画像</string>
 	<string name="trackable_code">TBコード</string>
@@ -486,10 +490,16 @@
 	<string name="trackable_type">タイプ</string>
 	<string name="trackable_owner">所有者</string>
 	<string name="trackable_spotted">Spotted</string>
-	<string name="trackable_origin">Origin</string>
-	<string name="trackable_unknown">Unknown</string>
+	<string name="trackable_origin">出発地</string>
+	<string name="trackable_unknown">不明</string>
 	<string name="trackable_released">リリース</string>
 	<string name="trackable_touch">Touch</string>
+
+	<!--  user -->
+	<string name="user_menu_title">About</string>
+	<string name="user_menu_view_hidden">Caches hidden</string>
+	<string name="user_menu_view_found">Caches found</string>
+	<string name="user_menu_open_browser">Open profile in browser</string>
 
 	<!-- navigation -->
 	<string name="navigation">ナビゲーション</string>
@@ -503,16 +513,17 @@
 	<!-- license -->
 	<string name="license">ライセンス</string>
 	<string name="license_show">ライセンスを表示</string>
-	<string name="license_dismiss">Dismiss</string>
+	<string name="license_dismiss">閉じる</string>
 
 	<!-- next things -->
-	<string name="legal_note">geocaching.comを使うには<a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak 利用規約(英語)</a>に同意している必要があります。</string>
-	<string name="about_text"><b>c:geo</b>はgeocaching.comのための簡単でいつでも使えるクライアントです。現在もこれからも無料です。開発を支援したいのならウェブサイトで寄付することができます。質問や提案があればFacebookかe-mailで知らせてください。</string>
+	<string name="legal_note">Geocaching.comを使うには<a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak 利用規約(英語)</a>に同意している必要があります。</string>
+	<string name="about_text"><b>c:geo</b>はGeocaching.comのための簡単でいつでも使えるクライアントです。現在もこれからも無料です。開発を支援したいのならウェブサイトで寄付することができます。質問や提案があればFacebookかe-mailにて(英語で)お知らせください。</string>
 	<string name="author">Author: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
 	<string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
 	<string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
 	<string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
+	<string name="nutshellmanual">マニュアル: <a href="http://itw.bidix.info/cgeo/">c:geoの簡易マニュアル(英語)</a></string>
 	<string name="about_go4cache"><b>Go 4 cache</b>サービスにより他のジオキャッシャーを(<b>c:geo</b>またはブラウザで)地図上にリアルタイムで表示できます。例えば、彼らがどのキャッシュを探しているのか表示できます。<b>Go 4 cache</b>に接続すれば<b>c:geo</b>でジオキャッシング中に現在地を(<b>c:geo</b>が起動している間だけ)公開することができます。</string>
 	<string name="about_twitter">キャッシュのログを書いたら<b>c:geo</b>にTwitterでつぶやいてほしい?</string>
 	<string name="about_auth_1"><b>c:geo</b>がTwitterにアクセスする許可を得るには次のようにしてください。</string>
