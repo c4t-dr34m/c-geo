@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class cgTrackable {
+	static public int SPOTTED_UNSET = 0;
+	static public int SPOTTED_CACHE = 1;
+	static public int SPOTTED_USER = 2;
+	static public int SPOTTED_UNKNOWN = 3;
+	static public int SPOTTED_OWNER = 4;
 	public int errorRetrieve = 0;
 	public String error = "";
 	public String guid = "";
@@ -17,6 +22,7 @@ public class cgTrackable {
 	public String origin = null;
 	public String owner = null;
 	public String spottedName = null;
+	public int spottedType = SPOTTED_UNSET;
 	public String spottedGuid = null;
 	public String goal = null;
 	public String details = null;
