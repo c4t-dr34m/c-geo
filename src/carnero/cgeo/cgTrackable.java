@@ -10,6 +10,7 @@ public class cgTrackable {
 	static public int SPOTTED_USER = 2;
 	static public int SPOTTED_UNKNOWN = 3;
 	static public int SPOTTED_OWNER = 4;
+	
 	public int errorRetrieve = 0;
 	public String error = "";
 	public String guid = "";

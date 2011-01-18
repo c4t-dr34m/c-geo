@@ -1927,13 +1927,13 @@ public class cgBase {
 		final Pattern patternTrackableId = Pattern.compile("<a id=\"ctl00_ContentBody_LogLink\" title=\"[^\"]*\" href=\".*log\\.aspx\\?wid=([a-z0-9\\-]+)\"[^>]*>[^<]*</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternGeocode = Pattern.compile("<span id=\"ctl00_ContentBody_BugDetails_BugTBNum\" String=\"[^\"]*\">Use[^<]*<strong>(TB[0-9a-z]+)[^<]*</strong> to reference this item.[^<]*</span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternName = Pattern.compile("<h2>([^<]*<img[^>]*>)?[^<]*<span id=\"ctl00_ContentBody_lbHeading\">([^<]+)</span>[^<]*</h2>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternOwner = Pattern.compile("<dt>[\\s]*Owner:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugOwner\" title=\"[^\"]*\" href=\"[\\S]*\\/profile\\/\\?guid=([a-z0-9\\-]+)\">([^<]+)<\\/a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternOwner = Pattern.compile("<dt>[\\s]*Owner:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugOwner\" title=\"[^\"]*\" href=\"[^\"]*/profile/\\?guid=([a-z0-9\\-]+)\">([^<]+)<\\/a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternReleased = Pattern.compile("<dt>[\\s]*Released:[^<]*</dt>[^<]*<dd>[^<]*<span id=\"ctl00_ContentBody_BugDetails_BugReleaseDate\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternOrigin = Pattern.compile("<dt>[\\s]*Origin:[^<]*</dt>[^<]*<dd>[^<]*<span id=\"ctl00_ContentBody_BugDetails_BugOrigin\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternSpottedCache = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" title=\"[^\"]*\" href=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/seek\\/cache_details.aspx\\?guid=([a-z0-9\\-]+)\">In ([^<]+)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternSpottedUser = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" href=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/profile\\/\\?guid=[a-z0-9\\-]+\">In the hands of ([^<]+).</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternSpottedUnknown = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\">(Unknown Location)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternSpottedOwner = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\">(In the hands of the owner.)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternSpottedCache = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" title=\"[^\"]*\" href=\"[^\"]*/seek/cache_details.aspx\\?guid=([a-z0-9\\-]+)\">In ([^<]+)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternSpottedUser = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" href=\"[^\"]*/profile/\\?guid=[a-z0-9\\-]+\">In the hands of ([^<]+).</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternSpottedUnknown = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\">\\(Unknown Location\\)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternSpottedOwner = Pattern.compile("<dt>[\\s]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\">\\(In the hands of the owner\\.\\)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternGoal = Pattern.compile("<h3>[\\s]*Current GOAL[^<]*</h3>[^<]*<p[^>]*>(.*)</p>[^<]*<h3>[^\\w]*About This Item[^<]*</h3>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>[^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
 
@@ -2018,6 +2018,7 @@ public class cgBase {
 			// failed to parse trackable origin
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable cache location");
 		}
+		
 		try {
 			final Matcher matcherSpotted = patternSpottedUser.matcher(page);
 			while (matcherSpotted.find()) {
@@ -2030,6 +2031,7 @@ public class cgBase {
 			// failed to parse trackable origin
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable user location");
 		}
+
 		try {
 			final Matcher matcherSpotted = patternSpottedUnknown.matcher(page);
 			while (matcherSpotted.find()) {
@@ -2041,6 +2043,7 @@ public class cgBase {
 			// failed to parse trackable origin
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable unknown location");
 		}
+
 		try {
 			final Matcher matcherSpotted = patternSpottedOwner.matcher(page);
 			while (matcherSpotted.find()) {
