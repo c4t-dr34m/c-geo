@@ -144,28 +144,33 @@ public class cgeotrackable extends Activity {
 				detailsList.addView(itemLayout);
 
 				// trackable spotted
-				if ((trackable.spottedName != null && trackable.spottedName.length() > 0)
-						|| cgTrackable.SPOTTED_UNKNOWN == trackable.spottedType
-						|| cgTrackable.SPOTTED_OWNER == trackable.spottedType) {
+				if (
+						(trackable.spottedName != null && trackable.spottedName.length() > 0) ||
+						trackable.spottedType == cgTrackable.SPOTTED_UNKNOWN ||
+						trackable.spottedType == cgTrackable.SPOTTED_OWNER
+				) {
 					itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 					itemName.setText(res.getString(R.string.trackable_spotted));
-					String text = "";
-					if (cgTrackable.SPOTTED_CACHE == trackable.spottedType) {
-						text += res.getString(R.string.trackable_spotted_in_cache) + " " + trackable.spottedName;
-					} else if (cgTrackable.SPOTTED_USER == trackable.spottedType) {
-						text += res.getString(R.string.trackable_spotted_at_user) + " " + trackable.spottedName;
-					} else if (cgTrackable.SPOTTED_UNKNOWN == trackable.spottedType) {
-						text += res.getString(R.string.trackable_spotted_unknown_location);
-					} else if (cgTrackable.SPOTTED_OWNER == trackable.spottedType) {
-						text += res.getString(R.string.trackable_spotted_owner);
+					String text = null;
+
+					if (trackable.spottedType == cgTrackable.SPOTTED_CACHE) {
+						text = res.getString(R.string.trackable_spotted_in_cache) + " " + Html.fromHtml(trackable.spottedName).toString();
+					} else if (trackable.spottedType == cgTrackable.SPOTTED_USER) {
+						text = res.getString(R.string.trackable_spotted_at_user) + " " + Html.fromHtml(trackable.spottedName).toString();
+					} else if (trackable.spottedType == cgTrackable.SPOTTED_UNKNOWN) {
+						text = res.getString(R.string.trackable_spotted_unknown_location);
+					} else if (trackable.spottedType == cgTrackable.SPOTTED_OWNER) {
+						text = res.getString(R.string.trackable_spotted_owner);
+					} else {
+						text = "N/A";
 					}
-					itemValue.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+					itemValue.setText(text);
 					itemLayout.setClickable(true);
 					itemLayout.setOnClickListener(new View.OnClickListener() {
-
 						public void onClick(View arg0) {
 							if (cgTrackable.SPOTTED_CACHE == trackable.spottedType) {
 								Intent cacheIntent = new Intent(activity, cgeodetail.class);
@@ -173,11 +178,11 @@ public class cgeotrackable extends Activity {
 								cacheIntent.putExtra("name", (String) trackable.spottedName);
 								activity.startActivity(cacheIntent);
 							} else if (cgTrackable.SPOTTED_USER == trackable.spottedType) {
-								activity.startActivity(new Intent(Intent.ACTION_VIEW,
-											Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(trackable.spottedName))));
+								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(Html.fromHtml(trackable.spottedName).toString()))));
 							}
 						}
 					});
+					
 					detailsList.addView(itemLayout);
 				}
 

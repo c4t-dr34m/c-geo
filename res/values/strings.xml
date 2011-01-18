@@ -496,7 +496,7 @@
 	<string name="trackable_spotted_owner">In the hands of the owner</string>
 	<string name="trackable_origin">Origin</string>
 	<string name="trackable_unknown">Unknown</string>
-	<string name="trackable_released">released</string>
+	<string name="trackable_released">Released</string>
 	<string name="trackable_touch">Touch</string>
 
 	<!--  user -->
