@@ -1983,6 +1983,7 @@ public class cgBase {
 			final Matcher matcherOwner = patternOwner.matcher(page);
 			while (matcherOwner.find()) {
 				if (matcherOwner.groupCount() > 0) {
+					trackable.ownerGuid = matcherOwner.group(1);
 					trackable.owner = matcherOwner.group(2);
 				}
 			}

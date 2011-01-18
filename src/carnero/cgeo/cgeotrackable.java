@@ -135,7 +135,7 @@ public class cgeotrackable extends Activity {
 					itemValue.setText(Html.fromHtml(trackable.owner), TextView.BufferType.SPANNABLE);
 					itemLayout.setOnClickListener(new View.OnClickListener() {
 						public void onClick(View arg0) {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(trackable.owner))));
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?guid=" + trackable.ownerGuid)));
 						}
 					});
 				} else {

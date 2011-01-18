@@ -22,6 +22,7 @@ public class cgTrackable {
 	public Date released = null;
 	public String origin = null;
 	public String owner = null;
+	public String ownerGuid = null;
 	public String spottedName = null;
 	public int spottedType = SPOTTED_UNSET;
 	public String spottedGuid = null;
