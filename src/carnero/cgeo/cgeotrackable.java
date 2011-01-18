@@ -1,5 +1,6 @@
 package carnero.cgeo;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import android.os.Handler;
 import android.os.Message;
@@ -132,28 +133,49 @@ public class cgeotrackable extends Activity {
 				itemName.setText(res.getString(R.string.trackable_owner));
 				if (trackable.owner != null) {
 					itemValue.setText(Html.fromHtml(trackable.owner), TextView.BufferType.SPANNABLE);
+					itemLayout.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View arg0) {
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(trackable.owner))));
+						}
+					});
 				} else {
 					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
 				detailsList.addView(itemLayout);
 
 				// trackable spotted
-				if (trackable.spottedName != null && trackable.spottedName.length() > 0) {
+				if ((trackable.spottedName != null && trackable.spottedName.length() > 0)
+						|| cgTrackable.SPOTTED_UNKNOWN == trackable.spottedType
+						|| cgTrackable.SPOTTED_OWNER == trackable.spottedType) {
 					itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 					itemName.setText(res.getString(R.string.trackable_spotted));
-					itemValue.setText(Html.fromHtml(trackable.spottedName), TextView.BufferType.SPANNABLE);
+					String text = "";
+					if (cgTrackable.SPOTTED_CACHE == trackable.spottedType) {
+						text += res.getString(R.string.trackable_spotted_in_cache) + " " + trackable.spottedName;
+					} else if (cgTrackable.SPOTTED_USER == trackable.spottedType) {
+						text += res.getString(R.string.trackable_spotted_at_user) + " " + trackable.spottedName;
+					} else if (cgTrackable.SPOTTED_UNKNOWN == trackable.spottedType) {
+						text += res.getString(R.string.trackable_spotted_unknown_location);
+					} else if (cgTrackable.SPOTTED_OWNER == trackable.spottedType) {
+						text += res.getString(R.string.trackable_spotted_owner);
+					}
+					itemValue.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
 					itemLayout.setClickable(true);
 					itemLayout.setOnClickListener(new View.OnClickListener() {
 
 						public void onClick(View arg0) {
-							Intent cacheIntent = new Intent(activity, cgeodetail.class);
-							cacheIntent.putExtra("guid", (String) trackable.spottedGuid);
-							cacheIntent.putExtra("name", (String) trackable.spottedName);
-
-							activity.startActivity(cacheIntent);
+							if (cgTrackable.SPOTTED_CACHE == trackable.spottedType) {
+								Intent cacheIntent = new Intent(activity, cgeodetail.class);
+								cacheIntent.putExtra("guid", (String) trackable.spottedGuid);
+								cacheIntent.putExtra("name", (String) trackable.spottedName);
+								activity.startActivity(cacheIntent);
+							} else if (cgTrackable.SPOTTED_USER == trackable.spottedType) {
+								activity.startActivity(new Intent(Intent.ACTION_VIEW,
+											Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(trackable.spottedName))));
+							}
 						}
 					});
 					detailsList.addView(itemLayout);
