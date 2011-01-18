@@ -480,6 +480,10 @@
 	<string name="trackable_type">Typ</string>
 	<string name="trackable_owner">Eigentümer</string>
 	<string name="trackable_spotted">Zuletzt erspäht</string>
+	<string name="trackable_spotted_in_cache">In</string>
+	<string name="trackable_spotted_at_user">Bei</string>
+	<string name="trackable_spotted_unknown_location">Unbekannter Ort</string>
+	<string name="trackable_spotted_owner">Beim Besitzer</string>
 	<string name="trackable_origin">Ursprungsort</string>
 	<string name="trackable_unknown">Unbekannt</string>
 	<string name="trackable_released">Ausgesetzt</string>
