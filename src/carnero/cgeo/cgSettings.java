@@ -41,7 +41,7 @@ public class cgSettings {
 	public int mapzoom = 14;
 	public int maplive = 1;
 	public int maptrail = 1;
-	public boolean showCaptcha = true;
+	public boolean showCaptcha = false;
 	public int excludeMine = 0;
 	public int excludeDisabled = 0;
 	public int storeOfflineMaps = 1;
@@ -88,7 +88,7 @@ public class cgSettings {
 		maplive = prefs.getInt("maplive", 1);
 		mapzoom = prefs.getInt("mapzoom", 14);
 		maptrail = prefs.getInt("maptrail", 1);
-		showCaptcha = prefs.getBoolean("showcaptcha", true);
+		showCaptcha = prefs.getBoolean("showcaptcha", false);
 		excludeMine = prefs.getInt("excludemine", 0);
 		excludeDisabled = prefs.getInt("excludedisabled", 0);
 		storeOfflineMaps = prefs.getInt("offlinemaps", 1);

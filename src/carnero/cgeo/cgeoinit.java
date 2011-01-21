@@ -228,7 +228,7 @@ public class cgeoinit extends Activity {
 		addressButton.setOnClickListener(new cgeoChangeAddress());
 
 		CheckBox captchaButton = (CheckBox) findViewById(R.id.captcha);
-		if (prefs.getBoolean("showcaptcha", true) == false) {
+		if (prefs.getBoolean("showcaptcha", false) == false) {
 			captchaButton.setChecked(false);
 		} else {
 			captchaButton.setChecked(true);
@@ -448,7 +448,7 @@ public class cgeoinit extends Activity {
 
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getBoolean("showcaptcha", true) == false) {
+			if (prefs.getBoolean("showcaptcha", false) == false) {
 				edit.putBoolean("showcaptcha", true);
 				settings.showCaptcha = true;
 			} else {
@@ -458,7 +458,7 @@ public class cgeoinit extends Activity {
 			edit.commit();
 
 			CheckBox captchaButton = (CheckBox) findViewById(R.id.captcha);
-			if (prefs.getBoolean("showcaptcha", true) == false) {
+			if (prefs.getBoolean("showcaptcha", false) == false) {
 				captchaButton.setChecked(false);
 			} else {
 				captchaButton.setChecked(true);
