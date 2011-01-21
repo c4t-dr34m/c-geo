@@ -207,9 +207,8 @@ public class cgGPXParser {
 		// waypoint.sym
 		waypoint.getChild(ns, "sym").setEndTextElementListener(new EndTextElementListener(){
 			public void end(String body) {
-				sym = body;
-
 				body = body.toLowerCase();
+				sym = body;
 				if (body.indexOf("geocache") != -1 && body.indexOf("found") != -1) {
 					cache.found = true;
 				}
