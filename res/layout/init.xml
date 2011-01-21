@@ -160,6 +160,22 @@
 					android:hint="@string/init_signature"
 					android:lines="3"
 					android:scrollHorizontally="false" />
+			<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:gravity="right"
+					android:orientation="vertical" >
+				<Button style="@style/button"
+						android:id="@+id/signature_help"
+						android:layout_width="wrap_content"
+						android:layout_weight="1"
+						android:layout_marginLeft="10dip"
+						android:layout_marginRight="10dip"
+						android:layout_marginBottom="5dip"
+						android:layout_alignParentRight="true"
+						android:gravity="right"
+						android:textSize="14dip"
+						android:text="@string/init_signature_help_button" />
+			</LinearLayout>
 <!-- ** -->
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />

@@ -294,6 +294,9 @@
 	<string name="init_twitter_authorize">Inställningar för Twitter</string>
 	<string name="init_twitter_publish">Publicera status när en cache hittats</string>
 	<string name="init_signature">Signatur</string>
+	<string name="init_signature_help_button">Hjälp</string>
+	<string name="init_signature_help_title">Tips och tricks</string>
+	<string name="init_signature_help_text">Skriv den signatur som du vill använda i dina loggtexter.\nDet finns några speciella texter som kan användas och som expanderas när signaturen läggs in: [DATE] , [TIME] &amp; [USER].</string>
 	<string name="init_other">Övriga inställningar</string>
 	<string name="init_skin">Vitt skal (kräver omstart av c:geo)</string>
 	<string name="init_transparent">Transparent huvudmeny</string>

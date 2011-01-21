@@ -264,11 +264,11 @@ public class cgeovisit extends cgLogForm {
 		SubMenu subMenu = null;
 
 		subMenu = menu.addSubMenu(0, 0, 0, res.getString(R.string.log_add)).setIcon(android.R.drawable.ic_menu_add);
-		subMenu.add(0, 1, 0, res.getString(R.string.log_date_time));
-		subMenu.add(0, 2, 0, res.getString(R.string.log_date));
-		subMenu.add(0, 3, 0, res.getString(R.string.log_time));
-		subMenu.add(0, 4, 0, res.getString(R.string.init_signature));
-		subMenu.add(0, 5, 0, res.getString(R.string.log_date_time) + " & " + res.getString(R.string.init_signature));
+		subMenu.add(0, 0x6, 0, res.getString(R.string.log_date_time));
+		subMenu.add(0, 0x4, 0, res.getString(R.string.log_date));
+		subMenu.add(0, 0x2, 0, res.getString(R.string.log_time));
+		subMenu.add(0, 0x1, 0, res.getString(R.string.init_signature));
+		subMenu.add(0, 0x7, 0, res.getString(R.string.log_date_time) + " & " + res.getString(R.string.init_signature));
 
 		subMenu = menu.addSubMenu(0, 9, 0, res.getString(R.string.log_rating)).setIcon(android.R.drawable.ic_menu_sort_by_size);
 		subMenu.add(0, 10, 0, res.getString(R.string.log_no_rating));
@@ -284,11 +284,11 @@ public class cgeovisit extends cgLogForm {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (settings.getSignature() == null) {
-			menu.findItem(4).setVisible(false);
-			menu.findItem(5).setVisible(false);
+			menu.findItem(0x1).setVisible(false);
+			menu.findItem(0x7).setVisible(false);
 		} else {
-			menu.findItem(4).setVisible(true);
-			menu.findItem(5).setVisible(true);
+			menu.findItem(0x1).setVisible(true);
+			menu.findItem(0x7).setVisible(true);
 		}
 
 		if (settings.isGCvoteLogin() && typeSelected == 2 && cache.guid != null && cache.guid.length() > 0) {
@@ -308,66 +308,37 @@ public class cgeovisit extends cgLogForm {
 		String textContent = null;
 		String dateString = null;
 		String timeString = null;
+		String addText = "";
 
-		if ((id >= 1 && id <= 4) || id == 5) {
+		if ((id >= 0x1 && id <= 0x7)) {
 			text = (EditText) findViewById(R.id.log);
 			textContent = text.getText().toString();
 			dateString = base.dateOut.format(new Date());
 			timeString = base.timeOut.format(new Date());
-		}
-
-		if (id == 1) {
-			if (textContent.length() == 0) {
-				text.setText(dateString + " | " + timeString + "\n", TextView.BufferType.NORMAL);
-			} else {
-				text.setText(textContent + "\n" + dateString + " | " + timeString + "\n", TextView.BufferType.NORMAL);
+		
+			if ((id & 0x4) == 0x4) {
+				addText += dateString;
+				if ((id & 0x2) == 0x2) {
+					addText += " | ";
+				}
 			}
+			if ((id & 0x2) == 0x2) {
+				addText += timeString;
+			}
+			if ((id & 0x1) == 0x1 && settings.getSignature() != null) {
+				if (addText.length() > 0) {
+					addText += "\n";
+				}
+				addText += settings.getSignature()
+				.replaceAll("\\[DATE\\]", dateString)
+				.replaceAll("\\[TIME\\]", timeString)
+				.replaceAll("\\[USER\\]", settings.getUsername());
+			}
+			if (textContent.length() > 0 && addText.length() > 0 ) {
+				addText = "\n" + addText;
+			}
+			text.setText(textContent + addText, TextView.BufferType.NORMAL);
 			text.setSelection(text.getText().toString().length());
-
-			return true;
-		} else if (id == 2) {
-			if (textContent.length() == 0) {
-				text.setText(dateString + "\n", TextView.BufferType.NORMAL);
-			} else {
-				text.setText(textContent + "\n" + dateString + "\n", TextView.BufferType.NORMAL);
-			}
-			text.setSelection(text.getText().toString().length());
-
-			return true;
-		} else if (id == 3) {
-			if (textContent.length() == 0) {
-				text.setText(timeString + "\n", TextView.BufferType.NORMAL);
-			} else {
-				text.setText(textContent + "\n" + timeString + "\n", TextView.BufferType.NORMAL);
-			}
-			text.setSelection(text.getText().toString().length());
-
-			return true;
-		} else if (id == 4) {
-			if (settings.getSignature() == null) {
-				return true;
-			}
-
-			if (textContent.length() == 0) {
-				text.setText(settings.getSignature() + "\n", TextView.BufferType.NORMAL);
-			} else {
-				text.setText(textContent + "\n" + settings.getSignature() + "\n", TextView.BufferType.NORMAL);
-			}
-			text.setSelection(text.getText().toString().length());
-
-			return true;
-		} else if (id == 5) {
-			if (settings.getSignature() == null) {
-				return true;
-			}
-
-			if (textContent.length() == 0) {
-				text.setText(dateString + " | " + timeString + "\n" + settings.getSignature() + "\n", TextView.BufferType.NORMAL);
-			} else {
-				text.setText(textContent + "\n" + dateString + " | " + timeString + "\n" + settings.getSignature() + "\n", TextView.BufferType.NORMAL);
-			}
-			text.setSelection(text.getText().toString().length());
-
 			return true;
 		} else if (id >= 10 && id <= 15) {
 			rating = id - 10;

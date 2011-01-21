@@ -210,6 +210,12 @@ public class cgeoinit extends Activity {
 		if (sigEdit.getText().length() == 0) {
 			sigEdit.setText(settings.getSignature());
 		}
+		Button sigBtn = (Button) findViewById(R.id.signature_help);
+		sigBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				warning.helpDialog(res.getString(R.string.init_signature_help_title), res.getString(R.string.init_signature_help_text));
+			}
+		});
 
 		CheckBox skinButton = (CheckBox) findViewById(R.id.skin);
 		if (prefs.getInt("skin", 0) == 0) {

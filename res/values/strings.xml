@@ -293,6 +293,9 @@
 	<string name="init_twitter_authorize">Authorize c:geo</string>
 	<string name="init_twitter_publish">Publish status when cache found</string>
 	<string name="init_signature">Signature</string>
+	<string name="init_signature_help_button">Help</string>
+	<string name="init_signature_help_title">Signature tips and tricks</string>
+	<string name="init_signature_help_text">Write your signature to use in log text.\nSpecial strings that can be used are: [DATE] , [TIME] &amp; [USER].\nThese will be expanded when the signature is inserted.</string>
 	<string name="init_other">Other options</string>
 	<string name="init_skin">Light skin (needs restart of c:geo)</string>
 	<string name="init_transparent">Use transparent c:geo mainscreen</string>
