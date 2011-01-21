@@ -178,7 +178,7 @@ public class cgeotrackable extends Activity {
 								cacheIntent.putExtra("name", (String) trackable.spottedName);
 								activity.startActivity(cacheIntent);
 							} else if (cgTrackable.SPOTTED_USER == trackable.spottedType) {
-								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(Html.fromHtml(trackable.spottedName).toString()))));
+								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?guid=" + trackable.spottedGuid)));
 							}
 						}
 					});

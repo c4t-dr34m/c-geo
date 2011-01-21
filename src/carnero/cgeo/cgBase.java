@@ -1931,7 +1931,7 @@ public class cgBase {
 		final Pattern patternReleased = Pattern.compile("<dt>[^\\w]*Released:[^<]*</dt>[^<]*<dd>[^<]*<span id=\"ctl00_ContentBody_BugDetails_BugReleaseDate\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternOrigin = Pattern.compile("<dt>[^\\w]*Origin:[^<]*</dt>[^<]*<dd>[^<]*<span id=\"ctl00_ContentBody_BugDetails_BugOrigin\">([^<]+)<\\/span>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternSpottedCache = Pattern.compile("<dt>[^\\w]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" title=\"[^\"]*\" href=\"[^\"]*/seek/cache_details.aspx\\?guid=([a-z0-9\\-]+)\">In ([^<]+)</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternSpottedUser = Pattern.compile("<dt>[^\\w]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" href=\"[^\"]*/profile/\\?guid=[a-z0-9\\-]+\">In the hands of ([^<]+).</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternSpottedUser = Pattern.compile("<dt>[^\\w]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\" href=\"[^\"]*/profile/\\?guid=([a-z0-9\\-]+)\">In the hands of ([^<]+).</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternSpottedUnknown = Pattern.compile("<dt>[^\\w]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\">Unknown Location[^<]*</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternSpottedOwner = Pattern.compile("<dt>[^\\w]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\">In the hands of the owner[^<]*</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternGoal = Pattern.compile("<h3>[^\\w]*Current GOAL[^<]*</h3>[^<]*<p[^>]*>(.*)</p>[^<]*<h3>[^\\w]*About This Item[^<]*</h3>", Pattern.CASE_INSENSITIVE);
@@ -2019,7 +2019,8 @@ public class cgBase {
 			final Matcher matcherSpottedUser = patternSpottedUser.matcher(page);
 			while (matcherSpottedUser.find()) {
 				if (matcherSpottedUser.groupCount() > 0) {
-					trackable.spottedName = matcherSpottedUser.group(1);
+					trackable.spottedGuid = matcherSpottedUser.group(1);
+					trackable.spottedName = matcherSpottedUser.group(2);
 					trackable.spottedType = cgTrackable.SPOTTED_USER;
 				}
 			}
