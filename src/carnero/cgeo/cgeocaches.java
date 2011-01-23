@@ -91,8 +91,11 @@ public class cgeocaches extends ListActivity {
 
 					if (count != null && count > 0) {
 						base.setTitle(activity, title + " (" + size + "/" + count + ")");
-						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) setMoreCaches(true);
-						else setMoreCaches(false);
+						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) {
+							setMoreCaches(true);
+						} else {
+							setMoreCaches(false);
+						}
 					} else {
 						base.setTitle(activity, title);
 						setMoreCaches(false);
@@ -840,7 +843,9 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private void showOnMap() {
-		if (searchId == null || searchId == 0) {
+		if (searchId == null || searchId == 0 || cacheList == null || cacheList.isEmpty() == true) {
+			warning.showToast(res.getString(R.string.warn_no_cache_coord));
+			
 			return;
 		}
 

@@ -557,11 +557,16 @@
 
 	<!-- changelog -->
 	<string name="changelog">\n
-<b>2.00</b> (__.01.2011)\n
+<b>2.01</b> (__.02.2011)\n
+· fix: ___\n
+\n
+<b>2.00</b> (23.01.2011)\n
 · new: Context menu for geocachers (in cache detail)\n
 · new: Option to add date, time and signature at once\n
 · new: Better trackable support\n
 · new: Signature template\n
+· new: Any destination saves last used location\n
+· fix: End of line in logs\n
 \n
 <b>1.20</b> (09.01.2011)\n
 · fix: Lists and map\n

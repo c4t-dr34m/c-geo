@@ -399,9 +399,9 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		if (cache.vote != null && cache.vote > 0) {
-			if (cache.vote > 3) {
+			if (cache.vote >= 4) {
 				holder.favourite.setBackgroundResource(ratingBcgs[2]);
-			} else if (cache.vote > 1) {
+			} else if (cache.vote >= 3) {
 				holder.favourite.setBackgroundResource(ratingBcgs[1]);
 			} else if (cache.vote > 0) {
 				holder.favourite.setBackgroundResource(ratingBcgs[0]);
@@ -413,9 +413,9 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 				}
 			}
 		} else if (cache.rating != null && cache.rating > 0) {
-			if (cache.rating >= 3.4) {
+			if (cache.rating >= 3.5) {
 				holder.favourite.setBackgroundResource(ratingBcgs[2]);
-			} else if (cache.rating >= 1.5) {
+			} else if (cache.rating >= 2.1) {
 				holder.favourite.setBackgroundResource(ratingBcgs[1]);
 			} else if (cache.rating > 0.0) {
 				holder.favourite.setBackgroundResource(ratingBcgs[0]);

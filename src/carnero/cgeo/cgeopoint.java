@@ -3,10 +3,12 @@ package carnero.cgeo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ public class cgeopoint extends Activity {
 	private Resources res = null;
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
+	private SharedPreferences prefs = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
 	private Activity activity = null;
@@ -26,6 +29,7 @@ public class cgeopoint extends Activity {
 	private cgUpdateLoc geoUpdate = new update();
 	private EditText latEdit = null;
 	private EditText lonEdit = null;
+	private boolean changed = false;
 
    @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,7 @@ public class cgeopoint extends Activity {
 		app = (cgeoapplication)this.getApplication();
 		res = this.getResources();
 		settings = new cgSettings(activity, activity.getSharedPreferences(cgSettings.preferences, 0));
+		prefs = getSharedPreferences(cgSettings.preferences, 0);
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
 
@@ -92,6 +97,29 @@ public class cgeopoint extends Activity {
 	private void init() {
         if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 
+		EditText latitudeEdit = (EditText)findViewById(R.id.latitude);
+		latitudeEdit.setOnKeyListener(new View.OnKeyListener() {
+			public boolean onKey(View v, int i, KeyEvent k) {
+				changed = true;
+
+				return false;
+			}
+		});
+
+		EditText longitudeEdit = (EditText)findViewById(R.id.longitude);
+		longitudeEdit.setOnKeyListener(new View.OnKeyListener() {
+			public boolean onKey(View v, int i, KeyEvent k) {
+				changed = true;
+
+				return false;
+			}
+		});
+
+		if (prefs.contains("anylatitude") == true && prefs.contains("anylongitude") == true) {
+			latitudeEdit.setText(base.formatCoordinate(new Double(prefs.getFloat("anylatitude", 0f)), "lat", true));
+			longitudeEdit.setText(base.formatCoordinate(new Double(prefs.getFloat("anylongitude", 0f)), "lon", true));
+		}
+
 		Button buttonCurrent = (Button)findViewById(R.id.current);
 		buttonCurrent.setOnClickListener(new currentListener());
 
@@ -131,6 +159,8 @@ public class cgeopoint extends Activity {
 
 			((EditText)findViewById(R.id.latitude)).setText(base.formatCoordinate(geo.latitudeNow, "lat", true));
 			((EditText)findViewById(R.id.longitude)).setText(base.formatCoordinate(geo.longitudeNow, "lon", true));
+
+			changed = false;
 		}
 	}
 
@@ -345,7 +375,27 @@ public class cgeopoint extends Activity {
 			return null;
 		}
 
+		saveCoords(coords.get(0), coords.get(1));
+
 		return coords;
+	}
+
+	private void saveCoords(Double latitude, Double longitude) {
+		if (changed == true && latitude == null || longitude == null) {
+			SharedPreferences.Editor edit = prefs.edit();
+
+			edit.putFloat("anylatitude", new Float(latitude));
+			edit.putFloat("anylongitude", new Float(longitude));
+
+			edit.commit();
+		} else {
+			SharedPreferences.Editor edit = prefs.edit();
+
+			edit.remove("anylatitude");
+			edit.remove("anylongitude");
+
+			edit.commit();
+		}
 	}
 
 	public void goHome(View view) {

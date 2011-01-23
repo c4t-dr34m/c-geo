@@ -3357,6 +3357,8 @@ public class cgBase {
 		}
 		log = logUpdated.toString();
 
+		log = log.replace("\n", "\r\n"); // windows' eol
+
 		if (trackables != null) {
 			Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: " + trackables.size());
 		} else {
