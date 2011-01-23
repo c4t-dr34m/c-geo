@@ -30,6 +30,8 @@ public class cgHtmlImg implements Html.ImageGetter {
 	private boolean placement = true;
 	private int reason = 0;
 	private boolean onlySave = false;
+	private Bitmap imagePre = null;
+	private BitmapFactory.Options bfOptions = new BitmapFactory.Options();
 
 	public cgHtmlImg(Activity activityIn, cgSettings settingsIn, String geocodeIn, boolean placementIn, int reasonIn, boolean onlySaveIn) {
 		activity = activityIn;
@@ -38,11 +40,12 @@ public class cgHtmlImg implements Html.ImageGetter {
 		placement = placementIn;
 		reason = reasonIn;
 		onlySave = onlySaveIn;
+
+		bfOptions.inTempStorage = new byte[16*1024];
 	}
 
 	@Override
 	public BitmapDrawable getDrawable(String url) {
-		Bitmap imagePre = null;
 		String dirName = null;
 		String fileName = null;
 		String fileNameSec = null;
@@ -83,12 +86,42 @@ public class cgHtmlImg implements Html.ImageGetter {
             final File file = new File(fileName);
             final File fileSec = new File(fileNameSec);
             if (file.exists() == true) {
+				final long imageSize = file.length();
+
+				// large images will be downscaled on input to save memory
+				if (imageSize > (6 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 48;
+				} else if (imageSize > (4 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 16;
+				} else if (imageSize > (2 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 10;
+				} else if (imageSize > (1 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 6;
+				} else if (imageSize > (0.5 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 2;
+				}
+
                 if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
-                    imagePre = BitmapFactory.decodeFile(fileName);
+                    imagePre = BitmapFactory.decodeFile(fileName, bfOptions);
                 }
             } else if (fileSec.exists() == true) {
+				final long imageSize = fileSec.length();
+
+				// large images will be downscaled on input to save memory
+				if (imageSize > (6 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 48;
+				} else if (imageSize > (4 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 16;
+				} else if (imageSize > (2 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 10;
+				} else if (imageSize > (1 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 6;
+				} else if (imageSize > (0.5 * 1024 * 1024)) {
+					bfOptions.inSampleSize = 2;
+				}
+
                 if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
-                    imagePre = BitmapFactory.decodeFile(fileNameSec);
+                    imagePre = BitmapFactory.decodeFile(fileNameSec, bfOptions);
                 }
 			}
 		} catch (Exception e) {
@@ -127,7 +160,6 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 						final long imageSize = bufferedEntity.getContentLength();
 
-						final BitmapFactory.Options bfOptions = new BitmapFactory.Options();
 						// large images will be downscaled on input to save memory
 						if (imageSize > (6 * 1024 * 1024)) {
 							bfOptions.inSampleSize = 48;
@@ -140,7 +172,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 						} else if (imageSize > (0.5 * 1024 * 1024)) {
 							bfOptions.inSampleSize = 2;
 						}
-
+						
 						Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
 
 						if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
@@ -180,8 +212,11 @@ public class cgHtmlImg implements Html.ImageGetter {
 			if (imagePre == null) {
 				Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to obtain image");
 
-				if (placement == false) imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_no_placement);
-				else imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_not_loaded);
+				if (placement == false) {
+					imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_no_placement);
+				} else {
+					imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_not_loaded);
+				}
 			}
 
 			Display display = ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -218,5 +253,15 @@ public class cgHtmlImg implements Html.ImageGetter {
 		}
 
 		return null;
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		if (imagePre != null) {
+			imagePre.recycle();
+			imagePre = null;
+		}
+
+		super.finalize();
 	}
 }
