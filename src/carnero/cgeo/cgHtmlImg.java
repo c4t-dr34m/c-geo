@@ -254,14 +254,4 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 		return null;
 	}
-
-	@Override
-	protected void finalize() throws Throwable {
-		if (imagePre != null) {
-			imagePre.recycle();
-			imagePre = null;
-		}
-
-		super.finalize();
-	}
 }
