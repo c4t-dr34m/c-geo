@@ -234,7 +234,8 @@ public class cgeotouch extends cgLogForm {
 				addText += settings.getSignature()
 				.replaceAll("\\[DATE\\]", dateString)
 				.replaceAll("\\[TIME\\]", timeString)
-				.replaceAll("\\[USER\\]", settings.getUsername());
+				.replaceAll("\\[USER\\]", settings.getUsername())
+				.replaceAll("\\[NUMBER\\]", "");
 			}
 			if (textContent.length() > 0 && addText.length() > 0 ) {
 				addText = "\n" + addText;
