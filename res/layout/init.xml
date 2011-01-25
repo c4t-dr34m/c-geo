@@ -158,6 +158,7 @@
 			<EditText style="@style/edittext"
 					android:id="@+id/signature"
 					android:hint="@string/init_signature"
+					android:singleLine="false"
 					android:lines="3"
 					android:scrollHorizontally="false" />
 			<LinearLayout android:layout_width="fill_parent"

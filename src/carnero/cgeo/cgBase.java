@@ -3520,6 +3520,8 @@ public class cgBase {
 
 		Log.i(cgSettings.tag, "Trying to post log for trackable #" + trackingCode + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log);
 
+		log = log.replace("\n", "\r\n"); // windows' eol
+
 		final Calendar currentDate = Calendar.getInstance();
 		final String host = "www.geocaching.com";
 		final String path = "/track/log.aspx?wid=" + tbid;

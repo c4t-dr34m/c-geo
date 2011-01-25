@@ -557,6 +557,9 @@
 
 	<!-- changelog -->
 	<string name="changelog">\n
+<b>2.02</b> (__.02.2011)\n
+· fix: ___\n
+\n
 <b>2.01</b> (23.01.2011)\n
 · fix: Fixed crashing due to loading large images\n
 \n
