@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Handler;
@@ -114,9 +115,18 @@ public class cgeovisit extends cgLogForm {
 					((TextView) inventoryItem.findViewById(R.id.action)).setText(base.logTypesTrackable.get(0));
 
 					inventoryItem.setId(tb.id);
+					final String tbCode = tb.trackCode;
 					inventoryItem.setClickable(true);
 					registerForContextMenu(inventoryItem);
-					inventoryItem.setOnClickListener(new View.OnClickListener() {
+					inventoryItem.findViewById(R.id.name).setOnClickListener(new View.OnClickListener() {
+
+						public void onClick(View view) {
+							final Intent trackablesIntent = new Intent(activity, cgeotrackable.class);
+							trackablesIntent.putExtra("geocode", tbCode);
+							activity.startActivity(trackablesIntent);							
+						}
+					});
+					inventoryItem.findViewById(R.id.action).setOnClickListener(new View.OnClickListener() {
 
 						public void onClick(View view) {
 							openContextMenu(view);
