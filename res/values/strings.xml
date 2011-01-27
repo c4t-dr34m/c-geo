@@ -540,6 +540,8 @@
 
 	<!-- contributors -->
 	<string name="contributors">\n
+· Sony Ericsson (free XPERIA X10 for developement)\n
+\n
 · 0xErnie (localization DE)\n
 · Charles (localization FR)\n
 · Denny (localization DA)\n
@@ -558,7 +560,7 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>2.02</b> (__.02.2011)\n
-· fix: ___\n
+· fix: Number of found caches in signature\n
 \n
 <b>2.01</b> (23.01.2011)\n
 · fix: Fixed crashing due to loading large images\n

@@ -330,19 +330,22 @@ public class cgeovisit extends cgLogForm {
 				if (addText.length() > 0) {
 					addText += "\n";
 				}
-				if (settings.getSignature().contains("[NUMBER]")) {
+
+				if (settings.getSignature().contains("[NUMBER]") == true) {
 					final HashMap<String, String> params = new HashMap<String, String>();
 					final String page = base.request("www.geocaching.com", "/my/", "GET", params, false, false, false);
-					String current = base.parseFindCount(page);
-					if (current != null && current.length() > 0) {
-						findCount = "" + (Integer.parseInt(current) + 1);
+					int current = base.parseFindCount(page);
+
+					if (current >= 0) {
+						findCount = "" + current + 1;
 					}
 				}
+
 				addText += settings.getSignature()
-				.replaceAll("\\[DATE\\]", dateString)
-				.replaceAll("\\[TIME\\]", timeString)
-				.replaceAll("\\[USER\\]", settings.getUsername())
-				.replaceAll("\\[NUMBER\\]", findCount);
+						.replaceAll("\\[DATE\\]", dateString)
+						.replaceAll("\\[TIME\\]", timeString)
+						.replaceAll("\\[USER\\]", settings.getUsername())
+						.replaceAll("\\[NUMBER\\]", findCount);
 			}
 			if (textContent.length() > 0 && addText.length() > 0 ) {
 				addText = "\n" + addText;

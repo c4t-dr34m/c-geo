@@ -2221,19 +2221,19 @@ public class cgBase {
 		return trackables;
 	}
 
-	public String parseFindCount(String page) {
+	public int parseFindCount(String page) {
 		if (page == null || page.length() == 0) {
-			return "";
+			return -1;
 		}
 
-		String findCount = "";
+		int findCount = -1;
 		
 		final Pattern findPattern = Pattern.compile("<strong>Caches Found:<\\/strong>([^<]+)<br", Pattern.CASE_INSENSITIVE);
 		final Matcher findMatcher = findPattern.matcher(page);
-		if (findMatcher.find()) {
+		if (findMatcher.find() == true) {
 			if (findMatcher.groupCount() > 0) {
 				if (findMatcher.group(1) != null) {
-					findCount = findMatcher.group(1).trim();
+					findCount = Integer.parseInt(findMatcher.group(1).trim());
 				}
 			}
 		}
