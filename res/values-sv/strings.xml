@@ -123,6 +123,7 @@
 	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd för att visas på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
 	<string name="err_detail_no_spoiler">c:geo hittade inga spoiler bilder för den här cachen.</string>
 	<string name="err_detail_no_map_static">c:geo hittade inga sparade kartor för denna cache.</string>
+	<string name="err_detail_not_load_map_static">Tyvärr, c:geo misslyckades att ladda sparade kartor.</string>
 	<string name="err_detail_still_removing">Fortsätter att ta bort denna cache.</string>
 	<string name="err_detail_still_saving">Fortsätter att spara denna cache.</string>
 	<string name="err_detail_still_refreshing">Fortsätter att ladda om denna cache.</string>
