@@ -264,6 +264,7 @@ public class cgData {
 			db.execSQL("create index if not exists in_c on " + dbTableCaches + " (reason)");
 			db.execSQL("create index if not exists in_d on " + dbTableCaches + " (detailed)");
 			db.execSQL("create index if not exists in_e on " + dbTableCaches + " (type)");
+			db.execSQL("create index if not exists in_f on " + dbTableCaches + " (visiteddate, detailedupdate)");
 			db.execSQL("create index if not exists in_a on " + dbTableAttributes + " (geocode)");
 			db.execSQL("create index if not exists in_a on " + dbTableWaypoints + " (geocode)");
 			db.execSQL("create index if not exists in_b on " + dbTableWaypoints + " (geocode, type)");
@@ -461,6 +462,7 @@ public class cgData {
 					if (oldVersion < 46) { // upgrade to 46
 						try {
 							db.execSQL("alter table " + dbTableCaches + " add column visiteddate long");
+							db.execSQL("create index if not exists in_f on " + dbTableCaches + " (visiteddate, detailedupdate)");
 
 							Log.i(cgSettings.tag, "Added column for date of visit.");
 						} catch (Exception e) {
@@ -2039,7 +2041,7 @@ public class cgData {
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"_id", "geocode"},
-					"reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)),
+					"reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and visiteddate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)),
 					null,
 					null,
 					null,
