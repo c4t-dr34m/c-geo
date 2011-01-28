@@ -14,7 +14,8 @@
 			android:src="@null" />
 	<EditText style="@style/edittext_dialog"
 			android:id="@+id/text"
-			android:hint="@string/caches_recaptcha_hint" />
+			android:hint="@string/caches_recaptcha_hint"
+			android:inputType="textNoSuggestions" />
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
