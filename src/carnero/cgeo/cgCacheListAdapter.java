@@ -39,6 +39,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private LayoutInflater inflater = null;
 	private Activity activity = null;
 	private cgBase base = null;
+	private boolean historic = false;
 	private Double latitude = null;
 	private Double longitude = null;
 	private Double azimuth = new Double(0);
@@ -94,6 +95,10 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			ratingBcgs[1] = R.drawable.favourite_background_orange_light;
 			ratingBcgs[2] = R.drawable.favourite_background_green_light;
 		}
+	}
+
+	public void setHistoric(boolean historicIn) {
+		historic = historicIn;
 	}
 
 	public int getChecked() {
@@ -429,40 +434,46 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		StringBuilder cacheInfo = new StringBuilder();
-		if (cache.geocode != null && cache.geocode.length() > 0) {
-			cacheInfo.append(cache.geocode);
-		}
-		if (cache.size != null && cache.size.length() > 0) {
-			if (cacheInfo.length() > 0) {
-				cacheInfo.append(" | ");
+		if (historic == true && cache.visitedDate != null) {
+			cacheInfo.append(base.dateOut.format(cache.visitedDate));
+			cacheInfo.append(" ");
+			cacheInfo.append(base.timeOut.format(cache.visitedDate));
+		} else {
+			if (cache.geocode != null && cache.geocode.length() > 0) {
+				cacheInfo.append(cache.geocode);
 			}
-			cacheInfo.append(cache.size);
-		}
-		if ((cache.difficulty != null && cache.difficulty > 0f) || (cache.terrain != null && cache.terrain > 0f) || (cache.rating != null && cache.rating > 0f)) {
-			if (cacheInfo.length() > 0 && ((cache.difficulty != null && cache.difficulty > 0f) || (cache.terrain != null && cache.terrain > 0f))) {
-				cacheInfo.append(" |");
+			if (cache.size != null && cache.size.length() > 0) {
+				if (cacheInfo.length() > 0) {
+					cacheInfo.append(" | ");
+				}
+				cacheInfo.append(cache.size);
 			}
+			if ((cache.difficulty != null && cache.difficulty > 0f) || (cache.terrain != null && cache.terrain > 0f) || (cache.rating != null && cache.rating > 0f)) {
+				if (cacheInfo.length() > 0 && ((cache.difficulty != null && cache.difficulty > 0f) || (cache.terrain != null && cache.terrain > 0f))) {
+					cacheInfo.append(" |");
+				}
 
-			if (cache.difficulty != null && cache.difficulty > 0f) {
-				cacheInfo.append(" D:");
-				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.difficulty));
+				if (cache.difficulty != null && cache.difficulty > 0f) {
+					cacheInfo.append(" D:");
+					cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.difficulty));
+				}
+				if (cache.terrain != null && cache.terrain > 0f) {
+					cacheInfo.append(" T:");
+					cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.terrain));
+				}
 			}
-			if (cache.terrain != null && cache.terrain > 0f) {
-				cacheInfo.append(" T:");
-				cacheInfo.append(String.format(Locale.getDefault(), "%.1f", cache.terrain));
+			if (cache.members == true) {
+				if (cacheInfo.length() > 0) {
+					cacheInfo.append(" | ");
+				}
+				cacheInfo.append(res.getString(R.string.cache_premium));
 			}
-		}
-		if (cache.members == true) {
-			if (cacheInfo.length() > 0) {
-				cacheInfo.append(" | ");
+			if (cache.reason != null && cache.reason == 1) {
+				if (cacheInfo.length() > 0) {
+					cacheInfo.append(" | ");
+				}
+				cacheInfo.append(res.getString(R.string.cache_offline));
 			}
-			cacheInfo.append(res.getString(R.string.cache_premium));
-		}
-		if (cache.reason != null && cache.reason == 1) {
-			if (cacheInfo.length() > 0) {
-				cacheInfo.append(" | ");
-			}
-			cacheInfo.append(res.getString(R.string.cache_offline));
 		}
 		holder.info.setText(cacheInfo.toString());
 

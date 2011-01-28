@@ -8,6 +8,7 @@ public class cgCache {
 
 	public Long updated = null;
 	public Long detailedUpdate = null;
+	public Long visitedDate = null;
 	public Integer reason = 0;
 	public Boolean detailed = false;
 	public String geocode = "";
@@ -90,6 +91,9 @@ public class cgCache {
 			detailedUpdate = System.currentTimeMillis();
 		}
 
+		if (visitedDate == null || visitedDate == 0) {
+			visitedDate = oldCache.visitedDate;
+		}
 		if (reason == null || reason == 0) {
 			reason = oldCache.reason;
 		}

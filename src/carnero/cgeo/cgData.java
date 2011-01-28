@@ -777,6 +777,7 @@ public class cgData {
 			values.put("detailed", 0);
 		}
 		values.put("detailedupdate", cache.detailedUpdate);
+		values.put("visiteddate", cache.visitedDate);
 		values.put("geocode", cache.geocode);
 		values.put("cacheid", cache.cacheid);
 		values.put("guid", cache.guid);
@@ -1209,7 +1210,7 @@ public class cgData {
 				cursor = databaseRO.query(
 						dbTableCaches,
 						new String[]{
-							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "owner_real", "hidden", "hint", "size",
+							"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "owner", "owner_real", "hidden", "hint", "size",
 							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
 							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
@@ -1234,7 +1235,7 @@ public class cgData {
 				cursor = databaseRO.query(
 						dbTableCaches,
 						new String[]{
-							"_id", "updated", "reason", "detailed", "detailedupdate", "geocode", "cacheid", "guid", "type", "name", "owner", "owner_real", "hidden", "hint", "size",
+							"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "owner", "owner_real", "hidden", "hint", "size",
 							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
 							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
@@ -1267,6 +1268,7 @@ public class cgData {
 							cache.detailed = false;
 						}
 						cache.detailedUpdate = (Long) cursor.getLong(cursor.getColumnIndex("detailedupdate"));
+						cache.visitedDate = (Long) cursor.getLong(cursor.getColumnIndex("visiteddate"));
 						cache.geocode = (String) cursor.getString(cursor.getColumnIndex("geocode"));
 						cache.cacheid = (String) cursor.getString(cursor.getColumnIndex("cacheid"));
 						cache.guid = (String) cursor.getString(cursor.getColumnIndex("guid"));
@@ -1774,6 +1776,21 @@ public class cgData {
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.loadAllStoredCachesCount: " + e.toString());
+		}
+
+		return count;
+	}
+
+	public int getAllHistoricCachesCount(boolean detailedOnly, String cachetype) {
+		init();
+
+		int count = 0;
+
+		try {
+			sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where visiteddate > 0");
+			count = (int) sqlCount.simpleQueryForLong();
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.getAllHistoricCachesCount: " + e.toString());
 		}
 
 		return count;

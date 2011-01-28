@@ -346,13 +346,16 @@ public class cgeocaches extends ListActivity {
 		init();
 
 		String typeText;
-		if (cachetype != null && base.cacheTypesInv.containsKey(cachetype) == true) typeText = "\n" + res.getString(R.string.type) + ": " + base.cacheTypesInv.get(cachetype);
-		else typeText = "\n" + res.getString(R.string.type) + ": " + res.getString(R.string.all_types);
+		if (cachetype != null && base.cacheTypesInv.containsKey(cachetype) == true) {
+			typeText = "\n" + res.getString(R.string.type) + ": " + base.cacheTypesInv.get(cachetype);
+		} else {
+			typeText = "\n" + res.getString(R.string.type) + ": " + res.getString(R.string.all_types);
+		}
 
 		Thread threadPure;
 		cgSearchThread thread;
 
-		if (type.equals("offline")) {
+		if (type.equals("offline") == true) {
 			title = res.getString(R.string.caches_stored);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
@@ -362,7 +365,11 @@ public class cgeocaches extends ListActivity {
 
 			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
 			threadPure.start();
-		} else if(type.equals("history")) {
+		} else if (type.equals("history") == true) {
+			if (adapter != null) {
+				adapter.setHistoric(true);
+			}
+
 			title = res.getString(R.string.caches_history);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
@@ -372,7 +379,7 @@ public class cgeocaches extends ListActivity {
 
 			threadPure = new geocachesLoadByHistory(loadCachesHandler);
 			threadPure.start();
-		} else if (type.equals("nearest")) {
+		} else if (type.equals("nearest") == true) {
 			action = "pending";
 			title = res.getString(R.string.caches_nearby);
 			base.setTitle(activity, title);
@@ -384,7 +391,7 @@ public class cgeocaches extends ListActivity {
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
-		} else if (type.equals("coordinate")) {
+		} else if (type.equals("coordinate") == true) {
 			action = "planning";
 			title = base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true);
 			base.setTitle(activity, title);
@@ -396,7 +403,7 @@ public class cgeocaches extends ListActivity {
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
-		} else if (type.equals("keyword")) {
+		} else if (type.equals("keyword") == true) {
 			title = keyword;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
@@ -407,7 +414,7 @@ public class cgeocaches extends ListActivity {
 			thread = new geocachesLoadByKeyword(loadCachesHandler,  keyword, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
-		} else if (type.equals("address")) {
+		} else if (type.equals("address") == true) {
 			action = "planning";
 			if (address != null && address.length() > 0) {
 				title = address;
@@ -428,7 +435,7 @@ public class cgeocaches extends ListActivity {
 			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
-		} else if (type.equals("username")) {
+		} else if (type.equals("username") == true) {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
@@ -439,7 +446,7 @@ public class cgeocaches extends ListActivity {
 			thread = new geocachesLoadByUserName(loadCachesHandler,  username, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
-		} else if (type.equals("owner")) {
+		} else if (type.equals("owner") == true) {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
@@ -770,7 +777,9 @@ public class cgeocaches extends ListActivity {
 
 	private void setAdapter() {
 		if (listFooter == null) {
-			if (inflater == null) inflater = activity.getLayoutInflater();
+			if (inflater == null) {
+				inflater = activity.getLayoutInflater();
+			}
 			listFooter = inflater.inflate(R.layout.caches_footer, null);
 
 			listFooter.setClickable(true);

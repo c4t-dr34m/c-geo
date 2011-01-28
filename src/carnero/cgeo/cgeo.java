@@ -205,6 +205,7 @@ public class cgeo extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, res.getString(R.string.menu_about)).setIcon(android.R.drawable.ic_menu_help);
 		menu.add(0, 1, 0, res.getString(R.string.menu_settings)).setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0, 2, 0, res.getString(R.string.menu_history)).setIcon(android.R.drawable.ic_menu_recent_history);
 
 		return true;
 	}
@@ -218,6 +219,12 @@ public class cgeo extends Activity {
 			return true;
 		} else if (id == 1) {
 			context.startActivity(new Intent(context, cgeoinit.class));
+
+			return true;
+		} else if (id == 2) {
+			final Intent cachesIntent = new Intent(context, cgeocaches.class);
+			cachesIntent.putExtra("type", "history");
+			context.startActivity(cachesIntent);
 
 			return true;
 		}
@@ -414,7 +421,9 @@ public class cgeo extends Activity {
 
 	private class cgeoFindNearestListener implements View.OnClickListener {
 		public void onClick(View arg0) {
-			if (geo == null) return;
+			if (geo == null) {
+				return;
+			}
 
 			final Intent cachesIntent = new Intent(context, cgeocaches.class);
 			cachesIntent.putExtra("type", "nearest");

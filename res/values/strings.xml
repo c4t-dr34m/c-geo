@@ -219,6 +219,7 @@
 	<!-- standard menu -->
 	<string name="menu_about">About c:geo</string>
 	<string name="menu_settings">Settings</string>
+	<string name="menu_history">History</string>
 	<string name="menu_filter">Filter</string>
 
 	<!-- main screen -->

@@ -671,6 +671,7 @@ public class cgeovisit extends cgLogForm {
 
 			if (status == true) {
 				warning.showToast(res.getString(R.string.info_log_saved));
+				app.saveVisitDate(geocode);
 			} else {
 				warning.showToast(res.getString(R.string.err_log_post_failed));
 			}

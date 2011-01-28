@@ -413,8 +413,19 @@ public class cgeoapplication extends Application {
 	}
 
     public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+
         return storage.getAllStoredCachesCount(detailedOnly, cachetype);
+    }
+
+    public int getAllHistoricCachesCount(boolean detailedOnly, String cachetype) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+
+        return storage.getAllHistoricCachesCount(detailedOnly, cachetype);
     }
 
     public boolean markStored(String geocode) {

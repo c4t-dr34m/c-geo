@@ -2878,7 +2878,7 @@ public class cgBase {
 		}
 
 		final cgSearch search = app.getHistoryOfCaches(true, cachetype);
-		search.totalCnt = app.getAllStoredCachesCount(true, cachetype);
+		search.totalCnt = app.getAllHistoricCachesCount(true, cachetype);
 
 		return search.getCurrentId();
 	}
