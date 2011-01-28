@@ -221,6 +221,7 @@
 	<!-- standard menu -->
 	<string name="menu_about">Om c:geo</string>
 	<string name="menu_settings">Inställningar</string>
+	<string name="menu_history">Loggade cacher</string>
 	<string name="menu_filter">Filter</string>
 
 	<!-- main screen -->
@@ -249,6 +250,7 @@
 	<string name="caches_store_offline">Spara för Offline</string>
 	<string name="caches_store_selected">Spara valda</string>
 	<string name="caches_stored">Sparade cacher</string>
+	<string name="caches_history">Senast loggade cacher</string>
 	<string name="caches_on_map">Visa på karta</string>
 	<string name="caches_select">Välj från lista</string>
 	<string name="caches_select_mode">Markeringsläge</string>
