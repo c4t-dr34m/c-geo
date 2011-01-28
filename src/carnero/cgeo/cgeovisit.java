@@ -790,7 +790,7 @@ public class cgeovisit extends cgLogForm {
 				tweetCheck = (CheckBox) findViewById(R.id.tweet);
 			}
 
-			status = base.postLog(cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH) + 1), date.get(Calendar.DATE), log, trackables);
+			status = base.postLog(app, geocode, cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH) + 1), date.get(Calendar.DATE), log, trackables);
 
 			if (status == 1) {
 				cgLog logNow = new cgLog();

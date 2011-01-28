@@ -2863,6 +2863,26 @@ public class cgBase {
 		return search.getCurrentId();
 	}
 
+	public Long searchByHistory(HashMap<String, Object> parameters) {
+		if (app == null) {
+			Log.e(cgSettings.tag, "cgeoBase.searchByHistory: No application found");
+			return null;
+		}
+
+		Double latitude = null;
+		Double longitude = null;
+		String cachetype = null;
+
+		if (parameters.containsKey("cachetype") == true) {
+			cachetype = (String) parameters.get("cachetype");
+		}
+
+		final cgSearch search = app.getHistoryOfCaches(true, cachetype);
+		search.totalCnt = app.getAllStoredCachesCount(true, cachetype);
+
+		return search.getCurrentId();
+	}
+
 	public Long searchByCoords(cgSearchThread thread, HashMap<String, String> parameters, int reason, boolean showCaptcha) {
 		final cgSearch search = new cgSearch();
 		final String latitude = parameters.get("latitude");
@@ -3345,7 +3365,7 @@ public class cgBase {
 		return trackable;
 	}
 
-	public int postLog(String cacheid, String viewstate, String viewstate1, int logType, int year, int month, int day, String log, ArrayList<cgTrackableLog> trackables) {
+	public int postLog(cgeoapplication app, String geocode, String cacheid, String viewstate, String viewstate1, int logType, int year, int month, int day, String log, ArrayList<cgTrackableLog> trackables) {
 		if (viewstate == null || viewstate.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.postLog: No viewstate given");
 			return 1000;
@@ -3513,6 +3533,11 @@ public class cgBase {
 			final Matcher matcherOk = patternOk.matcher(page);
 			if (matcherOk.find() == true) {
 				Log.i(cgSettings.tag, "Log successfully posted to cache #" + cacheid);
+
+				if (app != null && geocode != null) {
+					app.saveVisitDate(geocode);
+				}
+
 				return 1;
 			}
 		} catch (Exception e) {

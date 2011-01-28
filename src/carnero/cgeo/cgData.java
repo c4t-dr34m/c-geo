@@ -22,6 +22,7 @@ import java.util.Locale;
  * 043: direction in double
  * 044: favourite from GC.com
  * 045: real owner username
+ * 046: visited date
  */
 public class cgData {
 
@@ -30,7 +31,7 @@ public class cgData {
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-	private static final int dbVersion = 45;
+	private static final int dbVersion = 46;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -46,6 +47,7 @@ public class cgData {
 			+ "updated long not null, "
 			+ "detailed integer not null default 0, "
 			+ "detailedupdate long, "
+			+ "visiteddate long, "
 			+ "geocode text unique not null, "
 			+ "reason integer not null default 0, " // cached, favourite...
 			+ "cacheid text, "
@@ -455,6 +457,16 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 45: " + e.toString());
 						}
 					}
+
+					if (oldVersion < 46) { // upgrade to 46
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column visiteddate long");
+
+							Log.i(cgSettings.tag, "Added column for date of visit.");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 46: " + e.toString());
+						}
+					}
 				}
 
 				db.setTransactionSuccessful();
@@ -486,7 +498,7 @@ public class cgData {
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"_id", "geocode"},
-					"(detailed = 1 and detailedupdate > " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + ") or reason > 0",
+					"(detailed = 1 and detailedupdate > " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + ") or reason > 0",
 					null,
 					null,
 					null,
@@ -589,12 +601,12 @@ public class cgData {
 				return false;
 			}
 
-			if (checkTime == true && detailed == true && dataDetailedUpdate < (System.currentTimeMillis() - (3 * 60 * 60 * 1000))) {
+			if (checkTime == true && detailed == true && dataDetailedUpdate < (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000))) {
 				// we want to check time for detailed cache, but data are older than 3 hours
 				return false;
 			}
 
-			if (checkTime == true && detailed == false && dataUpdated < (System.currentTimeMillis() - (3 * 60 * 60 * 1000))) {
+			if (checkTime == true && detailed == false && dataUpdated < (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000))) {
 				// we want to check time for short cache, but data are older than 3 hours
 				return false;
 			}
@@ -1815,6 +1827,54 @@ public class cgData {
 		return geocodes;
 	}
 
+	public ArrayList<String> loadBatchOfHistoricGeocodes(boolean detailedOnly, String cachetype) {
+		init();
+
+		Cursor cursor = null;
+		ArrayList<String> geocodes = new ArrayList<String>();
+
+		StringBuilder specifySql = new StringBuilder();
+		if (detailedOnly == true) {
+			specifySql.append(" and detailed = 1");
+		}
+		if (cachetype != null) {
+			specifySql.append(" and type = \"");
+			specifySql.append(cachetype);
+			specifySql.append("\"");
+		}
+
+		try {
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{"_id", "geocode"},
+					"visiteddate > 0" + specifySql.toString(),
+					null,
+					null,
+					null,
+					"visiteddate",
+					"1000");
+
+			if (cursor != null) {
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
+
+					do {
+						geocodes.add((String) cursor.getString(cursor.getColumnIndex("geocode")));
+					} while (cursor.moveToNext());
+				} else {
+					cursor.close();
+					return null;
+				}
+
+				cursor.close();
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.loadBatchOfHistoricGeocodes: " + e.toString());
+		}
+
+		return geocodes;
+	}
+
 	public ArrayList<String> getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
 		if (latitudeT == null || longitudeL == null || latitudeB == null || longitudeR == null) {
 			return null;
@@ -1962,7 +2022,7 @@ public class cgData {
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"_id", "geocode"},
-					"reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 60 * 60 * 1000)),
+					"reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)),
 					null,
 					null,
 					null,
@@ -2185,5 +2245,20 @@ public class cgData {
 		}
 
 		return false;
+	}
+
+	public void saveVisitDate(String geocode) {
+		if (geocode == null || geocode.length() == 0) {
+			return;
+		}
+
+		ContentValues values = new ContentValues();
+		values.put("visiteddate", System.currentTimeMillis());
+
+		try {
+			databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\"", null);
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.saveVisitDate: " + e.toString());
+		}
 	}
 }

@@ -247,6 +247,7 @@
 	<string name="caches_store_offline">Store for Offline</string>
 	<string name="caches_store_selected">Store selected</string>
 	<string name="caches_stored">Stored</string>
+	<string name="caches_history">History</string>
 	<string name="caches_on_map">Show on map</string>
 	<string name="caches_select">Select from list</string>
 	<string name="caches_select_mode">Select mode</string>

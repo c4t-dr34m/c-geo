@@ -25,7 +25,9 @@ public class cgeoapplication extends Application {
 	private boolean databaseCleaned = false; // database was cleaned
 
 	public cgeoapplication() {
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 	}
 
 	@Override
@@ -157,7 +159,9 @@ public class cgeoapplication extends Application {
 	public void cleanDatabase() {
 		if (databaseCleaned == true) return;
 
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		storage.clean();
 		databaseCleaned = true;
 	}
@@ -378,6 +382,21 @@ public class cgeoapplication extends Application {
 		return search;
 	}
 
+	public cgSearch getHistoryOfCaches(boolean detailedOnly, String cachetype) {
+		if (storage == null) storage = new cgData(this);
+		cgSearch search = new cgSearch();
+
+		ArrayList<String> geocodes = storage.loadBatchOfHistoricGeocodes(detailedOnly, cachetype);
+		if (geocodes != null && geocodes.isEmpty() == false) {
+			for (String gccode : geocodes) {
+				search.addGeocode(gccode);
+			}
+		}
+		searches.put(search.getCurrentId(), search);
+
+		return search;
+	}
+
 	public Long getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
 		if (storage == null) storage = new cgData(this);
 		cgSearch search = new cgSearch();
@@ -562,5 +581,9 @@ public class cgeoapplication extends Application {
 
 	public void clearLogOffline(String geocode) {
 		storage.clearLogOffline(geocode);
+	}
+
+	public void saveVisitDate(String geocode) {
+		storage.saveVisitDate(geocode);
 	}
 }

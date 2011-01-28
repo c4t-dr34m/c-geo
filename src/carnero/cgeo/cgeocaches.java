@@ -362,6 +362,16 @@ public class cgeocaches extends ListActivity {
 
 			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
 			threadPure.start();
+		} else if(type.equals("history")) {
+			title = res.getString(R.string.caches_history);
+			base.setTitle(activity, title);
+			base.showProgress(activity, true);
+
+			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_progress_loading_title), res.getString(R.string.caches_progress_loading_text), true);
+			waitDialog.setCancelable(true);
+
+			threadPure = new geocachesLoadByHistory(loadCachesHandler);
+			threadPure.start();
 		} else if (type.equals("nearest")) {
 			action = "pending";
 			title = res.getString(R.string.caches_nearby);
@@ -1112,6 +1122,26 @@ public class cgeocaches extends ListActivity {
 			}
 
 			searchId = base.searchByOffline(params);
+
+			handler.sendMessage(new Message());
+		}
+	}
+
+	private class geocachesLoadByHistory extends Thread {
+		private Handler handler = null;
+
+		public geocachesLoadByHistory(Handler handlerIn) {
+			handler = handlerIn;
+		}
+
+		@Override
+		public void run() {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			if (latitude != null && longitude != null) {
+				params.put("cachetype", settings.cacheType);
+			}
+
+			searchId = base.searchByHistory(params);
 
 			handler.sendMessage(new Message());
 		}
