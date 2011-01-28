@@ -347,7 +347,7 @@ public class cgeovisit extends cgLogForm {
 					int current = base.parseFindCount(page);
 
 					if (current >= 0) {
-						findCount = "" + current + 1;
+						findCount = "" + (current + 1);
 					}
 				}
 
