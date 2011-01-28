@@ -562,6 +562,7 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>2.02</b> (__.02.2011)\n
+· new: History of logged caches (online&amp;offline)\n
 · fix: Number of found caches in signature\n
 \n
 <b>2.01</b> (23.01.2011)\n
