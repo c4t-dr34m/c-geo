@@ -123,6 +123,7 @@
 	<string name="err_detail_cache_language">c:geo kan inte läsa vissa detaljer om cachen. Vänligen kontrollera att geocaching.com hemsidan är inställd för att visas på Engelska. Tyvärr kan inte c:geo förstå andra språk.</string>
 	<string name="err_detail_no_spoiler">c:geo hittade inga spoiler bilder för den här cachen.</string>
 	<string name="err_detail_no_map_static">c:geo hittade inga sparade kartor för denna cache.</string>
+	<string name="err_detail_not_load_map_static">Tyvärr, c:geo misslyckades att ladda sparade kartor.</string>
 	<string name="err_detail_still_removing">Fortsätter att ta bort denna cache.</string>
 	<string name="err_detail_still_saving">Fortsätter att spara denna cache.</string>
 	<string name="err_detail_still_refreshing">Fortsätter att ladda om denna cache.</string>
@@ -220,6 +221,7 @@
 	<!-- standard menu -->
 	<string name="menu_about">Om c:geo</string>
 	<string name="menu_settings">Inställningar</string>
+	<string name="menu_history">Loggade cacher</string>
 	<string name="menu_filter">Filter</string>
 
 	<!-- main screen -->
@@ -248,6 +250,7 @@
 	<string name="caches_store_offline">Spara för Offline</string>
 	<string name="caches_store_selected">Spara valda</string>
 	<string name="caches_stored">Sparade cacher</string>
+	<string name="caches_history">Senast loggade cacher</string>
 	<string name="caches_on_map">Visa på karta</string>
 	<string name="caches_select">Välj från lista</string>
 	<string name="caches_select_mode">Markeringsläge</string>

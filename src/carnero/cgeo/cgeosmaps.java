@@ -40,7 +40,7 @@ public class cgeosmaps extends Activity {
 						waitDialog.dismiss();
 					}
 
-					warning.showToast("Sorry, c:geo failed to load static maps.");
+					warning.showToast(res.getString(R.string.err_detail_not_load_map_static));
 
 					finish();
 					return;
