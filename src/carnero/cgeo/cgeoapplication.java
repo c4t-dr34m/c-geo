@@ -288,7 +288,9 @@ public class cgeoapplication extends Application {
 		if (cachesCache.containsKey(geocode) == true) {
 			cache = cachesCache.get(geocode);
 		} else {
-			if (storage == null) storage = new cgData(this);
+			if (storage == null) {
+				storage = new cgData(this);
+			}
 			cache = storage.loadCache(geocode, null, loadA, loadW, loadS, loadL, loadI, loadO);
 
 			if (cache != null && cache.detailed == true && loadA == true && loadW == true && loadS == true && loadL == true && loadI == true) {
