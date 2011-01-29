@@ -3,11 +3,11 @@ package carnero.cgeo;
 import java.util.Comparator;
 import android.util.Log;
 
-public class cgCacheComparator implements Comparator {
+public class cgCacheDistanceComparator implements Comparator {
 	private Double latitude = null;
 	private Double longitude = null;
 
-	public cgCacheComparator(Double latitudeIn, Double longitudeIn) {
+	public cgCacheDistanceComparator(Double latitudeIn, Double longitudeIn) {
 		latitude = latitudeIn;
 		longitude = longitudeIn;
 	}
@@ -37,7 +37,7 @@ public class cgCacheComparator implements Comparator {
 				else result = 0;
 			}
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgCacheComparator.compare: " + e.toString());
+			Log.e(cgSettings.tag, "cgCacheDistanceComparator.compare: " + e.toString());
 		}
 
 		return result;

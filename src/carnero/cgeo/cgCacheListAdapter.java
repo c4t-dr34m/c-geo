@@ -145,7 +145,11 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		if (sort == false) return;
 
 		try {
-			Collections.sort((List<cgCache>)list, new cgCacheComparator(latitudeIn, longitudeIn));
+			if (historic == true) {
+				Collections.sort((List<cgCache>)list, new cgCacheVisitComparator());
+			} else {
+				Collections.sort((List<cgCache>)list, new cgCacheDistanceComparator(latitudeIn, longitudeIn));
+			}
 			notifyDataSetChanged();
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgCacheListAdapter.setActualCoordinates: failed to sort caches in list");
@@ -160,7 +164,11 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		if (list != null && list.isEmpty() == false&& (System.currentTimeMillis() - lastSort) > 1000 && sort == true) {
 			try {
-				Collections.sort((List<cgCache>)list, new cgCacheComparator(latitudeIn, longitudeIn));
+				if (historic == true) {
+					Collections.sort((List<cgCache>)list, new cgCacheVisitComparator());
+				} else {
+					Collections.sort((List<cgCache>)list, new cgCacheDistanceComparator(latitudeIn, longitudeIn));
+				}
 				notifyDataSetChanged();
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "cgCacheListAdapter.setActualCoordinates: failed to sort caches in list");
