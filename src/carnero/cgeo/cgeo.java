@@ -3,6 +3,7 @@ package carnero.cgeo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -17,11 +19,13 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Message;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews.ActionException;
 import java.util.List;
 import java.util.Locale;
 
@@ -510,5 +514,9 @@ public class cgeo extends Activity {
 
 	public void showAbout(View view) {
 		context.startActivity(new Intent(context, cgeoabout.class));
+	}
+
+	public void goManual(View view) {
+		// not implemented yet
 	}
 }

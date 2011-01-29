@@ -148,6 +148,9 @@
 	<string name="err_dwld_details_failed_reason">Sorry, c:geo failed to download cache details because of</string>
 	<string name="err_load_descr_failed">Sorry, c:geo can\'t load description.</string>
 	<string name="err_location_unknown">c:geo doesn\'t know location of cache.</string>
+	<string name="err_manual_title">Manual isn\'t installed.</string>
+	<string name="err_manual_message">Manual for c:geo is not present in your device. Should it be installed?</string>
+	<string name="err_manual_market">c:geo can\'t start Android Market to search for Manual of c:geo.</string>
 
 	<string name="err_tb_display">"Sorry, c:geo can\'t display trackable you want. Is it really trackable?</string>
 	<string name="err_tb_details_open">Sorry, c:geo can\'t open trackable details.</string>

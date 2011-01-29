@@ -4398,7 +4398,7 @@ public class cgBase {
 		final PackageManager packageManager = context.getPackageManager();
 		final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, packageManager.MATCH_DEFAULT_ONLY);
 
-		return list.size() > 0;
+		return (list.size() > 0);
 	}
 
 	public void storeCache(cgeoapplication app, Activity activity, cgCache cache, String geocode, Handler handler) {
