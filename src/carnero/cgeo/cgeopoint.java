@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -400,5 +402,18 @@ public class cgeopoint extends Activity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+
+	public void goManual(View view) {
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-navigate-any",
+				activity,
+				"http://cgeo.carnero.cc/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

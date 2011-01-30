@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -513,6 +515,15 @@ public class cgeo extends Activity {
 	}
 
 	public void goManual(View view) {
-		// not implemented yet
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-main-screen",
+				context,
+				"http://cgeo.carnero.cc/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import java.util.ArrayList;
 import android.os.Bundle;
 import android.os.Handler;
@@ -430,5 +432,18 @@ public class cgeonavigate extends Activity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+
+	public void goManual(View view) {
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-compass",
+				activity,
+				"http://cgeo.carnero.cc/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

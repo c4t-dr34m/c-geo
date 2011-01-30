@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import java.util.ArrayList;
@@ -1548,5 +1550,18 @@ public class cgeomap extends MapActivity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+
+	public void goManual(View view) {
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-live-map",
+				activity,
+				"http://cgeo.carnero.cc/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

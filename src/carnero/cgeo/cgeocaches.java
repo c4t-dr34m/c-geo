@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.os.Handler;
@@ -1442,5 +1444,27 @@ public class cgeocaches extends ListActivity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+
+	public void goManual(View view) {
+		try {
+			if (type != null && type.equals("offline") == true) {
+				AppManualReaderClient.openManual(
+					"c-geo",
+					"c:geo-stored",
+					activity,
+					"http://cgeo.carnero.cc/"
+				);
+			} else {
+				AppManualReaderClient.openManual(
+					"c-geo",
+					"c:geo-nearby",
+					activity,
+					"http://cgeo.carnero.cc/"
+				);
+			}
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

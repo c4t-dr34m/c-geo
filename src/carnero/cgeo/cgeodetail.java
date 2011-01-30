@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.os.Handler;
@@ -1595,5 +1597,18 @@ public class cgeodetail extends Activity {
 		}
 		navigateActivity.coordinates = getCoordinates();
 		activity.startActivity(navigateIntent);
+	}
+
+	public void goManual(View view) {
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-cache-details",
+				activity,
+				"http://cgeo.carnero.cc/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

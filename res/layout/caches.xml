@@ -15,6 +15,10 @@
 		<ImageView style="@style/action_bar_action"
 				android:src="@drawable/actionbar_map"
 				android:onClick="goMap" />
+		<View style="@style/action_bar_separator" />
+		<ImageView style="@style/action_bar_action"
+				android:src="@drawable/actionbar_manual"
+				android:onClick="goManual" />
 	</LinearLayout>
 	<ListView
 			android:id="@android:id/list"

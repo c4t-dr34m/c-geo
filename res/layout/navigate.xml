@@ -9,6 +9,9 @@
 				android:onClick="goHome" />
 		<View style="@style/action_bar_separator" />
 		<TextView style="@style/action_bar_title" />
+		<ImageView style="@style/action_bar_action"
+				android:src="@drawable/actionbar_manual"
+				android:onClick="goManual" />
 	</LinearLayout>
 	<RelativeLayout
 			android:layout_width="fill_parent"

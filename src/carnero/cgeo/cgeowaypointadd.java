@@ -1,5 +1,7 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -206,7 +208,6 @@ public class cgeowaypointadd extends Activity {
 				lonEdit.setHint(base.formatCoordinate(geo.longitudeNow, "lon", false));
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
-				e.printStackTrace();
 			}
 		}
 	}
@@ -393,5 +394,27 @@ public class cgeowaypointadd extends Activity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+
+	public void goManual(View view) {
+		try {
+			if (id >= 0) {
+				AppManualReaderClient.openManual(
+					"c-geo",
+					"c:geo-waypoint-edit",
+					activity,
+					"http://cgeo.carnero.cc/"
+				);
+			} else {
+				AppManualReaderClient.openManual(
+					"c-geo",
+					"c:geo-waypoint-new",
+					activity,
+					"http://cgeo.carnero.cc/"
+				);
+			}
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

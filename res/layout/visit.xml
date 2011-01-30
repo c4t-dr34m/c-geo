@@ -11,6 +11,9 @@
 		<TextView style="@style/action_bar_title" />
 		<ProgressBar style="@style/action_bar_progress"
 				android:visibility="gone" />
+		<ImageView style="@style/action_bar_action"
+				android:src="@drawable/actionbar_manual"
+				android:onClick="goManual" />
 	</LinearLayout>
 	<ScrollView
 			android:layout_width="fill_parent"
