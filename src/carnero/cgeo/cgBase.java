@@ -801,7 +801,7 @@ public class cgBase {
 					params.append("CID=");
 					params.append(urlencode_rfc3986(cid));
 				}
-				
+
 				if (recaptchaChallenge != null && recaptchaText != null && recaptchaText.length() > 0) {
 					params.append("&");
 					params.append("recaptcha_challenge_field=");
@@ -835,7 +835,7 @@ public class cgBase {
 					final Pattern patternCidTer = Pattern.compile("<terrain>([^<]+)</terrain>");
 					final Pattern patternCidCon = Pattern.compile("<container>([^<]+)</container>");
 					// >> premium only
-					
+
 					final String[] points = coordinates.split("<waypoint>");
 
 					// parse coordinates
@@ -1625,6 +1625,9 @@ public class cgBase {
 						while (matcherWpType.find()) {
 							if (matcherWpType.groupCount() > 0) {
 								waypoint.type = matcherWpType.group(1);
+								if (waypoint.type != null) {
+									waypoint.type = waypoint.type.trim();
+								}
 							}
 						}
 					} catch (Exception e) {
@@ -1638,6 +1641,9 @@ public class cgBase {
 						while (matcherWpPrefix.find()) {
 							if (matcherWpPrefix.groupCount() > 1) {
 								waypoint.prefix = matcherWpPrefix.group(2);
+								if (waypoint.prefix != null) {
+									waypoint.prefix = waypoint.prefix.trim();
+								}
 							}
 						}
 					} catch (Exception e) {
@@ -1651,6 +1657,9 @@ public class cgBase {
 						while (matcherWpLookup.find()) {
 							if (matcherWpLookup.groupCount() > 1) {
 								waypoint.lookup = matcherWpLookup.group(2);
+								if (waypoint.lookup != null) {
+									waypoint.lookup = waypoint.lookup.trim();
+								}
 							}
 						}
 					} catch (Exception e) {
@@ -1664,6 +1673,9 @@ public class cgBase {
 						while (matcherWpName.find()) {
 							if (matcherWpName.groupCount() > 0) {
 								waypoint.name = matcherWpName.group(1);
+								if (waypoint.name != null) {
+									waypoint.name = waypoint.name.trim();
+								}
 							}
 						}
 					} catch (Exception e) {
@@ -2029,7 +2041,7 @@ public class cgBase {
 			if (matcherSpottedUnknown.find()) {
 				trackable.spottedType = cgTrackable.SPOTTED_UNKNOWN;
 			}
-			
+
 			final Matcher matcherSpottedOwner = patternSpottedOwner.matcher(page);
 			if (matcherSpottedOwner.find()) {
 				trackable.spottedType = cgTrackable.SPOTTED_OWNER;
@@ -2086,7 +2098,7 @@ public class cgBase {
 				if (matcherDetailsImage.groupCount() > 0) {
 					final String image = matcherDetailsImage.group(3);
 					final String details = matcherDetailsImage.group(4);
-					
+
 					if (image != null) {
 						trackable.image = image;
 					}
@@ -2253,7 +2265,7 @@ public class cgBase {
 		return findCount;
 	}
 
-	
+
 	public static String stripParagraphs(String text) {
 		if (text == null) {
 			return "";
@@ -2304,10 +2316,10 @@ public class cgBase {
 
 		return (word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase());
 	}
-	
+
 	public static Double parseDistance(String dst) {
 		Double distance = null;
-		
+
 		final Pattern pattern = Pattern.compile("([0-9\\.,]+)[ ]+(km|mi)", Pattern.CASE_INSENSITIVE);
 		final Matcher matcher = pattern.matcher(dst);
 		while (matcher.find()) {
@@ -2319,7 +2331,7 @@ public class cgBase {
 				}
 			}
 		}
-		
+
 		return distance;
 	}
 
@@ -2500,15 +2512,16 @@ public class cgBase {
 		String worldSide = "";
 		if (latlon.equalsIgnoreCase("lat") == true) {
 			if (coord >= 0) {
-				worldSide = "N";
+				// have the blanks here at the direction to avoid one String concatenation
+				worldSide = "N ";
 			} else {
-				worldSide = "S";
+				worldSide = "S ";
 			}
 		} else if (latlon.equalsIgnoreCase("lon") == true) {
 			if (coord >= 0) {
-				worldSide = "E";
+				worldSide = "E ";
 			} else {
-				worldSide = "W";
+				worldSide = "W ";
 			}
 		}
 
@@ -2516,15 +2529,15 @@ public class cgBase {
 
 		if (latlon.equalsIgnoreCase("lat") == true) {
 			if (degrees == true) {
-				formatted = worldSide + " " + String.format(Locale.getDefault(), "%02.0f", Math.floor(coord)) + "° " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
+				formatted = worldSide + String.format(Locale.getDefault(), "%02.0f", Math.floor(coord)) + "° " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
 			} else {
-				formatted = worldSide + " " + String.format(Locale.getDefault(), "%02.0f", Math.floor(coord)) + " " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
+				formatted = worldSide + String.format(Locale.getDefault(), "%02.0f", Math.floor(coord)) + " " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
 			}
 		} else {
 			if (degrees == true) {
-				formatted = worldSide + " " + String.format(Locale.getDefault(), "%03.0f", Math.floor(coord)) + "° " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
+				formatted = worldSide + String.format(Locale.getDefault(), "%03.0f", Math.floor(coord)) + "° " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
 			} else {
-				formatted = worldSide + " " + String.format(Locale.getDefault(), "%03.0f", Math.floor(coord)) + " " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
+				formatted = worldSide + String.format(Locale.getDefault(), "%03.0f", Math.floor(coord)) + " " + String.format(Locale.getDefault(), "%06.3f", ((coord - Math.floor(coord)) * 60));
 			}
 		}
 
@@ -4119,7 +4132,7 @@ public class cgBase {
 				page = matcherLines.replaceAll(" ");
 				buffer = null;
 			}
-		
+
 			if (httpCode == 302 && httpLocation != null) {
 				final Uri newLocation = Uri.parse(httpLocation);
 				if (newLocation.isRelative() == true) {
@@ -5177,13 +5190,13 @@ public class cgBase {
 			title.setText(text);
 		}
 	}
-	
+
 	public static HashMap<String, Object> ratingDecrypt(String text) {
 		final HashMap<String, Object> rating = new HashMap<String, Object>();
         String size = null;
         Float difficulty = null;
         Float terrain = null;
-		
+
 		final StringBuilder sb = new StringBuilder(text);
         int sbLen = sb.length();
 

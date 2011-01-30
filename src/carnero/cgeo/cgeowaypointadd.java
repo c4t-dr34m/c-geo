@@ -11,6 +11,8 @@ import android.os.Message;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import java.util.ArrayList;
@@ -134,6 +136,12 @@ public class cgeowaypointadd extends Activity {
 
 		Button addWaypoint = (Button) findViewById(R.id.add_waypoint);
 		addWaypoint.setOnClickListener(new coordsListener());
+
+		ArrayList<String> wayPointNames = new ArrayList<String>(base.waypointTypes.values());
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.name);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wayPointNames);
+        textView.setAdapter(adapter);
+
 
 		if (id > 0) {
 			waitDialog = ProgressDialog.show(this, null, res.getString(R.string.waypoint_loading), true);
