@@ -8,7 +8,7 @@
 	<string name="search">Suche</string>
 	<string name="settings">Einstellungen</string>
 	<string name="about">Über c:geo</string>
-	<string name="helper">Nicht vergessen, durch Drücken des <b>MENU;</b> Buttons auf dem Handy erscheinen vielen Funktionen von <b>c:geo</b>!</string>
+	<string name="helper">Nicht vergessen, durch Drücken des <b>MENU;</b> Buttons auf dem Handy erscheinen viele Funktionen von <b>c:geo</b>!</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Link versenden</string>
@@ -125,9 +125,9 @@
 	<string name="err_detail_still_removing">c:geo löscht diesen Cache noch immer.</string>
 	<string name="err_detail_still_saving">c:geo speichert diesen Cache noch immer.</string>
 	<string name="err_detail_still_refreshing">c:geo versucht noch immer diesen Cache zu aktualiseren.</string>
-	<string name="err_radar_title">Radar Anwendung ist nicht installiert.</string>
-	<string name="err_radar_message">Diese Funktion benötigt die Radar Anwendung. Soll diese installiert werden?</string>
-	<string name="err_radar_market">c:geo konnte den Android Market nicht starten, um nach der Radar Anwendung zu suchen.</string>
+	<string name="err_radar_title">Radar-Anwendung ist nicht installiert.</string>
+	<string name="err_radar_message">Diese Funktion benötigt die Radar-Anwendung. Soll diese installiert werden?</string>
+	<string name="err_radar_market">c:geo konnte den Android Market nicht starten, um nach der Radar-Anwendung zu suchen.</string>
 	<string name="err_radar_generic">c:geo konnte die Radar Anwendung nicht starten. Ist sie installiert?</string>
 	<string name="err_navigation_no">c:geo konnte keine unterstützte Art der Navigation finden.</string>
 	<string name="err_application_no">c:geo konnte keine passende Anwendung finden.</string>
@@ -177,7 +177,7 @@
 	<string name="err_log_post_failed_because">c:geo konnte Log nicht absenden, wegen </string>
 
 	<string name="err_search_address_no_match">Keinen passenden Ort gefunden.</string>
-	<string name="err_search_address_forgot">c:geo hat die Adresse, die du suchst, vergessen.</string>
+	<string name="err_search_address_forgot">c:geo hat die Adresse vergessen, die du suchst.</string>
 	<string name="err_search_address">Suche nach Orten</string>
 	<string name="err_parse_lat">c:geo konnte den Breitengrad nicht verarbeiten.</string>
 	<string name="err_parse_lon">c:geo konnte den Längengrad nicht verarbeiten.</string>
@@ -238,7 +238,7 @@
 	<string name="caches_no_cache">Kein Cache</string>
 	<string name="caches_more_caches">Mehr Caches</string>
 	<string name="caches_more_caches_no">Keine weiteren Caches</string>
-	<string name="caches_downloading">Lade Caches...\nETA: </string>
+	<string name="caches_downloading">Lade Caches...\nGeschätzte Zeit: </string>
 	<string name="caches_progress_loading_title">Lade Caches</string>
 	<string name="caches_progress_loading_text">Gespeicherte Caches</string>
 	<string name="caches_eta_ltm">Weniger als eine Minute</string>
@@ -294,7 +294,7 @@
 	<string name="init_skin">Light Skin (Neustart erforderlich)</string>
 	<string name="init_transparent">Transparenten Startbildschirm verwenden</string>
 	<string name="init_address">Position am Startbildschirm anzeigen</string>
-	<string name="init_captcha">Zeige CAPTCHA wenn notwenig</string>
+	<string name="init_captcha">Zeige CAPTCHA wenn notwendig</string>
 	<string name="init_exclude">Eigene und gefundene Caches ausblenden</string>
 	<string name="init_disabled">Deaktivierte Caches ausblenden</string>
 	<string name="init_offline">Karten für Offline-Verwendung speichern</string>
@@ -303,7 +303,7 @@
 	<string name="init_directoryimg">Bilderverzeichnis in der Galerie ausblenden</string>
 	<string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
 	<string name="init_livelist">Richtung zum Cache in der Cache-Liste anzeigen</string>
-	<string name="init_browser">c:geo zum Standardbrowser machen</string>
+	<string name="init_browser">c:geo als normalen Internet-Browser tarnen</string>
 	<string name="init_clear">Login zurücksetzen</string>
 	<string name="init_cleared">c:geo hat die Anmeldedaten gelöscht.</string>
 
@@ -316,7 +316,7 @@
 	<string name="auth_finish">Fertig</string>
 	<string name="auth_dialog_wait">Warten auf Twitter...</string>
 	<string name="auth_dialog_pin_title">PIN Code</string>
-	<string name="auth_dialog_pin_message">Bitte den Twitter-PIN Code eingeben, dies ist notwendig um die Autorisierung abzuschließen.</string>
+	<string name="auth_dialog_pin_message">Bitte den Twitter-PIN-Code eingeben, dies ist notwendig um die Autorisierung abzuschließen.</string>
 	<string name="auth_dialog_completed">c:geo ist nun autorisiert, Tweets bei Twitter zu erstellen.</string>
 
 	<!-- cache -->
@@ -372,7 +372,7 @@
 	<string name="cache_status_found">Gefunden</string>
 	<string name="cache_status_archived">Archiviert</string>
 	<string name="cache_status_disabled">Deaktiviert</string>
-	<string name="cache_status_premium">Nur für Premium Mitglieder</string>
+	<string name="cache_status_premium">Nur für Premium-Mitglieder</string>
 	<string name="cache_geocode">GC-Code</string>
 	<string name="cache_name">Name</string>
 	<string name="cache_type">Typ</string>
@@ -380,6 +380,7 @@
 	<string name="cache_difficulty">Schwierigkeit</string>
 	<string name="cache_terrain">Terrain</string>
 	<string name="cache_rating">Bewertung</string>
+	<string name="cache_rating_of">von</string>
 	<string name="cache_favourite">Favorit</string>
 	<string name="cache_owner">Besitzer</string>
 	<string name="cache_hidden">versteckt</string>
@@ -424,6 +425,7 @@
 	<string name="waypoint_note">Notiz</string>
 	<string name="waypoint_save">Speichern</string>
 	<string name="waypoint_loading">Lade Wegpunkt...</string>
+	<string name="waypoint_unknown_coordinates">Unbekannte Koordinaten</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Diesen Eintrag auf Twitter veröffentlichen</string>
@@ -474,10 +476,10 @@
 	<!-- trackable -->
 	<string name="trackable">Trackable</string>
 	<string name="trackable_select_title">Trackables</string>
-	<string name="trackable_details_loading">Lade Details des Trackable ...</string>
+	<string name="trackable_details_loading">Lade Details des Trackable...</string>
 	<string name="trackable_log_touch">Logge Fund</string>
 	<string name="trackable_more">Mehr</string>
-	<string name="trackable_browser_open">Öffne in Browser</string>
+	<string name="trackable_browser_open">Öffne im Browser</string>
 	<string name="trackable_goal">Derzeitiges Ziel</string>
 	<string name="trackable_details">Über diesen Trackable</string>
 	<string name="trackable_image">Foto</string>
@@ -499,7 +501,7 @@
 	<string name="user_menu_title">Über</string>
 	<string name="user_menu_view_hidden">Versteckte Caches</string>
 	<string name="user_menu_view_found">Gefundene Caches</string>
-	<string name="user_menu_open_browser">Profil in Browser öffnen</string>
+	<string name="user_menu_open_browser">Profil im Browser öffnen</string>
 
 	<!-- navigation -->
 	<string name="navigation">Navigation</string>
@@ -508,7 +510,7 @@
 	<string name="use_compass">Kompass nutzen</string>
 	<string name="destination_select">Ziel auswählen</string>
 	<string name="destination_set">Ziel setzen</string>
-	<string name="compass_needs_calib">Der Kompass in deinem Gerät muss kalibriert werden.\nSchwenke dafür dein Gerät in der Form einer acht.</string>
+	<string name="compass_needs_calib">Der Kompass in deinem Gerät muss kalibriert werden.\nSchwenke dafür dein Gerät in der Form einer Acht.</string>
 
 	<!-- license -->
 	<string name="license">Lizenz</string>
@@ -516,7 +518,7 @@
 	<string name="license_dismiss">Ablehnen</string>
 
 	<!-- next things -->
-	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
+	<string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak-Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
 	<string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und überall einsetzbarer Client für Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterstützen möchte, kann über die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschlägen kann man den Autor einfach per Facebook oder eMail kontaktieren.</string>
 	<string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
 	<string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
@@ -526,6 +528,6 @@
 	<string name="nutshellmanual">Benutzung: <a href="http://cgeo.carnero.cc/manual/">c:geo Kurzanleitung</a></string>
 	<string name="about_go4cache">Service <b>Go 4 cache</b> erlaubt es, andere Geocacher in Echtzeit auf der Karte zu sehen (in <b>c:geo</b> oder im Browser). Es kann beispielsweise anzeigen, welchen Cache sie suchen. <b>Go 4 cache</b> erlaubt <b>c:geo</b> die aktuelle Position zu veröffentlichen (nur wenn <b>c:geo</b> ausgeführt wird).</string>
 	<string name="about_twitter">Soll jeder neuen Fund auf Twitter veröffentlicht werden, wenn er über <b>c:geo</b> geloggt wird?</string>
-	<string name="about_auth_1">Der folgende Prozess erlaubt es <b>c:geo</b> auf den persönlichen Twitter Account zuzugreifen, wenn gezustimmt wird.</string>
-	<string name="about_auth_2">Ein Klick auf "c:geo autorisieren" startet die Autorisierung, wobei eine Twitter-Seite in einem Browserfenster geöffnet wird. Durch die Anmeldung und die Bestätigung wird <b>c:geo</b> ermöglicht auf den persönlichen Twitter-Account zuzugreifen. Wird dies bestätit, nennt Twitter eine numerische PIN , diese muss kopiert und in <b>c:geo</b> einfügt werden. Das ist alles.</string>
+	<string name="about_auth_1">Der folgende Prozess erlaubt es <b>c:geo</b> auf den persönlichen Twitter-Account zuzugreifen, wenn zugestimmt wird.</string>
+	<string name="about_auth_2">Ein Klick auf "c:geo autorisieren" startet die Autorisierung, wobei eine Twitter-Seite in einem Browserfenster geöffnet wird. Durch die Anmeldung und die Bestätigung wird <b>c:geo</b> ermöglicht auf den persönlichen Twitter-Account zuzugreifen. Wird dies bestätigt, nennt Twitter eine numerische PIN, diese muss kopiert und in <b>c:geo</b> eingefügt werden. Das ist alles.</string>
 </resources>

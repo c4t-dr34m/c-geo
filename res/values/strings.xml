@@ -390,6 +390,7 @@
 	<string name="cache_difficulty">Difficulty</string>
 	<string name="cache_terrain">Terrain</string>
 	<string name="cache_rating">Rating</string>
+	<string name="cache_rating_of">of</string>
 	<string name="cache_favourite">Favorite</string>
 	<string name="cache_owner">Owner</string>
 	<string name="cache_hidden">Hidden</string>
@@ -434,6 +435,7 @@
 	<string name="waypoint_note">Note</string>
 	<string name="waypoint_save">Save</string>
 	<string name="waypoint_loading">Loading waypoint...</string>
+	<string name="waypoint_unknown_coordinates">Coordinates unknown</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Post this find to Twitter</string>

@@ -56,11 +56,20 @@ public class cgeowaypoint extends Activity {
 						base.setTitle(activity, res.getString(R.string.waypoint_title));
 					}
 
-					if (waypoint.prefix.equalsIgnoreCase("OWN") == false) identification.setText(waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
-					else identification.setText(res.getString(R.string.waypoint_custom));
-					
-					coords.setText(Html.fromHtml(base.formatCoordinate(waypoint.latitude, "lat", true) + " | " + base.formatCoordinate(waypoint.longitude, "lon", true)), TextView.BufferType.SPANNABLE);
-					
+					if (waypoint.prefix.equalsIgnoreCase("OWN") == false) {
+						identification.setText(waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
+					}
+					else {
+						identification.setText(res.getString(R.string.waypoint_custom));
+					}
+
+					if (waypoint.latitude != null && waypoint.longitude != null) {
+						coords.setText(Html.fromHtml(base.formatCoordinate(waypoint.latitude, "lat", true) + " | " + base.formatCoordinate(waypoint.longitude, "lon", true)), TextView.BufferType.SPANNABLE);
+					}
+					else {
+						coords.setText(res.getString(R.string.waypoint_unknown_coordinates));
+					}
+
 					if (waypoint.note != null && waypoint.note.length() > 0) {
 						note.setText(Html.fromHtml(waypoint.note.trim()), TextView.BufferType.SPANNABLE);
 					}
@@ -156,7 +165,7 @@ public class cgeowaypoint extends Activity {
 		}
 
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-		
+
 		waitDialog = ProgressDialog.show(this, null, res.getString(R.string.waypoint_loading), true);
 		waitDialog.setCancelable(true);
 

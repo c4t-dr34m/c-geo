@@ -35,7 +35,7 @@
 			<EditText style="@style/edittext"
 					android:id="@+id/distance"
 					android:hint="@string/waypoint_distance" />
-			<EditText style="@style/edittext"
+			<AutoCompleteTextView style="@style/edittext"
 					android:id="@+id/name"
 					android:hint="@string/waypoint_name" />
 			<EditText style="@style/edittext"

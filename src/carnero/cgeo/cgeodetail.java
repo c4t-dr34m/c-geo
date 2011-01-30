@@ -327,7 +327,7 @@ public class cgeodetail extends Activity {
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {
 		super.onCreateContextMenu(menu, view, info);
 		final int viewId = view.getId();
-		
+
 		if (viewId == R.id.author || viewId == R.id.value) {
 			if (viewId == R.id.author) { // Author of a log entry
 				contextMenuUser = ((TextView)view).getText().toString();
@@ -375,13 +375,13 @@ public class cgeodetail extends Activity {
 				return true;
 			} else if (id == 3) {
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(contextMenuUser))));
-				
+
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (cache.latitude != null && cache.longitude != null) {
@@ -446,11 +446,11 @@ public class cgeodetail extends Activity {
 				} else {
 					base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude);
 				}
-				
+
 				return true;
 			case 10:
 				base.runExternalMap(activity, res, warning, tracker, cache);
-				
+
 				return true;
 			case 11:
 				cachesAround();
@@ -558,7 +558,7 @@ public class cgeodetail extends Activity {
 			String size = null;
 			if (cache.size != null && cache.size.length() > 0) size = " (" + cache.size + ")";
 			else size = "";
-			
+
 			if (base.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
 				itemValue.setText(base.cacheTypesInv.get(cache.type) + size);
 			} else {
@@ -651,76 +651,22 @@ public class cgeodetail extends Activity {
 
 			// difficulty
 			if (cache.difficulty != null && cache.difficulty > 0) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_layout, null);
-				itemName = (TextView) itemLayout.findViewById(R.id.name);
-				itemValue = (TextView) itemLayout.findViewById(R.id.value);
-				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
-
-				itemName.setText(res.getString(R.string.cache_difficulty));
-				itemValue.setText(String.format(Locale.getDefault(), "%.1f", cache.difficulty) + " of 5");
-				for (int i = 0; i <= 4; i++) {
-					ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
-					if ((cache.difficulty - i) >= 1.0) {
-						star.setImageResource(R.drawable.star_on);
-					} else if ((cache.difficulty - i) > 0.0) {
-						star.setImageResource(R.drawable.star_half);
-					} else {
-						star.setImageResource(R.drawable.star_off);
-					}
-					itemStars.addView(star, (1 + i));
-				}
-				detailsList.addView(itemLayout);
+				addStarRating(detailsList, res.getString(R.string.cache_difficulty), cache.difficulty);
 			}
 
 			// terrain
 			if (cache.terrain != null && cache.terrain > 0) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_layout, null);
-				itemName = (TextView) itemLayout.findViewById(R.id.name);
-				itemValue = (TextView) itemLayout.findViewById(R.id.value);
-				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
-
-				itemName.setText(res.getString(R.string.cache_terrain));
-				itemValue.setText(String.format(Locale.getDefault(), "%.1f", cache.terrain) + " of 5");
-				for (int i = 0; i <= 4; i++) {
-					ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
-					if ((cache.terrain - i) >= 1.0) {
-						star.setImageResource(R.drawable.star_on);
-					} else if ((cache.terrain - i) > 0.0) {
-						star.setImageResource(R.drawable.star_half);
-					} else {
-						star.setImageResource(R.drawable.star_off);
-					}
-					itemStars.addView(star, (1 + i));
-				}
-				detailsList.addView(itemLayout);
+				addStarRating(detailsList, res.getString(R.string.cache_terrain), cache.terrain);
 			}
 
 			// rating
 			if (cache.rating != null && cache.rating > 0) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_layout, null);
-				itemName = (TextView) itemLayout.findViewById(R.id.name);
-				itemValue = (TextView) itemLayout.findViewById(R.id.value);
-				itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
-
-				itemName.setText(res.getString(R.string.cache_rating));
-				itemValue.setText(String.format(Locale.getDefault(), "%.1f", cache.rating) + " of 5");
-				for (int i = 0; i <= 4; i++) {
-					ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
-					if ((cache.rating - i) >= 1.0) {
-						star.setImageResource(R.drawable.star_on);
-					} else if ((cache.rating - i) > 0.0) {
-						star.setImageResource(R.drawable.star_half);
-					} else {
-						star.setImageResource(R.drawable.star_off);
-					}
-					itemStars.addView(star, (1 + i));
-				}
+				itemLayout = addStarRating(detailsList, res.getString(R.string.cache_rating), cache.rating);
 				if (cache.votes != null) {
 					final TextView itemAddition = (TextView)itemLayout.findViewById(R.id.addition);
 					itemAddition.setText("(" + cache.votes + ")");
 					itemAddition.setVisibility(View.VISIBLE);
 				}
-				detailsList.addView(itemLayout);
 			}
 
 			itemStars = null;
@@ -964,6 +910,29 @@ public class cgeodetail extends Activity {
 		displayLogs();
 
 		if (geo != null) geoUpdate.updateLoc(geo);
+	}
+
+	private RelativeLayout addStarRating(final LinearLayout detailsList, final String name, final float value) {
+		RelativeLayout itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_layout, null);
+		TextView itemName = (TextView) itemLayout.findViewById(R.id.name);
+		TextView itemValue = (TextView) itemLayout.findViewById(R.id.value);
+		LinearLayout itemStars = (LinearLayout) itemLayout.findViewById(R.id.stars);
+
+		itemName.setText(name);
+		itemValue.setText(String.format(Locale.getDefault(), "%.1f", value) + ' ' + res.getString(R.string.cache_rating_of) + " 5");
+		for (int i = 0; i <= 4; i++) {
+			ImageView star = (ImageView) inflater.inflate(R.layout.star, null);
+			if ((value - i) >= 1.0) {
+				star.setImageResource(R.drawable.star_on);
+			} else if ((value - i) > 0.0) {
+				star.setImageResource(R.drawable.star_half);
+			} else {
+				star.setImageResource(R.drawable.star_off);
+			}
+			itemStars.addView(star, (1 + i));
+		}
+		detailsList.addView(itemLayout);
+		return itemLayout;
 	}
 
 	private void displayLogs() {
@@ -1256,7 +1225,7 @@ public class cgeodetail extends Activity {
 			event.put("hasAlarm", 0);
 
 			getContentResolver().insert(calendarProvider, event);
-			
+
 			warning.showToast(res.getString(R.string.event_success));
 		} catch (Exception e) {
 			warning.showToast(res.getString(R.string.event_fail));
@@ -1556,7 +1525,7 @@ public class cgeodetail extends Activity {
 		}
 	}
 
-	
+
 	public void goHome(View view) {
 		base.goHome(activity);
 	}
