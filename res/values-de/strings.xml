@@ -146,6 +146,9 @@
 	<string name="err_dwld_details_failed_reason">Download der Cache-Details fehlgeschlagen, wegen</string>
 	<string name="err_load_descr_failed">Laden der Cachebeschreibung fehlgeschlagen.</string>
 	<string name="err_location_unknown">c:geo erkennt die Position des Caches nicht.</string>
+	<string name="err_manual_title">Anleitung ist nicht installiert.</string>
+	<string name="err_manual_message">Bedienungsanleitung für c:geo ist auf dem Gerät nicht vorhanden. Jetzt installieren?</string>
+	<string name="err_manual_market">c:geo konnte den Android Market nicht starten, um nach der Anleitung zu suchen.</string>
 
 	<string name="err_tb_display">"c:geo kann den gewünschten Trackable nicht anzeigen. Ist es wirklich einer?</string>
 	<string name="err_tb_details_open">c:geo konnte Details des Trackables nicht öffnen.</string>
