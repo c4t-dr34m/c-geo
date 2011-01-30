@@ -2227,15 +2227,27 @@ public class cgBase {
 		}
 
 		int findCount = -1;
-		
-		final Pattern findPattern = Pattern.compile("<strong>Caches Found:<\\/strong>([^<]+)<br", Pattern.CASE_INSENSITIVE);
-		final Matcher findMatcher = findPattern.matcher(page);
-		if (findMatcher.find() == true) {
-			if (findMatcher.groupCount() > 0) {
-				if (findMatcher.group(1) != null) {
-					findCount = Integer.parseInt(findMatcher.group(1).trim());
+
+		try {
+			final Pattern findPattern = Pattern.compile("<strong>Caches Found:<\\/strong>([^<]+)<br", Pattern.CASE_INSENSITIVE);
+			final Matcher findMatcher = findPattern.matcher(page);
+			if (findMatcher.find() == true) {
+				if (findMatcher.groupCount() > 0) {
+					String count = findMatcher.group(1);
+
+					if (count != null) {
+						count = count.trim();
+
+						if (count.length() == 0) {
+							findCount = 0;
+						} else {
+							findCount = Integer.parseInt(count);
+						}
+					}
 				}
 			}
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgBase.parseFindCount: " + e.toString());
 		}
 
 		return findCount;
@@ -3899,6 +3911,24 @@ public class cgBase {
 
 		// prepare cookies
 		String cookiesDone = null;
+		if (cookies == null || cookies.isEmpty() == true) {
+			if (cookies == null) {
+				cookies = new HashMap<String, String>();
+			}
+
+			final Map prefsAll = prefs.getAll();
+			final Set<String> prefsKeys = prefsAll.keySet();
+
+			for (String key : prefsKeys) {
+				if (key.matches("cookie_.+") == true) {
+					final String cookieKey = key.substring(7);
+					final String cookieValue = (String) prefsAll.get(key);
+
+					cookies.put(cookieKey, cookieValue);
+				}
+			}
+		}
+
 		if (cookies != null) {
 			final Object[] keys = cookies.keySet().toArray();
 			final ArrayList<String> cookiesEncoded = new ArrayList();
@@ -4030,7 +4060,7 @@ public class cgBase {
 							String name = cookie.substring(0, cookie.indexOf("="));
 							String value = cookie.substring(cookie.indexOf("=") + 1, cookie.length());
 
-							this.cookies.put(name, value);
+							cookies.put(name, value);
 							prefsEditor.putString("cookie_" + name, value);
 						}
 					}
@@ -4125,6 +4155,24 @@ public class cgBase {
 
 		// prepare cookies
 		String cookiesDone = null;
+		if (cookies == null || cookies.isEmpty() == true) {
+			if (cookies == null) {
+				cookies = new HashMap<String, String>();
+			}
+
+			final Map prefsAll = prefs.getAll();
+			final Set<String> prefsKeys = prefsAll.keySet();
+
+			for (String key : prefsKeys) {
+				if (key.matches("cookie_.+") == true) {
+					final String cookieKey = key.substring(7);
+					final String cookieValue = (String) prefsAll.get(key);
+
+					cookies.put(cookieKey, cookieValue);
+				}
+			}
+		}
+
 		if (cookies != null) {
 			final Object[] keys = cookies.keySet().toArray();
 			final ArrayList<String> cookiesEncoded = new ArrayList();
@@ -4226,7 +4274,7 @@ public class cgBase {
 							String name = cookie.substring(0, cookie.indexOf("="));
 							String value = cookie.substring(cookie.indexOf("=") + 1, cookie.length());
 
-							this.cookies.put(name, value);
+							cookies.put(name, value);
 							prefsEditor.putString("cookie_" + name, value);
 						}
 					}
