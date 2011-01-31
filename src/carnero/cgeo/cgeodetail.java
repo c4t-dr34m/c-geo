@@ -1060,6 +1060,10 @@ public class cgeodetail extends Activity {
 
 		@Override
 		public void run() {
+			if (cache == null || cache.description == null || handler == null) {
+				return;
+			}
+
 			longDesc = Html.fromHtml(cache.description.trim(), new cgHtmlImg(activity, settings, geocode, true, cache.reason, false), null);
 			handler.sendMessage(new Message());
 		}
