@@ -34,9 +34,11 @@
 					android:text="@string/waypoint_my_coordinates" />
 			<EditText style="@style/edittext"
 					android:id="@+id/bearing"
+					android:inputType="numberDecimal"
 					android:hint="@string/waypoint_bearing" />
 			<EditText style="@style/edittext"
 					android:id="@+id/distance"
+					android:inputType="numberDecimal"
 					android:hint="@string/waypoint_distance" />
 			<AutoCompleteTextView style="@style/edittext"
 					android:id="@+id/name"
