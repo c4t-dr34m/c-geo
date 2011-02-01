@@ -1176,33 +1176,17 @@ public class cgBase {
 		int pos = -1;
 		String tableInside = page;
 
-		pos = tableInside.indexOf("<div id=\"yui-g");
+		pos = tableInside.indexOf("<table id=\"cacheDetails");
+		if (pos == -1) {
+			Log.e(cgSettings.tag, "cgeoBase.parseCache: ID \"cacheDetails\" not found on page");
+			return null;
+		}
+
+		tableInside = tableInside.substring(pos);
+
+		pos = tableInside.indexOf("<div class=\"yui-g");
 		if (pos == -1) {
 			Log.e(cgSettings.tag, "cgeoBase.parseCache: ID \"yui-g\" not found on page");
-			return null;
-		}
-
-		tableInside = tableInside.substring(pos);
-
-		pos = tableInside.indexOf("<table");
-		if (pos == -1) {
-			Log.e(cgSettings.tag, "cgeoBase.parseCache: content table not found on page");
-			return null;
-		}
-
-		tableInside = tableInside.substring(pos);
-
-		pos = tableInside.indexOf("<table");
-		if (pos == -1) {
-			Log.e(cgSettings.tag, "cgeoBase.parseCache: inner content table not found on page");
-			return null;
-		}
-
-		tableInside = tableInside.substring(pos);
-
-		pos = tableInside.indexOf("</table>");
-		if (pos == -1) {
-			Log.e(cgSettings.tag, "cgeoBase.parseCache: end of inner content table not found on page");
 			return null;
 		}
 

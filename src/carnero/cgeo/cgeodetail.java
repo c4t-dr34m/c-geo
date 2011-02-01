@@ -515,11 +515,6 @@ public class cgeodetail extends Activity {
 			base.sendAnal(activity, tracker, "/cache/detail/online");
 		}
 
-		if (app.warnedLanguage == false && cache.reason == 0 && (cache.owner == null || cache.owner.length() == 0 || cache.hidden == null)) {
-			warning.helpDialog(res.getString(R.string.err_title_problem), res.getString(R.string.err_detail_cache_language));
-			app.warnedLanguage = true;
-		}
-
 		try {
 			if (gcIcons == null || gcIcons.isEmpty()) {
 				gcIcons.put("ape", R.drawable.type_ape);
