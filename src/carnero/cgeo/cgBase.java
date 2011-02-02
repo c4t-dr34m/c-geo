@@ -3974,13 +3974,13 @@ public class cgBase {
 		Integer timeout = 30000;
 		StringBuffer buffer = null;
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			if (i > 0) {
 				Log.w(cgSettings.tag, "Failed to download data, retrying. Attempt #" + (i + 1));
 			}
 
 			buffer = new StringBuffer();
-			timeout = 30000 + (i * 15000);
+			timeout = 30000 + (i * 10000);
 
 			try {
 				if (method.equals("GET")) {
