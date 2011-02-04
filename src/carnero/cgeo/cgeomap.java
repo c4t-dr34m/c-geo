@@ -173,8 +173,10 @@ public class cgeomap extends MapActivity {
                     Float etaTime = (detailTotal - detailProgress) * oneCache; // seconds remaining
 
                     waitDialog.setProgress(detailProgress);
-                    if (etaTime < (1 / 60)) {
+                    if (etaTime < 40) {
                         waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + res.getString(R.string.caches_eta_ltm));
+                    } else if (etaTime < 90) {
+                        waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + String.format(Locale.getDefault(), "%.0f", (etaTime / 60)) + " " + res.getString(R.string.caches_eta_min));
                     } else {
                         waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + String.format(Locale.getDefault(), "%.0f", (etaTime / 60)) + " " + res.getString(R.string.caches_eta_mins));
                     }
@@ -669,11 +671,13 @@ public class cgeomap extends MapActivity {
 				}
 			});
 			waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			Float etaTime = new Float((detailTotal * 7) / 60);
-			if (etaTime < 1) {
+			Float etaTime = new Float((detailTotal * (float)7) / 60);
+			if (etaTime < 0.4) {
 				waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + res.getString(R.string.caches_eta_ltm));
+			} else if (etaTime < 1.5){
+				waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + String.format(Locale.getDefault(), "%.0f", etaTime) + " " + res.getString(R.string.caches_eta_min));
 			} else {
-				 waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + String.format(Locale.getDefault(), "%.0f", new Float((detailTotal * 7) / 60)) + " " + res.getString(R.string.caches_eta_mins));
+				waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + String.format(Locale.getDefault(), "%.0f", etaTime) + " " + res.getString(R.string.caches_eta_mins));
 			}
 			waitDialog.setCancelable(true);
 			waitDialog.setMax(detailTotal);
