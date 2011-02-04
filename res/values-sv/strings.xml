@@ -148,6 +148,9 @@
 	<string name="err_dwld_details_failed_reason">Tyvärr, c:geo misslyckades att ladda detaljer pga</string>
 	<string name="err_load_descr_failed">Tyvärr, c:geo kan inte ladda beskrivningen.</string>
 	<string name="err_location_unknown">c:geo har inte koordinaterna för cachen.</string>
+	<string name="err_manual_title">Manualen är inte installerad.</string>
+	<string name="err_manual_message">Manualen för c:geo finns inte i din enhet. Vill du installera den?</string>
+	<string name="err_manual_market">c:geo kan inte öppna Android Market för att söka efter Manualen till c:geo.</string>
 
 	<string name="err_tb_display">"Tyvärr, c:geo kan inte visa den trackable du önskar. Är den verkligen trackable?</string>
 	<string name="err_tb_details_open">Tyvärr, c:geo kan inte öppna detaljer för trackable.</string>
@@ -391,6 +394,7 @@
 	<string name="cache_difficulty">Svårighet</string>
 	<string name="cache_terrain">Terräng</string>
 	<string name="cache_rating">Betyg</string>
+	<string name="cache_rating_of">av</string>
 	<string name="cache_favourite">Favorit</string>
 	<string name="cache_owner">Ägare</string>
 	<string name="cache_hidden">Gömd</string>
@@ -435,6 +439,7 @@
 	<string name="waypoint_note">Kommentar</string>
 	<string name="waypoint_save">Spara</string>
 	<string name="waypoint_loading">Laddar punkt...</string>
+	<string name="waypoint_unknown_coordinates">Koordinaterna ogiltiga</string>
 
 	<!-- visit -->
 	<string name="visit_tweet">Skicka att du hittat till Twitter</string>
