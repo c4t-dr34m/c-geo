@@ -352,7 +352,7 @@ public class cgeotrackable extends Activity {
 		} else if (geocode != null && geocode.length() > 0) {
 			waitDialog = ProgressDialog.show(this, geocode.toUpperCase(), res.getString(R.string.trackable_details_loading), true);
 		} else {
-			waitDialog = ProgressDialog.show(this, "cache", res.getString(R.string.trackable_details_loading), true);
+			waitDialog = ProgressDialog.show(this, res.getString(R.string.trackable), res.getString(R.string.trackable_details_loading), true);
 		}
 		waitDialog.setCancelable(true);
 
