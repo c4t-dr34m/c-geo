@@ -1,8 +1,13 @@
 package gnu.android.app.appmanualclient;
 
+import java.util.List;
+
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.util.Log;
 
@@ -19,19 +24,19 @@ import android.util.Log;
  * <p>
  * 
  * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
  * <p>
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  * <p>
  * 
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see http://www.gnu.org/licenses/.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses/.
  * 
  * @author Geocrasher
  */
@@ -96,11 +101,50 @@ public class AppManualReaderClient {
 	 *                there is no suitable manual installed and all combinations
 	 *                of locale scope failed to activate any manual.
 	 * 
-	 * @see #openManual(String, String, Context, String)
+	 * @see #openManual(String, String, Context, String, Boolean)
 	 */
 	public static void openManual(String manualIdentifier, String topic,
 			Context context) throws ActivityNotFoundException {
-		openManual(manualIdentifier, topic, context, null);
+		openManual(manualIdentifier, topic, context, null, false);
+	}
+
+	/**
+	 * Convenience function to open a manual at a specific topic. See
+	 * {@link #openManual(String, String, Context, String)} for a detailed
+	 * description.
+	 * 
+	 * @param manualIdentifier
+	 *            the identifier of the manual to open. This identifier must
+	 *            uniquely identify the manual as such, independent of the
+	 *            particular locale the manual is intended for.
+	 * @param topic
+	 *            the topic to open. Please do not use spaces for topic names.
+	 *            With respect to the TiddlyWiki infrastructure used for manuals
+	 *            the topic needs to the tag of a (single) tiddler. This way
+	 *            manuals can be localized (especially their topic titles)
+	 *            without breaking an app's knowledge about topics. Some
+	 *            standardized topics are predefined, such as
+	 *            {@link #TOPIC_HOME}, {@link #TOPIC_INDEX}, and
+	 *            {@link #TOPIC_ABOUT_MANUAL}.
+	 * @param context
+	 *            the context (usually an Activity) from which the manual is to
+	 *            be opened. In particular, this context is required to derive
+	 *            the proper current locale configuration in order to open
+	 *            appropriate localized manuals, if installed.
+	 * 
+	 * @exception ActivityNotFoundException
+	 *                there is no suitable manual installed and all combinations
+	 *                of locale scope failed to activate any manual.
+	 * @param fallbackUri
+	 *            either <code>null</code> or a fallback URI to be used in case
+	 *            the user has not installed any suitable manual.
+	 * 
+	 * @see #openManual(String, String, Context, String, Boolean)
+	 */
+	public static void openManual(String manualIdentifier, String topic,
+			Context context, String fallbackUri)
+			throws ActivityNotFoundException {
+		openManual(manualIdentifier, topic, context, fallbackUri, false);
 	}
 
 	/**
@@ -141,6 +185,14 @@ public class AppManualReaderClient {
 	 * @param fallbackUri
 	 *            either <code>null</code> or a fallback URI to be used in case
 	 *            the user has not installed any suitable manual.
+	 * @param contextAffinity
+	 *            if <code>true</code>, then we try to open the manual within
+	 *            the context, if possible. That is, if the package of the
+	 *            calling context also offers suitable activity registrations,
+	 *            then we will prefer them over any other registrations. If you
+	 *            don't know what this means, then you probably don't need this
+	 *            very special capability and should specify <code>false</code>
+	 *            for this parameter.
 	 * 
 	 * @exception ActivityNotFoundException
 	 *                there is no suitable manual installed and all combinations
@@ -148,7 +200,7 @@ public class AppManualReaderClient {
 	 *                {@literal fallbackUri} was given.
 	 */
 	public static void openManual(String manualIdentifier, String topic,
-			Context context, String fallbackUri)
+			Context context, String fallbackUri, Boolean contextAffinity)
 			throws ActivityNotFoundException {
 		//
 		// The path of an "appmanual:" URI consists simply of the locale
@@ -167,6 +219,7 @@ public class AppManualReaderClient {
 		// informational log entry generated from the ActivityManager. Grrrr!
 		//
 		Intent intent = new Intent(Intent.ACTION_VIEW);
+		int defaultIntentFlags = intent.getFlags();
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
 		//
 		// Try to open the manual in the following order (subject to
@@ -188,6 +241,66 @@ public class AppManualReaderClient {
 					+ localePath + "#topic='" + topic + "'");
 			// Note: we do not use a MIME type for this.
 			intent.setData(uri);
+			intent.setFlags(defaultIntentFlags);
+			if ( contextAffinity ) {
+				//
+				// What is happening here? Well, here we try something that we
+				// would like to call "package affinity activity resolving".
+				// Given an implicit(!) intent we try to figure out whether the
+				// package of the context which is trying to open the manual is
+				// able to resolve the intent. If this is the case, then we
+				// simply turn the implicit intent into an explicit(!) intent.
+				// We do this by setting the concrete module, that is: package
+				// name (eventually the one of the calling context) and class
+				// name within the package.
+				//
+				List<ResolveInfo> capableActivities = context
+						.getPackageManager()
+						.queryIntentActivityOptions(null, null, intent,
+								PackageManager.MATCH_DEFAULT_ONLY);
+				int capables = capableActivities.size();
+				if ( capables > 1 ) {
+					for ( int idx = 0; idx < capables; ++idx ) {
+						ActivityInfo activityInfo = capableActivities.get(idx).activityInfo;
+						if ( activityInfo.packageName.contentEquals(context
+								.getPackageName()) ) {
+							intent.setClassName(activityInfo.packageName,
+									activityInfo.name);
+							//
+							// First match is okay, so we quit searching and
+							// continue with the usual attempt to start the
+							// activity. This should not fail, as we already
+							// found a match; yet the code is very forgiving in
+							// this respect and would just try another round
+							// with "downsized" locale requirements.
+							//
+							break;
+						}
+					}
+				}
+				// FIXME
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			} else {
+				//
+				// No context affinity required, thus we need to set some flags:
+				//
+				// ...NEW_TASK: we want to start the manual reader activity as a
+				// separate
+				// task so that it can be kept open, yet in the background when
+				// returning to the application from which the manual was
+				// opened.
+				//
+				// ...SINGLE_TOP:
+				//
+				// ...RESET_TASK_IF_NEEDED: clear the manual reader activities
+				// down to the root activity. We've set the required
+				// ...CLEAR_WHEN_TASK_RESET above when opening the meta-manual
+				// with the context affinity.
+				//
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+						| Intent.FLAG_ACTIVITY_SINGLE_TOP
+						| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+			}
 			try {
 				if ( Log.isLoggable(logTag, Log.INFO) ) {
 					Log.i(logTag,
@@ -200,6 +313,11 @@ public class AppManualReaderClient {
 				//
 				return;
 			} catch ( ActivityNotFoundException noActivity ) {
+				//
+				// Ensure that we switch back to implicit intent resolving for
+				// the next round.
+				//
+				intent.setComponent(null);
 				//
 				// As long as we still have some locale information, reduce it
 				// and try again a broader locale.
