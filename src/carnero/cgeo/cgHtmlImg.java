@@ -30,7 +30,6 @@ public class cgHtmlImg implements Html.ImageGetter {
 	private boolean placement = true;
 	private int reason = 0;
 	private boolean onlySave = false;
-	private Bitmap imagePre = null;
 	private BitmapFactory.Options bfOptions = new BitmapFactory.Options();
 
 	public cgHtmlImg(Activity activityIn, cgSettings settingsIn, String geocodeIn, boolean placementIn, int reasonIn, boolean onlySaveIn) {
@@ -46,6 +45,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 	@Override
 	public BitmapDrawable getDrawable(String url) {
+		Bitmap imagePre = null;
 		String dirName = null;
 		String fileName = null;
 		String fileNameSec = null;

@@ -569,7 +569,8 @@
 	<!-- changelog -->
 	<string name="changelog">\n
 <b>2.03</b> (__.02.2011)\n
-· update: Translation (SV)\n
+· fix: Loading images in cache description\n
+· update: Translation (SV, PT)\n
 <b>2.02</b> (02.02.2011)\n
 · new: History of logged caches (online&amp;offline)\n
 · fix: Number of found caches in signature\n
