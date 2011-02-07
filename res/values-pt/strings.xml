@@ -24,7 +24,7 @@
 	<string name="event">Cache evento</string>
 	<string name="mega">Cache Mega-evento</string>
 	<string name="earth">Cache Terra</string>
-	<string name="cito">Cache in trash out event</string>
+	<string name="cito">Evento cache in trash out</string>
 	<string name="webcam">Cache webcam</string>
 	<string name="virtual">Cache virtual</string>
 	<string name="wherigo">Cache whereigo</string>
@@ -339,7 +339,7 @@
 	<string name="cache_dialog_refresh_title">Actualizar</string>
 	<string name="cache_dialog_refresh_message">A recarregar os detalhes da cache...</string>
 	<string name="cache_menu_navigate">Navegar</string>
-	<string name="cache_menu_compass">Bússula</string>
+	<string name="cache_menu_compass">Bússola</string>
 	<string name="cache_menu_tbt">Turn-by-turn</string>
 	<string name="cache_menu_radar">Radar</string>
 	<string name="cache_menu_map">Mostrar no mapa</string>
@@ -473,12 +473,12 @@
 
 	<!-- navigation -->
 	<string name="navigation">Navegação</string>
-	<string name="compass_title">Bússula</string>
+	<string name="compass_title">Bússola</string>
 	<string name="use_gps">Utilizar GPS</string>
-	<string name="use_compass">Utilizar Bússula</string>
+	<string name="use_compass">Utilizar Bússola</string>
 	<string name="destination_select">Selecionar destino</string>
 	<string name="destination_set">Defenir destino</string>
-	<string name="compass_needs_calib">A bússula no seu dispositivo precisa de calibração.\nPode fazê-lo abanando o dispositivo no ar em forma de um oito.</string>
+	<string name="compass_needs_calib">A bússola no seu dispositivo precisa de calibração.\nPode fazê-lo abanando o dispositivo no ar em forma de um oito.</string>
 
 	<!-- license -->
 	<string name="license">Licença</string>
