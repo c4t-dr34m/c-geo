@@ -9,7 +9,6 @@
 	<string name="search">Zoeken</string>
 	<string name="settings">Instellingen</string>
 	<string name="about">Over c:geo</string>
-	<string name="helper">Vergeet de <b>MENU</b> knop op je telefoon niet, deze toont veel functies van <b>c:geo</b>!</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Deel link naar cache</string>

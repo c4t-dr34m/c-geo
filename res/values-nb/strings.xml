@@ -9,7 +9,6 @@
 	<string name="search">Søk</string>
 	<string name="settings">Instillinger</string>
 	<string name="about">Om c:geo</string>
-	<string name="helper">Ikke glem <b>MENY</b>-knappen på telefonen din, menyen viser mange av funksjonene til <b>c:geo</b>!</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Del link til cachen</string>

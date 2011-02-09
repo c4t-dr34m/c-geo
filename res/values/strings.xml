@@ -9,7 +9,7 @@
 	<string name="search">Search</string>
 	<string name="settings">Settings</string>
 	<string name="about">About c:geo</string>
-	<string name="helper">Do you want to introduce <b>c:geo</b>?\nCheck our easy to read manual.</string>
+	<string name="helper">Do you want to learn about <b>c:geo</b>?\nCheck our easy to read manual.</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Share link to cache</string>

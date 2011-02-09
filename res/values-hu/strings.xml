@@ -9,7 +9,6 @@
 	<string name="search">Keresés</string>
 	<string name="settings">Beállítások</string>
 	<string name="about">c:geo-ról</string>
-	<string name="helper">Ne feledd a telefonod <b>MENU</b> gombját, sok funkciót találsz ott!</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">A cache linkjének megosztása</string>

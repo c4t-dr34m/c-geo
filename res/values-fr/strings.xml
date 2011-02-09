@@ -8,7 +8,6 @@
 	<string name="search">rechercher</string>
 	<string name="settings">paramètres</string>
 	<string name="about">à propos de c:geo</string>
-	<string name="helper">n\'oubliez pas la touche <b>MENU</b> de votre téléphone, elle vous proposera de multiples fonctions de <b>c:geo</b> !</string>
 
 	<!-- caches -->
 	<string name="all">toutes</string>

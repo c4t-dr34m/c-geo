@@ -9,9 +9,6 @@
 	<string name="search">vyhledávání</string>
 	<string name="settings">nastavení</string>
 	<string name="about">o aplikaci</string>
-    <string name="helper">nezapomeňte na tlačítko
-      <b>MENU</b>na Vašem telefonu, nabídne Vám spoustu funkcí aplikace
-      <b>c:geo</b>!</string>
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Sdílet odkaz ke keši</string>
 

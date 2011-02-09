@@ -9,7 +9,6 @@
 	<string name="search">Pesquisar</string>
 	<string name="settings">Definições</string>
 	<string name="about">Sobre c:geo</string>
-	<string name="helper">O botão <b>MENU</b> mostra muitas funções do <b>c:geo</b>!</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Partilhar ligação para a cache</string>

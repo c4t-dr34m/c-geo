@@ -9,7 +9,6 @@
 	<string name="search">検索</string>
 	<string name="settings">設定</string>
 	<string name="about">c:geoについて</string>
-	<string name="helper"><b>MENU</b>ボタンを忘れないで! たくさんの機能があります。</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">キャッシュのリンクを共有</string>
