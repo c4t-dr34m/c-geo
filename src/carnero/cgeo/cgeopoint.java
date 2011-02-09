@@ -410,7 +410,7 @@ public class cgeopoint extends Activity {
 				"c-geo",
 				"c:geo-navigate-any",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

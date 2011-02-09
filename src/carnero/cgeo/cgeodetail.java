@@ -1573,7 +1573,7 @@ public class cgeodetail extends Activity {
 				"c-geo",
 				"c:geo-cache-details",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

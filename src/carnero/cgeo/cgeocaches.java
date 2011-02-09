@@ -1453,21 +1453,21 @@ public class cgeocaches extends ListActivity {
 					"c-geo",
 					"c:geo-stored",
 					activity,
-					"http://cgeo.carnero.cc/"
+					"http://cgeo.carnero.cc/manual/"
 				);
 			} else if (type != null && type.equals("history") == true) {
 				AppManualReaderClient.openManual(
 					"c-geo",
 					"c:geo-history",
 					activity,
-					"http://cgeo.carnero.cc/"
+					"http://cgeo.carnero.cc/manual/"
 				);
 			} else {
 				AppManualReaderClient.openManual(
 					"c-geo",
 					"c:geo-nearby",
 					activity,
-					"http://cgeo.carnero.cc/"
+					"http://cgeo.carnero.cc/manual/"
 				);
 			}
 		} catch (Exception e) {

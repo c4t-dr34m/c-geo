@@ -853,7 +853,7 @@ public class cgeovisit extends cgLogForm {
 				"c-geo",
 				"c:geo-log",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

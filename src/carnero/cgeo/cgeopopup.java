@@ -748,7 +748,7 @@ public class cgeopopup extends Activity {
 				"c-geo",
 				"c:geo-cache-info",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

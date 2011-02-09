@@ -411,14 +411,14 @@ public class cgeowaypointadd extends Activity {
 					"c-geo",
 					"c:geo-waypoint-edit",
 					activity,
-					"http://cgeo.carnero.cc/"
+					"http://cgeo.carnero.cc/manual/"
 				);
 			} else {
 				AppManualReaderClient.openManual(
 					"c-geo",
 					"c:geo-waypoint-new",
 					activity,
-					"http://cgeo.carnero.cc/"
+					"http://cgeo.carnero.cc/manual/"
 				);
 			}
 		} catch (Exception e) {

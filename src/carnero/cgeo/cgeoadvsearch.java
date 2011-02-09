@@ -458,7 +458,7 @@ public class cgeoadvsearch extends Activity {
 				"c-geo",
 				"c:geo-search",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

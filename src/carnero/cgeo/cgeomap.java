@@ -1562,7 +1562,7 @@ public class cgeomap extends MapActivity {
 				"c-geo",
 				"c:geo-live-map",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

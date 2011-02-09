@@ -368,7 +368,7 @@ public class cgeowaypoint extends Activity {
 				"c-geo",
 				"c:geo-waypoint-details",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

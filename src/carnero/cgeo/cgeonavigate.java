@@ -440,7 +440,7 @@ public class cgeonavigate extends Activity {
 				"c-geo",
 				"c:geo-compass",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing

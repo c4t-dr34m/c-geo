@@ -750,7 +750,7 @@ public class cgeoinit extends Activity {
 				"c-geo",
 				"c:geo-configuration",
 				activity,
-				"http://cgeo.carnero.cc/"
+				"http://cgeo.carnero.cc/manual/"
 			);
 		} catch (Exception e) {
 			// nothing
