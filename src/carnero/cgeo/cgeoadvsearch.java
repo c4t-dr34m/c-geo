@@ -145,7 +145,7 @@ public class cgeoadvsearch extends Activity {
 
 		EditText trackable = (EditText)findViewById(R.id.trackable);
 		trackable.setOnEditorActionListener(new findTrackableAction());
-		trackable.addTextChangedListener(new UpperCaseTextWatcher(trackable));
+		// trackable.addTextChangedListener(new UpperCaseTextWatcher(trackable)); // disabled; with some IMEs it blocks alternative characters (long-press)
 
 		final Button displayTrackable = (Button)findViewById(R.id.display_trackable);
 		displayTrackable.setOnClickListener(new findTrackableListener());
@@ -169,14 +169,12 @@ public class cgeoadvsearch extends Activity {
 		}
 
 		@Override
-		public void beforeTextChanged(CharSequence arg0, int arg1,
-				int arg2, int arg3) {
+		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 			// empty
 		}
 
 		@Override
-		public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-				int arg3) {
+		public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 			String oldText = editText.getText().toString();
 			String upperText = oldText.toUpperCase();
 			if (!oldText.equals(upperText)) {

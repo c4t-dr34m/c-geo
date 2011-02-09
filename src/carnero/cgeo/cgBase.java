@@ -3792,6 +3792,28 @@ public class cgBase {
 		}
 	}
 
+	public String translate(String text, String source, String target) {
+		// api key: AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ
+		// https://www.googleapis.com/language/translate/v2?key=AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ&q=flowers&source=en&target=fr&callback=handleResponse
+		String translated = null;
+
+		if (target == null) {
+			final Locale locale = Locale.getDefault();
+			target = locale.getDisplayLanguage();
+		}
+
+		final String host = "www.googleapis.com";
+		final String path = "/language/translate/v2";
+		final String apiKey = "AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ";
+
+		final String params = "key=" + apiKey;
+
+		final String url = "http://" + host + path + "?" + params;
+		String page = requestJSON(host, path, params);
+
+		return translated;
+	}
+
 	public static String implode(String delim, Object[] array) {
 		String out = "";
 

@@ -271,9 +271,14 @@ public class cgeo extends Activity {
 	}
 
 	private void setFilterTitle() {
-		if (filterTitle == null) filterTitle = (TextView)findViewById(R.id.filter_button_title);
-		if (settings.cacheType != null) filterTitle.setText(base.cacheTypesInv.get(settings.cacheType));
-		else filterTitle.setText(res.getString(R.string.all));
+		if (filterTitle == null) {
+			filterTitle = (TextView)findViewById(R.id.filter_button_title);
+		}
+		if (settings.cacheType != null) {
+			filterTitle.setText(base.cacheTypesInv.get(settings.cacheType));
+		} else {
+			filterTitle.setText(res.getString(R.string.all));
+		}
 	}
 
 	private void init() {
