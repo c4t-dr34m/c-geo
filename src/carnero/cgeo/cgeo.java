@@ -145,7 +145,17 @@ public class cgeo extends Activity {
 					helper.setClickable(true);
 					helper.setOnClickListener(new View.OnClickListener() {
 						public void onClick(View view) {
-							goManual(null);
+							try {
+								AppManualReaderClient.openManual(
+									"c-geo",
+									"c:geo-intro",
+									context,
+									"http://cgeo.carnero.cc/manual/"
+								);
+							} catch (Exception e) {
+								// nothing
+							}
+
 							view.setVisibility(View.GONE);
 						}
 					});
