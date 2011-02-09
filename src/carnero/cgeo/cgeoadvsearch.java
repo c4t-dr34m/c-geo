@@ -122,7 +122,7 @@ public class cgeoadvsearch extends Activity {
 			final ArrayAdapter<String> geocodesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, geocodesInCache);
 			geocodeEdit.setAdapter(geocodesAdapter);
 		}
-		geocodeEdit.addTextChangedListener(new UpperCaseTextWatcher(geocodeEdit));
+		// geocodeEdit.addTextChangedListener(new UpperCaseTextWatcher(geocodeEdit));
 
 		final Button displayByGeocode = (Button)findViewById(R.id.display_geocode);
 		displayByGeocode.setOnClickListener(new findByGeocodeListener());

@@ -44,7 +44,8 @@
 				</LinearLayout>
 				<EditText style="@style/edittext"
 						android:id="@+id/tracking"
-						android:hint="tracking code" />
+						android:inputType="textCapCharacters"
+						android:hint="@string/trackable_code" />
 				<EditText style="@style/edittext"
 						android:id="@+id/log"
 						android:hint="log"

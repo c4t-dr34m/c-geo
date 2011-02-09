@@ -66,6 +66,7 @@
 				<AutoCompleteTextView style="@style/edittext"
 						android:id="@+id/geocode"
 						android:hint="@string/search_gc"
+						android:inputType="textCapCharacters"
 						android:imeOptions="actionGo"
 						android:text="GC" />
 				<Button style="@style/button"
@@ -120,6 +121,7 @@
 						android:id="@+id/trackable"
 						android:hint="@string/search_tb_hint"
 						android:imeOptions="actionGo"
+						android:inputType="textCapCharacters"
 						android:text="TB" />
 				<Button style="@style/button"
 						android:id="@+id/display_trackable"
