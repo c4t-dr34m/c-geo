@@ -81,9 +81,9 @@ public class cgBase {
 	public static HashMap<Integer, String> logTypesTrackableAction = new HashMap<Integer, String>();
 	public static HashMap<Integer, String> errorRetrieve = new HashMap<Integer, String>();
 	public static SimpleDateFormat dateIn = new SimpleDateFormat("MM/dd/yyyy");
-	public static SimpleDateFormat dateEvIn = new SimpleDateFormat("dd MMMMM yyyy"); // 28 March 2009
-	public static SimpleDateFormat dateTbIn1 = new SimpleDateFormat("EEEEE, dd MMMMM yyyy"); // Saturday, 28 March 2009
-	public static SimpleDateFormat dateTbIn2 = new SimpleDateFormat("EEEEE, MMMMM dd, yyyy"); // Saturday, March 28, 2009
+	public static SimpleDateFormat dateEvIn = new SimpleDateFormat("dd MMMMM yyyy", Locale.ENGLISH); // 28 March 2009
+	public static SimpleDateFormat dateTbIn1 = new SimpleDateFormat("EEEEE, dd MMMMM yyyy", Locale.ENGLISH); // Saturday, 28 March 2009
+	public static SimpleDateFormat dateTbIn2 = new SimpleDateFormat("EEEEE, MMMMM dd, yyyy", Locale.ENGLISH); // Saturday, March 28, 2009
 	public static SimpleDateFormat dateSqlIn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 2010-07-25 14:44:01
 	public static SimpleDateFormat dateGPXIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); // 2010-04-20T07:00:00Z
 	public static DateFormat dateOut = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
