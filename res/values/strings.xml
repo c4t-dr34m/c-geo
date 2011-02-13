@@ -568,8 +568,9 @@
 
 	<!-- changelog -->
 	<string name="changelog">\n
-<b>2.03</b> (__.02.2011)\n
+<b>2.03</b> (13.02.2011)\n
 · fix: Loading images in cache description\n
+· fix: GC/TB code input\n
 · update: Translation (SV, PT)\n
 <b>2.02</b> (02.02.2011)\n
 · new: History of logged caches (online&amp;offline)\n
