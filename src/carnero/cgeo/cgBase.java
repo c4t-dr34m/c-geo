@@ -4842,18 +4842,23 @@ public class cgBase {
 		return icon;
 	}
 
+	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, GoogleAnalyticsTracker tracker, Double latitude, Double longitude) {
+		// waypoint
+		return runExternalMap(activity, res, warning, tracker, null, null, latitude, longitude);
+	}
+
 	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, GoogleAnalyticsTracker tracker, cgWaypoint waypoint) {
 		// waypoint
-		return runExternalMap(activity, res, warning, tracker, null, waypoint);
+		return runExternalMap(activity, res, warning, tracker, null, waypoint, null, null);
 	}
 
 	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, GoogleAnalyticsTracker tracker, cgCache cache) {
 		// cache
-		return runExternalMap(activity, res, warning, tracker, cache, null);
+		return runExternalMap(activity, res, warning, tracker, cache, null, null, null);
 	}
 
-	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, GoogleAnalyticsTracker tracker, cgCache cache, cgWaypoint waypoint) {
-		if (cache == null && waypoint == null) {
+	public boolean runExternalMap(Activity activity, Resources res, cgWarning warning, GoogleAnalyticsTracker tracker, cgCache cache, cgWaypoint waypoint, Double latitude, Double longitude) {
+		if (cache == null && waypoint == null && latitude == null && longitude == null) {
 			return false;
 		}
 
@@ -4890,8 +4895,10 @@ public class cgBase {
 				int icon = -1;
 				if (cache != null) {
 					icon = getIcon(true, cache.type, cache.found, cache.disabled);
-				} else {
+				} else if (waypoint != null) {
 					icon = getIcon(false, waypoint.type, false, false);
+				} else {
+					icon = getIcon(false, "waypoint", false, false);
 				}
 
 				if (icon > 0) {
@@ -4941,6 +4948,9 @@ public class cgBase {
 				} else if (waypoint != null && waypoint.latitude != null && waypoint.longitude != null) {
 					dos.writeDouble(waypoint.latitude); // latitude
 					dos.writeDouble(waypoint.longitude); // longitude
+				} else {
+					dos.writeDouble(latitude); // latitude
+					dos.writeDouble(longitude); // longitude
 				}
 
 				// cache waypoints

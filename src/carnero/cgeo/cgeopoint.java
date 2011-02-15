@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -27,6 +28,7 @@ public class cgeopoint extends Activity {
 	private cgBase base = null;
 	private cgWarning warning = null;
 	private Activity activity = null;
+	private GoogleAnalyticsTracker tracker = null;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private EditText latEdit = null;
@@ -56,7 +58,10 @@ public class cgeopoint extends Activity {
 		base.setTitle(activity, res.getString(R.string.search_destination));
 
 		// google analytics
-		base.sendAnal(activity, "/point");
+		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(cgSettings.analytics, this);
+		tracker.dispatch();
+		base.sendAnal(activity, tracker, "/point");
 
 		init();
 	}
@@ -78,6 +83,7 @@ public class cgeopoint extends Activity {
 	@Override
 	public void onDestroy() {
 		if (geo != null) geo = app.removeGeo();
+		if (tracker != null) tracker.stop();
 
 		super.onDestroy();
 	}
@@ -133,6 +139,12 @@ public class cgeopoint extends Activity {
 
 		Button buttonTurn = (Button)findViewById(R.id.turn);
 		buttonTurn.setOnClickListener(new turnListener());
+
+		Button buttonMap = (Button)findViewById(R.id.map);
+		buttonMap.setOnClickListener(new mapListener());
+
+		Button buttonMapExt = (Button)findViewById(R.id.map_ext);
+		buttonMapExt.setOnClickListener(new mapExtListener());
 	}
 
 	private class update extends cgUpdateLoc {
@@ -247,6 +259,47 @@ public class cgeopoint extends Activity {
 					Log.d(cgSettings.tag, "cgeopoint.turnTo: No navigation application available.");
 					warning.showToast(res.getString(R.string.err_navigation_not_found));
 				}
+			}
+		}
+	}
+
+	private class mapListener implements View.OnClickListener {
+		public void onClick(View arg0) {
+			ArrayList<Double> coords = getDestination();
+
+			if (coords == null || coords.size() < 2) return;
+
+			try {
+				cgeomap mapActivity = new cgeomap();
+
+				Intent mapIntent = new Intent(activity, mapActivity.getClass());
+				mapIntent.putExtra("detail", false);
+				mapIntent.putExtra("latitude", coords.get(0));
+				mapIntent.putExtra("longitude", coords.get(1));
+
+				activity.startActivity(mapIntent);
+
+				finish();
+				return;
+			} catch (Exception e) {
+				// nothing
+			}
+		}
+	}
+
+	private class mapExtListener implements View.OnClickListener {
+		public void onClick(View arg0) {
+			ArrayList<Double> coords = getDestination();
+
+			if (coords == null || coords.size() < 2) return;
+
+			try {
+				base.runExternalMap(activity, res, warning, tracker, coords.get(0), coords.get(1));
+
+				finish();
+				return;
+			} catch (Exception e) {
+				// nothing
 			}
 		}
 	}

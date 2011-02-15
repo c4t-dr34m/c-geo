@@ -523,9 +523,9 @@ public class cgeocaches extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, res.getString(R.string.caches_select_mode)).setIcon(android.R.drawable.ic_menu_agenda);
 		if (type.equals("offline") == true) {
-			menu.add(0, 4, 0, res.getString(R.string.caches_drop_all)).setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
+			menu.add(0, 5, 0, res.getString(R.string.caches_drop_all)).setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
 			menu.add(0, 1, 0, res.getString(R.string.cache_offline_refresh)).setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
-			menu.add(0, 5, 0, res.getString(R.string.gpx_import_title)).setIcon(android.R.drawable.ic_menu_upload); // import gpx file
+			menu.add(0, 6, 0, res.getString(R.string.gpx_import_title)).setIcon(android.R.drawable.ic_menu_upload); // import gpx file
 		} else {
 			menu.add(0, 1, 0, res.getString(R.string.caches_store_offline)).setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
 		}
@@ -556,9 +556,9 @@ public class cgeocaches extends ListActivity {
 
 			if (type.equals("offline") == true) {
 				if (adapter != null && adapter.getChecked() > 0) {
-					menu.findItem(4).setTitle(res.getString(R.string.caches_drop_selected) + " (" + adapter.getChecked() + ")");
+					menu.findItem(5).setTitle(res.getString(R.string.caches_drop_selected) + " (" + adapter.getChecked() + ")");
 				} else {
-					menu.findItem(4).setTitle(res.getString(R.string.caches_drop_all));
+					menu.findItem(5).setTitle(res.getString(R.string.caches_drop_all));
 				}
 
 				if (adapter != null && adapter.getChecked() > 0) {
@@ -606,10 +606,10 @@ public class cgeocaches extends ListActivity {
 			case 3:
 				showOnLocus();
 				return false;
-			case 4:
+			case 5:
 				dropStored();
 				return false;
-			case 5:
+			case 6:
 				importGpx();
 				return false;
 		}

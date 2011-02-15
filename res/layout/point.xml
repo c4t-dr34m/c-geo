@@ -74,6 +74,21 @@
 						android:layout_weight="1"
 						android:text="@string/cache_menu_navigate" />
 			</LinearLayout>
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal" >
+				<Button style="@style/button"
+						android:id="@+id/map"
+						android:layout_width="0dip"
+						android:layout_weight="1"
+						android:text="@string/cache_menu_map" />
+				<Button style="@style/button"
+						android:id="@+id/map_ext"
+						android:layout_width="0dip"
+						android:layout_weight="1"
+						android:text="@string/cache_menu_map_ext" />
+			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
