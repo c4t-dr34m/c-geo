@@ -4937,7 +4937,7 @@ public class cgBase {
 				if (cache != null && cache.geocode != null && cache.geocode.length() > 0) {
 					dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeodetail;geocode;" + cache.geocode);
 				} else if (waypoint != null && waypoint.id != null && waypoint.id > 0) {
-					dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeowaypoint;id" + waypoint.id);
+					dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeowaypoint;id;" + waypoint.id);
 				} else {
 					dos.writeUTF("");
 				}
@@ -4992,7 +4992,7 @@ public class cgBase {
 
 						// additional data :: keyword, button title, package, activity, data name, data content
 						if (wp.id != null && wp.id > 0) {
-							dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeowaypoint;id" + wp.id);
+							dos.writeUTF("intent;c:geo;carnero.cgeo;carnero.cgeo.cgeowaypoint;id;" + wp.id);
 						} else {
 							dos.writeUTF("");
 						}
