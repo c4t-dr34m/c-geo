@@ -701,7 +701,7 @@ public class cgeodetail extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				if (cache.type.equalsIgnoreCase("event") == true || cache.type.equalsIgnoreCase("mega") == true || cache.type.equalsIgnoreCase("cito") == true) {
+				if (cache.type != null && (cache.type.equalsIgnoreCase("event") == true || cache.type.equalsIgnoreCase("mega") == true || cache.type.equalsIgnoreCase("cito") == true)) {
 					itemName.setText(res.getString(R.string.cache_event));
 				} else {
 					itemName.setText(res.getString(R.string.cache_hidden));
