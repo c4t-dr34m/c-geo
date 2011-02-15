@@ -1,7 +1,9 @@
 package carnero.cgeo;
 
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
+
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -281,6 +283,8 @@ public class cgeotrackable extends Activity {
 				Log.e(cgSettings.tag, "cgeotrackable.loadTrackableHandler: " + e.toString());
 			}
 
+			displayLogs();
+			
 			if (waitDialog != null) {
 				waitDialog.dismiss();
 			}
@@ -423,7 +427,65 @@ public class cgeotrackable extends Activity {
 
 		trackable = base.searchTrackable(params);
 	}
+	
+	private void displayLogs() {
+		// trackable logs
+		LinearLayout listView = (LinearLayout) findViewById(R.id.log_list);
+		listView.removeAllViews();
 
+		RelativeLayout rowView;
+
+		if (trackable != null && trackable.logs != null) {
+			for (cgLog log : trackable.logs) {
+				rowView = (RelativeLayout) inflater.inflate(R.layout.trackable_logitem, null);
+
+				if (log.date > 0) {
+					final Date logDate = new Date(log.date);
+					((TextView) rowView.findViewById(R.id.added)).setText(base.dateOutShort.format(logDate));
+				}
+
+				
+				if (base.logTypes1.containsKey(log.type) == true) {
+					((TextView) rowView.findViewById(R.id.type)).setText(base.logTypes1.get(log.type));
+				} else {
+					((TextView) rowView.findViewById(R.id.type)).setText(base.logTypes1.get(4)); // note if type is unknown
+				}
+				((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
+
+				if (log.cacheName == null || log.cacheName.length() == 0) {
+					((TextView) rowView.findViewById(R.id.location)).setVisibility(View.GONE);
+				} else {
+					((TextView) rowView.findViewById(R.id.location)).setText(Html.fromHtml(log.cacheName));
+					final String cacheGuid = log.cacheGuid;
+					final String cacheName = log.cacheName;
+					((TextView) rowView.findViewById(R.id.location)).setOnClickListener(new View.OnClickListener() {
+						public void onClick(View arg0) {
+							Intent cacheIntent = new Intent(activity, cgeodetail.class);
+							cacheIntent.putExtra("guid", (String) cacheGuid);
+							cacheIntent.putExtra("name", (String) Html.fromHtml(cacheName).toString());
+							activity.startActivity(cacheIntent);
+						}
+					});
+				}
+
+				((TextView) rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, 0, false), null), TextView.BufferType.SPANNABLE);
+
+				final String author = log.author;
+				((TextView) rowView.findViewById(R.id.author)).setOnClickListener(new View.OnClickListener() {
+					public void onClick(View arg0) {
+						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + author)));
+					}
+				});
+				
+				listView.addView(rowView);
+			}
+
+			if (trackable.logs.size() > 0) {
+				((LinearLayout) findViewById(R.id.log_box)).setVisibility(View.VISIBLE);
+			}
+		}
+	}
+	
 	private void logTouch() {
 		Intent logTouchIntent = new Intent(activity, cgeotouch.class);
 		logTouchIntent.putExtra("geocode", trackable.geocode.toUpperCase());

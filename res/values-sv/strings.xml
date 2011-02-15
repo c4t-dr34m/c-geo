@@ -51,6 +51,7 @@
 	<string name="log_attend">Kommer att deltaga</string>
 	<string name="log_attended">Deltog</string>
 	<string name="log_retrieved">Hämtade</string>
+	<string name="log_placed">Lämnade</string>
 	<string name="log_grabbed">Tog</string>
 	<string name="log_needs">Behöver underhåll</string>
 	<string name="log_maintenance">Underhåll utfört</string>

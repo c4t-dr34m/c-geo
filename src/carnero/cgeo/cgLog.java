@@ -7,4 +7,6 @@ public class cgLog {
 	public String log = "";
 	public long date = 0;
 	public int found = -1;
+	public String cacheName = ""; // used for trackables
+	public String cacheGuid = ""; // used for trackables
 }

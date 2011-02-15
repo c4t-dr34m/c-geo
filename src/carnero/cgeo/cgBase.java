@@ -204,8 +204,8 @@ public class cgBase {
 		logTypes.put("coord_update", 47);
 		logTypes.put("icon_discovered", 48);
 		logTypes.put("big_smile", 49);
-		logTypes.put("picked_up", -1);
-		logTypes.put("dropped_off", -2);
+		logTypes.put("picked_up", 13);
+		logTypes.put("dropped_off", 14);
 
 		logTypes0.put("found it", 2);
 		logTypes0.put("didn't find it", 3);
@@ -223,7 +223,7 @@ public class cgBase {
 		logTypes0.put("update coordinates", 47);
 		logTypes0.put("discovered it", 48);
 		logTypes0.put("post reviewer note", 49);
-		logTypes0.put("placed it", -2);
+		logTypes0.put("placed it", 14);
 
 		logTypes1.put(2, res.getString(R.string.log_found));
 		logTypes1.put(3, res.getString(R.string.log_dnf));
@@ -235,6 +235,7 @@ public class cgBase {
 		logTypes1.put(9, res.getString(R.string.log_attend));
 		logTypes1.put(10, res.getString(R.string.log_attended));
 		logTypes1.put(13, res.getString(R.string.log_retrieved));
+		logTypes1.put(14, res.getString(R.string.log_placed));
 		logTypes1.put(19, res.getString(R.string.log_grabbed));
 		logTypes1.put(45, res.getString(R.string.log_needs));
 		logTypes1.put(46, res.getString(R.string.log_maintenance));
@@ -1937,6 +1938,7 @@ public class cgBase {
 		final Pattern patternSpottedOwner = Pattern.compile("<dt>[^\\w]*Recently Spotted:[^<]*</dt>[^<]*<dd>[^<]*<a id=\"ctl00_ContentBody_BugDetails_BugLocation\">In the hands of the owner[^<]*</a>[^<]*</dd>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternGoal = Pattern.compile("<h3>[^\\w]*Current GOAL[^<]*</h3>[^<]*<p[^>]*>(.*)</p>[^<]*<h3>[^\\w]*About This Item[^<]*</h3>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>([^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>)?[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
+		final Pattern patternLogs = Pattern.compile("<table class=\"TrackableItemLogTable Table\">(.*)<\\/table>[^<]*<ul", Pattern.CASE_INSENSITIVE);
 
 		final cgTrackable trackable = new cgTrackable();
 
@@ -2101,6 +2103,97 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable details & image");
 		}
 
+		// trackable logs
+		try {
+			final Matcher matcherLogs = patternLogs.matcher(page);
+			while (matcherLogs.find()) {
+				if (matcherLogs.groupCount() > 0) {
+					final Pattern patternLog = Pattern.compile("[^>]*>" + 
+							"[^<]*<td>[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;(\\d+).(\\d+).(\\d+)[^<]*</td>" +
+							"[^<]*<td>[^<]*<a href=[^>]+>([^<]+)<.a>([^<]*|[^<]*<a href=[\"|'].*guid=([^\"]*)\">([^<]*)</a>[^<]*)</td>" +
+							"[^<]*<td>[^<]*</td>" +
+							"[^<]*<td>[^<]*<a href=[^>]+>[^<]+</a>[^<]*</td>[^<]*</tr>" +
+							"[^<]*<tr[^>]*>[^<]*<td[^>]*>(.*?)</td>[^<]*</tr>.*" +
+							"");
+					// 1 filename == type
+					// 2 month
+					// 3 date
+					// 4 year
+					// 5 user
+					// 6 action dependent
+					// 7 cache guid
+					// 8 cache name
+					// 9 text
+					final String[] logs = matcherLogs.group(1).split("<tr class=\"Data BorderTop");
+					final int logsCnt = logs.length;
+
+					for (int k = 1; k < logsCnt; k++) {
+						final Matcher matcherLog = patternLog.matcher(logs[k]);
+						if (matcherLog.find()) {
+							final cgLog logDone = new cgLog();
+							
+							String logTmp = matcherLog.group(9);
+							logTmp = Pattern.compile("<p>").matcher(logTmp).replaceAll("\n");
+							logTmp = Pattern.compile("<br[^>]*>").matcher(logTmp).replaceAll("\n");
+							logTmp = Pattern.compile("<\\/p>").matcher(logTmp).replaceAll("");
+							logTmp = Pattern.compile("\r+").matcher(logTmp).replaceAll("\n");
+
+							int day = -1;
+							try {
+								day = Integer.parseInt(matcherLog.group(3));
+							} catch (Exception e) {
+								Log.w(cgSettings.tag, "Failed to parse logs date (day): " + e.toString());
+							}
+
+							int month = -1;
+							try {
+								month = Integer.parseInt(matcherLog.group(2));
+								month -= 1;
+							} catch (Exception e) {
+								Log.w(cgSettings.tag, "Failed to parse logs date (month): " + e.toString());
+							}
+
+							int year = -1;
+							try {
+								year = Integer.parseInt(matcherLog.group(4));
+							} catch (Exception e) {
+								Log.w(cgSettings.tag, "Failed to parse logs date (year): " + e.toString());
+							}
+
+							long logDate;
+							if (year > 0 && month >= 0 && day > 0) {
+								Calendar date = Calendar.getInstance();
+								date.set(year, month, day, 12, 0, 0);
+								logDate = date.getTimeInMillis();
+								logDate = (long) (Math.ceil(logDate / 1000)) * 1000;
+							} else {
+								logDate = 0;
+							}
+
+							if (logTypes.containsKey(matcherLog.group(1).toLowerCase()) == true) {
+								logDone.type = logTypes.get(matcherLog.group(1).toLowerCase());
+							} else {
+								logDone.type = logTypes.get("icon_note");
+							}
+
+							logDone.author = Html.fromHtml(matcherLog.group(5)).toString();
+							logDone.date = logDate;
+							logDone.log = logTmp;
+							if (matcherLog.group(7) != null && matcherLog.group(8) != null) {
+								logDone.cacheGuid = matcherLog.group(7);
+								logDone.cacheName = matcherLog.group(8);
+							}
+
+							trackable.logs.add(logDone);
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			// failed to parse logs
+			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache logs");
+		}
+		
 		app.saveTrackable(trackable);
 
 		return trackable;

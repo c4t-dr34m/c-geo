@@ -83,6 +83,22 @@
 						android:orientation="vertical" >
 				</LinearLayout>
 			</LinearLayout>
+			<LinearLayout android:id="@+id/log_box"
+					android:visibility="gone"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"  >
+				<RelativeLayout style="@style/separator_horizontal_layout" >
+					<View style="@style/separator_horizontal" />
+					<TextView style="@style/separator_horizontal_headline"
+							android:text="@string/cache_logs" />
+				</RelativeLayout>
+				<LinearLayout android:id="@+id/log_list"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical">
+				</LinearLayout>
+			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
