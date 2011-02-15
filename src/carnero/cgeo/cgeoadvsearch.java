@@ -145,7 +145,7 @@ public class cgeoadvsearch extends Activity {
 
 		EditText trackable = (EditText)findViewById(R.id.trackable);
 		trackable.setOnEditorActionListener(new findTrackableAction());
-		// trackable.addTextChangedListener(new UpperCaseTextWatcher(trackable)); // disabled; with some IMEs it blocks alternative characters (long-press)
+		trackable.addTextChangedListener(new UpperCaseTextWatcher(trackable));
 
 		final Button displayTrackable = (Button)findViewById(R.id.display_trackable);
 		displayTrackable.setOnClickListener(new findTrackableListener());
@@ -154,6 +154,8 @@ public class cgeoadvsearch extends Activity {
 	/**
 	 * converts user input to uppercase during typing
 	 * @author bananeweizen
+	 *
+	 * @note carnero: do not disable; on HTC Desire HD is not working anything; not problem of this implementation
 	 *
 	 */
 	private final class UpperCaseTextWatcher implements TextWatcher {
