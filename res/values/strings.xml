@@ -569,6 +569,10 @@
 
 	<!-- changelog -->
 	<string name="changelog">\n
+<b>2.04</b> (__.02.2011)\n
+· new: Logs for trackables\n
+· new: Access to map from "any dest."\n
+\n
 <b>2.03</b> (13.02.2011)\n
 · fix: Loading images in cache description\n
 · fix: GC/TB code input\n
