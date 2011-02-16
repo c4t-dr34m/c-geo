@@ -59,6 +59,7 @@
 	<string name="log_archived">Archived</string>
 	<string name="log_discovered">Discovered</string>
 	<string name="log_review">Reviewer note</string>
+	<string name="log_taken">Visit</string>
 	<string name="log_tb_nothing">Do nothing</string>
 	<string name="log_tb_visit">Visit</string>
 	<string name="log_tb_drop">Drop here</string>

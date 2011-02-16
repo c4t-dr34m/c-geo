@@ -198,14 +198,15 @@ public class cgBase {
 		logTypes.put("icon_disabled", 8);
 		logTypes.put("icon_rsvp", 9);
 		logTypes.put("icon_attended", 10);
+		logTypes.put("picked_up", 13);
+		logTypes.put("dropped_off", 14);
 		logTypes.put("icon_transfer", 19);
 		logTypes.put("icon_needsmaint", 45);
 		logTypes.put("icon_maint", 46);
 		logTypes.put("coord_update", 47);
 		logTypes.put("icon_discovered", 48);
 		logTypes.put("big_smile", 49);
-		logTypes.put("picked_up", 13);
-		logTypes.put("dropped_off", 14);
+		logTypes.put("icon_visited", 1001); // unknown ID; used number doesn't match any GC.com's ID
 
 		logTypes0.put("found it", 2);
 		logTypes0.put("didn't find it", 3);
@@ -217,13 +218,14 @@ public class cgBase {
 		logTypes0.put("will attend", 9);
 		logTypes0.put("attended", 10);
 		logTypes0.put("retrieved it", 13);
+		logTypes0.put("placed it", 14);
 		logTypes0.put("grabbed it", 19);
 		logTypes0.put("needs maintenance", 45);
 		logTypes0.put("owner maintenance", 46);
 		logTypes0.put("update coordinates", 47);
 		logTypes0.put("discovered it", 48);
 		logTypes0.put("post reviewer note", 49);
-		logTypes0.put("placed it", 14);
+		logTypes0.put("visit", 1001); // unknown ID; used number doesn't match any GC.com's ID
 
 		logTypes1.put(2, res.getString(R.string.log_found));
 		logTypes1.put(3, res.getString(R.string.log_dnf));
@@ -242,6 +244,7 @@ public class cgBase {
 		logTypes1.put(47, res.getString(R.string.log_update));
 		logTypes1.put(48, res.getString(R.string.log_discovered));
 		logTypes1.put(49, res.getString(R.string.log_review));
+		logTypes1.put(1001, res.getString(R.string.log_taken));
 
 		logTypes2.put(2, res.getString(R.string.log_new_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
 		logTypes2.put(3, res.getString(R.string.log_new_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
