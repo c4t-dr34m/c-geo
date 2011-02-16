@@ -59,6 +59,7 @@
 	<string name="log_archived">Arkiverad</string>
 	<string name="log_discovered">Sedd</string>
 	<string name="log_review">Reviewer anteckning</string>
+	<string name="log_taken">Besökte</string>
 	<string name="log_tb_nothing">Gör inget</string>
 	<string name="log_tb_visit">Besök</string>
 	<string name="log_tb_drop">Lämna här</string>
