@@ -226,6 +226,7 @@ public class cgeopopup extends Activity {
 				gcIcons.put("webcam", R.drawable.type_webcam);
 				gcIcons.put("wherigo", R.drawable.type_wherigo);
 				gcIcons.put("mystery", R.drawable.type_mystery);
+				gcIcons.put("gchq", R.drawable.type_hq);
 			}
 
 			if (cache.name != null && cache.name.length() > 0) {

@@ -749,6 +749,7 @@ public class cgeomap extends MapActivity {
 			gcIconsClear.put("webcam", R.drawable.type_webcam);
 			gcIconsClear.put("wherigo", R.drawable.type_wherigo);
 			gcIconsClear.put("mystery", R.drawable.type_mystery);
+			gcIconsClear.put("gchq", R.drawable.type_hq);
 		}
 
 		if (gcIcons.isEmpty() == true) {
@@ -765,6 +766,7 @@ public class cgeomap extends MapActivity {
 			gcIcons.put("webcam", R.drawable.marker_cache_webcam);
 			gcIcons.put("wherigo", R.drawable.marker_cache_wherigo);
 			gcIcons.put("mystery", R.drawable.marker_cache_mystery);
+			gcIcons.put("gchq", R.drawable.marker_cache_gchq);
 			gcIcons.put("ape-found", R.drawable.marker_cache_ape_found);
 			gcIcons.put("cito-found", R.drawable.marker_cache_cito_found);
 			gcIcons.put("earth-found", R.drawable.marker_cache_earth_found);
@@ -778,6 +780,7 @@ public class cgeomap extends MapActivity {
 			gcIcons.put("webcam-found", R.drawable.marker_cache_webcam_found);
 			gcIcons.put("wherigo-found", R.drawable.marker_cache_wherigo_found);
 			gcIcons.put("mystery-found", R.drawable.marker_cache_mystery_found);
+			gcIcons.put("gchq-found", R.drawable.marker_cache_gchq_found);
 			gcIcons.put("ape-disabled", R.drawable.marker_cache_ape_disabled);
 			gcIcons.put("cito-disabled", R.drawable.marker_cache_cito_disabled);
 			gcIcons.put("earth-disabled", R.drawable.marker_cache_earth_disabled);
@@ -791,6 +794,7 @@ public class cgeomap extends MapActivity {
 			gcIcons.put("webcam-disabled", R.drawable.marker_cache_webcam_disabled);
 			gcIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
 			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
+			gcIcons.put("gchq-disabled", R.drawable.marker_cache_gchq_disabled);
 		}
 
 		if (wpIcons.isEmpty() == true) {
