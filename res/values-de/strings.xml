@@ -58,7 +58,7 @@
   <string name="log_archived">Archiviert</string>
   <string name="log_discovered">Entdeckt</string>
   <string name="log_review">Nachricht vom Reviewer</string>
-  <string name="log_taken">Gesehen</string>
+  <string name="log_taken">Cache besucht</string>
   <string name="log_tb_nothing">Keine Aktion</string>
   <string name="log_tb_visit">Besuchen</string>
   <string name="log_tb_drop">Ablegen</string>
