@@ -200,7 +200,7 @@ public class cgBase {
 		logTypes.put("icon_attended", 10);
 		logTypes.put("picked_up", 13);
 		logTypes.put("dropped_off", 14);
-		logTypes.put("icon_transfer", 19);
+		logTypes.put("transfer", 19);
 		logTypes.put("icon_needsmaint", 45);
 		logTypes.put("icon_maint", 46);
 		logTypes.put("coord_update", 47);
