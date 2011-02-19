@@ -243,6 +243,14 @@ public class cgeoinit extends Activity {
 		}
 		captchaButton.setOnClickListener(new cgeoChangeCaptcha());
 
+		CheckBox useEnglishButton = (CheckBox) findViewById(R.id.useenglish);
+		if (prefs.getBoolean("useenglish", false) == false) {
+			useEnglishButton.setChecked(false);
+		} else {
+			useEnglishButton.setChecked(true);
+		}
+		useEnglishButton.setOnClickListener(new cgeoChangeUseEnglish());
+
 		CheckBox excludeButton = (CheckBox) findViewById(R.id.exclude);
 		if (prefs.getInt("excludemine", 0) == 0) {
 			excludeButton.setChecked(false);
@@ -470,6 +478,32 @@ public class cgeoinit extends Activity {
 				captchaButton.setChecked(false);
 			} else {
 				captchaButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeUseEnglish implements View.OnClickListener {
+
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getBoolean("useenglish", false) == false) {
+				edit.putBoolean("useenglish", true);
+				settings.useEnglish = true;
+				settings.setLanguage(true);
+			} else {
+				edit.putBoolean("useenglish", false);
+				settings.useEnglish = false;
+				settings.setLanguage(false);
+			}
+			edit.commit();
+
+			CheckBox useEnglishButton = (CheckBox) findViewById(R.id.useenglish);
+			if (prefs.getBoolean("useenglish", false) == false) {
+				useEnglishButton.setChecked(false);
+			} else {
+				useEnglishButton.setChecked(true);
 			}
 
 			return;

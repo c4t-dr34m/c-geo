@@ -310,6 +310,7 @@
 	<string name="init_transparent">Transparent huvudmeny</string>
 	<string name="init_address">Visa adress på huvudskärmen</string>
 	<string name="init_captcha">Visa CAPTCHA (robotfällor) vid behov</string>
+	<string name="init_useenglish">Använd engelska i c:geo (kräver omstart)</string>
 	<string name="init_exclude">Dölj egna och hittade cacher</string>
 	<string name="init_disabled">Dölj inaktiva cacher</string>
 	<string name="init_offline">Spara kartor för användning offline</string>

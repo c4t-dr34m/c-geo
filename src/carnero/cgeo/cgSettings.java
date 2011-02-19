@@ -1,11 +1,13 @@
 package carnero.cgeo;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.util.Log;
 
 public class cgSettings {
@@ -41,6 +43,7 @@ public class cgSettings {
 	public int mapzoom = 14;
 	public int maplive = 1;
 	public int maptrail = 1;
+	public boolean useEnglish = false;
 	public boolean showCaptcha = false;
 	public int excludeMine = 0;
 	public int excludeDisabled = 0;
@@ -88,6 +91,7 @@ public class cgSettings {
 		maplive = prefs.getInt("maplive", 1);
 		mapzoom = prefs.getInt("mapzoom", 14);
 		maptrail = prefs.getInt("maptrail", 1);
+		useEnglish = prefs.getBoolean("useenglish", false);
 		showCaptcha = prefs.getBoolean("showcaptcha", false);
 		excludeMine = prefs.getInt("excludemine", 0);
 		excludeDisabled = prefs.getInt("excludedisabled", 0);
@@ -103,6 +107,8 @@ public class cgSettings {
 		directoryImg = prefs.getString("directoryimg", imgCacheHidden);
 		tokenPublic = prefs.getString("tokenpublic", null);
 		tokenSecret = prefs.getString("tokensecret", null);
+		
+		setLanguage(useEnglish);
 	}
 
 	private void setSkinDefaults() {
@@ -126,6 +132,17 @@ public class cgSettings {
 			skin = 0;
 			setSkinDefaults();
 		}
+	}
+	
+	public void setLanguage(boolean useEnglish) {
+		Locale locale = Locale.getDefault();
+		if (useEnglish) {
+			locale = new Locale("en");
+		}
+	    Configuration config = new Configuration();
+		config.locale = locale;
+		context.getResources().updateConfiguration(config,
+				context.getResources().getDisplayMetrics());
 	}
 
 	public void reloadTwitterTokens() {
