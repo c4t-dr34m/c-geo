@@ -84,6 +84,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			gcIcons.put("webcam", (Drawable)activity.getResources().getDrawable(R.drawable.type_webcam));
 			gcIcons.put("wherigo", (Drawable)activity.getResources().getDrawable(R.drawable.type_wherigo));
 			gcIcons.put("mystery", (Drawable)activity.getResources().getDrawable(R.drawable.type_mystery));
+			gcIcons.put("gchq", (Drawable)activity.getResources().getDrawable(R.drawable.type_hq));
 		}
 
 		if (settings.skin == 0) {

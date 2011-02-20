@@ -50,14 +50,14 @@
 	<string name="log_disabled">Inaktiverad</string>
 	<string name="log_attend">Kommer att deltaga</string>
 	<string name="log_attended">Deltog</string>
-	<string name="log_retrieved">Hämtade</string>
-	<string name="log_placed">Lämnade</string>
-	<string name="log_grabbed">Tog</string>
+	<string name="log_retrieved">Hämtade från</string>
+	<string name="log_placed">Lämnade i</string>
+	<string name="log_grabbed">Tog den</string>
 	<string name="log_needs">Behöver underhåll</string>
 	<string name="log_maintenance">Underhåll utfört</string>
 	<string name="log_update">Uppdaterade koordinaterna</string>
 	<string name="log_archived">Arkiverad</string>
-	<string name="log_discovered">Sedd</string>
+	<string name="log_discovered">Såg den</string>
 	<string name="log_review">Reviewer anteckning</string>
 	<string name="log_taken">Besökte</string>
 	<string name="log_tb_nothing">Gör inget</string>
@@ -94,7 +94,7 @@
 	<string name="log_new_maintenance_owner">Underhåll utfört</string>
 	<string name="log_new_grab">Tagen från annan</string>
 	<string name="log_new_retrieve">Hämtad från cache</string>
-	<string name="log_new_discovered">Sett</string>
+	<string name="log_new_discovered">Sett den</string>
 	<string name="log_new_review">Granskad</string>
 	<string name="log_new_log">Logga</string>
 	<string name="log_new_log_text">Loggtext</string>
@@ -310,6 +310,7 @@
 	<string name="init_transparent">Transparent huvudmeny</string>
 	<string name="init_address">Visa adress på huvudskärmen</string>
 	<string name="init_captcha">Visa CAPTCHA (robotfällor) vid behov</string>
+	<string name="init_useenglish">Använd engelska i c:geo (kräver omstart)</string>
 	<string name="init_exclude">Dölj egna och hittade cacher</string>
 	<string name="init_disabled">Dölj inaktiva cacher</string>
 	<string name="init_offline">Spara kartor för användning offline</string>

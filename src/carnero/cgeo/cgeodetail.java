@@ -529,6 +529,7 @@ public class cgeodetail extends Activity {
 				gcIcons.put("virtual", R.drawable.type_virtual);
 				gcIcons.put("webcam", R.drawable.type_webcam);
 				gcIcons.put("wherigo", R.drawable.type_wherigo);
+				gcIcons.put("gchq", R.drawable.type_hq);
 				gcIcons.put("mystery", R.drawable.type_mystery);
 			}
 
