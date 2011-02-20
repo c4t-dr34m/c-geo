@@ -74,6 +74,14 @@ public class cgeoapplication extends Application {
 		}
 	}
 
+	public boolean storageStatus() {
+		if (storage.status() == false) {
+			return false;
+		}
+
+		return true;
+	}
+	
 	public cgGeo startGeo(Context context, cgUpdateLoc geoUpdate, cgBase base, cgSettings settings, cgWarning warning, int time, int distance) {
 		if (geo == null) {
 			geo = new cgGeo(context, this, geoUpdate, base, settings, warning, time, distance);

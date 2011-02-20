@@ -276,7 +276,7 @@ public class cgData {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion + " to ver. " + newVersion + ": start");
+				Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion + " to ver. " + newVersion + ": start");
 
 			try {
 				if (db.isReadOnly() == true) {
@@ -379,7 +379,7 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 42: " + e.toString());
 						}
 					}
-					
+
 					if (oldVersion < 43) { // upgrade to 43
 						try {
 							final String dbCreateCachesTemp = ""
@@ -421,12 +421,52 @@ public class cgData {
 									+ "inventorytags integer default 0, "
 									+ "inventoryunknown integer default 0 "
 									+ "); ";
-							
+							final String dbCreateCachesNew = ""
+									+ "create table " + dbTableCaches + " ("
+									+ "_id integer primary key autoincrement, "
+									+ "updated long not null, "
+									+ "detailed integer not null default 0, "
+									+ "detailedupdate long, "
+									+ "geocode text unique not null, "
+									+ "reason integer not null default 0, " // cached, favourite...
+									+ "cacheid text, "
+									+ "guid text, "
+									+ "type text, "
+									+ "name text, "
+									+ "owner text, "
+									+ "hidden long, "
+									+ "hint text, "
+									+ "size text, "
+									+ "difficulty float, "
+									+ "terrain float, "
+									+ "latlon text, "
+									+ "latitude_string text, "
+									+ "longitude_string text, "
+									+ "location text, "
+									+ "direction double, "
+									+ "distance double, "
+									+ "latitude double, "
+									+ "longitude double, "
+									+ "shortdesc text, "
+									+ "description text, "
+									+ "rating float, "
+									+ "votes integer, "
+									+ "vote integer, "
+									+ "disabled integer not null default 0, "
+									+ "archived integer not null default 0, "
+									+ "members integer not null default 0, "
+									+ "found integer not null default 0, "
+									+ "favourite integer not null default 0, "
+									+ "inventorycoins integer default 0, "
+									+ "inventorytags integer default 0, "
+									+ "inventoryunknown integer default 0 "
+									+ "); ";
+
 							db.beginTransaction();
 							db.execSQL(dbCreateCachesTemp);
 							db.execSQL("insert into " + dbTableCaches + "_temp select _id, updated, detailed, detailedupdate, geocode, reason, cacheid, guid, type, name, owner, hidden, hint, size, difficulty, terrain, latlon, latitude_string, longitude_string, location, distance, latitude, longitude, shortdesc, description, rating, votes, vote, disabled, archived, members, found, favourite, inventorycoins, inventorytags, inventoryunknown from " + dbTableCaches);
 							db.execSQL("drop table " + dbTableCaches);
-							db.execSQL(dbCreateCaches);
+							db.execSQL(dbCreateCachesNew);
 							db.execSQL("insert into " + dbTableCaches + " select _id, updated, detailed, detailedupdate, geocode, reason, cacheid, guid, type, name, owner, hidden, hint, size, difficulty, terrain, latlon, latitude_string, longitude_string, location, null, distance, latitude, longitude, shortdesc, description, rating, votes, vote, disabled, archived, members, found, favourite, inventorycoins, inventorytags, inventoryunknown from " + dbTableCaches + "_temp");
 							db.execSQL("drop table " + dbTableCaches + "_temp");
 							db.setTransactionSuccessful();
@@ -2279,5 +2319,13 @@ public class cgData {
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.saveVisitDate: " + e.toString());
 		}
+	}
+
+	public boolean status() {
+		if (databaseRO == null || databaseRW == null) {
+			return false;
+		}
+
+		return true;
 	}
 }

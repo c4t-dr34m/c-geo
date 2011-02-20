@@ -137,6 +137,12 @@ public class cgeo extends Activity {
 			Log.i(cgSettings.tag, "No info.");
 		}
 
+		/*
+		if (app.storageStatus() == false) {
+			warning.helpDialog(res.getString(R.string.database_error_title), res.getString(R.string.database_error_message));
+		}
+		*/
+
 		try {
 			if (settings.helper == 0) {
 				RelativeLayout helper = (RelativeLayout)findViewById(R.id.helper);

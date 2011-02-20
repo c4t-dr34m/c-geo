@@ -10,6 +10,8 @@
 	<string name="settings">Settings</string>
 	<string name="about">About c:geo</string>
 	<string name="helper">Do you want to learn about <b>c:geo</b>?\nCheck our easy to read manual.</string>
+	<string name="database_error_title">Problem with database</string>
+	<string name="database_error_message">c:geo failed to connect to internal database.\nPlease try to start c:geo bit later. If this message has been showed manytimes, proced to phone Settings / Applications / c:geo and hit the Clear Data button. Or uninstall and install c:geo again. Sorry for inconvinience.</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Share link to cache</string>
@@ -313,7 +315,7 @@
 	<string name="init_exclude">Exclude own and found caches</string>
 	<string name="init_disabled">Exclude disabled caches</string>
 	<string name="init_offline">Store maps for offline use</string>
-	<string name="init_units">Use imperial distance units</string>
+	<string name="init_units">Use miles/feet (imperial units)</string>
 	<string name="init_nav">Use Google Navigation</string>
 	<string name="init_directoryimg">Hide image directory from gallery</string>
 	<string name="init_autoload">Auto-loading long description</string>
@@ -571,9 +573,15 @@
 
 	<!-- changelog -->
 	<string name="changelog">\n
-<b>2.04</b> (__.02.2011)\n
+<b>2.05</b> (__.02.2011)\n
+· fix: ___\n
+\n
+<b>2.04</b> (20.02.2011)\n
 · new: Logs for trackables\n
 · new: Access to map from "any dest."\n
+· new: Ability to force English\n
+· fix: Favorites count\n
+· update: Translation\n
 \n
 <b>2.03</b> (13.02.2011)\n
 · fix: Loading images in cache description\n
