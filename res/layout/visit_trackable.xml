@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:paddingBottom="10dip" >>
+		android:paddingBottom="10dip" >
 	<TextView android:id="@+id/name"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
