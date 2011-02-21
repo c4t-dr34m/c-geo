@@ -9,6 +9,8 @@
   <string name="settings">Einstellungen</string>
   <string name="about">Über c:geo</string>
   <string name="helper">Du willst mehr über <b>c:geo</b> erfahren?\nSchaue in die Bedienungsanleitung.</string>
+  <string name="database_error_title">Problem mit der Datenbank</string>
+  <string name="database_error_message">c:geo konnte nicht mit der lokalen Datenbank verbinden.\nBitte später erneut versuchen. Wenn dies öfter geschieht, lösche die c:geo-Daten unter Einstellungen / Anwendungen / c:geo oder installiere c:geo erneut und entschuldige die Unannehmlichkeiten!</string>
 
   <!-- actionbar -->
   <string name="action_bar_share_title">Link versenden</string>

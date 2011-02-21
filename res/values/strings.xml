@@ -11,7 +11,7 @@
 	<string name="about">About c:geo</string>
 	<string name="helper">Do you want to learn about <b>c:geo</b>?\nCheck our easy to read manual.</string>
 	<string name="database_error_title">Problem with database</string>
-	<string name="database_error_message">c:geo failed to connect to internal database.\nPlease try to start c:geo bit later. If this message has been showed manytimes, proced to phone Settings / Applications / c:geo and hit the Clear Data button. Or uninstall and install c:geo again. Sorry for inconvinience.</string>
+	<string name="database_error_message">c:geo failed to connect to internal database.\nPlease try to start c:geo a bit later. If this message has been showed for many times, proceed to phone Settings / Applications / c:geo and hit the Clear Data button. Or uninstall and install c:geo again. Sorry for inconvenience.</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Share link to cache</string>
