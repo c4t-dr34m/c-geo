@@ -114,7 +114,7 @@ public class cgeovisit extends cgLogForm {
 					inventoryItem = (RelativeLayout) inflater.inflate(R.layout.visit_trackable, null);
 
 					((TextView) inventoryItem.findViewById(R.id.name)).setText(tb.name);
-					((TextView) inventoryItem.findViewById(R.id.action)).setText(base.logTypesTrackable.get(0));
+					((TextView) inventoryItem.findViewById(R.id.action)).setText(cgBase.logTypesTrackable.get(0));
 
 					inventoryItem.setId(tb.id);
 					final String tbCode = tb.trackCode;
@@ -192,8 +192,8 @@ public class cgeovisit extends cgLogForm {
 					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
 			} else {
-				if (base.errorRetrieve.get(msg.what) != null) {
-					warning.showToast(res.getString(R.string.err_log_post_failed_because) + " " + base.errorRetrieve.get(msg.what) + ".");
+				if (cgBase.errorRetrieve.get(msg.what) != null) {
+					warning.showToast(res.getString(R.string.err_log_post_failed_because) + " " + cgBase.errorRetrieve.get(msg.what) + ".");
 				} else {
 					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
@@ -325,8 +325,8 @@ public class cgeovisit extends cgLogForm {
 		if ((id >= 0x1 && id <= 0x7)) {
 			text = (EditText) findViewById(R.id.log);
 			textContent = text.getText().toString();
-			dateString = base.dateOut.format(new Date());
-			timeString = base.timeOut.format(new Date());
+			dateString = cgBase.dateOut.format(new Date());
+			timeString = cgBase.timeOut.format(new Date());
 		
 			if ((id & 0x4) == 0x4) {
 				addText += dateString;
@@ -388,14 +388,14 @@ public class cgeovisit extends cgLogForm {
 
 		if (viewId == R.id.type) {
 			for (final int typeOne : types) {
-				menu.add(viewId, typeOne, 0, base.logTypes2.get(typeOne));
+				menu.add(viewId, typeOne, 0, cgBase.logTypes2.get(typeOne));
 			}
 		} else if (viewId == R.id.changebutton) {
 			final int textId = ((TextView) findViewById(viewId)).getId();
 
 			menu.setHeaderTitle(res.getString(R.string.log_tb_changeall));
-			for (final int logTbAction : base.logTypesTrackable.keySet()) {
-				menu.add(textId, logTbAction, 0, base.logTypesTrackable.get(logTbAction));
+			for (final int logTbAction : cgBase.logTypesTrackable.keySet()) {
+				menu.add(textId, logTbAction, 0, cgBase.logTypesTrackable.get(logTbAction));
 			}
 		} else {
 			final int realViewId = ((RelativeLayout) findViewById(viewId)).getId();
@@ -405,8 +405,8 @@ public class cgeovisit extends cgLogForm {
 					menu.setHeaderTitle(tb.name);
 				}
 			}
-			for (final int logTbAction : base.logTypesTrackable.keySet()) {
-				menu.add(realViewId, logTbAction, 0, base.logTypesTrackable.get(logTbAction));
+			for (final int logTbAction : cgBase.logTypesTrackable.keySet()) {
+				menu.add(realViewId, logTbAction, 0, cgBase.logTypesTrackable.get(logTbAction));
 			}
 		}
 	}
@@ -422,7 +422,7 @@ public class cgeovisit extends cgLogForm {
 			return true;
 		} else if (group == R.id.changebutton) {
 			try {
-				final String logTbAction = base.logTypesTrackable.get(id);
+				final String logTbAction = cgBase.logTypesTrackable.get(id);
 				if (logTbAction != null) {
 					final LinearLayout inventView = (LinearLayout) findViewById(R.id.inventory);
 					for (int count = 0; count < inventView.getChildCount(); count++) {
@@ -448,7 +448,7 @@ public class cgeovisit extends cgLogForm {
 			}
 		} else {
 			try {
-				final String logTbAction = base.logTypesTrackable.get(id);
+				final String logTbAction = cgBase.logTypesTrackable.get(id);
 				if (logTbAction != null) {
 					final RelativeLayout tbView = (RelativeLayout) findViewById(group);
 					if (tbView == null) {
@@ -534,7 +534,7 @@ public class cgeovisit extends cgLogForm {
 
 		Button typeButton = (Button) findViewById(R.id.type);
 		registerForContextMenu(typeButton);
-		typeButton.setText(base.logTypes2.get(typeSelected));
+		typeButton.setText(cgBase.logTypes2.get(typeSelected));
 		typeButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View view) {
@@ -543,7 +543,7 @@ public class cgeovisit extends cgLogForm {
 		});
 
 		Button dateButton = (Button) findViewById(R.id.date);
-		dateButton.setText(base.dateOutShort.format(date.getTime()));
+		dateButton.setText(cgBase.dateOutShort.format(date.getTime()));
 		dateButton.setOnClickListener(new cgeovisitDateListener());
 
 		EditText logView = (EditText) findViewById(R.id.log);
@@ -591,19 +591,19 @@ public class cgeovisit extends cgLogForm {
 		date = dateIn;
 
 		final Button dateButton = (Button) findViewById(R.id.date);
-		dateButton.setText(base.dateOutShort.format(date.getTime()));
+		dateButton.setText(cgBase.dateOutShort.format(date.getTime()));
 	}
 
 	public void setType(int type) {
 		final Button typeButton = (Button) findViewById(R.id.type);
 
-		if (base.logTypes2.get(type) != null) {
+		if (cgBase.logTypes2.get(type) != null) {
 			typeSelected = type;
 		}
-		if (base.logTypes2.get(typeSelected) == null) {
+		if (cgBase.logTypes2.get(typeSelected) == null) {
 			typeSelected = 1;
 		}
-		typeButton.setText(base.logTypes2.get(typeSelected));
+		typeButton.setText(cgBase.logTypes2.get(typeSelected));
 
 		if (tweetBox == null) {
 			tweetBox = (LinearLayout) findViewById(R.id.tweet_box);
@@ -692,7 +692,7 @@ public class cgeovisit extends cgLogForm {
 			setType(typeSelected);
 
 			Button dateButton = (Button) findViewById(R.id.date);
-			dateButton.setText(base.dateOutShort.format(date.getTime()));
+			dateButton.setText(cgBase.dateOutShort.format(date.getTime()));
 			dateButton.setOnClickListener(new cgeovisitDateListener());
 
 			EditText logView = (EditText) findViewById(R.id.log);

@@ -174,7 +174,7 @@ public class cgeoauth extends Activity {
 					// connection.setHostnameVerifier(base.doNotVerify);
 					connection.setReadTimeout(30000);
 					connection.setRequestMethod(method);
-					connection.setFollowRedirects(true);
+					HttpsURLConnection.setFollowRedirects(true);
 					connection.setDoInput(true);
 					connection.setDoOutput(false);
 
@@ -271,7 +271,7 @@ public class cgeoauth extends Activity {
 				// connection.setHostnameVerifier(base.doNotVerify);
 				connection.setReadTimeout(30000);
 				connection.setRequestMethod(method);
-				connection.setFollowRedirects(true);
+				HttpsURLConnection.setFollowRedirects(true);
 				connection.setDoOutput(true);
 				connection.setDoInput(true);
 

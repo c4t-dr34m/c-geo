@@ -156,7 +156,7 @@ public class cgGPXParser {
 		waypoint.getChild(ns, "time").setEndTextElementListener(new EndTextElementListener(){
             public void end(String body) {
 				try {
-					cache.hidden = base.dateGPXIn.parse(body.trim());
+					cache.hidden = cgBase.dateGPXIn.parse(body.trim());
 				} catch (Exception e) {
 					Log.w(cgSettings.tag, "Failed to parse cache date: " + e.toString());
 				}
@@ -258,7 +258,7 @@ public class cgGPXParser {
 			// waypoint.cache.type
 			gcCache.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
 				public void end(String body) {
-					final String content = base.cacheTypes.get(body.toLowerCase());
+					final String content = cgBase.cacheTypes.get(body.toLowerCase());
 					cache.type = content;
 				}
 			});
@@ -423,7 +423,7 @@ public class cgGPXParser {
 			gcLog.getChild(nsGC, "date").setEndTextElementListener(new EndTextElementListener() {
 				public void end(String body) {
 					try {
-						log.date = base.dateGPXIn.parse(body.trim()).getTime();
+						log.date = cgBase.dateGPXIn.parse(body.trim()).getTime();
 					} catch (Exception e) {
 						Log.w(cgSettings.tag, "Failed to parse log date: " + e.toString());
 					}
@@ -434,7 +434,7 @@ public class cgGPXParser {
 			gcLog.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
 				public void end(String body) {
 					final String content = body.trim().toLowerCase();
-					if (base.logTypes0.containsKey(content) == true) log.type = base.logTypes0.get(content);
+					if (cgBase.logTypes0.containsKey(content) == true) log.type = cgBase.logTypes0.get(content);
 					else log.type = 4;
 				}
 			});

@@ -41,12 +41,12 @@ public class cgOverlayScale extends Overlay {
 
 		pixels = mapView.getWidth() / 2; // pixels related to following latitude span
 		bottom = mapView.getHeight() - 14; // pixels from bottom side of screen
-		distance = base.getDistance((center.getLatitudeE6() / 1e6), ((center.getLongitudeE6() / 1e6) - (span /2)), (center.getLatitudeE6() / 1e6), ((center.getLongitudeE6() / 1e6) + (span /2)));
+		distance = cgBase.getDistance((center.getLatitudeE6() / 1e6), ((center.getLongitudeE6() / 1e6) - (span /2)), (center.getLatitudeE6() / 1e6), ((center.getLongitudeE6() / 1e6) + (span /2)));
 		distance = distance / 2;
 		distanceRound = 0d;
 
-		if(settings.units == settings.unitsImperial) {
-			distance *= base.kmInMiles;
+		if(settings.units == cgSettings.unitsImperial) {
+			distance *= cgBase.kmInMiles;
 
 			if (distance > 100) { // 100+ mi > 1xx mi
 				distanceRound = Math.floor(distance / 100) * 100;

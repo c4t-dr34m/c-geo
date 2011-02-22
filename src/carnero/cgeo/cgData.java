@@ -221,7 +221,7 @@ public class cgData {
 			}
 
 			databaseRO.close();
-			databaseRO.releaseMemory();
+			SQLiteDatabase.releaseMemory();
 
 			Log.d(cgSettings.tag, "Closing RO database");
 		}
@@ -232,7 +232,7 @@ public class cgData {
 			}
 
 			databaseRW.close();
-			databaseRW.releaseMemory();
+			SQLiteDatabase.releaseMemory();
 
 			Log.d(cgSettings.tag, "Closing RW database");
 		}

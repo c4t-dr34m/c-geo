@@ -44,9 +44,9 @@ public class cgeoinit extends Activity {
 				if (msg.what == 1) {
 					warning.helpDialog(res.getString(R.string.init_login_popup), res.getString(R.string.init_login_popup_ok));
 				} else {
-					if (base.errorRetrieve.containsKey(msg.what) == true) {
+					if (cgBase.errorRetrieve.containsKey(msg.what) == true) {
 						warning.helpDialog(res.getString(R.string.init_login_popup),
-								res.getString(R.string.init_login_popup_failed_reason) + " " + base.errorRetrieve.get(msg.what) + ".");
+								res.getString(R.string.init_login_popup_failed_reason) + " " + cgBase.errorRetrieve.get(msg.what) + ".");
 					} else {
 						warning.helpDialog(res.getString(R.string.init_login_popup), res.getString(R.string.init_login_popup_failed));
 					}
@@ -292,7 +292,7 @@ public class cgeoinit extends Activity {
 		livelistButton.setOnClickListener(new cgeoChangeLivelist());
 
 		CheckBox unitsButton = (CheckBox) findViewById(R.id.units);
-		if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
+		if (prefs.getInt("units", cgSettings.unitsMetric) == cgSettings.unitsMetric) {
 			unitsButton.setChecked(false);
 		} else {
 			unitsButton.setChecked(true);
@@ -308,7 +308,7 @@ public class cgeoinit extends Activity {
 		gnavButton.setOnClickListener(new cgeoChangeGNav());
 
 		CheckBox imgButton = (CheckBox) findViewById(R.id.directoryimg);
-		if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
+		if (prefs.getString("directoryimg", cgSettings.imgCacheHidden).equalsIgnoreCase(cgSettings.imgCache)) {
 			imgButton.setChecked(false);
 		} else {
 			imgButton.setChecked(true);
@@ -634,17 +634,17 @@ public class cgeoinit extends Activity {
 
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
-				edit.putInt("units", settings.unitsImperial);
-				settings.units = settings.unitsImperial;
+			if (prefs.getInt("units", cgSettings.unitsMetric) == cgSettings.unitsMetric) {
+				edit.putInt("units", cgSettings.unitsImperial);
+				settings.units = cgSettings.unitsImperial;
 			} else {
-				edit.putInt("units", settings.unitsMetric);
-				settings.units = settings.unitsMetric;
+				edit.putInt("units", cgSettings.unitsMetric);
+				settings.units = cgSettings.unitsMetric;
 			}
 			edit.commit();
 
 			CheckBox unitsButton = (CheckBox) findViewById(R.id.units);
-			if (prefs.getInt("units", settings.unitsMetric) == settings.unitsMetric) {
+			if (prefs.getInt("units", cgSettings.unitsMetric) == cgSettings.unitsMetric) {
 				unitsButton.setChecked(false);
 			} else {
 				unitsButton.setChecked(true);
@@ -685,35 +685,35 @@ public class cgeoinit extends Activity {
 			File dir = null;
 			File dirNew = null;
 
-			if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
+			if (prefs.getString("directoryimg", cgSettings.imgCacheHidden).equalsIgnoreCase(cgSettings.imgCache)) {
 				dir = new File(settings.getStorageSpecific(false)[0]);
 				dirNew = new File(settings.getStorageSpecific(true)[0]);
 				if (dir.exists() == true) {
-					base.deleteDirectory(dirNew);
+					cgBase.deleteDirectory(dirNew);
 					dir.renameTo(dirNew);
 				} else {
-					base.deleteDirectory(dirNew);
+					cgBase.deleteDirectory(dirNew);
 				}
 
-				edit.putString("directoryimg", settings.imgCacheHidden);
-				settings.directoryImg = settings.imgCacheHidden;
+				edit.putString("directoryimg", cgSettings.imgCacheHidden);
+				settings.directoryImg = cgSettings.imgCacheHidden;
 			} else {
 				dir = new File(settings.getStorageSpecific(true)[0]);
 				dirNew = new File(settings.getStorageSpecific(false)[0]);
 				if (dir.exists() == true) {
-					base.deleteDirectory(dirNew);
+					cgBase.deleteDirectory(dirNew);
 					dir.renameTo(dirNew);
 				} else {
-					base.deleteDirectory(dirNew);
+					cgBase.deleteDirectory(dirNew);
 				}
 
-				edit.putString("directoryimg", settings.imgCache);
-				settings.directoryImg = settings.imgCache;
+				edit.putString("directoryimg", cgSettings.imgCache);
+				settings.directoryImg = cgSettings.imgCache;
 			}
 			edit.commit();
 
 			CheckBox imgButton = (CheckBox) findViewById(R.id.directoryimg);
-			if (prefs.getString("directoryimg", settings.imgCacheHidden).equalsIgnoreCase(settings.imgCache)) {
+			if (prefs.getString("directoryimg", cgSettings.imgCacheHidden).equalsIgnoreCase(cgSettings.imgCache)) {
 				imgButton.setChecked(false);
 			} else {
 				imgButton.setChecked(true);

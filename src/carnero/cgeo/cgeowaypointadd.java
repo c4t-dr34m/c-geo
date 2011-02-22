@@ -137,7 +137,7 @@ public class cgeowaypointadd extends Activity {
 		Button addWaypoint = (Button) findViewById(R.id.add_waypoint);
 		addWaypoint.setOnClickListener(new coordsListener());
 
-		ArrayList<String> wayPointNames = new ArrayList<String>(base.waypointTypes.values());
+		ArrayList<String> wayPointNames = new ArrayList<String>(cgBase.waypointTypes.values());
         AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.name);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wayPointNames);
         textView.setAdapter(adapter);
@@ -331,7 +331,7 @@ public class cgeowaypointadd extends Activity {
 					distance = (new Double(matcherE.group(1))) * 1.609344;
 				} else {
 					try {
-						if (settings.units == settings.unitsImperial) {
+						if (settings.units == cgSettings.unitsImperial) {
 							distance = (new Double(distanceText)) * 1.609344; // considering it miles
 						} else {
 							distance = (new Double(distanceText)) * 0.001; // considering it meters
@@ -339,11 +339,6 @@ public class cgeowaypointadd extends Activity {
 					} catch (Exception e) {
 						// probably not a number
 					}
-				}
-
-				if (bearing == null) {
-					warning.showToast(res.getString(R.string.err_parse_bear));
-					return;
 				}
 
 				if (distance == null) {

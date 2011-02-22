@@ -319,8 +319,8 @@ public class cgeonavigate extends Activity {
 		if (distanceView == null) distanceView = (TextView)findViewById(R.id.distance);
 		if (headingView == null) headingView = (TextView)findViewById(R.id.heading);
 
-		cacheHeading = base.getHeading(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude);
-		distanceView.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude)));
+		cacheHeading = cgBase.getHeading(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude);
+		distanceView.setText(base.getHumanDistance(cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude)));
 		headingView.setText(String.format(Locale.getDefault(), "%.0f", cacheHeading) + "°");
 	}
 
@@ -357,7 +357,7 @@ public class cgeonavigate extends Activity {
 					}
 
 					if (geo.accuracyNow != null) {
-						if (settings.units == settings.unitsImperial) {
+						if (settings.units == cgSettings.unitsImperial) {
 							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", (geo.accuracyNow * 3.2808399)) + " ft");
 						} else {
 							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", geo.accuracyNow) + " m");
@@ -368,7 +368,7 @@ public class cgeonavigate extends Activity {
 
 					if (geo.altitudeNow != null) {
 						String humanAlt;
-						if (settings.units == settings.unitsImperial) {
+						if (settings.units == cgSettings.unitsImperial) {
 							humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
 						} else {
 							humanAlt = String.format("%.0f", geo.altitudeNow) + " m";

@@ -388,7 +388,7 @@ public class cgeopoint extends Activity {
 				distance = (new Double(matcherE.group(1))) * 1.609344;
 			} else {
 				try {
-					if (settings.units == settings.unitsImperial) {
+					if (settings.units == cgSettings.unitsImperial) {
 						distance = (new Double(distanceText)) * 1.609344; // considering it miles
 					} else {
 						distance = (new Double(distanceText)) * 0.001; // considering it meters
@@ -396,11 +396,6 @@ public class cgeopoint extends Activity {
 				} catch (Exception e) {
 					// probably not a number
 				}
-			}
-
-			if (bearing == null) {
-				warning.showToast(res.getString(R.string.err_parse_bear));
-				return null;
 			}
 
 			if (distance == null) {

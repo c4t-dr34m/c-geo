@@ -375,7 +375,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			Bitmap dirImg = null;
 			try {
 				BitmapFactory dirImgFactory = new BitmapFactory();
-				dirImgPre = dirImgFactory.decodeFile(settings.getStorage() + cache.geocode + "/direction.png");
+				dirImgPre = BitmapFactory.decodeFile(settings.getStorage() + cache.geocode + "/direction.png");
 				dirImg = dirImgPre.copy(Bitmap.Config.ARGB_8888, true);
 
 				dirImgPre.recycle();
@@ -444,9 +444,9 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		StringBuilder cacheInfo = new StringBuilder();
 		if (historic == true && cache.visitedDate != null) {
-			cacheInfo.append(base.timeOut.format(cache.visitedDate));
+			cacheInfo.append(cgBase.timeOut.format(cache.visitedDate));
 			cacheInfo.append("; ");
-			cacheInfo.append(base.dateOut.format(cache.visitedDate));
+			cacheInfo.append(cgBase.dateOut.format(cache.visitedDate));
 		} else {
 			if (cache.geocode != null && cache.geocode.length() > 0) {
 				cacheInfo.append(cache.geocode);

@@ -226,7 +226,7 @@ public class cgeomap extends MapActivity {
 					return;
 				}
 
-				final Double distance = base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude);
+				final Double distance = cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude);
 
 				close.setClickable(false);
 				close.setOnClickListener(null);
@@ -329,7 +329,7 @@ public class cgeomap extends MapActivity {
 			oneLongitude = extras.getDouble("longitude");
 		}
 
-		if (settings.maptype == settings.mapSatellite) {
+		if (settings.maptype == cgSettings.mapSatellite) {
 			mapView.setSatellite(true);
 		} else {
 			mapView.setSatellite(false);
@@ -588,12 +588,12 @@ public class cgeomap extends MapActivity {
 			if (mapView != null && mapView.isSatellite() == false) {
 				mapView.setSatellite(true);
 
-				prefsEdit.putInt("maptype", settings.mapSatellite);
+				prefsEdit.putInt("maptype", cgSettings.mapSatellite);
 				prefsEdit.commit();
 			} else {
 				mapView.setSatellite(false);
 
-				prefsEdit.putInt("maptype", settings.mapClassic);
+				prefsEdit.putInt("maptype", cgSettings.mapClassic);
 				prefsEdit.commit();
 			}
 
@@ -709,14 +709,14 @@ public class cgeomap extends MapActivity {
 		if (mapView == null) return;
 		if (prefsEdit == null) prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
 
-		if (mapView.isSatellite()) prefsEdit.putInt("maptype", settings.mapSatellite);
-		else prefsEdit.putInt("maptype", settings.mapClassic);
+		if (mapView.isSatellite()) prefsEdit.putInt("maptype", cgSettings.mapSatellite);
+		else prefsEdit.putInt("maptype", cgSettings.mapClassic);
 
 		prefsEdit.putInt("mapzoom", mapView.getZoomLevel());
 		prefsEdit.commit();
 
-		if (mapView.isSatellite()) settings.maptype = settings.mapSatellite;
-		else settings.maptype = settings.mapClassic;
+		if (mapView.isSatellite()) settings.maptype = cgSettings.mapSatellite;
+		else settings.maptype = cgSettings.mapClassic;
 	}
 
 	private void addOverlays(boolean canChangeTitle, boolean canInit) {
@@ -1351,7 +1351,7 @@ public class cgeomap extends MapActivity {
 
 				if (geo != null && caches != null && caches.isEmpty() == false) {
 					for (cgCache oneCache : caches) {
-						distance = base.getDistance(geo.latitudeNow, geo.longitudeNow, oneCache.latitude, oneCache.longitude);
+						distance = cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, oneCache.latitude, oneCache.longitude);
 						if (live == true && geo != null && distance < closestDistance) {
 							closestDistance = distance;
 							closestCache = caches.indexOf(oneCache);
@@ -1490,7 +1490,7 @@ public class cgeomap extends MapActivity {
 			if (numberType == 0 && geo != null) { // altitude
 				String humanAlt;
 				if (geo.altitudeNow != null) {
-					if (settings.units == settings.unitsImperial) {
+					if (settings.units == cgSettings.unitsImperial) {
 						humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
 					} else {
 						humanAlt = String.format("%.0f", geo.altitudeNow) + " m";
@@ -1524,7 +1524,7 @@ public class cgeomap extends MapActivity {
 				dstSince = activity.getSharedPreferences(cgSettings.preferences, 0).getLong("dst-since", 0l);
 				if (dstSince > 0) {
 					Date dstDate = new Date(dstSince);
-					dstString = res.getString(R.string.info_since) + " " + base.dateOut.format(dstDate) + ", " + base.timeOut.format(dstDate) +  ")";
+					dstString = res.getString(R.string.info_since) + " " + cgBase.dateOut.format(dstDate) + ", " + cgBase.timeOut.format(dstDate) +  ")";
 				} else {
 					dstString = "";
 				}

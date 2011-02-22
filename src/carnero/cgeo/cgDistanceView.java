@@ -32,7 +32,7 @@ public class cgDistanceView extends TextView {
 		if (latitude == null || longitude == null) return;
 		if (base == null) return;
 
-		setText(base.getHumanDistance(base.getDistance(latitude, longitude, cacheLat, cacheLon)));
+		setText(base.getHumanDistance(cgBase.getDistance(latitude, longitude, cacheLat, cacheLon)));
 	}
 
 	public void setDistance(Double distance) {

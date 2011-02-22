@@ -257,7 +257,7 @@ public class cgeo extends Activity {
 		
 		menu.add(0, 0, 0, res.getString(R.string.all_types));
 		int cnt = 1;
-		for (String choice : base.cacheTypesInv.values()) {
+		for (String choice : cgBase.cacheTypesInv.values()) {
 			menu.add(0, cnt, 0, choice);
 			cnt ++;
 		}
@@ -273,7 +273,7 @@ public class cgeo extends Activity {
 
 			return true;
 		} else if (id > 0) {
-			final Object[] types = base.cacheTypesInv.keySet().toArray();
+			final Object[] types = cgBase.cacheTypesInv.keySet().toArray();
 			final String choice = (String)types[(id - 1)];
 
 			if (choice == null) settings.setCacheType(null);
@@ -291,7 +291,7 @@ public class cgeo extends Activity {
 			filterTitle = (TextView)findViewById(R.id.filter_button_title);
 		}
 		if (settings.cacheType != null) {
-			filterTitle.setText(base.cacheTypesInv.get(settings.cacheType));
+			filterTitle.setText(cgBase.cacheTypesInv.get(settings.cacheType));
 		} else {
 			filterTitle.setText(res.getString(R.string.all));
 		}
@@ -323,7 +323,7 @@ public class cgeo extends Activity {
 		(new countBubbleUpdate()).start();
 		(new cleanDatabase()).start();
 
-		if (settings.cacheType != null && base.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
+		if (settings.cacheType != null && cgBase.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
 
 		if (geo == null) geo = app.startGeo(context, geoUpdate, base, settings, warning, 0, 0);
 
@@ -398,7 +398,7 @@ public class cgeo extends Activity {
 					}
 
 					if (geo.accuracyNow != null) {
-						if (settings.units == settings.unitsImperial) {
+						if (settings.units == cgSettings.unitsImperial) {
 							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", (geo.accuracyNow * 3.2808399)) + " ft");
 						} else {
 							navAccuracy.setText("±" + String.format(Locale.getDefault(), "%.0f", geo.accuracyNow) + " m");
@@ -411,13 +411,13 @@ public class cgeo extends Activity {
 						if (addLat == null || addLon == null) {
 							navLocation.setText(res.getString(R.string.loc_no_addr));
 						}
-						if (addLat == null || addLon == null || (base.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 0.5 && addressObtaining == false)) {
+						if (addLat == null || addLon == null || (cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, addLat, addLon) > 0.5 && addressObtaining == false)) {
 							(new obtainAddress()).start();
 						}
 					} else {
 						if (geo.altitudeNow != null) {
 							String humanAlt;
-							if (settings.units == settings.unitsImperial) {
+							if (settings.units == cgSettings.unitsImperial) {
 								humanAlt = String.format("%.0f", (geo.altitudeNow * 3.2808399)) + " ft";
 							} else {
 								humanAlt = String.format("%.0f", geo.altitudeNow) + " m";

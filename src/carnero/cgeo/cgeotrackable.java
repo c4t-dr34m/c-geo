@@ -49,7 +49,7 @@ public class cgeotrackable extends Activity {
 			TextView itemValue;
 
 			if (trackable != null && trackable.errorRetrieve != 0) {
-				warning.showToast(res.getString(R.string.err_tb_details_download) + " " + base.errorRetrieve.get(trackable.errorRetrieve) + ".");
+				warning.showToast(res.getString(R.string.err_tb_details_download) + " " + cgBase.errorRetrieve.get(trackable.errorRetrieve) + ".");
 
 				finish();
 				return;
@@ -210,7 +210,7 @@ public class cgeotrackable extends Activity {
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 					itemName.setText(res.getString(R.string.trackable_released));
-					itemValue.setText(base.dateOut.format(trackable.released));
+					itemValue.setText(cgBase.dateOut.format(trackable.released));
 					detailsList.addView(itemLayout);
 				}
 
@@ -441,14 +441,14 @@ public class cgeotrackable extends Activity {
 
 				if (log.date > 0) {
 					final Date logDate = new Date(log.date);
-					((TextView) rowView.findViewById(R.id.added)).setText(base.dateOutShort.format(logDate));
+					((TextView) rowView.findViewById(R.id.added)).setText(cgBase.dateOutShort.format(logDate));
 				}
 
 				
-				if (base.logTypes1.containsKey(log.type) == true) {
-					((TextView) rowView.findViewById(R.id.type)).setText(base.logTypes1.get(log.type));
+				if (cgBase.logTypes1.containsKey(log.type) == true) {
+					((TextView) rowView.findViewById(R.id.type)).setText(cgBase.logTypes1.get(log.type));
 				} else {
-					((TextView) rowView.findViewById(R.id.type)).setText(base.logTypes1.get(4)); // note if type is unknown
+					((TextView) rowView.findViewById(R.id.type)).setText(cgBase.logTypes1.get(4)); // note if type is unknown
 				}
 				((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
 

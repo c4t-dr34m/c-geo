@@ -148,11 +148,6 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 		final cgOverlayItem item = items.get(index);
 		final cgCoord coordinate = item.getCoord();
 
-		if (item == null) {
-			Log.e(cgSettings.tag, "cgMapOverlay:infoDialog: No item given");
-			return;
-		}
-
 		if (coordinate == null) {
 			Log.e(cgSettings.tag, "cgMapOverlay:infoDialog: No coordinates given");
 			return;
@@ -166,10 +161,10 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 				dialog.setTitle("cache");
 
 				String cacheType;
-				if (base.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
-					cacheType = base.cacheTypesInv.get(coordinate.typeSpec);
+				if (cgBase.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
+					cacheType = cgBase.cacheTypesInv.get(coordinate.typeSpec);
 				} else {
-					cacheType = base.cacheTypesInv.get("mystery");
+					cacheType = cgBase.cacheTypesInv.get("mystery");
 				}
 
 				dialog.setMessage(Html.fromHtml(item.getTitle()) + "\n\ngeocode: " + coordinate.geocode.toUpperCase()  + "\ntype: " + cacheType);
@@ -188,8 +183,8 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 					   public void onClick(DialogInterface dialog, int id) {
 							cgeonavigate navigateActivity = new cgeonavigate();
 
-							navigateActivity.coordinates = new ArrayList<cgCoord>();
-							navigateActivity.coordinates.add(coordinate);
+							cgeonavigate.coordinates = new ArrayList<cgCoord>();
+							cgeonavigate.coordinates.add(coordinate);
 
 							Intent navigateIntent = new Intent(context, navigateActivity.getClass());
 							navigateIntent.putExtra("latitude", coordinate.latitude);
@@ -204,10 +199,10 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 				dialog.setTitle("waypoint");
 
 				String waypointType;
-				if (base.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
-					waypointType = base.waypointTypes.get(coordinate.typeSpec);
+				if (cgBase.cacheTypesInv.containsKey(coordinate.typeSpec) == true) {
+					waypointType = cgBase.waypointTypes.get(coordinate.typeSpec);
 				} else {
-					waypointType = base.waypointTypes.get("waypoint");
+					waypointType = cgBase.waypointTypes.get("waypoint");
 				}
 
 				dialog.setMessage(Html.fromHtml(item.getTitle()) + "\n\ntype: " + waypointType);
@@ -215,8 +210,8 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 				   public void onClick(DialogInterface dialog, int id) {
 						cgeonavigate navigateActivity = new cgeonavigate();
 
-						navigateActivity.coordinates = new ArrayList<cgCoord>();
-						navigateActivity.coordinates.add(coordinate);
+						cgeonavigate.coordinates = new ArrayList<cgCoord>();
+						cgeonavigate.coordinates.add(coordinate);
 
 						Intent navigateIntent = new Intent(context, navigateActivity.getClass());
 						navigateIntent.putExtra("latitude", coordinate.latitude);

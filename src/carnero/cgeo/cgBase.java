@@ -2512,7 +2512,7 @@ public class cgBase {
 			return "?";
 		}
 
-		if (settings.units == settings.unitsImperial) {
+		if (settings.units == cgSettings.unitsImperial) {
 			distance *= kmInMiles;
 			if (distance > 100) {
 				return String.format(Locale.getDefault(), "%.0f", new Double(Math.round(distance))) + " mi";
@@ -2548,7 +2548,7 @@ public class cgBase {
 		double kph = speed * 3.6;
 		String unit = "kmh";
 
-		if (this.settings.units == this.settings.unitsImperial) {
+		if (this.settings.units == cgSettings.unitsImperial) {
 			kph *= kmInMiles;
 			unit = "mph";
 		}
@@ -3821,7 +3821,7 @@ public class cgBase {
 				connection = (HttpURLConnection) uc;
 				connection.setReadTimeout(30000);
 				connection.setRequestMethod("POST");
-				connection.setFollowRedirects(true);
+				HttpURLConnection.setFollowRedirects(true);
 				connection.setDoInput(true);
 				connection.setDoOutput(true);
 
@@ -4125,7 +4125,7 @@ public class cgBase {
 					connection = (HttpURLConnection) uc;
 					connection.setReadTimeout(timeout);
 					connection.setRequestMethod(method);
-					connection.setFollowRedirects(false);
+					HttpURLConnection.setFollowRedirects(false);
 					connection.setDoInput(true);
 					connection.setDoOutput(false);
 				} else {
@@ -4152,7 +4152,7 @@ public class cgBase {
 					connection = (HttpURLConnection) uc;
 					connection.setReadTimeout(timeout);
 					connection.setRequestMethod(method);
-					connection.setFollowRedirects(false);
+					HttpURLConnection.setFollowRedirects(false);
 					connection.setDoInput(true);
 					connection.setDoOutput(true);
 
@@ -4367,7 +4367,7 @@ public class cgBase {
 				connection = (HttpURLConnection) uc;
 				connection.setReadTimeout(timeout);
 				connection.setRequestMethod("POST");
-				connection.setFollowRedirects(false);
+				HttpURLConnection.setFollowRedirects(false); // TODO: Fix these (FilCab)
 				connection.setDoInput(true);
 				connection.setDoOutput(true);
 
@@ -4450,7 +4450,7 @@ public class cgBase {
 			} else {
 				page = requestJSON(newLocation.getHost(), newLocation.getPath(), params);
 			}
-		} else if (buffer != null) {
+		} else {
 			final Matcher matcherLines = patternLines.matcher(buffer.toString());
 			page = matcherLines.replaceAll(" ");
 
@@ -4461,8 +4461,6 @@ public class cgBase {
 			} else {
 				Log.i(cgSettings.tag + " | JSON", "Downloaded file has no title.");
 			}
-		} else {
-			return "";
 		}
 
 		if (page != null) {
@@ -4564,7 +4562,7 @@ public class cgBase {
 
 	public static boolean isIntentAvailable(Context context, Intent intent) {
 		final PackageManager packageManager = context.getPackageManager();
-		final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, packageManager.MATCH_DEFAULT_ONLY);
+		final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
 		return (list.size() > 0);
 	}

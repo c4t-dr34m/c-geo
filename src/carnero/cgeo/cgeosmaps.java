@@ -1,20 +1,20 @@
 package carnero.cgeo;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.Resources;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-import java.util.ArrayList;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class cgeosmaps extends Activity {
 
@@ -130,7 +130,7 @@ public class cgeosmaps extends Activity {
 
 				for (int level = 1; level <= 5; level++) {
 					try {
-						Bitmap image = factory.decodeFile(settings.getStorage() + geocode + "/map_" + level);
+						Bitmap image = BitmapFactory.decodeFile(settings.getStorage() + geocode + "/map_" + level);
 						if (image != null) {
 							maps.add(image);
 						}
@@ -142,7 +142,7 @@ public class cgeosmaps extends Activity {
 				if (maps.isEmpty() == true) {
 					for (int level = 1; level <= 5; level++) {
 						try {
-							Bitmap image = factory.decodeFile(settings.getStorageSec() + geocode + "/map_" + level);
+							Bitmap image = BitmapFactory.decodeFile(settings.getStorageSec() + geocode + "/map_" + level);
 							if (image != null) {
 								maps.add(image);
 							}

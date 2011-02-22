@@ -104,7 +104,7 @@ public class cgeocaches extends ListActivity {
 					}
 				}
 
-				if (cacheList != null && app.getError(searchId) != null && app.getError(searchId).equalsIgnoreCase(base.errorRetrieve.get(-7)) == true) {
+				if (cacheList != null && app.getError(searchId) != null && app.getError(searchId).equalsIgnoreCase(cgBase.errorRetrieve.get(-7)) == true) {
 					AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
 					dialog.setTitle(res.getString(R.string.license));
 					dialog.setMessage(res.getString(R.string.err_license));
@@ -348,8 +348,8 @@ public class cgeocaches extends ListActivity {
 		init();
 
 		String typeText;
-		if (cachetype != null && base.cacheTypesInv.containsKey(cachetype) == true) {
-			typeText = "\n" + res.getString(R.string.type) + ": " + base.cacheTypesInv.get(cachetype);
+		if (cachetype != null && cgBase.cacheTypesInv.containsKey(cachetype) == true) {
+			typeText = "\n" + res.getString(R.string.type) + ": " + cgBase.cacheTypesInv.get(cachetype);
 		} else {
 			typeText = "\n" + res.getString(R.string.type) + ": " + res.getString(R.string.all_types);
 		}
@@ -532,7 +532,7 @@ public class cgeocaches extends ListActivity {
 
 		final Intent intentTest = new Intent(Intent.ACTION_VIEW);
 		intentTest.setData(Uri.parse("menion.points:x"));
-		if (base.isIntentAvailable(activity, intentTest) == true) {
+		if (cgBase.isIntentAvailable(activity, intentTest) == true) {
 			SubMenu subMenu = menu.addSubMenu(0, 11, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
 			subMenu.add(0, 2, 0, res.getString(R.string.caches_map_cgeo)); // show all caches on map using c:geo
 			subMenu.add(0, 3, 0, res.getString(R.string.caches_map_locus)); // show all caches on map using Locus
@@ -679,7 +679,7 @@ public class cgeocaches extends ListActivity {
 			return true;
 		} else if (id == 2) { // radar
 			try {
-				if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
+				if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 					Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
 					radarIntent.putExtra("latitude", new Float(cache.latitude));
 					radarIntent.putExtra("longitude", new Float(cache.longitude));
@@ -888,7 +888,7 @@ public class cgeocaches extends ListActivity {
 			final Intent intentTest = new Intent(Intent.ACTION_VIEW);
 			intentTest.setData(Uri.parse("menion.points:x"));
 
-			if (base.isIntentAvailable(activity, intentTest) == false) {
+			if (cgBase.isIntentAvailable(activity, intentTest) == false) {
 				return;
 			}
 

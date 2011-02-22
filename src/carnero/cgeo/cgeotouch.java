@@ -1,30 +1,30 @@
 package carnero.cgeo;
 
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
+import android.widget.TextView;
 
 public class cgeotouch extends cgLogForm {
 	private cgeoapplication app = null;
@@ -104,8 +104,8 @@ public class cgeotouch extends cgLogForm {
 					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
 			} else {
-				if (base.errorRetrieve.get(msg.what) != null) {
-					warning.showToast(res.getString(R.string.err_log_post_failed_because) + base.errorRetrieve.get(msg.what) + ".");
+				if (cgBase.errorRetrieve.get(msg.what) != null) {
+					warning.showToast(res.getString(R.string.err_log_post_failed_because) + cgBase.errorRetrieve.get(msg.what) + ".");
 				} else {
 					warning.showToast(res.getString(R.string.err_log_post_failed));
 				}
@@ -215,8 +215,8 @@ public class cgeotouch extends cgLogForm {
 		if ((id >= 0x1 && id <= 0x7)) {
 			text = (EditText) findViewById(R.id.log);
 			textContent = text.getText().toString();
-			dateString = base.dateOut.format(new Date());
-			timeString = base.timeOut.format(new Date());
+			dateString = cgBase.dateOut.format(new Date());
+			timeString = cgBase.timeOut.format(new Date());
 		
 			if ((id & 0x4) == 0x4) {
 				addText += dateString;
@@ -254,7 +254,7 @@ public class cgeotouch extends cgLogForm {
 		final int viewId = view.getId();
 
 		if (viewId == R.id.type) {
-			for (final int typeOne : types) menu.add(viewId, typeOne, 0, base.logTypes2.get(typeOne));
+			for (final int typeOne : types) menu.add(viewId, typeOne, 0, cgBase.logTypes2.get(typeOne));
 		}
 	}
 
@@ -281,12 +281,12 @@ public class cgeotouch extends cgLogForm {
 		types.add(4);
 		types.add(48);
 
-		if (typeSelected < 0 && base.logTypes2.get(typeSelected) == null) typeSelected = types.get(2);
+		if (typeSelected < 0 && cgBase.logTypes2.get(typeSelected) == null) typeSelected = types.get(2);
 		setType(typeSelected);
 
 		Button typeButton = (Button)findViewById(R.id.type);
 		registerForContextMenu(typeButton);
-		typeButton.setText(base.logTypes2.get(typeSelected));
+		typeButton.setText(cgBase.logTypes2.get(typeSelected));
 		typeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				openContextMenu(view);
@@ -294,7 +294,7 @@ public class cgeotouch extends cgLogForm {
 		});
 
 		Button dateButton = (Button)findViewById(R.id.date);
-		dateButton.setText(base.dateOutShort.format(date.getTime()));
+		dateButton.setText(cgBase.dateOutShort.format(date.getTime()));
 		dateButton.setOnClickListener(new cgeotouchDateListener());
 
         if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
@@ -320,15 +320,15 @@ public class cgeotouch extends cgLogForm {
 		date = dateIn;
 
 		final Button dateButton = (Button)findViewById(R.id.date);
-		dateButton.setText(base.dateOutShort.format(date.getTime()));
+		dateButton.setText(cgBase.dateOutShort.format(date.getTime()));
 	}
 
 	public void setType(int type) {
 		final Button typeButton = (Button)findViewById(R.id.type);
 
-		if (base.logTypes2.get(type) != null) typeSelected = type;
-		if (base.logTypes2.get(typeSelected) == null) typeSelected = 0;
-		typeButton.setText(base.logTypes2.get(typeSelected));
+		if (cgBase.logTypes2.get(type) != null) typeSelected = type;
+		if (cgBase.logTypes2.get(typeSelected) == null) typeSelected = 0;
+		typeButton.setText(cgBase.logTypes2.get(typeSelected));
 
         if (tweetBox == null) tweetBox = (LinearLayout)findViewById(R.id.tweet_box);
         if (settings.twitter == 1) tweetBox.setVisibility(View.VISIBLE);

@@ -557,10 +557,10 @@ public class cgeodetail extends Activity {
 			if (cache.size != null && cache.size.length() > 0) size = " (" + cache.size + ")";
 			else size = "";
 
-			if (base.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
-				itemValue.setText(base.cacheTypesInv.get(cache.type) + size);
+			if (cgBase.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
+				itemValue.setText(cgBase.cacheTypesInv.get(cache.type) + size);
 			} else {
-				itemValue.setText(base.cacheTypesInv.get("mystery") + size);
+				itemValue.setText(cgBase.cacheTypesInv.get("mystery") + size);
 			}
 			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
 				itemValue.setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get(cache.type)), null, null, null);
@@ -707,7 +707,7 @@ public class cgeodetail extends Activity {
 				} else {
 					itemName.setText(res.getString(R.string.cache_hidden));
 				}
-				itemValue.setText(base.dateOut.format(cache.hidden));
+				itemValue.setText(cgBase.dateOut.format(cache.hidden));
 				detailsList.addView(itemLayout);
 			}
 
@@ -738,7 +738,7 @@ public class cgeodetail extends Activity {
 				final LinearLayout attribBox = (LinearLayout) findViewById(R.id.attributes_box);
 				final TextView attribView = (TextView) findViewById(R.id.attributes);
 
-				attribView.setText(base.implode("\n", cache.attributes.toArray()));
+				attribView.setText(cgBase.implode("\n", cache.attributes.toArray()));
 				attribBox.setVisibility(View.VISIBLE);
 			}
 
@@ -854,7 +854,7 @@ public class cgeodetail extends Activity {
 					waypointView = (LinearLayout) inflater.inflate(R.layout.waypoint_item, null);
 					final TextView identification = (TextView) waypointView.findViewById(R.id.identification);
 
-					((TextView) waypointView.findViewById(R.id.type)).setText(base.waypointTypes.get(wpt.type));
+					((TextView) waypointView.findViewById(R.id.type)).setText(cgBase.waypointTypes.get(wpt.type));
 					if (wpt.prefix.equalsIgnoreCase("OWN") == false) {
 						identification.setText(wpt.prefix.trim() + "/" + wpt.lookup.trim());
 					} else {
@@ -882,7 +882,7 @@ public class cgeodetail extends Activity {
 			if (cache.hint != null && cache.hint.length() > 0) {
 				((LinearLayout) findViewById(R.id.hint_box)).setVisibility(View.VISIBLE);
 				TextView hintView = ((TextView) findViewById(R.id.hint));
-				hintView.setText(base.rot13(cache.hint.trim()));
+				hintView.setText(cgBase.rot13(cache.hint.trim()));
 				hintView.setClickable(true);
 				hintView.setOnClickListener(new codeHint());
 			} else {
@@ -893,7 +893,7 @@ public class cgeodetail extends Activity {
 			}
 
 			if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null && cache != null && cache.latitude != null && cache.longitude != null) {
-				cacheDistance.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
+				cacheDistance.setText(base.getHumanDistance(cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
 				cacheDistance.bringToFront();
 			}
 		} catch (Exception e) {
@@ -946,13 +946,13 @@ public class cgeodetail extends Activity {
 
 				if (log.date > 0) {
 					final Date logDate = new Date(log.date);
-					((TextView) rowView.findViewById(R.id.added)).setText(base.dateOutShort.format(logDate));
+					((TextView) rowView.findViewById(R.id.added)).setText(cgBase.dateOutShort.format(logDate));
 				}
 
-				if (base.logTypes1.containsKey(log.type) == true) {
-					((TextView) rowView.findViewById(R.id.type)).setText(base.logTypes1.get(log.type));
+				if (cgBase.logTypes1.containsKey(log.type) == true) {
+					((TextView) rowView.findViewById(R.id.type)).setText(cgBase.logTypes1.get(log.type));
 				} else {
-					((TextView) rowView.findViewById(R.id.type)).setText(base.logTypes1.get(4)); // note if type is unknown
+					((TextView) rowView.findViewById(R.id.type)).setText(cgBase.logTypes1.get(4)); // note if type is unknown
 				}
 				((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
 
@@ -1249,16 +1249,16 @@ public class cgeodetail extends Activity {
 		navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());
 		navigateIntent.putExtra("name", cache.name);
 
-		if (navigateActivity.coordinates != null) {
-			navigateActivity.coordinates.clear();
+		if (cgeonavigate.coordinates != null) {
+			cgeonavigate.coordinates.clear();
 		}
-		navigateActivity.coordinates = getCoordinates();
+		cgeonavigate.coordinates = getCoordinates();
 		activity.startActivity(navigateIntent);
 	}
 
 	private void radarTo() {
 		try {
-			if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
+			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
 				radarIntent.putExtra("latitude", new Float(cache.latitude));
 				radarIntent.putExtra("longitude", new Float(cache.longitude));
@@ -1345,7 +1345,7 @@ public class cgeodetail extends Activity {
 		public void onClick(View arg0) {
 			// code hint
 			TextView hintView = ((TextView) findViewById(R.id.hint));
-			hintView.setText(base.rot13(hintView.getText().toString()));
+			hintView.setText(cgBase.rot13(hintView.getText().toString()));
 
 		}
 	}
@@ -1360,7 +1360,7 @@ public class cgeodetail extends Activity {
 
 			try {
 				if (geo.latitudeNow != null && geo.longitudeNow != null && cache != null && cache.latitude != null && cache.longitude != null) {
-					cacheDistance.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
+					cacheDistance.setText(base.getHumanDistance(cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
 					cacheDistance.bringToFront();
 				}
 			} catch (Exception e) {
@@ -1504,7 +1504,7 @@ public class cgeodetail extends Activity {
 				final TextView logView = (TextView)view;
 				final String logText = logView.getText().toString();
 
-				logView.setText(base.rot13(logText));
+				logView.setText(cgBase.rot13(logText));
 			} catch (Exception e) {
 				// nothing
 			}
@@ -1561,10 +1561,10 @@ public class cgeodetail extends Activity {
 		navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());
 		navigateIntent.putExtra("name", cache.name);
 
-		if (navigateActivity.coordinates != null) {
-			navigateActivity.coordinates.clear();
+		if (cgeonavigate.coordinates != null) {
+			cgeonavigate.coordinates.clear();
 		}
-		navigateActivity.coordinates = getCoordinates();
+		cgeonavigate.coordinates = getCoordinates();
 		activity.startActivity(navigateIntent);
 	}
 

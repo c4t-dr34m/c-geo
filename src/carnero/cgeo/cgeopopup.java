@@ -248,17 +248,17 @@ public class cgeopopup extends Activity {
 			itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 			itemName.setText(res.getString(R.string.cache_type));
-			if (base.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
+			if (cgBase.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
 				if (cache.size != null && cache.size.length() > 0) {
-					itemValue.setText(base.cacheTypesInv.get(cache.type) + " (" + cache.size + ")");
+					itemValue.setText(cgBase.cacheTypesInv.get(cache.type) + " (" + cache.size + ")");
 				} else {
-					itemValue.setText(base.cacheTypesInv.get(cache.type));
+					itemValue.setText(cgBase.cacheTypesInv.get(cache.type));
 				}
 			} else {
 				if (cache.size != null && cache.size.length() > 0) {
-					itemValue.setText(base.cacheTypesInv.get("mystery") + " (" + cache.size + ")");
+					itemValue.setText(cgBase.cacheTypesInv.get("mystery") + " (" + cache.size + ")");
 				} else {
-					itemValue.setText(base.cacheTypesInv.get("mystery"));
+					itemValue.setText(cgBase.cacheTypesInv.get("mystery"));
 				}
 			}
 			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
@@ -478,7 +478,7 @@ public class cgeopopup extends Activity {
 			buttonCompass.setOnClickListener(new navigateToListener(cache.latitude, cache.longitude, cache.name, ""));
 
 			Button buttonRadar = (Button) findViewById(R.id.radar);
-			if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
+			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				buttonRadar.setEnabled(true);
 				buttonRadar.setOnClickListener(new radarToListener(cache.latitude, cache.longitude));
 			} else {
@@ -551,7 +551,7 @@ public class cgeopopup extends Activity {
 
 			try {
 				if (geo.latitudeNow != null && geo.longitudeNow != null && cache != null && cache.latitude != null && cache.longitude != null) {
-					cacheDistance.setText(base.getHumanDistance(base.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
+					cacheDistance.setText(base.getHumanDistance(cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
 					cacheDistance.bringToFront();
 				}
 			} catch (Exception e) {

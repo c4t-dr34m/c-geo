@@ -100,7 +100,7 @@ public class cgeoadvsearch extends Activity {
 		settings.getLogin();
 		settings.reloadCacheType();
 
-		if (settings.cacheType != null && base.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
+		if (settings.cacheType != null && cgBase.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
 
 		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 

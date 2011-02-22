@@ -81,7 +81,7 @@ public class cgeowaypoint extends Activity {
 						buttonCompass.setOnClickListener(new navigateToListener(waypoint.latitude, waypoint.longitude, waypoint.name, ""));
 
 						Button buttonRadar = (Button)findViewById(R.id.radar);
-						if (base.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
+						if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 							buttonRadar.setEnabled(true);
 							buttonRadar.setOnClickListener(new radarToListener(waypoint.latitude, waypoint.longitude));
 						} else {

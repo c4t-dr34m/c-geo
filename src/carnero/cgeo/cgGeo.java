@@ -93,8 +93,8 @@ public class cgGeo {
 
 		lastLoc();
         
-		geoNetListener.setProvider(geoManager.NETWORK_PROVIDER);
-		geoGpsListener.setProvider(geoManager.GPS_PROVIDER);
+		geoNetListener.setProvider(LocationManager.NETWORK_PROVIDER);
+		geoGpsListener.setProvider(LocationManager.GPS_PROVIDER);
 		geoManager.addGpsStatusListener(geoGpsStatusListener);
 
 		geoManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, geoNetListener);
@@ -283,7 +283,7 @@ public class cgGeo {
 		if (gps == 1) {
 			// save travelled distance only when location is from GPS
 			if (latitudeBefore != null && longitudeBefore != null && latitudeNow != null && longitudeNow != null) {
-				final double dst = base.getDistance(latitudeBefore, longitudeBefore, latitudeNow, longitudeNow);
+				final double dst = cgBase.getDistance(latitudeBefore, longitudeBefore, latitudeNow, longitudeNow);
 
 				if (Double.isNaN(dst) == false && dst > 0.005) {
 					distanceNow += dst;
@@ -309,7 +309,7 @@ public class cgGeo {
 
 		@Override
 		public void run() {
-			if (settings.publicLoc == 1 && (lastGo4cacheLat == null || lastGo4cacheLon == null || base.getDistance(latitudeNow, longitudeNow, lastGo4cacheLat, lastGo4cacheLon) > 0.75)) {
+			if (settings.publicLoc == 1 && (lastGo4cacheLat == null || lastGo4cacheLon == null || cgBase.getDistance(latitudeNow, longitudeNow, lastGo4cacheLat, lastGo4cacheLon) > 0.75)) {
 				final String host = "api.go4cache.com";
 				final String path = "/";
 				final String method = "POST";
@@ -326,7 +326,7 @@ public class cgGeo {
 					params.put("lt", latStr);
 					params.put("ln", lonStr);
 					params.put("a", action);
-					params.put("s", (base.sha1(username + "|" + latStr + "|" + lonStr + "|" + action + "|" + base.md5("carnero: developing your dreams"))).toLowerCase());
+					params.put("s", (cgBase.sha1(username + "|" + latStr + "|" + lonStr + "|" + action + "|" + cgBase.md5("carnero: developing your dreams"))).toLowerCase());
 					final String res = base.request(host, path, method, params, false, false, false);
 
 					if (res != null && res.length() > 0) {

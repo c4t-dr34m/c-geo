@@ -77,7 +77,7 @@ public class cgCompassMini extends View {
 			return;
 		}
 
-		heading = base.getHeading(latitudeIn, longitudeIn, cacheLat, cacheLon);
+		heading = cgBase.getHeading(latitudeIn, longitudeIn, cacheLat, cacheLon);
 
 		updateDirection();
 	}
