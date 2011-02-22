@@ -18,7 +18,7 @@
 
 	<!-- caches -->
 	<string name="all">All caches</string>
-	<string name="all_types">All caches types</string>
+	<string name="all_types">All cache types</string>
 	<string name="traditional">Traditional cache</string>
 	<string name="multi">Multi-cache</string>
 	<string name="mystery">Unknown cache</string>

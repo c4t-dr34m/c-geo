@@ -10,6 +10,8 @@
 	<string name="settings">Inställningar</string>
 	<string name="about">Om c:geo</string>
 	<string name="helper">Vill du lära dig mer om <b>c:geo</b>?\nLäs manualen (på engelska).</string>
+	<string name="database_error_title">Problem med databasen</string>
+	<string name="database_error_message">c:geo misslyckades att ansluta till den interna databasen.\nVänligen försök att starta c:geo igen om en liten stund. Om detta meddelande fortsätter att visas bör du gå till Telefoninställningar / Program / c:geo och välja att Rensa data. Om inte detta hjälper får du tyvärr avinstallera och installera c:geo igen. Vi ber om ursäkt för detta!</string>
 
 	<!-- actionbar -->
 	<string name="action_bar_share_title">Skicka cachens länk via</string>
@@ -248,7 +250,7 @@
 	<string name="caches_downloading">Laddar ner cacher...\nTid kvar: </string>
 	<string name="caches_progress_loading_title">Laddar cacher</string>
 	<string name="caches_progress_loading_text">Cacher sparade i enheten</string>
-	<string name="caches_eta_ltm">Mindre än en minut</string>
+	<string name="caches_eta_ltm">mindre än en minut</string>
 	<string name="caches_eta_mins"> minuter</string>
 	<string name="caches_eta_min"> minut</string>
 	<string name="caches_no_caches"> (inga cacher)</string>
