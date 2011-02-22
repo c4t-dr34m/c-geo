@@ -4866,6 +4866,7 @@ public class cgBase {
 			gcIcons.put("wherigo", R.drawable.marker_cache_wherigo);
 			gcIcons.put("mystery", R.drawable.marker_cache_mystery);
 			gcIcons.put("gchq", R.drawable.marker_cache_gchq);
+			gcIcons.put("owned", R.drawable.marker_cache_owned);
 			gcIcons.put("ape-found", R.drawable.marker_cache_ape_found);
 			gcIcons.put("cito-found", R.drawable.marker_cache_cito_found);
 			gcIcons.put("earth-found", R.drawable.marker_cache_earth_found);
@@ -4894,6 +4895,7 @@ public class cgBase {
 			gcIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
 			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
 			gcIcons.put("gchq-disabled", R.drawable.marker_cache_gchq_disabled);
+			gcIcons.put("owned-disabled", R.drawable.marker_cache_owned_disabled);
 		}
 
 		if (wpIcons.isEmpty()) {
@@ -4991,7 +4993,11 @@ public class cgBase {
 
 				int icon = -1;
 				if (cache != null) {
-					icon = getIcon(true, cache.type, cache.found, cache.disabled);
+					if (cache.own) {
+						icon = getIcon(true, "owned", false, false);
+					} else {
+						icon = getIcon(true, cache.type, cache.found, cache.disabled);
+					}
 				} else if (waypoint != null) {
 					icon = getIcon(false, waypoint.type, false, false);
 				} else {
