@@ -3,7 +3,7 @@ package carnero.cgeo;
 import java.util.Comparator;
 import android.util.Log;
 
-public class cgCacheDistanceComparator implements Comparator<cgCacheDistanceComparator> {
+public class cgCacheDistanceComparator implements Comparator<cgCache> {
 	private Double latitude = null;
 	private Double longitude = null;
 
