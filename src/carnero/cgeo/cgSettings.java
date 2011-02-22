@@ -346,7 +346,7 @@ public class cgSettings {
 		SharedPreferences.Editor prefsEdit = prefs.edit();
 
 		// delete cookies
-		Map prefsValues = prefs.getAll();
+		Map<String, ?> prefsValues = prefs.getAll();
 
 		if (prefsValues != null && prefsValues.size() > 0) {
 			Log.i(cgSettings.tag, "Removing cookies");

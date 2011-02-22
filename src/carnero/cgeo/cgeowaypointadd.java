@@ -267,8 +267,8 @@ public class cgeowaypointadd extends Activity {
 
 			if (latText != null && latText.length() > 0 && lonText != null && lonText.length() > 0) {
 				// latitude & longitude
-				HashMap latParsed = base.parseCoordinate(latText, "lat");
-				HashMap lonParsed = base.parseCoordinate(lonText, "lat");
+				HashMap<String, Object> latParsed = base.parseCoordinate(latText, "lat");
+				HashMap<String, Object> lonParsed = base.parseCoordinate(lonText, "lat");
 
 				if (latParsed == null || latParsed.get("coordinate") == null || latParsed.get("string") == null) {
 					warning.showToast(res.getString(R.string.err_parse_lat));
