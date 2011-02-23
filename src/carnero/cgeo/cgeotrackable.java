@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ public class cgeotrackable extends Activity {
 	public String geocode = null;
 	public String name = null;
 	public String guid = null;
+	private String contextMenuUser = null;
 	private Resources res = null;
 	private cgeoapplication app = null;
 	private Activity activity = null;
@@ -142,15 +144,7 @@ public class cgeotrackable extends Activity {
 				itemName.setText(res.getString(R.string.trackable_owner));
 				if (trackable.owner != null) {
 					itemValue.setText(Html.fromHtml(trackable.owner), TextView.BufferType.SPANNABLE);
-					itemLayout.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View arg0) {
-							if (trackable.ownerGuid != null && trackable.ownerGuid.length() > 0) {
-								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?guid=" + trackable.ownerGuid)));
-							} else {
-								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(Html.fromHtml(trackable.spottedName).toString()))));
-							}
-						}
-					});
+					itemLayout.setOnClickListener(new userActions());
 				} else {
 					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
@@ -183,18 +177,19 @@ public class cgeotrackable extends Activity {
 
 					itemValue.setText(text);
 					itemLayout.setClickable(true);
-					itemLayout.setOnClickListener(new View.OnClickListener() {
-						public void onClick(View arg0) {
-							if (cgTrackable.SPOTTED_CACHE == trackable.spottedType) {
+					if (cgTrackable.SPOTTED_CACHE == trackable.spottedType) {
+						itemLayout.setOnClickListener(new View.OnClickListener() {
+							public void onClick(View arg0) {
 								Intent cacheIntent = new Intent(activity, cgeodetail.class);
 								cacheIntent.putExtra("guid", (String) trackable.spottedGuid);
 								cacheIntent.putExtra("name", (String) trackable.spottedName);
 								activity.startActivity(cacheIntent);
-							} else if (cgTrackable.SPOTTED_USER == trackable.spottedType) {
-								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?guid=" + trackable.spottedGuid)));
 							}
-						}
-					});
+						});
+					} else if (cgTrackable.SPOTTED_USER == trackable.spottedType) {
+						itemLayout.setOnClickListener(new userActions());
+						//activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?guid=" + trackable.spottedGuid)));
+					}
 					
 					detailsList.addView(itemLayout);
 				}
@@ -372,6 +367,61 @@ public class cgeotrackable extends Activity {
 		thread.start();
 	}
 
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {
+		super.onCreateContextMenu(menu, view, info);
+		final int viewId = view.getId();
+
+		RelativeLayout itemLayout = (RelativeLayout)view;
+		TextView itemName = (TextView) itemLayout.findViewById(R.id.name);
+
+		Log.w(cgSettings.tag, "creating 6" +itemName.getText().toString());
+		String selectedName = itemName.getText().toString();
+		if (selectedName.equals(res.getString(R.string.trackable_owner))) {
+			contextMenuUser = trackable.owner;
+		} else if (selectedName.equals(res.getString(R.string.trackable_spotted))) {
+			contextMenuUser = trackable.spottedName;
+		}
+
+		menu.setHeaderTitle(res.getString(R.string.user_menu_title) + " " + contextMenuUser);
+		menu.add(viewId, 1, 0, res.getString(R.string.user_menu_view_hidden));
+		menu.add(viewId, 2, 0, res.getString(R.string.user_menu_view_found));
+		menu.add(viewId, 3, 0, res.getString(R.string.user_menu_open_browser));
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		final int id = item.getItemId();
+
+		if (id == 1) {
+			final Intent cachesIntent = new Intent(activity, cgeocaches.class);
+
+			cachesIntent.putExtra("type", "owner");
+			cachesIntent.putExtra("username", contextMenuUser);
+			cachesIntent.putExtra("cachetype", settings.cacheType);
+
+			activity.startActivity(cachesIntent);
+
+			return true;
+		} else if (id == 2) {
+			final Intent cachesIntent = new Intent(activity, cgeocaches.class);
+
+			cachesIntent.putExtra("type", "username");
+			cachesIntent.putExtra("username", contextMenuUser);
+			cachesIntent.putExtra("cachetype", settings.cacheType);
+
+			activity.startActivity(cachesIntent);
+
+			return true;
+		} else if (id == 3) {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + URLEncoder.encode(contextMenuUser))));
+
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 0, res.getString(R.string.trackable_log_touch)).setIcon(android.R.drawable.ic_menu_agenda); // log touch
@@ -493,6 +543,22 @@ public class cgeotrackable extends Activity {
 		}
 	}
 	
+	private class userActions implements View.OnClickListener {
+
+		public void onClick(View view) {
+			if (view == null) {
+				return;
+			}
+
+			try {
+				registerForContextMenu(view);
+				openContextMenu(view);
+			} catch (Exception e) {
+				// nothing
+			}
+		}
+	}
+
 	private void logTouch() {
 		Intent logTouchIntent = new Intent(activity, cgeotouch.class);
 		logTouchIntent.putExtra("geocode", trackable.geocode.toUpperCase());
