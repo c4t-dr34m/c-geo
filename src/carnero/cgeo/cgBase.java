@@ -1942,6 +1942,7 @@ public class cgBase {
 		final Pattern patternGoal = Pattern.compile("<h3>[^\\w]*Current GOAL[^<]*</h3>[^<]*<p[^>]*>(.*)</p>[^<]*<h3>[^\\w]*About This Item[^<]*</h3>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>([^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>)?[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLogs = Pattern.compile("<table class=\"TrackableItemLogTable Table\">(.*)<\\/table>[^<]*<ul", Pattern.CASE_INSENSITIVE);
+		final Pattern patternIcon = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"(http[^\"]*)\" alt=\"", Pattern.CASE_INSENSITIVE);
 
 		final cgTrackable trackable = new cgTrackable();
 
@@ -1971,7 +1972,20 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable id");
 		}
 
-		// trackable type and name
+		// trackable icon
+		try {
+			final Matcher matcherTrackableIcon = patternIcon.matcher(page);
+			while (matcherTrackableIcon.find()) {
+				if (matcherTrackableIcon.groupCount() > 0) {
+					trackable.iconUrl = matcherTrackableIcon.group(1);
+				}
+			}
+		} catch (Exception e) {
+			// failed to parse trackable icon
+			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable icon");
+		}
+
+		// trackable name
 		try {
 			final Matcher matcherName = patternName.matcher(page);
 			while (matcherName.find()) {
@@ -1980,10 +1994,26 @@ public class cgBase {
 				}
 			}
 		} catch (Exception e) {
-			// failed to parse trackable type and name
-			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable type and name");
+			// failed to parse trackable name
+			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable name");
 		}
 
+		// trackable type
+		if (trackable.name != null && trackable.name.length() > 0) {
+			final Pattern patternType = Pattern.compile("<title>[^\\(]*\\([A-Z0-9]*\\) ([^<]*) - " + trackable.name.trim() + "[^<]*</title>", Pattern.CASE_INSENSITIVE);
+			try {
+				final Matcher matcherType = patternType.matcher(page);
+				while (matcherType.find()) {
+					if (matcherType.groupCount() > 0) {
+						trackable.type = matcherType.group(1);
+					}
+				}
+			} catch (Exception e) {
+				// failed to parse trackable type
+				Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable type");
+			}
+		}
+	
 		// trackable owner name
 		try {
 			final Matcher matcherOwner = patternOwner.matcher(page);
@@ -4866,6 +4896,7 @@ public class cgBase {
 			gcIcons.put("wherigo", R.drawable.marker_cache_wherigo);
 			gcIcons.put("mystery", R.drawable.marker_cache_mystery);
 			gcIcons.put("gchq", R.drawable.marker_cache_gchq);
+			gcIcons.put("owned", R.drawable.marker_cache_owned);
 			gcIcons.put("ape-found", R.drawable.marker_cache_ape_found);
 			gcIcons.put("cito-found", R.drawable.marker_cache_cito_found);
 			gcIcons.put("earth-found", R.drawable.marker_cache_earth_found);
@@ -4894,6 +4925,7 @@ public class cgBase {
 			gcIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
 			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
 			gcIcons.put("gchq-disabled", R.drawable.marker_cache_gchq_disabled);
+			gcIcons.put("owned-disabled", R.drawable.marker_cache_owned_disabled);
 		}
 
 		if (wpIcons.isEmpty()) {
@@ -4991,7 +5023,11 @@ public class cgBase {
 
 				int icon = -1;
 				if (cache != null) {
-					icon = getIcon(true, cache.type, cache.found, cache.disabled);
+					if (cache.own) {
+						icon = getIcon(true, "owned", false, false);
+					} else {
+						icon = getIcon(true, cache.type, cache.found, cache.disabled);
+					}
 				} else if (waypoint != null) {
 					icon = getIcon(false, waypoint.type, false, false);
 				} else {

@@ -15,6 +15,7 @@ public class cgTrackable {
 	public String error = "";
 	public String guid = "";
 	public String geocode = "";
+	public String iconUrl = "";
 	public String name = "";
 	public String nameString = null;
 	public Spannable nameSp = null;

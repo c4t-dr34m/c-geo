@@ -90,6 +90,24 @@ public class cgeotrackable extends Activity {
 				((ScrollView) findViewById(R.id.details_list_box)).setVisibility(View.VISIBLE);
 				LinearLayout detailsList = (LinearLayout) findViewById(R.id.details_list);
 
+				// trackable icon and type
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
+				itemName = (TextView) itemLayout.findViewById(R.id.name);
+				itemValue = (TextView) itemLayout.findViewById(R.id.value);
+
+				String iconAndType = "";
+				if (trackable.iconUrl != null && trackable.iconUrl.length() > 0) {
+					iconAndType += "<img src=\"" + trackable.iconUrl + "\"> ";
+				}
+				if (trackable.type != null && trackable.type.length() > 0) {
+					iconAndType += trackable.type;
+				} else {
+					iconAndType += res.getString(R.string.trackable_unknown);
+				}
+				itemName.setText(res.getString(R.string.trackable_type));
+				itemValue.setText(Html.fromHtml(iconAndType, new cgHtmlImg(activity, settings, null, false, 0, false), null), TextView.BufferType.SPANNABLE);
+				detailsList.addView(itemLayout);
+
 				// trackable geocode
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
@@ -111,21 +129,6 @@ public class cgeotrackable extends Activity {
 					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
 				detailsList.addView(itemLayout);
-
-				/* disabled by YraFyra, not used
-				// trackable type
-				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
-				itemName = (TextView) itemLayout.findViewById(R.id.name);
-				itemValue = (TextView) itemLayout.findViewById(R.id.value);
-
-				itemName.setText(res.getString(R.string.trackable_type));
-				if (trackable.type != null) {
-					itemValue.setText(Html.fromHtml(trackable.type), TextView.BufferType.SPANNABLE);
-				} else {
-					itemValue.setText(res.getString(R.string.trackable_unknown));
-				}
-				detailsList.addView(itemLayout);
-				*/
 
 				// trackable owner
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);

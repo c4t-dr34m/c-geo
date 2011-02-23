@@ -767,6 +767,7 @@ public class cgeomap extends MapActivity {
 			gcIcons.put("wherigo", R.drawable.marker_cache_wherigo);
 			gcIcons.put("mystery", R.drawable.marker_cache_mystery);
 			gcIcons.put("gchq", R.drawable.marker_cache_gchq);
+			gcIcons.put("owned", R.drawable.marker_cache_owned);
 			gcIcons.put("ape-found", R.drawable.marker_cache_ape_found);
 			gcIcons.put("cito-found", R.drawable.marker_cache_cito_found);
 			gcIcons.put("earth-found", R.drawable.marker_cache_earth_found);
@@ -795,6 +796,7 @@ public class cgeomap extends MapActivity {
 			gcIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
 			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
 			gcIcons.put("gchq-disabled", R.drawable.marker_cache_gchq_disabled);
+			gcIcons.put("owned-disabled", R.drawable.marker_cache_owned_disabled);
 		}
 
 		if (wpIcons.isEmpty() == true) {
@@ -860,12 +862,15 @@ public class cgeomap extends MapActivity {
 
 				String type = null;
 
-				if (cache.found == true) {
-					type = cache.type + "-found";
-				} else if (cache.disabled == true) {
-					type = cache.type + "-disabled";
+				if (cache.own == true) {
+					type = "owned";
 				} else {
 					type = cache.type;
+				}
+				if (cache.found == true) {
+					type += "-found";
+				} else if (cache.disabled == true) {
+					type += "-disabled";
 				}
 
 				if (type != null && gcIcons.containsKey(type) == true) {
