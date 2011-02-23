@@ -4909,7 +4909,7 @@ public class cgBase {
 		String iconTxt = null;
 
 		if (cache == true) {
-			if (type != null || type.length() > 0) {
+			if (type != null && type.length() > 0) {
 				if (found == true) {
 					iconTxt = type + "-found";
 				} else if (disabled == true) {
@@ -4925,7 +4925,7 @@ public class cgBase {
 				icon = gcIcons.get(iconTxt);
 			}
 		} else {
-			if (type != null || type.length() > 0) {
+			if (type != null && type.length() > 0) {
 				iconTxt = type;
 			} else {
 				iconTxt = "waypoint";
