@@ -860,18 +860,18 @@ public class cgeomap extends MapActivity {
 				if (cache.latitude == null && cache.longitude == null) continue;
 				else cachesWithCoords ++;
 
-				String type = null;
-
+				final StringBuilder typeBuild = new StringBuilder();
 				if (cache.own == true) {
-					type = "owned";
+					typeBuild.append("owned");
 				} else {
-					type = cache.type;
+					typeBuild.append(cache.type);
 				}
 				if (cache.found == true) {
-					type += "-found";
+					typeBuild.append("-found");
 				} else if (cache.disabled == true) {
-					type += "-disabled";
+					typeBuild.append("-disabled");
 				}
+				final String type = typeBuild.toString();
 
 				if (type != null && gcIcons.containsKey(type) == true) {
 					pin = getResources().getDrawable(gcIcons.get(type));

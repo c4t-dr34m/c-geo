@@ -95,17 +95,20 @@ public class cgeotrackable extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				String iconAndType = "";
+				// TODO: use own loading instead of HTML
+				final StringBuilder iconAndType = new StringBuilder();
 				if (trackable.iconUrl != null && trackable.iconUrl.length() > 0) {
-					iconAndType += "<img src=\"" + trackable.iconUrl + "\"> ";
+					iconAndType.append("<img src=\"");
+					iconAndType.append(trackable.iconUrl);
+					iconAndType.append("\"> ");
 				}
 				if (trackable.type != null && trackable.type.length() > 0) {
-					iconAndType += trackable.type;
+					iconAndType.append(trackable.type);
 				} else {
-					iconAndType += res.getString(R.string.trackable_unknown);
+					iconAndType.append(res.getString(R.string.trackable_unknown));
 				}
 				itemName.setText(res.getString(R.string.trackable_type));
-				itemValue.setText(Html.fromHtml(iconAndType, new cgHtmlImg(activity, settings, null, false, 0, false), null), TextView.BufferType.SPANNABLE);
+				itemValue.setText(Html.fromHtml(iconAndType.toString(), new cgHtmlImg(activity, settings, null, false, 0, false), null), TextView.BufferType.SPANNABLE);
 				detailsList.addView(itemLayout);
 
 				// trackable geocode
