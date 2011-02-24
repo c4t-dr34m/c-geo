@@ -54,13 +54,15 @@
 	<string name="log_attended">Deltog</string>
 	<string name="log_retrieved">Hämtade från</string>
 	<string name="log_placed">Lämnade i</string>
-	<string name="log_grabbed">Tog den</string>
-	<string name="log_needs">Behöver underhåll</string>
-	<string name="log_maintenance">Underhåll utfört</string>
+	<string name="log_grabbed">Tagen från annan</string>
+	<string name="log_maintained">Underhåll utfört</string>
+	<string name="log_maintenance_needed">Behöver underhåll</string>
+	<string name="log_maintenance_owner">Underhåll</string>
 	<string name="log_update">Uppdaterade koordinaterna</string>
 	<string name="log_archived">Arkiverad</string>
+	<string name="log_needs_archived">Behöver arkiveras</string>
 	<string name="log_discovered">Såg den</string>
-	<string name="log_review">Reviewer anteckning</string>
+	<string name="log_reviewed">Reviewer anteckning</string>
 	<string name="log_taken">Besökte</string>
 	<string name="log_tb_nothing">Gör inget</string>
 	<string name="log_tb_visit">Besök</string>
@@ -83,21 +85,7 @@
 	<string name="log_stars_3">3 stjärnor</string>
 	<string name="log_stars_4">4 stjärnor</string>
 	<string name="log_stars_5">5 stjärnor</string>
-
-	<!-- new logs -->
-	<string name="log_new_found">Hittad</string>
-	<string name="log_new_dnf">Hittade inte</string>
-	<string name="log_new_note">Skriv kommentar</string>
-	<string name="log_new_archive">Behöver arkiveras</string>
-	<string name="log_new_attend">Kommer att deltaga</string>
-	<string name="log_new_attended">Deltog</string>
-	<string name="log_new_webcam">Foto taget med Webcam</string>
-	<string name="log_new_maintenance">Behöver underhåll</string>
-	<string name="log_new_maintenance_owner">Underhåll utfört</string>
-	<string name="log_new_grab">Tagen från annan</string>
-	<string name="log_new_retrieve">Hämtad från cache</string>
-	<string name="log_new_discovered">Sett den</string>
-	<string name="log_new_review">Granskad</string>
+	<string name="log_webcam">Foto taget med Webcam</string>
 	<string name="log_new_log">Logga</string>
 	<string name="log_new_log_text">Loggtext</string>
 

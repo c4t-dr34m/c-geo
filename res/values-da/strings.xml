@@ -49,33 +49,21 @@
   <string name="log_attend">Deltager</string>
   <string name="log_attended">Deltog</string>
   <string name="log_retrieved">Hentet</string>
-  <string name="log_grabbed">Tog</string>
-  <string name="log_needs">Mangler vedligeholdelse</string>
-  <string name="log_maintenance">Vedligeholdelse</string>
+  <string name="log_grabbed">Taget fra andet sted</string>
+  <string name="log_maintained">Vedligeholdt</string>
+  <string name="log_maintenance_needed">Mangler vedligeholdelse</string>
+  <string name="log_maintenance_owner">Vedligeholdelse</string>
   <string name="log_update">Nye koordinater</string>
   <string name="log_archived">Arkiveret</string>
+  <string name="log_needs_archived">Mangler arkiveret</string>
   <string name="log_discovered">Set</string>
-  <string name="log_review">Godkendernote</string>
+  <string name="log_reviewed">Godkendernote</string>
   <string name="log_tb_nothing">Gør intet</string>
   <string name="log_tb_visit">Besøg</string>
   <string name="log_tb_drop">Læg her</string>
   <string name="log_save">Gem</string>
   <string name="log_clear">Fjern</string>
-
-  <!-- new logs -->
-  <string name="log_new_found">Fandt</string>
-  <string name="log_new_dnf">Fandt ikke</string>
-  <string name="log_new_note">Skriv note</string>
-  <string name="log_new_archive">Needs archived</string>
-  <string name="log_new_attend">Vil deltage</string>
-  <string name="log_new_attended">Deltog</string>
   <string name="log_new_webcam">Webcamfoto taget</string>
-  <string name="log_new_maintenance">Mangler vedligeholdelse</string>
-  <string name="log_new_maintenance_owner">Vedligeholdt</string>
-  <string name="log_new_grab">Taget fra et andet sted</string>
-  <string name="log_new_retrieve">Hentet fra cache</string>
-  <string name="log_new_discovered">Har set</string>
-  <string name="log_new_review">Har gennemset</string>
 
   <!-- errors, warnings, info toasts -->
   <string name="err_none">Ok</string>

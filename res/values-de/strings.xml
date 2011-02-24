@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <string name="app_name">c:geo</string>
   <string name="app_name_compass">c:geo Kompass</string>
@@ -20,17 +21,17 @@
   <string name="all_types">Alle Cachetypen</string>
   <string name="traditional">Traditional Cache</string>
   <string name="multi">Multi-Cache</string>
-  <string name="mystery">Mystery Cache</string>
+  <string name="mystery">Mystery-Cache</string>
   <string name="letterbox">Letterbox Hybrid</string>
-  <string name="event">Event Cache</string>
-  <string name="mega">Mega-Event Cache</string>
-  <string name="earth">Earthcache</string>
+  <string name="event">Event-Cache</string>
+  <string name="mega">Mega Event-Cache</string>
+  <string name="earth">Earth-Cache</string>
   <string name="cito">Cache in Trash out Event</string>
-  <string name="webcam">Webcam Cache</string>
-  <string name="virtual">Virtual Cache</string>
-  <string name="wherigo">Wherigo Cache</string>
+  <string name="webcam">Webcam-Cache</string>
+  <string name="virtual">Virtual-Cache</string>
+  <string name="wherigo">Wherigo-Cache</string>
   <string name="lostfound">Lost &amp; Found</string>
-  <string name="ape">Project Ape Cache</string>
+  <string name="ape">Project Ape-Cache</string>
   <string name="gchq">Groundspeak HQ</string>
   <string name="gps">GPS Cache Exhibit</string>
 
@@ -53,13 +54,15 @@
   <string name="log_attended">Habe teilgenommen</string>
   <string name="log_retrieved">Mitgenommen</string>
   <string name="log_placed">Abgelegt</string>
-  <string name="log_grabbed">Gegrabbed</string>
-  <string name="log_needs">Benötigt Wartung</string>
-  <string name="log_maintenance">Wartung</string>
+  <string name="log_grabbed">Woanders gefunden</string>
+  <string name="log_maintained">Wartung durchgeführt</string>
+  <string name="log_maintenance_needed">Benötigt Wartung</string>
+  <string name="log_maintenance_owner">Wartung</string>
   <string name="log_update">Geänderte Koordinaten</string>
   <string name="log_archived">Archiviert</string>
-  <string name="log_discovered">Entdeckt</string>
-  <string name="log_review">Nachricht vom Reviewer</string>
+  <string name="log_needs_archived">Sollte archiviert werden</string>
+  <string name="log_discovered">Gesehen</string>
+  <string name="log_reviewed">Überprüft</string>
   <string name="log_taken">Cache besucht</string>
   <string name="log_tb_nothing">Keine Aktion</string>
   <string name="log_tb_visit">Besuchen</string>
@@ -82,22 +85,8 @@
   <string name="log_stars_3">3 Sterne</string>
   <string name="log_stars_4">4 Sterne</string>
   <string name="log_stars_5">5 Sterne</string>
-
-  <!-- new logs -->
-  <string name="log_new_found">Gefunden</string>
-  <string name="log_new_dnf">Nicht gefunden</string>
-  <string name="log_new_note">Bemerkung</string>
-  <string name="log_new_archive">Sollte archiviert werden</string>
-  <string name="log_new_attend">Werde teilnehmen</string>
-  <string name="log_new_attended">Habe teilgenommen</string>
-  <string name="log_new_webcam">Webcam-Foto gemacht</string>
-  <string name="log_new_maintenance">Benötigt Wartung</string>
-  <string name="log_new_maintenance_owner">Wartung</string>
-  <string name="log_new_grab">Woanders gefunden</string>
-  <string name="log_new_retrieve">Mitgenommen</string>
-  <string name="log_new_discovered">Gesehen</string>
-  <string name="log_new_review">Überprüft</string>
-  <string name="log_new_log">Logge</string>
+  <string name="log_webcam">Webcam-Foto gemacht</string>
+  <string name="log_new_log">Loggen</string>
   <string name="log_new_log_text">Log-Text</string>
 
   <!-- errors, warnings, info toasts -->

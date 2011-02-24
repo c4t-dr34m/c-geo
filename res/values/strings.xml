@@ -54,13 +54,15 @@
 	<string name="log_attended">Attended</string>
 	<string name="log_retrieved">Retrieved</string>
 	<string name="log_placed">Placed</string>
-	<string name="log_grabbed">Grabbed</string>
-	<string name="log_needs">Needs maintenance</string>
-	<string name="log_maintenance">Maintenance performed</string>
+	<string name="log_grabbed">Grabbed somewhere</string>
+	<string name="log_maintained">Maintenance performed</string>
+	<string name="log_maintenance_needed">Needs maintenance</string>
+	<string name="log_maintenance_owner">Maintenance</string>
 	<string name="log_update">Updated coordinates</string>
 	<string name="log_archived">Archived</string>
+	<string name="log_needs_archived">Needs archived</string>
 	<string name="log_discovered">Discovered</string>
-	<string name="log_review">Reviewer note</string>
+	<string name="log_reviewed">Reviewer note</string>
 	<string name="log_taken">Visit</string>
 	<string name="log_tb_nothing">Do nothing</string>
 	<string name="log_tb_visit">Visit</string>
@@ -78,26 +80,12 @@
 	<string name="log_date_time">Date &amp; time</string>
 	<string name="log_rating">Rating</string>
 	<string name="log_no_rating">No rating</string>
-	<string name="log_stars_1">1 stars</string>
+	<string name="log_stars_1">1 star</string>
 	<string name="log_stars_2">2 stars</string>
 	<string name="log_stars_3">3 stars</string>
 	<string name="log_stars_4">4 stars</string>
 	<string name="log_stars_5">5 stars</string>
-
-	<!-- new logs -->
-	<string name="log_new_found">Found it</string>
-	<string name="log_new_dnf">Did not find</string>
-	<string name="log_new_note">Write note</string>
-	<string name="log_new_archive">Needs archived</string>
-	<string name="log_new_attend">Will attend</string>
-	<string name="log_new_attended">Attended</string>
-	<string name="log_new_webcam">Webcam photo taken</string>
-	<string name="log_new_maintenance">Needs maintenance</string>
-	<string name="log_new_maintenance_owner">Maintenance</string>
-	<string name="log_new_grab">Grabbed from somewhere</string>
-	<string name="log_new_retrieve">Retrieved from cache</string>
-	<string name="log_new_discovered">Discovered</string>
-	<string name="log_new_review">Reviewed</string>
+	<string name="log_webcam">Webcam photo taken</string>
 	<string name="log_new_log">Log</string>
 	<string name="log_new_log_text">Log text</string>
 

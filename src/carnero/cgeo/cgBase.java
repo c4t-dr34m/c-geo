@@ -237,26 +237,26 @@ public class cgBase {
 		logTypes1.put(13, res.getString(R.string.log_retrieved));
 		logTypes1.put(14, res.getString(R.string.log_placed));
 		logTypes1.put(19, res.getString(R.string.log_grabbed));
-		logTypes1.put(45, res.getString(R.string.log_needs));
-		logTypes1.put(46, res.getString(R.string.log_maintenance));
+		logTypes1.put(45, res.getString(R.string.log_maintenance_needed));
+		logTypes1.put(46, res.getString(R.string.log_maintained));
 		logTypes1.put(47, res.getString(R.string.log_update));
 		logTypes1.put(48, res.getString(R.string.log_discovered));
-		logTypes1.put(49, res.getString(R.string.log_review));
+		logTypes1.put(49, res.getString(R.string.log_reviewed));
 		logTypes1.put(1001, res.getString(R.string.log_taken));
 
-		logTypes2.put(2, res.getString(R.string.log_new_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
-		logTypes2.put(3, res.getString(R.string.log_new_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
-		logTypes2.put(4, res.getString(R.string.log_new_note)); // traditional, multi, unknown, earth, wherigo, virtual, event, letterbox, webcam, trackable
-		logTypes2.put(7, res.getString(R.string.log_new_archive)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
-		logTypes2.put(9, res.getString(R.string.log_new_attend)); // event
-		logTypes2.put(10, res.getString(R.string.log_new_attended)); // event
-		logTypes2.put(11, res.getString(R.string.log_new_webcam)); // webcam
-		logTypes2.put(13, res.getString(R.string.log_new_retrieve)); //trackable
-		logTypes2.put(19, res.getString(R.string.log_new_grab)); //trackable
-		logTypes2.put(45, res.getString(R.string.log_new_maintenance)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
-		logTypes2.put(46, res.getString(R.string.log_new_maintenance_owner)); // owner
-		logTypes2.put(48, res.getString(R.string.log_new_discovered)); //trackable
-		logTypes2.put(49, res.getString(R.string.log_new_review)); // X
+		logTypes2.put(2, res.getString(R.string.log_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
+		logTypes2.put(3, res.getString(R.string.log_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
+		logTypes2.put(4, res.getString(R.string.log_note)); // traditional, multi, unknown, earth, wherigo, virtual, event, letterbox, webcam, trackable
+		logTypes2.put(7, res.getString(R.string.log_needs_archived)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
+		logTypes2.put(9, res.getString(R.string.log_attend)); // event
+		logTypes2.put(10, res.getString(R.string.log_attended)); // event
+		logTypes2.put(11, res.getString(R.string.log_webcam)); // webcam
+		logTypes2.put(13, res.getString(R.string.log_retrieved)); //trackable
+		logTypes2.put(19, res.getString(R.string.log_grabbed)); //trackable
+		logTypes2.put(45, res.getString(R.string.log_maintained)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
+		logTypes2.put(46, res.getString(R.string.log_maintenance_owner)); // owner
+		logTypes2.put(48, res.getString(R.string.log_discovered)); //trackable
+		logTypes2.put(49, res.getString(R.string.log_reviewed)); // X
 
 		// trackables for logs
 		logTypesTrackable.put(0, res.getString(R.string.log_tb_nothing)); // do nothing

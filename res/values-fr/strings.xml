@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">c:geo</string>
 	<string name="app_name_compass">c:geo compass</string>
@@ -45,31 +46,19 @@
 	<string name="log_attend">will attend</string>
 	<string name="log_attended">attended</string>
 	<string name="log_retrieved">retrouvé</string>
-	<string name="log_grabbed">pris</string>
-	<string name="log_needs">nécessite une maintenance</string>
-	<string name="log_maintenance">maitenance</string>
+	<string name="log_grabbed">pris ailleurs</string>
+	<string name="log_maintained">maintenu</string>
+	<string name="log_maintenance_needed">nécessite une maintenance</string>
+	<string name="log_maintenance_owner">maitenance</string>
 	<string name="log_update">coordonnées mise-à-jours</string>
 	<string name="log_archived">archivée</string>
+	<string name="log_needs_archived">nécessite d\'être archivée</string>
 	<string name="log_discovered">retrouvée</string>
-	<string name="log_review">note du relecteur</string>
+	<string name="log_reviewed">note du relecteur</string>
 	<string name="log_tb_nothing">ne fait rien</string>
 	<string name="log_tb_visit">visité</string>
 	<string name="log_tb_drop">déposé ici</string>
-
-	<!-- new logs -->
-	<string name="log_new_found">trouvée</string>
-	<string name="log_new_dnf">pas trouvée</string>
-	<string name="log_new_note">note</string>
-	<string name="log_new_archive">nécessite d\'être archivée</string>
-	<string name="log_new_attend">will attend</string>
-	<string name="log_new_attended">attended</string>
 	<string name="log_new_webcam">webcam photo taken</string>
-	<string name="log_new_maintenance">nécessite une maintenance</string>
-	<string name="log_new_maintenance_owner">maintenance</string>
-	<string name="log_new_grab">pris ailleurs</string>
-	<string name="log_new_retrieve">pris dans la cache</string>
-	<string name="log_new_discovered">découvert</string>
-	<string name="log_new_review">relecture</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>
