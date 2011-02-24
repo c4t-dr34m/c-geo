@@ -58,7 +58,7 @@
 	<string name="log_tb_nothing">ne fait rien</string>
 	<string name="log_tb_visit">visité</string>
 	<string name="log_tb_drop">déposé ici</string>
-	<string name="log_new_webcam">webcam photo taken</string>
+	<string name="log_webcam">webcam photo taken</string>
 
 	<!-- errors -->
 	<string name="err_none">ok</string>

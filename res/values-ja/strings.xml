@@ -79,7 +79,7 @@
 	<string name="log_stars_3">3つ星</string>
 	<string name="log_stars_4">4つ星</string>
 	<string name="log_stars_5">5つ星</string>
-	<string name="log_new_webcam">ウェブカムの写真を撮影</string>
+	<string name="log_webcam">ウェブカムの写真を撮影</string>
 	<string name="log_new_log">ログ</string>
 	<string name="log_new_log_text">ログ本文</string>
 

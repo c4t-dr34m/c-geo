@@ -79,7 +79,7 @@
 	<string name="log_stars_3">3 hvězdičky</string>
 	<string name="log_stars_4">4 hvězdičky</string>
 	<string name="log_stars_5">5 hvězdiček</string>
-	<string name="log_new_webcam">vyfocen webkamerou</string>
+	<string name="log_webcam">vyfocen webkamerou</string>
 	<string name="log_new_log">Log</string>
 	<string name="log_new_log_text">text logu</string>
 

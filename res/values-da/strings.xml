@@ -63,7 +63,7 @@
   <string name="log_tb_drop">Læg her</string>
   <string name="log_save">Gem</string>
   <string name="log_clear">Fjern</string>
-  <string name="log_new_webcam">Webcamfoto taget</string>
+  <string name="log_webcam">Webcamfoto taget</string>
 
   <!-- errors, warnings, info toasts -->
   <string name="err_none">Ok</string>

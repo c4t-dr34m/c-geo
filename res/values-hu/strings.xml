@@ -63,7 +63,7 @@
 	<string name="log_tb_drop">Rakd ide</string>
 	<string name="log_save">Mentés</string>
 	<string name="log_clear">Törlés</string>
-	<string name="log_new_webcam">Webkamera fotó rögzítve</string>
+	<string name="log_webcam">Webkamera fotó rögzítve</string>
 
 	<!-- errors, warnings, info toasts -->
 	<string name="err_none">Ok</string>

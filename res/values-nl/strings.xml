@@ -80,7 +80,7 @@
 	<string name="log_stars_3">3 sterren</string>
 	<string name="log_stars_4">4 sterren</string>
 	<string name="log_stars_5">5 sterren</string>
-	<string name="log_new_webcam">Webcam foto gemaakt</string>
+	<string name="log_webcam">Webcam foto gemaakt</string>
 	<string name="log_new_log">Log</string>
 	<string name="log_new_log_text">Log tekst</string>
 
