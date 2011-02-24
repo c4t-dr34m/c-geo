@@ -4880,7 +4880,7 @@ public class cgBase {
 		return out;
 	}
 
-	public int getIcon(boolean cache, String type, boolean found, boolean disabled) {
+	public int getIcon(boolean cache, String type, boolean own, boolean found, boolean disabled) {
 		if (gcIcons.isEmpty()) {
 			gcIcons.put("ape", R.drawable.marker_cache_ape);
 			gcIcons.put("cito", R.drawable.marker_cache_cito);
@@ -4896,7 +4896,20 @@ public class cgBase {
 			gcIcons.put("wherigo", R.drawable.marker_cache_wherigo);
 			gcIcons.put("mystery", R.drawable.marker_cache_mystery);
 			gcIcons.put("gchq", R.drawable.marker_cache_gchq);
-			gcIcons.put("owned", R.drawable.marker_cache_owned);
+			gcIcons.put("ape-own", R.drawable.marker_cache_ape_own);
+			gcIcons.put("cito-own", R.drawable.marker_cache_cito_own);
+			gcIcons.put("earth-own", R.drawable.marker_cache_earth_own);
+			gcIcons.put("event-own", R.drawable.marker_cache_event_own);
+			gcIcons.put("letterbox-own", R.drawable.marker_cache_letterbox_own);
+			gcIcons.put("locationless-own", R.drawable.marker_cache_locationless_own);
+			gcIcons.put("mega-own", R.drawable.marker_cache_mega_own);
+			gcIcons.put("multi-own", R.drawable.marker_cache_multi_own);
+			gcIcons.put("traditional-own", R.drawable.marker_cache_traditional_own);
+			gcIcons.put("virtual-own", R.drawable.marker_cache_virtual_own);
+			gcIcons.put("webcam-own", R.drawable.marker_cache_webcam_own);
+			gcIcons.put("wherigo-own", R.drawable.marker_cache_wherigo_own);
+			gcIcons.put("mystery-own", R.drawable.marker_cache_mystery_own);
+			gcIcons.put("gchq-own", R.drawable.marker_cache_gchq_own);
 			gcIcons.put("ape-found", R.drawable.marker_cache_ape_found);
 			gcIcons.put("cito-found", R.drawable.marker_cache_cito_found);
 			gcIcons.put("earth-found", R.drawable.marker_cache_earth_found);
@@ -4925,7 +4938,6 @@ public class cgBase {
 			gcIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
 			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
 			gcIcons.put("gchq-disabled", R.drawable.marker_cache_gchq_disabled);
-			gcIcons.put("owned-disabled", R.drawable.marker_cache_owned_disabled);
 		}
 
 		if (wpIcons.isEmpty()) {
@@ -4942,7 +4954,9 @@ public class cgBase {
 
 		if (cache == true) {
 			if (type != null && type.length() > 0) {
-				if (found == true) {
+				if (own == true) {
+					iconTxt = type + "-own";
+				} else if (found == true) {
 					iconTxt = type + "-found";
 				} else if (disabled == true) {
 					iconTxt = type + "-disabled";
@@ -5023,15 +5037,11 @@ public class cgBase {
 
 				int icon = -1;
 				if (cache != null) {
-					if (cache.own) {
-						icon = getIcon(true, "owned", false, false);
-					} else {
-						icon = getIcon(true, cache.type, cache.found, cache.disabled);
-					}
+					icon = getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
 				} else if (waypoint != null) {
-					icon = getIcon(false, waypoint.type, false, false);
+					icon = getIcon(false, waypoint.type, false, false, false);
 				} else {
-					icon = getIcon(false, "waypoint", false, false);
+					icon = getIcon(false, "waypoint", false, false, false);
 				}
 
 				if (icon > 0) {
@@ -5093,7 +5103,7 @@ public class cgBase {
 							continue;
 						}
 
-						final int wpIcon = getIcon(false, wp.type, false, false);
+						final int wpIcon = getIcon(false, wp.type, false, false, false);
 
 						if (wpIcon > 0) {
 							// load icon
