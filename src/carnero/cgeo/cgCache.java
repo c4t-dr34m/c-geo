@@ -39,7 +39,7 @@ public class cgCache {
 	public boolean members = false;
 	public boolean found = false;
 	public boolean favourite = false;
-	public boolean own = false; // not saved; used for parsing live map json
+	public boolean own = false;
 	public Integer favouriteCnt = null;
 	public Float rating = null;
 	public Integer votes = null;

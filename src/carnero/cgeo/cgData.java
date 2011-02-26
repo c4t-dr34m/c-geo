@@ -3,7 +3,6 @@ package carnero.cgeo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.Settings;
 import android.util.Log;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -837,7 +836,11 @@ public class cgData {
 		values.put("guid", cache.guid);
 		values.put("type", cache.type);
 		values.put("name", cache.name);
-		values.put("own", Boolean.toString(cache.own));
+		if (cache.own == true) {
+			values.put("own", 1);
+		} else {
+			values.put("own", 0);
+		}
 		values.put("owner", cache.owner);
 		values.put("owner_real", cache.ownerReal);
 		if (cache.hidden == null) {

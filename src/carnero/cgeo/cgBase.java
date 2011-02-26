@@ -468,7 +468,6 @@ public class cgBase {
 		final Pattern patternTbs = Pattern.compile("<a id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxTravelBugList\" class=\"tblist\" data-tbcount=\"([0-9]+)\" data-id=\"[^\"]*\"[^>]*>(.*)</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTbsInside = Pattern.compile("(<img src=\"[^\"]+\" alt=\"([^\"]+)\" title=\"[^\"]*\" />[^<]*)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 		final Pattern patternDirection = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDistanceAndHeading\" title=\"[^\"]*\" src=\"[^\"]*/seek/CacheDir\\.ashx\\?k=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
-		// final Pattern patternRating = Pattern.compile("<img id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxDTCacheTypeImage\" src=\"[^\"]*/seek/CacheInfo\\.ashx\\?v=([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCode = Pattern.compile("\\((GC[a-z0-9]+)\\)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternId = Pattern.compile("name=\"CID\"[^v]*value=\"([0-9]+)\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternFavourite = Pattern.compile("<span id=\"ctl00_ContentBody_dlResults_ctl[0-9]+_uxFavoritesValue\" title=\"[^\"]*\" class=\"favorite-rank\">([0-9]+)</span>", Pattern.CASE_INSENSITIVE);
@@ -579,7 +578,6 @@ public class cgBase {
 			} catch (Exception e) {
 				// failed to parse GUID and/or Disabled
 				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse GUID and/or Disabled data");
-				e.printStackTrace();
 			}
 
 			if (settings.excludeDisabled == 1 && (cache.disabled == true || cache.archived == true)) {
@@ -615,49 +613,6 @@ public class cgBase {
 				// failed to parse type
 				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache type");
 			}
-
-			// cache direction
-			/* due to geocaching.com image encryption, this is not working
-			try {
-				final Matcher matcherDirection = patternDirection.matcher(row);
-				while (matcherDirection.find()) {
-					if (matcherDirection.groupCount() > 0) {
-						final String directionPre = xorEnDecrypt(URLDecoder.decode(matcherDirection.group(1)));
-						final String[] directionParts = directionPre.split("\\|");
-
-						cache.distance = parseDistance(directionParts[0]);
-
-						try {
-							cache.direction = new Double(directionParts[1]);
-						} catch (Exception e) {
-							cache.direction = new Double(0);
-						}
-					}
-				}
-			} catch (Exception e) {
-				// failed to parse direction
-				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache direction");
-			}
-			*/
-
-			// cache rating
-			/* due to geocaching.com image encryption, this is not working
-			try {
-				final Matcher matcherRating = patternRating.matcher(row);
-				while (matcherRating.find()) {
-					if (matcherRating.groupCount() > 0) {
-						final HashMap<String, Object> rating = ratingDecrypt(matcherRating.group(1));
-
-                        cache.size = (String)rating.get("size");
-                        cache.terrain = (Float)rating.get("terrain");
-                        cache.difficulty = (Float)rating.get("difficulty");
-					}
-				}
-			} catch (Exception e) {
-				// failed to parse rating
-				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache rating");
-			}
-			 */
 
 			// cache direction - image
 			try {
@@ -1173,6 +1128,11 @@ public class cgBase {
 		} catch (Exception e) {
 			// failed to parse owner real name
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache owner real name");
+		}
+
+		final String username = settings.getUsername();
+		if (cache.ownerReal != null && username != null && cache.ownerReal.equalsIgnoreCase(username)) {
+			cache.own = true;
 		}
 
 		int pos = -1;
