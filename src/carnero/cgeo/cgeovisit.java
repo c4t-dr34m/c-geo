@@ -43,6 +43,7 @@ public class cgeovisit extends cgLogForm {
 	private String cacheid = null;
 	private String geocode = null;
 	private String text = null;
+	private boolean alreadyFound = false;
 	private String viewstate = null;
 	private String viewstate1 = null;
 	private Boolean gettingViewstate = true;
@@ -235,6 +236,7 @@ public class cgeovisit extends cgLogForm {
 			cacheid = extras.getString("id");
 			geocode = extras.getString("geocode");
 			text = extras.getString("text");
+			alreadyFound = extras.getBoolean("found");
 		}
 
 		if ((cacheid == null || cacheid.length() == 0) && geocode != null && geocode.length() > 0) {
@@ -490,6 +492,7 @@ public class cgeovisit extends cgLogForm {
 
 		if (cache.type.equals("event") || cache.type.equals("mega") || cache.type.equals("cito") || cache.type.equals("lostfound")) {
 			types.add(9);
+			types.add(4);
 			types.add(10);
 			types.add(7);
 		} else if (cache.type.equals("earth")) {
@@ -528,7 +531,11 @@ public class cgeovisit extends cgLogForm {
 		}
 
 		if (types.contains(typeSelected) == false) {
-			typeSelected = types.get(0);
+			if (alreadyFound == true) {
+				typeSelected = 4; // note
+			} else {
+				typeSelected = types.get(0);
+			}
 			setType(typeSelected);
 		}
 
@@ -685,7 +692,11 @@ public class cgeovisit extends cgLogForm {
 		public void onClick(View arg0) {
 			app.clearLogOffline(geocode);
 
-			typeSelected = types.get(0);
+			if (alreadyFound == true) {
+				typeSelected = 4; // note
+			} else {
+				typeSelected = types.get(0);
+			}
 			date.setTime(new Date());
 			text = null;
 

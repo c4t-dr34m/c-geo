@@ -3,7 +3,7 @@ package carnero.cgeo;
 import java.util.Comparator;
 import android.util.Log;
 
-public class cgCacheDistanceComparator implements Comparator {
+public class cgCacheDistanceComparator implements Comparator<cgCache> {
 	private Double latitude = null;
 	private Double longitude = null;
 
@@ -12,12 +12,9 @@ public class cgCacheDistanceComparator implements Comparator {
 		longitude = longitudeIn;
 	}
 
-	public int compare(Object object1, Object object2) {
+	public int compare(cgCache cache1, cgCache cache2) {
 		int result = 0;
 		try {
-			cgCache cache1 = (cgCache)object1;
-			cgCache cache2 = (cgCache)object2;
-
 			if (
 				(cache1.latitude == null || cache1.longitude == null || cache2.latitude == null || cache2.longitude == null) &&
 				cache1.distance != null && cache2.distance != null

@@ -856,7 +856,7 @@ public class cgBase {
 						final Matcher matcherDifCode = patternCidDif.matcher(point);
 						final Matcher matcherTerCode = patternCidTer.matcher(point);
 						final Matcher matcherConCode = patternCidCon.matcher(point);
-						HashMap tmp = null;
+						HashMap<String, Object> tmp = null;
 
 						if (matcherCidCode.find() == true) {
 							pointCoord.name = matcherCidCode.group(1).trim().toUpperCase();
@@ -1324,7 +1324,7 @@ public class cgBase {
 				if (matcherLatLon.groupCount() > 0) {
 					cache.latlon = matcherLatLon.group(2); // first is <b>
 
-					HashMap tmp = this.parseLatlon(cache.latlon);
+					HashMap<String, Object> tmp = this.parseLatlon(cache.latlon);
 					if (tmp.size() > 0) {
 						cache.latitude = (Double) tmp.get("latitude");
 						cache.longitude = (Double) tmp.get("longitude");
@@ -1683,7 +1683,7 @@ public class cgBase {
 							if (matcherWpLatLon.groupCount() > 1) {
 								waypoint.latlon = Html.fromHtml(matcherWpLatLon.group(2)).toString();
 
-								final HashMap tmp = this.parseLatlon(waypoint.latlon);
+								final HashMap<String, Object> tmp = this.parseLatlon(waypoint.latlon);
 								if (tmp.size() > 0) {
 									waypoint.latitude = (Double) tmp.get("latitude");
 									waypoint.longitude = (Double) tmp.get("longitude");
@@ -1942,7 +1942,11 @@ public class cgBase {
 		final Pattern patternGoal = Pattern.compile("<h3>[^\\w]*Current GOAL[^<]*</h3>[^<]*<p[^>]*>(.*)</p>[^<]*<h3>[^\\w]*About This Item[^<]*</h3>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>([^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>)?[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLogs = Pattern.compile("<table class=\"TrackableItemLogTable Table\">(.*)<\\/table>[^<]*<ul", Pattern.CASE_INSENSITIVE);
+<<<<<<< HEAD
 		final Pattern patternIcon = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"(http[^\"]*)\" alt=\"", Pattern.CASE_INSENSITIVE);
+=======
+		final Pattern patternIcon = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"([^\"]*)\" alt=\"", Pattern.CASE_INSENSITIVE);
+>>>>>>> 5cd11295d8f7087627216738ce04965978e8d048
 
 		final cgTrackable trackable = new cgTrackable();
 
@@ -2590,8 +2594,8 @@ public class cgBase {
 		}
 	}
 
-	public HashMap parseLatlon(String latlon) {
-		final HashMap result = new HashMap();
+	public HashMap<String, Object> parseLatlon(String latlon) {
+		final HashMap<String, Object> result = new HashMap<String, Object>();
 		final Pattern patternLatlon = Pattern.compile("([NS])[^\\d]*(\\d+)[^°]*° (\\d+)\\.(\\d+) ([WE])[^\\d]*(\\d+)[^°]*° (\\d+)\\.(\\d+)", Pattern.CASE_INSENSITIVE);
 		final Matcher matcherLatlon = patternLatlon.matcher(latlon);
 
@@ -2659,8 +2663,8 @@ public class cgBase {
 		return formatted;
 	}
 
-	public HashMap parseCoordinate(String coord, String latlon) {
-		final HashMap coords = new HashMap();
+	public HashMap<String, Object> parseCoordinate(String coord, String latlon) {
+		final HashMap<String, Object> coords = new HashMap<String, Object>();
 
 		final Pattern patternA = Pattern.compile("^([NSWE])[^\\d]*(\\d+)°? +(\\d+)([\\.|,](\\d+))?$", Pattern.CASE_INSENSITIVE);
 		final Pattern patternB = Pattern.compile("^([NSWE])[^\\d]*(\\d+)([\\.|,](\\d+))?$", Pattern.CASE_INSENSITIVE);
@@ -2766,7 +2770,7 @@ public class cgBase {
 
 			return coords;
 		} else {
-			return new HashMap();
+			return new HashMap<String, Object>();
 		}
 	}
 
@@ -3978,7 +3982,7 @@ public class cgBase {
 
 		if (params != null) {
 			Object[] keys = params.keySet().toArray();
-			ArrayList<String> paramsEncoded = new ArrayList();
+			ArrayList<String> paramsEncoded = new ArrayList<String>();
 			String key;
 			String value;
 
@@ -4066,7 +4070,7 @@ public class cgBase {
 				cookies = new HashMap<String, String>();
 			}
 
-			final Map prefsAll = prefs.getAll();
+			final Map<String, ?> prefsAll = prefs.getAll();
 			final Set<String> prefsKeys = prefsAll.keySet();
 
 			for (String key : prefsKeys) {
@@ -4081,7 +4085,7 @@ public class cgBase {
 
 		if (cookies != null) {
 			final Object[] keys = cookies.keySet().toArray();
-			final ArrayList<String> cookiesEncoded = new ArrayList();
+			final ArrayList<String> cookiesEncoded = new ArrayList<String>();
 
 			for (int i = 0; i < keys.length; i++) {
 				String value = cookies.get(keys[i].toString());
@@ -4094,11 +4098,11 @@ public class cgBase {
 		}
 
 		if (cookiesDone == null) {
-			Map prefsValues = prefs.getAll();
+			Map<String, ?> prefsValues = prefs.getAll();
 
 			if (prefsValues != null && prefsValues.size() > 0) {
 				final Object[] keys = prefsValues.keySet().toArray();
-				final ArrayList<String> cookiesEncoded = new ArrayList();
+				final ArrayList<String> cookiesEncoded = new ArrayList<String>();
 				final int length = keys.length;
 
 				for (int i = 0; i < length; i++) {
@@ -4310,7 +4314,7 @@ public class cgBase {
 				cookies = new HashMap<String, String>();
 			}
 
-			final Map prefsAll = prefs.getAll();
+			final Map<String, ?> prefsAll = prefs.getAll();
 			final Set<String> prefsKeys = prefsAll.keySet();
 
 			for (String key : prefsKeys) {
@@ -4325,7 +4329,7 @@ public class cgBase {
 
 		if (cookies != null) {
 			final Object[] keys = cookies.keySet().toArray();
-			final ArrayList<String> cookiesEncoded = new ArrayList();
+			final ArrayList<String> cookiesEncoded = new ArrayList<String>();
 
 			for (int i = 0; i < keys.length; i++) {
 				String value = cookies.get(keys[i].toString());
@@ -4338,11 +4342,11 @@ public class cgBase {
 		}
 
 		if (cookiesDone == null) {
-			Map prefsValues = prefs.getAll();
+			Map<String, ?> prefsValues = prefs.getAll();
 
 			if (prefsValues != null && prefsValues.size() > 0) {
 				final Object[] keys = prefsValues.keySet().toArray();
-				final ArrayList<String> cookiesEncoded = new ArrayList();
+				final ArrayList<String> cookiesEncoded = new ArrayList<String>();
 				final int length = keys.length;
 
 				for (int i = 0; i < length; i++) {
@@ -4941,7 +4945,7 @@ public class cgBase {
 		String iconTxt = null;
 
 		if (cache == true) {
-			if (type != null || type.length() > 0) {
+			if (type != null && type.length() > 0) {
 				if (found == true) {
 					iconTxt = type + "-found";
 				} else if (disabled == true) {
@@ -4957,7 +4961,7 @@ public class cgBase {
 				icon = gcIcons.get(iconTxt);
 			}
 		} else {
-			if (type != null || type.length() > 0) {
+			if (type != null && type.length() > 0) {
 				iconTxt = type;
 			} else {
 				iconTxt = "waypoint";

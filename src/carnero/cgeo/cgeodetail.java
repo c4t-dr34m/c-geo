@@ -1317,6 +1317,7 @@ public class cgeodetail extends Activity {
 		logVisitIntent.putExtra("id", cache.cacheid);
 		logVisitIntent.putExtra("geocode", cache.geocode.toUpperCase());
 		logVisitIntent.putExtra("type", cache.type.toLowerCase());
+		logVisitIntent.putExtra("found", cache.found);
 		activity.startActivity(logVisitIntent);
 	}
 
