@@ -910,7 +910,7 @@ public class cgeocaches extends ListActivity {
 			// cache waypoints
 			if (cacheListCoord != null && cacheListCoord.isEmpty() == false) {
 				for (cgCache cache : cacheListCoord) {
-					final int wpIcon = base.getIcon(true, cache.type, cache.found, cache.disabled);
+					final int wpIcon = base.getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
 
 					if (wpIcon > 0) {
 						// load icon

@@ -91,9 +91,6 @@ public class cgeomap extends MapActivity {
 	protected boolean searchingUsers = false;
 	protected boolean searchingForClose = false;
 	protected boolean live = false;
-	final private static HashMap<String, Integer> gcIconsClear = new HashMap<String, Integer>();
-	final private static HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
-	final private static HashMap<String, Integer> wpIcons = new HashMap<String, Integer>();
 
 	final private Handler startLoading = new Handler() {
 		@Override
@@ -248,11 +245,9 @@ public class cgeomap extends MapActivity {
 						} else {
 							closeGC.setText(cache.geocode);
 						}
-						if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
-							closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable)activity.getResources().getDrawable(gcIconsClear.get(cache.type)), null, null, null);
-						} else { // unknown cache type, "mystery" icon
-							closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable)activity.getResources().getDrawable(gcIconsClear.get("mystery")), null, null, null);
-						}
+
+						final int type = base.getIcon(true, cache.type, false, false, false);
+						closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable)activity.getResources().getDrawable(type), null, null, null);
 						close.setClickable(true);
 						close.setOnClickListener(new closeClickListener(cache));
 
@@ -734,80 +729,6 @@ public class cgeomap extends MapActivity {
 		// users
 		if (mapView == null) return;
 
-		// init images
-		if (gcIconsClear.isEmpty() == true) {
-			gcIconsClear.put("ape", R.drawable.type_ape);
-			gcIconsClear.put("cito", R.drawable.type_cito);
-			gcIconsClear.put("earth", R.drawable.type_earth);
-			gcIconsClear.put("event", R.drawable.type_event);
-			gcIconsClear.put("letterbox", R.drawable.type_letterbox);
-			gcIconsClear.put("locationless", R.drawable.type_locationless);
-			gcIconsClear.put("mega", R.drawable.type_mega);
-			gcIconsClear.put("multi", R.drawable.type_multi);
-			gcIconsClear.put("traditional", R.drawable.type_traditional);
-			gcIconsClear.put("virtual", R.drawable.type_virtual);
-			gcIconsClear.put("webcam", R.drawable.type_webcam);
-			gcIconsClear.put("wherigo", R.drawable.type_wherigo);
-			gcIconsClear.put("mystery", R.drawable.type_mystery);
-			gcIconsClear.put("gchq", R.drawable.type_hq);
-		}
-
-		if (gcIcons.isEmpty() == true) {
-			gcIcons.put("ape", R.drawable.marker_cache_ape);
-			gcIcons.put("cito", R.drawable.marker_cache_cito);
-			gcIcons.put("earth", R.drawable.marker_cache_earth);
-			gcIcons.put("event", R.drawable.marker_cache_event);
-			gcIcons.put("letterbox", R.drawable.marker_cache_letterbox);
-			gcIcons.put("locationless", R.drawable.marker_cache_locationless);
-			gcIcons.put("mega", R.drawable.marker_cache_mega);
-			gcIcons.put("multi", R.drawable.marker_cache_multi);
-			gcIcons.put("traditional", R.drawable.marker_cache_traditional);
-			gcIcons.put("virtual", R.drawable.marker_cache_virtual);
-			gcIcons.put("webcam", R.drawable.marker_cache_webcam);
-			gcIcons.put("wherigo", R.drawable.marker_cache_wherigo);
-			gcIcons.put("mystery", R.drawable.marker_cache_mystery);
-			gcIcons.put("gchq", R.drawable.marker_cache_gchq);
-			gcIcons.put("owned", R.drawable.marker_cache_owned);
-			gcIcons.put("ape-found", R.drawable.marker_cache_ape_found);
-			gcIcons.put("cito-found", R.drawable.marker_cache_cito_found);
-			gcIcons.put("earth-found", R.drawable.marker_cache_earth_found);
-			gcIcons.put("event-found", R.drawable.marker_cache_event_found);
-			gcIcons.put("letterbox-found", R.drawable.marker_cache_letterbox_found);
-			gcIcons.put("locationless-found", R.drawable.marker_cache_locationless_found);
-			gcIcons.put("mega-found", R.drawable.marker_cache_mega_found);
-			gcIcons.put("multi-found", R.drawable.marker_cache_multi_found);
-			gcIcons.put("traditional-found", R.drawable.marker_cache_traditional_found);
-			gcIcons.put("virtual-found", R.drawable.marker_cache_virtual_found);
-			gcIcons.put("webcam-found", R.drawable.marker_cache_webcam_found);
-			gcIcons.put("wherigo-found", R.drawable.marker_cache_wherigo_found);
-			gcIcons.put("mystery-found", R.drawable.marker_cache_mystery_found);
-			gcIcons.put("gchq-found", R.drawable.marker_cache_gchq_found);
-			gcIcons.put("ape-disabled", R.drawable.marker_cache_ape_disabled);
-			gcIcons.put("cito-disabled", R.drawable.marker_cache_cito_disabled);
-			gcIcons.put("earth-disabled", R.drawable.marker_cache_earth_disabled);
-			gcIcons.put("event-disabled", R.drawable.marker_cache_event_disabled);
-			gcIcons.put("letterbox-disabled", R.drawable.marker_cache_letterbox_disabled);
-			gcIcons.put("locationless-disabled", R.drawable.marker_cache_locationless_disabled);
-			gcIcons.put("mega-disabled", R.drawable.marker_cache_mega_disabled);
-			gcIcons.put("multi-disabled", R.drawable.marker_cache_multi_disabled);
-			gcIcons.put("traditional-disabled", R.drawable.marker_cache_traditional_disabled);
-			gcIcons.put("virtual-disabled", R.drawable.marker_cache_virtual_disabled);
-			gcIcons.put("webcam-disabled", R.drawable.marker_cache_webcam_disabled);
-			gcIcons.put("wherigo-disabled", R.drawable.marker_cache_wherigo_disabled);
-			gcIcons.put("mystery-disabled", R.drawable.marker_cache_mystery_disabled);
-			gcIcons.put("gchq-disabled", R.drawable.marker_cache_gchq_disabled);
-			gcIcons.put("owned-disabled", R.drawable.marker_cache_owned_disabled);
-		}
-
-		if (wpIcons.isEmpty() == true) {
-			wpIcons.put("waypoint", R.drawable.marker_waypoint_waypoint);
-			wpIcons.put("flag", R.drawable.marker_waypoint_flag);
-			wpIcons.put("pkg", R.drawable.marker_waypoint_pkg);
-			wpIcons.put("puzzle", R.drawable.marker_waypoint_puzzle);
-			wpIcons.put("stage", R.drawable.marker_waypoint_stage);
-			wpIcons.put("trailhead", R.drawable.marker_waypoint_trailhead);
-		}
-
 		if (settings.publicLoc == 1 && users != null && users.isEmpty() == false) {
 			if (overlayUsers == null) {
 				overlayUsers = new cgUsersOverlay(app, (Context)this, base, getResources().getDrawable(R.drawable.user_location));
@@ -860,27 +781,10 @@ public class cgeomap extends MapActivity {
 				if (cache.latitude == null && cache.longitude == null) continue;
 				else cachesWithCoords ++;
 
-				String type = null;
-
-				if (cache.own == true) {
-					type = "owned";
-				} else {
-					type = cache.type;
-				}
-				if (cache.found == true) {
-					type += "-found";
-				} else if (cache.disabled == true) {
-					type += "-disabled";
-				}
-
-				if (type != null && gcIcons.containsKey(type) == true) {
-					pin = getResources().getDrawable(gcIcons.get(type));
-				} else {
-					pin = getResources().getDrawable(gcIcons.get("mystery"));
-				}
+				final int icon = base.getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
+				pin = getResources().getDrawable(icon);
 
 				final cgCoord coord = new cgCoord(cache);
-
 				coordinates.add(coord);
 				final cgOverlayItem item = new cgOverlayItem(coord);
 
@@ -918,11 +822,8 @@ public class cgeomap extends MapActivity {
 						for (cgWaypoint waypoint : oneCache.waypoints) {
 							if (waypoint.latitude == null && waypoint.longitude == null) continue;
 
-							if (waypoint.type != null && wpIcons.containsKey(waypoint.type) == true) {
-								pin = getResources().getDrawable(wpIcons.get(waypoint.type));
-							} else {
-								pin = getResources().getDrawable(wpIcons.get("waypoint"));
-							}
+							final int icon = base.getIcon(false, waypoint.type, false, false, false);
+							pin = getResources().getDrawable(icon);
 
 							cgCoord coord = new cgCoord(waypoint);
 
@@ -975,7 +876,8 @@ public class cgeomap extends MapActivity {
 				}
 			}
 		} else if (oneLatitude != null && oneLongitude != null) {
-			pin = getResources().getDrawable(wpIcons.get("waypoint"));
+			final int icon = base.getIcon(false, "waypoint", false, false, false);
+			pin = getResources().getDrawable(icon);
 
 			cgCoord coord = new cgCoord();
 			coord.type = "waypoint";

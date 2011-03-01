@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.SubMenu;
 import android.widget.ImageView;
@@ -97,18 +98,21 @@ public class cgeotrackable extends Activity {
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
-				String iconAndType = "";
-				if (trackable.iconUrl != null && trackable.iconUrl.length() > 0) {
-					iconAndType += "<img src=\"" + trackable.iconUrl + "\"> ";
-				}
+				String tbType = null;
 				if (trackable.type != null && trackable.type.length() > 0) {
-					iconAndType += trackable.type;
+					tbType = trackable.type;
 				} else {
-					iconAndType += res.getString(R.string.trackable_unknown);
+					tbType = res.getString(R.string.trackable_unknown);
 				}
 				itemName.setText(res.getString(R.string.trackable_type));
-				itemValue.setText(Html.fromHtml(iconAndType, new cgHtmlImg(activity, settings, null, false, 0, false), null), TextView.BufferType.SPANNABLE);
+				itemValue.setText(tbType);
 				detailsList.addView(itemLayout);
+
+				if (trackable.iconUrl != null && trackable.iconUrl.length() > 0) {
+					final tbIconHandler iconHandler = new tbIconHandler(itemValue);
+					final tbIconThread iconThread = new tbIconThread(trackable.iconUrl, iconHandler);
+					iconThread.start();
+				}
 
 				// trackable geocode
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
@@ -560,6 +564,50 @@ public class cgeotrackable extends Activity {
 		logTouchIntent.putExtra("geocode", trackable.geocode.toUpperCase());
 		logTouchIntent.putExtra("guid", trackable.guid);
 		activity.startActivity(logTouchIntent);
+	}
+
+	private class tbIconThread extends Thread {
+		String url = null;
+		Handler handler = null;
+
+		public tbIconThread(String urlIn, Handler handlerIn) {
+			url = urlIn;
+			handler = handlerIn;
+		}
+
+		@Override
+		public void run() {
+			if (url == null || handler == null) {
+				return;
+			}
+
+			BitmapDrawable image = null;
+			try {
+				cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, trackable.geocode, false, 0, false);
+
+				image = imgGetter.getDrawable(url);
+				Message message = handler.obtainMessage(0, image);
+				handler.sendMessage(message);
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgeotrackable.tbIconThread.run: " + e.toString());
+			}
+		}
+	}
+
+	private class tbIconHandler extends Handler {
+		TextView view = null;
+
+		public tbIconHandler(TextView viewIn) {
+			view = viewIn;
+		}
+
+		@Override
+		public void handleMessage(Message message) {
+			BitmapDrawable image = (BitmapDrawable) message.obj;
+			if (image != null && view != null) {
+				view.setCompoundDrawablesWithIntrinsicBounds(null, null, (Drawable) image, null);
+			}
+		}
 	}
 
 	public void goHome(View view) {

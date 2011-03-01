@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <dimen name="actionbar_height">45dip</dimen>
-    <dimen name="actionbar_separator_width">1dip</dimen>
+  <dimen name="actionbar_height">45dip</dimen>
+  <dimen name="actionbar_separator_width">1dip</dimen>
 </resources>

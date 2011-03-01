@@ -3,7 +3,6 @@ package carnero.cgeo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.Settings;
 import android.util.Log;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -56,7 +55,7 @@ public class cgData {
 			+ "guid text, "
 			+ "type text, "
 			+ "name text, "
-			+ "own text, "
+			+ "own integer not null default 0, "
 			+ "owner text, "
 			+ "owner_real text, "
 			+ "hidden long, "
@@ -514,9 +513,9 @@ public class cgData {
 					}
 					if (oldVersion < 47) { // upgrade to 47
 						try {
-							db.execSQL("alter table " + dbTableCaches + " add column own text");
+							db.execSQL("alter table " + dbTableCaches + " add column own integer not null default 0");
 
-							Log.i(cgSettings.tag, "Added column for own true/false.");
+							Log.i(cgSettings.tag, "Added column own.");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 47: " + e.toString());
 						}
@@ -837,7 +836,11 @@ public class cgData {
 		values.put("guid", cache.guid);
 		values.put("type", cache.type);
 		values.put("name", cache.name);
-		values.put("own", Boolean.toString(cache.own));
+		if (cache.own == true) {
+			values.put("own", 1);
+		} else {
+			values.put("own", 0);
+		}
 		values.put("owner", cache.owner);
 		values.put("owner_real", cache.ownerReal);
 		if (cache.hidden == null) {
@@ -1329,17 +1332,14 @@ public class cgData {
 						cache.guid = (String) cursor.getString(cursor.getColumnIndex("guid"));
 						cache.type = (String) cursor.getString(cursor.getColumnIndex("type"));
 						cache.name = (String) cursor.getString(cursor.getColumnIndex("name"));
-						try {
-							cache.own = Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex("own")));
-						} catch (Exception e) {
+						index = cursor.getColumnIndex("own");
+						if ((int) cursor.getInt(index) == 1) {
+							cache.own = true;
+						} else {
 							cache.own = false;
 						}
 						cache.owner = (String) cursor.getString(cursor.getColumnIndex("owner"));
-						try {
-							cache.ownerReal = (String) cursor.getString(cursor.getColumnIndex("owner_real"));
-						} catch (Exception e) {
-							cache.ownerReal = "";
-						}
+						cache.ownerReal = (String) cursor.getString(cursor.getColumnIndex("owner_real"));
 						cache.hidden = new Date((long) cursor.getLong(cursor.getColumnIndex("hidden")));
 						cache.hint = (String) cursor.getString(cursor.getColumnIndex("hint"));
 						cache.size = (String) cursor.getString(cursor.getColumnIndex("size"));
