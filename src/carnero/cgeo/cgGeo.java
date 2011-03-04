@@ -97,8 +97,17 @@ public class cgGeo {
 		geoGpsListener.setProvider(LocationManager.GPS_PROVIDER);
 		geoManager.addGpsStatusListener(geoGpsStatusListener);
 
-		geoManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, geoNetListener);
-		geoManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, geoGpsListener);
+		try {
+			geoManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, time, distance, geoNetListener);
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "There is no NETWORK location provider");
+		}
+		
+		try {
+			geoManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, geoGpsListener);
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "There is no GPS location provider");
+		}
 	}
 
 	public void closeGeo() {
