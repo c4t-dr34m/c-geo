@@ -1007,7 +1007,7 @@ public class cgBase {
 		final Pattern patternSize = Pattern.compile("<td[^>]*>[^S]*Size[^:]*:[^<]*<span[^>]*>[^<]*<img src=\"[^\"]*\\/icons\\/container\\/[a-z_]+.gif\" alt=\"Size: ([^\"]+)\" />[^<]*<small>[^<]*</small>[^<]*</span>[^<]*</td>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDifficulty = Pattern.compile("<td[^>]*>[^S]*Difficulty[^:]*:[^<]*</td>[^<]*<td[^>]*>[^<]*<span[^>]*>[^<]*<img src=\"[^>]*/stars/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTerrain = Pattern.compile("<td[^>]*>[^S]*Terrain[^:]*:[^<]*</td>[^<]*<td[^>]*>[^<]*<span[^>]*>[^<]*<img src=\"[^>]*/stars/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
-		final Pattern patternOwner = Pattern.compile("<td[^>]*>[^<]*<strong>[^\\w]*An?([^\\w]*Event)?[^\\w]*cache[^<]*<\\/strong>[^\\w]*by[^<]*<a href=\"[^\"]+\">([^<]+)<\\/a>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternOwner = Pattern.compile("<td[^>]*>[^<]*<span class=\"minorCacheDetails\">An?([^\\w]*Event)?[^\\w]*cache[^\\w]*by[^<]*<a href=\"[^\"]+\">([^<]+)<\\/a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternOwnerReal = Pattern.compile("<span id=\"ctl00_ContentBody_FindText\">[^<]*</span>[^<]*<ul>[^<]*<li>[^<]*<a id=\"ctl00_ContentBody_uxFindLinksHiddenByThisUser\" href=\"[^\"]*/seek/nearest\\.aspx\\?u=*([^\"]+)\">hidden</a>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHidden = Pattern.compile("<span[^>]*>[^\\w]*Hidden[^:]*:[^\\d]*((\\d+)\\/(\\d+)\\/(\\d+))[^<]*</span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHiddenEvent = Pattern.compile("<span[^>]*>[^\\w]*Event[^\\w]*Date[^:]*:[^\\w]*[a-zA-Z]+,[^\\d]*((\\d+)[^\\w]*(\\w+)[^\\d]*(\\d+))[^<]*</span>", Pattern.CASE_INSENSITIVE);
