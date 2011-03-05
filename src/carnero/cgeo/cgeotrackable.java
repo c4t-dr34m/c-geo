@@ -373,15 +373,18 @@ public class cgeotrackable extends Activity {
 		super.onCreateContextMenu(menu, view, info);
 		final int viewId = view.getId();
 
-		RelativeLayout itemLayout = (RelativeLayout)view;
-		TextView itemName = (TextView) itemLayout.findViewById(R.id.name);
+		if (viewId == R.id.author) { // Log item author
+			contextMenuUser = ((TextView)view).getText().toString();
+		} else { // Trackable owner, and user holding trackable now
+			RelativeLayout itemLayout = (RelativeLayout)view;
+			TextView itemName = (TextView) itemLayout.findViewById(R.id.name);
 
-		Log.w(cgSettings.tag, "creating 6" +itemName.getText().toString());
-		String selectedName = itemName.getText().toString();
-		if (selectedName.equals(res.getString(R.string.trackable_owner))) {
-			contextMenuUser = trackable.owner;
-		} else if (selectedName.equals(res.getString(R.string.trackable_spotted))) {
-			contextMenuUser = trackable.spottedName;
+			String selectedName = itemName.getText().toString();
+			if (selectedName.equals(res.getString(R.string.trackable_owner))) {
+				contextMenuUser = trackable.owner;
+			} else if (selectedName.equals(res.getString(R.string.trackable_spotted))) {
+				contextMenuUser = trackable.spottedName;
+			}
 		}
 
 		menu.setHeaderTitle(res.getString(R.string.user_menu_title) + " " + contextMenuUser);
@@ -527,13 +530,7 @@ public class cgeotrackable extends Activity {
 
 				((TextView) rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, 0, false), null), TextView.BufferType.SPANNABLE);
 
-				final String author = log.author;
-				((TextView) rowView.findViewById(R.id.author)).setOnClickListener(new View.OnClickListener() {
-					public void onClick(View arg0) {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/profile/?u=" + author)));
-					}
-				});
-				
+				((TextView) rowView.findViewById(R.id.author)).setOnClickListener(new userActions());
 				listView.addView(rowView);
 			}
 
