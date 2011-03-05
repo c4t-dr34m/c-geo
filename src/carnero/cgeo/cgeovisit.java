@@ -114,7 +114,7 @@ public class cgeovisit extends cgLogForm {
 					RelativeLayout inventoryItem = null;
 					inventoryItem = (RelativeLayout) inflater.inflate(R.layout.visit_trackable, null);
 
-					((TextView) inventoryItem.findViewById(R.id.name)).setText(tb.name);
+					((TextView) inventoryItem.findViewById(R.id.name)).setText("(" + tb.trackCode + ") " + tb.name);
 					((TextView) inventoryItem.findViewById(R.id.action)).setText(cgBase.logTypesTrackable.get(0));
 
 					inventoryItem.setId(tb.id);
