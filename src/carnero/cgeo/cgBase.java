@@ -253,8 +253,8 @@ public class cgBase {
 		logTypes2.put(11, res.getString(R.string.log_webcam)); // webcam
 		logTypes2.put(13, res.getString(R.string.log_retrieved)); //trackable
 		logTypes2.put(19, res.getString(R.string.log_grabbed)); //trackable
-		logTypes2.put(45, res.getString(R.string.log_maintained)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
-		logTypes2.put(46, res.getString(R.string.log_maintenance_owner)); // owner
+		logTypes2.put(45, res.getString(R.string.log_maintenance_needed)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
+		logTypes2.put(46, res.getString(R.string.log_maintained)); // owner
 		logTypes2.put(48, res.getString(R.string.log_discovered)); //trackable
 		logTypes2.put(49, res.getString(R.string.log_reviewed)); // X
 
