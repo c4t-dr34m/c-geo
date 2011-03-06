@@ -291,7 +291,7 @@
   <string name="init_transparent">Transparenten Startbildschirm verwenden</string>
   <string name="init_address">Position am Startbildschirm anzeigen</string>
   <string name="init_captcha">Zeige CAPTCHA wenn notwendig</string>
-  <string name="init_useenglish">c:geo in Englisch nutzen (Neustart erforderlich)</string>
+  <string name="init_useenglish">c:geo auf Englisch nutzen (Neustart erforderlich)</string>
   <string name="init_exclude">Eigene und gefundene Caches ausblenden</string>
   <string name="init_disabled">Deaktivierte Caches ausblenden</string>
   <string name="init_offline">Karten für Offline-Verwendung speichern</string>
