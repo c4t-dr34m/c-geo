@@ -563,9 +563,11 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.05</b> (__.02.2011)\n
+    <b>2.05</b> (__.03.2011)\n
     · fix: Marking caches as found\n
     · fix: Own caches\n
+    · fix: Some optimizations\n
+    · new: Trackable icon\n
     \n
     <b>2.04</b> (20.02.2011)\n
     · new: Logs for trackables\n
