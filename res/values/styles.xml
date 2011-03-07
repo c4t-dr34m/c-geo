@@ -38,7 +38,7 @@
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">@dimen/actionbar_height</item>
     <item name="android:orientation">horizontal</item>
-    <item name="android:background">@drawable/actionbar_bcg</item>
+    <item name="android:background">@drawable/actionbar_background</item>
   </style>
 
   <style name="action_bar_icon_cgeo">
