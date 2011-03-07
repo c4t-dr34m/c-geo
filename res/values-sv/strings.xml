@@ -451,7 +451,7 @@
   <string name="map_static_loading">Laddar sparade kartor...</string>
 
   <!-- search -->
-  <string name="search_bar_hint">Sök cache</string>
+  <string name="search_bar_hint">Sök cache/TB</string>
   <string name="search_bar_desc">Cache (GC-kod, nyckelord), Trackable (TB-kod)</string>
   <string name="search_coordinates">Koordinater</string>
   <string name="search_coordinates_button">Sök med koordinater</string>
