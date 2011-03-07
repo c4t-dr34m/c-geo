@@ -61,9 +61,11 @@
 
   <style name="action_bar_separator">
     <item name="android:layout_width">@dimen/actionbar_separator_width</item>
-    <item name="android:layout_height">@dimen/actionbar_height</item>
+    <item name="android:layout_height">@dimen/actionbar_separator_height</item>
     <item name="android:layout_marginLeft">4dip</item>
     <item name="android:layout_marginRight">4dip</item>
+    <item name="android:layout_marginTop">4dip</item>
+    <item name="android:layout_marginBottom">4dip</item>
     <item name="android:gravity">center</item>
     <item name="android:background">@drawable/actionbar_separator</item>
   </style>

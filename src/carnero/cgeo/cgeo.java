@@ -536,6 +536,10 @@ public class cgeo extends Activity {
 		context.startActivity(new Intent(context, cgeoabout.class));
 	}
 
+	public void goSearch(View view) {
+		onSearchRequested();
+	}
+
 	public void goManual(View view) {
 		try {
 			AppManualReaderClient.openManual(
