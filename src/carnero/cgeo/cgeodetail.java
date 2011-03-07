@@ -415,6 +415,8 @@ public class cgeodetail extends Activity {
 			menu.add(0, 11, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
 		}
 
+		menu.add(0, 13, 0, res.getString(R.string.cache_menu_share)).setIcon(android.R.drawable.ic_menu_share); // share cache
+
 		return true;
 	}
 
@@ -459,6 +461,9 @@ public class cgeodetail extends Activity {
 				return true;
 			case 12:
 				addToCalendar();
+				return true;
+			case 13:
+				shareCache();
 				return true;
 		}
 
@@ -1296,6 +1301,22 @@ public class cgeodetail extends Activity {
 		}
 	}
 
+	public void shareCache() {
+		if (geocode == null && cache == null) {
+			return;
+		}
+
+		final Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("text/plain");
+		if (geocode != null) {
+			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + geocode.toUpperCase());
+		} else if (cache != null && cache.geocode != null) {
+			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + cache.geocode.toUpperCase());
+		}
+
+		startActivity(Intent.createChooser(intent, res.getText(R.string.action_bar_share_title)));
+	}
+
 	private class waypointInfo implements View.OnClickListener {
 
 		private int id = -1;
@@ -1531,22 +1552,6 @@ public class cgeodetail extends Activity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
-	}
-
-	public void goShare(View view) {
-		if (geocode == null && cache == null) {
-			return;
-		}
-
-		final Intent intent = new Intent(Intent.ACTION_SEND);
-		intent.setType("text/plain");
-		if (geocode != null) {
-			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + geocode.toUpperCase());
-		} else if (cache != null && cache.geocode != null) {
-			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + cache.geocode.toUpperCase());
-		}
-
-		startActivity(Intent.createChooser(intent, res.getText(R.string.action_bar_share_title)));
 	}
 
 	public void goCompass(View view) {

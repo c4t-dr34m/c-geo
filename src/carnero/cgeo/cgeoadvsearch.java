@@ -5,6 +5,7 @@ import gnu.android.app.appmanualclient.*;
 import java.util.HashMap;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class cgeoadvsearch extends Activity {
 	private Resources res = null;
@@ -45,6 +48,19 @@ public class cgeoadvsearch extends Activity {
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
+
+		// search query
+		Intent intent = getIntent();
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			final String query = intent.getStringExtra(SearchManager.QUERY);
+			final boolean found = instantSearch(query);
+
+			if (found) {
+				finish();
+
+				return;
+			}
+		}
 
 		// set layout
 		if (settings.skin == 1) {
@@ -96,6 +112,43 @@ public class cgeoadvsearch extends Activity {
 		super.onPause();
 	}
 
+	private boolean instantSearch(String query) {
+		boolean found = false;
+
+		final Pattern gcCode = Pattern.compile("^GC[0-9A-Z]+$", Pattern.CASE_INSENSITIVE);
+		final Pattern tbCode = Pattern.compile("^TB[0-9A-Z]+$", Pattern.CASE_INSENSITIVE);
+		final Matcher gcCodeM = gcCode.matcher(query);
+		final Matcher tbCodeM = tbCode.matcher(query);
+
+		try {
+			if (gcCodeM.find()) { // GC-code
+				final Intent cachesIntent = new Intent(activity, cgeodetail.class);
+				cachesIntent.putExtra("geocode", query.trim().toUpperCase());
+				activity.startActivity(cachesIntent);
+
+				found = true;
+			} else if (tbCodeM.find()) { // TB-code
+				final Intent trackablesIntent = new Intent(activity, cgeotrackable.class);
+				trackablesIntent.putExtra("geocode", query.trim().toUpperCase());
+				activity.startActivity(trackablesIntent);
+
+				found = true;
+			} else { // keyword (fallback)
+				final Intent cachesIntent = new Intent(activity, cgeocaches.class);
+				cachesIntent.putExtra("type", "keyword");
+				cachesIntent.putExtra("keyword", query);
+				cachesIntent.putExtra("cachetype", settings.cacheType);
+				activity.startActivity(cachesIntent);
+
+				found = true;
+			}
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgeoadvsearch.instantSearch: " + e.toString());
+		}
+
+		return found;
+	}
+
 	private void init() {
 		settings.getLogin();
 		settings.reloadCacheType();
@@ -126,7 +179,6 @@ public class cgeoadvsearch extends Activity {
 
 		final Button displayByGeocode = (Button)findViewById(R.id.display_geocode);
 		displayByGeocode.setOnClickListener(new findByGeocodeListener());
-
 
 		((EditText)findViewById(R.id.keyword)).setOnEditorActionListener(new findByKeywordAction());
 

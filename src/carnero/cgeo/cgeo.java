@@ -122,6 +122,7 @@ public class cgeo extends Activity {
 		app.cleanDir();
 
 		setContentView(R.layout.main);
+		setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL); // type to search
 
 		try {
 			PackageManager manager = this.getPackageManager();

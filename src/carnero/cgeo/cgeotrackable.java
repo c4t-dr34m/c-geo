@@ -602,7 +602,7 @@ public class cgeotrackable extends Activity {
 		public void handleMessage(Message message) {
 			BitmapDrawable image = (BitmapDrawable) message.obj;
 			if (image != null && view != null) {
-				view.setCompoundDrawablesWithIntrinsicBounds(null, null, (Drawable) image, null);
+				view.setCompoundDrawablesWithIntrinsicBounds((Drawable) image, null, null, null);
 			}
 		}
 	}

@@ -15,10 +15,6 @@
 				android:onClick="goCompass" />
 		<View style="@style/action_bar_separator" />
 		<ImageView style="@style/action_bar_action"
-				android:src="@drawable/actionbar_share"
-				android:onClick="goShare" />
-		<View style="@style/action_bar_separator" />
-		<ImageView style="@style/action_bar_action"
 				android:src="@drawable/actionbar_manual"
 				android:onClick="goManual" />
 	</LinearLayout>
