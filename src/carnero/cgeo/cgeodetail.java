@@ -386,7 +386,7 @@ public class cgeodetail extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (cache.latitude != null && cache.longitude != null) {
+		if (cache != null && cache.latitude != null && cache.longitude != null) {
 			menu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)).setIcon(android.R.drawable.ic_menu_compass); // compass
 
 			SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
@@ -411,7 +411,7 @@ public class cgeodetail extends Activity {
 			menu.add(1, 5, 0, res.getString(R.string.cache_menu_spoilers)).setIcon(android.R.drawable.ic_menu_gallery); // spoiler images
 		}
 
-		if (cache.latitude != null && cache.longitude != null) {
+		if (cache != null && cache.latitude != null && cache.longitude != null) {
 			menu.add(0, 11, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
 		}
 
