@@ -92,7 +92,7 @@ public class cgeocaches extends ListActivity {
 					final int size = cacheList.size();
 
 					if (count != null && count > 0) {
-						base.setTitle(activity, title + " (" + size + "/" + count + ")");
+						base.setTitle(activity, title);
 						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) {
 							setMoreCaches(true);
 						} else {
@@ -188,7 +188,7 @@ public class cgeocaches extends ListActivity {
 					final Integer count = app.getTotal(searchId);
 					final int size = cacheList.size();
 					if (count != null && count > 0) {
-						base.setTitle(activity, title + " (" + size + "/" + count + ")");
+						base.setTitle(activity, title);
 						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) {
 							setMoreCaches(true);
 						} else {
@@ -836,14 +836,14 @@ public class cgeocaches extends ListActivity {
 		}
 
 		if (cacheList != null) {
-			base.setTitle(activity, title + " (" + cacheList.size() + "/" + app.getTotal(searchId) + ")");
+			base.setTitle(activity, title);
 		}
 
 		if (cacheList != null && cacheList.isEmpty() == false) {
 			final Integer count = app.getTotal(searchId);
 			final int size = cacheList.size();
 			if (count != null && count > 0) {
-				base.setTitle(activity, title + " (" + size + "/" + count + ")");
+				base.setTitle(activity, title);
 				if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) {
 					setMoreCaches(true);
 				} else {
