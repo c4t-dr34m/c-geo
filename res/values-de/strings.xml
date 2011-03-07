@@ -364,6 +364,7 @@
   <string name="cache_menu_around">Caches im Umkreis</string>
   <string name="cache_menu_event">Zum Kalender hinzufügen</string>
   <string name="cache_menu_details">Details</string>
+  <string name="cache_menu_share">Weiterleiten</string>
   <string name="cache_status">Status</string>
   <string name="cache_status_offline_log">Gespeicherter Log</string>
   <string name="cache_status_found">Gefunden</string>
@@ -440,6 +441,8 @@
   <string name="map_static_loading">Lade statische Karte...</string>
 
   <!-- search -->
+  <string name="search_bar_hint">Suche nach Caches</string>
+  <string name="search_bar_desc">Caches (GC-Code, Stichwort), Trackables (TB-Code)</string>
   <string name="search_coordinates">Koordinaten</string>
   <string name="search_coordinates_button">Suche mit Koordinaten</string>
   <string name="search_address">Adresse</string>
