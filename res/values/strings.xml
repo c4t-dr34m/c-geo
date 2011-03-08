@@ -529,7 +529,7 @@
   <string name="license_dismiss">Dismiss</string>
 
   <!-- helpers -->
-  <string name="helper_manual_title">c:geo ~ Manual</string>
+  <string name="helper_manual_title">Manual</string>
   <string name="helper_manual_description">Comprehensive manual for c:geo that contains description of all possibilities of this application (even hidden ones).</string>
   <string name="helper_locus_title">Locus</string>
   <string name="helper_locus_description">Simply usable application showing Online maps and allowing to download them directly into Offline mode (raster maps only). Also support track recording, POI handling and many more useful functions.</string>
@@ -582,6 +582,7 @@
     · fix: Some optimizations\n
     · new: Trackable icon\n
     · new: Search using HW key\n
+    · new: List of supported apps\n
     \n
     <b>2.04</b> (20.02.2011)\n
     · new: Logs for trackables\n

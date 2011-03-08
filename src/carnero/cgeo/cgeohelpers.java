@@ -7,6 +7,7 @@ import android.view.View;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
+import java.util.Locale;
 
 public class cgeohelpers extends Activity {
 
@@ -45,7 +46,14 @@ public class cgeohelpers extends Activity {
 	}
 
 	public void installManual(View view) {
-		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:gnu.android.app.cgeomanual.en")));
+		final Locale loc = Locale.getDefault();
+		final String lng = loc.getLanguage();
+		
+		if (lng.equalsIgnoreCase("de")) {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:gnu.android.app.cgeomanual.de")));
+		} else {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:gnu.android.app.cgeomanual.en")));
+		}
 
 
 		finish();
