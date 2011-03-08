@@ -23,7 +23,6 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -111,17 +110,17 @@ public class cgeovisit extends cgLogForm {
 				inventoryView.removeAllViews();
 
 				for (cgTrackableLog tb : trackables) {
-					RelativeLayout inventoryItem = null;
-					inventoryItem = (RelativeLayout) inflater.inflate(R.layout.visit_trackable, null);
+					LinearLayout inventoryItem = (LinearLayout) inflater.inflate(R.layout.visit_trackable, null);
 
-					((TextView) inventoryItem.findViewById(R.id.name)).setText("(" + tb.trackCode + ") " + tb.name);
+					((TextView) inventoryItem.findViewById(R.id.trackcode)).setText(tb.trackCode);
+					((TextView) inventoryItem.findViewById(R.id.name)).setText(tb.name);
 					((TextView) inventoryItem.findViewById(R.id.action)).setText(cgBase.logTypesTrackable.get(0));
 
 					inventoryItem.setId(tb.id);
 					final String tbCode = tb.trackCode;
 					inventoryItem.setClickable(true);
 					registerForContextMenu(inventoryItem);
-					inventoryItem.findViewById(R.id.name).setOnClickListener(new View.OnClickListener() {
+					inventoryItem.findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
 
 						public void onClick(View view) {
 							final Intent trackablesIntent = new Intent(activity, cgeotrackable.class);
@@ -400,7 +399,7 @@ public class cgeovisit extends cgLogForm {
 				menu.add(textId, logTbAction, 0, cgBase.logTypesTrackable.get(logTbAction));
 			}
 		} else {
-			final int realViewId = ((RelativeLayout) findViewById(viewId)).getId();
+			final int realViewId = ((LinearLayout) findViewById(viewId)).getId();
 
 			for (final cgTrackableLog tb : trackables) {
 				if (tb.id == realViewId) {
@@ -428,7 +427,7 @@ public class cgeovisit extends cgLogForm {
 				if (logTbAction != null) {
 					final LinearLayout inventView = (LinearLayout) findViewById(R.id.inventory);
 					for (int count = 0; count < inventView.getChildCount(); count++) {
-						final RelativeLayout tbView = (RelativeLayout) inventView.getChildAt(count);
+						final LinearLayout tbView = (LinearLayout) inventView.getChildAt(count);
 						if (tbView == null) {
 							return false;
 						}
@@ -452,7 +451,7 @@ public class cgeovisit extends cgLogForm {
 			try {
 				final String logTbAction = cgBase.logTypesTrackable.get(id);
 				if (logTbAction != null) {
-					final RelativeLayout tbView = (RelativeLayout) findViewById(group);
+					final LinearLayout tbView = (LinearLayout) findViewById(group);
 					if (tbView == null) {
 						return false;
 					}
