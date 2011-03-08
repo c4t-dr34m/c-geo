@@ -18,21 +18,21 @@
 
   <!-- caches -->
   <string name="all">Todos los escondites</string>
-  <string name="all_types">Todos los tipos de escondites</string>
-  <string name="traditional">Escondite tradicional</string>
-  <string name="multi">Multi escondite</string>
-  <string name="mystery">Escondite desconocido</string>
+  <string name="all_types">Todos</string>
+  <string name="traditional">Tradicional</string>
+  <string name="multi">Multi</string>
+  <string name="mystery">Desconocido</string>
   <string name="letterbox">Buzón híbrido</string>
-  <string name="event">Escondite por pistas</string>
-  <string name="mega">Escondite mega-evento</string>
-  <string name="earth">Escondite educativo (Earth)</string>
+  <string name="event">Por pistas</string>
+  <string name="mega">Mega-evento</string>
+  <string name="earth">Educativo (Earth)</string>
   <string name="cito">Limpieza de escondites</string>
-  <string name="webcam">Escondite Webcam</string>
-  <string name="virtual">Escondite virtual</string>
-  <string name="wherigo">Escondite Wherigo</string>
+  <string name="webcam">Webcam</string>
+  <string name="virtual">Virtual</string>
+  <string name="wherigo">Wherigo</string>
   <string name="lostfound">Perdido y encontrado</string>
-  <string name="ape">Escondite del proyecto APE</string>
-  <string name="gchq">Groundspeak hq</string>
+  <string name="ape">Proyecto APE</string>
+  <string name="gchq">Groundspeak HQ</string>
   <string name="gps">Exhibición de escondites GPS </string>
 
   <!-- waypoints -->
