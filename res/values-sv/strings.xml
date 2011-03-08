@@ -8,6 +8,7 @@
   <string name="detail">Detaljer</string>
   <string name="search">Sök</string>
   <string name="settings">Inställningar</string>
+  <string name="helpers">Program att installera</string>
   <string name="about">Om c:geo</string>
   <string name="helper">Vill du lära dig mer om <b>c:geo</b>?\nLäs manualen (på engelska).</string>
   <string name="database_error_title">Problem med databasen</string>
@@ -215,6 +216,7 @@
 
   <!-- standard menu -->
   <string name="menu_about">Om c:geo</string>
+  <string name="menu_helpers">Tilläggsprogram</string>
   <string name="menu_settings">Inställningar</string>
   <string name="menu_history">Loggade cacher</string>
   <string name="menu_filter">Filter</string>
@@ -526,6 +528,14 @@
   <string name="license">Licens</string>
   <string name="license_show">Visa licens</string>
   <string name="license_dismiss">Avbryt</string>
+
+  <!-- helpers -->
+  <string name="helper_manual_title">Manual</string>
+  <string name="helper_manual_description">En utförlig manual för c:geo som beskriver alla möjligheter och ger en hel del tips.</string>
+  <string name="helper_locus_title">Locus</string>
+  <string name="helper_locus_description">Ett enkelt program för att visa Online kartor men som också medger nedladdning av raster kartor för användning i Offline läge. Stödjer även inspelning av väg (track recording), POI hantering och många andra användbara funktioner.</string>
+  <string name="helper_gpsstatus_title">GPS Status</string>
+  <string name="helper_gpsstatus_description">Erbjuder många GPS-relaterade funktioner. Radar-funktionen i detta program kan användas i c:geo.</string>
 
   <!-- next things -->
   <string name="legal_note">För att använda tjänster hos geocaching.com, måste regler och villkor i <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeaks avtal</a> godkännas.</string>
