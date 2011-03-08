@@ -73,6 +73,15 @@
 			</intent-filter>
 		</activity>
 		<activity
+			android:name=".cgeohelpers"
+			android:label="@string/app_name"
+			android:windowSoftInputMode="stateHidden"
+			android:configChanges="keyboardHidden|orientation" >
+			<intent-filter>
+				<action android:name="carnero.cgeo.CGEOHELPERS"/>
+			</intent-filter>
+		</activity>
+		<activity
 			android:name=".cgeoauth"
 			android:label="@string/app_name"
 			android:windowSoftInputMode="stateHidden"

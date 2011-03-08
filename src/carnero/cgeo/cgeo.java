@@ -223,8 +223,9 @@ public class cgeo extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, res.getString(R.string.menu_about)).setIcon(android.R.drawable.ic_menu_help);
-		menu.add(0, 1, 0, res.getString(R.string.menu_settings)).setIcon(android.R.drawable.ic_menu_preferences);
-		menu.add(0, 2, 0, res.getString(R.string.menu_history)).setIcon(android.R.drawable.ic_menu_recent_history);
+		menu.add(0, 1, 0, res.getString(R.string.menu_helpers)).setIcon(android.R.drawable.ic_menu_add);
+		menu.add(0, 2, 0, res.getString(R.string.menu_settings)).setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0, 3, 0, res.getString(R.string.menu_history)).setIcon(android.R.drawable.ic_menu_recent_history);
 
 		return true;
 	}
@@ -237,10 +238,14 @@ public class cgeo extends Activity {
 			
 			return true;
 		} else if (id == 1) {
-			context.startActivity(new Intent(context, cgeoinit.class));
+			context.startActivity(new Intent(context, cgeohelpers.class));
 
 			return true;
 		} else if (id == 2) {
+			context.startActivity(new Intent(context, cgeoinit.class));
+
+			return true;
+		} else if (id == 3) {
 			final Intent cachesIntent = new Intent(context, cgeocaches.class);
 			cachesIntent.putExtra("type", "history");
 			context.startActivity(cachesIntent);

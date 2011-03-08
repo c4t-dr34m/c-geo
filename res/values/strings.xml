@@ -8,6 +8,7 @@
   <string name="detail">Detail</string>
   <string name="search">Search</string>
   <string name="settings">Settings</string>
+  <string name="helpers">What to install</string>
   <string name="about">About c:geo</string>
   <string name="helper">Do you want to learn about <b>c:geo</b>?\nCheck our easy to read manual.</string>
   <string name="database_error_title">Problem with database</string>
@@ -214,6 +215,7 @@
 
   <!-- standard menu -->
   <string name="menu_about">About c:geo</string>
+  <string name="menu_helpers">What to install</string>
   <string name="menu_settings">Settings</string>
   <string name="menu_history">History</string>
   <string name="menu_filter">Filter</string>
@@ -525,6 +527,14 @@
   <string name="license">License</string>
   <string name="license_show">Show license</string>
   <string name="license_dismiss">Dismiss</string>
+
+  <!-- helpers -->
+  <string name="helper_manual_title">c:geo ~ Manual</string>
+  <string name="helper_manual_description">Comprehensive manual for c:geo that contains description of all possibilities of this application (even hidden ones).</string>
+  <string name="helper_locus_title">Locus</string>
+  <string name="helper_locus_description">Simply usable application showing Online maps and allowing to download them directly into Offline mode (raster maps only). Also support track recording, POI handling and many more useful functions.</string>
+  <string name="helper_gpsstatus_title">GPS Status</string>
+  <string name="helper_gpsstatus_description">You can use radar from this application with c:geo. But it offers a lot of GPS-related informations also.</string>
 
   <!-- next things -->
   <string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
