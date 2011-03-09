@@ -275,15 +275,20 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		}
 
 		if (cache.own == true) {
-			holder.oneInfo.setBackgroundColor(R.color.just_white);
-			holder.oneCheckbox.setBackgroundColor(R.color.just_white);
+			if (settings.skin == 1) {
+				holder.oneInfo.setBackgroundResource(R.color.owncache_background_light);
+				holder.oneCheckbox.setBackgroundResource(R.color.owncache_background_light);
+			} else {
+				holder.oneInfo.setBackgroundResource(R.color.owncache_background_dark);
+				holder.oneCheckbox.setBackgroundResource(R.color.owncache_background_dark);
+			}
 		} else {
 			if (settings.skin == 1) {
-				holder.oneInfo.setBackgroundColor(R.color.background_light);
-				holder.oneCheckbox.setBackgroundColor(R.color.background_light);
+				holder.oneInfo.setBackgroundResource(R.color.background_light);
+				holder.oneCheckbox.setBackgroundResource(R.color.background_light);
 			} else {
-				holder.oneInfo.setBackgroundColor(R.color.background_dark);
-				holder.oneCheckbox.setBackgroundColor(R.color.background_dark);
+				holder.oneInfo.setBackgroundResource(R.color.background_dark);
+				holder.oneCheckbox.setBackgroundResource(R.color.background_dark);
 			}
 		}
 
