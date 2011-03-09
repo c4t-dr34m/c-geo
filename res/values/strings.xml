@@ -538,7 +538,8 @@
 
   <!-- next things -->
   <string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
-  <string name="about_text"><b>c:geo</b> is designed to be simple always ready-to-go client for geocaching.com. It is and forever will be for free. If you want to support development, you can donate (on the website). Questions, suggestions? Use Facebook or e-mail me.</string>
+  <string name="quote">To make geocaching easier, to make users lazier.</string>
+  <string name="powered_by">carnero</string>
   <string name="author">Author: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
@@ -576,10 +577,11 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.05</b> (__.03.2011)\n
+    <b>2.05</b> (09.03.2011)\n
     · fix: Marking caches as found\n
     · fix: Own caches\n
     · fix: Some optimizations\n
+    · fix: Event caches\n
     · new: Trackable icon\n
     · new: Search using HW key\n
     · new: List of supported apps\n
