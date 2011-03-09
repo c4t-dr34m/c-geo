@@ -535,6 +535,8 @@
   <string name="helper_locus_description">Simply usable application showing Online maps and allowing to download them directly into Offline mode (raster maps only). Also support track recording, POI handling and many more useful functions.</string>
   <string name="helper_gpsstatus_title">GPS Status</string>
   <string name="helper_gpsstatus_description">You can use radar from this application with c:geo. But it offers a lot of GPS-related informations also.</string>
+  <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
+  <string name="helper_bluetoothgps_description">Allows you to use external GPS device to get better reception, more precise location and can spare battery of your phone.</string>
 
   <!-- next things -->
   <string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
