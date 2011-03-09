@@ -975,7 +975,7 @@ public class cgeodetail extends Activity {
 				final ImageView markFound = (ImageView) rowView.findViewById(R.id.found_mark);
 				final ImageView markDNF = (ImageView) rowView.findViewById(R.id.dnf_mark);
 				final ImageView markDisabled = (ImageView) rowView.findViewById(R.id.disabled_mark);
-				if (log.type == 2) { // found
+				if (log.type == 2 || log.type == 9 || log.type == 10) { // found, will attend, attended
 					markFound.setVisibility(View.VISIBLE);
 					markDNF.setVisibility(View.GONE);
 					markDisabled.setVisibility(View.GONE);
