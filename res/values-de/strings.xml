@@ -531,7 +531,6 @@
 
   <!-- next things -->
   <string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak-Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
-  <string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und überall einsetzbarer Client für Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterstützen möchte, kann über die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschlägen kann man den Autor einfach per Facebook oder eMail kontaktieren.</string>
   <string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
