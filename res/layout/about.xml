@@ -20,17 +20,42 @@
 				android:layout_height="fill_parent"
 				android:layout_marginTop="10dip"
 				android:orientation="vertical" >
-			<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="10dip"
-					android:layout_marginRight="10dip"
-					android:layout_marginBottom="5dip"
-					android:layout_alignParentLeft="true"
-					android:layout_gravity="left"
-					android:textSize="14dip"
-					android:textColor="?text_color"
-					android:text="@string/about_text" />
+			<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_marginTop="10dip"
+					android:orientation="vertical" >
+				<ImageView
+						android:layout_width="200dip"
+						android:layout_height="200dip"
+						android:layout_margin="10dip"
+						android:layout_gravity="center"
+						android:gravity="center"
+						android:scaleType="fitXY"
+						android:src="@drawable/carnero_logo" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="10dip"
+						android:layout_marginRight="10dip"
+						android:layout_marginTop="5dip"
+						android:layout_alignParentLeft="true"
+						android:layout_gravity="left"
+						android:textSize="14dip"
+						android:textColor="?text_color"
+						android:text="@string/quote" />
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="10dip"
+						android:layout_marginRight="10dip"
+						android:layout_marginBottom="5dip"
+						android:layout_alignParentRight="true"
+						android:layout_gravity="right"
+						android:textSize="14dip"
+						android:textColor="?text_color"
+						android:text="@string/powered_by" />
+			</LinearLayout>
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />
 				<TextView style="@style/separator_horizontal_headline"

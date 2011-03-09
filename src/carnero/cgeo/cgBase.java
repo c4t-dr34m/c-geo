@@ -1001,10 +1001,10 @@ public class cgBase {
 		final Pattern patternGeocode = Pattern.compile("<span id=\"ctl00_uxWaypointName\" class=\"GCCode\">[^G]*(GC[a-z0-9]+)</span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCacheId = Pattern.compile("\\/seek\\/log\\.aspx\\?ID=(\\d+)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCacheGuid = Pattern.compile("<link rel=\"alternate\" href=\".*rss_galleryimages\\.ashx\\?guid=([a-z0-9\\-]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternType = Pattern.compile("<img src=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/WptTypes\\/\\d+.gif\" alt=\"([^\"]+)\" width=\"32\" height=\"32\"[^>]*>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternType = Pattern.compile("<img src=\"[a-z0-9\\-\\_\\.\\?\\/\\:\\@]*\\/WptTypes\\/\\d+.gif\" alt=\"([^\"]+)\" (title=\"[^\"]*\" )?width=\"32\" height=\"32\"[^>]*>", Pattern.CASE_INSENSITIVE);
 
 		final Pattern patternName = Pattern.compile("<h2 class=\"NoSpacing\"[^>]*>[^<]*<span id=\"ctl00_ContentBody_CacheName\">([^<]+)<\\/span>[^<]*<\\/h2>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternSize = Pattern.compile("<td[^>]*>[^S]*Size[^:]*:[^<]*<span[^>]*>[^<]*<img src=\"[^\"]*\\/icons\\/container\\/[a-z_]+.gif\" alt=\"Size: ([^\"]+)\" />[^<]*<small>[^<]*</small>[^<]*</span>[^<]*</td>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternSize = Pattern.compile("<td[^>]*>[^S]*Size[^:]*:[^<]*<span[^>]*>[^<]*<img src=\"[^\"]*\\/icons\\/container\\/[a-z_]+.gif\" alt=\"Size: ([^\"]+)\" title=\"Size: [^\"]*\" />[^<]*<small>[^<]*</small>[^<]*</span>[^<]*</td>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDifficulty = Pattern.compile("<td[^>]*>[^S]*Difficulty[^:]*:[^<]*</td>[^<]*<td[^>]*>[^<]*<span[^>]*>[^<]*<img src=\"[^>]*/stars/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternTerrain = Pattern.compile("<td[^>]*>[^S]*Terrain[^:]*:[^<]*</td>[^<]*<td[^>]*>[^<]*<span[^>]*>[^<]*<img src=\"[^>]*/stars/stars([0-9_]+)\\.gif\"", Pattern.CASE_INSENSITIVE);
 		final Pattern patternOwner = Pattern.compile("<td[^>]*>[^<]*<span class=\"minorCacheDetails\">An?([^\\w]*Event)?[^\\w]*cache[^\\w]*by[^<]*<a href=\"[^\"]+\">([^<]+)<\\/a>", Pattern.CASE_INSENSITIVE);

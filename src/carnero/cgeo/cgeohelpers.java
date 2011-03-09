@@ -72,6 +72,12 @@ public class cgeohelpers extends Activity {
 		finish();
 	}
 
+	public void installBluetoothGps(View view) {
+		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:googoo.android.btgps")));
+
+		finish();
+	}
+
 	public void goHome(View view) {
 		base.goHome(activity);
 	}

@@ -21,4 +21,8 @@ public class cgCacheView {
 	public cgCompassMini direction;
 	public RelativeLayout dirImgLayout;
 	public ImageView dirImg;
+
+	// status
+	public float startX = -1;
+	public float prevX = -1;
 }

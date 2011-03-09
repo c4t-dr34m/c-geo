@@ -465,7 +465,6 @@
 
   <!-- next things -->
   <string name="legal_note">For å bruke tjenestene til geocaching.com, må brukeren samtykke i vilkårene og betingelsene til <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak\'s ansvarsfraskrivelse</a></string>
-  <string name="about_text"><b>c:geo</b> er designet til å være en alltid klar, og lett anvendelig klient for geocaching.com. Det er og vil for alltid forbli en gratis applikasjon. Hvis du ønsker å støtte utviklingen, kan du donere til oss på web-siden vår. Har du spørsmål eller forslag? Kontakt meg via Facebook eller e-post meg (på engelsk, takk).</string>
   <string name="author">utvikler: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">e-post adresse: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">web-side: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>

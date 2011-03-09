@@ -7,6 +7,7 @@
   <string name="cache">Cache</string>
   <string name="detail">Detail</string>
   <string name="search">Suche</string>
+  <string name="helpers">Nützliche Apps</string>
   <string name="settings">Einstellungen</string>
   <string name="about">Über c:geo</string>
   <string name="helper">Du willst mehr über <b>c:geo</b> erfahren?\nSchaue in die Bedienungsanleitung.</string>
@@ -214,6 +215,7 @@
 
   <!-- standard menu -->
   <string name="menu_about">Über c:geo</string>
+  <string name="menu_helpers">Nützliche Apps</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_history">Verlauf</string>
   <string name="menu_filter">Filter</string>
@@ -517,9 +519,18 @@
   <string name="license_show">Zeige Lizenz</string>
   <string name="license_dismiss">Ablehnen</string>
 
+  <!-- helpers -->
+  <string name="helper_manual_title">Anleitung</string>
+  <string name="helper_manual_description">Umfangreiche Anleitung für c:geo mit Beschreibung aller Möglichkeiten dieser App (auch versteckte).</string>
+  <string name="helper_locus_title">Locus</string>
+  <string name="helper_locus_description">Sehr gute App für Online und Offline-Karten (nur Rasterkarten) mit vielen weiteren Funnktionen wie zB. Trackaufzeichnung, POIs und vieles mehr.</string>
+  <string name="helper_gpsstatus_title">GPS Status</string>
+  <string name="helper_gpsstatus_description">Das Radar dieser App kann in c:geo verwendet und zusätzlich viele GPS-bezogene Information abgerufen werden.</string>
+  <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
+  <string name="helper_bluetoothgps_description">Ermöglicht ein externes GPS zu verwenden, um die Standortgenauigkeit zu erhöhen und die Batterie zu schonen.</string>
+
   <!-- next things -->
   <string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak-Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
-  <string name="about_text"><b>c:geo</b> c:geo wurde als einfach zu bedienender und überall einsetzbarer Client für Geocaching.com entwickelt. Die Anwendung ist kostenlos und wird dies auch immer bleiben. Wenn man die Entwicklung unterstützen möchte, kann über die Website gespendet werden. Bei Fragen, Anmerkungen und Vorschlägen kann man den Autor einfach per Facebook oder eMail kontaktieren.</string>
   <string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>

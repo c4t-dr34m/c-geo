@@ -52,8 +52,8 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private ArrayList<cgDistanceView> distances = new ArrayList<cgDistanceView>();
 	private int[] ratingBcgs = new int[3];
 	private float pixelDensity = 1f;
-	private static final int SWIPE_MIN_DISTANCE = 100;
-	private static final int SWIPE_MAX_OFF_PATH = 200;
+	private static final int SWIPE_MIN_DISTANCE = 60;
+	private static final int SWIPE_MAX_OFF_PATH = 100;
 	private static final int SWIPE_DISTANCE = 80;
 	private static final float SWIPE_OPACITY = 0.5f;
 
