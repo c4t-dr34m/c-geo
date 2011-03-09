@@ -8,7 +8,6 @@
   <string name="detail">Detail</string>
   <string name="search">Suche</string>
   <string name="settings">Einstellungen</string>
-  <string name="helpers">Nützliche Apps</string>
   <string name="about">Über c:geo</string>
   <string name="helper">Du willst mehr über <b>c:geo</b> erfahren?\nSchaue in die Bedienungsanleitung.</string>
   <string name="database_error_title">Problem mit der Datenbank</string>
@@ -215,6 +214,7 @@
 
   <!-- standard menu -->
   <string name="menu_about">Über c:geo</string>
+  <string name="menu_helpers">Nützliche Apps</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_history">Verlauf</string>
   <string name="menu_filter">Filter</string>
