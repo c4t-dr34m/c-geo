@@ -112,8 +112,13 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		if (selectMode == false && clear == true) {
 			for (cgCache cache : list) {
 				cache.statusChecked = false;
+				cache.statusCheckedView = false;
 			}
 			checked = 0;
+		} else if (selectMode == true) {
+			for (cgCache cache : list) {
+				cache.statusCheckedView = false;
+			}
 		}
 		checkChecked(0);
 
@@ -132,8 +137,13 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		if (selectMode == false) {
 			for (cgCache cache : list) {
 				cache.statusChecked = false;
+				cache.statusCheckedView = false;
 			}
 			checked = 0;
+		} else if (selectMode == true) {
+			for (cgCache cache : list) {
+				cache.statusCheckedView = false;
+			}
 		}
 		checkChecked(0);
 
@@ -245,6 +255,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
 			holder.checkbox = (CheckBox)rowView.findViewById(R.id.checkbox);
 			holder.oneInfo = (RelativeLayout)rowView.findViewById(R.id.one_info);
+			holder.oneCheckbox = (RelativeLayout)rowView.findViewById(R.id.one_checkbox);
 			holder.foundMark = (ImageView)rowView.findViewById(R.id.found_mark);
 			holder.offlineMark = (ImageView)rowView.findViewById(R.id.offline_mark);
 			holder.oneCache = (RelativeLayout)rowView.findViewById(R.id.one_cache);
@@ -261,6 +272,19 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			rowView.setTag(holder);
 		} else {
 			holder = (cgCacheView)rowView.getTag();
+		}
+
+		if (cache.own == true) {
+			holder.oneInfo.setBackgroundColor(R.color.just_white);
+			holder.oneCheckbox.setBackgroundColor(R.color.just_white);
+		} else {
+			if (settings.skin == 1) {
+				holder.oneInfo.setBackgroundColor(R.color.background_light);
+				holder.oneCheckbox.setBackgroundColor(R.color.background_light);
+			} else {
+				holder.oneInfo.setBackgroundColor(R.color.background_dark);
+				holder.oneCheckbox.setBackgroundColor(R.color.background_dark);
+			}
 		}
 
 		final touchListener touchLst = new touchListener(cache.geocode, cache.name, cache);

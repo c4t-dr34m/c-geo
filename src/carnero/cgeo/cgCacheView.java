@@ -9,6 +9,7 @@ public class cgCacheView {
 	// layouts & views
 	public RelativeLayout oneCache;
 	public RelativeLayout oneInfo;
+	public RelativeLayout oneCheckbox;
 	public CheckBox checkbox;
 	public ImageView foundMark;
 	public ImageView offlineMark;

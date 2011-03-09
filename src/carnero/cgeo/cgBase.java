@@ -676,6 +676,13 @@ public class cgBase {
 				cache.found = false;
 			}
 
+			// own it
+			if (row.indexOf("images/silk/star.png") != -1) {
+				cache.own = true;
+			} else {
+				cache.own = false;
+			}
+
 			// id
 			try {
 				final Matcher matcherId = patternId.matcher(row);
