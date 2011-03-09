@@ -516,7 +516,6 @@
 
   <!-- next things -->
   <string name="legal_note">Geocaching.comを使うには<a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak 利用規約(英語)</a>に同意している必要があります。</string>
-  <string name="about_text"><b>c:geo</b>はGeocaching.comのための簡単でいつでも使えるクライアントです。現在もこれからも無料です。開発を支援したいのならウェブサイトで寄付することができます。質問や提案があればFacebookかe-mailにて(英語で)お知らせください。</string>
   <string name="author">作者: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">サポート: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">ウェブサイト: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>

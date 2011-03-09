@@ -493,7 +493,6 @@
 
   <!-- next things -->
   <string name="legal_note">Voor het gebruik van de diensten van geocaching.com, dient akkoord te worden gegaan met de <a href="http://www.geocaching.com/about/disclaimer.aspx">Groundspeak voorwaarden</a>.</string>
-  <string name="about_text"><b>c:geo</b> is ontworpen als makkelijke altijd ready-to-go applicatie voor geocaching.com. Het is en zal altijd gratis blijven. Wil je de ontwikkeling ondersteunen, doneer dan via de website. Vragen of opmerkingen? Gebruik Facebook of e-mail mij.</string>
   <string name="author">auteur: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>

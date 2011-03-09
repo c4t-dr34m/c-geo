@@ -215,7 +215,7 @@
 
   <!-- standard menu -->
   <string name="menu_about">About c:geo</string>
-  <string name="menu_helpers">What to install</string>
+  <string name="menu_helpers">Utility programs</string>
   <string name="menu_settings">Settings</string>
   <string name="menu_history">History</string>
   <string name="menu_filter">Filter</string>
@@ -532,11 +532,15 @@
   <string name="helper_manual_title">Manual</string>
   <string name="helper_manual_description">Comprehensive manual for c:geo that contains description of all possibilities of this application (even hidden ones).</string>
   <string name="helper_locus_title">Locus</string>
-  <string name="helper_locus_description">Simply usable application showing Online maps and allowing to download them directly into Offline mode (raster maps only). Also support track recording, POI handling and many more useful functions.</string>
+  <string name="helper_locus_description">Simple usable application showing Online maps and allowing to download them directly into Offline mode (raster maps only). Also support track recording, POI handling and many other useful functions.</string>
   <string name="helper_gpsstatus_title">GPS Status</string>
-  <string name="helper_gpsstatus_description">You can use radar from this application with c:geo. But it offers a lot of GPS-related informations also.</string>
+<<<<<<< HEAD
+  <string name="helper_gpsstatus_description">You can use radar from this application with c:geo. It also offers a lot of other GPS-related information.</string>
+=======
+  <string name="helper_gpsstatus_description">You can use radar from this application with c:geo. It offers a lot of GPS-related informations also.</string>
   <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
   <string name="helper_bluetoothgps_description">Allows you to use external GPS device to get better reception, more precise location and can spare battery of your phone.</string>
+>>>>>>> 909fc4b2b914f887bf52b76bd1b7b780a141bb49
 
   <!-- next things -->
   <string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> have to be agreed.</string>

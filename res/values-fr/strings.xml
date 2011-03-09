@@ -255,7 +255,6 @@
 
   <!-- next things -->
   <string name="legal_note">Pour utiliser les services de geocaching.com, vous devez accepter les termes et conditions de la <a href="http://www.geocaching.com/about/termsofuse.aspx">mise en garde de Groundspeak</a>.</string>
-  <string name="about_text"><b>c:geo</b> est conçu pour être un client simle et "ready-to-go" de geocaching.com. Il est et restera toujours gratuit. Si vous voulez aider son développement, vous pouvez faire un don (sur le site internet). Des questions, des suggestions ? Utilisez Facebook ou envoyez-moi un mél.</string>
   <string name="author">auteur: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">site: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
