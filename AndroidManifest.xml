@@ -240,6 +240,12 @@
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="coord.info" android:pathPrefix="/TB" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="http" android:host="geocaching.com" android:pathPrefix="/track/details.aspx" />
 			</intent-filter>
 			<intent-filter>

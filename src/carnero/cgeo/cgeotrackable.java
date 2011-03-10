@@ -332,26 +332,40 @@ public class cgeotrackable extends Activity {
 
 		// try to get data from URI
 		if (geocode == null && guid == null && id == null && uri != null) {
-			geocode = uri.getQueryParameter("tracker");
-			guid = uri.getQueryParameter("guid");
-			id = uri.getQueryParameter("id");
+			String uriHost = uri.getHost().toLowerCase();
+			if (uriHost.contains("geocaching.com") == true) {
+				geocode = uri.getQueryParameter("tracker");
+				guid = uri.getQueryParameter("guid");
+				id = uri.getQueryParameter("id");
 
-			if (geocode != null && geocode.length() > 0) {
-				geocode = geocode.toUpperCase();
-				guid = null;
-				id = null;
-			} else if (guid != null && guid.length() > 0) {
-				geocode = null;
-				guid = guid.toLowerCase();
-				id = null;
-			} else if (id != null && id.length() > 0) {
-				geocode = null;
-				guid = null;
-				id = id.toLowerCase();
-			} else {
-				warning.showToast(res.getString(R.string.err_tb_details_open));
-				finish();
-				return;
+				if (geocode != null && geocode.length() > 0) {
+					geocode = geocode.toUpperCase();
+					guid = null;
+					id = null;
+				} else if (guid != null && guid.length() > 0) {
+					geocode = null;
+					guid = guid.toLowerCase();
+					id = null;
+				} else if (id != null && id.length() > 0) {
+					geocode = null;
+					guid = null;
+					id = id.toLowerCase();
+				} else {
+					warning.showToast(res.getString(R.string.err_tb_details_open));
+					finish();
+					return;
+				}
+			} else if (uriHost.contains("coord.info") == true) {
+				String uriPath = uri.getPath().toLowerCase();
+				if (uriPath != null && uriPath.startsWith("/tb") == true) {
+					geocode = uriPath.substring(1).toUpperCase();
+					guid = null;
+					id = null;
+				} else {
+					warning.showToast(res.getString(R.string.err_tb_details_open));
+					finish();
+					return;
+				}
 			}
 		}
 
