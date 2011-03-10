@@ -501,5 +501,5 @@
   <string name="about_go4cache">Service <b>Go 4 cache</b> toont andere geocachers op de kaart (in <b>c:geo</b> of in browser) in real time. Het toont bijvoorbeeld welke cache ze zoeken. Door te verbinden met <b>Go 4 cache</b> is <b>c:geo</b> toegestaan om je huidige locatie te publiceren (alleen tijdens het gebruik van <b>c:geo</b>).</string>
   <string name="about_twitter">Moet <b>c:geo</b> elke cache vondst publiceren naar Twitter?</string>
   <string name="about_auth_1">Het volgende proces staat <b>c:geo</b> toe om Twitter toegang te verkrijgen bij goedkeuring.</string>
-  <string name="about_auth_2">Klik op de "autoriseer c:geo" knop om het proces te starten. Dit proces zal een browser openen met een Twitter pagina. Login op deze pagina en sta <b>c:geo</b> toegang tot je account toe. Bij goedkeuring laat Twitter een numerieke PIN code zien. Deze PIN dien je te plakken en te bevestigen in <b>c:geo</b>.</string>
+  <string name="about_auth_2">Klik op de \"autoriseer c:geo\" knop om het proces te starten. Dit proces zal een browser openen met een Twitter pagina. Login op deze pagina en sta <b>c:geo</b> toegang tot je account toe. Bij goedkeuring laat Twitter een numerieke PIN code zien. Deze PIN dien je te plakken en te bevestigen in <b>c:geo</b>.</string>
 </resources>

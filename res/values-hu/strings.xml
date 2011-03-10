@@ -328,5 +328,5 @@
   <string name="about_go4cache">A <b>Go 4 Cache</b> más geocacherek valós idejű pozícióját mutatja (<b>c:geo</b>-ban vagy böngészőben). Például megtekinthető, hogy mely rejtést keresik éppen. A <b>Go 4 Cache</b> csatlokzással a <b>c:geo</b> publikája az aktuális pozíciódat játék közben (csak ha fut a <b>c:geo</b>).</string>
   <string name="about_twitter">Publikája a <b>c:geo</b> Twitter üzenetként a megtalálásaidat?</string>
   <string name="about_auth_1">A következő folyamattal a <b>c:geo</b> hozzáfér a Twitter fiókodhoz - ha elfogadod.</string>
-  <string name="about_auth_2">Kattints a "c:geo engedélyezés" gombra a folyamat indításához. Ekkor megnyílik egy böngészőablak a Twitter oldalával. jelentkezz be és engedélyezd a <b>c:geo</b> számára a hozzáférést. Ha sikeres, a Twitter egy PIN kódot generál neked. Ezt a kódot kell a <b>c:geo</b>-ban megadni. Ennyi az egész.</string>
+  <string name="about_auth_2">Kattints a \"c:geo engedélyezés\" gombra a folyamat indításához. Ekkor megnyílik egy böngészőablak a Twitter oldalával. jelentkezz be és engedélyezd a <b>c:geo</b> számára a hozzáférést. Ha sikeres, a Twitter egy PIN kódot generál neked. Ezt a kódot kell a <b>c:geo</b>-ban megadni. Ennyi az egész.</string>
 </resources>
