@@ -3437,10 +3437,11 @@ public class cgBase {
 	public cgTrackable searchTrackable(HashMap<String, String> parameters) {
 		final String geocode = parameters.get("geocode");
 		final String guid = parameters.get("guid");
+		final String id = parameters.get("id");
 		cgTrackable trackable = new cgTrackable();
 
-		if ((geocode == null || geocode.length() == 0) && ((guid == null || guid.length() == 0))) {
-			Log.e(cgSettings.tag, "cgeoBase.searchTrackable: No geocode nor guid given");
+		if ((geocode == null || geocode.length() == 0) && (guid == null || guid.length() == 0) && (id == null || id.length() == 0)) {
+			Log.e(cgSettings.tag, "cgeoBase.searchTrackable: No geocode nor guid nor id given");
 			return null;
 		}
 
@@ -3452,6 +3453,8 @@ public class cgBase {
 			params.put("tracker", geocode);
 		} else if (guid != null && guid.length() > 0) {
 			params.put("guid", guid);
+		} else if (id != null && id.length() > 0) {
+			params.put("id", id);
 		}
 
 		String page = requestLogged(host, path, method, params, false, false, false);
