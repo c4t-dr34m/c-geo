@@ -566,6 +566,7 @@
     · F. Coello (localization ES)\n
     · Filipe C. (code)\n
     · <a href="http://iirojappinen.com/">Iiro Jäppinen</a> (graphic)\n
+	· inkantis (localization PL)\n
     · <a href="http://www.jaytech.cz/">Jan Žatecký</a> (graphic)\n
     · Pascal (localization NL)\n
     · Peter (localization HU)\n
@@ -580,9 +581,10 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.06</b> (__.03.2011)\n
+    <b>2.06</b> (10.03.2011)\n
     · fix: Size of caches in lists\n
     · fix: Marking own caches\n
+    · new: Translation PL\n
 	\n
     <b>2.05</b> (09.03.2011)\n
     · fix: Marking caches as found\n
