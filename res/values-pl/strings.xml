@@ -215,6 +215,7 @@
 
   <!-- standard menu -->
   <string name="menu_about">O c:geo</string>
+  <string name="menu_helpers">Przydatne Apps</string>
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_history">Historia</string>
   <string name="menu_filter">Filter</string>
@@ -239,7 +240,7 @@
   <string name="caches_progress_loading_title">Ładuję skrzynki</string>
   <string name="caches_progress_loading_text">Zapisane skrzynki</string>
   <string name="caches_eta_ltm">Mniej niż minutę</string>
-  <string name="caches_eta_mins"> minuty</string>
+  <string name="caches_eta_mins"> minut</string>
   <string name="caches_eta_min"> minuta</string>
   <string name="caches_no_caches"> (nie ma skrzynek)</string>
   <string name="caches_store_offline">Zapisz offline</string>
@@ -316,8 +317,8 @@
   <!-- auth -->
   <string name="auth_twitter">Twitter</string>
   <string name="auth_authorize">Autoryzacja c:geo</string>
-  <string name="auth_start">Startuje autoryzację</string>
-  <string name="auth_again">Startuje ponownie autoryzację</string>
+  <string name="auth_start">Startuję autoryzację</string>
+  <string name="auth_again">Startuję ponownie autoryzację</string>
   <string name="auth_pin_hint">PIN nadany przez Twitter</string>
   <string name="auth_finish">Gotowe</string>
   <string name="auth_dialog_wait">Czekam na Twitter...</string>
@@ -534,6 +535,8 @@
   <string name="helper_locus_description">Bardzo dobra aplikacja do oglądania map online która pozwala na pobieranie ich bezpośrednio do trybu offline (map rastrowych tylko). Nagrywanie ścieżek, obsługa POI i wiele innych przydatnych funkcji.</string>
   <string name="helper_gpsstatus_title">GPS Status</string>
   <string name="helper_gpsstatus_description">Można wywołać radar bezpośrednio z aplikacji c:geo, oferuje on również wiele informacji związanych z GPS.</string>
+  <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
+  <string name="helper_bluetoothgps_description">Umożliwia korzystanie z zewnętrznego odbiornika sygnału GPS, aby uzyskać lepszy odbiór, bardziej precyzyjnej lokalizacji i oszczędzać baterię komórki.</string>
 
   <!-- next things -->
   <string name="legal_note">Aby móc korzystać z usług serwisu geocaching.com <a href="http://www.geocaching.com/about/termsofuse.aspx">warunki korzystania Groundspeak</a> muszą być potwierdzone.</string>
