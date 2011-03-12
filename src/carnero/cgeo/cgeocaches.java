@@ -1308,6 +1308,7 @@ public class cgeocaches extends ListActivity {
 		private Handler handler = null;
 		private volatile boolean needToStop = false;
 		private int checked = 0;
+		private long last = 0l;
 
 		public geocachesLoadDetails(Handler handlerIn) {
 			setPriority(Thread.MIN_PRIORITY);
@@ -1343,10 +1344,18 @@ public class cgeocaches extends ListActivity {
 						break;
 					}
 
-					try {
-						sleep(3000 + ((Double)(Math.random() * 3000)).intValue());
-					} catch (Exception e) {
-						Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails.sleep: " + e.toString());
+					if ((System.currentTimeMillis() - last) < 1500) {
+						try {
+							int delay = 1000 + ((Double)(Math.random() * 1000)).intValue() - (int) (System.currentTimeMillis() - last);
+							if (delay < 0) {
+								delay = 500;
+							}
+							
+							Log.i(cgSettings.tag, "Waiting for next cache " + delay + " ms");
+							sleep(delay);
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails.sleep: " + e.toString());
+						}
 					}
 
 					if (needToStop == true) {
@@ -1363,6 +1372,8 @@ public class cgeocaches extends ListActivity {
 				} catch (Exception e) {
 					Log.e(cgSettings.tag, "cgeocaches.geocachesLoadDetails: " + e.toString());
 				}
+
+				last = System.currentTimeMillis();
 			}
 			cacheListTemp.clear();
 

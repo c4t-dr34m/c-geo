@@ -396,6 +396,7 @@
   <string name="cache_event">Date</string>
   <string name="cache_location">Location</string>
   <string name="cache_coordinates">Coordinates</string>
+  <string name="cache_elevation">Elevation</string>
   <string name="cache_calendars">Select calendar</string>
   <string name="cache_spoiler_images_title">Spoiler images</string>
   <string name="cache_spoiler_images_loading">Loading spoiler images...</string>
@@ -581,7 +582,9 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.07</b> (__.03.2011)\n
-    · fix: ___\n
+    · new: Approx. elevation in details\n
+    · new: Own waypoints on map\n
+    · remove: Static maps\n
 	\n
     <b>2.06</b> (10.03.2011)\n
     · fix: Size of caches in lists\n

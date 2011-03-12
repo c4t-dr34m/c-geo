@@ -184,14 +184,6 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".cgeosmaps"
-			android:label="@string/app_name"
-			android:configChanges="keyboardHidden|orientation" >
-			<intent-filter>
-				<action android:name="carnero.cgeo.CGEOSMAPS"/>
-			</intent-filter>
-		</activity>
-		<activity
 			android:name=".cgeotrackables"
 			android:label="@string/app_name"
 			android:configChanges="keyboardHidden|orientation" >

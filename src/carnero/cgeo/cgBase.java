@@ -1688,6 +1688,10 @@ public class cgBase {
 			}
 		}
 
+		if (cache.latitude != null && cache.longitude != null) {
+			cache.elevation = getElevation(cache.latitude, cache.longitude);
+		}
+
 		final cgRating rating = getRating(cache.guid, cache.geocode);
 		if (rating != null) {
 			cache.rating = rating.rating;
@@ -3320,7 +3324,7 @@ public class cgBase {
 		String params = "{\"dto\":{\"data\":{\"c\":1,\"m\":\"\",\"d\":\"" + latitudeT + "|" + latitudeB + "|" + longitudeL + "|" + longitudeR + "\"},\"ut\":\"" + usertoken + "\"}}";
 
 		final String url = "http://" + host + path + "?" + params;
-		page = requestJSON(host, path, params);
+		page = requestJSONgc(host, path, params);
 
 		if (page == null || page.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByViewport: No data from server");
@@ -4264,7 +4268,7 @@ public class cgBase {
 		}
 	}
 
-	public String requestJSON(String host, String path, String params) {
+	public String requestJSONgc(String host, String path, String params) {
 		int httpCode = -1;
 		String httpLocation = null;
 
@@ -4427,6 +4431,110 @@ public class cgBase {
 				ins.close();
 				inr.close();
 			} catch (IOException e) {
+				Log.e(cgSettings.tag, "cgeoBase.requestJSONgc.IOException: " + e.toString());
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgeoBase.requestJSONgc: " + e.toString());
+			}
+
+			if (buffer != null && buffer.length() > 0) {
+				break;
+			}
+		}
+
+		String page = null;
+		if (httpCode == 302 && httpLocation != null) {
+			final Uri newLocation = Uri.parse(httpLocation);
+			if (newLocation.isRelative() == true) {
+				page = requestJSONgc(host, path, params);
+			} else {
+				page = requestJSONgc(newLocation.getHost(), newLocation.getPath(), params);
+			}
+		} else {
+			final Matcher matcherLines = patternLines.matcher(buffer.toString());
+			page = matcherLines.replaceAll(" ");
+
+			final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
+			final Matcher matcherTitle = patternTitle.matcher(page);
+			if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
+				Log.i(cgSettings.tag + " | JSON", "Downloaded page title: " + matcherTitle.group(1).trim());
+			} else {
+				Log.i(cgSettings.tag + " | JSON", "Downloaded file has no title.");
+			}
+		}
+
+		if (page != null) {
+			return page;
+		} else {
+			return "";
+		}
+	}
+
+	public String requestJSON(String host, String path, String params) {
+		int httpCode = -1;
+		String httpLocation = null;
+
+		URLConnection uc = null;
+		HttpURLConnection connection = null;
+		Integer timeout = 30000;
+		final StringBuffer buffer = new StringBuffer();
+
+		for (int i = 0; i < 3; i++) {
+			if (i > 0) {
+				Log.w(cgSettings.tag, "Failed to download data, retrying. Attempt #" + (i + 1));
+			}
+
+			buffer.delete(0, buffer.length());
+			timeout = 30000 + (i * 15000);
+
+			try {
+				// GET
+				final URL u = new URL("http://" + host + path + "?" + params);
+				uc = u.openConnection();
+
+				uc.setRequestProperty("Host", host);
+				uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+				uc.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+				uc.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
+				uc.setRequestProperty("Referer", host + "/" + path);
+
+				connection = (HttpURLConnection) uc;
+				connection.setReadTimeout(timeout);
+				connection.setRequestMethod("GET");
+				HttpURLConnection.setFollowRedirects(false); // TODO: Fix these (FilCab)
+				connection.setDoInput(true);
+				connection.setDoOutput(false);
+
+				final String encoding = connection.getContentEncoding();
+				InputStream ins;
+
+				if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
+					ins = new GZIPInputStream(connection.getInputStream());
+				} else if (encoding != null && encoding.equalsIgnoreCase("deflate")) {
+					ins = new InflaterInputStream(connection.getInputStream(), new Inflater(true));
+				} else {
+					ins = connection.getInputStream();
+				}
+				final InputStreamReader inr = new InputStreamReader(ins);
+				final BufferedReader br = new BufferedReader(inr);
+
+				String line;
+				while ((line = br.readLine()) != null) {
+					if (line.length() > 0) {
+						buffer.append(line);
+						buffer.append("\n");
+					}
+				}
+
+				httpCode = connection.getResponseCode();
+				httpLocation = uc.getHeaderField("Location");
+
+				Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (GET " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+
+				connection.disconnect();
+				br.close();
+				ins.close();
+				inr.close();
+			} catch (IOException e) {
 				Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + e.toString());
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeoBase.requestJSON: " + e.toString());
@@ -4441,21 +4549,13 @@ public class cgBase {
 		if (httpCode == 302 && httpLocation != null) {
 			final Uri newLocation = Uri.parse(httpLocation);
 			if (newLocation.isRelative() == true) {
-				page = requestJSON(host, path, params);
+				page = requestJSONgc(host, path, params);
 			} else {
-				page = requestJSON(newLocation.getHost(), newLocation.getPath(), params);
+				page = requestJSONgc(newLocation.getHost(), newLocation.getPath(), params);
 			}
 		} else {
 			final Matcher matcherLines = patternLines.matcher(buffer.toString());
 			page = matcherLines.replaceAll(" ");
-
-			final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
-			final Matcher matcherTitle = patternTitle.matcher(page);
-			if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
-				Log.i(cgSettings.tag + " | JSON", "Downloaded page title: " + matcherTitle.group(1).trim());
-			} else {
-				Log.i(cgSettings.tag + " | JSON", "Downloaded file has no title.");
-			}
 		}
 
 		if (page != null) {
@@ -4592,63 +4692,6 @@ public class cgBase {
 					final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, 0, true);
 					imgGetter.getDrawable(oneSpoiler.url);
 				}
-			}
-
-			// store map previews
-			if (settings.storeOfflineMaps == 1 && cache.latitude != null && cache.longitude != null) {
-				final String latlonMap = String.format((Locale) null, "%.6f", cache.latitude) + "," + String.format((Locale) null, "%.6f", cache.longitude);
-				final Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-				final int maxWidth = display.getWidth() - 25;
-				final int maxHeight = display.getHeight() - 25;
-				int edge = 0;
-				if (maxWidth > maxHeight) {
-					edge = maxWidth;
-				} else {
-					edge = maxHeight;
-				}
-
-				cgMapImg mapGetter = new cgMapImg(settings, cache.geocode);
-
-				String type = "mystery";
-				if (cache.found == true) {
-					type = cache.type + "_found";
-				} else if (cache.disabled == true) {
-					type = cache.type + "_disabled";
-				} else {
-					type = cache.type;
-				}
-				final String markerUrl = urlencode_rfc3986("http://cgeo.carnero.cc/_markers/marker_cache_" + type + ".png");
-
-				final StringBuilder waypoints = new StringBuilder();
-				if (cache.waypoints != null && cache.waypoints.size() > 0) {
-					for (cgWaypoint waypoint : cache.waypoints) {
-						if (waypoint.latitude == null && waypoint.longitude == null) {
-							continue;
-						}
-
-						waypoints.append("&markers=icon%3Ahttp://cgeo.carnero.cc/_markers/marker_waypoint_");
-						waypoints.append(waypoint.type);
-						waypoints.append(".png%7C");
-						waypoints.append(String.format((Locale) null, "%.6f", waypoint.latitude));
-						waypoints.append(",");
-						waypoints.append(String.format((Locale) null, "%.6f", waypoint.longitude));
-					}
-				}
-
-				mapGetter.setLevel(1);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=20&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
-
-				mapGetter.setLevel(2);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=18&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
-
-				mapGetter.setLevel(3);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=16&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
-
-				mapGetter.setLevel(4);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=14&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
-
-				mapGetter.setLevel(5);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
 			}
 
 			app.markStored(cache.geocode);
@@ -4938,6 +4981,8 @@ public class cgBase {
 
 			if (gcIcons.containsKey(iconTxt) == true) {
 				icon = gcIcons.get(iconTxt);
+			} else {
+				icon = gcIcons.get("traditional");
 			}
 		} else {
 			if (type != null && type.length() > 0) {
@@ -4948,6 +4993,8 @@ public class cgBase {
 
 			if (wpIcons.containsKey(iconTxt) == true) {
 				icon = wpIcons.get(iconTxt);
+			} else {
+				icon = wpIcons.get("waypoint");
 			}
 		}
 
@@ -5290,6 +5337,39 @@ public class cgBase {
 				// nothing
 			}
 		}
+	}
+
+	public Double getElevation(Double latitude, Double longitude) {
+		Double elv = null;
+
+		try {
+			final String host = "maps.googleapis.com";
+			final String path = "/maps/api/elevation/json";
+			final String params = "sensor=false&locations=" + String.format((Locale) null, "%.6f", latitude) + "," + String.format((Locale) null, "%.6f", longitude);
+
+			final String data = requestJSON(host, path, params);
+
+			if (data == null || data.length() == 0) {
+				return elv;
+			}
+
+			JSONObject response = new JSONObject(data);
+			String status = response.getString("status");
+
+			if (status == null || status.equalsIgnoreCase("OK") == false) {
+				return elv;
+			}
+
+			if (response.has("results") == true) {
+				JSONArray results = response.getJSONArray("results");
+				JSONObject result = results.getJSONObject(0);
+				elv = result.getDouble("elevation");
+			}
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgBase.getElevation: " + e.toString());
+		}
+
+		return elv;
 	}
 
 	public void showProgress(Activity activity, boolean status) {

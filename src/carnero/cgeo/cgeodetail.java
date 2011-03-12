@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -30,10 +31,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.SubMenu;
+import android.view.WindowManager;
 import android.widget.Button;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
@@ -139,6 +144,20 @@ public class cgeodetail extends Activity {
 				} catch (Exception e) {
 					// activity is not visible
 				}
+			}
+
+			(new loadMapPreview(cache, loadMapPreviewHandler)).start();
+		}
+	};
+
+	final Handler loadMapPreviewHandler = new Handler() {
+		@Override
+		public void handleMessage(Message message) {
+			BitmapDrawable image = (BitmapDrawable) message.obj;
+			ImageView view = (ImageView) findViewById(R.id.map_preview);
+
+			if (image != null && view != null) {
+				view.setImageDrawable((BitmapDrawable) message.obj);
 			}
 		}
 	};
@@ -393,9 +412,6 @@ public class cgeodetail extends Activity {
 			subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
 			subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // google maps
 			subMenu.add(0, 10, 0, res.getString(R.string.cache_menu_map_ext)); // external map
-			if (cache != null && cache.reason == 1) {
-				subMenu.add(1, 6, 0, res.getString(R.string.cache_menu_map_static)); // static maps
-			}
 			subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
 		}
 
@@ -434,9 +450,6 @@ public class cgeodetail extends Activity {
 				return true;
 			case 5:
 				showSpoilers();
-				return true;
-			case 6:
-				showSmaps();
 				return true;
 			case 7:
 				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/seek/cache_details.aspx?wp=" + cache.geocode)));
@@ -735,6 +748,21 @@ public class cgeodetail extends Activity {
 
 				itemName.setText(res.getString(R.string.cache_coordinates));
 				itemValue.setText(cache.latitudeString + " | " + cache.longitudeString);
+				detailsList.addView(itemLayout);
+			}
+
+			// cache elevation
+			if (cache.elevation != null) {
+				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
+				itemName = (TextView) itemLayout.findViewById(R.id.name);
+				itemValue = (TextView) itemLayout.findViewById(R.id.value);
+
+				itemName.setText(res.getString(R.string.cache_elevation));
+				if (settings.units == cgSettings.unitsImperial) {
+					itemValue.setText(String.format(Locale.getDefault(), "%.0f", (geo.altitudeNow * 3.2808399)) + " ft");
+				} else {
+					itemValue.setText(String.format(Locale.getDefault(), "%.0f", cache.elevation) + " m");
+				}
 				detailsList.addView(itemLayout);
 			}
 
@@ -1041,6 +1069,45 @@ public class cgeodetail extends Activity {
 		}
 	}
 
+	private class loadMapPreview extends Thread {
+		private cgCache cache = null;
+		private Handler handler = null;
+
+		public loadMapPreview(cgCache cacheIn, Handler handlerIn) {
+			cache = cacheIn;
+			handler = handlerIn;
+		}
+
+		@Override
+		public void run() {
+			if (cache == null || cache.latitude == null || cache.longitude == null) {
+				return;
+			}
+
+			BitmapDrawable image = null;
+
+			try {
+				final String latlonMap = String.format((Locale) null, "%.6f", cache.latitude) + "," + String.format((Locale) null, "%.6f", cache.longitude);
+				final Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+				final DisplayMetrics dm = getResources().getDisplayMetrics();
+				final float pixelRatio = dm.density;
+			
+				int width = display.getWidth();
+				int height = (int) (90 * pixelRatio);
+
+				String markerUrl = cgBase.urlencode_rfc3986("http://cgeo.carnero.cc/_markers/my_location_mdpi.png");
+
+				cgHtmlImg mapGetter = new cgHtmlImg(activity, settings, cache.geocode, false, 0, false);
+				image = mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=15&size=" + width + "x" + height + "&maptype=terrain&markers=icon%3A" + markerUrl + "%7C" + latlonMap + "&sensor=false");
+				Message message = handler.obtainMessage(0, image);
+				handler.sendMessage(message);
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgeodetail.loadMapPreview.run: " + e.toString());
+			}
+		}
+	}
+
 	public void loadLongDesc() {
 		if (activity != null && (waitDialog == null || waitDialog.isShowing() == false)) {
 			descDialog = ProgressDialog.show(activity, null, res.getString(R.string.cache_dialog_loading_description), true);
@@ -1052,7 +1119,6 @@ public class cgeodetail extends Activity {
 	}
 
 	private class loadLongDesc extends Thread {
-
 		private Handler handler = null;
 
 		public loadLongDesc(Handler handlerIn) {
@@ -1318,7 +1384,6 @@ public class cgeodetail extends Activity {
 	}
 
 	private class waypointInfo implements View.OnClickListener {
-
 		private int id = -1;
 
 		public waypointInfo(int idIn) {
@@ -1352,18 +1417,7 @@ public class cgeodetail extends Activity {
 		activity.startActivity(spoilersIntent);
 	}
 
-	private void showSmaps() {
-		if (cache == null || cache.reason == 0) {
-			warning.showToast(res.getString(R.string.err_detail_no_map_static));
-		}
-
-		Intent smapsIntent = new Intent(activity, cgeosmaps.class);
-		smapsIntent.putExtra("geocode", geocode.toUpperCase());
-		activity.startActivity(smapsIntent);
-	}
-
 	public class codeHint implements View.OnClickListener {
-
 		public void onClick(View arg0) {
 			// code hint
 			TextView hintView = ((TextView) findViewById(R.id.hint));
@@ -1373,7 +1427,6 @@ public class cgeodetail extends Activity {
 	}
 
 	private class update extends cgUpdateLoc {
-
 		@Override
 		public void updateLoc(cgGeo geo) {
 			if (geo == null) {

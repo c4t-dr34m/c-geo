@@ -24,6 +24,7 @@ import java.util.Locale;
  * 045: real owner username
  * 046: visited date
  * 047: own true/false
+ * 048: elevation
  */
 public class cgData {
 
@@ -32,7 +33,7 @@ public class cgData {
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-	private static final int dbVersion = 47;
+	private static final int dbVersion = 48;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -71,6 +72,7 @@ public class cgData {
 			+ "distance double, "
 			+ "latitude double, "
 			+ "longitude double, "
+			+ "elevation double, "
 			+ "shortdesc text, "
 			+ "description text, "
 			+ "favourite_cnt integer, "
@@ -520,6 +522,16 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 47: " + e.toString());
 						}
 					}
+
+					if (oldVersion < 48) { // upgrade to 48
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column elevation double");
+
+							Log.i(cgSettings.tag, "Column elevation added to " + dbTableCaches + ".");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 48: " + e.toString());
+						}
+					}
 				}
 
 				db.setTransactionSuccessful();
@@ -860,6 +872,7 @@ public class cgData {
 		values.put("direction", cache.direction);
 		values.put("latitude", cache.latitude);
 		values.put("longitude", cache.longitude);
+		values.put("elevation", cache.elevation);
 		values.put("shortdesc", cache.shortdesc);
 		values.put("description", cache.description);
 		values.put("favourite_cnt", cache.favouriteCnt);
@@ -1269,7 +1282,7 @@ public class cgData {
 						dbTableCaches,
 						new String[]{
 							"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "own", "owner", "owner_real", "hidden", "hint", "size",
-							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
+							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "elevation", "shortdesc",
 							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
 						},
@@ -1294,7 +1307,7 @@ public class cgData {
 						dbTableCaches,
 						new String[]{
 							"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "own", "owner", "owner_real", "hidden", "hint", "size",
-							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "shortdesc",
+							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "elevation", "shortdesc",
 							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 							"inventoryunknown"
 						},
@@ -1372,6 +1385,12 @@ public class cgData {
 							cache.longitude = null;
 						} else {
 							cache.longitude = (Double) cursor.getDouble(index);
+						}
+						index = cursor.getColumnIndex("elevation");
+						if (cursor.isNull(index) == true) {
+							cache.elevation = null;
+						} else {
+							cache.elevation = (Double) cursor.getDouble(index);
 						}
 						cache.shortdesc = (String) cursor.getString(cursor.getColumnIndex("shortdesc"));
 						cache.description = (String) cursor.getString(cursor.getColumnIndex("description"));

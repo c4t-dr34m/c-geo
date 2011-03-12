@@ -1298,6 +1298,7 @@ public class cgeomap extends MapActivity {
 		private Handler handler = null;
 		private ArrayList<String> geocodes = null;
         private volatile Boolean needToStop = false;
+		private long last = 0l;
 
 		public geocachesLoadDetails(Handler handlerIn, ArrayList<String> geocodesIn) {
 			handler = handlerIn;
@@ -1323,10 +1324,18 @@ public class cgeomap extends MapActivity {
 						break;
 					}
 
-					try {
-						sleep(3000 + ((Double)(Math.random() * 3000)).intValue());
-					} catch (Exception e) {
-						Log.e(cgSettings.tag, "cgeomap.geocachesLoadDetails.sleep: " + e.toString());
+					if ((System.currentTimeMillis() - last) < 1500) {
+						try {
+							int delay = 1000 + ((Double)(Math.random() * 1000)).intValue() - (int) (System.currentTimeMillis() - last);
+							if (delay < 0) {
+								delay = 500;
+							}
+
+							Log.i(cgSettings.tag, "Waiting for next cache " + delay + " ms");
+							sleep(delay);
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "cgeomap.geocachesLoadDetails.sleep: " + e.toString());
+						}
 					}
 
 					if (needToStop == true) {
@@ -1345,6 +1354,8 @@ public class cgeomap extends MapActivity {
 				}
 
 				yield();
+
+				last = System.currentTimeMillis();
 			}
 
 			msg = new Message();
