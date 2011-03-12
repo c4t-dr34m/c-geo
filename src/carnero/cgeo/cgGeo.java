@@ -30,6 +30,7 @@ public class cgGeo {
 	private Location locGps = null;
 	private Location locNet = null;
 	private long locGpsLast = 0l;
+	private boolean g4cRunning = false;
 	private Double lastGo4cacheLat = null;
 	private Double lastGo4cacheLon = null;
 	
@@ -318,7 +319,13 @@ public class cgGeo {
 
 		@Override
 		public void run() {
+			if (g4cRunning == true) {
+				return;
+			}
+
 			if (settings.publicLoc == 1 && (lastGo4cacheLat == null || lastGo4cacheLon == null || cgBase.getDistance(latitudeNow, longitudeNow, lastGo4cacheLat, lastGo4cacheLon) > 0.75)) {
+				g4cRunning = true;
+
 				final String host = "api.go4cache.com";
 				final String path = "/";
 				final String method = "POST";
@@ -336,6 +343,9 @@ public class cgGeo {
 					params.put("ln", lonStr);
 					params.put("a", action);
 					params.put("s", (cgBase.sha1(username + "|" + latStr + "|" + lonStr + "|" + action + "|" + cgBase.md5("carnero: developing your dreams"))).toLowerCase());
+					if (base.version != null) {
+						params.put("v", base.version);
+					}
 					final String res = base.request(host, path, method, params, false, false, false);
 
 					if (res != null && res.length() > 0) {
@@ -344,6 +354,8 @@ public class cgGeo {
 					}
 				}
 			}
+
+			g4cRunning = false;
 		}
 	}
 

@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import android.util.Log;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
@@ -35,9 +36,7 @@ import android.os.Message;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.style.StrikethroughSpan;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -102,6 +101,7 @@ public class cgBase {
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
 	private SharedPreferences prefs = null;
+	public String version = null;
 	private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
 	final private static HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 	final private static HashMap<String, Integer> wpIcons = new HashMap<String, Integer>();
@@ -281,6 +281,14 @@ public class cgBase {
 		app = appIn;
 		settings = settingsIn;
 		prefs = prefsIn;
+
+		try {
+			PackageManager manager = app.getPackageManager();
+			PackageInfo info = manager.getPackageInfo(app.getPackageName(), 0);
+			version =  info.versionName;
+		} catch (Exception e) {
+			// nothing
+		}
 
 		patternLoggedIn = Pattern.compile("<p class=\"AlignRight\">[^<]+<a href=\"http://www\\.geocaching\\.com/my/\">([^<]+)</a>\\.", Pattern.CASE_INSENSITIVE);
 
@@ -3389,6 +3397,7 @@ public class cgBase {
 		final String path = "/get.php";
 		final String method = "POST";
 		final HashMap<String, String> params = new HashMap<String, String>();
+
 		params.put("u", username);
 		params.put("ltm", String.format((Locale) null, "%.6f", latMin));
 		params.put("ltx", String.format((Locale) null, "%.6f", latMax));
