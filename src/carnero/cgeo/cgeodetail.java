@@ -61,6 +61,7 @@ public class cgeodetail extends Activity {
 	private cgWarning warning = null;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
+	private float pixelRatio = 1;
 	private TextView cacheDistance = null;
 	private String contextMenuUser = null;
 	private ProgressDialog waitDialog = null;
@@ -154,10 +155,14 @@ public class cgeodetail extends Activity {
 		@Override
 		public void handleMessage(Message message) {
 			BitmapDrawable image = (BitmapDrawable) message.obj;
+			ScrollView scroll = (ScrollView) findViewById(R.id.details_list_box);
 			ImageView view = (ImageView) findViewById(R.id.map_preview);
 
 			if (image != null && view != null) {
-				view.setImageDrawable((BitmapDrawable) message.obj);
+				view.setImageDrawable(image);
+
+				scroll.scrollTo(0, (int) (80 * pixelRatio));
+				view.setVisibility(View.VISIBLE);
 			}
 		}
 	};
@@ -484,6 +489,9 @@ public class cgeodetail extends Activity {
 	}
 
 	private void init() {
+		final DisplayMetrics dm = getResources().getDisplayMetrics();
+		pixelRatio = dm.density;
+
 		if (inflater == null) {
 			inflater = activity.getLayoutInflater();
 		}
@@ -507,7 +515,6 @@ public class cgeodetail extends Activity {
 		RelativeLayout itemLayout;
 		TextView itemName;
 		TextView itemValue;
-		LinearLayout itemStars;
 
 		if (searchId == null) return;
 
@@ -560,7 +567,9 @@ public class cgeodetail extends Activity {
 			inflater = activity.getLayoutInflater();
 			geocode = cache.geocode.toUpperCase();
 
-			((ScrollView) findViewById(R.id.details_list_box)).setVisibility(View.VISIBLE);
+			ScrollView scroll = (ScrollView) findViewById(R.id.details_list_box);
+			scroll.setVisibility(View.VISIBLE);
+
 			LinearLayout detailsList = (LinearLayout) findViewById(R.id.details_list);
 			detailsList.removeAllViews();
 
@@ -686,8 +695,6 @@ public class cgeodetail extends Activity {
 					itemAddition.setVisibility(View.VISIBLE);
 				}
 			}
-
-			itemStars = null;
 
 			// favourite count
 			if (cache.favouriteCnt != null) {
@@ -1076,9 +1083,6 @@ public class cgeodetail extends Activity {
 			try {
 				final String latlonMap = String.format((Locale) null, "%.6f", cache.latitude) + "," + String.format((Locale) null, "%.6f", cache.longitude);
 				final Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-
-				final DisplayMetrics dm = getResources().getDisplayMetrics();
-				final float pixelRatio = dm.density;
 			
 				int width = display.getWidth();
 				int height = (int) (90 * pixelRatio);
