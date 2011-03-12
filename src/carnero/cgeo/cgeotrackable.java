@@ -34,6 +34,7 @@ public class cgeotrackable extends Activity {
 	public String geocode = null;
 	public String name = null;
 	public String guid = null;
+	public String id = null;
 	private String contextMenuUser = null;
 	private Resources res = null;
 	private cgeoapplication app = null;
@@ -327,28 +328,50 @@ public class cgeotrackable extends Activity {
 			geocode = extras.getString("geocode");
 			name = extras.getString("name");
 			guid = extras.getString("guid");
+			id = extras.getString("id");
 		}
 
 		// try to get data from URI
-		if (geocode == null && guid == null && uri != null) {
-			geocode = uri.getQueryParameter("tracker");
-			guid = uri.getQueryParameter("guid");
+		if (geocode == null && guid == null && id == null && uri != null) {
+			String uriHost = uri.getHost().toLowerCase();
+			if (uriHost.contains("geocaching.com") == true) {
+				geocode = uri.getQueryParameter("tracker");
+				guid = uri.getQueryParameter("guid");
+				id = uri.getQueryParameter("id");
 
-			if (geocode != null && geocode.length() > 0) {
-				geocode = geocode.toUpperCase();
-				guid = null;
-			} else if (guid != null && guid.length() > 0) {
-				geocode = null;
-				guid = guid.toLowerCase();
-			} else {
-				warning.showToast(res.getString(R.string.err_tb_details_open));
-				finish();
-				return;
+				if (geocode != null && geocode.length() > 0) {
+					geocode = geocode.toUpperCase();
+					guid = null;
+					id = null;
+				} else if (guid != null && guid.length() > 0) {
+					geocode = null;
+					guid = guid.toLowerCase();
+					id = null;
+				} else if (id != null && id.length() > 0) {
+					geocode = null;
+					guid = null;
+					id = id.toLowerCase();
+				} else {
+					warning.showToast(res.getString(R.string.err_tb_details_open));
+					finish();
+					return;
+				}
+			} else if (uriHost.contains("coord.info") == true) {
+				String uriPath = uri.getPath().toLowerCase();
+				if (uriPath != null && uriPath.startsWith("/tb") == true) {
+					geocode = uriPath.substring(1).toUpperCase();
+					guid = null;
+					id = null;
+				} else {
+					warning.showToast(res.getString(R.string.err_tb_details_open));
+					finish();
+					return;
+				}
 			}
 		}
 
 		// no given data
-		if (geocode == null && guid == null) {
+		if (geocode == null && guid == null && id == null) {
 			warning.showToast(res.getString(R.string.err_tb_display));
 			finish();
 			return;
@@ -364,7 +387,7 @@ public class cgeotrackable extends Activity {
 		waitDialog.setCancelable(true);
 
 		loadTrackable thread;
-		thread = new loadTrackable(loadTrackableHandler, geocode, guid);
+		thread = new loadTrackable(loadTrackableHandler, geocode, guid, id);
 		thread.start();
 	}
 
@@ -454,13 +477,15 @@ public class cgeotrackable extends Activity {
 		private Handler handler = null;
 		private String geocode = null;
 		private String guid = null;
+		private String id = null;
 
-		public loadTrackable(Handler handlerIn, String geocodeIn, String guidIn) {
+		public loadTrackable(Handler handlerIn, String geocodeIn, String guidIn, String idIn) {
 			handler = handlerIn;
 			geocode = geocodeIn;
 			guid = guidIn;
+			id = idIn;
 
-			if (geocode == null && guid == null) {
+			if (geocode == null && guid == null && id == null) {
 				warning.showToast(res.getString(R.string.err_tb_forgot));
 
 				stop();
@@ -471,17 +496,19 @@ public class cgeotrackable extends Activity {
 
 		@Override
 		public void run() {
-			loadTrackableFn(geocode, guid);
+			loadTrackableFn(geocode, guid, id);
 			handler.sendMessage(new Message());
 		}
 	}
 
-	public void loadTrackableFn(String geocode, String guid) {
+	public void loadTrackableFn(String geocode, String guid, String id) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		if (geocode != null && geocode.length() > 0) {
 			params.put("geocode", geocode);
 		} else if (guid != null && guid.length() > 0) {
 			params.put("guid", guid);
+		} else if (id != null && id.length() > 0) {
+			params.put("id", id);
 		} else {
 			return;
 		}
