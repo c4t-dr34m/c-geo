@@ -564,6 +564,22 @@ public class cgeodetail extends Activity {
 			LinearLayout detailsList = (LinearLayout) findViewById(R.id.details_list);
 			detailsList.removeAllViews();
 
+			// actionbar icon
+			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
+				((TextView) findViewById(R.id.actionbar_title)).setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get(cache.type)), null, null, null);
+			} else { // unknown cache type, "mystery" icon
+				((TextView) findViewById(R.id.actionbar_title)).setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get("mystery")), null, null, null);
+			}
+
+			// cache name (full name)
+			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
+			itemName = (TextView) itemLayout.findViewById(R.id.name);
+			itemValue = (TextView) itemLayout.findViewById(R.id.value);
+
+			itemName.setText(res.getString(R.string.cache_name));
+			itemValue.setText(Html.fromHtml(cache.name).toString());
+			detailsList.addView(itemLayout);
+
 			// cache type
 			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView) itemLayout.findViewById(R.id.name);
@@ -580,20 +596,6 @@ public class cgeodetail extends Activity {
 			} else {
 				itemValue.setText(cgBase.cacheTypesInv.get("mystery") + size);
 			}
-			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
-				itemValue.setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get(cache.type)), null, null, null);
-			} else { // unknown cache type, "mystery" icon
-				itemValue.setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get("mystery")), null, null, null);
-			}
-			detailsList.addView(itemLayout);
-
-			// cache name (full name)
-			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
-			itemName = (TextView) itemLayout.findViewById(R.id.name);
-			itemValue = (TextView) itemLayout.findViewById(R.id.value);
-
-			itemName.setText(res.getString(R.string.cache_name));
-			itemValue.setText(Html.fromHtml(cache.name).toString());
 			detailsList.addView(itemLayout);
 
 			// gc-code
@@ -748,21 +750,6 @@ public class cgeodetail extends Activity {
 
 				itemName.setText(res.getString(R.string.cache_coordinates));
 				itemValue.setText(cache.latitudeString + " | " + cache.longitudeString);
-				detailsList.addView(itemLayout);
-			}
-
-			// cache elevation
-			if (cache.elevation != null) {
-				itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
-				itemName = (TextView) itemLayout.findViewById(R.id.name);
-				itemValue = (TextView) itemLayout.findViewById(R.id.value);
-
-				itemName.setText(res.getString(R.string.cache_elevation));
-				if (settings.units == cgSettings.unitsImperial) {
-					itemValue.setText(String.format(Locale.getDefault(), "%.0f", (geo.altitudeNow * 3.2808399)) + " ft");
-				} else {
-					itemValue.setText(String.format(Locale.getDefault(), "%.0f", cache.elevation) + " m");
-				}
 				detailsList.addView(itemLayout);
 			}
 
@@ -1434,10 +1421,41 @@ public class cgeodetail extends Activity {
 			}
 
 			try {
+				StringBuilder dist = new StringBuilder();
+
 				if (geo.latitudeNow != null && geo.longitudeNow != null && cache != null && cache.latitude != null && cache.longitude != null) {
-					cacheDistance.setText(base.getHumanDistance(cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
-					cacheDistance.bringToFront();
+					dist.append(base.getHumanDistance(cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude)));
 				}
+
+				if (cache.elevation != null) {
+					Double diff = null;
+					if (geo.altitudeNow != null) {
+						diff = (cache.elevation - geo.altitudeNow);
+					}
+
+					if (diff != null && diff >= 0) {
+						dist.append(" ↗");
+						if (settings.units == cgSettings.unitsImperial) {
+							dist.append(String.format(Locale.getDefault(), "%.0f", (Math.abs(diff) * 3.2808399)));
+							dist.append(" ft");
+						} else {
+							dist.append(String.format(Locale.getDefault(), "%.0f", (Math.abs(diff))));
+							dist.append(" m");
+						}
+					} else if (diff != null && diff < 0) {
+						dist.append(" ↘");
+						if (settings.units == cgSettings.unitsImperial) {
+							dist.append(String.format(Locale.getDefault(), "%.0f", (Math.abs(diff) * 3.2808399)));
+							dist.append(" ft");
+						} else {
+							dist.append(String.format(Locale.getDefault(), "%.0f", (Math.abs(diff))));
+							dist.append(" m");
+						}
+					}
+				}
+
+				cacheDistance.setText(dist.toString());
+				cacheDistance.bringToFront();
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
 			}

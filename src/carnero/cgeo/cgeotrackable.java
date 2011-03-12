@@ -93,7 +93,27 @@ public class cgeotrackable extends Activity {
 				((ScrollView) findViewById(R.id.details_list_box)).setVisibility(View.VISIBLE);
 				LinearLayout detailsList = (LinearLayout) findViewById(R.id.details_list);
 
-				// trackable icon and type
+				// actiobar icon
+				if (trackable.iconUrl != null && trackable.iconUrl.length() > 0) {
+					final tbIconHandler iconHandler = new tbIconHandler(((TextView) findViewById(R.id.actionbar_title)));
+					final tbIconThread iconThread = new tbIconThread(trackable.iconUrl, iconHandler);
+					iconThread.start();
+				}
+
+				// trackable name
+				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
+				itemName = (TextView) itemLayout.findViewById(R.id.name);
+				itemValue = (TextView) itemLayout.findViewById(R.id.value);
+
+				itemName.setText(res.getString(R.string.trackable_name));
+				if (trackable.name != null) {
+					itemValue.setText(Html.fromHtml(trackable.name), TextView.BufferType.SPANNABLE);
+				} else {
+					itemValue.setText(res.getString(R.string.trackable_unknown));
+				}
+				detailsList.addView(itemLayout);
+
+				// trackable type
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
 				itemValue = (TextView) itemLayout.findViewById(R.id.value);
@@ -108,12 +128,6 @@ public class cgeotrackable extends Activity {
 				itemValue.setText(tbType);
 				detailsList.addView(itemLayout);
 
-				if (trackable.iconUrl != null && trackable.iconUrl.length() > 0) {
-					final tbIconHandler iconHandler = new tbIconHandler(itemValue);
-					final tbIconThread iconThread = new tbIconThread(trackable.iconUrl, iconHandler);
-					iconThread.start();
-				}
-
 				// trackable geocode
 				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 				itemName = (TextView) itemLayout.findViewById(R.id.name);
@@ -121,19 +135,6 @@ public class cgeotrackable extends Activity {
 
 				itemName.setText(res.getString(R.string.trackable_code));
 				itemValue.setText(trackable.geocode.toUpperCase());
-				detailsList.addView(itemLayout);
-
-				// trackable name
-				itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
-				itemName = (TextView) itemLayout.findViewById(R.id.name);
-				itemValue = (TextView) itemLayout.findViewById(R.id.value);
-
-				itemName.setText(res.getString(R.string.trackable_name));
-				if (trackable.name != null) {
-					itemValue.setText(Html.fromHtml(trackable.name), TextView.BufferType.SPANNABLE);
-				} else {
-					itemValue.setText(res.getString(R.string.trackable_unknown));
-				}
 				detailsList.addView(itemLayout);
 
 				// trackable owner
