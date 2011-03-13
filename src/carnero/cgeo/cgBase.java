@@ -3747,6 +3747,7 @@ public class cgBase {
 		Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: Failed to post log because of unknown error");
 		return 1000;
 	}
+	
 	final public static HostnameVerifier doNotVerify = new HostnameVerifier() {
 
 		public boolean verify(String hostname, SSLSession session) {
@@ -3899,24 +3900,44 @@ public class cgBase {
 		}
 	}
 
-	public String translate(String text, String source, String target) {
+	public String translate(String text, String target) {
 		// api key: AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ
-		// https://www.googleapis.com/language/translate/v2?key=AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ&q=flowers&source=en&target=fr&callback=handleResponse
 		String translated = null;
 
-		if (target == null) {
-			final Locale locale = Locale.getDefault();
-			target = locale.getDisplayLanguage();
+		try {
+			if (target == null) {
+				final Locale locale = Locale.getDefault();
+				target = locale.getLanguage();
+			}
+
+			final String scheme = "https://";
+			final String host = "www.googleapis.com";
+			final String path = "/language/translate/v2";
+			final String apiKey = "AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ";
+
+			final StringBuilder params = new StringBuilder();
+			params.append("key=");
+			params.append(apiKey);
+			params.append("&q=");
+			params.append(URLEncoder.encode(text));
+			params.append("&target=");
+			params.append(target);
+
+			String page = requestJSON(scheme, host, path, params.toString());
+
+			if (page == null || page.length() == 0) {
+				return translated;
+			}
+
+			JSONObject json = new JSONObject(page);
+			JSONObject jsonData = json.getJSONObject("data");
+			JSONArray jsonTranslations = jsonData.getJSONArray("translations");
+			JSONObject jsonTranslation = jsonTranslations.getJSONObject(0);
+
+			translated = jsonTranslation.getString("translatedText");
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "cgBase.translate: " + e.toString());
 		}
-
-		final String host = "www.googleapis.com";
-		final String path = "/language/translate/v2";
-		final String apiKey = "AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ";
-
-		final String params = "key=" + apiKey;
-
-		final String url = "http://" + host + path + "?" + params;
-		String page = requestJSON(host, path, params);
 
 		return translated;
 	}
@@ -4482,6 +4503,10 @@ public class cgBase {
 	}
 
 	public String requestJSON(String host, String path, String params) {
+		return requestJSON("http://", host, path, params);
+	}
+
+	public String requestJSON(String scheme, String host, String path, String params) {
 		int httpCode = -1;
 		String httpLocation = null;
 
@@ -4500,8 +4525,16 @@ public class cgBase {
 
 			try {
 				// GET
-				final URL u = new URL("http://" + host + path + "?" + params);
-				uc = u.openConnection();
+				final URL u = new URL(scheme + host + path + "?" + params);
+
+				if (u.getProtocol().toLowerCase().equals("https")) {
+						trustAllHosts();
+						HttpsURLConnection https = (HttpsURLConnection) u.openConnection();
+						https.setHostnameVerifier(doNotVerify);
+						uc = https;
+				} else {
+						uc = (HttpURLConnection) u.openConnection();
+				}
 
 				uc.setRequestProperty("Host", host);
 				uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -4540,7 +4573,7 @@ public class cgBase {
 				httpCode = connection.getResponseCode();
 				httpLocation = uc.getHeaderField("Location");
 
-				Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (GET " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+				Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (GET " + httpCode + ", " + connection.getResponseMessage() + ") " + scheme + host + path + "?" + params);
 
 				connection.disconnect();
 				br.close();
