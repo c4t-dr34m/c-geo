@@ -35,6 +35,7 @@ public class cgSettings {
 	public boolean hideMySearch = false;
 	public int helper = 0;
 	public int initialized = 0;
+	public String languages = null;
 	public int cachesFound = 0;
 	public int autoLoadDesc = 0;
 	public int units = unitsMetric;
@@ -83,6 +84,7 @@ public class cgSettings {
 		skin = prefs.getInt("skin", 0);
 		setSkinDefaults();
 
+		languages = prefs.getString("languages", null);
 		cachesFound = prefs.getInt("found", 0);
 		autoLoadDesc = prefs.getInt("autoloaddesc", 0);
 		units = prefs.getInt("units", 1);
@@ -340,6 +342,30 @@ public class cgSettings {
 
 	public String getSignature() {
 		return prefs.getString("signature", null);
+	}
+
+	public boolean setLanguages(String languages) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
+
+		if (languages == null || languages.length() == 0) {
+			// erase languages
+			prefsEdit.remove("languages");
+		} else {
+			// save langauges
+			languages = languages.toLowerCase();
+			languages = languages.replaceAll("([^a-z]+)", " ");
+			languages = languages.replaceAll("([ ]+)", " ");
+
+			prefsEdit.putString("languages", languages);
+		}
+
+		this.languages = languages;
+
+		return prefsEdit.commit();
+	}
+
+	public String getLanguages() {
+		return prefs.getString("languages", null);
 	}
 
 	public void deleteCookies() {

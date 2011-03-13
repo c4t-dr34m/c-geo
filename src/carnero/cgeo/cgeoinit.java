@@ -219,6 +219,11 @@ public class cgeoinit extends Activity {
 			}
 		});
 
+		EditText lngEdit = (EditText) findViewById(R.id.languages);
+		if (lngEdit.getText().length() == 0) {
+			lngEdit.setText(settings.getLanguages());
+		}
+
 		CheckBox skinButton = (CheckBox) findViewById(R.id.skin);
 		if (prefs.getInt("skin", 0) == 0) {
 			skinButton.setChecked(false);
@@ -329,6 +334,7 @@ public class cgeoinit extends Activity {
 		String passwordNew = ((EditText) findViewById(R.id.password)).getText().toString();
 		String passvoteNew = ((EditText) findViewById(R.id.passvote)).getText().toString();
 		String signatureNew = ((EditText) findViewById(R.id.signature)).getText().toString();
+		String languagesNew = ((EditText) findViewById(R.id.languages)).getText().toString();
 
 		if (usernameNew == null) {
 			usernameNew = "";
@@ -339,12 +345,19 @@ public class cgeoinit extends Activity {
 		if (passvoteNew == null) {
 			passvoteNew = "";
 		}
+		if (signatureNew == null) {
+			signatureNew = "";
+		}
+		if (languagesNew == null) {
+			languagesNew = "";
+		}
 
 		final boolean status1 = settings.setLogin(usernameNew, passwordNew);
 		final boolean status2 = settings.setGCvoteLogin(passvoteNew);
 		final boolean status3 = settings.setSignature(signatureNew);
+		final boolean status4 = settings.setLanguages(languagesNew);
 
-		if (status1 == true && status2 == true && status3 == true) {
+		if (status1 == true && status2 == true && status3 == true && status4 == true) {
 			return true;
 		}
 

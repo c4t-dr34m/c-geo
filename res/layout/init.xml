@@ -184,6 +184,15 @@
 			<RelativeLayout style="@style/separator_horizontal_layout" >
 				<View style="@style/separator_horizontal" />
 				<TextView style="@style/separator_horizontal_headline"
+						android:text="@string/init_languages" />
+			</RelativeLayout>
+			<EditText style="@style/edittext"
+					android:id="@+id/languages"
+					android:hint="@string/init_languages_hint" />
+<!-- ** -->
+			<RelativeLayout style="@style/separator_horizontal_layout" >
+				<View style="@style/separator_horizontal" />
+				<TextView style="@style/separator_horizontal_headline"
 						android:text="@string/init_other" />
 			</RelativeLayout>
 			<LinearLayout

@@ -1341,6 +1341,8 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache hint");
 		}
 
+		cache.hint = translate(cache.hint, null);
+
 		// cache short description
 		try {
 			final Matcher matcherDescShort = patternDescShort.matcher(page);
@@ -1356,6 +1358,8 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache short description");
 		}
 
+		cache.shortdesc = translate(Html.fromHtml(cache.shortdesc).toString(), null);
+
 		// cache description
 		try {
 			final Matcher matcherDesc = patternDesc.matcher(page);
@@ -1368,6 +1372,8 @@ public class cgBase {
 			// failed to parse short description
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache description");
 		}
+
+		cache.description = translate(Html.fromHtml(cache.description).toString(), null);
 
 		// cache attributes
 		try {
@@ -3901,8 +3907,13 @@ public class cgBase {
 	}
 
 	public String translate(String text, String target) {
-		// api key: AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ
+		boolean toTranslate = true;
 		String translated = null;
+		String language = null;
+
+		if (text == null || text.length() == 0) {
+			return text;
+		}
 
 		try {
 			if (target == null) {
@@ -3926,7 +3937,7 @@ public class cgBase {
 			String page = requestJSON(scheme, host, path, params.toString());
 
 			if (page == null || page.length() == 0) {
-				return translated;
+				return text;
 			}
 
 			JSONObject json = new JSONObject(page);
@@ -3935,11 +3946,28 @@ public class cgBase {
 			JSONObject jsonTranslation = jsonTranslations.getJSONObject(0);
 
 			translated = jsonTranslation.getString("translatedText");
+			language = jsonTranslation.getString("detectedSourceLanguage");
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgBase.translate: " + e.toString());
 		}
 
-		return translated;
+		if (language != null && language.length() > 0 && settings.languages != null) {
+			String[] languages = settings.languages.split(" ");
+
+			for (String lng : languages) {
+				if (lng.equalsIgnoreCase(language)) {
+					toTranslate = false; // known language, no need to translate
+				}
+			}
+		}
+
+		if (toTranslate == false || translated == null || translated.length() == 0) {
+			return text;
+		} else {
+			Log.i(cgSettings.tag, "Translating text from " + language + " to " + target);
+
+			return translated;
+		}
 	}
 
 	public static String implode(String delim, Object[] array) {
