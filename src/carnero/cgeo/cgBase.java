@@ -3907,6 +3907,10 @@ public class cgBase {
 	}
 
 	public String translate(String text, String target) {
+		if (settings.translate == false) {
+			return text;
+		}
+		
 		boolean toTranslate = true;
 		String translated = null;
 		String language = null;

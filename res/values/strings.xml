@@ -298,6 +298,7 @@
   <string name="init_signature_help_text">Write your signature to use in log text.\nSpecial strings that can be used are: [DATE] , [TIME], [USER] &amp; [NUMBER].\nThese will be expanded when the signature is inserted.</string>
   <string name="init_languages">Languages</string>
   <string name="init_languages_hint">Which languages you know (en es de)</string>
+  <string name="init_translate">Translate description &amp; hint</string>
   <string name="init_other">Other options</string>
   <string name="init_skin">Light skin (needs restart of c:geo)</string>
   <string name="init_transparent">Use transparent c:geo mainscreen</string>

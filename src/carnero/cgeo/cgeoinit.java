@@ -219,6 +219,14 @@ public class cgeoinit extends Activity {
 			}
 		});
 
+		CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
+		if (prefs.getBoolean("translate", true) == false) {
+			translateButton.setChecked(false);
+		} else {
+			translateButton.setChecked(true);
+		}
+		translateButton.setOnClickListener(new cgeoChangeTranslate());
+		
 		EditText lngEdit = (EditText) findViewById(R.id.languages);
 		if (lngEdit.getText().length() == 0) {
 			lngEdit.setText(settings.getLanguages());
@@ -403,6 +411,30 @@ public class cgeoinit extends Activity {
 		}
 	}
 
+	private class cgeoChangeTranslate implements View.OnClickListener {
+
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getBoolean("translate", true) == false) {
+				edit.putBoolean("translate", true);
+				settings.translate = true;
+			} else {
+				edit.putBoolean("translate", false);
+				settings.translate = false;
+			}
+			edit.commit();
+
+			CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
+			if (prefs.getBoolean("translate", true) == false) {
+				translateButton.setChecked(false);
+			} else {
+				translateButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+	
 	private class cgeoChangeSkin implements View.OnClickListener {
 
 		public void onClick(View arg0) {
