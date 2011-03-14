@@ -509,6 +509,7 @@
   <string name="trackable_origin">Ursprung</string>
   <string name="trackable_unknown">Okänd</string>
   <string name="trackable_released">Släppt</string>
+  <string name="trackable_distance">Rest sträcka</string>
   <string name="trackable_touch">Logga</string>
 
   <!--  user -->

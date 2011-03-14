@@ -1926,6 +1926,7 @@ public class cgBase {
 		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>([^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>)?[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLogs = Pattern.compile("<table class=\"TrackableItemLogTable Table\">(.*)<\\/table>[^<]*<ul", Pattern.CASE_INSENSITIVE);
 		final Pattern patternIcon = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternDistance = Pattern.compile("<h3>[^T]*Tracking History [(]([0-9.]*km)", Pattern.CASE_INSENSITIVE);
 
 		final cgTrackable trackable = new cgTrackable();
 
@@ -2083,6 +2084,19 @@ public class cgBase {
 		} catch (Exception e) {
 			// failed to parse trackable released date
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable released date");
+		}
+
+		// trackable distance
+		try {
+			final Matcher matcherDistance = patternDistance.matcher(page);
+			while (matcherDistance.find()) {
+				if (matcherDistance.groupCount() > 0) {
+					trackable.distance = matcherDistance.group(1);
+				}
+			}
+		} catch (Exception e) {
+			// failed to parse trackable distance
+			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable distance");
 		}
 
 		// trackable goal
