@@ -462,7 +462,6 @@
   <string name="trackable_select_title">Trackables</string>
   <string name="trackable_details_loading">Bezig met laden van trackable details...</string>
   <string name="trackable_log_touch">Log aanraking</string>
-  <string name="trackable_more">Meer</string>
   <string name="trackable_browser_open">Openen in Browser</string>
   <string name="trackable_goal">Doel</string>
   <string name="trackable_details">Details</string>

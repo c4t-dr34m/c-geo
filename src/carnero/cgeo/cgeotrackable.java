@@ -453,8 +453,7 @@ public class cgeotrackable extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 0, res.getString(R.string.trackable_log_touch)).setIcon(android.R.drawable.ic_menu_agenda); // log touch
 
-		SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.trackable_more)).setIcon(android.R.drawable.ic_menu_more);
-		subMenu.add(1, 2, 0, res.getString(R.string.trackable_browser_open)); // browser
+		menu.add(0, 2, 0, res.getString(R.string.trackable_browser_open)).setIcon(android.R.drawable.ic_menu_info_details); // browser
 		return true;
 	}
 
