@@ -8,3 +8,5 @@ gen/*
 *~
 src/carnero/cgeo/R.java
 local.properties
+default.properties
+proguard.cfg
