@@ -205,7 +205,7 @@
   <string name="cache_offline_store">Gem</string>
   <string name="cache_offline_stored">Gemt i telefon</string>
   <string name="cache_offline_not_ready">Ikke klar\ntil offline brug</string>
-  <string name="cache_offline_time_about">Om</string>
+  <string name="cache_offline_time_about">For</string>
   <string name="cache_offline_time_mins">minutter siden</string>
   <string name="cache_offline_time_mins_few">få minutter siden</string>
   <string name="cache_offline_time_hour">en time siden</string>
