@@ -1926,6 +1926,7 @@ public class cgBase {
 		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>([^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>)?[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLogs = Pattern.compile("<table class=\"TrackableItemLogTable Table\">(.*)<\\/table>[^<]*<ul", Pattern.CASE_INSENSITIVE);
 		final Pattern patternIcon = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternType = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"[^\"]+\" alt=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDistance = Pattern.compile("<h3>[^T]*Tracking History [(]([0-9.]*km)", Pattern.CASE_INSENSITIVE);
 
 		final cgTrackable trackable = new cgTrackable();
@@ -1984,7 +1985,6 @@ public class cgBase {
 
 		// trackable type
 		if (trackable.name != null && trackable.name.length() > 0) {
-			final Pattern patternType = Pattern.compile("<title>[^\\(]*\\([A-Z0-9]*\\) ([^<]*) - " + trackable.name.trim() + "[^<]*</title>", Pattern.CASE_INSENSITIVE);
 			try {
 				final Matcher matcherType = patternType.matcher(page);
 				while (matcherType.find()) {
