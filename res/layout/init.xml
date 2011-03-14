@@ -209,6 +209,20 @@
 						android:textColor="?text_color"
 						android:text="@string/init_translate" />
 			</LinearLayout>
+			<TextView android:id="@+id/about_twitter"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dip"
+					android:layout_marginRight="10dip"
+					android:layout_marginBottom="5dip"
+					android:layout_alignParentLeft="true"
+					android:layout_gravity="left"
+					android:padding="3dip"
+					android:textSize="14dip"
+					android:textColor="?text_color"
+					android:textColorLink="?text_color_link"
+					android:linksClickable="true"
+					android:text="@string/init_languages_description" />
 			<EditText style="@style/edittext"
 					android:id="@+id/languages"
 					android:hint="@string/init_languages_hint" />
