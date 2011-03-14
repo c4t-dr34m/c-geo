@@ -1,7 +1,9 @@
 nbproject/*
+nbandroid/*
 build.xml
 build/*
 dist/*
+bin/*
 gen/*
 *~
 src/carnero/cgeo/R.java
