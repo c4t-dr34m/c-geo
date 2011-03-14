@@ -297,6 +297,8 @@
   <string name="init_signature_help_button">Hjälp</string>
   <string name="init_signature_help_title">Tips och tricks</string>
   <string name="init_signature_help_text">Skriv den signatur som du vill använda i dina loggtexter.\nDet finns några speciella texter som kan användas och som expanderas när signaturen läggs in: [DATE] , [TIME], [USER] &amp; [NUMBER].</string>
+  <string name="init_languages">Språk</string>
+  <string name="init_languages_hint">Vilka språk förstår du? (en de sv)</string>
   <string name="init_other">Övriga inställningar</string>
   <string name="init_skin">Vitt skal (kräver omstart av c:geo)</string>
   <string name="init_transparent">Transparent huvudmeny</string>
@@ -397,6 +399,7 @@
   <string name="cache_event">Datum</string>
   <string name="cache_location">Plats</string>
   <string name="cache_coordinates">Koordinater</string>
+  <string name="cache_elevation">Höjd</string>
   <string name="cache_calendars">Välj kalender</string>
   <string name="cache_spoiler_images_title">Spoiler bilder</string>
   <string name="cache_spoiler_images_loading">Laddar spoiler bilder...</string>
