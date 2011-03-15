@@ -126,7 +126,7 @@ public class cgeotrackable extends Activity {
 					tbType = res.getString(R.string.trackable_unknown);
 				}
 				itemName.setText(res.getString(R.string.trackable_type));
-				itemValue.setText(tbType);
+				itemValue.setText(Html.fromHtml(tbType), TextView.BufferType.SPANNABLE);
 				detailsList.addView(itemLayout);
 
 				// trackable geocode
