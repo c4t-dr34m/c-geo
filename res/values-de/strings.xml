@@ -131,6 +131,7 @@
   <string name="err_init_cleared">c:geo konnte die Anmeldedaten nicht entfernen.</string>
   <string name="init_backup">Sicherung</string>
   <string name="init_backup_backup">Sicherung</string>
+  <string name="init_backup_note">Hinweis: Diese Option sichert die Datenbank von c:geo. Nur Caches und Wegpunkte werden gesichert, keine Einstellungen. Login-Daten und Passwörter werden die App nicht verlassen.</string>
   <string name="init_backup_restore">Wiederstellung</string>
   <string name="init_backup_success">Datenbank von c:geo wurde erfolgreich in Datei geschrieben</string>
   <string name="init_backup_failed">Sicherung der Datenbank fehlgeschlagen.</string>
