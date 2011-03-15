@@ -327,6 +327,15 @@ public class cgeoinit extends Activity {
 			browserButton.setChecked(true);
 		}
 		browserButton.setOnClickListener(new cgeoChangeBrowser());
+		
+		TextView lastBackup = (TextView) findViewById(R.id.backup_last);
+		File lastBackupFile = app.isRestoreFile();
+		if (lastBackupFile != null) {
+			lastBackup.setText(res.getString(R.string.init_backup_last) + " " + cgBase.dateOut.format(lastBackupFile.lastModified()));
+		} else {
+			lastBackup.setText(res.getString(R.string.init_backup_last_no));
+		}
+		
 	}
 	
 	public void backup(View view) {

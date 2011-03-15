@@ -313,15 +313,15 @@ public class cgData {
 		return null;
 	}
 	
-	public boolean isRestoreFile() {
+	public File isRestoreFile() {
 		final String directoryImg = cgSettings.cache;
 		final String fileSource =  Environment.getExternalStorageDirectory() + "/" + directoryImg + "/cgeo.sqlite";
 
 		File fileSourceFile = new File(fileSource);
-		if (fileSourceFile.exists() == false) {
-			return true;
+		if (fileSourceFile.exists()) {
+			return fileSourceFile;
 		} else {
-			return false;
+			return null;
 		}
 	}
 

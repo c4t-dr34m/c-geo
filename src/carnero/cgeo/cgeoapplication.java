@@ -3,6 +3,7 @@ package carnero.cgeo;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class cgeoapplication extends Application {
 		return storage.backupDatabase();
 	}
 	
-	public boolean isRestoreFile() {
+	public File isRestoreFile() {
 		return storage.isRestoreFile();
 	}
 
