@@ -3895,7 +3895,7 @@ public class cgBase {
 				inr.close();
 				connection.disconnect();
 			} catch (IOException e) {
-				Log.e(cgSettings.tag, "cgBase.postTweet.IO: " + e.toString() + " ~ " + connection.getResponseCode() + ": " + connection.getResponseMessage());
+				Log.e(cgSettings.tag, "cgBase.postTweet.IO: " + connection.getResponseCode() + ": " + connection.getResponseMessage() + " ~ " + e.toString());
 
 				final InputStream ins = connection.getErrorStream();
 				final StringBuffer buffer = new StringBuffer();
@@ -3935,6 +3935,15 @@ public class cgBase {
 		if (text == null || text.length() == 0) {
 			return text;
 		}
+		
+		// cut to 5000 characters (limitation of Google Translation API)
+		if (urlencode_rfc3986(text).length() > 5000) {
+			text = Html.fromHtml(text).toString();
+			
+			if (urlencode_rfc3986(text).length() > 5000) {
+				text = text.substring(0, 4997) + "...";
+			}
+		}
 
 		try {
 			if (target == null) {
@@ -3945,18 +3954,14 @@ public class cgBase {
 			final String scheme = "https://";
 			final String host = "www.googleapis.com";
 			final String path = "/language/translate/v2";
-			final String apiKey = "AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ";
 
-			final StringBuilder params = new StringBuilder();
-			params.append("key=");
-			params.append(apiKey);
-			params.append("&target=");
-			params.append(target);
-			params.append("&format=html");
-			params.append("&q=");
-			params.append(URLEncoder.encode(text));
+			final ArrayList<String> params = new ArrayList<String>();
+			params.add("key=" + urlencode_rfc3986("AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ"));
+			params.add("target=" + urlencode_rfc3986(target));
+			params.add("q=" + urlencode_rfc3986(text));
+			params.add("format=" + urlencode_rfc3986("html"));
 
-			String page = requestJSON(scheme, host, path, "POST", params.toString());
+			String page = requestJSON(scheme, host, path, "POST", implode("&", params.toArray()));
 
 			if (page == null || page.length() == 0) {
 				return text;
@@ -4565,6 +4570,11 @@ public class cgBase {
 		} else {
 			method = method.toUpperCase();
 		}
+		
+		boolean methodPost = false;
+		if (method.equalsIgnoreCase("POST")) {
+			methodPost = true;
+		}
 
 		URLConnection uc = null;
 		HttpURLConnection connection = null;
@@ -4580,77 +4590,103 @@ public class cgBase {
 			timeout = 30000 + (i * 15000);
 
 			try {
-				// GET
-				final URL u = new URL(scheme + host + path + "?" + params);
-
-				if (u.getProtocol().toLowerCase().equals("https")) {
-					trustAllHosts();
-					HttpsURLConnection https = (HttpsURLConnection) u.openConnection();
-					https.setHostnameVerifier(doNotVerify);
-					uc = https;
-				} else {
-					uc = (HttpURLConnection) u.openConnection();
-				}
-
-				uc.setRequestProperty("Host", host);
-				uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-				uc.setRequestProperty("X-Requested-With", "XMLHttpRequest");
-				if (method.equals("POST")) {
-					uc.setRequestProperty("X-HTTP-Method-Override", "GET");
-				}
-				uc.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
-				uc.setRequestProperty("Referer", host + "/" + path);
-
-				connection = (HttpURLConnection) uc;
-				connection.setReadTimeout(timeout);
-				connection.setRequestMethod(method);
-				HttpURLConnection.setFollowRedirects(false); // TODO: Fix these (FilCab)
-				connection.setDoInput(true);
-				if (method.equals("POST")) {
-					connection.setDoOutput(true);
-
-					final OutputStream out = connection.getOutputStream();
-					final OutputStreamWriter wr = new OutputStreamWriter(out);
-					wr.write(params);
-					wr.flush();
-					wr.close();
-				} else {
-					connection.setDoOutput(false);
-				}
-				
-
-				final String encoding = connection.getContentEncoding();
-				InputStream ins;
-
-				if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
-					ins = new GZIPInputStream(connection.getInputStream());
-				} else if (encoding != null && encoding.equalsIgnoreCase("deflate")) {
-					ins = new InflaterInputStream(connection.getInputStream(), new Inflater(true));
-				} else {
-					ins = connection.getInputStream();
-				}
-				final InputStreamReader inr = new InputStreamReader(ins);
-				final BufferedReader br = new BufferedReader(inr);
-
-				String line;
-				while ((line = br.readLine()) != null) {
-					if (line.length() > 0) {
-						buffer.append(line);
-						buffer.append("\n");
+				try {
+					URL u = null;
+					if (methodPost) {
+						u = new URL(scheme + host + path);
+					} else {
+						u = new URL(scheme + host + path + "?" + params);
 					}
+
+					if (u.getProtocol().toLowerCase().equals("https")) {
+						trustAllHosts();
+						HttpsURLConnection https = (HttpsURLConnection) u.openConnection();
+						https.setHostnameVerifier(doNotVerify);
+						uc = https;
+					} else {
+						uc = (HttpURLConnection) u.openConnection();
+					}
+
+					uc.setRequestProperty("Host", host);
+					uc.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
+					if (methodPost) {
+						uc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+						uc.setRequestProperty("Content-Length", Integer.toString(params.length()));
+						uc.setRequestProperty("X-HTTP-Method-Override", "GET");
+					} else {
+						uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+					}
+					uc.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+
+					connection = (HttpURLConnection) uc;
+					connection.setReadTimeout(timeout);
+					connection.setRequestMethod(method);
+					HttpURLConnection.setFollowRedirects(false); // TODO: Fix these (FilCab)
+					connection.setDoInput(true);
+					if (methodPost) {
+						connection.setDoOutput(true);
+
+						final OutputStream out = connection.getOutputStream();
+						final OutputStreamWriter wr = new OutputStreamWriter(out);
+						wr.write(params);
+						wr.flush();
+						wr.close();
+					} else {
+						connection.setDoOutput(false);
+					}
+
+
+					final String encoding = connection.getContentEncoding();
+					InputStream ins;
+
+					if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
+						ins = new GZIPInputStream(connection.getInputStream());
+					} else if (encoding != null && encoding.equalsIgnoreCase("deflate")) {
+						ins = new InflaterInputStream(connection.getInputStream(), new Inflater(true));
+					} else {
+						ins = connection.getInputStream();
+					}
+					final InputStreamReader inr = new InputStreamReader(ins);
+					final BufferedReader br = new BufferedReader(inr);
+
+					String line;
+					while ((line = br.readLine()) != null) {
+						if (line.length() > 0) {
+							buffer.append(line);
+							buffer.append("\n");
+						}
+					}
+
+					httpCode = connection.getResponseCode();
+
+					Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (GET " + httpCode + ", " + connection.getResponseMessage() + ") " + scheme + host + path + "?" + params);
+
+					connection.disconnect();
+					br.close();
+					ins.close();
+					inr.close();
+				} catch (IOException e) {
+					Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + connection.getResponseCode() + ": " + connection.getResponseMessage() + " ~ " +  e.toString());
+					
+					final InputStream ins = connection.getErrorStream();
+					final StringBuffer bufferE = new StringBuffer();
+					final InputStreamReader inr = new InputStreamReader(ins);
+					final BufferedReader br = new BufferedReader(inr);
+
+					String line;
+					while ((line = br.readLine()) != null) {
+						if (line.length() > 0) {
+							bufferE.append(line);
+							bufferE.append("\n");
+						}
+					}
+
+					br.close();
+					ins.close();
+					inr.close();
+					
+					Log.e(cgSettings.tag, bufferE.toString());
 				}
-
-				httpCode = connection.getResponseCode();
-				httpLocation = uc.getHeaderField("Location");
-
-				Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (GET " + httpCode + ", " + connection.getResponseMessage() + ") " + scheme + host + path + "?" + params);
-
-				connection.disconnect();
-				br.close();
-				ins.close();
-				inr.close();
-			} catch (IOException e) {
-				Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + e.toString());
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeoBase.requestJSON: " + e.toString());
 			}
