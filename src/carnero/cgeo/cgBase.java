@@ -1373,16 +1373,18 @@ public class cgBase {
 		}
 		
 		// translation
-		ArrayList<String> values = new ArrayList<String>();
-		values.add(cache.hint);
-		values.add(cache.shortdesc);
-		values.add(cache.description);
-		
-		ArrayList<String> translated = translate(values, null);
-		
-		cache.hint = translated.get(0);
-		cache.shortdesc = translated.get(1);
-		cache.description = translated.get(2);
+		if (settings.translate == true) {
+			ArrayList<String> values = new ArrayList<String>();
+			values.add(cache.hint);
+			values.add(cache.shortdesc);
+			values.add(cache.description);
+
+			ArrayList<String> translated = translate(values, null);
+
+			cache.hint = translated.get(0);
+			cache.shortdesc = translated.get(1);
+			cache.description = translated.get(2);
+		}
 
 		// cache attributes
 		try {
@@ -3955,11 +3957,18 @@ public class cgBase {
 		
 		// cut to 5000 characters (limitation of Google Translation API)
 		for (String textOne : text) {
-			if (urlencode_rfc3986(textOne).length() > 5000) {
+			int len = urlencode_rfc3986(textOne).length();
+			if (len > 5000) {
 				textOne = Html.fromHtml(textOne).toString();
-
-				if (urlencode_rfc3986(textOne).length() > 5000) {
-					textOne = textOne.substring(0, 4997) + "...";
+				len = urlencode_rfc3986(textOne).length();
+				
+				if (len > 5000) {
+					int cut = 2000;
+					if (textOne.length() > cut) {
+						cut = 1000;
+					}
+					
+					textOne = textOne.substring(0, cut) + "...";
 				}
 			}
 		}
@@ -4009,6 +4018,7 @@ public class cgBase {
 				if (toTranslate == false) {
 					translated.add(text.get(i));
 				} else {
+					Log.i(cgSettings.tag, "Translating #" + i + ": " + language + ">" + target);
 					translated.add(jsonTranslation.getString("translatedText"));
 				}
 			}
