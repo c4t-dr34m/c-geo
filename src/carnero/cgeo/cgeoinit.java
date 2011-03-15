@@ -346,6 +346,14 @@ public class cgeoinit extends Activity {
 		} else {
 			warning.helpDialog(res.getString(R.string.init_backup_backup), res.getString(R.string.init_backup_failed));
 		}
+		
+		TextView lastBackup = (TextView) findViewById(R.id.backup_last);
+		File lastBackupFile = app.isRestoreFile();
+		if (lastBackupFile != null) {
+			lastBackup.setText(res.getString(R.string.init_backup_last) + " " + cgBase.dateOut.format(lastBackupFile.lastModified()));
+		} else {
+			lastBackup.setText(res.getString(R.string.init_backup_last_no));
+		}
 	}
 	
 	public void restore(View view) {
