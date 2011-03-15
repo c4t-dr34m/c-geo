@@ -1344,8 +1344,6 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache hint");
 		}
 
-		cache.hint = translate(cache.hint, null);
-
 		// cache short description
 		try {
 			final Matcher matcherDescShort = patternDescShort.matcher(page);
@@ -1361,8 +1359,6 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache short description");
 		}
 
-		cache.shortdesc = translate(cache.shortdesc, null);
-
 		// cache description
 		try {
 			final Matcher matcherDesc = patternDesc.matcher(page);
@@ -1375,8 +1371,18 @@ public class cgBase {
 			// failed to parse short description
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache description");
 		}
-
-		cache.description = translate(cache.description, null);
+		
+		// translation
+		ArrayList<String> values = new ArrayList<String>();
+		values.add(cache.hint);
+		values.add(cache.shortdesc);
+		values.add(cache.description);
+		
+		ArrayList<String> translated = translate(values, null);
+		
+		cache.hint = translated.get(0);
+		cache.shortdesc = translated.get(1);
+		cache.description = translated.get(2);
 
 		// cache attributes
 		try {
@@ -3922,26 +3928,39 @@ public class cgBase {
 			Log.e(cgSettings.tag, "cgBase.postTweet: " + e.toString());
 		}
 	}
+	
+	public ArrayList<String> translate(String text, String target) {
+		ArrayList<String> textArr = new ArrayList<String>();
+		textArr.add(text);
+		
+		return translate(textArr, target);
+	}
 
-	public String translate(String text, String target) {
+	public ArrayList<String> translate(ArrayList<String> text, String target) {
 		if (settings.translate == false) {
 			return text;
 		}
 		
-		boolean toTranslate = true;
-		String translated = null;
+		String[] languages = null;
+		if (settings.languages != null) {
+			languages = settings.languages.split(" ");
+		}
+		
+		ArrayList<String> translated = new ArrayList<String>();;
 		String language = null;
 
-		if (text == null || text.length() == 0) {
+		if (text == null || text.isEmpty()) {
 			return text;
 		}
 		
 		// cut to 5000 characters (limitation of Google Translation API)
-		if (urlencode_rfc3986(text).length() > 5000) {
-			text = Html.fromHtml(text).toString();
-			
-			if (urlencode_rfc3986(text).length() > 5000) {
-				text = text.substring(0, 4997) + "...";
+		for (String textOne : text) {
+			if (urlencode_rfc3986(textOne).length() > 5000) {
+				textOne = Html.fromHtml(textOne).toString();
+
+				if (urlencode_rfc3986(textOne).length() > 5000) {
+					textOne = textOne.substring(0, 4997) + "...";
+				}
 			}
 		}
 
@@ -3958,7 +3977,9 @@ public class cgBase {
 			final ArrayList<String> params = new ArrayList<String>();
 			params.add("key=" + urlencode_rfc3986("AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ"));
 			params.add("target=" + urlencode_rfc3986(target));
-			params.add("q=" + urlencode_rfc3986(text));
+			for (String textOne : text) {
+				params.add("q=" + urlencode_rfc3986(textOne));
+			}
 			params.add("format=" + urlencode_rfc3986("html"));
 
 			String page = requestJSON(scheme, host, path, "POST", implode("&", params.toArray()));
@@ -3970,31 +3991,32 @@ public class cgBase {
 			JSONObject json = new JSONObject(page);
 			JSONObject jsonData = json.getJSONObject("data");
 			JSONArray jsonTranslations = jsonData.getJSONArray("translations");
-			JSONObject jsonTranslation = jsonTranslations.getJSONObject(0);
+			int translationCnt = jsonTranslations.length();
+			
+			for (int i = 0; i < translationCnt; i ++) {
+				JSONObject jsonTranslation = jsonTranslations.getJSONObject(i);
+				language = jsonTranslation.getString("detectedSourceLanguage");
 
-			translated = jsonTranslation.getString("translatedText");
-			language = jsonTranslation.getString("detectedSourceLanguage");
+				boolean toTranslate = true;
+				if (languages != null) {
+					for (String lng : languages) {
+						if (lng.equalsIgnoreCase(language)) {
+							toTranslate = false;
+						}
+					}
+				}
+				
+				if (toTranslate == false) {
+					translated.add(text.get(i));
+				} else {
+					translated.add(jsonTranslation.getString("translatedText"));
+				}
+			}
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgBase.translate: " + e.toString());
 		}
 
-		if (language != null && language.length() > 0 && settings.languages != null) {
-			String[] languages = settings.languages.split(" ");
-
-			for (String lng : languages) {
-				if (lng.equalsIgnoreCase(language)) {
-					toTranslate = false; // known language, no need to translate
-				}
-			}
-		}
-
-		if (toTranslate == false || translated == null || translated.length() == 0) {
-			return text;
-		} else {
-			Log.i(cgSettings.tag, "Translating text from " + language + " to " + target);
-
-			return translated;
-		}
+		return translated;
 	}
 
 	public static String implode(String delim, Object[] array) {
@@ -4667,25 +4689,6 @@ public class cgBase {
 					inr.close();
 				} catch (IOException e) {
 					Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + connection.getResponseCode() + ": " + connection.getResponseMessage() + " ~ " +  e.toString());
-					
-					final InputStream ins = connection.getErrorStream();
-					final StringBuffer bufferE = new StringBuffer();
-					final InputStreamReader inr = new InputStreamReader(ins);
-					final BufferedReader br = new BufferedReader(inr);
-
-					String line;
-					while ((line = br.readLine()) != null) {
-						if (line.length() > 0) {
-							bufferE.append(line);
-							bufferE.append("\n");
-						}
-					}
-
-					br.close();
-					ins.close();
-					inr.close();
-					
-					Log.e(cgSettings.tag, bufferE.toString());
 				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeoBase.requestJSON: " + e.toString());
