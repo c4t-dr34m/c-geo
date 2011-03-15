@@ -1358,7 +1358,7 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache short description");
 		}
 
-		cache.shortdesc = translate(Html.fromHtml(cache.shortdesc).toString(), null);
+		cache.shortdesc = translate(cache.shortdesc, null);
 
 		// cache description
 		try {
@@ -1373,7 +1373,7 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache description");
 		}
 
-		cache.description = translate(Html.fromHtml(cache.description).toString(), null);
+		cache.description = translate(cache.description, null);
 
 		// cache attributes
 		try {
@@ -3933,12 +3933,13 @@ public class cgBase {
 			final StringBuilder params = new StringBuilder();
 			params.append("key=");
 			params.append(apiKey);
-			params.append("&q=");
-			params.append(URLEncoder.encode(text));
 			params.append("&target=");
 			params.append(target);
+			params.append("&format=html");
+			params.append("&q=");
+			params.append(URLEncoder.encode(text));
 
-			String page = requestJSON(scheme, host, path, params.toString());
+			String page = requestJSON(scheme, host, path, "POST", params.toString());
 
 			if (page == null || page.length() == 0) {
 				return text;
@@ -4535,12 +4536,18 @@ public class cgBase {
 	}
 
 	public String requestJSON(String host, String path, String params) {
-		return requestJSON("http://", host, path, params);
+		return requestJSON("http://", host, path, "GET", params);
 	}
 
-	public String requestJSON(String scheme, String host, String path, String params) {
+	public String requestJSON(String scheme, String host, String path, String method, String params) {
 		int httpCode = -1;
 		String httpLocation = null;
+		
+		if (method == null) {
+			method = "GET";
+		} else {
+			method = method.toUpperCase();
+		}
 
 		URLConnection uc = null;
 		HttpURLConnection connection = null;
@@ -4560,26 +4567,40 @@ public class cgBase {
 				final URL u = new URL(scheme + host + path + "?" + params);
 
 				if (u.getProtocol().toLowerCase().equals("https")) {
-						trustAllHosts();
-						HttpsURLConnection https = (HttpsURLConnection) u.openConnection();
-						https.setHostnameVerifier(doNotVerify);
-						uc = https;
+					trustAllHosts();
+					HttpsURLConnection https = (HttpsURLConnection) u.openConnection();
+					https.setHostnameVerifier(doNotVerify);
+					uc = https;
 				} else {
-						uc = (HttpURLConnection) u.openConnection();
+					uc = (HttpURLConnection) u.openConnection();
 				}
 
 				uc.setRequestProperty("Host", host);
 				uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 				uc.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+				if (method.equals("POST")) {
+					uc.setRequestProperty("X-HTTP-Method-Override", "GET");
+				}
 				uc.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
 				uc.setRequestProperty("Referer", host + "/" + path);
 
 				connection = (HttpURLConnection) uc;
 				connection.setReadTimeout(timeout);
-				connection.setRequestMethod("GET");
+				connection.setRequestMethod(method);
 				HttpURLConnection.setFollowRedirects(false); // TODO: Fix these (FilCab)
 				connection.setDoInput(true);
-				connection.setDoOutput(false);
+				if (method.equals("POST")) {
+					connection.setDoOutput(true);
+
+					final OutputStream out = connection.getOutputStream();
+					final OutputStreamWriter wr = new OutputStreamWriter(out);
+					wr.write(params);
+					wr.flush();
+					wr.close();
+				} else {
+					connection.setDoOutput(false);
+				}
+				
 
 				final String encoding = connection.getContentEncoding();
 				InputStream ins;
