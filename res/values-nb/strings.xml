@@ -267,7 +267,6 @@
   <string name="init_offline">Lagre kartet for offline-bruk (små deler)</string>
   <string name="init_units">Bruk imperialistiske måleenheter</string>
   <string name="init_nav">Bruk Google Navigation</string>
-  <string name="init_directoryimg">Skjul bilde-katalogen fra galleriet</string>
   <string name="init_autoload">Last full beskrivelse automatisk</string>
   <string name="init_livelist">Vis cachers retning i listen</string>
   <string name="init_browser">Gjør c:geo til standard cache-leser</string>

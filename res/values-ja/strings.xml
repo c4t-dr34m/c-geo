@@ -298,7 +298,6 @@
   <string name="init_offline">オフライン用に地図を保存する</string>
   <string name="init_units">ヤード単位で表示する</string>
   <string name="init_nav">Googleマップナビを使う</string>
-  <string name="init_directoryimg">SDカードの保存フォルダを不可視にする(標準画像ビューアのGalleryからは表示できなくなります)</string>
   <string name="init_autoload">キャッシュの説明を自動的に全て表示する</string>
   <string name="init_livelist">キャッシュの一覧で方向をアイコン表示する</string>
   <string name="init_browser">c:geoが既定のブラウザかどうか確認する</string>

@@ -272,7 +272,6 @@
   <string name="init_offline">Armazenar mapas para uso offline</string>
   <string name="init_units">Utilizar distância nas unidades inglesas</string>
   <string name="init_nav">Utilizar Google Navigation</string>
-  <string name="init_directoryimg">Esconder a pasta das imagens da galeria</string>
   <string name="init_autoload">Carregar automaticamente a descrição longa</string>
   <string name="init_livelist">Mostrar a direcção para a cache na lista</string>
   <string name="init_browser">Utilizar c:geo como browser principal</string>

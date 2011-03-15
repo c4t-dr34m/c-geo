@@ -177,7 +177,6 @@
   <string name="init_offline">Térkép tárolása offline használathoz</string>
   <string name="init_units">Angolszász mértékegységek használata</string>
   <string name="init_nav">Google Navigáció használata</string>
-  <string name="init_directoryimg">Galéria képkönyvtár elrejtése</string>
   <string name="init_autoload">Hosszú leírás automatikus betöltése</string>
   <string name="init_livelist">Cache irányának megjelenítése a listában</string>
   <string name="init_browser">A c:geo alapértelmezett böngészőként való beállítása</string>

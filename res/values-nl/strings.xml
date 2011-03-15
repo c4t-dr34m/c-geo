@@ -285,7 +285,6 @@
   <string name="init_offline">Kaarten opslaan voor gebruik zonder verbinding</string>
   <string name="init_units">Gebruik imperiale stelsel voor afstanden</string>
   <string name="init_nav">Gebruik Google Navigatie</string>
-  <string name="init_directoryimg">Verberg afbeeldingen map uit gallerij</string>
   <string name="init_autoload">Automatisch lange omschrijving laden</string>
   <string name="init_livelist">Toon afstand tot cache in lijst</string>
   <string name="init_browser">c:geo Als standaard browser instellen</string>

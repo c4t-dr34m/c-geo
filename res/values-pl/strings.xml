@@ -311,7 +311,6 @@
   <string name="init_offline">Zapisuj mampki do użytku offline</string>
   <string name="init_units">Używaj angielskich jednostek miary (mile)</string>
   <string name="init_nav">Używaj Google Navigation</string>
-  <string name="init_directoryimg">Ukryj listę zdjęć w galerii</string>
   <string name="init_autoload">Długie opisy automatycznie ładować</string>
   <string name="init_livelist">Pokazuj na liście kierunek do skrzynek</string>
   <string name="init_browser">Ustaw c:geo jako standardową przeglądarkę</string>

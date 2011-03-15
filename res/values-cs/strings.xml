@@ -281,7 +281,6 @@
   <string name="init_offline">ukládat mapy pro offline použití</string>
   <string name="init_units">používat imperiální jednotky vzdálenosti</string>
   <string name="init_nav">používat Google Navigation</string>
-  <string name="init_directoryimg">nezobrazovat stažené obrázky v galerii</string>
   <string name="init_autoload">automaticky stahovat dlouhé popisy</string>
   <string name="init_livelist">zobrazovat směr v seznamu keší</string>
   <string name="init_browser">tvářit se jako běžný webový prohlížeč</string>

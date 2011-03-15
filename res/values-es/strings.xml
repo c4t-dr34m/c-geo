@@ -305,7 +305,6 @@
   <string name="init_offline">Guardar mapas para usar sin conexión</string>
   <string name="init_units">Usar millas/pies (unidades imperiales)</string>
   <string name="init_nav">Usar Google Navigation</string>
-  <string name="init_directoryimg">Ocultar directorio de imágenes de la galería</string>
   <string name="init_autoload">Autocargar descripción larga</string>
   <string name="init_livelist">Mostrar dirección a los escondites en su listado</string>
   <string name="init_browser">Identificar c:geo como navegador por defecto</string>

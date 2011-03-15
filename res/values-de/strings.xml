@@ -314,7 +314,6 @@
   <string name="init_offline">Karten für Offline-Verwendung speichern</string>
   <string name="init_units">Imperiales Maßsystem (Meilen) verwenden</string>
   <string name="init_nav">Google Navigation verwenden</string>
-  <string name="init_directoryimg">Bilderverzeichnis in der Galerie ausblenden</string>
   <string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
   <string name="init_livelist">Richtung zum Cache in der Cache-Liste anzeigen</string>
   <string name="init_browser">c:geo als normalen Internet-Browser tarnen</string>

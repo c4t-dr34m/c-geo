@@ -154,7 +154,6 @@
   <string name="init_offline">enregistrer les cartes pour utilisation hors ligne</string>
   <string name="init_units">utiliser des unités de distance impériales</string>
   <string name="init_nav">utiliser Google Navigation</string>
-  <string name="init_directoryimg">masquer les images de la galerie</string>
   <string name="init_autoload">chargement auto des descriptions longues</string>
   <string name="init_livelist">afficher la direction des caches dans les listes</string>
   <string name="init_browser">identifier c:geo comme navigateur standard</string>
