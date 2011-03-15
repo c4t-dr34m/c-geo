@@ -1,10 +1,11 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -462,5 +463,18 @@ public class cgeotouch extends cgLogForm {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+	
+	public void goManual(View view) {
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-log-trackable",
+				activity,
+				"http://cgeo.carnero.cc/manual/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

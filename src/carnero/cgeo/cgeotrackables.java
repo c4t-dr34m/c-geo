@@ -1,7 +1,8 @@
 package carnero.cgeo;
 
-import java.util.ArrayList;
+import gnu.android.app.appmanualclient.*;
 
+import java.util.ArrayList;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class cgeotrackables extends Activity {
 	private ArrayList<cgTrackable> trackables = new ArrayList<cgTrackable>();
@@ -162,5 +162,18 @@ public class cgeotrackables extends Activity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+	
+	public void goManual(View view) {
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-trackable-list",
+				activity,
+				"http://cgeo.carnero.cc/manual/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }

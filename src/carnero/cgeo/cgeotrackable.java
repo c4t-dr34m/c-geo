@@ -1,9 +1,10 @@
 package carnero.cgeo;
 
+import gnu.android.app.appmanualclient.*;
+
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
-
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -26,7 +27,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.view.SubMenu;
 import android.widget.ImageView;
 
 public class cgeotrackable extends Activity {
@@ -648,5 +648,18 @@ public class cgeotrackable extends Activity {
 
 	public void goHome(View view) {
 		base.goHome(activity);
+	}
+	
+	public void goManual(View view) {
+		try {
+			AppManualReaderClient.openManual(
+				"c-geo",
+				"c:geo-trackable-details",
+				activity,
+				"http://cgeo.carnero.cc/manual/"
+			);
+		} catch (Exception e) {
+			// nothing
+		}
 	}
 }
