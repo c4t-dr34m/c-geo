@@ -129,6 +129,16 @@
   <string name="err_auth_process">Autorisierung fehlgeschlagen.</string>
   <string name="err_cannot_log_visit">c:geo hat nicht genügend Informationen um den Besuch zu loggen. Bitte über die Cache-Details versuchen.</string>
   <string name="err_init_cleared">c:geo konnte die Anmeldedaten nicht entfernen.</string>
+  <string name="init_backup">Sicherung</string>
+  <string name="init_backup_backup">Sicherung</string>
+  <string name="init_backup_restore">Wiederstellung</string>
+  <string name="init_backup_success">Datenbank von c:geo wurde erfolgreich in Datei geschrieben</string>
+  <string name="init_backup_failed">Sicherung der Datenbank fehlgeschlagen.</string>
+  <string name="init_restore_success">Wiederherstellung beendet.</string>
+  <string name="init_restore_failed">Wiederherstellung fehlgeschlagen.</string>
+  <string name="init_backup_last">Backup verfügbar von</string>
+  <string name="init_backup_last_no">Keine Datei mit Datenbanksicherung gefunden.</string>
+
   <string name="err_no_chaches">c:geo konnte die Caches nicht laden.</string>
   <string name="err_download_fail">c:geo konnte keine Caches laden, weil </string>
   <string name="err_update_fail">Update der gereisten Strecke fehlgeschlagen.</string>
@@ -501,6 +511,7 @@
   <string name="trackable_origin">Ursprungsort</string>
   <string name="trackable_unknown">Unbekannt</string>
   <string name="trackable_released">Ausgesetzt</string>
+  <string name="trackable_distance">Gereist</string>
   <string name="trackable_touch">Trackable-Aktion</string>
 
   <!--  user -->
