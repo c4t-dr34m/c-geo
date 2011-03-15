@@ -518,17 +518,17 @@
 					android:orientation="horizontal"
 					android:padding="3dip" >
 				<Button style="@style/button"
-						android:id="@+id/backup_restore"
-						android:layout_width="0dip"
-						android:layout_weight="1"
-						android:text="@string/init_backup_restore"
-						android:onClick="restore" />
-				<Button style="@style/button"
 						android:id="@+id/backup_backup"
 						android:layout_width="0dip"
 						android:layout_weight="1"
 						android:text="@string/init_backup_backup"
 						android:onClick="backup" />
+				<Button style="@style/button"
+						android:id="@+id/backup_restore"
+						android:layout_width="0dip"
+						android:layout_weight="1"
+						android:text="@string/init_backup_restore"
+						android:onClick="restore" />
 			</LinearLayout>
 			<TextView
 					android:layout_width="wrap_content"

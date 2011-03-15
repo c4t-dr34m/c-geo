@@ -321,7 +321,7 @@
   <string name="init_backup_backup">Backup</string>
   <string name="init_backup_note">Med knapparna ovan kan du säkerhetskopiera eller återställa databasen som innehåller cacher och punkter (waypoints). Inställningar (såsom användarnamn och lösenord) kopieras inte.</string>
   <string name="init_backup_restore">Återställn.</string>
-  <string name="init_backup_success">Databasen som används av c:geo har kopierats till fil.</string>
+  <string name="init_backup_success">Databasen som används av c:geo har kopierats till filen</string>
   <string name="init_backup_failed">Backup av c:geos databas misslyckades.</string>
   <string name="init_restore_success">Återställning klar.</string>
   <string name="init_restore_failed">Återställningen misslyckades.</string>

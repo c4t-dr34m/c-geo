@@ -318,10 +318,10 @@
   <string name="init_cleared">c:geo cleared login information.</string>
   <string name="init_backup">Backup</string>
   <string name="init_backup_backup">Backup</string>
-  <string name="init_backup_note">Please note this option will make/restore backup of database containing caches and waypoints, not settings. Your login informations (passwords) will not leave this application.</string>
+  <string name="init_backup_note">Please note this option will backup/restore the database containing caches and waypoints, not settings. Your login information (passwords) will not leave this application.</string>
   <string name="init_backup_restore">Restore</string>
-  <string name="init_backup_success">Database of c:geo was successfully copied to file</string>
-  <string name="init_backup_failed">Backup of database of c:geo has failed.</string>
+  <string name="init_backup_success">Database of c:geo was successfully copied to the file</string>
+  <string name="init_backup_failed">Backup of database of c:geo failed.</string>
   <string name="init_restore_success">Restoration completed.</string>
   <string name="init_restore_failed">Restoration failed.</string>
   <string name="init_backup_last">Available backup from</string>
