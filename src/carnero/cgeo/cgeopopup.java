@@ -242,6 +242,13 @@ public class cgeopopup extends Activity {
 			LinearLayout detailsList = (LinearLayout) findViewById(R.id.details_list);
 			detailsList.removeAllViews();
 
+			// actionbar icon
+			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
+				((TextView) findViewById(R.id.actionbar_title)).setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get(cache.type)), null, null, null);
+			} else { // unknown cache type, "mystery" icon
+				((TextView) findViewById(R.id.actionbar_title)).setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get("mystery")), null, null, null);
+			}
+			
 			// cache type
 			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView) itemLayout.findViewById(R.id.name);
@@ -260,11 +267,6 @@ public class cgeopopup extends Activity {
 				} else {
 					itemValue.setText(cgBase.cacheTypesInv.get("mystery"));
 				}
-			}
-			if (cache.type != null && gcIcons.containsKey(cache.type) == true) { // cache icon
-				itemValue.setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get(cache.type)), null, null, null);
-			} else { // unknown cache type, "mystery" icon
-				itemValue.setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get("mystery")), null, null, null);
 			}
 			detailsList.addView(itemLayout);
 

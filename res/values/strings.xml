@@ -510,6 +510,7 @@
   <string name="trackable_origin">Origin</string>
   <string name="trackable_unknown">Unknown</string>
   <string name="trackable_released">Released</string>
+  <string name="trackable_distance">Travelled</string>
   <string name="trackable_touch">Touch</string>
 
   <!--  user -->

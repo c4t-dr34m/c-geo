@@ -288,8 +288,10 @@
   <string name="init_signature_help_button">Hilfe</string>
   <string name="init_signature_help_title">Tipps und Tricks für die Signatur</string>
   <string name="init_signature_help_text">Verfasse eine Signatur für deinen Logtext.\nErlaubte Platzhalter sind: [DATE], [TIME], [USER] &amp; [NUMBER]. Diese werden beim Einfügen der Signatur durch ihre Werte ersetzt.</string>
-  <string name="init_languages">Sprachen</string>
-  <string name="init_languages_hint">Welche Sprachen verstehst du (en sp fr)</string>
+  <string name="init_languages">Übersetzung</string>
+  <string name="init_languages_description">Welche Sprachen verstehst du? (zweistelliger Code)</string>
+  <string name="init_languages_hint">de en es</string>
+  <string name="init_translate">Beschreibung &amp; Hint übersetzen</string>
   <string name="init_other">Weitere Optionen</string>
   <string name="init_skin">Light Skin (Neustart erforderlich)</string>
   <string name="init_transparent">Transparenten Startbildschirm verwenden</string>

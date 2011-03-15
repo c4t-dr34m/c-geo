@@ -217,7 +217,18 @@ public class cgeotrackable extends Activity {
 					itemValue.setText(cgBase.dateOut.format(trackable.released));
 					detailsList.addView(itemLayout);
 				}
+								// trackable distance
+				if (trackable.distance != null) {
+					itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
+					itemName = (TextView) itemLayout.findViewById(R.id.name);
+					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
+					itemName.setText(res.getString(R.string.trackable_distance));
+					itemValue.setText(trackable.distance);
+					detailsList.addView(itemLayout);
+				}
+
+				
 				// trackable goal
 				if (trackable.goal != null && trackable.goal.length() > 0) {
 					((LinearLayout) findViewById(R.id.goal_box)).setVisibility(View.VISIBLE);
@@ -284,7 +295,8 @@ public class cgeotrackable extends Activity {
 					imgView.addView(trackableImage);
 				}
 			} catch (Exception e) {
-				Log.e(cgSettings.tag, "cgeotrackable.loadTrackableHandler: " + e.toString());
+				Log.e(cgSettings.tag, "cgeotrackable.loadTrackableHandler: " + e.toString() + e.getStackTrace());
+				e.printStackTrace();
 			}
 
 			displayLogs();

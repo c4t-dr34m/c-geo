@@ -205,6 +205,7 @@ public class cgBase {
 		logTypes.put("icon_discovered", 48);
 		logTypes.put("big_smile", 49);
 		logTypes.put("icon_visited", 1001); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes.put("icon_camera", 1002); // unknown ID; used number doesn't match any GC.com's ID
 
 		logTypes0.put("found it", 2);
 		logTypes0.put("didn't find it", 3);
@@ -224,6 +225,7 @@ public class cgBase {
 		logTypes0.put("discovered it", 48);
 		logTypes0.put("post reviewer note", 49);
 		logTypes0.put("visit", 1001); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes0.put("webcam photo taken", 1002); // unknown ID; used number doesn't match any GC.com's ID
 
 		logTypes1.put(2, res.getString(R.string.log_found));
 		logTypes1.put(3, res.getString(R.string.log_dnf));
@@ -243,6 +245,7 @@ public class cgBase {
 		logTypes1.put(48, res.getString(R.string.log_discovered));
 		logTypes1.put(49, res.getString(R.string.log_reviewed));
 		logTypes1.put(1001, res.getString(R.string.log_taken));
+		logTypes1.put(1002, res.getString(R.string.log_webcam));
 
 		logTypes2.put(2, res.getString(R.string.log_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
 		logTypes2.put(3, res.getString(R.string.log_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
@@ -1926,6 +1929,8 @@ public class cgBase {
 		final Pattern patternDetailsImage = Pattern.compile("<h3>[^\\w]*About This Item[^<]*</h3>([^<]*<p>([^<]*<img id=\"ctl00_ContentBody_BugDetails_BugImage\" class=\"[^\"]+\" src=\"([^\"]+)\"[^>]*>)?[^<]*</p>)?[^<]*<p[^>]*>(.*)</p>[^<]*<div id=\"ctl00_ContentBody_BugDetails_uxAbuseReport\">", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLogs = Pattern.compile("<table class=\"TrackableItemLogTable Table\">(.*)<\\/table>[^<]*<ul", Pattern.CASE_INSENSITIVE);
 		final Pattern patternIcon = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternType = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"[^\"]+\" alt=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternDistance = Pattern.compile("<h3>[^T]*Tracking History [(]([0-9.]*km)", Pattern.CASE_INSENSITIVE);
 
 		final cgTrackable trackable = new cgTrackable();
 
@@ -1983,7 +1988,6 @@ public class cgBase {
 
 		// trackable type
 		if (trackable.name != null && trackable.name.length() > 0) {
-			final Pattern patternType = Pattern.compile("<title>[^\\(]*\\([A-Z0-9]*\\) ([^<]*) - " + trackable.name.trim() + "[^<]*</title>", Pattern.CASE_INSENSITIVE);
 			try {
 				final Matcher matcherType = patternType.matcher(page);
 				while (matcherType.find()) {
@@ -2083,6 +2087,19 @@ public class cgBase {
 		} catch (Exception e) {
 			// failed to parse trackable released date
 			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable released date");
+		}
+
+		// trackable distance
+		try {
+			final Matcher matcherDistance = patternDistance.matcher(page);
+			while (matcherDistance.find()) {
+				if (matcherDistance.groupCount() > 0) {
+					trackable.distance = matcherDistance.group(1);
+				}
+			}
+		} catch (Exception e) {
+			// failed to parse trackable distance
+			Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable distance");
 		}
 
 		// trackable goal

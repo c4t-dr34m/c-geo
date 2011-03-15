@@ -297,8 +297,10 @@
   <string name="init_signature_help_button">Hjälp</string>
   <string name="init_signature_help_title">Tips och tricks</string>
   <string name="init_signature_help_text">Skriv den signatur som du vill använda i dina loggtexter.\nDet finns några speciella texter som kan användas och som expanderas när signaturen läggs in: [DATE] , [TIME], [USER] &amp; [NUMBER].</string>
-  <string name="init_languages">Språk</string>
-  <string name="init_languages_hint">Vilka språk förstår du? (en de sv)</string>
+  <string name="init_languages">Översättning</string>
+  <string name="init_languages_description">Vilka språk förstår du (och som därmed inte behöver översättas)? Ange språkkoder i form av två tecken.</string>
+  <string name="init_languages_hint">en sv de fr es no da fi</string>
+  <string name="init_translate">Översätt beskrivning &amp; tips/hint</string>
   <string name="init_other">Övriga inställningar</string>
   <string name="init_skin">Vitt skal (kräver omstart av c:geo)</string>
   <string name="init_transparent">Transparent huvudmeny</string>
@@ -509,6 +511,7 @@
   <string name="trackable_origin">Ursprung</string>
   <string name="trackable_unknown">Okänd</string>
   <string name="trackable_released">Släppt</string>
+  <string name="trackable_distance">Rest sträcka</string>
   <string name="trackable_touch">Logga</string>
 
   <!--  user -->

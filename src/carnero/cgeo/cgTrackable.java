@@ -21,6 +21,7 @@ public class cgTrackable {
 	public Spannable nameSp = null;
 	public String type = null;
 	public Date released = null;
+	public String distance = null;
 	public String origin = null;
 	public String owner = null;
 	public String ownerGuid = null;
