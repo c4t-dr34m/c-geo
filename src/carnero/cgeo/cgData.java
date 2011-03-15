@@ -2,11 +2,18 @@ package carnero.cgeo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.util.Log;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Environment;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -30,6 +37,7 @@ public class cgData {
 
 	public cgCacheWrap caches;
 	private Context context = null;
+	private String path = null;
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
@@ -169,7 +177,7 @@ public class cgData {
 	public cgData(Context contextIn) {
 		context = contextIn;
 	}
-
+	
 	public void init() {
 		if (databaseRW == null || databaseRW.isOpen() == false) {
 			try {
@@ -219,33 +227,154 @@ public class cgData {
 	}
 
 	public void closeDb() {
+		sqlCount = null;
+		sqlCountDetailed = null;
+		sqlCountTyped = null;
+		sqlCountDetailedTyped = null;
+		
 		if (databaseRO != null) {
+			path = databaseRO.getPath();
+			
 			if (databaseRO.inTransaction() == true) {
 				databaseRO.endTransaction();
 			}
 
 			databaseRO.close();
+			databaseRO = null;
 			SQLiteDatabase.releaseMemory();
 
 			Log.d(cgSettings.tag, "Closing RO database");
 		}
 
 		if (databaseRW != null) {
+			path = databaseRW.getPath();
+			
 			if (databaseRW.inTransaction() == true) {
 				databaseRW.endTransaction();
 			}
 
 			databaseRW.close();
+			databaseRW = null;
 			SQLiteDatabase.releaseMemory();
 
 			Log.d(cgSettings.tag, "Closing RW database");
 		}
-
+		
 		if (dbHelper != null) {
 			dbHelper.close();
+			dbHelper = null;
+		}
+	}
+	
+	public String backupDatabase() {
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) == false) {
+			Log.w(cgSettings.tag, "Database wasn't backed up: no external memory");
+			
+			return null;
+		}
+		
+		closeDb();
+
+		try {
+			final String directoryImg = cgSettings.cache;
+			final String directoryTarget =  Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
+			final String fileTarget =  directoryTarget + "cgeo.sqlite";
+			final String fileSource = path;
+			
+			File directoryTargetFile = new File(directoryTarget);
+			if (directoryTargetFile.exists() == false) {
+				directoryTargetFile.mkdir();
+			}
+			
+			InputStream input = new FileInputStream(fileSource);
+			OutputStream output = new FileOutputStream(fileTarget);
+
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = input.read(buffer)) > 0) {
+				output.write(buffer, 0, length);
+			}
+
+			output.flush();
+			output.close();
+			input.close();
+			
+			Log.i(cgSettings.tag, "Database was copied to " + fileTarget);
+			
+			init();
+			
+			return fileTarget;
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "Database wasn't backed up: " + e.toString());
+		}
+		
+		init();
+		
+		return null;
+	}
+	
+	public boolean isRestoreFile() {
+		final String directoryImg = cgSettings.cache;
+		final String fileSource =  Environment.getExternalStorageDirectory() + "/" + directoryImg + "/cgeo.sqlite";
+
+		File fileSourceFile = new File(fileSource);
+		if (fileSourceFile.exists() == false) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
+	public boolean restoreDatabase() {
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) == false) {
+			Log.w(cgSettings.tag, "Database wasn't restored: no external memory");
+			
+			return false;
+		}
+
+		closeDb();
+		
+		try {
+			final String directoryImg = cgSettings.cache;
+			final String fileSource =  Environment.getExternalStorageDirectory() + "/" + directoryImg + "/cgeo.sqlite";
+			final String fileTarget = path;
+			
+			File fileSourceFile = new File(fileSource);
+			if (fileSourceFile.exists() == false) {
+				Log.w(cgSettings.tag, "Database backup was not found");
+				
+				init();
+				
+				return false;
+			}
+			
+			InputStream input = new FileInputStream(fileSource);
+			OutputStream output = new FileOutputStream(fileTarget);
+
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = input.read(buffer)) > 0) {
+				output.write(buffer, 0, length);
+			}
+
+			output.flush();
+			output.close();
+			input.close();
+			
+			Log.i(cgSettings.tag, "Database was restored");
+			
+			init();
+			
+			return true;
+		} catch (Exception e) {
+			Log.w(cgSettings.tag, "Database wasn't restored: " + e.toString());
+		}
+	
+		init();
+			
+		return false;
+	}
+	
 	private class cgDbHelper extends SQLiteOpenHelper {
 
 		cgDbHelper(Context context) {
@@ -1824,8 +1953,6 @@ public class cgData {
 	}
 
 	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
-		init();
-
 		int count = 0;
 
 		try {
@@ -1858,7 +1985,7 @@ public class cgData {
 				}
 			}
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgData.loadAllStoredCachesCount: " + e.toString());
+		 	Log.e(cgSettings.tag, "cgData.loadAllStoredCachesCount: " + e.toString());
 		}
 
 		return count;

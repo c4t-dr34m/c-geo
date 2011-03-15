@@ -311,12 +311,18 @@
   <string name="init_offline">Store maps for offline use</string>
   <string name="init_units">Use miles/feet (imperial units)</string>
   <string name="init_nav">Use Google Navigation</string>
-  <string name="init_directoryimg">Hide image directory from gallery</string>
   <string name="init_autoload">Auto-loading long description</string>
   <string name="init_livelist">Show direction to caches in its list</string>
   <string name="init_browser">Identify c:geo as standard browser</string>
   <string name="init_clear">Clear login</string>
   <string name="init_cleared">c:geo cleared login information.</string>
+  <string name="init_backup">Backup</string>
+  <string name="init_backup_backup">Backup</string>
+  <string name="init_backup_restore">Restore</string>
+  <string name="init_backup_success">Database of c:geo was successfully copied to file</string>
+  <string name="init_backup_failed">Backup of database of c:geo has failed.</string>
+  <string name="init_restore_success">Restoration completed.</string>
+  <string name="init_restore_failed">Restoration failed.</string>
 
   <!-- auth -->
   <string name="auth_twitter">Twitter</string>
@@ -590,6 +596,7 @@
     · new: Terrain preview\n
     · new: Own waypoints on map\n
     · new: Translation of description &amp; hint\n
+    · new: Database backup/restore\n
     · remove: Static maps\n
 	\n
     <b>2.06</b> (10.03.2011)\n

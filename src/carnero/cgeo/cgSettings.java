@@ -16,8 +16,7 @@ public class cgSettings {
 	public final static int unitsImperial = 2;
 	public final static int mapSatellite = 1;
 	public final static int mapClassic = 2;
-	public final static String imgCache = "cgeo";
-	public final static String imgCacheHidden = ".cgeo";
+	public final static String cache = ".cgeo";
 	public final static String analytics = "UA-1103507-15";
 
 	// twitter api keys
@@ -58,7 +57,6 @@ public class cgSettings {
 	public int twitter = 0;
 	public String signature = null;
 	public String cacheType = null;
-	public String directoryImg = imgCacheHidden;
 	public String tokenPublic = null;
 	public String tokenSecret = null;
 
@@ -108,11 +106,12 @@ public class cgSettings {
 		twitter = prefs.getInt("twitter", 0);
 		signature = prefs.getString("signature", null);
 		cacheType = prefs.getString("cachetype", null);
-		directoryImg = prefs.getString("directoryimg", imgCacheHidden);
 		tokenPublic = prefs.getString("tokenpublic", null);
 		tokenSecret = prefs.getString("tokensecret", null);
 		
 		setLanguage(useEnglish);
+		
+		
 	}
 
 	private void setSkinDefaults() {
@@ -146,7 +145,7 @@ public class cgSettings {
 	    Configuration config = new Configuration();
 		config.locale = locale;
 		context.getResources().updateConfiguration(config,
-				context.getResources().getDisplayMetrics());
+		context.getResources().getDisplayMetrics());
 	}
 
 	public void reloadTwitterTokens() {
@@ -169,45 +168,27 @@ public class cgSettings {
 	public String[] getStorageSpecific(Boolean hidden) {
 		String[] storage = new String[2];
 
-		if (hidden == null) {
-			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				storage[0] = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
-				storage[1] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + directoryImg + "/";
-			} else {
-				storage[0] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + directoryImg + "/";
-				storage[1] = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
-			}
-		} else if (hidden == false) {
-			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				storage[0] = Environment.getExternalStorageDirectory() + "/" + imgCache + "/";
-				storage[1] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCache + "/";
-			} else {
-				storage[0] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCache + "/";
-				storage[1] = Environment.getExternalStorageDirectory() + "/" + imgCache + "/";
-			}
-		} else if (hidden == true) {
-			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				storage[0] = Environment.getExternalStorageDirectory() + "/" + imgCacheHidden + "/";
-				storage[1] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCacheHidden + "/";
-			} else {
-				storage[0] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + imgCacheHidden + "/";
-				storage[1] = Environment.getExternalStorageDirectory() + "/" + imgCacheHidden + "/";
-			}
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			storage[0] = Environment.getExternalStorageDirectory() + "/" + cache + "/";
+			storage[1] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + cache + "/";
+		} else {
+			storage[0] = Environment.getDataDirectory() + "/data/carnero.cgeo/" + cache + "/";
+			storage[1] = Environment.getExternalStorageDirectory() + "/" + cache + "/";
 		}
 
 		return storage;
 	}
 
-    public boolean isLogin() {
-        final String preUsername = prefs.getString("username", null);
-        final String prePassword = prefs.getString("password", null);
+	public boolean isLogin() {
+		final String preUsername = prefs.getString("username", null);
+		final String prePassword = prefs.getString("password", null);
 
-        if (preUsername == null || prePassword == null || preUsername.length() == 0 || prePassword.length() == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+		if (preUsername == null || prePassword == null || preUsername.length() == 0 || prePassword.length() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	public HashMap<String, String> getLogin() {
 		final HashMap<String, String> login = new HashMap<String, String>();
@@ -275,16 +256,16 @@ public class cgSettings {
 		return prefsEdit.commit();
 	}
 
-    public boolean isGCvoteLogin() {
-        final String preUsername = prefs.getString("username", null);
-        final String prePassword = prefs.getString("pass-vote", null);
+	public boolean isGCvoteLogin() {
+		final String preUsername = prefs.getString("username", null);
+		final String prePassword = prefs.getString("pass-vote", null);
 
-        if (preUsername == null || prePassword == null || preUsername.length() == 0 || prePassword.length() == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+		if (preUsername == null || prePassword == null || preUsername.length() == 0 || prePassword.length() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	public boolean setGCvoteLogin(String password) {
 		final SharedPreferences.Editor prefsEdit = prefs.edit();
@@ -297,7 +278,7 @@ public class cgSettings {
 			prefsEdit.putString("pass-vote", password);
 		}
 
-		this.passVote = password;
+		passVote = password;
 
 		return prefsEdit.commit();
 	}

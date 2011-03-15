@@ -56,10 +56,22 @@ public class cgeoapplication extends Application {
 			storage.closeDb();
 			storage = null;
 		}
-
+		
 		super.onTerminate();
 	}
+	
+	public String backupDatabase() {
+		return storage.backupDatabase();
+	}
+	
+	public boolean isRestoreFile() {
+		return storage.isRestoreFile();
+	}
 
+	public boolean restoreDatabase() {
+		return storage.restoreDatabase();
+	}
+	
 	public void cleanGeo() {
 		if (geo != null) {
 			geo.closeGeo();

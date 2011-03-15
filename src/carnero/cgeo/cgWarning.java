@@ -9,13 +9,13 @@ import android.view.Gravity;
 public class cgWarning {
 	public Context context = null;
 
-	public cgWarning(Context context) {
-		this.context = context;
+	public cgWarning(Context contextIn) {
+		context = contextIn;
 	}
 
 	public void showToast(String text) {
 		if (text.length() > 0) {
-			Toast toast = Toast.makeText(this.context, text, Toast.LENGTH_LONG);
+			Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
 
 			toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM, 0, 100);
 			toast.show();
@@ -24,7 +24,7 @@ public class cgWarning {
 
 	public void showShortToast(String text) {
 		if (text.length() > 0) {
-			Toast toast = Toast.makeText(this.context, text, Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
 
 			toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM, 0, 100);
 			toast.show();
@@ -36,7 +36,7 @@ public class cgWarning {
 			return;
 		}
 
-		AlertDialog.Builder dialog = new AlertDialog.Builder(this.context);
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		dialog.setTitle(title);
 		dialog.setMessage(message);
 		dialog.setCancelable(true);

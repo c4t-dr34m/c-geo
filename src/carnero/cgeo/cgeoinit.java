@@ -320,14 +320,6 @@ public class cgeoinit extends Activity {
 		}
 		gnavButton.setOnClickListener(new cgeoChangeGNav());
 
-		CheckBox imgButton = (CheckBox) findViewById(R.id.directoryimg);
-		if (prefs.getString("directoryimg", cgSettings.imgCacheHidden).equalsIgnoreCase(cgSettings.imgCache)) {
-			imgButton.setChecked(false);
-		} else {
-			imgButton.setChecked(true);
-		}
-		imgButton.setOnClickListener(new cgeoChangeImgCache());
-
 		CheckBox browserButton = (CheckBox) findViewById(R.id.browser);
 		if (prefs.getInt("asbrowser", 1) == 0) {
 			browserButton.setChecked(false);
@@ -335,6 +327,26 @@ public class cgeoinit extends Activity {
 			browserButton.setChecked(true);
 		}
 		browserButton.setOnClickListener(new cgeoChangeBrowser());
+	}
+	
+	public void backup(View view) {
+		final String file = app.backupDatabase();
+		
+		if (file != null) {
+			warning.helpDialog(res.getString(R.string.init_backup_backup), res.getString(R.string.init_backup_success) + "\n" + file);
+		} else {
+			warning.helpDialog(res.getString(R.string.init_backup_backup), res.getString(R.string.init_backup_failed));
+		}
+	}
+	
+	public void restore(View view) {
+		final boolean status = app.restoreDatabase();
+		
+		if (status) {
+			warning.helpDialog(res.getString(R.string.init_backup_restore), res.getString(R.string.init_restore_success));
+		} else {
+			warning.helpDialog(res.getString(R.string.init_backup_restore), res.getString(R.string.init_restore_failed));
+		}
 	}
 
 	public boolean saveValues() {
@@ -717,51 +729,6 @@ public class cgeoinit extends Activity {
 				gnavButton.setChecked(true);
 			} else {
 				gnavButton.setChecked(false);
-			}
-
-			return;
-		}
-	}
-
-	private class cgeoChangeImgCache implements View.OnClickListener {
-
-		public void onClick(View arg0) {
-			SharedPreferences.Editor edit = prefs.edit();
-			File dir = null;
-			File dirNew = null;
-
-			if (prefs.getString("directoryimg", cgSettings.imgCacheHidden).equalsIgnoreCase(cgSettings.imgCache)) {
-				dir = new File(settings.getStorageSpecific(false)[0]);
-				dirNew = new File(settings.getStorageSpecific(true)[0]);
-				if (dir.exists() == true) {
-					cgBase.deleteDirectory(dirNew);
-					dir.renameTo(dirNew);
-				} else {
-					cgBase.deleteDirectory(dirNew);
-				}
-
-				edit.putString("directoryimg", cgSettings.imgCacheHidden);
-				settings.directoryImg = cgSettings.imgCacheHidden;
-			} else {
-				dir = new File(settings.getStorageSpecific(true)[0]);
-				dirNew = new File(settings.getStorageSpecific(false)[0]);
-				if (dir.exists() == true) {
-					cgBase.deleteDirectory(dirNew);
-					dir.renameTo(dirNew);
-				} else {
-					cgBase.deleteDirectory(dirNew);
-				}
-
-				edit.putString("directoryimg", cgSettings.imgCache);
-				settings.directoryImg = cgSettings.imgCache;
-			}
-			edit.commit();
-
-			CheckBox imgButton = (CheckBox) findViewById(R.id.directoryimg);
-			if (prefs.getString("directoryimg", cgSettings.imgCacheHidden).equalsIgnoreCase(cgSettings.imgCache)) {
-				imgButton.setChecked(false);
-			} else {
-				imgButton.setChecked(true);
 			}
 
 			return;
