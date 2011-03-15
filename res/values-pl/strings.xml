@@ -296,8 +296,10 @@
   <string name="init_signature_help_button">Pomoc</string>
   <string name="init_signature_help_title">Sygnatura, porady i wskazówki</string>
   <string name="init_signature_help_text">Wprowadź swoją sygnaturę która będzie używana przy wpisie do dziennika.\nSpecjalne kody, które mogą być stosowane są: [DATE] , [TIME], [USER] &amp; [NUMBER].</string>
-  <string name="init_languages">Języki</string>
-  <string name="init_languages_hint">Jakie języki rozumiesz (en de pl)</string>
+  <string name="init_languages">Przetłumaczenie</string>
+  <string name="init_languages_description">Jakie języki rozumiesz? Proszę o podanie dwóch znaków kodów.</string>
+  <string name="init_languages_hint">pl en de</string>
+  <string name="init_translate">Przetłumacz opis &amp; wskazówkę</string>
   <string name="init_other">Inne opcje</string>
   <string name="init_skin">Light skin (wymaga restartu)</string>
   <string name="init_transparent">Użyj przejrzysty Panel w c:geo</string>
