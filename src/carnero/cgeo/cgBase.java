@@ -1938,7 +1938,7 @@ public class cgBase {
 		final Pattern patternLogs = Pattern.compile("<table class=\"TrackableItemLogTable Table\">(.*)<\\/table>[^<]*<ul", Pattern.CASE_INSENSITIVE);
 		final Pattern patternIcon = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternType = Pattern.compile("<img id=\"ctl00_ContentBody_BugTypeImage\" class=\"TravelBugHeaderIcon\" src=\"[^\"]+\" alt=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
-		final Pattern patternDistance = Pattern.compile("<h3>[^T]*Tracking History [(]([0-9.]*km)", Pattern.CASE_INSENSITIVE);
+		final Pattern patternDistance = Pattern.compile("<h3>[^\\w]*Tracking History \\(([0-9\\.,]+(km|mi))[^\\)]*\\)", Pattern.CASE_INSENSITIVE);
 
 		final cgTrackable trackable = new cgTrackable();
 
@@ -2102,7 +2102,7 @@ public class cgBase {
 			final Matcher matcherDistance = patternDistance.matcher(page);
 			while (matcherDistance.find()) {
 				if (matcherDistance.groupCount() > 0) {
-					trackable.distance = matcherDistance.group(1);
+					trackable.distance = parseDistance(matcherDistance.group(1));
 				}
 			}
 		} catch (Exception e) {
@@ -2443,7 +2443,7 @@ public class cgBase {
 	public static Double parseDistance(String dst) {
 		Double distance = null;
 
-		final Pattern pattern = Pattern.compile("([0-9\\.,]+)[ ]+(km|mi)", Pattern.CASE_INSENSITIVE);
+		final Pattern pattern = Pattern.compile("([0-9\\.,]+)[ ]*(km|mi)", Pattern.CASE_INSENSITIVE);
 		final Matcher matcher = pattern.matcher(dst);
 		while (matcher.find()) {
 			if (matcher.groupCount() > 1) {

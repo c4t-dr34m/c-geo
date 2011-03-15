@@ -217,14 +217,15 @@ public class cgeotrackable extends Activity {
 					itemValue.setText(cgBase.dateOut.format(trackable.released));
 					detailsList.addView(itemLayout);
 				}
-								// trackable distance
+				
+				// trackable distance
 				if (trackable.distance != null) {
 					itemLayout = (RelativeLayout)inflater.inflate(R.layout.cache_item, null);
 					itemName = (TextView) itemLayout.findViewById(R.id.name);
 					itemValue = (TextView) itemLayout.findViewById(R.id.value);
 
 					itemName.setText(res.getString(R.string.trackable_distance));
-					itemValue.setText(trackable.distance);
+					itemValue.setText(base.getHumanDistance(trackable.distance));
 					detailsList.addView(itemLayout);
 				}
 
