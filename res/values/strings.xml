@@ -596,7 +596,7 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.08</b> (__.03.2011)\n
-    · fix: ___\n
+    · change: Vistual style of loading of caches\n
 	\n
     <b>2.07</b> (16.03.2011)\n
     · new: Approx. elevation in details\n
