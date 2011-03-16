@@ -316,6 +316,16 @@
   <string name="init_browser">Ustaw c:geo jako standardową przeglądarkę</string>
   <string name="init_clear">Skasuj login</string>
   <string name="init_cleared">c:geo skasował dane logowania.</string>
+  <string name="init_backup">Kopia zapasowa</string>
+  <string name="init_backup_backup">Kopiuj</string>
+  <string name="init_backup_note">Zwróć uwagę, że ta opcja wykonuje tylko kopie/odzyskiwanie bazy danych, zawierającej skrzynki i punkty nawigacyjne, a nie ustawienia. Twoje dane logowania (hasła) nie opuszczą tej aplikacji.</string>
+  <string name="init_backup_restore">Przywróć</string>
+  <string name="init_backup_success">Baza danych c:geo została pomyślnie skopiowana do pliku</string>
+  <string name="init_backup_failed">Kopia zapasowa bazy danych c:geo nie powiodła się.</string>
+  <string name="init_restore_success">Przywrócenie zakończone.</string>
+  <string name="init_restore_failed">Przywrócenie nie powiodło się.</string>
+  <string name="init_backup_last">Kopia dostępna od</string>
+  <string name="init_backup_last_no">Nie ma plików z kopią zapasową.</string>
 
   <!-- auth -->
   <string name="auth_twitter">Twitter</string>
