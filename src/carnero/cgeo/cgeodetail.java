@@ -1282,8 +1282,24 @@ public class cgeodetail extends Activity {
 			event.put("eventTimezone", "UTC");
 			event.put("title", Html.fromHtml(cache.name).toString());
 			event.put("description", description.toString());
+			String location = "";
+			if (cache.latitudeString != null && cache.latitudeString.length() > 0 && cache.longitudeString != null && cache.longitudeString.length() > 0) {
+				location += cache.latitudeString + " " + cache.longitudeString;
+			}
 			if (cache.location != null && cache.location.length() > 0) {
-				event.put("eventLocation", Html.fromHtml(cache.location).toString());
+				boolean addParenteses = false;
+				if (location.length() > 0) {
+					addParenteses = true;
+					location += " (";
+				}
+				
+				location += Html.fromHtml(cache.location).toString();
+				if (addParenteses) {
+					location += ")";
+				}
+			}
+			if (location.length() > 0) {
+				event.put("eventLocation", location);
 			}
 			event.put("allDay", 1);
 			event.put("hasAlarm", 0);
