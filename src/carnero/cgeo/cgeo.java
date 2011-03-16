@@ -493,6 +493,21 @@ public class cgeo extends Activity {
 		@Override
 		public void run() {
 			if (app == null) return;
+			
+			int checks = 0;
+			while (app.storageStatus() == false) {
+				try {
+					wait(500);
+					checks ++;
+				} catch (Exception e) {
+					// nothing;
+				}
+
+				if (checks > 10) {
+					return;
+				}
+			}
+
 
 			countBubbleCnt = app.getAllStoredCachesCount(true, null);
 

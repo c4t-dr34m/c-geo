@@ -172,6 +172,7 @@ public class cgData {
 	private static SQLiteStatement sqlCountDetailed = null;
 	private static SQLiteStatement sqlCountTyped = null;
 	private static SQLiteStatement sqlCountDetailedTyped = null;
+	public boolean initialized = false;
 
 	public cgData(Context contextIn) {
 		context = contextIn;
@@ -223,6 +224,8 @@ public class cgData {
 				Log.e(cgSettings.tag, "cgData.openDb.RO: " + e.toString());
 			}
 		}
+		
+		initialized = true;
 	}
 
 	public void closeDb() {
@@ -1953,7 +1956,8 @@ public class cgData {
 
 	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
 		int count = 0;
-
+		int checks = 0;
+		
 		try {
 			if (sqlCount == null) {
 				sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1");
@@ -2489,7 +2493,7 @@ public class cgData {
 	}
 
 	public boolean status() {
-		if (databaseRO == null || databaseRW == null) {
+		if (databaseRO == null || databaseRW == null || initialized == false) {
 			return false;
 		}
 
