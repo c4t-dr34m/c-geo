@@ -22,7 +22,6 @@ public class cgeoapplication extends Application {
 
 	public boolean firstRun = true; // c:geo is just launched
 	public boolean warnedLanguage = false; // user was warned about different language settings on geocaching.com
-	public boolean warnedCompassCalibration = false; // user was warned about low compass accuracy
 	private boolean databaseCleaned = false; // database was cleaned
 
 	public cgeoapplication() {

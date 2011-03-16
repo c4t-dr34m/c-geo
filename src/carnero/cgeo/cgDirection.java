@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
 import android.os.Build;
+import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 
@@ -66,14 +67,7 @@ public class cgDirection {
 	private class cgeoSensorListener implements SensorEventListener {
 		@Override
 		 public void onAccuracyChanged(Sensor sensor, int accuracy) {
-			if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW && app.warnedCompassCalibration == false && warning != null) {
-				try {
-					app.warnedCompassCalibration = true;
-					warning.showToast(res.getString(R.string.compass_needs_calib));
-				} catch (Exception e) {
-					// nothing (we have no window)
-				}
-			}
+			Log.i(cgSettings.tag, "Compass' accuracy is low (" + accuracy + ")");
 		 }
 
 		@Override
