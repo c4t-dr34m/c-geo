@@ -781,7 +781,7 @@ public class cgeodetail extends Activity {
 					}
 					inventoryString.append(Html.fromHtml(inventoryItem.name).toString());
 				}
-				inventView.setText(inventoryString, TextView.BufferType.SPANNABLE);
+				inventView.setText(inventoryString);
 				inventBox.setClickable(true);
 				inventBox.setOnClickListener(new selectTrackable());
 				inventBox.setVisibility(View.VISIBLE);

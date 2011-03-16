@@ -108,7 +108,7 @@ public class cgeotrackable extends Activity {
 
 				itemName.setText(res.getString(R.string.trackable_name));
 				if (trackable.name != null) {
-					itemValue.setText(Html.fromHtml(trackable.name), TextView.BufferType.SPANNABLE);
+					itemValue.setText(Html.fromHtml(trackable.name).toString());
 				} else {
 					itemValue.setText(res.getString(R.string.trackable_unknown));
 				}
@@ -121,12 +121,12 @@ public class cgeotrackable extends Activity {
 
 				String tbType = null;
 				if (trackable.type != null && trackable.type.length() > 0) {
-					tbType = trackable.type;
+					tbType = Html.fromHtml(trackable.type).toString();
 				} else {
 					tbType = res.getString(R.string.trackable_unknown);
 				}
 				itemName.setText(res.getString(R.string.trackable_type));
-				itemValue.setText(Html.fromHtml(tbType), TextView.BufferType.SPANNABLE);
+				itemValue.setText(tbType);
 				detailsList.addView(itemLayout);
 
 				// trackable geocode

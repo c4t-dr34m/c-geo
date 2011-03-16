@@ -57,7 +57,7 @@ public class cgeotrackables extends Activity {
 						Button oneTb = (Button) oneTbPre.findViewById(R.id.button);
 
 						if (trackable.name != null) {
-							oneTb.setText(Html.fromHtml(trackable.name), Button.BufferType.SPANNABLE);
+							oneTb.setText(trackable.name);
 						} else {
 							oneTb.setText("some trackable");
 						}
