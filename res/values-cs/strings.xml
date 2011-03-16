@@ -477,7 +477,6 @@
   <string name="use_compass">použít kompas</string>
   <string name="destination_select">vyberte cíl</string>
   <string name="destination_set">cíl nastaven</string>
-  <string name="compass_needs_calib">Kompas v zařízení potřebuje kalibraci.\nMůžete ji udělat pokud telefonem ve vzduchu opíšete osmičku.</string>
 
   <!-- license -->
   <string name="license">Licence</string>

@@ -505,7 +505,6 @@
   <string name="use_compass">コンパスを使う</string>
   <string name="destination_select">目的地を選択</string>
   <string name="destination_set">目的地を入力</string>
-  <string name="compass_needs_calib">アンドロイド端末の電子コンパスは調整が必要です。\n端末をしっかり持って手首を∞(8の字)を描くように回転させてください。</string>
 
   <!-- license -->
   <string name="license">ライセンス</string>

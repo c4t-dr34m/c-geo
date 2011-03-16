@@ -482,7 +482,6 @@
   <string name="use_compass">Gebruik kompas</string>
   <string name="destination_select">Selecteer bestemming</string>
   <string name="destination_set">Zet bestemming</string>
-  <string name="compass_needs_calib">Kompas in apparaat dient gekalibreerd te worden.\nDit kun je doen door je telefoon in achtjes in de lucht te draaien.</string>
 
   <!-- license -->
   <string name="license">Licentie</string>

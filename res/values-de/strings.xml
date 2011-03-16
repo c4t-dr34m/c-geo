@@ -527,7 +527,6 @@
   <string name="use_compass">Kompass nutzen</string>
   <string name="destination_select">Ziel auswählen</string>
   <string name="destination_set">Ziel setzen</string>
-  <string name="compass_needs_calib">Der Kompass in deinem Gerät muss kalibriert werden.\nSchwenke dafür dein Gerät in der Form einer Acht.</string>
 
   <!-- license -->
   <string name="license">Lizenz</string>

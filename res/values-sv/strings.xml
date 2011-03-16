@@ -537,7 +537,6 @@
   <string name="use_compass">Använd kompass</string>
   <string name="destination_select">Välj målpunkt</string>
   <string name="destination_set">Sätt målpunkt</string>
-  <string name="compass_needs_calib">Kompassen i din enhet behöver kalibreras.\nDu kan göra det genom att rita en åtta med telefonen i luften.</string>
 
   <!-- license -->
   <string name="license">Licens</string>

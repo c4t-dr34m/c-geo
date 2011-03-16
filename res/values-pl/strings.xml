@@ -534,7 +534,6 @@
   <string name="use_compass">Użyj kompas</string>
   <string name="destination_select">Wybierz cel</string>
   <string name="destination_set">Ustal cel</string>
-  <string name="compass_needs_calib">Kompas w twoim urządzeniu wymaga kalibracji.\nMożesz to zrobić, machając komórką w postaci ósemki w powietrzu.</string>
 
   <!-- license -->
   <string name="license">Licencja</string>
