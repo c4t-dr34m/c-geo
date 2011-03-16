@@ -360,6 +360,7 @@ public class cgeocaches extends ListActivity {
 			title = res.getString(R.string.caches_stored);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+			setLoadingCaches();
 
 			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
 			threadPure.start();
@@ -371,6 +372,7 @@ public class cgeocaches extends ListActivity {
 			title = res.getString(R.string.caches_history);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+			setLoadingCaches();
 
 			threadPure = new geocachesLoadByHistory(loadCachesHandler);
 			threadPure.start();
@@ -379,6 +381,7 @@ public class cgeocaches extends ListActivity {
 			title = res.getString(R.string.caches_nearby);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+			setLoadingCaches();
 
 			thread = new geocachesLoadByCoords(loadCachesHandler, latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
@@ -388,6 +391,7 @@ public class cgeocaches extends ListActivity {
 			title = base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true);
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+			setLoadingCaches();
 
 			thread = new geocachesLoadByCoords(loadCachesHandler, latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
@@ -396,6 +400,7 @@ public class cgeocaches extends ListActivity {
 			title = keyword;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+			setLoadingCaches();
 
 			thread = new geocachesLoadByKeyword(loadCachesHandler, keyword, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
@@ -406,10 +411,12 @@ public class cgeocaches extends ListActivity {
 				title = address;
 				base.setTitle(activity, title);
 				base.showProgress(activity, true);
+				setLoadingCaches();
 			} else {
 				title = base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true);
 				base.setTitle(activity, title);
 				base.showProgress(activity, true);
+				setLoadingCaches();
 			}
 
 			thread = new geocachesLoadByCoords(loadCachesHandler, latitude, longitude, cachetype);
@@ -419,6 +426,7 @@ public class cgeocaches extends ListActivity {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+			setLoadingCaches();
 
 			thread = new geocachesLoadByUserName(loadCachesHandler, username, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
@@ -427,6 +435,7 @@ public class cgeocaches extends ListActivity {
 			title = username;
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
+			setLoadingCaches();
 
 			thread = new geocachesLoadByOwner(loadCachesHandler, username, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
@@ -803,6 +812,19 @@ public class cgeocaches extends ListActivity {
 		}
 	}
 
+	private void setLoadingCaches() {
+		if (listFooter == null) {
+			return;
+		}
+		if (listFooterText == null) {
+			return;
+		}
+
+		listFooterText.setText(res.getString(R.string.caches_more_caches_loading));
+		listFooter.setClickable(false);
+		listFooter.setOnClickListener(null);
+	}
+	
 	private void setMoreCaches(boolean more) {
 		if (listFooter == null) {
 			return;
@@ -1490,6 +1512,7 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void onClick(View arg0) {
 			base.showProgress(activity, true);
+			setLoadingCaches();
 			listFooter.setOnClickListener(null);
 
 			geocachesLoadNextPage thread;
