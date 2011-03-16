@@ -28,6 +28,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.ByteArrayOutputStream;
@@ -35,6 +36,7 @@ import java.io.DataOutputStream;
 import java.util.Locale;
 
 public class cgeocaches extends ListActivity {
+
 	private GoogleAnalyticsTracker tracker = null;
 	private String action = null;
 	private String type = null;
@@ -68,8 +70,8 @@ public class cgeocaches extends ListActivity {
 	private Long detailProgressTime = 0l;
 	private geocachesLoadDetails threadD = null;
 	private geocachesDropDetails threadR = null;
-
 	private Handler loadCachesHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
@@ -110,28 +112,28 @@ public class cgeocaches extends ListActivity {
 					dialog.setMessage(res.getString(R.string.err_license));
 					dialog.setCancelable(true);
 					dialog.setNegativeButton(res.getString(R.string.license_dismiss), new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
-						    settings.deleteCookies();
+
+						public void onClick(DialogInterface dialog, int id) {
+							settings.deleteCookies();
 							dialog.cancel();
-					   }
+						}
 					});
 					dialog.setPositiveButton(res.getString(R.string.license_show), new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
-						    settings.deleteCookies();
+
+						public void onClick(DialogInterface dialog, int id) {
+							settings.deleteCookies();
 							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/software/agreement.aspx?ID=0")));
-					   }
+						}
 					});
 
-				   AlertDialog alert = dialog.create();
-				   alert.show();
+					AlertDialog alert = dialog.create();
+					alert.show();
 				} else if (app != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast(res.getString(R.string.err_download_fail) + app.getError(searchId) + ".");
 
+					final ListView list = getListView();
+					hideLoading();
 					base.showProgress(activity, false);
-					if (waitDialog != null) {
-						waitDialog.dismiss();
-						waitDialog.setOnCancelListener(null);
-					}
 
 					finish();
 					return;
@@ -145,28 +147,25 @@ public class cgeocaches extends ListActivity {
 				warning.showToast(res.getString(R.string.err_detail_cache_find_any));
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler: " + e.toString());
 
+				final ListView list = getListView();
+				hideLoading();
 				base.showProgress(activity, false);
-				if (waitDialog != null) {
-					waitDialog.dismiss();
-					waitDialog.setOnCancelListener(null);
-				}
+					
 				finish();
 				return;
 			}
 
 			try {
+				final ListView list = getListView();
+				hideLoading();
 				base.showProgress(activity, false);
-				if (waitDialog != null) {
-					waitDialog.dismiss();
-					waitDialog.setOnCancelListener(null);
-				}
 			} catch (Exception e2) {
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler.2: " + e2.toString());
 			}
 		}
 	};
-
 	private Handler loadNextPageHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
@@ -204,11 +203,9 @@ public class cgeocaches extends ListActivity {
 					warning.showToast(res.getString(R.string.err_download_fail) + app.getError(searchId) + ".");
 
 					listFooter.setOnClickListener(new moreCachesListener());
+					final ListView list = getListView();
+					hideLoading();
 					base.showProgress(activity, false);
-					if (waitDialog != null) {
-						waitDialog.dismiss();
-						waitDialog.setOnCancelListener(null);
-					}
 
 					finish();
 					return;
@@ -224,15 +221,13 @@ public class cgeocaches extends ListActivity {
 			}
 
 			listFooter.setOnClickListener(new moreCachesListener());
+			final ListView list = getListView();
+			hideLoading();
 			base.showProgress(activity, false);
-			if (waitDialog != null) {
-				waitDialog.dismiss();
-				waitDialog.setOnCancelListener(null);
-			}
 		}
 	};
-
 	private Handler loadDetailsHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			setAdapter();
@@ -247,7 +242,7 @@ public class cgeocaches extends ListActivity {
 
 					Float diffTime = new Float((System.currentTimeMillis() - detailProgressTime) / 1000); // seconds left
 					Float oneCache = diffTime / detailProgress; // left time per cache
-					int etaTime = (int)((detailTotal - detailProgress) * oneCache / 60); // seconds remaining
+					int etaTime = (int) ((detailTotal - detailProgress) * oneCache / 60); // seconds remaining
 
 					waitDialog.setProgress(detailProgress);
 					if (etaTime < 1) {
@@ -279,13 +274,17 @@ public class cgeocaches extends ListActivity {
 					waitDialog.setOnCancelListener(null);
 				}
 
-				if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-				if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+				if (geo == null) {
+					geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+				}
+				if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) {
+					dir = app.startDir(activity, dirUpdate, warning);
+				}
 			}
 		}
 	};
-
 	private Handler dropDetailsHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			setAdapter();
@@ -305,14 +304,14 @@ public class cgeocaches extends ListActivity {
 		}
 	};
 
-    @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// init
 		activity = this;
 		res = this.getResources();
-		app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication) this.getApplication();
 		app.setAction(action);
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -335,7 +334,7 @@ public class cgeocaches extends ListActivity {
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
-		if (extras !=null) {
+		if (extras != null) {
 			type = extras.getString("type");
 			latitude = extras.getDouble("latitude");
 			longitude = extras.getDouble("longitude");
@@ -362,9 +361,6 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_progress_loading_title), res.getString(R.string.caches_progress_loading_text), true);
-			waitDialog.setCancelable(true);
-
 			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
 			threadPure.start();
 		} else if (type.equals("history") == true) {
@@ -376,9 +372,6 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_progress_loading_title), res.getString(R.string.caches_progress_loading_text), true);
-			waitDialog.setCancelable(true);
-
 			threadPure = new geocachesLoadByHistory(loadCachesHandler);
 			threadPure.start();
 		} else if (type.equals("nearest") == true) {
@@ -387,10 +380,7 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.caches_searching), res.getString(R.string.caches_nearby) + typeText, true);
-			waitDialog.setCancelable(true);
-
-			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
+			thread = new geocachesLoadByCoords(loadCachesHandler, latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("coordinate") == true) {
@@ -399,10 +389,7 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + "\n" + base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true) + typeText, true);
-			waitDialog.setCancelable(true);
-
-			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
+			thread = new geocachesLoadByCoords(loadCachesHandler, latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("keyword") == true) {
@@ -410,10 +397,7 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_kw_caches) + ": " + keyword + typeText, true);
-			waitDialog.setCancelable(true);
-
-			thread = new geocachesLoadByKeyword(loadCachesHandler,  keyword, cachetype);
+			thread = new geocachesLoadByKeyword(loadCachesHandler, keyword, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("address") == true) {
@@ -422,19 +406,13 @@ public class cgeocaches extends ListActivity {
 				title = address;
 				base.setTitle(activity, title);
 				base.showProgress(activity, true);
-
-				waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + " " + address + typeText, true);
 			} else {
 				title = base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true);
 				base.setTitle(activity, title);
 				base.showProgress(activity, true);
-
-				waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_near) + base.formatCoordinate(latitude, res.getString(R.string.search_lat), true) + " | " + base.formatCoordinate(longitude, res.getString(R.string.search_lon), true) + typeText, true);
 			}
 
-			waitDialog.setCancelable(true);
-
-			thread = new geocachesLoadByCoords(loadCachesHandler,  latitude, longitude, cachetype);
+			thread = new geocachesLoadByCoords(loadCachesHandler, latitude, longitude, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("username") == true) {
@@ -442,10 +420,7 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_found_by) + ": " + username + typeText, true);
-			waitDialog.setCancelable(true);
-
-			thread = new geocachesLoadByUserName(loadCachesHandler,  username, cachetype);
+			thread = new geocachesLoadByUserName(loadCachesHandler, username, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else if (type.equals("owner") == true) {
@@ -453,10 +428,7 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 
-			waitDialog = ProgressDialog.show(this, res.getString(R.string.search_caches), res.getString(R.string.search_caches_hidden_by) + ": " + username + typeText, true);
-			waitDialog.setCancelable(true);
-
-			thread = new geocachesLoadByOwner(loadCachesHandler,  username, cachetype);
+			thread = new geocachesLoadByOwner(loadCachesHandler, username, cachetype);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
 		} else {
@@ -494,27 +466,43 @@ public class cgeocaches extends ListActivity {
 
 	@Override
 	public void onDestroy() {
-		if (adapter != null) adapter = null;
+		if (adapter != null) {
+			adapter = null;
+		}
 
-		if (dir != null) dir = app.removeDir();
-		if (geo != null) geo = app.removeGeo();
-		if (tracker != null) tracker.stop();
+		if (dir != null) {
+			dir = app.removeDir();
+		}
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
+		if (tracker != null) {
+			tracker.stop();
+		}
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (dir != null) dir = app.removeDir();
-		if (geo != null) geo = app.removeGeo();
+		if (dir != null) {
+			dir = app.removeDir();
+		}
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (dir != null) dir = app.removeDir();
-		if (geo != null) geo = app.removeGeo();
+		if (dir != null) {
+			dir = app.removeDir();
+		}
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onPause();
 	}
@@ -579,7 +567,7 @@ public class cgeocaches extends ListActivity {
 				}
 			}
 
-			if (type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId)) ) { // there are no more caches
+			if (type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId))) { // there are no more caches
 				menu.findItem(0).setEnabled(false);
 			}
 		} catch (Exception e) {
@@ -621,11 +609,13 @@ public class cgeocaches extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {
 		super.onCreateContextMenu(menu, view, info);
 
-		if (adapter == null) return;
+		if (adapter == null) {
+			return;
+		}
 
 		AdapterContextMenuInfo adapterInfo = null;
 		try {
-			adapterInfo = (AdapterContextMenuInfo)info;
+			adapterInfo = (AdapterContextMenuInfo) info;
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgeocaches.onCreateContextMenu: " + e.toString());
 		}
@@ -659,7 +649,7 @@ public class cgeocaches extends ListActivity {
 
 		AdapterContextMenuInfo adapterInfo = null;
 		try {
-			adapterInfo = (AdapterContextMenuInfo)info;
+			adapterInfo = (AdapterContextMenuInfo) info;
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgeocaches.onContextItemSelected: " + e.toString());
 		}
@@ -690,7 +680,8 @@ public class cgeocaches extends ListActivity {
 					dialog.setMessage(res.getString(R.string.err_radar_message));
 					dialog.setCancelable(true);
 					dialog.setPositiveButton(getString(android.R.string.yes), new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
+
+						public void onClick(DialogInterface dialog, int id) {
 							try {
 								activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.eclipsim.gpsstatus2")));
 								dialog.cancel();
@@ -698,16 +689,17 @@ public class cgeocaches extends ListActivity {
 								warning.showToast(res.getString(R.string.err_radar_market));
 								Log.e(cgSettings.tag, "cgeocaches.onContextItemSelected.radar.onClick: " + e.toString());
 							}
-					   }
+						}
 					});
 					dialog.setNegativeButton(getString(android.R.string.no), new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
+
+						public void onClick(DialogInterface dialog, int id) {
 							dialog.cancel();
-					   }
+						}
 					});
 
-				   AlertDialog alert = dialog.create();
-				   alert.show();
+					AlertDialog alert = dialog.create();
+					alert.show();
 				}
 			} catch (Exception e) {
 				warning.showToast(res.getString(R.string.err_radar_generic));
@@ -788,7 +780,7 @@ public class cgeocaches extends ListActivity {
 			listFooter.setOnClickListener(new moreCachesListener());
 		}
 		if (listFooterText == null) {
-			listFooterText = (TextView)listFooter.findViewById(R.id.more_caches);
+			listFooterText = (TextView) listFooter.findViewById(R.id.more_caches);
 		}
 
 		if (adapter == null) {
@@ -803,13 +795,21 @@ public class cgeocaches extends ListActivity {
 			setListAdapter(adapter);
 		}
 
-		if (adapter != null && geo != null) adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
-		if (adapter != null && dir != null) adapter.setActualHeading(dir.directionNow);
+		if (adapter != null && geo != null) {
+			adapter.setActualCoordinates(geo.latitudeNow, geo.longitudeNow);
+		}
+		if (adapter != null && dir != null) {
+			adapter.setActualHeading(dir.directionNow);
+		}
 	}
 
 	private void setMoreCaches(boolean more) {
-		if (listFooter == null) return;
-		if (listFooterText == null) return;
+		if (listFooter == null) {
+			return;
+		}
+		if (listFooterText == null) {
+			return;
+		}
 
 		if (more == false) {
 			if (cacheList == null || cacheList.isEmpty()) {
@@ -859,14 +859,18 @@ public class cgeocaches extends ListActivity {
 
 		setAdapter();
 
-		if (geo != null) geoUpdate.updateLoc(geo);
-		if (dir != null) dirUpdate.updateDir(dir);
+		if (geo != null) {
+			geoUpdate.updateLoc(geo);
+		}
+		if (dir != null) {
+			dirUpdate.updateDir(dir);
+		}
 	}
 
 	private void showOnMap() {
 		if (searchId == null || searchId == 0 || cacheList == null || cacheList.isEmpty() == true) {
 			warning.showToast(res.getString(R.string.warn_no_cache_coord));
-			
+
 			return;
 		}
 
@@ -892,7 +896,7 @@ public class cgeocaches extends ListActivity {
 				return;
 			}
 
-			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>)cacheList.clone();
+			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>) cacheList.clone();
 			final ArrayList<cgCache> cacheListCoord = new ArrayList<cgCache>();
 			for (cgCache cache : cacheListTemp) {
 				if (cache.latitude != null && cache.longitude != null) {
@@ -983,20 +987,27 @@ public class cgeocaches extends ListActivity {
 		base.showProgress(activity, false);
 		waitDialog = new ProgressDialog(this);
 		waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-		public void onCancel(DialogInterface arg0) {
-			try {
-				if (threadD != null) threadD.kill();
 
-				if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-				if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
-			} catch (Exception e) {
-				Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
-			}
+			public void onCancel(DialogInterface arg0) {
+				try {
+					if (threadD != null) {
+						threadD.kill();
+					}
+
+					if (geo == null) {
+						geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+					}
+					if (settings.livelist == 1 && settings.useCompass == 1 && dir == null) {
+						dir = app.startDir(activity, dirUpdate, warning);
+					}
+				} catch (Exception e) {
+					Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
+				}
 			}
 		});
 
 		waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		int etaTime = (int)((detailTotal * 25) / 60);
+		int etaTime = (int) ((detailTotal * 25) / 60);
 		if (etaTime < 1) {
 			waitDialog.setMessage(res.getString(R.string.caches_downloading) + " " + res.getString(R.string.caches_eta_ltm));
 		} else if (etaTime == 1) {
@@ -1014,7 +1025,7 @@ public class cgeocaches extends ListActivity {
 		threadD.start();
 	}
 
-    public void dropStored() {
+	public void dropStored() {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
 		dialog.setCancelable(true);
 		dialog.setTitle(res.getString(R.string.caches_drop_stored));
@@ -1022,6 +1033,7 @@ public class cgeocaches extends ListActivity {
 		if (adapter != null && adapter.getChecked() > 0) {
 			dialog.setMessage(res.getString(R.string.caches_drop_selected_ask));
 			dialog.setPositiveButton(getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+
 				public void onClick(DialogInterface dialog, int id) {
 					dropSelected();
 					dialog.cancel();
@@ -1030,6 +1042,7 @@ public class cgeocaches extends ListActivity {
 		} else {
 			dialog.setMessage(res.getString(R.string.caches_drop_all_ask));
 			dialog.setPositiveButton(getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+
 				public void onClick(DialogInterface dialog, int id) {
 					dropSelected();
 					dialog.cancel();
@@ -1037,14 +1050,15 @@ public class cgeocaches extends ListActivity {
 			});
 		}
 		dialog.setNegativeButton(getString(android.R.string.no), new DialogInterface.OnClickListener() {
+
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
 			}
 		});
 
-		 AlertDialog alert = dialog.create();
-		 alert.show();
-    }
+		AlertDialog alert = dialog.create();
+		alert.show();
+	}
 
 	public void dropSelected() {
 		if (adapter == null || adapter.getChecked() <= 0) {
@@ -1059,13 +1073,16 @@ public class cgeocaches extends ListActivity {
 
 		waitDialog = new ProgressDialog(this);
 		waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
 			public void onCancel(DialogInterface arg0) {
 				try {
-					if (threadR != null) threadR.kill();
+					if (threadR != null) {
+						threadR.kill();
+					}
 				} catch (Exception e) {
 					Log.e(cgSettings.tag, "cgeocaches.onOptionsItemSelected.onCancel: " + e.toString());
 				}
-				}
+			}
 		});
 
 		waitDialog.setCancelable(true);
@@ -1076,10 +1093,15 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class update extends cgUpdateLoc {
+
 		@Override
 		public void updateLoc(cgGeo geo) {
-			if (geo == null) return;
-			if (adapter == null) return;
+			if (geo == null) {
+				return;
+			}
+			if (adapter == null) {
+				return;
+			}
 
 			try {
 				if (cacheList != null && geo.latitudeNow != null && geo.longitudeNow != null) {
@@ -1088,10 +1110,15 @@ public class cgeocaches extends ListActivity {
 
 				if (settings.useCompass == 0 || (geo.speedNow != null && geo.speedNow > 5)) { // use GPS when speed is higher than 18 km/h
 					if (settings.useCompass == 0) {
-						if (geo.bearingNow != null) adapter.setActualHeading(geo.bearingNow);
-						else adapter.setActualHeading(new Double(0));
+						if (geo.bearingNow != null) {
+							adapter.setActualHeading(geo.bearingNow);
+						} else {
+							adapter.setActualHeading(new Double(0));
+						}
 					}
-					if (northHeading != null) adapter.setActualHeading(northHeading);
+					if (northHeading != null) {
+						adapter.setActualHeading(northHeading);
+					}
 				}
 			} catch (Exception e) {
 				Log.w(cgSettings.tag, "Failed to update location.");
@@ -1100,10 +1127,15 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class updateDir extends cgUpdateDir {
+
 		@Override
 		public void updateDir(cgDirection dir) {
-			if (settings.livelist == 0) return;
-			if (dir == null || dir.directionNow == null) return;
+			if (settings.livelist == 0) {
+				return;
+			}
+			if (dir == null || dir.directionNow == null) {
+				return;
+			}
 
 			northHeading = dir.directionNow;
 			if (northHeading != null && adapter != null && (geo == null || geo.speedNow == null || geo.speedNow <= 5)) { // use compass when speed is lower than 18 km/h) {
@@ -1113,6 +1145,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadByOffline extends Thread {
+
 		private Handler handler = null;
 		private Double latitude = null;
 		private Double longitude = null;
@@ -1139,6 +1172,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadByHistory extends Thread {
+
 		private Handler handler = null;
 
 		public geocachesLoadByHistory(Handler handlerIn) {
@@ -1159,6 +1193,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadNextPage extends cgSearchThread {
+
 		private Handler handler = null;
 
 		public geocachesLoadNextPage(Handler handlerIn) {
@@ -1174,6 +1209,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadByCoords extends cgSearchThread {
+
 		private Handler handler = null;
 		private Double latitude = null;
 		private Double longitude = null;
@@ -1198,8 +1234,8 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void run() {
 			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("latitude", String.format((Locale)null, "%.6f", latitude));
-			params.put("longitude", String.format((Locale)null, "%.6f", longitude));
+			params.put("latitude", String.format((Locale) null, "%.6f", latitude));
+			params.put("longitude", String.format((Locale) null, "%.6f", longitude));
 			params.put("cachetype", cachetype);
 
 			searchId = base.searchByCoords(this, params, 0, settings.showCaptcha);
@@ -1209,6 +1245,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadByKeyword extends cgSearchThread {
+
 		private Handler handler = null;
 		private String keyword = null;
 		private String cachetype = null;
@@ -1241,6 +1278,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadByUserName extends cgSearchThread {
+
 		private Handler handler = null;
 		private String username = null;
 		private String cachetype = null;
@@ -1273,6 +1311,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadByOwner extends cgSearchThread {
+
 		private Handler handler = null;
 		private String username = null;
 		private String cachetype = null;
@@ -1305,6 +1344,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesLoadDetails extends Thread {
+
 		private Handler handler = null;
 		private volatile boolean needToStop = false;
 		private int checked = 0;
@@ -1326,10 +1366,14 @@ public class cgeocaches extends ListActivity {
 
 		@Override
 		public void run() {
-			if (dir != null) dir = app.removeDir();
-			if (geo != null) geo = app.removeGeo();
+			if (dir != null) {
+				dir = app.removeDir();
+			}
+			if (geo != null) {
+				geo = app.removeGeo();
+			}
 
-			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>)cacheList.clone();
+			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>) cacheList.clone();
 			for (cgCache cache : cacheListTemp) {
 				if (checked > 0 && cache.statusChecked == false) {
 					handler.sendEmptyMessage(0);
@@ -1346,11 +1390,11 @@ public class cgeocaches extends ListActivity {
 
 					if ((System.currentTimeMillis() - last) < 1500) {
 						try {
-							int delay = 1000 + ((Double)(Math.random() * 1000)).intValue() - (int) (System.currentTimeMillis() - last);
+							int delay = 1000 + ((Double) (Math.random() * 1000)).intValue() - (int) (System.currentTimeMillis() - last);
 							if (delay < 0) {
 								delay = 500;
 							}
-							
+
 							Log.i(cgSettings.tag, "Waiting for next cache " + delay + " ms");
 							sleep(delay);
 						} catch (Exception e) {
@@ -1363,7 +1407,7 @@ public class cgeocaches extends ListActivity {
 						break;
 					}
 
-					detailProgress ++;
+					detailProgress++;
 					base.storeCache(app, activity, cache, null, handler);
 
 					handler.sendEmptyMessage(cacheList.indexOf(cache));
@@ -1382,6 +1426,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class geocachesDropDetails extends Thread {
+
 		private Handler handler = null;
 		private volatile boolean needToStop = false;
 		private int checked = 0;
@@ -1402,10 +1447,14 @@ public class cgeocaches extends ListActivity {
 
 		@Override
 		public void run() {
-			if (dir != null) dir = app.removeDir();
-			if (geo != null) geo = app.removeGeo();
+			if (dir != null) {
+				dir = app.removeDir();
+			}
+			if (geo != null) {
+				geo = app.removeGeo();
+			}
 
-			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>)cacheList.clone();
+			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>) cacheList.clone();
 			for (cgCache cache : cacheListTemp) {
 				if (checked > 0 && cache.statusChecked == false) {
 					handler.sendEmptyMessage(0);
@@ -1420,7 +1469,7 @@ public class cgeocaches extends ListActivity {
 						break;
 					}
 
-					detailProgress ++;
+					detailProgress++;
 					app.markDropped(cache.geocode);
 
 					handler.sendEmptyMessage(cacheList.indexOf(cache));
@@ -1437,6 +1486,7 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private class moreCachesListener implements View.OnClickListener {
+
 		@Override
 		public void onClick(View arg0) {
 			base.showProgress(activity, true);
@@ -1446,6 +1496,16 @@ public class cgeocaches extends ListActivity {
 			thread = new geocachesLoadNextPage(loadNextPageHandler);
 			thread.setRecaptchaHandler(new cgSearchHandler(activity, res, thread));
 			thread.start();
+		}
+	}
+	
+	private void hideLoading() {
+		final ListView list = getListView();
+		final RelativeLayout loading = (RelativeLayout) findViewById(R.id.loading);
+		
+		if (list.getVisibility() == View.GONE) {
+			list.setVisibility(View.VISIBLE);
+			loading.setVisibility(View.GONE);
 		}
 	}
 
@@ -1461,25 +1521,22 @@ public class cgeocaches extends ListActivity {
 		try {
 			if (type != null && type.equals("offline") == true) {
 				AppManualReaderClient.openManual(
-					"c-geo",
-					"c:geo-stored",
-					activity,
-					"http://cgeo.carnero.cc/manual/"
-				);
+						"c-geo",
+						"c:geo-stored",
+						activity,
+						"http://cgeo.carnero.cc/manual/");
 			} else if (type != null && type.equals("history") == true) {
 				AppManualReaderClient.openManual(
-					"c-geo",
-					"c:geo-history",
-					activity,
-					"http://cgeo.carnero.cc/manual/"
-				);
+						"c-geo",
+						"c:geo-history",
+						activity,
+						"http://cgeo.carnero.cc/manual/");
 			} else {
 				AppManualReaderClient.openManual(
-					"c-geo",
-					"c:geo-nearby",
-					activity,
-					"http://cgeo.carnero.cc/manual/"
-				);
+						"c-geo",
+						"c:geo-nearby",
+						activity,
+						"http://cgeo.carnero.cc/manual/");
 			}
 		} catch (Exception e) {
 			// nothing

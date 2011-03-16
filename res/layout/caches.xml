@@ -19,8 +19,8 @@
 				android:src="@drawable/actionbar_manual"
 				android:onClick="goManual" />
 	</LinearLayout>
-	<ListView
-			android:id="@android:id/list"
+	<ListView android:id="@android:id/list"
+			android:visibility="gone"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:layout_margin="0dip"
@@ -28,4 +28,15 @@
 			android:dividerHeight="1dip"
 			android:background="?background_color"
 			android:cacheColorHint="?background_color" />
+	<RelativeLayout android:id="@+id/loading"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:padding="5dip" >
+		<ProgressBar style="@android:style/Widget.ProgressBar.Large.Inverse"
+				android:layout_width="76dip"
+				android:layout_height="76dip"
+				android:layout_centerInParent="true"
+				android:gravity="center"
+				android:indeterminate="true" />
+	</RelativeLayout>
 </LinearLayout>
