@@ -514,7 +514,6 @@
   <string name="use_compass">Usar brújula</string>
   <string name="destination_select">Seleccionar destino</string>
   <string name="destination_set">Elegir destino</string>
-  <string name="compass_needs_calib">La brújula de tu dispositivo necesita calibración.n\Puedes hacerlo dibujando ochos en el aire. Agárralo fuerte no se te vaya a caer.</string>
 
   <!-- license -->
   <string name="license">Licencia</string>

@@ -463,7 +463,6 @@
   <string name="use_compass">Utilizar Bússola</string>
   <string name="destination_select">Selecionar destino</string>
   <string name="destination_set">Defenir destino</string>
-  <string name="compass_needs_calib">A bússola no seu dispositivo precisa de calibração.\nPode fazê-lo abanando o dispositivo no ar em forma de um oito.</string>
 
   <!-- license -->
   <string name="license">Licença</string>

@@ -234,9 +234,10 @@
 
   <!-- caches -->
   <string name="caches_searching">Söker efter cacher</string>
-  <string name="caches_no_cache">Ingen cache</string>
-  <string name="caches_more_caches">Fler cacher</string>
-  <string name="caches_more_caches_no">Inga fler cacher</string>
+  <string name="caches_no_cache">Det finns ingen cache</string>
+  <string name="caches_more_caches">Ladda fler cacher</string>
+  <string name="caches_more_caches_no">Inga fler cacher add ladda</string>
+  <string name="caches_more_caches_loading">Laddar fler cacher...</string>
   <string name="caches_downloading">Laddar ner cacher...\nTid kvar: </string>
   <string name="caches_progress_loading_title">Laddar cacher</string>
   <string name="caches_progress_loading_text">Cacher sparade i enheten</string>
@@ -536,7 +537,6 @@
   <string name="use_compass">Använd kompass</string>
   <string name="destination_select">Välj målpunkt</string>
   <string name="destination_set">Sätt målpunkt</string>
-  <string name="compass_needs_calib">Kompassen i din enhet behöver kalibreras.\nDu kan göra det genom att rita en åtta med telefonen i luften.</string>
 
   <!-- license -->
   <string name="license">Licens</string>
