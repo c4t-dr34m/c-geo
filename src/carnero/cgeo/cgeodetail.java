@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -419,7 +418,7 @@ public class cgeodetail extends Activity {
 
 			SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
 			subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
-			if (cache != null && cache.reason == 1) {
+			if (cache != null && cache.reason == 1 && settings.storeOfflineMaps == 1) {
 				subMenu.add(1, 6, 0, res.getString(R.string.cache_menu_map_static)); // static maps
 			}
 			subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // c:geo map
