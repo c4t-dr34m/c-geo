@@ -378,9 +378,10 @@
   <string name="cache_menu_compass">Compass</string>
   <string name="cache_menu_tbt">Turn-by-turn</string>
   <string name="cache_menu_radar">Radar</string>
-  <string name="cache_menu_map">Show on map</string>
+  <string name="cache_menu_map">Map</string>
+  <string name="cache_menu_locus">Locus</string>
+  <string name="cache_menu_rmaps">Rmaps</string>
   <string name="cache_menu_map_ext">Show on ext. map</string>
-  <string name="cache_menu_map_static">Static maps</string>
   <string name="cache_menu_map_short">Maps</string>
   <string name="cache_menu_map_ext_short">Ext. map</string>
   <string name="cache_menu_browser">Open in browser</string>

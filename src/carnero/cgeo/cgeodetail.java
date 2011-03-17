@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -43,6 +45,7 @@ import android.widget.Button;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class cgeodetail extends Activity {
@@ -74,6 +77,7 @@ public class cgeodetail extends Activity {
 	private ProgressDialog storeDialog = null;
 	private ProgressDialog refreshDialog = null;
 	private ProgressDialog dropDialog = null;
+	private List<ResolveInfo> appList = null;
 	private HashMap<Integer, String> calendars = new HashMap<Integer, String>();
 	private Handler storeCacheHandler = new Handler() {
 		@Override
@@ -415,13 +419,19 @@ public class cgeodetail extends Activity {
 
 			SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
 			subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
-			subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // google maps
-			subMenu.add(0, 10, 0, res.getString(R.string.cache_menu_map_ext)); // external map
+			subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // c:geo map
+			if (base.isLocus(activity)) {
+				subMenu.add(0, 20, 0, res.getString(R.string.cache_menu_locus)); // ext.: locus
+			}
+			if (base.isRmaps(activity)) {
+				subMenu.add(0, 21, 0, res.getString(R.string.cache_menu_rmaps)); // ext.: rmaps
+			}
+			subMenu.add(0, 23, 0, res.getString(R.string.cache_menu_map_ext)); // ext.: other
 			subMenu.add(0, 9, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
 		}
 
 		if (cache != null && cache.hidden != null && (cache.type.equalsIgnoreCase("event") == true || cache.type.equalsIgnoreCase("mega") == true || cache.type.equalsIgnoreCase("cito") == true)) {
-			menu.add(1, 12, 0, res.getString(R.string.cache_menu_event)).setIcon(android.R.drawable.ic_menu_agenda); // add event to calendar
+			menu.add(1, 11, 0, res.getString(R.string.cache_menu_event)).setIcon(android.R.drawable.ic_menu_agenda); // add event to calendar
 		}
 		if (settings.isLogin() == true) {
 			menu.add(1, 3, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
@@ -432,57 +442,63 @@ public class cgeodetail extends Activity {
 		}
 
 		if (cache != null && cache.latitude != null && cache.longitude != null) {
-			menu.add(0, 11, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
+			menu.add(0, 10, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
 		}
 
 		menu.add(1, 7, 0, res.getString(R.string.cache_menu_browser)).setIcon(android.R.drawable.ic_menu_info_details); // browser
-		menu.add(0, 13, 0, res.getString(R.string.cache_menu_share)).setIcon(android.R.drawable.ic_menu_share); // share cache
+		menu.add(0, 12, 0, res.getString(R.string.cache_menu_share)).setIcon(android.R.drawable.ic_menu_share); // share cache
 
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case 1:
-				showOnMap();
-				return true;
-			case 2:
-				navigateTo();
-				return true;
-			case 3:
-				logVisit();
-				return true;
-			case 5:
-				showSpoilers();
-				return true;
-			case 7:
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/seek/cache_details.aspx?wp=" + cache.geocode)));
-				return true;
-			case 8:
-				radarTo();
-				return true;
-			case 9:
-				if (geo != null) {
-					base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
-				} else {
-					base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude);
-				}
+		final int menuItem = item.getItemId();
 
-				return true;
-			case 10:
-				base.runExternalMap(activity, res, warning, tracker, cache);
+		if (menuItem == 1) {
+			showOnMap();
+			return true;
+		} else if (menuItem == 2) {
+			navigateTo();
+			return true;
+		} else if (menuItem == 3) {
+			logVisit();
+			return true;
+		} else if (menuItem == 5) {
+			showSpoilers();
+			return true;
+		} else if (menuItem == 7) {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/seek/cache_details.aspx?wp=" + cache.geocode)));
+			return true;
+		} else if (menuItem == 8) {
+			radarTo();
+			return true;
+		} else if (menuItem == 9) {
+			if (geo != null) {
+				base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
+			} else {
+				base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude);
+			}
 
-				return true;
-			case 11:
-				cachesAround();
-				return true;
-			case 12:
-				addToCalendar();
-				return true;
-			case 13:
-				shareCache();
-				return true;
+			return true;
+		} else if (menuItem == 10) {
+			cachesAround();
+			return true;
+		} else if (menuItem == 11) {
+			addToCalendar();
+			return true;
+		} else if (menuItem == 12) {
+			shareCache();
+			return true;
+		} else if (menuItem == 20) {
+			base.runExternalMap(cgBase.mapAppLocus, activity, res, warning, tracker, cache); // locus
+			return true;
+		} else if (menuItem == 21) {
+			base.runExternalMap(cgBase.mapAppRmaps, activity, res, warning, tracker, cache); // rmaps
+			return true;
+		} else if (menuItem == 23) {
+			base.runExternalMap(cgBase.mapAppAny, activity, res, warning, tracker, cache); // rmaps
+			return true;
 		}
 
 		return false;

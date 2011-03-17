@@ -255,7 +255,7 @@ public class cgeowaypoint extends Activity {
 		}
 
 		public void onClick(View arg0) {
-			base.runExternalMap(activity, res, warning, tracker, waypoint);
+			base.runExternalMap(0, activity, res, warning, tracker, waypoint);
 		}
 	}
 

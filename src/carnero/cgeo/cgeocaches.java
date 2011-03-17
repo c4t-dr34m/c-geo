@@ -725,7 +725,7 @@ public class cgeocaches extends ListActivity {
 
 			return true;
 		} else if (id == 4) { // show on external map
-			base.runExternalMap(activity, res, warning, tracker, cache);
+			base.runExternalMap(0, activity, res, warning, tracker, cache);
 
 			return true;
 		} else if (id == 5) { // turn-by-turn

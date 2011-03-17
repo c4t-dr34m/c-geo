@@ -294,7 +294,7 @@ public class cgeopoint extends Activity {
 			if (coords == null || coords.size() < 2) return;
 
 			try {
-				base.runExternalMap(activity, res, warning, tracker, coords.get(0), coords.get(1));
+				base.runExternalMap(0, activity, res, warning, tracker, coords.get(0), coords.get(1));
 
 				finish();
 				return;
