@@ -5629,7 +5629,7 @@ public class cgBase {
 
 		return elv;
 	}
-
+	
 	public void showProgress(Activity activity, boolean status) {
 		if (activity == null) {
 			return;

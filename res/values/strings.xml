@@ -266,6 +266,9 @@
   <string name="caches_recaptcha_explanation">Please, write text from image. It\'s important to download coordinates of caches. It\'s optional and can be switched off in Settings.</string>
   <string name="caches_recaptcha_hint">Text from image</string>
   <string name="caches_recaptcha_continue">Continue</string>
+  <string name="caches_list_title">Pick a list</string>
+  <string name="caches_list_inbox">Inbox</string>
+  <string name="caches_list_wpt">Waypoints</string>
 
   <!-- about -->
   <string name="about_changelog">Changelog</string>

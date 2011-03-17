@@ -2,6 +2,7 @@ package carnero.cgeo;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 import java.io.File;
 import java.util.ArrayList;
@@ -616,5 +617,9 @@ public class cgeoapplication extends Application {
 
 	public void saveVisitDate(String geocode) {
 		storage.saveVisitDate(geocode);
+	}
+	
+	public ArrayList<cgList> getLists() {
+		return storage.getLists(getResources());
 	}
 }

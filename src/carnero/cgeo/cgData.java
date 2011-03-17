@@ -2,6 +2,7 @@ package carnero.cgeo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.util.Log;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 /*
@@ -2490,6 +2492,52 @@ public class cgData {
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.saveVisitDate: " + e.toString());
 		}
+	}
+	
+	public ArrayList<cgList> getLists(Resources res) {
+		init();
+
+		Cursor cursor = null;
+		ArrayList<cgList> lists = new ArrayList<cgList>();
+		
+		lists.add(new cgList(2, res.getString(R.string.caches_list_inbox)));
+		lists.add(new cgList(3, res.getString(R.string.caches_list_wpt)));
+		
+		try {
+			cursor = databaseRO.query(
+					dbTableLists,
+					new String[]{"_id", "title", "latitude", "longitude"},
+					null,
+					null,
+					null,
+					null,
+					"_id desc",
+					null);
+
+			if (cursor != null) {
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
+
+					do {
+						cgList list = new cgList();
+						
+						list.id = ((int) cursor.getInt(cursor.getColumnIndex("_id"))) + 10;
+						list.title = (String) cursor.getString(cursor.getColumnIndex("title"));
+						list.updated = (Long) cursor.getLong(cursor.getColumnIndex("updated"));
+						list.latitude = (Double) cursor.getDouble(cursor.getColumnIndex("latitude"));
+						list.longitude = (Double) cursor.getDouble(cursor.getColumnIndex("longitude"));
+						
+						lists.add(list);
+					} while (cursor.moveToNext());
+				}
+
+				cursor.close();
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.getLists: " + e.toString());
+		}
+
+		return lists;
 	}
 
 	public boolean status() {

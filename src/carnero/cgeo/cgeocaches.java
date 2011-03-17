@@ -34,6 +34,7 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.Locale;
+import java.util.Set;
 
 public class cgeocaches extends ListActivity {
 
@@ -70,6 +71,7 @@ public class cgeocaches extends ListActivity {
 	private Long detailProgressTime = 0l;
 	private geocachesLoadDetails threadD = null;
 	private geocachesDropDetails threadR = null;
+	private ArrayList<cgList> lists = null;
 	private Handler loadCachesHandler = new Handler() {
 
 		@Override
@@ -91,7 +93,6 @@ public class cgeocaches extends ListActivity {
 					setMoreCaches(false);
 				} else {
 					final Integer count = app.getTotal(searchId);
-					final int size = cacheList.size();
 
 					if (count != null && count > 0) {
 						base.setTitle(activity, title);
@@ -131,7 +132,6 @@ public class cgeocaches extends ListActivity {
 				} else if (app != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast(res.getString(R.string.err_download_fail) + app.getError(searchId) + ".");
 
-					final ListView list = getListView();
 					hideLoading();
 					base.showProgress(activity, false);
 
@@ -147,7 +147,6 @@ public class cgeocaches extends ListActivity {
 				warning.showToast(res.getString(R.string.err_detail_cache_find_any));
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler: " + e.toString());
 
-				final ListView list = getListView();
 				hideLoading();
 				base.showProgress(activity, false);
 					
@@ -156,7 +155,6 @@ public class cgeocaches extends ListActivity {
 			}
 
 			try {
-				final ListView list = getListView();
 				hideLoading();
 				base.showProgress(activity, false);
 			} catch (Exception e2) {
@@ -185,7 +183,6 @@ public class cgeocaches extends ListActivity {
 					setMoreCaches(false);
 				} else {
 					final Integer count = app.getTotal(searchId);
-					final int size = cacheList.size();
 					if (count != null && count > 0) {
 						base.setTitle(activity, title);
 						if (cacheList.size() < app.getTotal(searchId) && cacheList.size() < 1000) {
@@ -203,7 +200,6 @@ public class cgeocaches extends ListActivity {
 					warning.showToast(res.getString(R.string.err_download_fail) + app.getError(searchId) + ".");
 
 					listFooter.setOnClickListener(new moreCachesListener());
-					final ListView list = getListView();
 					hideLoading();
 					base.showProgress(activity, false);
 
@@ -221,7 +217,7 @@ public class cgeocaches extends ListActivity {
 			}
 
 			listFooter.setOnClickListener(new moreCachesListener());
-			final ListView list = getListView();
+			
 			hideLoading();
 			base.showProgress(activity, false);
 		}
@@ -345,13 +341,6 @@ public class cgeocaches extends ListActivity {
 		}
 
 		init();
-
-		String typeText;
-		if (cachetype != null && cgBase.cacheTypesInv.containsKey(cachetype) == true) {
-			typeText = "\n" + res.getString(R.string.type) + ": " + cgBase.cacheTypesInv.get(cachetype);
-		} else {
-			typeText = "\n" + res.getString(R.string.type) + ": " + res.getString(R.string.all_types);
-		}
 
 		Thread threadPure;
 		cgSearchThread thread;
@@ -1530,6 +1519,36 @@ public class cgeocaches extends ListActivity {
 			list.setVisibility(View.VISIBLE);
 			loading.setVisibility(View.GONE);
 		}
+	}
+	
+	public void selectList(View view) {
+		if (type.equals("offline") == false) {
+			return;
+		}
+
+		lists = app.getLists();
+		
+		if (lists == null) {
+			return;
+		}
+		
+		final ArrayList<CharSequence> listsTitle = new ArrayList<CharSequence>();
+		for (cgList list : lists) {
+			listsTitle.add(list.title);
+		}
+		
+		final CharSequence[] items = new CharSequence[listsTitle.size()];
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		builder.setTitle(res.getString(R.string.caches_list_title));
+		builder.setItems(listsTitle.toArray(items), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int item) {
+				warning.showToast(lists.get(item).title);
+						
+				return;
+			}
+		});
+		builder.create().show();
 	}
 
 	public void goMap(View view) {
