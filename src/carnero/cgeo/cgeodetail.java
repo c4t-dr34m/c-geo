@@ -419,6 +419,9 @@ public class cgeodetail extends Activity {
 
 			SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
 			subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
+			if (cache != null && cache.reason == 1) {
+				subMenu.add(1, 6, 0, res.getString(R.string.cache_menu_map_static)); // static maps
+			}
 			subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // c:geo map
 			if (base.isLocus(activity)) {
 				subMenu.add(0, 20, 0, res.getString(R.string.cache_menu_locus)); // ext.: locus
@@ -466,6 +469,9 @@ public class cgeodetail extends Activity {
 			return true;
 		} else if (menuItem == 5) {
 			showSpoilers();
+			return true;
+		} else if (menuItem == 6) {
+			showSmaps();
 			return true;
 		} else if (menuItem == 7) {
 			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/seek/cache_details.aspx?wp=" + cache.geocode)));
@@ -1438,6 +1444,16 @@ public class cgeodetail extends Activity {
 		Intent spoilersIntent = new Intent(activity, cgeospoilers.class);
 		spoilersIntent.putExtra("geocode", geocode.toUpperCase());
 		activity.startActivity(spoilersIntent);
+	}
+
+	private void showSmaps() {
+		if (cache == null || cache.reason == 0) {
+			warning.showToast(res.getString(R.string.err_detail_no_map_static));
+		}
+
+		Intent smapsIntent = new Intent(activity, cgeosmaps.class);
+		smapsIntent.putExtra("geocode", geocode.toUpperCase());
+		activity.startActivity(smapsIntent);
 	}
 
 	public class codeHint implements View.OnClickListener {

@@ -379,6 +379,7 @@
   <string name="cache_menu_tbt">Turn-by-turn</string>
   <string name="cache_menu_radar">Radar</string>
   <string name="cache_menu_map">Map</string>
+  <string name="cache_menu_map_static">Static maps</string>
   <string name="cache_menu_locus">Locus</string>
   <string name="cache_menu_rmaps">Rmaps</string>
   <string name="cache_menu_map_ext">Show on ext. map</string>
@@ -598,6 +599,7 @@
     <b>2.08</b> (__.03.2011)\n
     · fix: Faster displaying caches on the map\n
     · change: Vistual style of loading of caches\n
+    · return: Static maps\n
 	\n
     <b>2.07</b> (16.03.2011)\n
     · new: Approx. elevation in details\n
