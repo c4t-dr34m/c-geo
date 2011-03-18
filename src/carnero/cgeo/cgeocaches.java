@@ -807,6 +807,10 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private void setAdapter() {
+		if (adapter != null) {
+			adapter.setSelectMode(false, true);
+		}
+		
 		if (listFooter == null) {
 			if (inflater == null) {
 				inflater = activity.getLayoutInflater();
@@ -1620,22 +1624,43 @@ public class cgeocaches extends ListActivity {
 		listId = list.id;
 		title = list.title;
 		
-		base.setTitle(activity, title);
 		base.showProgress(activity, true);
 		setLoadingCaches();
 		
-		int checked = adapter.getChecked();
-		if (checked > 0) {
-			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>) cacheList.clone();
-			for (cgCache cache : cacheListTemp) {
-				if (cache.statusChecked != false) {
-					app.moveToList(cache.geocode, listId);
+		Handler handlerMove = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				Thread threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude, msg.what);
+				threadPure.start();
+			}
+		};
+		
+		(new moveCachesToList(listId, handlerMove)).start();
+	}
+	
+	private class moveCachesToList extends Thread {
+		int listId = -1;
+		Handler handler = null;
+		
+		public moveCachesToList(int listIdIn, Handler handlerIn) {
+			listId = listIdIn;
+			handler = handlerIn;
+		}
+		
+		@Override
+		public void run() {
+			int checked = adapter.getChecked();
+			if (checked > 0) {
+				final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>) cacheList.clone();
+				for (cgCache cache : cacheListTemp) {
+					if (cache.statusChecked != false) {
+						app.moveToList(cache.geocode, listId);
+					}
 				}
 			}
+			
+			handler.sendEmptyMessage(listId);
 		}
-
-		Thread threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude, listId);
-		threadPure.start();
 	}
 	
 	private void createList() {
