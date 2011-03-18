@@ -8,6 +8,7 @@
   <string name="detail">Detalle</string>
   <string name="search">Buscar</string>
   <string name="settings">Ajustes</string>
+  <string name="helpers">¿Qué instalar?</string>  
   <string name="about">Sobre c:geo</string>
   <string name="helper">Si quieres aprender cosas sobre <b>c:geo</b>?\nEcha un ojo a nuestro manual.</string>
   <string name="database_error_title">Problema con la base de datos</string>
@@ -17,8 +18,8 @@
   <string name="action_bar_share_title">Compartir enlace a escondite</string>
 
   <!-- caches -->
-  <string name="all">Todos los escondites</string>
-  <string name="all_types">Todos</string>
+  <string name="all">Todos</string>
+  <string name="all_types">Todos los escondites</string>
   <string name="traditional">Tradicionales</string>
   <string name="multi">Multis</string>
   <string name="mystery">Desconocidos</string>
@@ -214,6 +215,7 @@
 
   <!-- standard menu -->
   <string name="menu_about">Sobre c:geo</string>
+  <string name="menu_helpers">Programas útiles</string>
   <string name="menu_settings">Ajustes</string>
   <string name="menu_history">Historia</string>
   <string name="menu_filter">Filtro</string>
@@ -236,6 +238,7 @@
   <string name="caches_more_caches_no">No hay mas escondites</string>
   <string name="caches_downloading">Descargando escondites...\nFaltan: </string>
   <string name="caches_progress_loading_title">Cargando escondites</string>
+<string name="caches_progress_loading_title">Cargando escondites</string>  
   <string name="caches_progress_loading_text">Escondites almacenados en el dispositivo</string>
   <string name="caches_eta_ltm">Menos de un minuto</string>
   <string name="caches_eta_mins"> minutos</string>
@@ -263,6 +266,24 @@
   <string name="caches_recaptcha_explanation">Debes  escribir el texto de la imagen. Es importante que descargues las coordenadas de los escondites. Es opcional y lo puedes desactivar en Ajustes.</string>
   <string name="caches_recaptcha_hint">Texto de la imagen</string>
   <string name="caches_recaptcha_continue">Continuar</string>
+
+  <!-- caches lists -->
+  <string name="list_menu">Lista</string>
+  <string name="list_menu_create">Crear nueva lista</string>
+  <string name="list_menu_drop">Borrar lista actual</string>
+  <string name="list_title">Escoger lista</string>
+  <string name="list_inbox">Guardadas</string>
+  <string name="list_wpt">Puntos de referencia</string>
+  <string name="list_dialog_create_title">Nueva lista</string>
+  <string name="list_dialog_create">Crear</string>
+  <string name="list_dialog_cancel">Cancelar</string>
+  <string name="list_dialog_create_ok">Se ha creado una nueva lista</string>
+  <string name="list_dialog_create_err">c:geo no ha podido crear la lista</string>
+  <string name="list_dialog_remove_title">Borrar lista</string>
+  <string name="list_dialog_remove_description">¿Quieres borrar esta lista de escondites? Todos los escondites de la lilsta serán movidos a \"Guardados\".</string>
+  <string name="list_dialog_remove">Borrar</string>
+  <string name="list_dialog_remove_ok">La lista ha sido borrada</string>
+  <string name="list_dialog_remove_err">c:geo no ha podido borrar la lista actual</string>
 
   <!-- about -->
   <string name="about_changelog">Cambios</string>
@@ -294,6 +315,10 @@
   <string name="init_signature_help_button">Ayuda</string>
   <string name="init_signature_help_title">Trucos para la firma</string>
   <string name="init_signature_help_text">Escribe la firma que quieres usar en los registros.\nLas palabras especiales que puedes usar son: [DATE], [TIME], [USER] y [NUMBER].\nSerán reemplazados por sus valores al insertar la firma.</string>
+  <string name="init_languages">Traducción</string>
+  <string name="init_languages_description">¿Qué lenguajes no necesitas traducir? Indica códigos de idioma de 2 caracteres.</string>
+  <string name="init_languages_hint">en es pt fr</string>
+  <string name="init_translate">Traducir descripción y pista</string>  
   <string name="init_other">Otras opciones</string>
   <string name="init_skin">Fondo blanco (necesita reiniciar c:geo)</string>
   <string name="init_transparent">Usar pantalla de inicio transparente</string>
@@ -310,7 +335,17 @@
   <string name="init_browser">Identificar c:geo como navegador por defecto</string>
   <string name="init_clear">Borrar acceso</string>
   <string name="init_cleared">c:geo ha borrado la información de acceso.</string>
-
+  <string name="init_backup">Backup</string>
+  <string name="init_backup_backup">Backup</string>
+  <string name="init_backup_note">Esta opción copia/restaura la base de datos de escondites y puntos de referencia, no la configuración. Los datos de acceso y contraseña no se guardarán.</string>
+  <string name="init_backup_restore">Restaurar</string>
+  <string name="init_backup_success">La base de datos de c:geo se ha copiado satisfactoriamente</string>
+  <string name="init_backup_failed">Ha fallado la copia de seguridad.</string>
+  <string name="init_restore_success">Restauración completa.</string>
+  <string name="init_restore_failed">Restauración errónea</string>
+  <string name="init_backup_last">Copia guardada el</string>
+  <string name="init_backup_last_no">No hay ninguna copia de seguridad.</string>
+  
   <!-- auth -->
   <string name="auth_twitter">Twitter</string>
   <string name="auth_authorize">Autorizar c:geo</string>
@@ -346,7 +381,7 @@
   <string name="cache_description">Descripción</string>
   <string name="cache_description_long">Descripción larga</string>
   <string name="cache_waypoints">Puntos de referencia</string>
-  <string name="cache_waypoints_add">Añadir punto de referencia</string>
+  <string name="cache_waypoints_add">Añadir referencia</string>
   <string name="cache_hint">Pista</string>
   <string name="cache_logs">Bitácora</string>
   <string name="cache_dialog_loading_details">Cargando detalles del escondite...</string>
@@ -365,6 +400,8 @@
   <string name="cache_menu_map_ext">Ver en mapa ext.</string>
   <string name="cache_menu_map_static">Mapas estáticos</string>
   <string name="cache_menu_map_short">Mapas</string>
+  <string name="cache_menu_locus">Locus</string>
+  <string name="cache_menu_rmaps">Rmaps</string>  
   <string name="cache_menu_map_ext_short">Mapa Ext.</string>
   <string name="cache_menu_browser">Navegador</string>
   <string name="cache_menu_visit">Enviar visita</string>
@@ -372,6 +409,7 @@
   <string name="cache_menu_around">Alrededores</string>
   <string name="cache_menu_event">Añadir a calendario</string>
   <string name="cache_menu_details">Detalles</string>
+  <string name="cache_menu_share">Compartir escondite</string>
   <string name="cache_status">Estado</string>
   <string name="cache_status_offline_log">Registro guardado</string>
   <string name="cache_status_found">Encontrado</string>
@@ -392,6 +430,7 @@
   <string name="cache_event">Fecha</string>
   <string name="cache_location">Ubicación</string>
   <string name="cache_coordinates">Coordenadas</string>
+  <string name="cache_elevation">Elevación</string>  
   <string name="cache_calendars">Elegir calendario</string>
   <string name="cache_spoiler_images_title">Imágenes reveladoras</string>
   <string name="cache_spoiler_images_loading">Cargando imágenes reveladoras...</string>
@@ -448,6 +487,8 @@
   <string name="map_static_loading">Cargando mapas estáticos...</string>
 
   <!-- search -->
+  <string name="search_bar_hint">Buscar escondites</string>
+  <string name="search_bar_desc">Escondites (Código-GC, palabra clave), Rastreables (Código-TB)</string>
   <string name="search_coordinates">Coordenadas</string>
   <string name="search_coordinates_button">Buscar por coordenadas</string>
   <string name="search_address">Dirección</string>
@@ -499,6 +540,7 @@
   <string name="trackable_origin">Origen</string>
   <string name="trackable_unknown">Desconocido</string>
   <string name="trackable_released">Publicado</string>
+  <string name="trackable_distance">Recorrido</string>  
   <string name="trackable_touch">Contacto</string>
 
   <!--  user -->
@@ -519,9 +561,21 @@
   <string name="license">Licencia</string>
   <string name="license_show">Mostrar licencia</string>
   <string name="license_dismiss">Descartar</string>
+  
+    <!-- helpers -->
+  <string name="helper_manual_title">Manual</string>
+  <string name="helper_manual_description">Sencillo manual de c:geo que contiene todas las capacidades de este programa (incluidas las ocultas).</string>
+  <string name="helper_locus_title">Locus</string>
+  <string name="helper_locus_description">Sencilla aplicación que muestra mapas en linea y permite descargarlos para ser usados sin conexión (sólo mapas no vectoriales). Tambien permite registrar el recorrido, gestionar puntos de interés y más funciones interesantes.</string>
+  <string name="helper_gpsstatus_title">GPS Status</string>
+  <string name="helper_gpsstatus_description">Puedes usar el radar de esta aplicación con c:geo. Además ofrece un montón de información relacionada con el GPS.</string>
+  <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
+  <string name="helper_bluetoothgps_description">Te permite usar un GPS externo para tener mejor señal, más precisa y ahorrar batería en tu dispositivo.</string>
 
   <!-- next things -->
   <string name="legal_note">Para utilizar los servicios de geocaching.com, debes aceptar las <a href="http://www.geocaching.com/about/termsofuse.aspx">condiciones de Groundspeak</a>.</string>
+  <string name="quote">Para hacer el geocaching más sencillo, para hacer a los usuarios más vagos.</string>
+  <string name="powered_by">carnero</string>  
   <string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">Soporte: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">Web: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
