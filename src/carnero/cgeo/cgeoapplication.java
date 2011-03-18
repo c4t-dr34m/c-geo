@@ -718,4 +718,16 @@ public class cgeoapplication extends Application {
 	public ArrayList<cgList> getLists() {
 		return storage.getLists(getResources());
 	}
+	
+	public cgList getList(int id) {
+		return storage.getList(id, getResources());
+	}
+	
+	public int createList(String title) {
+		return storage.createList(title);
+	}
+	
+	public boolean removeList(int id) {
+		return storage.removeList(id);
+	}
 }

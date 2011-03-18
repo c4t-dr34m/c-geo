@@ -2340,31 +2340,6 @@ public class cgData {
 		}
 	}
 
-	public int createList(String name) {
-		init();
-
-		if (name == null) {
-			return -1;
-		}
-
-		int id = -1;
-
-		databaseRW.beginTransaction();
-		try {
-			ContentValues values = new ContentValues();
-
-			values.clear();
-			values.put("name", name);
-
-			id = (int) databaseRW.insert(dbTableAttributes, null, values);
-			databaseRW.setTransactionSuccessful();
-		} finally {
-			databaseRW.endTransaction();
-		}
-
-		return id;
-	}
-
 	public boolean saveLogOffline(String geocode, Date date, int type, String log) {
 		if (geocode == null || geocode.length() == 0) {
 			return false;
@@ -2494,18 +2469,18 @@ public class cgData {
 		Cursor cursor = null;
 		ArrayList<cgList> lists = new ArrayList<cgList>();
 		
-		lists.add(new cgList(2, res.getString(R.string.caches_list_inbox)));
-		// lists.add(new cgList(3, res.getString(R.string.caches_list_wpt)));
+		lists.add(new cgList(true, 1, res.getString(R.string.list_inbox)));
+		// lists.add(new cgList(true, 2, res.getString(R.string.list_wpt)));
 		
 		try {
 			cursor = databaseRO.query(
 					dbTableLists,
-					new String[]{"_id", "title", "latitude", "longitude"},
+					new String[]{"_id", "title", "updated", "latitude", "longitude"},
 					null,
 					null,
 					null,
 					null,
-					"_id desc",
+					"title asc",
 					null);
 
 			if (cursor != null) {
@@ -2513,7 +2488,7 @@ public class cgData {
 					cursor.moveToFirst();
 
 					do {
-						cgList list = new cgList();
+						cgList list = new cgList(false);
 						
 						list.id = ((int) cursor.getInt(cursor.getColumnIndex("_id"))) + 10;
 						list.title = (String) cursor.getString(cursor.getColumnIndex("title"));
@@ -2532,6 +2507,109 @@ public class cgData {
 		}
 
 		return lists;
+	}
+	
+	public cgList getList(int id, Resources res) {
+		cgList list = null;
+		
+		if (id == 1) {
+			list = new cgList(true, 1, res.getString(R.string.list_inbox));
+		} else if (id == 2) {
+			list = new cgList(true, 2, res.getString(R.string.list_wpt));
+		} else if (id >= 10) {
+			init();
+
+			Cursor cursor = null;
+
+			try {
+				cursor = databaseRO.query(
+						dbTableLists,
+						new String[]{"_id", "title", "updated", "latitude", "longitude"},
+						"_id = " + (id - 10),
+						null,
+						null,
+						null,
+						null,
+						null);
+
+				if (cursor != null) {
+					if (cursor.getCount() > 0) {
+						cursor.moveToFirst();
+
+						do {
+							list = new cgList(false);
+
+							list.id = ((int) cursor.getInt(cursor.getColumnIndex("_id"))) + 10;
+							list.title = (String) cursor.getString(cursor.getColumnIndex("title"));
+							list.updated = (Long) cursor.getLong(cursor.getColumnIndex("updated"));
+							list.latitude = (Double) cursor.getDouble(cursor.getColumnIndex("latitude"));
+							list.longitude = (Double) cursor.getDouble(cursor.getColumnIndex("longitude"));
+						} while (cursor.moveToNext());
+					}
+
+					cursor.close();
+				}
+			} catch (Exception e) {
+				Log.e(cgSettings.tag, "cgData.getList: " + e.toString());
+			}
+		}
+
+		return list;
+	}
+	
+	public int createList(String name) {
+		init();
+
+		int id = -1;
+		if (name == null || name.length() == 0) {
+			return id;
+		}
+
+		databaseRW.beginTransaction();
+		try {
+			ContentValues values = new ContentValues();
+			values.put("title", name);
+			values.put("updated", System.currentTimeMillis());
+
+			id = (int) databaseRW.insert(dbTableLists, null, values);
+			databaseRW.setTransactionSuccessful();
+		} finally {
+			databaseRW.endTransaction();
+		}
+
+		if (id < 0) {
+			return -1;
+		} else {
+			return (id + 10);
+		}
+	}
+	
+	public boolean removeList(int id) {
+		init();
+		
+		boolean status = false;
+		if (id < 10) {
+			return status;
+		}
+		
+		databaseRW.beginTransaction();
+		try {
+			int cnt = databaseRW.delete(dbTableLists, "id = " + (id - 10), null);
+
+			if (cnt > 0) {
+				ContentValues values = new ContentValues();
+				values.put("reason", 1);
+				databaseRW.update(dbTableCaches, values, "reason = " +id, null);
+				
+				status = true;
+			}
+			
+			databaseRW.setTransactionSuccessful();
+		} finally {
+			databaseRW.endTransaction();
+		}
+		
+		return status;
 	}
 
 	public boolean status() {

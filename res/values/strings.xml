@@ -236,7 +236,7 @@
   <string name="caches_no_cache">There is no cache</string>
   <string name="caches_more_caches">Not enough? Get more caches!</string>
   <string name="caches_more_caches_no">That\'s all. No more caches.</string>
-  <string name="caches_more_caches_loading">Loading more caches...</string>
+  <string name="caches_more_caches_loading">Loading caches...</string>
   <string name="caches_downloading">Downloading caches...\nETA: </string>
   <string name="caches_progress_loading_title">Loading caches</string>
   <string name="caches_progress_loading_text">Caches stored in device</string>
@@ -266,12 +266,24 @@
   <string name="caches_recaptcha_explanation">Please, write text from image. It\'s important to download coordinates of caches. It\'s optional and can be switched off in Settings.</string>
   <string name="caches_recaptcha_hint">Text from image</string>
   <string name="caches_recaptcha_continue">Continue</string>
-  <string name="caches_list_menu">List</string>
-  <string name="caches_list_menu_create">Create new list</string>
-  <string name="caches_list_menu_drop">Drop current list</string>
-  <string name="caches_list_title">Pick a list</string>
-  <string name="caches_list_inbox">Stored</string>
-  <string name="caches_list_wpt">Waypoints</string>
+  
+  <!-- caches lists -->
+  <string name="list_menu">List</string>
+  <string name="list_menu_create">Create new list</string>
+  <string name="list_menu_drop">Drop current list</string>
+  <string name="list_title">Pick a list</string>
+  <string name="list_inbox">Stored</string>
+  <string name="list_wpt">Waypoints</string>
+  <string name="list_dialog_create_title">New list</string>
+  <string name="list_dialog_create">Create</string>
+  <string name="list_dialog_cancel">Cancel</string>
+  <string name="list_dialog_create_ok">New list was created</string>
+  <string name="list_dialog_create_err">c:geo failed to create new list</string>
+  <string name="list_dialog_remove_title">Remove list</string>
+  <string name="list_dialog_remove_description">Do you want to remove current list of caches? All caches remaining in list will be moved to \"Stored\".</string>
+  <string name="list_dialog_remove">Remove</string>
+  <string name="list_dialog_remove_ok">List was removed</string>
+  <string name="list_dialog_remove_err">c:geo failed to remove current list</string>
 
   <!-- about -->
   <string name="about_changelog">Changelog</string>
