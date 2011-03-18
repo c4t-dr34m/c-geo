@@ -2501,7 +2501,7 @@ public class cgData {
 		ArrayList<cgList> lists = new ArrayList<cgList>();
 		
 		lists.add(new cgList(2, res.getString(R.string.caches_list_inbox)));
-		lists.add(new cgList(3, res.getString(R.string.caches_list_wpt)));
+		// lists.add(new cgList(3, res.getString(R.string.caches_list_wpt)));
 		
 		try {
 			cursor = databaseRO.query(
