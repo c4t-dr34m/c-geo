@@ -641,11 +641,11 @@ public class cgeoapplication extends Application {
 		return status;
 	}
 
-	public void dropStored() {
+	public void dropStored(int listId) {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
-		storage.dropStored();
+		storage.dropStored(listId);
 	}
 
 	public ArrayList<cgTrackable> loadInventory(String geocode) {

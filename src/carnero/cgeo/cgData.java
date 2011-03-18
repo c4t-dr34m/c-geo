@@ -2292,7 +2292,7 @@ public class cgData {
 		Log.d(cgSettings.tag, "Database clean: finished");
 	}
 
-	public void dropStored() {
+	public void dropStored(int listId) {
 		init();
 
 		Cursor cursor = null;
@@ -2302,7 +2302,7 @@ public class cgData {
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"_id", "geocode"},
-					"reason >= 1",
+					"reason = " + listId,
 					null,
 					null,
 					null,

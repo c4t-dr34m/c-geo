@@ -166,6 +166,10 @@ public class cgeocaches extends ListActivity {
 			} catch (Exception e2) {
 				Log.e(cgSettings.tag, "cgeocaches.loadCachesHandler.2: " + e2.toString());
 			}
+			
+			if (adapter != null) {
+				adapter.setSelectMode(false, true);
+			}
 		}
 	};
 	private Handler loadNextPageHandler = new Handler() {
@@ -228,6 +232,10 @@ public class cgeocaches extends ListActivity {
 			
 			hideLoading();
 			base.showProgress(activity, false);
+			
+			if (adapter != null) {
+				adapter.setSelectMode(false, true);
+			}
 		}
 	};
 	private Handler loadDetailsHandler = new Handler() {
@@ -296,11 +304,21 @@ public class cgeocaches extends ListActivity {
 
 			if (msg.what > -1) {
 				cacheList.get(msg.what).statusChecked = false;
-
-				if (adapter != null) {
-					adapter.notifyDataSetChanged();
-				}
 			} else {
+				if (adapter != null) {
+					adapter.setSelectMode(false, true);
+				}
+				
+				cacheList.clear();
+
+				final ArrayList<cgCache> cacheListTmp = app.getCaches(searchId);
+				if (cacheListTmp != null && cacheListTmp.isEmpty() == false) {
+					cacheList.addAll(cacheListTmp);
+					cacheListTmp.clear();
+
+					Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
+				}
+				
 				if (waitDialog != null) {
 					waitDialog.dismiss();
 					waitDialog.setOnCancelListener(null);
@@ -807,10 +825,6 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private void setAdapter() {
-		if (adapter != null) {
-			adapter.setSelectMode(false, true);
-		}
-		
 		if (listFooter == null) {
 			if (inflater == null) {
 				inflater = activity.getLayoutInflater();
@@ -1115,17 +1129,8 @@ public class cgeocaches extends ListActivity {
 	}
 
 	public void dropSelected() {
-		if (adapter == null || adapter.getChecked() <= 0) {
-			// no checked caches, drop everything
-			app.dropStored();
-			activity.finish();
-
-			return;
-		}
-
-		detailTotal = adapter.getChecked();
-
 		waitDialog = new ProgressDialog(this);
+		waitDialog.setMessage(res.getString(R.string.caches_drop_progress));
 		waitDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 
 			public void onCancel(DialogInterface arg0) {
@@ -1526,7 +1531,6 @@ public class cgeocaches extends ListActivity {
 						break;
 					}
 
-					detailProgress++;
 					app.markDropped(cache.geocode);
 
 					handler.sendEmptyMessage(cacheList.indexOf(cache));
