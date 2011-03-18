@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 /*
@@ -170,10 +169,6 @@ public class cgData {
 			+ "description text, "
 			+ "geocode text "
 			+ "); ";
-	private static SQLiteStatement sqlCount = null;
-	private static SQLiteStatement sqlCountDetailed = null;
-	private static SQLiteStatement sqlCountTyped = null;
-	private static SQLiteStatement sqlCountDetailedTyped = null;
 	public boolean initialized = false;
 
 	public cgData(Context contextIn) {
@@ -231,11 +226,6 @@ public class cgData {
 	}
 
 	public void closeDb() {
-		sqlCount = null;
-		sqlCountDetailed = null;
-		sqlCountTyped = null;
-		sqlCountDetailedTyped = null;
-		
 		if (databaseRO != null) {
 			path = databaseRO.getPath();
 			
@@ -1956,37 +1946,37 @@ public class cgData {
 		return trackable;
 	}
 
-	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
+	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype, Integer list) {
 		int count = 0;
-		int checks = 0;
+		
+		String listSql = null;
+		String listSqlW = null;
+		if (list == null) {
+			listSql = " where reason >= 1";
+			listSqlW = " and reason >= 1";
+		} else if (list >= 1) {
+			listSql = " where reason = " + list;
+			listSqlW = " and reason = " + list;
+		} else {
+			return count;
+		}
 		
 		try {
-			if (sqlCount == null) {
-				sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1");
-			}
-			if (sqlCountDetailed == null) {
-				sqlCountDetailed = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1");
-			}
-			if (sqlCountTyped == null) {
-				sqlCountTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and type = ?");
-			}
-			if (sqlCountDetailedTyped == null) {
-				sqlCountDetailedTyped = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason >= 1 and detailed = 1 and type = ?");
-			}
-
 			if (detailedOnly == false) {
 				if (cachetype == null) {
+					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + listSql);
 					count = (int) sqlCount.simpleQueryForLong();
 				} else {
-					sqlCountTyped.bindString(1, cachetype);
-					count = (int) sqlCountTyped.simpleQueryForLong();
+					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where type = " + cachetype + listSqlW);
+					count = (int) sqlCount.simpleQueryForLong();
 				}
 			} else {
 				if (cachetype == null) {
-					count = (int) sqlCountDetailed.simpleQueryForLong();
+					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where detailed = 1" + listSqlW);
+					count = (int) sqlCount.simpleQueryForLong();
 				} else {
-					sqlCountDetailedTyped.bindString(1, cachetype);
-					count = (int) sqlCountDetailedTyped.simpleQueryForLong();
+					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where detailed = 1 and type = " + cachetype + listSqlW);
+					count = (int) sqlCount.simpleQueryForLong();
 				}
 			}
 		} catch (Exception e) {
@@ -2002,7 +1992,7 @@ public class cgData {
 		int count = 0;
 
 		try {
-			sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where visiteddate > 0");
+			SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where visiteddate > 0");
 			count = (int) sqlCount.simpleQueryForLong();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgData.getAllHistoricCachesCount: " + e.toString());
@@ -2011,8 +2001,12 @@ public class cgData {
 		return count;
 	}
 
-	public ArrayList<String> loadBatchOfStoredGeocodes(boolean detailedOnly, Double latitude, Double longitude, String cachetype) {
+	public ArrayList<String> loadBatchOfStoredGeocodes(boolean detailedOnly, Double latitude, Double longitude, String cachetype, int list) {
 		init();
+		
+		if (list < 1) {
+			list = 1;
+		}
 
 		Cursor cursor = null;
 		ArrayList<String> geocodes = new ArrayList<String>();
@@ -2031,7 +2025,7 @@ public class cgData {
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"_id", "geocode", "(abs(latitude-" + String.format((Locale) null, "%.6f", latitude) + ") + abs(longitude-" + String.format((Locale) null, "%.6f", longitude) + ")) as dif"},
-					"reason >= 1" + specifySql.toString(),
+					"reason = " + list + specifySql.toString(),
 					null,
 					null,
 					null,

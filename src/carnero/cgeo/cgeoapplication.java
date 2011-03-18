@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class cgeoapplication extends Application {
+
 	private cgData storage = null;
 	private String action = null;
 	private Double lastLatitude = null;
@@ -20,7 +21,6 @@ public class cgeoapplication extends Application {
 	private boolean dirInUse = false;
 	final private HashMap<Long, cgSearch> searches = new HashMap<Long, cgSearch>(); // information about searches
 	final private HashMap<String, cgCache> cachesCache = new HashMap<String, cgCache>(); // caching caches into memory
-
 	public boolean firstRun = true; // c:geo is just launched
 	public boolean warnedLanguage = false; // user was warned about different language settings on geocaching.com
 	private boolean databaseCleaned = false; // database was cleaned
@@ -34,7 +34,7 @@ public class cgeoapplication extends Application {
 	@Override
 	public void onLowMemory() {
 		Log.i(cgSettings.tag, "Cleaning applications cache.");
-		
+
 		cachesCache.clear();
 	}
 
@@ -57,14 +57,14 @@ public class cgeoapplication extends Application {
 			storage.closeDb();
 			storage = null;
 		}
-		
+
 		super.onTerminate();
 	}
-	
+
 	public String backupDatabase() {
 		return storage.backupDatabase();
 	}
-	
+
 	public File isRestoreFile() {
 		return storage.isRestoreFile();
 	}
@@ -72,7 +72,7 @@ public class cgeoapplication extends Application {
 	public boolean restoreDatabase() {
 		return storage.restoreDatabase();
 	}
-	
+
 	public void cleanGeo() {
 		if (geo != null) {
 			geo.closeGeo();
@@ -94,7 +94,7 @@ public class cgeoapplication extends Application {
 
 		return true;
 	}
-	
+
 	public cgGeo startGeo(Context context, cgUpdateLoc geoUpdate, cgBase base, cgSettings settings, cgWarning warning, int time, int distance) {
 		if (geo == null) {
 			geo = new cgGeo(context, this, geoUpdate, base, settings, warning, time, distance);
@@ -110,15 +110,18 @@ public class cgeoapplication extends Application {
 	}
 
 	public cgGeo removeGeo() {
-		if (geo != null) geo.replaceUpdate(null);
+		if (geo != null) {
+			geo.replaceUpdate(null);
+		}
 		geoInUse = false;
-		
+
 		(new removeGeoThread()).start();
 
 		return null;
 	}
 
 	private class removeGeoThread extends Thread {
+
 		@Override
 		public void run() {
 			try {
@@ -151,7 +154,9 @@ public class cgeoapplication extends Application {
 	}
 
 	public cgDirection removeDir() {
-		if (dir != null) dir.replaceUpdate(null);
+		if (dir != null) {
+			dir.replaceUpdate(null);
+		}
 		dirInUse = false;
 
 		(new removeDirThread()).start();
@@ -160,6 +165,7 @@ public class cgeoapplication extends Application {
 	}
 
 	private class removeDirThread extends Thread {
+
 		@Override
 		public void run() {
 			try {
@@ -178,7 +184,9 @@ public class cgeoapplication extends Application {
 	}
 
 	public void cleanDatabase() {
-		if (databaseCleaned == true) return;
+		if (databaseCleaned == true) {
+			return;
+		}
 
 		if (storage == null) {
 			storage = new cgData(this);
@@ -187,128 +195,152 @@ public class cgeoapplication extends Application {
 		databaseCleaned = true;
 	}
 
-    public Boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
-		if (storage == null) storage = new cgData(this);
+	public Boolean isThere(String geocode, String guid, boolean detailed, boolean checkTime) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		return storage.isThere(geocode, guid, detailed, checkTime);
-    }
+	}
 
 	public Boolean isOffline(String geocode, String guid) {
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		return storage.isOffline(geocode, guid);
 	}
 
-    public String getGeocode(String guid) {
-		if (storage == null) storage = new cgData(this);
-        return storage.getGeocodeForGuid(guid);
-    }
+	public String getGeocode(String guid) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		return storage.getGeocodeForGuid(guid);
+	}
 
-    public String getCacheid(String geocode) {
-		if (storage == null) storage = new cgData(this);
-        return storage.getCacheidForGeocode(geocode);
-    }
+	public String getCacheid(String geocode) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		return storage.getCacheidForGeocode(geocode);
+	}
 
-    public String getError(Long searchId) {
+	public String getError(Long searchId) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return null;
 		}
 
-        return searches.get(searchId).error;
-    }
+		return searches.get(searchId).error;
+	}
 
-    public boolean setError(Long searchId, String error) {
+	public boolean setError(Long searchId, String error) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return false;
 		}
 
-        searches.get(searchId).error = error;
+		searches.get(searchId).error = error;
 
-        return true;
-    }
+		return true;
+	}
 
-    public String getUrl(Long searchId) {
+	public String getUrl(Long searchId) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return null;
 		}
 
-        return searches.get(searchId).url;
-    }
+		return searches.get(searchId).url;
+	}
 
-    public boolean setUrl(Long searchId, String url) {
+	public boolean setUrl(Long searchId, String url) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return false;
 		}
 
-        searches.get(searchId).url = url;
+		searches.get(searchId).url = url;
 
-        return true;
-    }
+		return true;
+	}
 
-    public String getViewstate(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) return null;
+	public String getViewstate(Long searchId) {
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return null;
+		}
 
-        return searches.get(searchId).viewstate;
-    }
+		return searches.get(searchId).viewstate;
+	}
 
-    public String getViewstate1(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) return null;
+	public String getViewstate1(Long searchId) {
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return null;
+		}
 
-        return searches.get(searchId).viewstate1;
-    }
+		return searches.get(searchId).viewstate1;
+	}
 
-    public boolean setViewstate(Long searchId, String viewstate) {
-		if (viewstate == null || viewstate.length() == 0) return false;
-		if (searchId == null || searches.containsKey(searchId) == false) return false;
+	public boolean setViewstate(Long searchId, String viewstate) {
+		if (viewstate == null || viewstate.length() == 0) {
+			return false;
+		}
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return false;
+		}
 
 		searches.get(searchId).viewstate = viewstate;
 
 		return true;
-    }
+	}
 
-    public boolean setViewstate1(Long searchId, String viewstate1) {
+	public boolean setViewstate1(Long searchId, String viewstate1) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return false;
 		}
 
-        searches.get(searchId).viewstate1 = viewstate1;
+		searches.get(searchId).viewstate1 = viewstate1;
 
-        return true;
-    }
+		return true;
+	}
 
-    public Integer getTotal(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) return null;
+	public Integer getTotal(Long searchId) {
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return null;
+		}
 
-        return searches.get(searchId).totalCnt;
-    }
+		return searches.get(searchId).totalCnt;
+	}
 
-    public Integer getCount(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) return 0;
+	public Integer getCount(Long searchId) {
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return 0;
+		}
 
 		return searches.get(searchId).getCount();
-    }
+	}
 
-    public Integer getNotOfflineCount(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) return 0;
+	public Integer getNotOfflineCount(Long searchId) {
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return 0;
+		}
 
 		int count = 0;
 		ArrayList<String> geocodes = searches.get(searchId).getGeocodes();
 		if (geocodes != null) {
 			for (String geocode : geocodes) {
 				if (isOffline(geocode, null) == false) {
-					count ++;
+					count++;
 				}
 			}
 		}
 
 		return count;
-    }
+	}
 
-    public cgCache getCacheByGeocode(String geocode) {
+	public cgCache getCacheByGeocode(String geocode) {
 		return getCacheByGeocode(geocode, false, true, false, false, false, false);
 	}
 
-    public cgCache getCacheByGeocode(String geocode, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
-		if (geocode == null || geocode.length() == 0) return null;
-		
+	public cgCache getCacheByGeocode(String geocode, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
+
 		cgCache cache = null;
 		if (cachesCache.containsKey(geocode) == true) {
 			cache = cachesCache.get(geocode);
@@ -324,75 +356,99 @@ public class cgeoapplication extends Application {
 		}
 
 		return cache;
-    }
+	}
 
-    public cgTrackable getTrackableByGeocode(String geocode) {
-		if (geocode == null || geocode.length() == 0) return null;
+	public cgTrackable getTrackableByGeocode(String geocode) {
+		if (geocode == null || geocode.length() == 0) {
+			return null;
+		}
 
 		cgTrackable trackable = null;
 		trackable = storage.loadTrackable(geocode);
 
 		return trackable;
-    }
+	}
 
 	public void removeCacheFromCache(String geocode) {
-		if (geocode != null && cachesCache.containsKey(geocode) == true) cachesCache.remove(geocode);
+		if (geocode != null && cachesCache.containsKey(geocode) == true) {
+			cachesCache.remove(geocode);
+		}
 	}
 
 	public void putCacheInCache(cgCache cache) {
-		if (cache == null || cache.geocode == null) return;
+		if (cache == null || cache.geocode == null) {
+			return;
+		}
 
-		if (cachesCache.containsKey(cache.geocode) == true) cachesCache.remove(cache.geocode);
-		
+		if (cachesCache.containsKey(cache.geocode) == true) {
+			cachesCache.remove(cache.geocode);
+		}
+
 		cachesCache.put(cache.geocode, cache);
 	}
 
 	public String[] geocodesInCache() {
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 
 		return storage.allDetailedThere();
 	}
 
-    public cgWaypoint getWaypointById(Integer id) {
-		if (id == null || id == 0) return null;
+	public cgWaypoint getWaypointById(Integer id) {
+		if (id == null || id == 0) {
+			return null;
+		}
 
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		return storage.loadWaypoint(id);
-    }
-	
-    public cgCache getCache(Long searchId) {
-		if (searchId == null || searches.containsKey(searchId) == false) return null;
+	}
+
+	public cgCache getCache(Long searchId) {
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return null;
+		}
 
 		cgSearch search = searches.get(searchId);
 		ArrayList<String> geocodeList = search.getGeocodes();
 
 		return getCacheByGeocode(geocodeList.get(0), true, true, true, true, true, true);
-    }
+	}
 
 	public ArrayList<cgCache> getCaches(Long searchId) {
 		return getCaches(searchId, false, true, false, false, false, true);
 	}
 
 	public ArrayList<cgCache> getCaches(Long searchId, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
-		if (searchId == null || searches.containsKey(searchId) == false) return null;
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return null;
+		}
 
 		ArrayList<cgCache> cachesOut = new ArrayList<cgCache>();
 
 		cgSearch search = searches.get(searchId);
 		ArrayList<String> geocodeList = search.getGeocodes();
 
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		final ArrayList<cgCache> cachesPre = storage.loadCaches(geocodeList.toArray(), null, loadA, loadW, loadS, loadL, loadI, loadO);
-		if (cachesPre != null) cachesOut.addAll(cachesPre);
+		if (cachesPre != null) {
+			cachesOut.addAll(cachesPre);
+		}
 
 		return cachesOut;
 	}
 
-	public cgSearch getBatchOfStoredCaches(boolean detailedOnly, Double latitude, Double longitude, String cachetype) {
-		if (storage == null) storage = new cgData(this);
+	public cgSearch getBatchOfStoredCaches(boolean detailedOnly, Double latitude, Double longitude, String cachetype, int list) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		cgSearch search = new cgSearch();
 
-		ArrayList<String> geocodes = storage.loadBatchOfStoredGeocodes(detailedOnly, latitude, longitude, cachetype);
+		ArrayList<String> geocodes = storage.loadBatchOfStoredGeocodes(detailedOnly, latitude, longitude, cachetype, list);
 		if (geocodes != null && geocodes.isEmpty() == false) {
 			for (String gccode : geocodes) {
 				search.addGeocode(gccode);
@@ -404,7 +460,9 @@ public class cgeoapplication extends Application {
 	}
 
 	public cgSearch getHistoryOfCaches(boolean detailedOnly, String cachetype) {
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		cgSearch search = new cgSearch();
 
 		ArrayList<String> geocodes = storage.loadBatchOfHistoricGeocodes(detailedOnly, cachetype);
@@ -419,7 +477,9 @@ public class cgeoapplication extends Application {
 	}
 
 	public Long getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
-		if (storage == null) storage = new cgData(this);
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		cgSearch search = new cgSearch();
 
 		ArrayList<String> geocodes = storage.getOfflineInViewport(latitudeT, longitudeL, latitudeB, longitudeR, cachetype);
@@ -433,110 +493,136 @@ public class cgeoapplication extends Application {
 		return search.getCurrentId();
 	}
 
-    public int getAllStoredCachesCount(boolean detailedOnly, String cachetype) {
+	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype, Integer list) {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
 
-        return storage.getAllStoredCachesCount(detailedOnly, cachetype);
-    }
-
-    public int getAllHistoricCachesCount(boolean detailedOnly, String cachetype) {
-		if (storage == null) {
-			storage = new cgData(this);
-		}
-
-        return storage.getAllHistoricCachesCount(detailedOnly, cachetype);
-    }
-
-    public boolean markStored(String geocode) {
-		if (storage == null) storage = new cgData(this);
-        return storage.markStored(geocode);
-    }
-
-    public boolean markDropped(String geocode) {
-		if (storage == null) storage = new cgData(this);
-        return storage.markDropped(geocode);
-    }
-
-	public boolean markFound(String geocode) {
-		if (storage == null) storage = new cgData(this);
-        return storage.markFound(geocode);
+		return storage.getAllStoredCachesCount(detailedOnly, cachetype, list);
 	}
 
-    public boolean saveWaypoints(String geocode, ArrayList<cgWaypoint> waypoints, boolean drop) {
-		if (storage == null) storage = new cgData(this);
-        return storage.saveWaypoints(geocode, waypoints, drop);
-    }
+	public int getAllHistoricCachesCount(boolean detailedOnly, String cachetype) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 
-    public boolean saveOwnWaypoint(int id, String geocode, cgWaypoint waypoint) {
-		if (storage == null) storage = new cgData(this);
-        return storage.saveOwnWaypoint(id, geocode, waypoint);
-    }
+		return storage.getAllHistoricCachesCount(detailedOnly, cachetype);
+	}
 
-    public boolean deleteWaypoint(int id) {
-		if (storage == null) storage = new cgData(this);
+	public boolean markStored(String geocode) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		return storage.markStored(geocode);
+	}
+
+	public boolean markDropped(String geocode) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		return storage.markDropped(geocode);
+	}
+
+	public boolean markFound(String geocode) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		return storage.markFound(geocode);
+	}
+
+	public boolean saveWaypoints(String geocode, ArrayList<cgWaypoint> waypoints, boolean drop) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		return storage.saveWaypoints(geocode, waypoints, drop);
+	}
+
+	public boolean saveOwnWaypoint(int id, String geocode, cgWaypoint waypoint) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		return storage.saveOwnWaypoint(id, geocode, waypoint);
+	}
+
+	public boolean deleteWaypoint(int id) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 		return storage.deleteWaypoint(id);
-    }
+	}
 
-    public boolean saveTrackable(cgTrackable trackable) {
-		if (storage == null) storage = new cgData(this);
+	public boolean saveTrackable(cgTrackable trackable) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
 
 		final ArrayList<cgTrackable> list = new ArrayList<cgTrackable>();
 		list.add(trackable);
 
 		return storage.saveInventory("---", list);
-    }
+	}
 
-    public void addGeocode(Long searchId, String geocode) {
-        if (this.searches.containsKey(searchId) == false || geocode == null || geocode.length() == 0) return;
+	public void addGeocode(Long searchId, String geocode) {
+		if (this.searches.containsKey(searchId) == false || geocode == null || geocode.length() == 0) {
+			return;
+		}
 
-        this.searches.get(searchId).addGeocode(geocode);
-    }
+		this.searches.get(searchId).addGeocode(geocode);
+	}
 
-    public Long addSearch(Long searchId, ArrayList<cgCache> cacheList, Boolean newItem, int reason) {
-        if (this.searches.containsKey(searchId) == false) return null;
+	public Long addSearch(Long searchId, ArrayList<cgCache> cacheList, Boolean newItem, int reason) {
+		if (this.searches.containsKey(searchId) == false) {
+			return null;
+		}
 
-        cgSearch search = this.searches.get(searchId);
+		cgSearch search = this.searches.get(searchId);
 
-        return addSearch(search, cacheList, newItem, reason);
-    }
+		return addSearch(search, cacheList, newItem, reason);
+	}
 
 	public Long addSearch(cgSearch search, ArrayList<cgCache> cacheList, Boolean newItem, int reason) {
-		if (cacheList == null || cacheList.isEmpty()) return null;
+		if (cacheList == null || cacheList.isEmpty()) {
+			return null;
+		}
 
 		final long searchId = search.getCurrentId();
 		searches.put(searchId, search);
-        
-		if (storage == null) storage = new cgData(this);
-        if (newItem == true) {
-            // save only newly downloaded data
-            for (cgCache oneCache : cacheList) {
-                String oneGeocode = oneCache.geocode.toUpperCase();
-                String oneGuid = oneCache.guid.toLowerCase();
 
-                oneCache.reason = reason;
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		if (newItem == true) {
+			// save only newly downloaded data
+			for (cgCache oneCache : cacheList) {
+				String oneGeocode = oneCache.geocode.toUpperCase();
+				String oneGuid = oneCache.guid.toLowerCase();
 
-                if (storage.isThere(oneGeocode, oneGuid, false, false) == false || reason >= 1) { // if for offline, do not merge
-                    storage.saveCache(oneCache);
-                } else {
-                    cgCache mergedCache = oneCache.merge(storage);
+				oneCache.reason = reason;
 
-                    storage.saveCache(mergedCache);
-                }
-            }
-        }
+				if (storage.isThere(oneGeocode, oneGuid, false, false) == false || reason >= 1) { // if for offline, do not merge
+					storage.saveCache(oneCache);
+				} else {
+					cgCache mergedCache = oneCache.merge(storage);
+
+					storage.saveCache(mergedCache);
+				}
+			}
+		}
 
 		return searchId;
 	}
 
 	public boolean addCacheToSearch(cgSearch search, cgCache cache) {
-		if (search == null || cache == null) return false;
+		if (search == null || cache == null) {
+			return false;
+		}
 
 		final long searchId = search.getCurrentId();
 
-		if (searches.containsKey(searchId) == false) searches.put(searchId, search);
-		
+		if (searches.containsKey(searchId) == false) {
+			searches.put(searchId, search);
+		}
+
 		String geocode = cache.geocode.toUpperCase();
 		String guid = cache.guid.toLowerCase();
 
@@ -548,16 +634,20 @@ public class cgeoapplication extends Application {
 
 			status = storage.saveCache(mergedCache);
 		}
-		
-		if (status == true) search.addGeocode(cache.geocode);
+
+		if (status == true) {
+			search.addGeocode(cache.geocode);
+		}
 
 		return status;
 	}
 
-    public void dropStored() {
-		if (storage == null) storage = new cgData(this);
-        storage.dropStored();
-    }
+	public void dropStored() {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		storage.dropStored();
+	}
 
 	public ArrayList<cgTrackable> loadInventory(String geocode) {
 		return storage.loadInventory(geocode);
@@ -576,18 +666,24 @@ public class cgeoapplication extends Application {
 	}
 
 	public String getAction() {
-		if (action == null) return "";
+		if (action == null) {
+			return "";
+		}
 		return action;
 	}
 
 	public boolean addLog(String geocode, cgLog log) {
-		if (geocode == null || geocode.length() == 0) return false;
-		if (log == null) return false;
+		if (geocode == null || geocode.length() == 0) {
+			return false;
+		}
+		if (log == null) {
+			return false;
+		}
 
 		ArrayList<cgLog> list = new ArrayList<cgLog>();
 		list.add(log);
 
-	    return storage.saveLogs(geocode, list, false);
+		return storage.saveLogs(geocode, list, false);
 	}
 
 	public void setLastLoc(Double lat, Double lon) {
@@ -618,7 +714,7 @@ public class cgeoapplication extends Application {
 	public void saveVisitDate(String geocode) {
 		storage.saveVisitDate(geocode);
 	}
-	
+
 	public ArrayList<cgList> getLists() {
 		return storage.getLists(getResources());
 	}

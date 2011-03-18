@@ -509,7 +509,7 @@ public class cgeo extends Activity {
 			}
 
 
-			countBubbleCnt = app.getAllStoredCachesCount(true, null);
+			countBubbleCnt = app.getAllStoredCachesCount(true, null, null);
 
 			countBubbleHandler.sendEmptyMessage(0);
 		}

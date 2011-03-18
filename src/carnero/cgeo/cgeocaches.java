@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.Locale;
-import java.util.Set;
 
 public class cgeocaches extends ListActivity {
 
@@ -74,6 +72,7 @@ public class cgeocaches extends ListActivity {
 	private Long detailProgressTime = 0l;
 	private geocachesLoadDetails threadD = null;
 	private geocachesDropDetails threadR = null;
+	private int listId = 0;
 	private ArrayList<cgList> lists = null;
 	private Handler loadCachesHandler = new Handler() {
 
@@ -356,8 +355,9 @@ public class cgeocaches extends ListActivity {
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 			setLoadingCaches();
-
-			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude);
+			
+			listId = 1;
+			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude, listId);
 			threadPure.start();
 		} else if (type.equals("history") == true) {
 			if (adapter != null) {
@@ -1166,11 +1166,13 @@ public class cgeocaches extends ListActivity {
 		private Handler handler = null;
 		private Double latitude = null;
 		private Double longitude = null;
+		private int listId = 1;
 
-		public geocachesLoadByOffline(Handler handlerIn, Double latitudeIn, Double longitudeIn) {
+		public geocachesLoadByOffline(Handler handlerIn, Double latitudeIn, Double longitudeIn, int listIdIn) {
 			handler = handlerIn;
 			latitude = latitudeIn;
 			longitude = longitudeIn;
+			listId = listIdIn;
 		}
 
 		@Override
@@ -1180,6 +1182,7 @@ public class cgeocaches extends ListActivity {
 				params.put("latitude", latitude);
 				params.put("longitude", longitude);
 				params.put("cachetype", settings.cacheType);
+				params.put("list", listId);
 			}
 
 			searchId = base.searchByOffline(params);
@@ -1549,8 +1552,19 @@ public class cgeocaches extends ListActivity {
 		builder.setTitle(res.getString(R.string.caches_list_title));
 		builder.setItems(listsTitle.toArray(items), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialogInterface, int item) {
-				warning.showToast(lists.get(item).title);
-						
+				cgList list = lists.get(item);
+				if (list == null) {
+					return;
+				}
+				
+				listId = list.id;
+				base.setTitle(activity, list.title);
+				base.showProgress(activity, true);
+				setLoadingCaches();
+				
+				Thread threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude, listId);
+				threadPure.start();
+				
 				return;
 			}
 		});

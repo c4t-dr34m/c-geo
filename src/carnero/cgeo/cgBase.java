@@ -3000,6 +3000,7 @@ public class cgBase {
 		Double latitude = null;
 		Double longitude = null;
 		String cachetype = null;
+		Integer list = 1;
 
 		if (parameters.containsKey("latitude") == true && parameters.containsKey("longitude") == true) {
 			latitude = (Double) parameters.get("latitude");
@@ -3009,9 +3010,13 @@ public class cgBase {
 		if (parameters.containsKey("cachetype") == true) {
 			cachetype = (String) parameters.get("cachetype");
 		}
+		
+		if (parameters.containsKey("list") == true) {
+			list = (Integer) parameters.get("list");
+		}
 
-		final cgSearch search = app.getBatchOfStoredCaches(true, latitude, longitude, cachetype);
-		search.totalCnt = app.getAllStoredCachesCount(true, cachetype);
+		final cgSearch search = app.getBatchOfStoredCaches(true, latitude, longitude, cachetype, list);
+		search.totalCnt = app.getAllStoredCachesCount(true, cachetype, list);
 
 		return search.getCurrentId();
 	}
@@ -3022,8 +3027,6 @@ public class cgBase {
 			return null;
 		}
 
-		Double latitude = null;
-		Double longitude = null;
 		String cachetype = null;
 
 		if (parameters.containsKey("cachetype") == true) {

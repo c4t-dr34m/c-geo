@@ -267,7 +267,7 @@
   <string name="caches_recaptcha_hint">Text from image</string>
   <string name="caches_recaptcha_continue">Continue</string>
   <string name="caches_list_title">Pick a list</string>
-  <string name="caches_list_inbox">Inbox</string>
+  <string name="caches_list_inbox">Stored</string>
   <string name="caches_list_wpt">Waypoints</string>
 
   <!-- about -->
