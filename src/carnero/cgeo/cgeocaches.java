@@ -584,9 +584,9 @@ public class cgeocaches extends ListActivity {
 			}
 			
 			if (listId == 1) {
-				menu.findItem(8).setEnabled(false);
+				menu.findItem(8).setVisible(false);
 			} else {
-				menu.findItem(8).setEnabled(true);
+				menu.findItem(8).setVisible(true);
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeocaches.onPrepareOptionsMenu: " + e.toString());
@@ -617,6 +617,12 @@ public class cgeocaches extends ListActivity {
 				return false;
 			case 6:
 				importGpx();
+				return false;
+			case 7:
+				// TODO
+				return false;
+			case 8:
+				// TODO
 				return false;
 		}
 
