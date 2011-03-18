@@ -149,7 +149,7 @@
   <string name="err_tb_details_open">Tyvärr, c:geo kan inte öppna detaljer för trackable.</string>
   <string name="err_tb_details_download">Tyvärr, c:geo misslyckades att ladda ner detaljer för trackable pga</string>
   <string name="err_tb_forgot">Tyvärr, c:geo glömde vilken trackable önskade.</string>
-  <string name="err_tb_forgot_saw">Tyvärr, c:geo fglömde vilken trackable du såg.</string>
+  <string name="err_tb_forgot_saw">Tyvärr, c:geo glömde vilken trackable du såg.</string>
   <string name="err_tb_find">Tyvärr, c:geo kunde inte hitta trackable</string>
   <string name="err_tb_find_that">Tyvärr, c:geo kan inte hitta önskad trackable.</string>
 
@@ -236,7 +236,7 @@
   <string name="caches_searching">Söker efter cacher</string>
   <string name="caches_no_cache">Det finns ingen cache</string>
   <string name="caches_more_caches">Ladda fler cacher</string>
-  <string name="caches_more_caches_no">Inga fler cacher add ladda</string>
+  <string name="caches_more_caches_no">Inga fler cacher att ladda</string>
   <string name="caches_more_caches_loading">Laddar fler cacher...</string>
   <string name="caches_downloading">Laddar ner cacher...\nTid kvar: </string>
   <string name="caches_progress_loading_title">Laddar cacher</string>
@@ -318,16 +318,16 @@
   <string name="init_browser">Identifiera c:geo som normal webbläsare</string>
   <string name="init_clear">Rensa inloggningsinfo</string>
   <string name="init_cleared">c:geo har rensat inloggningsinformationen</string>
-  <string name="init_backup">Backup</string>
-  <string name="init_backup_backup">Backup</string>
+  <string name="init_backup">Säkerhetskopiering</string>
+  <string name="init_backup_backup">Kopiera</string>
   <string name="init_backup_note">Med knapparna ovan kan du säkerhetskopiera eller återställa databasen som innehåller cacher och punkter (waypoints). Inställningar (såsom användarnamn och lösenord) kopieras inte.</string>
-  <string name="init_backup_restore">Återställn.</string>
+  <string name="init_backup_restore">Återställ</string>
   <string name="init_backup_success">Databasen som används av c:geo har kopierats till filen</string>
-  <string name="init_backup_failed">Backup av c:geos databas misslyckades.</string>
+  <string name="init_backup_failed">Kopieringen av c:geos databas misslyckades.</string>
   <string name="init_restore_success">Återställning klar.</string>
   <string name="init_restore_failed">Återställningen misslyckades.</string>
-  <string name="init_backup_last">Tillgänglig backup från</string>
-  <string name="init_backup_last_no">Det finns ingen backup skapad.</string>
+  <string name="init_backup_last">Tillgänglig kopia från</string>
+  <string name="init_backup_last_no">Det finns ingen säkerhetskopia.</string>
 
   <!-- auth -->
   <string name="auth_twitter">Twitter</string>
@@ -380,8 +380,10 @@
   <string name="cache_menu_tbt">Sväng-för-sväng</string>
   <string name="cache_menu_radar">Radar</string>
   <string name="cache_menu_map">Visa på karta</string>
-  <string name="cache_menu_map_ext">Visa på extern karta</string>
   <string name="cache_menu_map_static">Sparade kartor</string>
+  <string name="cache_menu_locus">Locus</string>
+  <string name="cache_menu_rmaps">Rmaps</string>
+  <string name="cache_menu_map_ext">Visa på extern karta</string>
   <string name="cache_menu_map_short">Kartor</string>
   <string name="cache_menu_map_ext_short">Ext. karta</string>
   <string name="cache_menu_browser">Öppna i webbläsare</string>

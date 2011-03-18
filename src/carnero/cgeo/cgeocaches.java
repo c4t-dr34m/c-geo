@@ -3,7 +3,10 @@ package carnero.cgeo;
 import gnu.android.app.appmanualclient.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -83,6 +86,7 @@ public class cgeocaches extends ListActivity {
 						cacheList.clear();
 						cacheList.addAll(cacheListTmp);
 						cacheListTmp.clear();
+						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
 					}
 				}
 
@@ -173,6 +177,7 @@ public class cgeocaches extends ListActivity {
 						cacheList.clear();
 						cacheList.addAll(cacheListTmp);
 						cacheListTmp.clear();
+						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
 					}
 				}
 
@@ -256,6 +261,7 @@ public class cgeocaches extends ListActivity {
 						cacheList.clear();
 						cacheList.addAll(cacheListTmp);
 						cacheListTmp.clear();
+						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
 					}
 				}
 
