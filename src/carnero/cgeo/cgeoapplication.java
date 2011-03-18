@@ -2,7 +2,6 @@ package carnero.cgeo;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.Log;
 import java.io.File;
 import java.util.ArrayList;
@@ -729,5 +728,9 @@ public class cgeoapplication extends Application {
 	
 	public boolean removeList(int id) {
 		return storage.removeList(id);
+	}
+	
+	public void moveToList(String geocode, int listId) {
+		storage.moveToList(geocode, listId);
 	}
 }

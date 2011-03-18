@@ -2611,6 +2611,23 @@ public class cgData {
 		
 		return status;
 	}
+	
+	public void moveToList(String geocode, int listId) {
+		if (geocode == null || geocode.length() == 0 || listId <= 0) {
+			return;
+		}
+		
+		databaseRW.beginTransaction();
+		try {
+			ContentValues values = new ContentValues();
+			values.put("reason", listId);
+			databaseRW.update(dbTableCaches, values, "geocode = \"" +geocode + "\"", null);
+			
+			databaseRW.setTransactionSuccessful();
+		} finally {
+			databaseRW.endTransaction();
+		}
+	}
 
 	public boolean status() {
 		if (databaseRO == null || databaseRW == null || initialized == false) {

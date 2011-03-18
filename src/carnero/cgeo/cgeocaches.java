@@ -518,9 +518,11 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, res.getString(R.string.caches_select_mode)).setIcon(android.R.drawable.ic_menu_agenda);
+		menu.add(0, 9, 0, res.getString(R.string.caches_select_invert)).setIcon(android.R.drawable.ic_menu_agenda);
 		if (type.equals("offline") == true) {
-			menu.add(0, 5, 0, res.getString(R.string.caches_drop_all)).setIcon(android.R.drawable.ic_menu_delete); // delete saved caches
-			menu.add(0, 1, 0, res.getString(R.string.cache_offline_refresh)).setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
+			SubMenu subMenu = menu.addSubMenu(0, 13, 0, res.getString(R.string.caches_manage)).setIcon(android.R.drawable.ic_menu_save);
+			subMenu.add(0, 5, 0, res.getString(R.string.caches_drop_all)); // delete saved caches
+			subMenu.add(0, 1, 0, res.getString(R.string.cache_offline_refresh)); // download details for all caches
 			menu.add(0, 6, 0, res.getString(R.string.gpx_import_title)).setIcon(android.R.drawable.ic_menu_upload); // import gpx file
 		} else {
 			menu.add(0, 1, 0, res.getString(R.string.caches_store_offline)).setIcon(android.R.drawable.ic_menu_set_as); // download details for all caches
@@ -552,10 +554,12 @@ public class cgeocaches extends ListActivity {
 		try {
 			if (adapter != null && adapter.getSelectMode() == true) {
 				menu.findItem(0).setTitle(res.getString(R.string.caches_select_mode_exit));
+				menu.findItem(9).setVisible(true);
 			} else {
 				menu.findItem(0).setTitle(res.getString(R.string.caches_select_mode));
+				menu.findItem(9).setVisible(false);
 			}
-
+			
 			if (type.equals("offline") == true) {
 				if (adapter != null && adapter.getChecked() > 0) {
 					menu.findItem(5).setTitle(res.getString(R.string.caches_drop_selected) + " (" + adapter.getChecked() + ")");
@@ -627,6 +631,11 @@ public class cgeocaches extends ListActivity {
 				return false;
 			case 8:
 				removeList();
+				return false;
+			case 9:
+				if (adapter != null) {
+					adapter.invertSelection();
+				}
 				return false;
 		}
 
@@ -1585,26 +1594,28 @@ public class cgeocaches extends ListActivity {
 	}
 	
 	public void switchListByOrder(int order) {
-		lists = app.getLists();
-		
-		cgList list = lists.get(order);
-		if (list == null) {
-			return;
-		}
-
-		listId = list.id;
-		title = list.title;
-		
-		base.setTitle(activity, title);
-		base.showProgress(activity, true);
-		setLoadingCaches();
-
-		Thread threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude, listId);
-		threadPure.start();
+		switchList(-1, order);
 	}
 	
 	public void switchListById(int id) {
-		cgList list = app.getList(id);
+		switchList(id, -1);
+	}
+	
+	public void switchList(int id, int order) {
+		cgList list = null;
+		
+		if (id >= 0) {
+			list = app.getList(id);
+		} else if (order >= 0) {
+			lists = app.getLists();
+			list = lists.get(order);
+		} else {
+			return;
+		}
+		
+		if (list == null) {
+			return;
+		}
 		
 		listId = list.id;
 		title = list.title;
@@ -1612,6 +1623,16 @@ public class cgeocaches extends ListActivity {
 		base.setTitle(activity, title);
 		base.showProgress(activity, true);
 		setLoadingCaches();
+		
+		int checked = adapter.getChecked();
+		if (checked > 0) {
+			final ArrayList<cgCache> cacheListTemp = (ArrayList<cgCache>) cacheList.clone();
+			for (cgCache cache : cacheListTemp) {
+				if (cache.statusChecked != false) {
+					app.moveToList(cache.geocode, listId);
+				}
+			}
+		}
 
 		Thread threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude, listId);
 		threadPure.start();

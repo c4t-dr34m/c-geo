@@ -149,6 +149,25 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		notifyDataSetChanged();
 	}
+	
+	public void invertSelection() {
+		int check = 0;
+		
+		for (cgCache cache : list) {
+			if (cache.statusChecked == true) {
+				cache.statusChecked = false;
+				cache.statusCheckedView = false;
+			} else {
+				cache.statusChecked = true;
+				cache.statusCheckedView = true;
+				
+				check ++;
+			}
+		}
+		checkChecked(check);
+
+		notifyDataSetChanged();
+	}
 
 	public void forceSort(Double latitudeIn, Double longitudeIn) {
 		if (latitudeIn == null || longitudeIn == null) return;

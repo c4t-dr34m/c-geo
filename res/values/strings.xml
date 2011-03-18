@@ -252,7 +252,9 @@
   <string name="caches_select">Select from list</string>
   <string name="caches_select_mode">Select mode</string>
   <string name="caches_select_mode_exit">Exit select mode</string>
+  <string name="caches_select_invert">Invert selection</string>
   <string name="caches_nearby">Nearby</string>
+  <string name="caches_manage">Manage</string>
   <string name="caches_drop_selected">Drop selected</string>
   <string name="caches_drop_selected_ask">Do you want to remove selected caches from device?</string>
   <string name="caches_drop_all">Drop all</string>
