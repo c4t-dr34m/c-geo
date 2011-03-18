@@ -532,6 +532,12 @@ public class cgeocaches extends ListActivity {
 			menu.add(0, 2, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode); // show all caches on map
 		}
 
+		if (type.equals("offline") == true) {
+			SubMenu subMenu = menu.addSubMenu(0, 12, 0, res.getString(R.string.caches_list_menu)).setIcon(android.R.drawable.ic_menu_more);
+			subMenu.add(0, 7, 0, res.getString(R.string.caches_list_menu_create));
+			subMenu.add(0, 8, 0, res.getString(R.string.caches_list_menu_drop));
+		}
+		
 		return true;
 	}
 
@@ -573,6 +579,14 @@ public class cgeocaches extends ListActivity {
 
 			if (type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId))) { // there are no more caches
 				menu.findItem(0).setEnabled(false);
+			} else {
+				menu.findItem(0).setEnabled(true);
+			}
+			
+			if (listId == 1) {
+				menu.findItem(8).setEnabled(false);
+			} else {
+				menu.findItem(8).setEnabled(true);
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeocaches.onPrepareOptionsMenu: " + e.toString());
