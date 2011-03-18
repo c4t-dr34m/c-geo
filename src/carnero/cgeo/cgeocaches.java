@@ -626,7 +626,7 @@ public class cgeocaches extends ListActivity {
 				createList();
 				return false;
 			case 8:
-				// removeList
+				removeList();
 				return false;
 		}
 
@@ -1632,7 +1632,6 @@ public class cgeocaches extends ListActivity {
 					
 					if (newId >= 10) {
 						warning.showToast(res.getString(R.string.list_dialog_create_ok));
-						switchListById(newId);
 					} else {
 						warning.showToast(res.getString(R.string.list_dialog_create_err));
 					}
@@ -1650,7 +1649,6 @@ public class cgeocaches extends ListActivity {
 	
 	private void removeList() {
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		final EditText input = new EditText(activity);
 
 		alert.setTitle(R.string.list_dialog_remove_title);
 		alert.setMessage(R.string.list_dialog_remove_description);

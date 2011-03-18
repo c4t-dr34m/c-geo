@@ -2594,7 +2594,7 @@ public class cgData {
 		
 		databaseRW.beginTransaction();
 		try {
-			int cnt = databaseRW.delete(dbTableLists, "id = " + (id - 10), null);
+			int cnt = databaseRW.delete(dbTableLists, "_id = " + (id - 10), null);
 
 			if (cnt > 0) {
 				ContentValues values = new ContentValues();
