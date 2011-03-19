@@ -30,6 +30,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -110,6 +111,7 @@ public class cgBase {
 	private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
 	final private static HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 	final private static HashMap<String, Integer> wpIcons = new HashMap<String, Integer>();
+	Drawable actionBarDropdown = null;
 
 	public cgBase(cgeoapplication appIn, cgSettings settingsIn, SharedPreferences prefsIn) {
 		res = appIn.getBaseContext().getResources();
@@ -5653,8 +5655,12 @@ public class cgBase {
 		activity.startActivity(intent);
 		activity.finish();
 	}
-
+	
 	public void setTitle(Activity activity, String text) {
+		setTitle(activity, text, false);
+	}
+
+	public void setTitle(Activity activity, String text, boolean dropdown) {
 		if (activity == null || text == null) {
 			return;
 		}
@@ -5662,6 +5668,13 @@ public class cgBase {
 		final TextView title = (TextView) activity.findViewById(R.id.actionbar_title);
 		if (title != null) {
 			title.setText(text);
+		}
+		if (dropdown) {
+			if (actionBarDropdown == null) {
+				actionBarDropdown = (Drawable) activity.getResources().getDrawable(R.drawable.actionbar_dropdown);
+			}
+			
+			title.setCompoundDrawablesWithIntrinsicBounds(actionBarDropdown, null, null, null);
 		}
 	}
 }

@@ -374,7 +374,7 @@ public class cgeocaches extends ListActivity {
 
 		if (type.equals("offline") == true) {
 			title = res.getString(R.string.caches_stored);
-			base.setTitle(activity, title);
+			base.setTitle(activity, title, true);
 			base.showProgress(activity, true);
 			setLoadingCaches();
 			
