@@ -245,8 +245,9 @@
   <!-- caches -->
   <string name="caches_searching">Suche nach Caches</string>
   <string name="caches_no_cache">Kein Cache</string>
-  <string name="caches_more_caches">Mehr Caches</string>
+  <string name="caches_more_caches">Mehr Caches laden</string>
   <string name="caches_more_caches_no">Keine weiteren Caches</string>
+  <string name="caches_more_caches_loading">Lade Caches...</string>
   <string name="caches_downloading">Lade Caches...\nGeschätzte Zeit: </string>
   <string name="caches_progress_loading_title">Lade Caches</string>
   <string name="caches_progress_loading_text">Gespeicherte Caches</string>
@@ -262,17 +263,38 @@
   <string name="caches_select">Wähle von Liste</string>
   <string name="caches_select_mode">Auswahlmodus</string>
   <string name="caches_select_mode_exit">Auswahlmodus beenden</string>
+  <string name="caches_select_invert">Auswahl invertieren</string>
   <string name="caches_nearby">In der Nähe</string>
+  <string name="caches_manage">Verwalten</string>
   <string name="caches_drop_selected">Ausgewählte löschen</string>
   <string name="caches_drop_selected_ask">Bist du sicher, dass die ausgewählten Caches vom Gerät gelöscht werden sollen?</string>
   <string name="caches_drop_all">Lösche Alle</string>
-  <string name="caches_drop_all_ask">Bist du sicher, dass alle Caches vom Gerät gelöscht werden sollen?</string>
+  <string name="caches_drop_all_ask">Bist du sicher, dass alle Caches von dieser Liste gelöscht werden sollen?</string>
   <string name="caches_drop_stored">Gespeicherte löschen</string>
+  <string name="caches_drop_progress">Entferne Caches...</string>
   <string name="caches_refresh_selected">Ausgewählte aktualisieren</string>
   <string name="caches_refresh_all">Alle aktualisieren</string>
   <string name="caches_recaptcha_explanation">Bitte Text vom Bild abschreiben. Wichtig, um Koordinaten des Caches laden zu können. Optional, kann in den Einstellungen deaktiviert werden.</string>
   <string name="caches_recaptcha_hint">Text vom Bild</string>
   <string name="caches_recaptcha_continue">Fortfahren</string>
+
+  <!-- caches lists -->
+  <string name="list_menu">Liste</string>
+  <string name="list_menu_create">Neue Liste</string>
+  <string name="list_menu_drop">Aktuelle Liste löschen</string>
+  <string name="list_title">Liste wählen</string>
+  <string name="list_inbox">Gespeichert</string>
+  <string name="list_wpt">Wegpunkte</string>
+  <string name="list_dialog_create_title">Neue Liste</string>
+  <string name="list_dialog_create">Erstellen</string>
+  <string name="list_dialog_cancel">Abbrechen</string>
+  <string name="list_dialog_create_ok">Neue Liste wurde erstellt</string>
+  <string name="list_dialog_create_err">c:geo konnte die neue Liste nicht erstellen</string>
+  <string name="list_dialog_remove_title">Liste entfernen</string>
+  <string name="list_dialog_remove_description">Aktuelle Liste löschen? Alle Caches dieser Liste werden nach \"Gespeichert\" verschoben.</string>
+  <string name="list_dialog_remove">Entfernen</string>
+  <string name="list_dialog_remove_ok">Liste wurde gelöscht</string>
+  <string name="list_dialog_remove_err">c:geo konnte die Liste nicht löschen</string>
 
   <!-- about -->
   <string name="about_changelog">Änderungen</string>
@@ -304,15 +326,15 @@
   <string name="init_languages_hint">de en es</string>
   <string name="init_translate">Beschreibung &amp; Hint übersetzen</string>
   <string name="init_other">Weitere Optionen</string>
-  <string name="init_skin">Light Skin (Neustart erforderlich)</string>
+  <string name="init_skin">Helle Oberfläche (Neustart erforderlich)</string>
   <string name="init_transparent">Transparenten Startbildschirm verwenden</string>
   <string name="init_address">Position am Startbildschirm anzeigen</string>
   <string name="init_captcha">Zeige CAPTCHA wenn notwendig</string>
   <string name="init_useenglish">c:geo auf Englisch nutzen (Neustart erforderlich)</string>
   <string name="init_exclude">Eigene und gefundene Caches ausblenden</string>
   <string name="init_disabled">Deaktivierte Caches ausblenden</string>
-  <string name="init_offline">Karten für Offline-Verwendung speichern</string>
-  <string name="init_units">Imperiales Maßsystem (Meilen) verwenden</string>
+  <string name="init_offline">Statische Karten für Offline-Verwendung speichern</string>
+  <string name="init_units">Imperiale Einheiten (Meilen/Fuß)</string>
   <string name="init_nav">Google Navigation verwenden</string>
   <string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
   <string name="init_livelist">Richtung zum Cache in der Cache-Liste anzeigen</string>
@@ -370,8 +392,8 @@
   <string name="cache_menu_tbt">GoogleMaps Navigation</string>
   <string name="cache_menu_radar">Radar</string>
   <string name="cache_menu_map">Auf Karte zeigen</string>
-  <string name="cache_menu_map_ext">Auf externer Karte zeigen</string>
   <string name="cache_menu_map_static">Statische Karte</string>
+  <string name="cache_menu_map_ext">Auf ext. Karte zeigen</string>
   <string name="cache_menu_map_short">Karte</string>
   <string name="cache_menu_map_ext_short">Externe Karte</string>
   <string name="cache_menu_browser">Im Browser öffnen</string>
