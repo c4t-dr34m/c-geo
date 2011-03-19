@@ -418,7 +418,7 @@ public class cgeodetail extends Activity {
 
 			SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
 			subMenu.add(0, 8, 0, res.getString(R.string.cache_menu_radar)); // radar
-			if (cache != null && cache.reason == 1 && settings.storeOfflineMaps == 1) {
+			if (cache != null && cache.reason >= 1 && settings.storeOfflineMaps == 1) {
 				subMenu.add(1, 6, 0, res.getString(R.string.cache_menu_map_static)); // static maps
 			}
 			subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // c:geo map
@@ -555,7 +555,7 @@ public class cgeodetail extends Activity {
 			return;
 		}
 
-		if (cache.reason > 0) {
+		if (cache.reason >= 1) {
 			base.sendAnal(activity, tracker, "/cache/detail/stored");
 		} else {
 			base.sendAnal(activity, tracker, "/cache/detail/online");
@@ -813,7 +813,7 @@ public class cgeodetail extends Activity {
 			final Button offlineRefresh = (Button) findViewById(R.id.offline_refresh);
 			final Button offlineStore = (Button) findViewById(R.id.offline_store);
 
-			if (cache.reason == 1) {
+			if (cache.reason >= 1) {
 				Long diff = (System.currentTimeMillis() / (60 * 1000)) - (cache.detailedUpdate / (60 * 1000)); // minutes
 
 				String ago = "";

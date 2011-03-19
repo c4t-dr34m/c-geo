@@ -238,7 +238,6 @@
   <string name="caches_more_caches_no">No hay mas escondites</string>
   <string name="caches_downloading">Descargando escondites...\nFaltan: </string>
   <string name="caches_progress_loading_title">Cargando escondites</string>
-<string name="caches_progress_loading_title">Cargando escondites</string>  
   <string name="caches_progress_loading_text">Escondites almacenados en el dispositivo</string>
   <string name="caches_eta_ltm">Menos de un minuto</string>
   <string name="caches_eta_mins"> minutos</string>
