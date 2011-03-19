@@ -40,6 +40,7 @@ import android.text.style.StrikethroughSpan;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -111,7 +112,6 @@ public class cgBase {
 	private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
 	final private static HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 	final private static HashMap<String, Integer> wpIcons = new HashMap<String, Integer>();
-	Drawable actionBarDropdown = null;
 
 	public cgBase(cgeoapplication appIn, cgSettings settingsIn, SharedPreferences prefsIn) {
 		res = appIn.getBaseContext().getResources();
@@ -5657,10 +5657,6 @@ public class cgBase {
 	}
 	
 	public void setTitle(Activity activity, String text) {
-		setTitle(activity, text, false);
-	}
-
-	public void setTitle(Activity activity, String text, boolean dropdown) {
 		if (activity == null || text == null) {
 			return;
 		}
@@ -5668,13 +5664,6 @@ public class cgBase {
 		final TextView title = (TextView) activity.findViewById(R.id.actionbar_title);
 		if (title != null) {
 			title.setText(text);
-		}
-		if (dropdown) {
-			if (actionBarDropdown == null) {
-				actionBarDropdown = (Drawable) activity.getResources().getDrawable(R.drawable.actionbar_dropdown);
-			}
-			
-			title.setCompoundDrawablesWithIntrinsicBounds(actionBarDropdown, null, null, null);
 		}
 	}
 }
