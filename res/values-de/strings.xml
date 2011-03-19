@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <string name="app_name">c:geo</string>
-  <string name="app_name_compassd">c:geo Kompass</string>
+  <string name="app_name_compass">c:geo Kompass</string>
 
   <!-- basics -->
   <string name="cache">Cache</string>
