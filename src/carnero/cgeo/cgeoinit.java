@@ -410,7 +410,7 @@ public class cgeoinit extends Activity {
 				settings.reloadTwitterTokens();
 
 				SharedPreferences.Editor edit = prefs.edit();
-				if (prefs.getInt("twitter", 0) == 0 || settings.tokenPublic == null || settings.tokenPublic.length() == 0 || settings.tokenSecret == null || settings.tokenSecret.length() == 0) {
+				if (prefs.getInt("twitter", 0) == 0) {
 					edit.putInt("twitter", 1);
 					settings.twitter = 1;
 				} else {
@@ -433,6 +433,8 @@ public class cgeoinit extends Activity {
 				SharedPreferences.Editor edit = prefs.edit();
 				edit.putInt("twitter", 0);
 				settings.twitter = 0;
+				edit.commit();
+
 				twitterButton.setChecked(false);
 			}
 

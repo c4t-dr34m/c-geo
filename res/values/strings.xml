@@ -619,6 +619,7 @@
   <string name="changelog">\n
     <b>2.09</b> (__.03.2011)\n
     · new: Caches lists\n
+    · fix: Disabling of Twitter\n
 	\n
     <b>2.08</b> (17.03.2011)\n
     · fix: Faster displaying caches on the map\n
