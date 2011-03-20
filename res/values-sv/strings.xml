@@ -253,12 +253,15 @@
   <string name="caches_select">Välj från lista</string>
   <string name="caches_select_mode">Markeringsläge</string>
   <string name="caches_select_mode_exit">Avsluta markeringsläge</string>
+  <string name="caches_select_invert">Invertera valda</string>
   <string name="caches_nearby">Nära</string>
+  <string name="caches_manage">Hantera</string>
   <string name="caches_drop_selected">Ta bort valda</string>
   <string name="caches_drop_selected_ask">Vill du ta bort valda cacher från enheten?</string>
   <string name="caches_drop_all">Ta bort alla</string>
   <string name="caches_drop_all_ask">Vill du ta bort alla cacher från enheten?</string>
   <string name="caches_drop_stored">Ta bort sparade</string>
+  <string name="caches_drop_progress">Tar bort cacher</string>
   <string name="caches_refresh_selected">Uppdatera valda</string>
   <string name="caches_refresh_all">Uppdatera alla</string>
   <string name="caches_map_cgeo">c:geo</string>
@@ -267,6 +270,24 @@
   <string name="caches_recaptcha_explanation">Skriv texten som syns i bilden. Det krävs för att hämta koordinaterna för cacherna i listan. Det går att fortsätta ändå (men med sämre funktionalitet).</string>
   <string name="caches_recaptcha_hint">Text från bilden</string>
   <string name="caches_recaptcha_continue">Fortsätt</string>
+
+  <!-- caches lists -->
+  <string name="list_menu">Listor</string>
+  <string name="list_menu_create">Skapa en ny lista</string>
+  <string name="list_menu_drop">Ta bort den här listan</string>
+  <string name="list_title">Välj en lista</string>
+  <string name="list_inbox">Sparade</string>
+  <string name="list_wpt">Punkter</string>
+  <string name="list_dialog_create_title">Ny lista</string>
+  <string name="list_dialog_create">Skapa</string>
+  <string name="list_dialog_cancel">Avbryt</string>
+  <string name="list_dialog_create_ok">Den nya listan har skapats</string>
+  <string name="list_dialog_create_err">c:geo misslyckades med att skapa den nya listan</string>
+  <string name="list_dialog_remove_title">Ta bort lista</string>
+  <string name="list_dialog_remove_description">Vill du ta bort den här listan? Alla cacher som finns i listan kommer att flyttas till \"Sparade\".</string>
+  <string name="list_dialog_remove">Ta bort</string>
+  <string name="list_dialog_remove_ok">Listan har tagits bort</string>
+  <string name="list_dialog_remove_err">c:geo misslyckades med att ta bort listan</string>
 
   <!-- about -->
   <string name="about_changelog">Historik</string>
