@@ -236,6 +236,7 @@
   <string name="caches_no_cache">Nie ma skrzynki</string>
   <string name="caches_more_caches">Więcej skrzynek</string>
   <string name="caches_more_caches_no">Nie ma więcej skrzynek</string>
+  <string name="caches_more_caches_loading">Ładuję skrzynki...</string>
   <string name="caches_downloading">Ładuję skrzynki...\nSzacowany czas: </string>
   <string name="caches_progress_loading_title">Ładuję skrzynki</string>
   <string name="caches_progress_loading_text">Zapisane skrzynki</string>
@@ -251,12 +252,15 @@
   <string name="caches_select">Wybierz z listy</string>
   <string name="caches_select_mode">Tryb wyboru</string>
   <string name="caches_select_mode_exit">Wyjście z trybu wyboru</string>
+  <string name="caches_select_invert">Odwróć zaznaczenie</string>  
   <string name="caches_nearby">Najbliższe</string>
+  <string name="caches_manage">Zarządzać</string>
   <string name="caches_drop_selected">Wybrane skasować</string>
   <string name="caches_drop_selected_ask">Czy chcesz usunąć wybrane skrzynki z pamięci?</string>
   <string name="caches_drop_all">Skasuj wszystkie</string>
   <string name="caches_drop_all_ask">Czy chcesz usunąc wszystkie skrzynki z pamięci?</string>
   <string name="caches_drop_stored">Skasuj zapisane</string>
+  <string name="caches_drop_progress">Usuwanie skrzynek</string>
   <string name="caches_refresh_selected">Odśwież wybrane</string>
   <string name="caches_refresh_all">Odśwież wszystkie</string>
   <string name="caches_map_cgeo">c:geo</string>
@@ -266,6 +270,24 @@
   <string name="caches_recaptcha_hint">Tekst z obrazka</string>
   <string name="caches_recaptcha_continue">Kontynuuj</string>
 
+  <!-- caches lists -->
+  <string name="list_menu">Lista</string>
+  <string name="list_menu_create">Utwórz nową listę</string>
+  <string name="list_menu_drop">Usuń aktualną listę</string>
+  <string name="list_title">Wybierz listę</string>
+  <string name="list_inbox">Zapisane</string>
+  <string name="list_wpt">Punkty nawigacyjne</string>
+  <string name="list_dialog_create_title">Nowa lista</string>
+  <string name="list_dialog_create">Utworzyć</string>
+  <string name="list_dialog_cancel">Anulować</string>
+  <string name="list_dialog_create_ok">Nowa lista została utworzona</string>
+  <string name="list_dialog_create_err">c:geo nie udało się utworzyć nowej listy</string>
+  <string name="list_dialog_remove_title">Usuń listę</string>
+  <string name="list_dialog_remove_description">Chcesz usunąć aktualną listę skrzynek? Wszystkie skrzynki na tej liście zostaną przeniesione do listy \"Zapisane\".</string>
+  <string name="list_dialog_remove">Usuń</string>
+  <string name="list_dialog_remove_ok">Lista została usunięta</string>
+  <string name="list_dialog_remove_err">c:geo nie udało się usunąć obecną listę</string>
+  
   <!-- about -->
   <string name="about_changelog">Zmiany</string>
   <string name="about_donate">Wspomóc</string>
@@ -301,15 +323,15 @@
   <string name="init_languages_hint">pl en de</string>
   <string name="init_translate">Przetłumacz opis &amp; wskazówkę</string>
   <string name="init_other">Inne opcje</string>
-  <string name="init_skin">Light skin (wymaga restartu)</string>
+  <string name="init_skin">Light skin\n(wymaga restartu)</string>
   <string name="init_transparent">Użyj przejrzysty Panel w c:geo</string>
   <string name="init_address">Pokaż adres na ekranie głównym</string>
   <string name="init_captcha">Pokaż CAPTCHA w razie potrzeby</string>
-  <string name="init_useenglish">Użyj języka angielskiego wewnątrz c:geo (wymaga restartu)</string>
+  <string name="init_useenglish">Użyj języka angielskiego wewnątrz c:geo\n(wymaga restartu)</string>
   <string name="init_exclude">Wyklucz własne lub już znalezione skrzynki</string>
   <string name="init_disabled">Wyklucz tymczasowo niedostępne skrzynki</string>
   <string name="init_offline">Zapisuj mampki do użytku offline</string>
-  <string name="init_units">Używaj angielskich jednostek miary (mile)</string>
+  <string name="init_units">Używaj angielskich jednostek miary\n(mile)</string>
   <string name="init_nav">Używaj Google Navigation</string>
   <string name="init_autoload">Długie opisy automatycznie ładować</string>
   <string name="init_livelist">Pokazuj na liście kierunek do skrzynek</string>
@@ -378,8 +400,10 @@
   <string name="cache_menu_tbt">Zakręt po zakręcie</string>
   <string name="cache_menu_radar">Radar</string>
   <string name="cache_menu_map">Pokaż na mapie</string>
-  <string name="cache_menu_map_ext">Pokaż na zewnętrznej mapie</string>
   <string name="cache_menu_map_static">Statyczna mapa</string>
+  <string name="cache_menu_locus">Locus</string>
+  <string name="cache_menu_rmaps">Rmaps</string>
+  <string name="cache_menu_map_ext">Pokaż na zewnętrznej mapie</string>
   <string name="cache_menu_map_short">Mapa</string>
   <string name="cache_menu_map_ext_short">Zewn. mapa</string>
   <string name="cache_menu_browser">Otwórz w przeglądarce</string>
@@ -519,6 +543,7 @@
   <string name="trackable_origin">Pochodzenie</string>
   <string name="trackable_unknown">Nieznany</string>
   <string name="trackable_released">Wydany</string>
+  <string name="trackable_distance">W podróży</string>
   <string name="trackable_touch">TB-Akcja</string>
 
   <!--  user -->
