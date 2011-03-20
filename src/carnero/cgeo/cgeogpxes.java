@@ -129,8 +129,6 @@ public class cgeogpxes extends ListActivity {
 
 	private void setAdapter() {
 		if (adapter == null) {
-			final ListView list = getListView();
-
 			adapter = new cgGPXListAdapter(this, settings, files);
 			setListAdapter(adapter);
 		}
@@ -212,8 +210,12 @@ public class cgeogpxes extends ListActivity {
 			waitDialog.dismiss();
 		}
 
-		parseDialog = ProgressDialog.show(activity, res.getString(R.string.gpx_import_title_reading_file),
-				res.getString(R.string.gpx_import_loading), true);
+		parseDialog = ProgressDialog.show(
+				activity,
+				res.getString(R.string.gpx_import_title_reading_file),
+				res.getString(R.string.gpx_import_loading),
+				true
+		);
 		parseDialog.setCancelable(false);
 
 		new loadCaches(file).start();

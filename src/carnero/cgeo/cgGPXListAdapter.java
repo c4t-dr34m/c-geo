@@ -11,7 +11,6 @@ import android.util.Log;
 import java.io.File;
 
 public class cgGPXListAdapter extends ArrayAdapter<File> {
-	private List<File> list = null;
 	private cgGPXView holder = null;
 	private cgeogpxes parent = null;
 	private cgSettings settings = null;
@@ -22,7 +21,6 @@ public class cgGPXListAdapter extends ArrayAdapter<File> {
 
 		parent = parentIn;
 		settings = settingsIn;
-		list = listIn;
 	}
 
     @Override
