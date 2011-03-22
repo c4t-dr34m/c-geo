@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -25,6 +24,7 @@ public class cgeogpxes extends ListActivity {
 	private ProgressDialog waitDialog = null;
 	private ProgressDialog parseDialog = null;
 	private Resources res = null;
+	private int listId = 1;
 	private int imported = 0;
 	final private Handler changeWaitDialogHandler = new Handler() {
 
@@ -118,6 +118,14 @@ public class cgeogpxes extends ListActivity {
 
 		// google analytics
 		base.sendAnal(activity, "/gpx-import");
+		
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			listId = extras.getInt("list");
+		}
+		if (listId <= 0) {
+			listId = 1;
+		}
 		
 		setAdapter();
 
@@ -231,7 +239,7 @@ public class cgeogpxes extends ListActivity {
 
 		@Override
 		public void run() {
-			final long searchId = base.parseGPX(app, file, changeParseDialogHandler);
+			final long searchId = base.parseGPX(app, file, listId, changeParseDialogHandler);
 
 			imported = app.getCount(searchId);
 

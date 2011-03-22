@@ -21,6 +21,7 @@ import org.xml.sax.Attributes;
 public class cgGPXParser {
 	private cgeoapplication app = null;
 	private cgBase base = null;
+	private int listId = 1;
 	private cgSearch search = null;
 	private Handler handler = null;
 
@@ -38,9 +39,10 @@ public class cgGPXParser {
 	private String cmt = null;
 	private String desc = null;
 
-	public cgGPXParser(cgeoapplication appIn, cgBase baseIn, cgSearch searchIn) {
+	public cgGPXParser(cgeoapplication appIn, cgBase baseIn, int listIdIn, cgSearch searchIn) {
 		app = appIn;
 		base = baseIn;
+		listId = listIdIn;
 		search = searchIn;
 
 		nsGCList.add("http://www.groundspeak.com/cache/1/1"); // PQ 1.1
@@ -125,7 +127,7 @@ public class cgGPXParser {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
 					cache.longitudeString = base.formatCoordinate(cache.longitude, "lon", true);
 					cache.inventoryItems = cache.inventory.size();
-					cache.reason = 1;
+					cache.reason = listId;
 					cache.updated = new Date().getTime();
 					cache.detailedUpdate = new Date().getTime();
 					cache.detailed = true;

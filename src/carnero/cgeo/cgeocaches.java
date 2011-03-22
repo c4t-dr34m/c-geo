@@ -1038,7 +1038,9 @@ public class cgeocaches extends ListActivity {
 	}
 
 	private void importGpx() {
-		activity.startActivity(new Intent(activity, cgeogpxes.class));
+		final Intent intent = new Intent(activity, cgeogpxes.class);
+		intent.putExtra("list", listId);
+		activity.startActivity(intent);
 
 		finish();
 	}

@@ -30,7 +30,6 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -40,7 +39,6 @@ import android.text.style.StrikethroughSpan;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -1904,12 +1902,12 @@ public class cgBase {
 		return false;
 	}
 
-	public Long parseGPX(cgeoapplication app, File file, Handler handler) {
+	public Long parseGPX(cgeoapplication app, File file, int listId, Handler handler) {
 		cgSearch search = new cgSearch();
 		long searchId = 0l;
 
 		try {
-			cgGPXParser GPXparser = new cgGPXParser(app, this, search);
+			cgGPXParser GPXparser = new cgGPXParser(app, this, listId, search);
 
 			searchId = GPXparser.parse(file, 10, handler);
 			if (searchId == 0l) {
