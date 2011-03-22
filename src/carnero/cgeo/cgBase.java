@@ -46,11 +46,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
@@ -3990,6 +3994,7 @@ public class cgBase {
 			final String scheme = "https://";
 			final String host = "www.googleapis.com";
 			final String path = "/language/translate/v2";
+			final String ip = getLocalIpAddress();
 
 			final ArrayList<String> params = new ArrayList<String>();
 			params.add("key=" + urlencode_rfc3986("AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ"));
@@ -4035,6 +4040,24 @@ public class cgBase {
 		}
 
 		return translated;
+	}
+
+	public String getLocalIpAddress() {
+		try {
+			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = en.nextElement();
+				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException e) {
+			// nothing
+		}
+		
+		return null;
 	}
 
 	public static String implode(String delim, Object[] array) {
@@ -4706,7 +4729,9 @@ public class cgBase {
 					ins.close();
 					inr.close();
 				} catch (IOException e) {
-					Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + connection.getResponseCode() + ": " + connection.getResponseMessage() + " ~ " +  e.toString());
+					httpCode = connection.getResponseCode();
+					
+					Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + httpCode + ": " + connection.getResponseMessage() + " ~ " +  e.toString());
 				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeoBase.requestJSON: " + e.toString());
