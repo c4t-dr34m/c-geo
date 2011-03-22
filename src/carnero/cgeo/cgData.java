@@ -2187,7 +2187,7 @@ public class cgData {
 
 		ContentValues values = new ContentValues();
 		values.put("reason", listId);
-		databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\" and reason = 0", null);
+		databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\" and reason < 1", null);
 	}
 
 	public boolean markDropped(String geocode) {

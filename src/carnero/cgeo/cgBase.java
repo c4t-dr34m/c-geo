@@ -4845,12 +4845,12 @@ public class cgBase {
 			if (cache != null) {
 				final HashMap<String, String> params = new HashMap<String, String>();
 				params.put("geocode", cache.geocode);
-				final Long searchId = searchByGeocode(params, 1, false);
+				final Long searchId = searchByGeocode(params, listId, false);
 				cache = app.getCache(searchId);
 			} else if (geocode != null) {
 				final HashMap<String, String> params = new HashMap<String, String>();
 				params.put("geocode", geocode);
-				final Long searchId = searchByGeocode(params, 1, false);
+				final Long searchId = searchByGeocode(params, listId, false);
 				cache = app.getCache(searchId);
 			}
 
@@ -4927,7 +4927,7 @@ public class cgBase {
 				mapGetter.setLevel(5);
 				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
 			}
-
+			
 			app.markStored(cache.geocode, listId);
 			app.removeCacheFromCache(cache.geocode);
 

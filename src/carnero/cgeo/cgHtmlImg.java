@@ -24,6 +24,7 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class cgHtmlImg implements Html.ImageGetter {
+
 	private Activity activity = null;
 	private cgSettings settings = null;
 	private String geocode = null;
@@ -40,7 +41,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 		reason = reasonIn;
 		onlySave = onlySaveIn;
 
-		bfOptions.inTempStorage = new byte[16*1024];
+		bfOptions.inTempStorage = new byte[16 * 1024];
 	}
 
 	@Override
@@ -77,15 +78,19 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 		File dir = null;
 		dir = new File(settings.getStorage());
-		if (dir.exists() == false) dir.mkdirs();
+		if (dir.exists() == false) {
+			dir.mkdirs();
+		}
 		dir = new File(dirName);
-		if (dir.exists() == false) dir.mkdirs();
+		if (dir.exists() == false) {
+			dir.mkdirs();
+		}
 		dir = null;
 
 		try {
-            final File file = new File(fileName);
-            final File fileSec = new File(fileNameSec);
-            if (file.exists() == true) {
+			final File file = new File(fileName);
+			final File fileSec = new File(fileNameSec);
+			if (file.exists() == true) {
 				final long imageSize = file.length();
 
 				// large images will be downscaled on input to save memory
@@ -101,10 +106,10 @@ public class cgHtmlImg implements Html.ImageGetter {
 					bfOptions.inSampleSize = 2;
 				}
 
-                if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
-                    imagePre = BitmapFactory.decodeFile(fileName, bfOptions);
-                }
-            } else if (fileSec.exists() == true) {
+				if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
+					imagePre = BitmapFactory.decodeFile(fileName, bfOptions);
+				}
+			} else if (fileSec.exists() == true) {
 				final long imageSize = fileSec.length();
 
 				// large images will be downscaled on input to save memory
@@ -120,9 +125,9 @@ public class cgHtmlImg implements Html.ImageGetter {
 					bfOptions.inSampleSize = 2;
 				}
 
-                if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
-                    imagePre = BitmapFactory.decodeFile(fileNameSec, bfOptions);
-                }
+				if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
+					imagePre = BitmapFactory.decodeFile(fileNameSec, bfOptions);
+				}
 			}
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgHtmlImg.getDrawable (reading cache): " + e.toString());
@@ -148,8 +153,10 @@ public class cgHtmlImg implements Html.ImageGetter {
 			}
 
 			if (uri != null) {
-				for (int i = 0; i < 2; i ++) {
-					if (i > 0) Log.w(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to download data, retrying. Attempt #" + (i + 1));
+				for (int i = 0; i < 2; i++) {
+					if (i > 0) {
+						Log.w(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to download data, retrying. Attempt #" + (i + 1));
+					}
 
 					try {
 						client = new DefaultHttpClient();
@@ -172,11 +179,15 @@ public class cgHtmlImg implements Html.ImageGetter {
 						} else if (imageSize > (0.5 * 1024 * 1024)) {
 							bfOptions.inSampleSize = 2;
 						}
-						
+
 						Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
 
-						if (bufferedEntity != null) imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
-						if (imagePre != null) break;
+						if (bufferedEntity != null) {
+							imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
+						}
+						if (imagePre != null) {
+							break;
+						}
 					} catch (Exception e) {
 						Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (downloading from web): " + e.toString());
 					}
@@ -186,12 +197,14 @@ public class cgHtmlImg implements Html.ImageGetter {
 			try {
 				// save to memory/SD cache
 				if (bufferedEntity != null) {
-					final InputStream is = (InputStream)bufferedEntity.getContent();
+					final InputStream is = (InputStream) bufferedEntity.getContent();
 					final FileOutputStream fos = new FileOutputStream(fileName);
 					try {
 						final byte[] buffer = new byte[4096];
 						int l;
-						while ((l = is.read(buffer)) != -1) fos.write(buffer, 0, l);
+						while ((l = is.read(buffer)) != -1) {
+							fos.write(buffer, 0, l);
+						}
 					} catch (IOException e) {
 						Log.e(cgSettings.tag, "cgHtmlImg.getDrawable (saving to cache): " + e.toString());
 					} finally {
@@ -219,7 +232,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 				}
 			}
 
-			Display display = ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 			final int imgWidth = imagePre.getWidth();
 			final int imgHeight = imagePre.getHeight();
 			final int maxWidth = display.getWidth() - 25;
@@ -230,13 +243,13 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 			if (imgWidth > maxWidth || imgHeight > maxHeight) {
 				if ((maxWidth / imgWidth) > (maxHeight / imgHeight)) {
-					ratio = (double)maxHeight / (double)imgHeight;
+					ratio = (double) maxHeight / (double) imgHeight;
 				} else {
-					ratio = (double)maxWidth / (double)imgWidth;
+					ratio = (double) maxWidth / (double) imgWidth;
 				}
 
-				width = (int)Math.ceil(imgWidth * ratio);
-				height = (int)Math.ceil(imgHeight * ratio);
+				width = (int) Math.ceil(imgWidth * ratio);
+				height = (int) Math.ceil(imgHeight * ratio);
 
 				try {
 					imagePre = Bitmap.createScaledBitmap(imagePre, width, height, true);
@@ -248,7 +261,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 
 			final BitmapDrawable image = new BitmapDrawable(imagePre);
 			image.setBounds(new Rect(0, 0, width, height));
-			
+
 			return image;
 		}
 
