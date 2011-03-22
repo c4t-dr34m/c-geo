@@ -3,6 +3,8 @@ package carnero.cgeo;
 import gnu.android.app.appmanualclient.*;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +13,9 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeopoint extends Activity {
+
 	private Resources res = null;
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
@@ -35,13 +41,13 @@ public class cgeopoint extends Activity {
 	private EditText lonEdit = null;
 	private boolean changed = false;
 
-   @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 		// init
 		activity = this;
-		app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication) this.getApplication();
 		res = this.getResources();
 		settings = new cgSettings(activity, activity.getSharedPreferences(cgSettings.preferences, 0));
 		prefs = getSharedPreferences(cgSettings.preferences, 0);
@@ -77,36 +83,47 @@ public class cgeopoint extends Activity {
 	public void onResume() {
 		super.onResume();
 
-        init();
+		init();
 	}
 
 	@Override
 	public void onDestroy() {
-		if (geo != null) geo = app.removeGeo();
-		if (tracker != null) tracker.stop();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
+		if (tracker != null) {
+			tracker.stop();
+		}
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onPause();
 	}
 
 	private void init() {
-        if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
 
-		EditText latitudeEdit = (EditText)findViewById(R.id.latitude);
+		EditText latitudeEdit = (EditText) findViewById(R.id.latitude);
 		latitudeEdit.setOnKeyListener(new View.OnKeyListener() {
+
 			public boolean onKey(View v, int i, KeyEvent k) {
 				changed = true;
 
@@ -114,8 +131,9 @@ public class cgeopoint extends Activity {
 			}
 		});
 
-		EditText longitudeEdit = (EditText)findViewById(R.id.longitude);
+		EditText longitudeEdit = (EditText) findViewById(R.id.longitude);
 		longitudeEdit.setOnKeyListener(new View.OnKeyListener() {
+
 			public boolean onKey(View v, int i, KeyEvent k) {
 				changed = true;
 
@@ -128,33 +146,197 @@ public class cgeopoint extends Activity {
 			longitudeEdit.setText(base.formatCoordinate(new Double(prefs.getFloat("anylongitude", 0f)), "lon", true));
 		}
 
-		Button buttonCurrent = (Button)findViewById(R.id.current);
+		Button buttonCurrent = (Button) findViewById(R.id.current);
 		buttonCurrent.setOnClickListener(new currentListener());
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)).setIcon(android.R.drawable.ic_menu_compass); // compass
 
-		Button buttonCompass = (Button)findViewById(R.id.compass);
-		buttonCompass.setOnClickListener(new compassListener());
+		SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
+		subMenu.add(0, 3, 0, res.getString(R.string.cache_menu_radar)); // radar
+		subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // c:geo map
+		if (base.isLocus(activity)) {
+			subMenu.add(0, 20, 0, res.getString(R.string.cache_menu_locus)); // ext.: locus
+		}
+		if (base.isRmaps(activity)) {
+			subMenu.add(0, 21, 0, res.getString(R.string.cache_menu_rmaps)); // ext.: rmaps
+		}
+		subMenu.add(0, 23, 0, res.getString(R.string.cache_menu_map_ext)); // ext.: other
+		subMenu.add(0, 4, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
+		
+		menu.add(0, 5, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
 
-		Button buttonRadar = (Button)findViewById(R.id.radar);
-		buttonRadar.setOnClickListener(new radarListener());
+		return true;
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 
-		Button buttonTurn = (Button)findViewById(R.id.turn);
-		buttonTurn.setOnClickListener(new turnListener());
+		try {
+			ArrayList<Double> coords = getDestination();
+			
+			if (coords != null && coords.get(0) != null && coords.get(1) != null) {
+				menu.findItem(0).setVisible(true);
+				menu.findItem(2).setVisible(true);
+				menu.findItem(5).setVisible(true);
+			} else {
+				menu.findItem(0).setVisible(false);
+				menu.findItem(2).setVisible(false);
+				menu.findItem(5).setVisible(false);
+			}
+		} catch (Exception e) {
+			// nothing
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		final int menuItem = item.getItemId();
+		
+		ArrayList<Double> coords = getDestination();
 
-		Button buttonMap = (Button)findViewById(R.id.map);
-		buttonMap.setOnClickListener(new mapListener());
+		if (menuItem == 1) {
+			showOnMap();
+			return true;
+		} else if (menuItem == 2) {
+			navigateTo();
+			return true;
+		} else if (menuItem == 3) {
+			radarTo();
+			return true;
+		} else if (menuItem == 4) {
+			if (geo != null) {
+				base.runNavigation(activity, res, settings, warning, tracker, coords.get(0), coords.get(1), geo.latitudeNow, geo.longitudeNow);
+			} else {
+				base.runNavigation(activity, res, settings, warning, tracker, coords.get(0), coords.get(1));
+			}
 
-		Button buttonMapExt = (Button)findViewById(R.id.map_ext);
-		buttonMapExt.setOnClickListener(new mapExtListener());
+			return true;
+		} else if (menuItem == 5) {
+			cachesAround();
+			return true;
+		} else if (menuItem == 20) {
+			base.runExternalMap(cgBase.mapAppLocus, activity, res, warning, tracker, coords.get(0), coords.get(1)); // locus
+			return true;
+		} else if (menuItem == 21) {
+			base.runExternalMap(cgBase.mapAppRmaps, activity, res, warning, tracker, coords.get(0), coords.get(1)); // rmaps
+			return true;
+		} else if (menuItem == 23) {
+			base.runExternalMap(cgBase.mapAppAny, activity, res, warning, tracker, coords.get(0), coords.get(1)); // rmaps
+			return true;
+		}
+
+		return false;
+	}
+	
+	private void showOnMap() {
+		cgeomap mapActivity = new cgeomap();
+
+		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		
+		ArrayList<Double> coords = getDestination();
+		mapIntent.putExtra("latitude", coords.get(0));
+		mapIntent.putExtra("longitude", coords.get(1));
+
+		activity.startActivity(mapIntent);
 	}
 
+	private void navigateTo() {
+		ArrayList<Double> coords = getDestination();
+		
+		if (coords == null || coords.get(0) == null || coords.get(1) == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+
+		cgeonavigate navigateActivity = new cgeonavigate();
+
+		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
+		navigateIntent.putExtra("latitude", coords.get(0));
+		navigateIntent.putExtra("longitude", coords.get(1));
+		navigateIntent.putExtra("geocode", "");
+		navigateIntent.putExtra("name", "Some destination");
+
+		activity.startActivity(navigateIntent);
+	}
+
+	private void radarTo() {
+		ArrayList<Double> coords = getDestination();
+		
+		try {
+			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
+				Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
+				radarIntent.putExtra("latitude", new Float(coords.get(0)));
+				radarIntent.putExtra("longitude", new Float(coords.get(0)));
+				activity.startActivity(radarIntent);
+			} else {
+				AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+				dialog.setTitle(res.getString(R.string.err_radar_title));
+				dialog.setMessage(res.getString(R.string.err_radar_message));
+				dialog.setCancelable(true);
+				dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+						try {
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.eclipsim.gpsstatus2")));
+							dialog.cancel();
+						} catch (Exception e) {
+							warning.showToast(res.getString(R.string.err_radar_market));
+							Log.e(cgSettings.tag, "cgeopoint.radarTo.onClick: " + e.toString());
+						}
+					}
+				});
+				dialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+
+				AlertDialog alert = dialog.create();
+				alert.show();
+			}
+		} catch (Exception e) {
+			warning.showToast(res.getString(R.string.err_radar_generic));
+			Log.e(cgSettings.tag, "cgeopoint.radarTo: " + e.toString());
+		}
+	}
+	
+	private void cachesAround() {
+		cgeocaches cachesActivity = new cgeocaches();
+
+		Intent cachesIntent = new Intent(activity, cachesActivity.getClass());
+		
+		ArrayList<Double> coords = getDestination();
+		cachesIntent.putExtra("type", "coordinate");
+		cachesIntent.putExtra("latitude", coords.get(0));
+		cachesIntent.putExtra("longitude", coords.get(1));
+		cachesIntent.putExtra("cachetype", settings.cacheType);
+
+		activity.startActivity(cachesIntent);
+
+		finish();
+	}
+	
 	private class update extends cgUpdateLoc {
+
 		@Override
 		public void updateLoc(cgGeo geo) {
-			if (geo == null) return;
+			if (geo == null) {
+				return;
+			}
 
 			try {
-				if (latEdit == null) latEdit = (EditText)findViewById(R.id.latitude);
-				if (lonEdit == null) lonEdit = (EditText)findViewById(R.id.longitude);
+				if (latEdit == null) {
+					latEdit = (EditText) findViewById(R.id.latitude);
+				}
+				if (lonEdit == null) {
+					lonEdit = (EditText) findViewById(R.id.longitude);
+				}
 
 				latEdit.setHint(base.formatCoordinate(geo.latitudeNow, "lat", false));
 				lonEdit.setHint(base.formatCoordinate(geo.longitudeNow, "lon", false));
@@ -165,142 +347,17 @@ public class cgeopoint extends Activity {
 	}
 
 	private class currentListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
 				warning.showToast(res.getString(R.string.err_point_unknown_position));
 				return;
 			}
 
-			((EditText)findViewById(R.id.latitude)).setText(base.formatCoordinate(geo.latitudeNow, "lat", true));
-			((EditText)findViewById(R.id.longitude)).setText(base.formatCoordinate(geo.longitudeNow, "lon", true));
+			((EditText) findViewById(R.id.latitude)).setText(base.formatCoordinate(geo.latitudeNow, "lat", true));
+			((EditText) findViewById(R.id.longitude)).setText(base.formatCoordinate(geo.longitudeNow, "lon", true));
 
 			changed = false;
-		}
-	}
-
-	private class compassListener implements View.OnClickListener {
-		public void onClick(View arg0) {
-			ArrayList<Double> coords = getDestination();
-
-			if (coords == null || coords.size() < 2) return;
-
-			Intent navigateIntent = new Intent(activity, (new cgeonavigate()).getClass());
-			navigateIntent.putExtra("latitude", coords.get(0));
-			navigateIntent.putExtra("longitude", coords.get(1));
-			navigateIntent.putExtra("geocode", "");
-			navigateIntent.putExtra("name", "some destination");
-
-			activity.startActivity(navigateIntent);
-
-			finish();
-			return;
-		}
-	}
-
-	private class radarListener implements View.OnClickListener {
-		public void onClick(View arg0) {
-			ArrayList<Double> coords = getDestination();
-
-			if (coords == null || coords.size() < 2) return;
-
-			try {
-				Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
-				radarIntent.putExtra("latitude", new Float(coords.get(0)));
-				radarIntent.putExtra("longitude", new Float(coords.get(1)));
-				activity.startActivity(radarIntent);
-
-				finish();
-				return;
-			} catch (Exception e) {
-				warning.showToast(res.getString(R.string.err_radar_generic));
-				Log.w(cgSettings.tag, "Radar not installed");
-			}
-		}
-	}
-
-	private class turnListener implements View.OnClickListener {
-		public void onClick(View arg0) {
-			ArrayList<Double> coords = getDestination();
-
-			if (coords == null || coords.size() < 2) return;
-
-			if (settings.useGNavigation == 1) {
-				try {
-					// turn-by-turn navigation
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q="+ coords.get(0) + "," + coords.get(1))));
-				} catch (Exception e) {
-					try {
-						// google maps directions
-						if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ coords.get(0) + "," + coords.get(1))));
-						} else {
-							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ coords.get(0) + "," + coords.get(1))));
-						}
-
-						finish();
-						return;
-					} catch (Exception e2) {
-						Log.d(cgSettings.tag, "cgeodetail.turnTo: No navigation application available.");
-						warning.showToast(res.getString(R.string.err_navigation_not_found));
-					}
-				}
-			} else if (settings.useGNavigation == 0) {
-				try {
-					// google maps directions
-					if (geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&saddr="+ geo.latitudeNow + "," + geo.longitudeNow + "&daddr="+ coords.get(0) + "," + coords.get(1))));
-					} else {
-						activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?f=d&daddr="+ coords.get(0) + "," + coords.get(1))));
-					}
-
-					finish();
-					return;
-				} catch (Exception e) {
-					Log.d(cgSettings.tag, "cgeopoint.turnTo: No navigation application available.");
-					warning.showToast(res.getString(R.string.err_navigation_not_found));
-				}
-			}
-		}
-	}
-
-	private class mapListener implements View.OnClickListener {
-		public void onClick(View arg0) {
-			ArrayList<Double> coords = getDestination();
-
-			if (coords == null || coords.size() < 2) return;
-
-			try {
-				cgeomap mapActivity = new cgeomap();
-
-				Intent mapIntent = new Intent(activity, mapActivity.getClass());
-				mapIntent.putExtra("detail", false);
-				mapIntent.putExtra("latitude", coords.get(0));
-				mapIntent.putExtra("longitude", coords.get(1));
-
-				activity.startActivity(mapIntent);
-
-				finish();
-				return;
-			} catch (Exception e) {
-				// nothing
-			}
-		}
-	}
-
-	private class mapExtListener implements View.OnClickListener {
-		public void onClick(View arg0) {
-			ArrayList<Double> coords = getDestination();
-
-			if (coords == null || coords.size() < 2) return;
-
-			try {
-				base.runExternalMap(0, activity, res, warning, tracker, coords.get(0), coords.get(1));
-
-				finish();
-				return;
-			} catch (Exception e) {
-				// nothing
-			}
 		}
 	}
 
@@ -309,15 +366,13 @@ public class cgeopoint extends Activity {
 		Double latitude = null;
 		Double longitude = null;
 
-		String bearingText = ((EditText)findViewById(R.id.bearing)).getText().toString();
-		String distanceText = ((EditText)findViewById(R.id.distance)).getText().toString();
-		String latText = ((EditText)findViewById(R.id.latitude)).getText().toString();
-		String lonText = ((EditText)findViewById(R.id.longitude)).getText().toString();
+		String bearingText = ((EditText) findViewById(R.id.bearing)).getText().toString();
+		String distanceText = ((EditText) findViewById(R.id.distance)).getText().toString();
+		String latText = ((EditText) findViewById(R.id.latitude)).getText().toString();
+		String lonText = ((EditText) findViewById(R.id.longitude)).getText().toString();
 
-		if (
-				(bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0) &&
-				(latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)
-			) {
+		if ((bearingText == null || bearingText.length() == 0) && (distanceText == null || distanceText.length() == 0)
+				&& (latText == null || latText.length() == 0) && (lonText == null || lonText.length() == 0)) {
 			warning.helpDialog(res.getString(R.string.err_point_no_position_given_title), res.getString(R.string.err_point_no_position_given));
 			return null;
 		}
@@ -337,26 +392,26 @@ public class cgeopoint extends Activity {
 				return null;
 			}
 
-			latitude = (Double)latParsed.get("coordinate");
-			longitude = (Double)lonParsed.get("coordinate");
+			latitude = (Double) latParsed.get("coordinate");
+			longitude = (Double) lonParsed.get("coordinate");
 		} else {
 			if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null) {
 				warning.showToast(res.getString(R.string.err_point_curr_position_unavailable));
 				return null;
 			}
-			
+
 			latitude = geo.latitudeNow;
 			longitude = geo.longitudeNow;
 		}
 
 		if (bearingText != null && bearingText.length() > 0 && distanceText != null && distanceText.length() > 0) {
 			// bearing & distance
-            Double bearing = null;
-            try {
-                bearing = new Double(bearingText);
-            } catch (Exception e) {
-                // probably not a number
-            }
+			Double bearing = null;
+			try {
+				bearing = new Double(bearingText);
+			} catch (Exception e) {
+				// probably not a number
+			}
 			if (bearing == null) {
 				warning.helpDialog(res.getString(R.string.err_point_bear_and_dist_title), res.getString(R.string.err_point_bear_and_dist));
 				return null;
@@ -416,8 +471,8 @@ public class cgeopoint extends Activity {
 				return null;
 			}
 
-			coords.add(0, (Double)latParsed);
-			coords.add(1, (Double)lonParsed);
+			coords.add(0, (Double) latParsed);
+			coords.add(1, (Double) lonParsed);
 		} else if (latitude != null && longitude != null) {
 			coords.add(0, latitude);
 			coords.add(1, longitude);
@@ -455,11 +510,10 @@ public class cgeopoint extends Activity {
 	public void goManual(View view) {
 		try {
 			AppManualReaderClient.openManual(
-				"c-geo",
-				"c:geo-navigate-any",
-				activity,
-				"http://cgeo.carnero.cc/manual/"
-			);
+					"c-geo",
+					"c:geo-navigate-any",
+					activity,
+					"http://cgeo.carnero.cc/manual/");
 		} catch (Exception e) {
 			// nothing
 		}
