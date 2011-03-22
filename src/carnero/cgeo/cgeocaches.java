@@ -1053,6 +1053,7 @@ public class cgeocaches extends ListActivity {
 			// no checked caches, download everything (when already stored - refresh them)
 			detailTotal = cacheList.size();
 		}
+		detailProgress = 0;
 
 		base.showProgress(activity, false);
 		waitDialog = new ProgressDialog(this);
