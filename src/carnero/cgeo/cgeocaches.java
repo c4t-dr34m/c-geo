@@ -1092,7 +1092,7 @@ public class cgeocaches extends ListActivity {
 
 		detailProgressTime = System.currentTimeMillis();
 
-		threadD = new geocachesLoadDetails(loadDetailsHandler);
+		threadD = new geocachesLoadDetails(loadDetailsHandler, listId);
 		threadD.start();
 	}
 
@@ -1411,14 +1411,16 @@ public class cgeocaches extends ListActivity {
 	private class geocachesLoadDetails extends Thread {
 
 		private Handler handler = null;
+		private int reason = 1;
 		private volatile boolean needToStop = false;
 		private int checked = 0;
 		private long last = 0l;
 
-		public geocachesLoadDetails(Handler handlerIn) {
+		public geocachesLoadDetails(Handler handlerIn, int reasonIn) {
 			setPriority(Thread.MIN_PRIORITY);
 
 			handler = handlerIn;
+			reason = reasonIn;
 
 			if (adapter != null) {
 				checked = adapter.getChecked();
@@ -1473,7 +1475,7 @@ public class cgeocaches extends ListActivity {
 					}
 
 					detailProgress++;
-					base.storeCache(app, activity, cache, null, handler);
+					base.storeCache(app, activity, cache, null, reason, handler);
 
 					handler.sendEmptyMessage(cacheList.indexOf(cache));
 

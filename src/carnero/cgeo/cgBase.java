@@ -3956,7 +3956,7 @@ public class cgBase {
 			languages = settings.languages.split(" ");
 		}
 		
-		ArrayList<String> translated = new ArrayList<String>();;
+		ArrayList<String> translated = new ArrayList<String>();
 		String language = null;
 
 		if (text == null || text.isEmpty()) {
@@ -4839,7 +4839,7 @@ public class cgBase {
 		return (list.size() > 0);
 	}
 
-	public void storeCache(cgeoapplication app, Activity activity, cgCache cache, String geocode, Handler handler) {
+	public void storeCache(cgeoapplication app, Activity activity, cgCache cache, String geocode, int listId, Handler handler) {
 		try {
 			// cache details
 			if (cache != null) {
@@ -4928,7 +4928,7 @@ public class cgBase {
 				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
 			}
 
-			app.markStored(cache.geocode);
+			app.markStored(cache.geocode, listId);
 			app.removeCacheFromCache(cache.geocode);
 
 			if (handler != null) {

@@ -1521,7 +1521,7 @@ public class cgeomap extends MapActivity {
 					}
 
 					detailProgress++;
-					base.storeCache(app, activity, null, geocode, handler);
+					base.storeCache(app, activity, null, geocode, 1, handler);
 
 					msg = new Message();
 					msg.what = 0;

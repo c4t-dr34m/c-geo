@@ -1571,7 +1571,7 @@ public class cgeodetail extends Activity {
 
 		@Override
 		public void run() {
-			base.storeCache(app, activity, cache, null, handler);
+			base.storeCache(app, activity, cache, null, 1, handler);
 		}
 	}
 

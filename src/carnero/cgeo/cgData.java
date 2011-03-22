@@ -2174,22 +2174,20 @@ public class cgData {
 		return geocodes;
 	}
 
-	public boolean markStored(String geocode) {
+	public void markStored(String geocode, int listId) {
 		init();
 
 		if (geocode == null || geocode.length() == 0) {
-			return false;
+			return;
+		}
+		
+		if (listId <= 0) {
+			listId = 1;
 		}
 
 		ContentValues values = new ContentValues();
-		values.put("reason", 1);
-		int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\"", null);
-
-		if (rows > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		values.put("reason", listId);
+		databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\" and reason = 0", null);
 	}
 
 	public boolean markDropped(String geocode) {

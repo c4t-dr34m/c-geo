@@ -508,11 +508,11 @@ public class cgeoapplication extends Application {
 		return storage.getAllHistoricCachesCount(detailedOnly, cachetype);
 	}
 
-	public boolean markStored(String geocode) {
+	public void markStored(String geocode, int listId) {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
-		return storage.markStored(geocode);
+		storage.markStored(geocode, listId);
 	}
 
 	public boolean markDropped(String geocode) {
