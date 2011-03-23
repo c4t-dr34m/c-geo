@@ -617,7 +617,7 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.09</b> (__.03.2011)\n
+    <b>2.09</b> (24.03.2011)\n
     · new: Caches lists\n
     · fix: Disabling of Twitter\n
     · fix: Unified navigation options\n

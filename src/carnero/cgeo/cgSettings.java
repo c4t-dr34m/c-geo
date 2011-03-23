@@ -34,7 +34,7 @@ public class cgSettings {
 	public boolean hideMySearch = false;
 	public int helper = 0;
 	public int initialized = 0;
-	public boolean translate = true;
+	public boolean translate = false;
 	public String languages = null;
 	public int cachesFound = 0;
 	public int autoLoadDesc = 0;
@@ -48,7 +48,7 @@ public class cgSettings {
 	public boolean showCaptcha = false;
 	public int excludeMine = 0;
 	public int excludeDisabled = 0;
-	public int storeOfflineMaps = 1;
+	public int storeOfflineMaps = 0;
 	public int asBrowser = 1;
 	public int useCompass = 1;
 	public int useGNavigation = 1;
@@ -83,7 +83,7 @@ public class cgSettings {
 		skin = prefs.getInt("skin", 0);
 		setSkinDefaults();
 
-		translate = prefs.getBoolean("translate", true);
+		translate = prefs.getBoolean("translate", false);
 		languages = prefs.getString("languages", null);
 		cachesFound = prefs.getInt("found", 0);
 		autoLoadDesc = prefs.getInt("autoloaddesc", 0);

@@ -220,7 +220,7 @@ public class cgeoinit extends Activity {
 		});
 
 		CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
-		if (prefs.getBoolean("translate", true) == false) {
+		if (prefs.getBoolean("translate", false) == false) {
 			translateButton.setChecked(false);
 		} else {
 			translateButton.setChecked(true);
@@ -446,7 +446,7 @@ public class cgeoinit extends Activity {
 
 		public void onClick(View arg0) {
 			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getBoolean("translate", true) == false) {
+			if (prefs.getBoolean("translate", false) == false) {
 				edit.putBoolean("translate", true);
 				settings.translate = true;
 			} else {
@@ -456,7 +456,7 @@ public class cgeoinit extends Activity {
 			edit.commit();
 
 			CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
-			if (prefs.getBoolean("translate", true) == false) {
+			if (prefs.getBoolean("translate", false) == false) {
 				translateButton.setChecked(false);
 			} else {
 				translateButton.setChecked(true);

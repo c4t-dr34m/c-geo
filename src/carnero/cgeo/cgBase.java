@@ -3994,7 +3994,6 @@ public class cgBase {
 			final String scheme = "https://";
 			final String host = "www.googleapis.com";
 			final String path = "/language/translate/v2";
-			final String ip = getLocalIpAddress();
 
 			final ArrayList<String> params = new ArrayList<String>();
 			params.add("key=" + urlencode_rfc3986("AIzaSyAJH8x5etFHUbFifmgChlWoCVmwBFSwShQ"));
