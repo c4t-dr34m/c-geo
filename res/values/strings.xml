@@ -617,66 +617,69 @@
 
   <!-- changelog -->
   <string name="changelog">\n
+    <b>2.10</b> (__.04.2011)\n
+	· new: Caches lists\n
+	\n
     <b>2.09</b> (24.03.2011)\n
-    · new: Caches lists\n
-    · fix: Disabling of Twitter\n
-    · fix: Unified navigation options\n
-    · fix: Line breaks in logs\n
+	· new: Caches lists\n
+	· fix: Disabling of Twitter\n
+	· fix: Unified navigation options\n
+	· fix: Line breaks in logs\n
 	\n
     <b>2.08</b> (17.03.2011)\n
-    · fix: Faster displaying caches on the map\n
-    · change: Visual style of loading of caches\n
-    · return: Static maps\n
+	· fix: Faster displaying caches on the map\n
+	· change: Visual style of loading of caches\n
+	· return: Static maps\n
 	\n
     <b>2.07</b> (16.03.2011)\n
-    · new: Approx. elevation in details\n
-    · new: Terrain preview\n
-    · new: Own waypoints on map\n
-    · new: Translation of description &amp; hint\n
-    · new: Database backup/restore\n
-    · remove: Static maps\n
+	· new: Approx. elevation in details\n
+	· new: Terrain preview\n
+	· new: Own waypoints on map\n
+	· new: Translation of description &amp; hint\n
+	· new: Database backup/restore\n
+	· remove: Static maps\n
 	\n
     <b>2.06</b> (10.03.2011)\n
-    · fix: Size of caches in lists\n
-    · fix: Marking own caches\n
-    · new: Translation PL\n
+	· fix: Size of caches in lists\n
+	· fix: Marking own caches\n
+	· new: Translation PL\n
 	\n
     <b>2.05</b> (09.03.2011)\n
-    · fix: Marking caches as found\n
-    · fix: Own caches\n
-    · fix: Some optimizations\n
-    · fix: Event caches\n
-    · new: Trackable icon\n
-    · new: Search using HW key\n
-    · new: List of supported apps\n
-    \n
+	· fix: Marking caches as found\n
+	· fix: Own caches\n
+	· fix: Some optimizations\n
+	· fix: Event caches\n
+	· new: Trackable icon\n
+	· new: Search using HW key\n
+	· new: List of supported apps\n
+	\n
     <b>2.04</b> (20.02.2011)\n
-    · new: Logs for trackables\n
-    · new: Access to map from "any dest."\n
-    · new: Ability to force English\n
-    · fix: Favorites count\n
-    · update: Translation\n
-    \n
+	· new: Logs for trackables\n
+	· new: Access to map from "any dest."\n
+	· new: Ability to force English\n
+	· fix: Favorites count\n
+	· update: Translation\n
+	\n
     <b>2.03</b> (13.02.2011)\n
-    · fix: Loading images in cache description\n
-    · fix: GC/TB code input\n
-    · update: Translation (SV, PT)\n
-    \n
+	· fix: Loading images in cache description\n
+	· fix: GC/TB code input\n
+	· update: Translation (SV, PT)\n
+	\n
     <b>2.02</b> (02.02.2011)\n
-    · new: History of logged caches (online&amp;offline)\n
-    · fix: Number of found caches in signature\n
-    · fix: Exact position of caches on Live Map\n
-    · fix: Adaptation for GC.com changes\n
-    \n
+	· new: History of logged caches (online&amp;offline)\n
+	· fix: Number of found caches in signature\n
+	· fix: Exact position of caches on Live Map\n
+	· fix: Adaptation for GC.com changes\n
+	\n
     <b>2.01</b> (23.01.2011)\n
-    · fix: Fixed crashing due to loading large images\n
-    \n
+	· fix: Fixed crashing due to loading large images\n
+	\n
     <b>2.00</b> (23.01.2011)\n
-    · new: Context menu for geocachers (in cache detail)\n
-    · new: Option to add date, time and signature at once\n
-    · new: Better trackable support\n
-    · new: Signature template\n
-    · new: Any destination saves last used location\n
-    · fix: End of line in logs\n
-    \n</string>
+	· new: Context menu for geocachers (in cache detail)\n
+	· new: Option to add date, time and signature at once\n
+	· new: Better trackable support\n
+	· new: Signature template\n
+	· new: Any destination saves last used location\n
+	· fix: End of line in logs\n
+	\n</string>
 </resources>

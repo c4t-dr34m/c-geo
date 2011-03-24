@@ -164,7 +164,9 @@ public class cgeodetail extends Activity {
 			if (image != null && view != null) {
 				view.setImageDrawable(image);
 
-				scroll.scrollTo(0, (int) (80 * pixelRatio));
+				if (scroll.getScrollY() == 0) {
+					scroll.scrollTo(0, (int) (80 * pixelRatio));
+				}
 				view.setVisibility(View.VISIBLE);
 			}
 		}
