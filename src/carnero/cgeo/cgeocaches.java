@@ -1674,10 +1674,11 @@ public class cgeocaches extends ListActivity {
 	
 	private void createList() {
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		final EditText input = new EditText(activity);
+		final View view = inflater.inflate(R.layout.list_create_dialog, null);
+		final EditText input = (EditText) view.findViewById(R.id.text);
 
 		alert.setTitle(R.string.list_dialog_create_title);
-		alert.setView(input);
+		alert.setView(view);
 		alert.setPositiveButton(R.string.list_dialog_create, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString();

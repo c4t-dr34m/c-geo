@@ -1486,11 +1486,6 @@ public class cgBase {
 
 							String logTmp = matcherLog.group(10);
 
-							logTmp = Pattern.compile("<p>").matcher(logTmp).replaceAll("\n");
-							logTmp = Pattern.compile("<br[^>]*>").matcher(logTmp).replaceAll("\n");
-							logTmp = Pattern.compile("<\\/p>").matcher(logTmp).replaceAll("");
-							logTmp = Pattern.compile("\r+").matcher(logTmp).replaceAll("\n");
-
 							int day = -1;
 							try {
 								day = Integer.parseInt(matcherLog.group(3));
