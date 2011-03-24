@@ -22,14 +22,15 @@
 				android:onClick="goManual" />
 	</LinearLayout>
 	<ListView android:id="@android:id/list"
-			android:visibility="gone"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_margin="0dip"
-			android:padding="0dip"
-			android:dividerHeight="1dip"
-			android:background="?background_color"
-			android:cacheColorHint="?background_color" />
+		android:visibility="gone"
+		android:layout_above="@+id/counter"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_margin="0dip"
+		android:padding="0dip"
+		android:dividerHeight="1dip"
+		android:background="?background_color"
+		android:cacheColorHint="?background_color" />
 	<RelativeLayout android:id="@+id/loading"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"

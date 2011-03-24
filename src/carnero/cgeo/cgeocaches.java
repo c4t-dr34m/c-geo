@@ -75,14 +75,14 @@ public class cgeocaches extends ListActivity {
 	private geocachesDropDetails threadR = null;
 	private int listId = 0;
 	private ArrayList<cgList> lists = null;
+	private TextView cntView = null;
 	private Handler loadCachesHandler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				base.setTitle(activity, title);
-				
 				if (searchId != null && searchId > 0) {
+					base.setTitle(activity, title + " [" + app.getCount(searchId) + "]");
 					cacheList.clear();
 					
 					final ArrayList<cgCache> cacheListTmp = app.getCaches(searchId);
@@ -92,6 +92,8 @@ public class cgeocaches extends ListActivity {
 						
 						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
 					}
+				} else {
+					base.setTitle(activity, title);
 				}
 
 				setAdapter();
@@ -177,9 +179,8 @@ public class cgeocaches extends ListActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				base.setTitle(activity, title);
-				
 				if (searchId != null && searchId > 0) {
+					base.setTitle(activity, title + " [" + app.getCount(searchId) + "]");
 					cacheList.clear();
 					
 					final ArrayList<cgCache> cacheListTmp = app.getCaches(searchId);
@@ -188,6 +189,8 @@ public class cgeocaches extends ListActivity {
 						cacheListTmp.clear();
 						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
 					}
+				} else {
+					base.setTitle(activity, title);
 				}
 
 				setAdapter();
