@@ -73,12 +73,8 @@ public class cgeomap extends MapActivity {
 	private HashMap<Integer, Drawable> iconsCache = new HashMap<Integer, Drawable>();
 	private loadCaches loadingThread = null;
 	private loadUsers usersThread = null;
-	private long closeShowed = 0l;
 	private int numberType = 0; // 0: altitude, 1: traveled distance
 	private TextView numberView = null;
-	private LinearLayout close = null;
-	private TextView closeGC = null;
-	private TextView closeDst = null;
 	private ImageView myLocation = null;
 	private ProgressDialog waitDialog = null;
 	private int detailTotal = 0;
@@ -86,7 +82,6 @@ public class cgeomap extends MapActivity {
 	private Long detailProgressTime = 0l;
 	private boolean firstRun = true;
 	private geocachesLoadDetails threadD = null;
-	private int closeCounter = 0;
 	private String usertoken = null;
 	protected boolean searching = false;
 	protected boolean searchingUsers = false;
@@ -192,100 +187,6 @@ public class cgeomap extends MapActivity {
 					dir = app.startDir(activity, dirUpdate, warning);
 				}
 			}
-		}
-	};
-	final private Handler setCloseHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			try {
-				if (close == null) {
-					close = (LinearLayout) findViewById(R.id.close);
-				}
-				if (closeGC == null) {
-					closeGC = (TextView) findViewById(R.id.close_gc);
-				}
-				if (closeDst == null) {
-					closeDst = (TextView) findViewById(R.id.close_dst);
-				}
-
-				final int index = msg.what;
-				if (geo == null || caches == null || caches.isEmpty() == true || index == -1 || caches.size() <= index) {
-					if ((System.currentTimeMillis() - 5000) < closeShowed) {
-						close.setVisibility(View.GONE);
-						searchingForClose = false;
-						return;
-					}
-				}
-
-				cgCache cache = null;
-				try { // probably trying to get cache that doesn't exist in list
-					cache = caches.get(index);
-				} catch (Exception e) {
-					if ((System.currentTimeMillis() - 5000) < closeShowed) {
-						close.setVisibility(View.GONE);
-					}
-					searchingForClose = false;
-					return;
-				}
-
-				if (cache == null) {
-					if ((System.currentTimeMillis() - 5000) < closeShowed) {
-						close.setVisibility(View.GONE);
-					}
-					searchingForClose = false;
-
-					return;
-				}
-
-				final Double distance = cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, cache.latitude, cache.longitude);
-
-				close.setClickable(false);
-				close.setOnClickListener(null);
-
-				if (cache != null && geo != null && followLocation == true && geo.speedNow != null && geo.speedNow > 9) { // more than 9 m/s
-					if (closeCounter < 5) {
-						closeCounter++;
-					} else {
-						closeShowed = System.currentTimeMillis();
-						close.setVisibility(View.VISIBLE);
-
-						if (geo != null) {
-							closeDst.setText(base.getHumanDistance(distance));
-						} else {
-							closeDst.setText("---");
-						}
-						if (cache.name != null && cache.name.length() > 0) {
-							closeGC.setText(cache.name);
-						} else {
-							closeGC.setText(cache.geocode);
-						}
-
-						final int type = base.getIcon(true, cache.type, false, false, false);
-						closeGC.setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(type), null, null, null);
-						close.setClickable(true);
-						close.setOnClickListener(new closeClickListener(cache));
-
-						close.bringToFront();
-
-						closeCounter = 5;
-					}
-				} else {
-					if (closeCounter > 0) {
-						closeCounter--;
-					} else {
-						if (closeShowed < (System.currentTimeMillis() - (30 * 1000))) {
-							close.setVisibility(View.GONE);
-						}
-
-						closeCounter = 0;
-					}
-				}
-			} catch (Exception e) {
-				Log.e(cgSettings.tag, "cgeomap.setCloseHandler.handleMessage: " + e.toString());
-			}
-
-			searchingForClose = false;
 		}
 	};
 
@@ -673,12 +574,8 @@ public class cgeomap extends MapActivity {
 			}
 		} else if (id == 3) {
 			if (settings.maplive == 1) {
-				dismissClose();
-
 				settings.liveMapDisable();
 			} else {
-				dismissClose();
-
 				settings.liveMapEnable();
 			}
 
@@ -1107,8 +1004,6 @@ public class cgeomap extends MapActivity {
 					overlayMyLoc.setCoordinates(geo.location);
 				}
 
-				(new findClose()).start();
-
 				if (geo.latitudeNow != null && geo.longitudeNow != null) {
 					if (followLocation == true) {
 						myLocationInMiddle();
@@ -1401,67 +1296,6 @@ public class cgeomap extends MapActivity {
 				}
 			}
 		}
-	}
-
-	private class findClose extends Thread {
-
-		public findClose() {
-			setPriority(Thread.MIN_PRIORITY);
-		}
-
-		@Override
-		public void run() {
-			if (searchingForClose == true) {
-				return;
-			}
-
-			searchingForClose = true;
-			try {
-				double distance = 0d;
-				double closestDistance = Double.POSITIVE_INFINITY;
-				int closestCache = -1;
-
-				if (geo != null && caches != null && caches.isEmpty() == false) {
-					for (cgCache oneCache : caches) {
-						distance = cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, oneCache.latitude, oneCache.longitude);
-						if (live == true && geo != null && distance < closestDistance) {
-							closestDistance = distance;
-							closestCache = caches.indexOf(oneCache);
-						}
-					}
-				}
-
-				setCloseHandler.sendEmptyMessage(closestCache);
-			} catch (Exception e) {
-				Log.e(cgSettings.tag, "cgeocaches.findClose.run: " + e.toString());
-			}
-		}
-	}
-
-	private class closeClickListener implements View.OnClickListener {
-
-		private cgCache cache = null;
-
-		public closeClickListener(cgCache cacheIn) {
-			cache = cacheIn;
-		}
-
-		public void onClick(View arg0) {
-			if (cache == null) {
-				return;
-			}
-
-			Intent cacheIntent = new Intent(activity, cgeodetail.class);
-			cacheIntent.putExtra("geocode", cache.geocode.toUpperCase());
-			activity.startActivity(cacheIntent);
-		}
-	}
-
-	public void dismissClose() {
-		if (close == null) {
-			close = (LinearLayout) findViewById(R.id.close);
-		}
-		close.setVisibility(View.GONE);
 	}
 
 	private class geocachesLoadDetails extends Thread {
