@@ -235,11 +235,16 @@ public class cgeopoint extends Activity {
 	}
 	
 	private void showOnMap() {
+		ArrayList<Double> coords = getDestination();
+		
+		if (coords == null || coords.get(0) == null || coords.get(1) == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+		
 		cgeomap mapActivity = new cgeomap();
 
 		Intent mapIntent = new Intent(activity, mapActivity.getClass());
 		
-		ArrayList<Double> coords = getDestination();
 		mapIntent.putExtra("latitude", coords.get(0));
 		mapIntent.putExtra("longitude", coords.get(1));
 
@@ -266,6 +271,10 @@ public class cgeopoint extends Activity {
 
 	private void radarTo() {
 		ArrayList<Double> coords = getDestination();
+		
+		if (coords == null || coords.get(0) == null || coords.get(1) == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
 		
 		try {
 			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
@@ -307,11 +316,16 @@ public class cgeopoint extends Activity {
 	}
 	
 	private void cachesAround() {
+		ArrayList<Double> coords = getDestination();
+		
+		if (coords == null || coords.get(0) == null || coords.get(1) == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+		
 		cgeocaches cachesActivity = new cgeocaches();
 
 		Intent cachesIntent = new Intent(activity, cachesActivity.getClass());
 		
-		ArrayList<Double> coords = getDestination();
 		cachesIntent.putExtra("type", "coordinate");
 		cachesIntent.putExtra("latitude", coords.get(0));
 		cachesIntent.putExtra("longitude", coords.get(1));

@@ -3,11 +3,14 @@ package carnero.cgeo;
 import gnu.android.app.appmanualclient.*;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -150,7 +154,22 @@ public class cgeopopup extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
+		menu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)).setIcon(android.R.drawable.ic_menu_compass); // compass
+
+		SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
+		subMenu.add(0, 3, 0, res.getString(R.string.cache_menu_radar)); // radar
+		subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // c:geo map
+		if (base.isLocus(activity)) {
+			subMenu.add(0, 20, 0, res.getString(R.string.cache_menu_locus)); // ext.: locus
+		}
+		if (base.isRmaps(activity)) {
+			subMenu.add(0, 21, 0, res.getString(R.string.cache_menu_rmaps)); // ext.: rmaps
+		}
+		subMenu.add(0, 23, 0, res.getString(R.string.cache_menu_map_ext)); // ext.: other
+		subMenu.add(0, 4, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
+		
+		menu.add(0, 5, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
+		menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
 
 		return true;
 	}
@@ -159,10 +178,24 @@ public class cgeopopup extends Activity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
-		if (fromDetail == false && settings.isLogin() == true) {
-			menu.findItem(1).setEnabled(true);
-		} else {
-			menu.findItem(1).setEnabled(false);
+		try {
+			if (cache != null && cache.latitude != null && cache.longitude != null) {
+				menu.findItem(0).setVisible(true);
+				menu.findItem(2).setVisible(true);
+				menu.findItem(5).setVisible(true);
+			} else {
+				menu.findItem(0).setVisible(false);
+				menu.findItem(2).setVisible(false);
+				menu.findItem(5).setVisible(false);
+			}
+			
+			if (fromDetail == false && settings.isLogin() == true) {
+				menu.findItem(6).setEnabled(true);
+			} else {
+				menu.findItem(6).setEnabled(false);
+			}
+		} catch (Exception e) {
+			// nothing
 		}
 
 		return true;
@@ -170,7 +203,29 @@ public class cgeopopup extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == 1) {
+		final int menuItem = item.getItemId();
+		
+		if (menuItem == 1) {
+			showOnMap();
+			return true;
+		} else if (menuItem == 2) {
+			navigateTo();
+			return true;
+		} else if (menuItem == 3) {
+			radarTo();
+			return true;
+		} else if (menuItem == 4) {
+			if (geo != null) {
+				base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude, geo.latitudeNow, geo.longitudeNow);
+			} else {
+				base.runNavigation(activity, res, settings, warning, tracker, cache.latitude, cache.longitude);
+			}
+
+			return true;
+		} else if (menuItem == 5) {
+			cachesAround();
+			return true;
+		} else if (menuItem == 6) {
 			if (cache.cacheid == null || cache.cacheid.length() == 0) {
 				warning.showToast(res.getString(R.string.err_cannot_log_visit));
 				return false;
@@ -184,6 +239,15 @@ public class cgeopopup extends Activity {
 
 			activity.finish();
 
+			return true;
+		} else if (menuItem == 20) {
+			base.runExternalMap(cgBase.mapAppLocus, activity, res, warning, tracker, cache.latitude, cache.longitude); // locus
+			return true;
+		} else if (menuItem == 21) {
+			base.runExternalMap(cgBase.mapAppRmaps, activity, res, warning, tracker, cache.latitude, cache.longitude); // rmaps
+			return true;
+		} else if (menuItem == 23) {
+			base.runExternalMap(cgBase.mapAppAny, activity, res, warning, tracker, cache.latitude, cache.longitude); // rmaps
 			return true;
 		}
 
@@ -472,28 +536,6 @@ public class cgeopopup extends Activity {
 			Log.e(cgSettings.tag, "cgeopopup.init: " + e.toString());
 		}
 
-		if (cache.latitude != null && cache.longitude != null) {
-			((LinearLayout) findViewById(R.id.navigation_part)).setVisibility(View.VISIBLE);
-
-			Button buttonCompass = (Button) findViewById(R.id.compass);
-			buttonCompass.setEnabled(true);
-			buttonCompass.setOnClickListener(new navigateToListener(cache.latitude, cache.longitude, cache.name, ""));
-
-			Button buttonRadar = (Button) findViewById(R.id.radar);
-			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
-				buttonRadar.setEnabled(true);
-				buttonRadar.setOnClickListener(new radarToListener(cache.latitude, cache.longitude));
-			} else {
-				buttonRadar.setBackgroundResource(settings.buttonInactive);
-			}
-
-			Button buttonTurn = (Button) findViewById(R.id.turn);
-			buttonTurn.setEnabled(true);
-			buttonTurn.setOnClickListener(new turnToListener(cache.latitude, cache.longitude));
-		} else {
-			((LinearLayout) findViewById(R.id.navigation_part)).setVisibility(View.GONE);
-		}
-
 		if (geo != null) {
 			geoUpdate.updateLoc(geo);
 		}
@@ -562,88 +604,98 @@ public class cgeopopup extends Activity {
 		}
 	}
 
-	private class navigateToListener implements View.OnClickListener {
-
-		private Double latitude = null;
-		private Double longitude = null;
-		private String geocode = null;
-		private String name = null;
-
-		public navigateToListener(Double latitudeIn, Double longitudeIn, String nameIn, String geocodeIn) {
-			latitude = latitudeIn;
-			longitude = longitudeIn;
-			geocode = geocodeIn;
-			name = nameIn;
+	private void showOnMap() {
+		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		public void onClick(View arg0) {
-			cgeonavigate navigateActivity = new cgeonavigate();
+		cgeomap mapActivity = new cgeomap();
 
-			Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
+		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		
+		mapIntent.putExtra("latitude", cache.latitude);
+		mapIntent.putExtra("longitude", cache.longitude);
 
-			navigateIntent.putExtra("latitude", latitude);
-			navigateIntent.putExtra("longitude", longitude);
-			navigateIntent.putExtra("geocode", geocode.toUpperCase());
-			navigateIntent.putExtra("name", name);
-
-			activity.startActivity(navigateIntent);
-
-			activity.finish();
-			return;
-		}
+		activity.startActivity(mapIntent);
 	}
 
-	private class radarToListener implements View.OnClickListener {
-
-		private Double latitude = null;
-		private Double longitude = null;
-
-		public radarToListener(Double latitudeIn, Double longitudeIn) {
-			latitude = latitudeIn;
-			longitude = longitudeIn;
+	private void navigateTo() {
+		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		public void onClick(View arg0) {
-			try {
+		cgeonavigate navigateActivity = new cgeonavigate();
+
+		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
+		navigateIntent.putExtra("latitude", cache.latitude);
+		navigateIntent.putExtra("longitude", cache.longitude);
+		navigateIntent.putExtra("geocode", "");
+		navigateIntent.putExtra("name", "Some destination");
+
+		activity.startActivity(navigateIntent);
+	}
+
+	private void radarTo() {
+		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+
+		try {
+			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
-
-				radarIntent.putExtra("latitude", new Float(latitude));
-				radarIntent.putExtra("longitude", new Float(longitude));
-
+				radarIntent.putExtra("latitude", new Float(cache.latitude));
+				radarIntent.putExtra("longitude", new Float(cache.longitude));
 				activity.startActivity(radarIntent);
+			} else {
+				AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+				dialog.setTitle(res.getString(R.string.err_radar_title));
+				dialog.setMessage(res.getString(R.string.err_radar_message));
+				dialog.setCancelable(true);
+				dialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 
-				activity.finish();
-				return;
-			} catch (Exception e) {
-				warning.showToast(res.getString(R.string.err_radar_generic));
-				Log.w(cgSettings.tag, "Radar not installed");
+					public void onClick(DialogInterface dialog, int id) {
+						try {
+							activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.eclipsim.gpsstatus2")));
+							dialog.cancel();
+						} catch (Exception e) {
+							warning.showToast(res.getString(R.string.err_radar_market));
+							Log.e(cgSettings.tag, "cgeopoint.radarTo.onClick: " + e.toString());
+						}
+					}
+				});
+				dialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+
+				AlertDialog alert = dialog.create();
+				alert.show();
 			}
+		} catch (Exception e) {
+			warning.showToast(res.getString(R.string.err_radar_generic));
+			Log.e(cgSettings.tag, "cgeopoint.radarTo: " + e.toString());
 		}
 	}
-
-	private class turnToListener implements View.OnClickListener {
-
-		private Double latitude = null;
-		private Double longitude = null;
-
-		public turnToListener(Double latitudeIn, Double longitudeIn) {
-			latitude = latitudeIn;
-			longitude = longitudeIn;
+	
+	private void cachesAround() {
+		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		public void onClick(View arg0) {
-			boolean status = false;
+		cgeocaches cachesActivity = new cgeocaches();
 
-			if (geo != null) {
-				status = base.runNavigation(activity, res, settings, warning, tracker, latitude, longitude, geo.latitudeNow, geo.longitudeNow);
-			} else {
-				status = base.runNavigation(activity, res, settings, warning, tracker, latitude, longitude);
-			}
+		Intent cachesIntent = new Intent(activity, cachesActivity.getClass());
+		
+		cachesIntent.putExtra("type", "coordinate");
+		cachesIntent.putExtra("latitude", cache.latitude);
+		cachesIntent.putExtra("longitude", cache.longitude);
+		cachesIntent.putExtra("cachetype", settings.cacheType);
 
-			if (status == true) {
-				activity.finish();
-			}
-		}
+		activity.startActivity(cachesIntent);
+
+		finish();
 	}
 
 	private class storeCache implements View.OnClickListener {

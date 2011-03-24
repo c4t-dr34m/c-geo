@@ -74,30 +74,6 @@
 							android:text="@string/cache_offline_store" />
 				</RelativeLayout>
 			</LinearLayout>
-			<LinearLayout android:id="@+id/navigation_part"
-					android:visibility="gone"
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent"
-					android:orientation="vertical" >
-				<RelativeLayout style="@style/separator_horizontal_layout" >
-					<View style="@style/separator_horizontal" />
-					<TextView style="@style/separator_horizontal_headline"
-							android:text="@string/navigation" />
-				</RelativeLayout>
-				<Button style="@style/button"
-						android:id="@+id/map"
-						android:visibility="gone"
-						android:text="@string/cache_menu_map" />
-				<Button style="@style/button"
-						android:id="@+id/compass"
-						android:text="@string/cache_menu_compass" />
-				<Button style="@style/button"
-						android:id="@+id/radar"
-						android:text="@string/cache_menu_radar" />
-				<Button style="@style/button"
-						android:id="@+id/turn"
-						android:text="@string/cache_menu_tbt" />
-			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

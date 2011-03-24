@@ -283,6 +283,10 @@ public class cgeowaypoint extends Activity {
 	}
 	
 	private void showOnMap() {
+		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+		
 		cgeomap mapActivity = new cgeomap();
 
 		Intent mapIntent = new Intent(activity, mapActivity.getClass());
@@ -314,6 +318,10 @@ public class cgeowaypoint extends Activity {
 	}
 
 	private void radarTo() {
+		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+		
 		try {
 			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
@@ -354,6 +362,10 @@ public class cgeowaypoint extends Activity {
 	}
 	
 	private void cachesAround() {
+		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+		
 		cgeocaches cachesActivity = new cgeocaches();
 
 		Intent cachesIntent = new Intent(activity, cachesActivity.getClass());
