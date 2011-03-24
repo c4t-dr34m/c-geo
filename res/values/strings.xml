@@ -618,7 +618,7 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.10</b> (__.04.2011)\n
-	· new: Caches lists\n
+	· fix: Moving caches during refresh\n
 	\n
     <b>2.09</b> (24.03.2011)\n
 	· new: Caches lists\n

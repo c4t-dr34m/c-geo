@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -44,7 +43,6 @@ import android.widget.Button;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class cgeodetail extends Activity {
@@ -76,7 +74,6 @@ public class cgeodetail extends Activity {
 	private ProgressDialog storeDialog = null;
 	private ProgressDialog refreshDialog = null;
 	private ProgressDialog dropDialog = null;
-	private List<ResolveInfo> appList = null;
 	private HashMap<Integer, String> calendars = new HashMap<Integer, String>();
 	private Handler storeCacheHandler = new Handler() {
 		@Override
@@ -1573,7 +1570,11 @@ public class cgeodetail extends Activity {
 
 		@Override
 		public void run() {
-			base.storeCache(app, activity, cache, null, 1, handler);
+			int reason = 1;
+			if (cache.reason > 1) {
+				reason = cache.reason;
+			}
+			base.storeCache(app, activity, cache, null, reason, handler);
 		}
 	}
 
