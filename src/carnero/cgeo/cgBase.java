@@ -4903,8 +4903,6 @@ public class cgBase {
 					edge = maxHeight;
 				}
 
-				cgMapImg mapGetter = new cgMapImg(settings, cache.geocode);
-
 				String type = "mystery";
 				if (cache.found == true) {
 					type = cache.type + "_found";
@@ -4931,20 +4929,15 @@ public class cgBase {
 					}
 				}
 
-				mapGetter.setLevel(1);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=20&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
+				cgMapImg mapGetter = new cgMapImg(settings, cache.geocode);
 
-				mapGetter.setLevel(2);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=18&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
-
-				mapGetter.setLevel(3);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=16&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
-
-				mapGetter.setLevel(4);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=14&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
-
-				mapGetter.setLevel(5);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false");
+				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=20&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 1);
+				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=18&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 2);
+				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=16&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 3);
+				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=14&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 4);
+				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 5);
+				
+				mapGetter = null;
 			}
 			
 			app.markStored(cache.geocode, listId);

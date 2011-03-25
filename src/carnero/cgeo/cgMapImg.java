@@ -15,43 +15,37 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class cgMapImg {
 	private cgSettings settings = null;
 	private String geocode = null;
-	private int level = 1;
 
 	public cgMapImg(cgSettings settingsIn, String geocodeIn) {
 		geocode = geocodeIn;
 		settings = settingsIn;
+		
+		if (geocode != null && geocode.length() > 0) {
+			final String dirName = settings.getStorage() + geocode + "/";
+		
+			File dir = null;
+			dir = new File(settings.getStorage());
+			if (dir.exists() == false) {
+				dir.mkdirs();
+			}
+			dir = new File(dirName);
+			if (dir.exists() == false) {
+				dir.mkdirs();
+			}
+			dir = null;
+		}
 	}
 
-	public void setLevel(int levelIn) {
-		level = levelIn;
-	}
-
-	public void getDrawable(String url) {
-		String dirName;
-		String fileName;
-
+	public void getDrawable(String url, int level) {
 		if (url == null || url.length() == 0) {
 			return;
 		}
 
-		if (geocode != null && geocode.length() > 0) {
-			dirName = settings.getStorage() + geocode + "/";
-			fileName = settings.getStorage() + geocode + "/map_" + level;
-		} else {
+		if (geocode == null || geocode.length() == 0) {
 			return;
 		}
-
-		File dir = null;
-		dir = new File(settings.getStorage());
-		if (dir.exists() == false) {
-			dir.mkdirs();
-		}
-		dir = new File(dirName);
-		if (dir.exists() == false) {
-			dir.mkdirs();
-		}
-		dir = null;
-
+		
+		final String fileName = settings.getStorage() + geocode + "/map_" + level;
 		HttpClient client = null;
 		HttpGet getMethod = null;
 		HttpResponse httpResponse = null;
@@ -69,8 +63,6 @@ public class cgMapImg {
 				httpResponse = client.execute(getMethod);
 				entity = httpResponse.getEntity();
 				bufferedEntity = new BufferedHttpEntity(entity);
-
-				Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading static map " + url);
 
 				if (bufferedEntity != null) {
 					InputStream is = (InputStream)bufferedEntity.getContent();
@@ -90,6 +82,8 @@ public class cgMapImg {
 						fos.flush();
 						fos.close();
 					}
+					
+					bufferedEntity = null;
 				}
 
 				if (ok == true) {

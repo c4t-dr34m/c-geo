@@ -180,8 +180,6 @@ public class cgHtmlImg implements Html.ImageGetter {
 							bfOptions.inSampleSize = 2;
 						}
 
-						Log.i(cgSettings.tag, "[" + entity.getContentLength() + "B] Downloading image " + url);
-
 						if (bufferedEntity != null) {
 							imagePre = BitmapFactory.decodeStream(bufferedEntity.getContent(), null, bfOptions);
 						}
