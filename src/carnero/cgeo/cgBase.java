@@ -4876,16 +4876,17 @@ public class cgBase {
 			if (cache == null) {
 				return;
 			}
+			
+			final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, 0, true);
 
 			// store images from description
 			if (cache.description != null) {
-				Html.fromHtml(cache.description, new cgHtmlImg(activity, settings, cache.geocode, false, 0, true), null);
+				Html.fromHtml(cache.description, imgGetter, null);
 			}
 
 			// store spoilers
 			if (cache.spoilers != null && cache.spoilers.isEmpty() == false) {
 				for (cgSpoiler oneSpoiler : cache.spoilers) {
-					final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, 0, true);
 					imgGetter.getDrawable(oneSpoiler.url);
 				}
 			}
@@ -4911,8 +4912,8 @@ public class cgBase {
 				} else {
 					type = cache.type;
 				}
+				
 				final String markerUrl = urlencode_rfc3986("http://cgeo.carnero.cc/_markers/marker_cache_" + type + ".png");
-
 				final StringBuilder waypoints = new StringBuilder();
 				if (cache.waypoints != null && cache.waypoints.size() > 0) {
 					for (cgWaypoint waypoint : cache.waypoints) {
@@ -4936,8 +4937,6 @@ public class cgBase {
 				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=16&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 3);
 				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=14&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 4);
 				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 5);
-				
-				mapGetter = null;
 			}
 			
 			app.markStored(cache.geocode, listId);

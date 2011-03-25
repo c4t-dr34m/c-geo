@@ -32,6 +32,12 @@ public class cgHtmlImg implements Html.ImageGetter {
 	private int reason = 0;
 	private boolean onlySave = false;
 	private BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+	private Display display = null;
+	private int maxWidth = 0;
+	private int maxHeight = 0;
+	private double ratio = 1.0d;
+	private int width = 0;
+	private int height = 0;
 
 	public cgHtmlImg(Activity activityIn, cgSettings settingsIn, String geocodeIn, boolean placementIn, int reasonIn, boolean onlySaveIn) {
 		activity = activityIn;
@@ -42,6 +48,10 @@ public class cgHtmlImg implements Html.ImageGetter {
 		onlySave = onlySaveIn;
 
 		bfOptions.inTempStorage = new byte[16 * 1024];
+		
+		display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		maxWidth = display.getWidth() - 25;
+		maxHeight = display.getHeight() - 25;
 	}
 
 	@Override
@@ -87,53 +97,63 @@ public class cgHtmlImg implements Html.ImageGetter {
 		}
 		dir = null;
 
-		try {
-			final File file = new File(fileName);
-			final File fileSec = new File(fileNameSec);
-			if (file.exists() == true) {
-				final long imageSize = file.length();
+		// load image from cache
+		if (onlySave == false) {
+			try {
+				final Date now = new Date();
 
-				// large images will be downscaled on input to save memory
-				if (imageSize > (6 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 48;
-				} else if (imageSize > (4 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 16;
-				} else if (imageSize > (2 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 10;
-				} else if (imageSize > (1 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 6;
-				} else if (imageSize > (0.5 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 2;
+				final File file = new File(fileName);
+				if (file.exists() == true) {
+					final long imageSize = file.length();
+
+					// large images will be downscaled on input to save memory
+					if (imageSize > (6 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 48;
+					} else if (imageSize > (4 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 16;
+					} else if (imageSize > (2 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 10;
+					} else if (imageSize > (1 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 6;
+					} else if (imageSize > (0.5 * 1024 * 1024)) {
+						bfOptions.inSampleSize = 2;
+					}
+
+					if (reason > 0 || file.lastModified() > (now.getTime() - (24 * 60 * 60 * 1000))) {
+						imagePre = BitmapFactory.decodeFile(fileName, bfOptions);
+					}
 				}
 
-				if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
-					imagePre = BitmapFactory.decodeFile(fileName, bfOptions);
-				}
-			} else if (fileSec.exists() == true) {
-				final long imageSize = fileSec.length();
+				if (imagePre == null) {
+					final File fileSec = new File(fileNameSec);
+					if (fileSec.exists() == true) {
+						final long imageSize = fileSec.length();
 
-				// large images will be downscaled on input to save memory
-				if (imageSize > (6 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 48;
-				} else if (imageSize > (4 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 16;
-				} else if (imageSize > (2 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 10;
-				} else if (imageSize > (1 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 6;
-				} else if (imageSize > (0.5 * 1024 * 1024)) {
-					bfOptions.inSampleSize = 2;
-				}
+						// large images will be downscaled on input to save memory
+						if (imageSize > (6 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 48;
+						} else if (imageSize > (4 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 16;
+						} else if (imageSize > (2 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 10;
+						} else if (imageSize > (1 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 6;
+						} else if (imageSize > (0.5 * 1024 * 1024)) {
+							bfOptions.inSampleSize = 2;
+						}
 
-				if (reason > 0 || file.lastModified() > ((new Date()).getTime() - (24 * 60 * 60 * 1000))) {
-					imagePre = BitmapFactory.decodeFile(fileNameSec, bfOptions);
+						if (reason > 0 || file.lastModified() > (now.getTime() - (24 * 60 * 60 * 1000))) {
+							imagePre = BitmapFactory.decodeFile(fileNameSec, bfOptions);
+						}
+					}
 				}
+			} catch (Exception e) {
+				Log.w(cgSettings.tag, "cgHtmlImg.getDrawable (reading cache): " + e.toString());
 			}
-		} catch (Exception e) {
-			Log.w(cgSettings.tag, "cgHtmlImg.getDrawable (reading cache): " + e.toString());
 		}
 
-		if (imagePre == null && reason == 0) {
+		// download image and save it to the cache
+		if ((imagePre == null && reason == 0) || onlySave == true) {
 			Uri uri = null;
 			HttpClient client = null;
 			HttpGet getMethod = null;
@@ -218,51 +238,46 @@ public class cgHtmlImg implements Html.ImageGetter {
 			entity = null;
 			bufferedEntity = null;
 		}
-
-		if (onlySave == false) {
-			if (imagePre == null) {
-				Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to obtain image");
-
-				if (placement == false) {
-					imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_no_placement);
-				} else {
-					imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_not_loaded);
-				}
-			}
-
-			Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-			final int imgWidth = imagePre.getWidth();
-			final int imgHeight = imagePre.getHeight();
-			final int maxWidth = display.getWidth() - 25;
-			final int maxHeight = display.getHeight() - 25;
-			int width = imgWidth;
-			int height = imgHeight;
-			double ratio = 1.0d;
-
-			if (imgWidth > maxWidth || imgHeight > maxHeight) {
-				if ((maxWidth / imgWidth) > (maxHeight / imgHeight)) {
-					ratio = (double) maxHeight / (double) imgHeight;
-				} else {
-					ratio = (double) maxWidth / (double) imgWidth;
-				}
-
-				width = (int) Math.ceil(imgWidth * ratio);
-				height = (int) Math.ceil(imgHeight * ratio);
-
-				try {
-					imagePre = Bitmap.createScaledBitmap(imagePre, width, height, true);
-				} catch (Exception e) {
-					Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to scale image");
-					return null;
-				}
-			}
-
-			final BitmapDrawable image = new BitmapDrawable(imagePre);
-			image.setBounds(new Rect(0, 0, width, height));
-
-			return image;
+		
+		if (onlySave == true) {
+			return null;
 		}
 
-		return null;
+		// get image and return
+		if (imagePre == null) {
+			Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to obtain image");
+
+			if (placement == false) {
+				imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_no_placement);
+			} else {
+				imagePre = BitmapFactory.decodeResource(activity.getResources(), R.drawable.image_not_loaded);
+			}
+		}
+
+		final int imgWidth = imagePre.getWidth();
+		final int imgHeight = imagePre.getHeight();
+		
+		if (imgWidth > maxWidth || imgHeight > maxHeight) {
+			if ((maxWidth / imgWidth) > (maxHeight / imgHeight)) {
+				ratio = (double) maxHeight / (double) imgHeight;
+			} else {
+				ratio = (double) maxWidth / (double) imgWidth;
+			}
+
+			width = (int) Math.ceil(imgWidth * ratio);
+			height = (int) Math.ceil(imgHeight * ratio);
+
+			try {
+				imagePre = Bitmap.createScaledBitmap(imagePre, width, height, true);
+			} catch (Exception e) {
+				Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to scale image");
+				return null;
+			}
+		}
+
+		final BitmapDrawable image = new BitmapDrawable(imagePre);
+		image.setBounds(new Rect(0, 0, width, height));
+
+		return image;
 	}
 }
