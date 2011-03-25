@@ -620,6 +620,7 @@
     <b>2.10</b> (__.04.2011)\n
 	· fix: Moving caches during refresh\n
 	· remove: Closest cache bubble on Live map\n
+	· new: Remembering last used list\n
 	\n
     <b>2.09</b> (24.03.2011)\n
 	· new: Caches lists\n

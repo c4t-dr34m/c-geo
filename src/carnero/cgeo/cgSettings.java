@@ -399,4 +399,17 @@ public class cgSettings {
 			maplive = 0;
 		}
 	}
+	
+	public int getLastList() {
+		int listId = prefs.getInt("lastlist", -1);
+		
+		return listId;
+	}
+	
+	public void saveLastList(int listId) {
+		final SharedPreferences.Editor edit = prefs.edit();
+		
+		edit.putInt("lastlist", listId);
+		edit.commit();
+	}
 }

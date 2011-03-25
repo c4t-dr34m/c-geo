@@ -376,12 +376,19 @@ public class cgeocaches extends ListActivity {
 		cgSearchThread thread;
 
 		if (type.equals("offline") == true) {
-			title = res.getString(R.string.caches_stored);
+			listId = settings.getLastList();
+			if (listId <= 0) {
+				listId = 1;
+				title = res.getString(R.string.caches_stored);
+			} else {
+				final cgList list = app.getList(listId);
+				title = list.title;
+			}
+			
 			base.setTitle(activity, title);
 			base.showProgress(activity, true);
 			setLoadingCaches();
 			
-			listId = 1;
 			threadPure = new geocachesLoadByOffline(loadCachesHandler, latitude, longitude, listId);
 			threadPure.start();
 		} else if (type.equals("history") == true) {
@@ -1635,6 +1642,8 @@ public class cgeocaches extends ListActivity {
 		
 		listId = list.id;
 		title = list.title;
+		
+		settings.saveLastList(listId);
 		
 		base.showProgress(activity, true);
 		setLoadingCaches();
