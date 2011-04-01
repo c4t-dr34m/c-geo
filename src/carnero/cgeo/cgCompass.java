@@ -119,7 +119,7 @@ public class cgCompass extends View {
 		public void run() {
 			while (wantStop == false) {
 				try {
-					sleep(66);
+					sleep(50);
 				} catch (Exception e) {
 					// nothing
 				}
