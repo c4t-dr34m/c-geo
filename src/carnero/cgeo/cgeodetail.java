@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.TextView.BufferType;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -982,9 +984,22 @@ public class cgeodetail extends Activity {
 
 	private void displayLogs() {
 		// cache logs
+		TextView textView = (TextView) findViewById(R.id.logcount);
+		if (cache != null && cache.logCounts != null) {
+			StringBuffer buff = new StringBuffer();
+			for (Pair<Integer, Integer> p : cache.logCounts) {
+				buff.append(cgBase.logTypes1.get(p.first.intValue()));
+				buff.append(": ");
+				buff.append(p.second.intValue());
+				buff.append("\n");
+			}
+			textView.setText(buff.toString());
+		}
+
+		// cache logs
 		LinearLayout listView = (LinearLayout) findViewById(R.id.log_list);
 		listView.removeAllViews();
-
+		
 		RelativeLayout rowView;
 
 		if (cache != null && cache.logs != null) {
