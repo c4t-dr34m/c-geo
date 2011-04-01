@@ -1401,10 +1401,17 @@ public class cgeodetail extends Activity {
 
 		final Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");
-		if (geocode != null) {
-			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + geocode.toUpperCase());
-		} else if (cache != null && cache.geocode != null) {
+		
+		if (cache != null && cache.geocode != null) {
+			String subject = cache.geocode.toUpperCase();
+			if (cache.name != null && cache.name.length() > 0){
+				subject = subject + " - " + cache.name;	
+			}
+			intent.putExtra(Intent.EXTRA_SUBJECT, "Geocache " + subject);
 			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + cache.geocode.toUpperCase());
+		} else if (geocode != null) {
+			intent.putExtra(Intent.EXTRA_SUBJECT, "Geocache " + geocode.toUpperCase());
+			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + geocode.toUpperCase());
 		}
 
 		startActivity(Intent.createChooser(intent, res.getText(R.string.action_bar_share_title)));
