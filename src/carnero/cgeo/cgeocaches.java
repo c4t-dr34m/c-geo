@@ -75,7 +75,7 @@ public class cgeocaches extends ListActivity {
 	private geocachesDropDetails threadR = null;
 	private int listId = 0;
 	private ArrayList<cgList> lists = null;
-	private TextView cntView = null;
+	private cgCacheGeocodeComparator gcComparator = new cgCacheGeocodeComparator();
 	private Handler loadCachesHandler = new Handler() {
 
 		@Override
@@ -90,7 +90,7 @@ public class cgeocaches extends ListActivity {
 						cacheList.addAll(cacheListTmp);
 						cacheListTmp.clear();
 						
-						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
+						Collections.sort((List<cgCache>)cacheList, gcComparator);
 					}
 				} else {
 					base.setTitle(activity, title);
@@ -187,7 +187,7 @@ public class cgeocaches extends ListActivity {
 					if (cacheListTmp != null && cacheListTmp.isEmpty() == false) {
 						cacheList.addAll(cacheListTmp);
 						cacheListTmp.clear();
-						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
+						Collections.sort((List<cgCache>)cacheList, gcComparator);
 					}
 				} else {
 					base.setTitle(activity, title);
@@ -275,7 +275,7 @@ public class cgeocaches extends ListActivity {
 						cacheList.clear();
 						cacheList.addAll(cacheListTmp);
 						cacheListTmp.clear();
-						Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
+						Collections.sort((List<cgCache>)cacheList, gcComparator);
 					}
 				}
 
@@ -319,7 +319,7 @@ public class cgeocaches extends ListActivity {
 					cacheList.addAll(cacheListTmp);
 					cacheListTmp.clear();
 
-					Collections.sort((List<cgCache>)cacheList, new cgCacheGeocodeComparator());
+					Collections.sort((List<cgCache>)cacheList, gcComparator);
 				}
 				
 				if (waitDialog != null) {

@@ -13,6 +13,7 @@ import android.os.Message;
 import android.util.Log;
 
 public class cgCompass extends View {
+
 	private changeThread watchdog = null;
 	private boolean wantStop = false;
 	private boolean lock = false;
@@ -37,6 +38,7 @@ public class cgCompass extends View {
 	private int compassOverlayWidth = 0;
 	private int compassOverlayHeight = 0;
 	private Handler changeHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message message) {
 			try {
@@ -72,7 +74,7 @@ public class cgCompass extends View {
 		compassArrowHeight = compassArrow.getWidth();
 		compassOverlayWidth = compassOverlay.getWidth();
 		compassOverlayHeight = compassOverlay.getWidth();
-		
+
 		setfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
 		remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
 
@@ -109,6 +111,7 @@ public class cgCompass extends View {
 	}
 
 	private class changeThread extends Thread {
+
 		Handler handler = null;
 
 		public changeThread(Handler handlerIn) {
@@ -124,7 +127,9 @@ public class cgCompass extends View {
 					// nothing
 				}
 
-				if (Math.abs(azimuth - northHeading) < 2 && Math.abs(heading - cacheHeading) < 2) continue;
+				if (Math.abs(azimuth - northHeading) < 2 && Math.abs(heading - cacheHeading) < 2) {
+					continue;
+				}
 
 				lock = true;
 
@@ -147,7 +152,7 @@ public class cgCompass extends View {
 				if (diff > 0 && diff <= 180) {
 					if (diffAbs > 5) {
 						tempAzimuth = actualAzimuth + 2;
-					} else if(diffAbs > 1) {
+					} else if (diffAbs > 1) {
 						tempAzimuth = actualAzimuth + 1;
 					} else {
 						tempAzimuth = actualAzimuth;
@@ -155,7 +160,7 @@ public class cgCompass extends View {
 				} else if (diff > 180 && diff < 360) {
 					if (diffAbs > 5) {
 						tempAzimuth = actualAzimuth - 2;
-					} else if(diffAbs > 1) {
+					} else if (diffAbs > 1) {
 						tempAzimuth = actualAzimuth - 1;
 					} else {
 						tempAzimuth = actualAzimuth;
@@ -175,7 +180,7 @@ public class cgCompass extends View {
 				if (diff > 0 && diff <= 180) {
 					if (diffAbs > 5) {
 						tempHeading = actualHeading + 2;
-					}  else if (diffAbs > 1) {
+					} else if (diffAbs > 1) {
 						tempHeading = actualHeading + 1;
 					} else {
 						tempHeading = actualHeading;
@@ -183,7 +188,7 @@ public class cgCompass extends View {
 				} else if (diff > 180 && diff < 360) {
 					if (diffAbs > 5) {
 						tempHeading = actualHeading - 2;
-					} else if(diffAbs > 1) {
+					} else if (diffAbs > 1) {
 						tempHeading = actualHeading - 1;
 					} else {
 						tempHeading = actualHeading;
@@ -206,7 +211,7 @@ public class cgCompass extends View {
 
 				azimuth = tempAzimuth;
 				heading = tempHeading;
-				
+
 				lock = false;
 
 				changeHandler.sendMessage(new Message());
@@ -215,9 +220,13 @@ public class cgCompass extends View {
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas){
-		if (lock == true) return;
-		if (drawing == true) return;
+	protected void onDraw(Canvas canvas) {
+		if (lock == true) {
+			return;
+		}
+		if (drawing == true) {
+			return;
+		}
 
 		Double azimuthTemp = azimuth;
 		Double azimuthRelative = azimuthTemp - heading;
@@ -270,44 +279,44 @@ public class cgCompass extends View {
 		drawing = false;
 	}
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-    }
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+	}
 
-    private int measureWidth(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
+	private int measureWidth(int measureSpec) {
+		int result = 0;
+		int specMode = MeasureSpec.getMode(measureSpec);
+		int specSize = MeasureSpec.getSize(measureSpec);
 
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else {
-            result = compassArrow.getWidth() + getPaddingLeft() + getPaddingRight();
-			
-            if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize);
-            }
-        }
+		if (specMode == MeasureSpec.EXACTLY) {
+			result = specSize;
+		} else {
+			result = compassArrow.getWidth() + getPaddingLeft() + getPaddingRight();
 
-        return result;
-    }
+			if (specMode == MeasureSpec.AT_MOST) {
+				result = Math.min(result, specSize);
+			}
+		}
 
-    private int measureHeight(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
+		return result;
+	}
 
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else {
-            result = compassArrow.getHeight() + getPaddingTop() + getPaddingBottom();
+	private int measureHeight(int measureSpec) {
+		int result = 0;
+		int specMode = MeasureSpec.getMode(measureSpec);
+		int specSize = MeasureSpec.getSize(measureSpec);
 
-            if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize);
-            }
-        }
-		
-        return result;
-    }
+		if (specMode == MeasureSpec.EXACTLY) {
+			result = specSize;
+		} else {
+			result = compassArrow.getHeight() + getPaddingTop() + getPaddingBottom();
+
+			if (specMode == MeasureSpec.AT_MOST) {
+				result = Math.min(result, specSize);
+			}
+		}
+
+		return result;
+	}
 }

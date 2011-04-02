@@ -39,6 +39,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private LayoutInflater inflater = null;
 	private Activity activity = null;
 	private cgBase base = null;
+	private cgCacheVisitComparator visComparator = new cgCacheVisitComparator();
 	private boolean historic = false;
 	private Double latitude = null;
 	private Double longitude = null;
@@ -176,7 +177,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		try {
 			if (historic == true) {
-				Collections.sort((List<cgCache>)list, new cgCacheVisitComparator());
+				Collections.sort((List<cgCache>)list, visComparator);
 			} else {
 				Collections.sort((List<cgCache>)list, new cgCacheDistanceComparator(latitudeIn, longitudeIn));
 			}
@@ -195,7 +196,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		if (list != null && list.isEmpty() == false&& (System.currentTimeMillis() - lastSort) > 1000 && sort == true) {
 			try {
 				if (historic == true) {
-					Collections.sort((List<cgCache>)list, new cgCacheVisitComparator());
+					Collections.sort((List<cgCache>)list, visComparator);
 				} else {
 					Collections.sort((List<cgCache>)list, new cgCacheDistanceComparator(latitudeIn, longitudeIn));
 				}
