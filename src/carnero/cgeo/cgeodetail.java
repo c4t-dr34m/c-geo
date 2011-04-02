@@ -985,14 +985,25 @@ public class cgeodetail extends Activity {
 		// cache logs
 		TextView textView = (TextView) findViewById(R.id.logcount);
 		if (cache != null && cache.logCounts != null) {
+			int logCounter = 0;
 			final StringBuffer buff = new StringBuffer();
+			buff.append(res.getString(R.string.cache_log_types));
+			buff.append(": ");
+			
 			for (Pair<Integer, Integer> p : cache.logCounts) {
-				buff.append(cgBase.logTypes1.get(p.first.intValue()));
-				buff.append(": ");
+				if (logCounter > 0) {
+					buff.append(" | ");
+				}
 				buff.append(p.second.intValue());
-				buff.append("\n");
+				buff.append("× ");
+				buff.append(cgBase.logTypes1.get(p.first.intValue()).toLowerCase(Locale.getDefault()));
+				
+				logCounter ++;
 			}
 			textView.setText(buff.toString());
+			textView.setVisibility(View.VISIBLE);
+		} else {
+			textView.setVisibility(View.GONE);
 		}
 
 		// cache logs

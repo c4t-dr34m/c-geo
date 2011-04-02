@@ -437,6 +437,7 @@
   <string name="cache_calendars">Select calendar</string>
   <string name="cache_spoiler_images_title">Spoiler images</string>
   <string name="cache_spoiler_images_loading">Loading spoiler images...</string>
+  <string name="cache_log_types">Log types</string> <!-- Since: 2.10 RC2 -->
 
   <!-- gpx -->
   <string name="gpx_import_searching_in">Searching for .gpx files\nin</string>
