@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.TextView.BufferType;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -982,9 +984,22 @@ public class cgeodetail extends Activity {
 
 	private void displayLogs() {
 		// cache logs
+		TextView textView = (TextView) findViewById(R.id.logcount);
+		if (cache != null && cache.logCounts != null) {
+			StringBuffer buff = new StringBuffer();
+			for (Pair<Integer, Integer> p : cache.logCounts) {
+				buff.append(cgBase.logTypes1.get(p.first.intValue()));
+				buff.append(": ");
+				buff.append(p.second.intValue());
+				buff.append("\n");
+			}
+			textView.setText(buff.toString());
+		}
+
+		// cache logs
 		LinearLayout listView = (LinearLayout) findViewById(R.id.log_list);
 		listView.removeAllViews();
-
+		
 		RelativeLayout rowView;
 
 		if (cache != null && cache.logs != null) {
@@ -1401,10 +1416,17 @@ public class cgeodetail extends Activity {
 
 		final Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");
-		if (geocode != null) {
-			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + geocode.toUpperCase());
-		} else if (cache != null && cache.geocode != null) {
+		
+		if (cache != null && cache.geocode != null) {
+			String subject = cache.geocode.toUpperCase();
+			if (cache.name != null && cache.name.length() > 0){
+				subject = subject + " - " + cache.name;	
+			}
+			intent.putExtra(Intent.EXTRA_SUBJECT, "Geocache " + subject);
 			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + cache.geocode.toUpperCase());
+		} else if (geocode != null) {
+			intent.putExtra(Intent.EXTRA_SUBJECT, "Geocache " + geocode.toUpperCase());
+			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + geocode.toUpperCase());
 		}
 
 		startActivity(Intent.createChooser(intent, res.getText(R.string.action_bar_share_title)));

@@ -23,6 +23,7 @@ import java.util.regex.Matcher;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import android.util.Log;
+import android.util.Pair;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -1046,6 +1047,7 @@ public class cgBase {
 		final Pattern patternHint = Pattern.compile("<p>([^<]*<strong>)?[^\\w]*Additional Hints([^<]*<\\/strong>)?[^\\(]*\\(<a[^>]+>Encrypt<\\/a>\\)[^<]*<\\/p>[^<]*<p>[^<]*<\\/p>[^<]*<div id=\"div_hint\"[^>]*>(.*)<\\/div>[^<]*<div id=\\'dk\\'[^>]+>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDescShort = Pattern.compile("<span id=\"ctl00_ContentBody_ShortDescription\"[^>]*>(.*)<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDesc = Pattern.compile("<span id=\"ctl00_ContentBody_LongDescription\"[^>]*>(.*)<\\/span>.*<div class=\"CacheDetailNavigationWidget\">", Pattern.CASE_INSENSITIVE);
+		final Pattern patternCountLogs = Pattern.compile("span id=\"ctl00_ContentBody_lblFindCounts\"><p>(.*)<\\/p><\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLogs = Pattern.compile("<table class=\"LogsTable Table\">(.*)<\\/table>[^<]*<p>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternAttributes = Pattern.compile("<div class=\"CacheDetailNavigationWidget Spacing\"[^>]*>(([^<]*<img src=\"[^\"]+\" alt=\"[^\"]+\"[^>]*>)+)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternAttributesInside = Pattern.compile("[^<]*<img src=\"[^\"]+\" alt=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
@@ -1470,6 +1472,42 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache inventory");
 		}
 
+		// cache logs counts
+		try {
+			final Matcher matcherLogCounts = patternCountLogs.matcher(page);
+			while (matcherLogCounts.find()) {
+				if (matcherLogCounts.groupCount() > 0) {
+					final Pattern patternLog = Pattern.compile("src=\"\\/images\\/icons\\/([^\\.]*).gif\" alt=\"[^\"]*\" title=\"[^\"]*\" />([0-9]*)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+					final String[] logs = matcherLogCounts.group(1).split("<img");
+					final int logsCnt = logs.length;
+
+					for (int k = 1; k < logsCnt; k++) {
+						final Matcher matcherLog = patternLog.matcher(logs[k]);
+						if (matcherLog.find()) {
+							Integer type = null;
+							Integer count = null;
+							String typeStr = matcherLog.group(1);
+							String countStr = matcherLog.group(2);
+							if (typeStr != null && typeStr.length() > 0) {
+								if (logTypes.containsKey(typeStr.toLowerCase()) == true) {
+									type = logTypes.get(typeStr.toLowerCase());
+								}
+							}
+							if (countStr != null && countStr.length() > 0) {
+								count = Integer.parseInt(countStr);
+							}
+							if (type != null && count != null) {
+								cache.logCounts.add(new Pair<Integer, Integer>(type, count));
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			// failed to parse logs
+			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache log count");
+		}
+		
 		// cache logs
 		try {
 			final Matcher matcherLogs = patternLogs.matcher(page);

@@ -1,6 +1,8 @@
 package carnero.cgeo;
 
 import android.text.Spannable;
+import android.util.Pair;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -51,6 +53,7 @@ public class cgCache {
 	public ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
 	public ArrayList<cgLog> logs = new ArrayList<cgLog>();
 	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
+	public ArrayList<Pair<Integer, Integer>> logCounts = new ArrayList<Pair<Integer,Integer>>();
 	public boolean logOffline = false;
 	// temporary values
 	public boolean statusChecked = false;
