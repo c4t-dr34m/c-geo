@@ -27,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
-import android.widget.TextView.BufferType;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -986,7 +985,7 @@ public class cgeodetail extends Activity {
 		// cache logs
 		TextView textView = (TextView) findViewById(R.id.logcount);
 		if (cache != null && cache.logCounts != null) {
-			StringBuffer buff = new StringBuffer();
+			final StringBuffer buff = new StringBuffer();
 			for (Pair<Integer, Integer> p : cache.logCounts) {
 				buff.append(cgBase.logTypes1.get(p.first.intValue()));
 				buff.append(": ");

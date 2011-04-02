@@ -1048,7 +1048,9 @@ public class cgBase {
 		final Pattern patternDescShort = Pattern.compile("<span id=\"ctl00_ContentBody_ShortDescription\"[^>]*>(.*)<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDesc = Pattern.compile("<span id=\"ctl00_ContentBody_LongDescription\"[^>]*>(.*)<\\/span>.*<div class=\"CacheDetailNavigationWidget\">", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCountLogs = Pattern.compile("span id=\"ctl00_ContentBody_lblFindCounts\"><p>(.*)<\\/p><\\/span>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternCountLog = Pattern.compile("src=\"\\/images\\/icons\\/([^\\.]*).gif\" alt=\"[^\"]*\" title=\"[^\"]*\" />([0-9]*)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 		final Pattern patternLogs = Pattern.compile("<table class=\"LogsTable Table\">(.*)<\\/table>[^<]*<p>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternLog = Pattern.compile("<td[^>]*>[^<]*<strong>[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a>[<^]*</strong>([^\\(]*\\((\\d+) found\\))?(<br[ ]*/>)+(.*)(<br[ ]*/>)+<small><a href=");
 		final Pattern patternAttributes = Pattern.compile("<div class=\"CacheDetailNavigationWidget Spacing\"[^>]*>(([^<]*<img src=\"[^\"]+\" alt=\"[^\"]+\"[^>]*>)+)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternAttributesInside = Pattern.compile("[^<]*<img src=\"[^\"]+\" alt=\"([^\"]+)\"[^>]*>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternSpoilers = Pattern.compile("<span id=\"ctl00_ContentBody_Images\">((<a href=\"[^\"]+\"[^>]*><img[^>]+>[^<]*<span>[^>]+<\\/span><\\/a><br \\/><br \\/>([^<]*<br \\/>)?)+)", Pattern.CASE_INSENSITIVE);
@@ -1477,15 +1479,15 @@ public class cgBase {
 			final Matcher matcherLogCounts = patternCountLogs.matcher(page);
 			while (matcherLogCounts.find()) {
 				if (matcherLogCounts.groupCount() > 0) {
-					final Pattern patternLog = Pattern.compile("src=\"\\/images\\/icons\\/([^\\.]*).gif\" alt=\"[^\"]*\" title=\"[^\"]*\" />([0-9]*)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 					final String[] logs = matcherLogCounts.group(1).split("<img");
 					final int logsCnt = logs.length;
 
 					for (int k = 1; k < logsCnt; k++) {
-						final Matcher matcherLog = patternLog.matcher(logs[k]);
+						Integer type = null;
+						Integer count = null;
+						final Matcher matcherLog = patternCountLog.matcher(logs[k]);
+						
 						if (matcherLog.find()) {
-							Integer type = null;
-							Integer count = null;
 							String typeStr = matcherLog.group(1);
 							String countStr = matcherLog.group(2);
 							if (typeStr != null && typeStr.length() > 0) {
@@ -1513,7 +1515,6 @@ public class cgBase {
 			final Matcher matcherLogs = patternLogs.matcher(page);
 			while (matcherLogs.find()) {
 				if (matcherLogs.groupCount() > 0) {
-					final Pattern patternLog = Pattern.compile("<td[^>]*>[^<]*<strong>[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;([a-zA-Z]+) (\\d+)(, (\\d+))? by <a href=[^>]+>([^<]+)</a>[<^]*</strong>([^\\(]*\\((\\d+) found\\))?(<br[ ]*/>)+(.*)(<br[ ]*/>)+<small><a href=");
 					final String[] logs = matcherLogs.group(1).split("<tr>");
 					final int logsCnt = logs.length;
 
