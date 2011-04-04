@@ -283,7 +283,7 @@
   <string name="list_menu_create">Neue Liste</string>
   <string name="list_menu_drop">Aktuelle Liste löschen</string>
   <string name="list_title">Liste wählen</string>
-  <string name="list_inbox">Gespeichert</string>
+  <string name="list_inbox">Standardliste</string>
   <string name="list_wpt">Wegpunkte</string>
   <string name="list_dialog_create_title">Neue Liste</string>
   <string name="list_dialog_create">Erstellen</string>
@@ -291,7 +291,7 @@
   <string name="list_dialog_create_ok">Neue Liste wurde erstellt</string>
   <string name="list_dialog_create_err">c:geo konnte die neue Liste nicht erstellen</string>
   <string name="list_dialog_remove_title">Liste entfernen</string>
-  <string name="list_dialog_remove_description">Aktuelle Liste löschen? Alle Caches dieser Liste werden nach \"Gespeichert\" verschoben.</string>
+  <string name="list_dialog_remove_description">Aktuelle Liste löschen? Alle Caches dieser Liste werden in die Standradliste verschoben.</string>
   <string name="list_dialog_remove">Entfernen</string>
   <string name="list_dialog_remove_ok">Liste wurde gelöscht</string>
   <string name="list_dialog_remove_err">c:geo konnte die Liste nicht löschen</string>
@@ -427,6 +427,7 @@
   <string name="cache_calendars">Kalender auswählen</string>
   <string name="cache_spoiler_images_title">Spoilerbilder</string>
   <string name="cache_spoiler_images_loading">Lade Spoilerbilder...</string>
+  <string name="cache_log_types">Log-Typen</string>
 
   <!-- gpx -->
   <string name="gpx_import_searching_in">Suche nach GPX-Dateien\nin</string>
