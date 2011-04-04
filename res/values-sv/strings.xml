@@ -438,6 +438,7 @@
   <string name="cache_calendars">Välj kalender</string>
   <string name="cache_spoiler_images_title">Spoiler bilder</string>
   <string name="cache_spoiler_images_loading">Laddar spoiler bilder...</string>
+  <string name="cache_log_types">Loggtyper</string> <!-- Since: 2.10 RC2 -->
 
   <!-- gpx -->
   <string name="gpx_import_searching_in">Söker efter .gpx filer\ni</string>
