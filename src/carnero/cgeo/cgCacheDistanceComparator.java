@@ -6,12 +6,21 @@ import android.util.Log;
 public class cgCacheDistanceComparator implements Comparator<cgCache> {
 	private Double latitude = null;
 	private Double longitude = null;
+	
+	public cgCacheDistanceComparator() {
+		// nothing
+	}
 
 	public cgCacheDistanceComparator(Double latitudeIn, Double longitudeIn) {
 		latitude = latitudeIn;
 		longitude = longitudeIn;
 	}
-
+	
+	public void setCoords(Double latitudeIn, Double longitudeIn) {
+		latitude = latitudeIn;
+		longitude = longitudeIn;
+	}
+	
 	public int compare(cgCache cache1, cgCache cache2) {
 		int result = 0;
 		try {

@@ -29,6 +29,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
@@ -39,7 +40,8 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private LayoutInflater inflater = null;
 	private Activity activity = null;
 	private cgBase base = null;
-	private cgCacheVisitComparator visComparator = new cgCacheVisitComparator();
+	private cgCacheDistanceComparator dstComparator = null;
+	private Comparator statComparator = null;
 	private boolean historic = false;
 	private Double latitude = null;
 	private Double longitude = null;
@@ -66,6 +68,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		settings = settingsIn;
 		list = listIn;
 		base = baseIn;
+		dstComparator = new cgCacheDistanceComparator();
 
 		DisplayMetrics metrics = new DisplayMetrics();
 		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -98,9 +101,18 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			ratingBcgs[2] = R.drawable.favourite_background_green_light;
 		}
 	}
+	
+	public void setComparator(Comparator comparator) {
+		statComparator = comparator;
+		
+		forceSort(latitude, longitude);
+	}
 
 	public void setHistoric(boolean historicIn) {
 		historic = historicIn;
+		
+		if (historic == true) statComparator = new cgCacheVisitComparator();
+		else statComparator = null;
 	}
 
 	public int getChecked() {
@@ -176,10 +188,11 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		if (sort == false) return;
 
 		try {
-			if (historic == true) {
-				Collections.sort((List<cgCache>)list, visComparator);
+			if (statComparator != null) {
+				Collections.sort((List<cgCache>)list, statComparator);
 			} else {
-				Collections.sort((List<cgCache>)list, new cgCacheDistanceComparator(latitudeIn, longitudeIn));
+				dstComparator.setCoords(latitudeIn, longitudeIn);
+				Collections.sort((List<cgCache>)list, dstComparator);
 			}
 			notifyDataSetChanged();
 		} catch (Exception e) {
@@ -195,10 +208,11 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 		if (list != null && list.isEmpty() == false&& (System.currentTimeMillis() - lastSort) > 1000 && sort == true) {
 			try {
-				if (historic == true) {
-					Collections.sort((List<cgCache>)list, visComparator);
+				if (statComparator != null) {
+					Collections.sort((List<cgCache>)list, statComparator);
 				} else {
-					Collections.sort((List<cgCache>)list, new cgCacheDistanceComparator(latitudeIn, longitudeIn));
+					dstComparator.setCoords(latitudeIn, longitudeIn);
+					Collections.sort((List<cgCache>)list, dstComparator);
 				}
 				notifyDataSetChanged();
 			} catch (Exception e) {
@@ -423,13 +437,11 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			Bitmap dirImgPre = null;
 			Bitmap dirImg = null;
 			try {
-				BitmapFactory dirImgFactory = new BitmapFactory();
 				dirImgPre = BitmapFactory.decodeFile(settings.getStorage() + cache.geocode + "/direction.png");
 				dirImg = dirImgPre.copy(Bitmap.Config.ARGB_8888, true);
 
 				dirImgPre.recycle();
 				dirImgPre = null;
-				dirImgFactory = null;
 			} catch (Exception e) {
 				// nothing
 			}

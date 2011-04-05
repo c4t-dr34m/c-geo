@@ -545,10 +545,17 @@ public class cgeocaches extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		SubMenu subMenuSort = menu.addSubMenu(0, 104, 0, res.getString(R.string.caches_sort)).setIcon(android.R.drawable.ic_menu_sort_alphabetically);
+		subMenuSort.add(0, 10, 0, res.getString(R.string.caches_sort_distance));
+		subMenuSort.add(0, 11, 0, res.getString(R.string.caches_sort_difficulty));
+		subMenuSort.add(0, 12, 0, res.getString(R.string.caches_sort_terrain));
+		subMenuSort.add(0, 13, 0, res.getString(R.string.caches_sort_size));
+		subMenuSort.add(0, 14, 0, res.getString(R.string.caches_sort_favorites));
+		
 		menu.add(0, 0, 0, res.getString(R.string.caches_select_mode)).setIcon(android.R.drawable.ic_menu_agenda);
 		menu.add(0, 9, 0, res.getString(R.string.caches_select_invert)).setIcon(android.R.drawable.ic_menu_agenda);
 		if (type.equals("offline") == true) {
-			SubMenu subMenu = menu.addSubMenu(0, 13, 0, res.getString(R.string.caches_manage)).setIcon(android.R.drawable.ic_menu_save);
+			SubMenu subMenu = menu.addSubMenu(0, 103, 0, res.getString(R.string.caches_manage)).setIcon(android.R.drawable.ic_menu_save);
 			subMenu.add(0, 5, 0, res.getString(R.string.caches_drop_all)); // delete saved caches
 			subMenu.add(0, 1, 0, res.getString(R.string.cache_offline_refresh)); // download details for all caches
 			menu.add(0, 6, 0, res.getString(R.string.gpx_import_title)).setIcon(android.R.drawable.ic_menu_upload); // import gpx file
@@ -559,7 +566,7 @@ public class cgeocaches extends ListActivity {
 		final Intent intentTest = new Intent(Intent.ACTION_VIEW);
 		intentTest.setData(Uri.parse("menion.points:x"));
 		if (cgBase.isIntentAvailable(activity, intentTest) == true) {
-			SubMenu subMenu = menu.addSubMenu(0, 11, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
+			SubMenu subMenu = menu.addSubMenu(0, 101, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
 			subMenu.add(0, 2, 0, res.getString(R.string.caches_map_cgeo)); // show all caches on map using c:geo
 			subMenu.add(0, 3, 0, res.getString(R.string.caches_map_locus)); // show all caches on map using Locus
 		} else {
@@ -567,7 +574,7 @@ public class cgeocaches extends ListActivity {
 		}
 
 		if (type.equals("offline") == true) {
-			SubMenu subMenu = menu.addSubMenu(0, 12, 0, res.getString(R.string.list_menu)).setIcon(android.R.drawable.ic_menu_more);
+			SubMenu subMenu = menu.addSubMenu(0, 102, 0, res.getString(R.string.list_menu)).setIcon(android.R.drawable.ic_menu_more);
 			subMenu.add(0, 7, 0, res.getString(R.string.list_menu_create));
 			subMenu.add(0, 8, 0, res.getString(R.string.list_menu_drop));
 		}
@@ -663,6 +670,31 @@ public class cgeocaches extends ListActivity {
 			case 9:
 				if (adapter != null) {
 					adapter.invertSelection();
+				}
+				return false;
+			case 10:
+				if (adapter != null) {
+					adapter.setComparator(null);
+				}
+				return false;
+			case 11:
+				if (adapter != null) {
+					adapter.setComparator(new cgCacheDifficultyComparator());
+				}
+				return false;
+			case 12:
+				if (adapter != null) {
+					adapter.setComparator(new cgCacheTerrainComparator());
+				}
+				return false;
+			case 13:
+				if (adapter != null) {
+					adapter.setComparator(new cgCacheSizeComparator());
+				}
+				return false;
+			case 14:
+				if (adapter != null) {
+					adapter.setComparator(new cgCachePopularityComparator());
 				}
 				return false;
 		}

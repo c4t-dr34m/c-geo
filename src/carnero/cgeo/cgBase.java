@@ -278,7 +278,7 @@ public class cgBase {
 		logTypesTrackableAction.put(0, ""); // do nothing
 		logTypesTrackableAction.put(1, "_Visited"); // visit cache
 		logTypesTrackableAction.put(2, "_DroppedOff"); // drop here
-
+		
 		// retrieving errors (because of ____ )
 		errorRetrieve.put(1, res.getString(R.string.err_none));
 		errorRetrieve.put(0, res.getString(R.string.err_start));
