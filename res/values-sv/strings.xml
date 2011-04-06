@@ -250,6 +250,13 @@
   <string name="caches_stored">Sparade cacher</string>
   <string name="caches_history">Senast loggade cacher</string>
   <string name="caches_on_map">Visa på karta</string>
+  <string name="caches_sort">Sortering</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_title">Sortera efter</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_distance">avstånd</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_difficulty">svårighet</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_terrain">terräng</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_size">storlek</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_favorites">poäng/betyg</string> <!-- since: 2.10 RC2 -->
   <string name="caches_select">Välj från lista</string>
   <string name="caches_select_mode">Markeringsläge</string>
   <string name="caches_select_mode_exit">Avsluta markeringsläge</string>

@@ -250,11 +250,12 @@
   <string name="caches_history">History</string>
   <string name="caches_on_map">Show on map</string>
   <string name="caches_sort">Sort</string> <!-- since: 2.10 RC2 -->
-  <string name="caches_sort_distance">By distance</string> <!-- since: 2.10 RC2 -->
-  <string name="caches_sort_difficulty">By difficulty</string> <!-- since: 2.10 RC2 -->
-  <string name="caches_sort_terrain">By terrain</string> <!-- since: 2.10 RC2 -->
-  <string name="caches_sort_size">By size</string> <!-- since: 2.10 RC2 -->
-  <string name="caches_sort_favorites">By popularity</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_title">Sort by</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_distance">distance</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_difficulty">difficulty</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_terrain">terrain</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_size">size</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_favorites">popularity</string> <!-- since: 2.10 RC3 -->
   <string name="caches_select">Select from list</string>
   <string name="caches_select_mode">Select mode</string>
   <string name="caches_select_mode_exit">Exit select mode</string>

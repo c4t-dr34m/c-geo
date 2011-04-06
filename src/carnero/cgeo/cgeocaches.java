@@ -546,6 +546,7 @@ public class cgeocaches extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		SubMenu subMenuSort = menu.addSubMenu(0, 104, 0, res.getString(R.string.caches_sort)).setIcon(android.R.drawable.ic_menu_sort_alphabetically);
+		subMenuSort.setHeaderTitle(res.getString(R.string.caches_sort_title));
 		subMenuSort.add(0, 10, 0, res.getString(R.string.caches_sort_distance));
 		subMenuSort.add(0, 11, 0, res.getString(R.string.caches_sort_difficulty));
 		subMenuSort.add(0, 12, 0, res.getString(R.string.caches_sort_terrain));
