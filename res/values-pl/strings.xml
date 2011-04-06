@@ -249,6 +249,12 @@
   <string name="caches_stored">Zapisane</string>
   <string name="caches_history">Historia</string>
   <string name="caches_on_map">Pokaż na mapie</string>
+  <string name="caches_sort">Sortuj</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_distance">według odległości</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_difficulty">według trudności</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_terrain">według terenu</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_size">według wielkości</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_favorites">według popularności</string> <!-- since: 2.10 RC2 -->
   <string name="caches_select">Wybierz z listy</string>
   <string name="caches_select_mode">Tryb wyboru</string>
   <string name="caches_select_mode_exit">Wyjście z trybu wyboru</string>
@@ -341,6 +347,7 @@
   <string name="init_backup">Kopia zapasowa</string>
   <string name="init_backup_backup">Kopiuj</string>
   <string name="init_backup_note">Zwróć uwagę, że ta opcja wykonuje tylko kopie/odzyskiwanie bazy danych, zawierającej skrzynki i punkty nawigacyjne, a nie ustawienia. Twoje dane logowania (hasła) nie opuszczą tej aplikacji.</string>
+  
   <string name="init_backup_restore">Przywróć</string>
   <string name="init_backup_success">Baza danych c:geo została pomyślnie skopiowana do pliku</string>
   <string name="init_backup_failed">Kopia zapasowa bazy danych c:geo nie powiodła się.</string>
@@ -437,6 +444,7 @@
   <string name="cache_calendars">Wybierz kalendarz</string>
   <string name="cache_spoiler_images_title">Zdjęcie spoiler</string>
   <string name="cache_spoiler_images_loading">Ładuje zdjęcia spoiler...</string>
+  <string name="cache_log_types">Rodzaj logu</string> <!-- Since: 2.10 RC2 -->
 
   <!-- gpx -->
   <string name="gpx_import_searching_in">Szukam pliki .gpx\nw</string>
