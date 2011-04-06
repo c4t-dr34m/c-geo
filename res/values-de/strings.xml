@@ -261,11 +261,12 @@
   <string name="caches_history">Verlauf</string>
   <string name="caches_on_map">Zeige auf Karte</string>
   <string name="caches_sort">Sortierung</string>
-  <string name="caches_sort_distance">nach Entfernung</string>
-  <string name="caches_sort_difficulty">nach Schwierigkeit</string>
-  <string name="caches_sort_terrain">nach Gelände</string>
-  <string name="caches_sort_size">nach Größe</string>
-  <string name="caches_sort_favorites">nach Beliebtheit</string>
+  <string name="caches_sort_title">Sortieren nach</string>
+  <string name="caches_sort_distance">Entfernung</string>
+  <string name="caches_sort_difficulty">Schwierigkeit</string>
+  <string name="caches_sort_terrain">Gelände</string>
+  <string name="caches_sort_size">Größe</string>
+  <string name="caches_sort_favorites">Beliebtheit</string>
   <string name="caches_select">Wähle von Liste</string>
   <string name="caches_select_mode">Auswahlmodus</string>
   <string name="caches_select_mode_exit">Auswahlmodus beenden</string>
