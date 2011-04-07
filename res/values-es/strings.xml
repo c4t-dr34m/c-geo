@@ -14,6 +14,7 @@
   <string name="database_error_title">Problema con la base de datos</string>
   <string name="database_error_message">c:geo no se ha podido conectar a la base de datos interna.\nIntenta arrancar c:geo un poco más tarde. Si has visto este mensaje muchas veces, ve a los ajustes del teléfono / Aplicaciones / c:geo y pulsa el botçon borrar datos. O desinstálalo e instálalo de nuevo. Lamentamos los problemas.</string>
 
+  
   <!-- actionbar -->
   <string name="action_bar_share_title">Compartir enlace a escondite</string>
 
@@ -164,6 +165,7 @@
   <string name="err_point_curr_position_unavailable">c:geo sigue sin obtener las coordenadas actuales. Espera un poco mas...</string>
   <string name="err_point_bear_and_dist_title">¿Necesitas ayuda?</string>
   <string name="err_point_bear_and_dist">Rellena ambos, orientación y distancia. La orientación es un ángulo de 0 a 360 grados relativo al norte. Distancia con o sin unidades.</string>
+  
   <string name="err_point_location_error">Lo siento, c:geo no puede ubicar ese punto de referencia.</string>
   <string name="err_navigation_not_found">c:geo no encuentra ninguna navegación soportada.</string>
 
@@ -189,6 +191,7 @@
   <string name="warn_no_username">No se ha indicado nombre de usuario.</string>
   <string name="warn_search_help_title">¿Necesitas ayuda?</string>
   <string name="warn_search_help_address">"Rellena la dirección o el nombre del lugar. Por ejemplo usa la dirección \"Gran Vía 100, Vigo, España\", nombre de la ciudad \"Pontevedra\" o nombra a algo como  \"Lagunas de Ruidera\".</string>
+ 
   <string name="warn_search_help_gccode">Indica el código del escondite. Por ejemplo \"GC1VCAZ\".</string>
   <string name="warn_search_help_keyword">Escribe algo que se suponga que está contenido en el nombre del escondite que buscas.</string>
   <string name="warn_search_help_user">Escribe el nombre de usuario de Geocaching.com.</string>
@@ -249,21 +252,32 @@
   <string name="caches_stored">Almacenados</string>
   <string name="caches_history">Historial</string>
   <string name="caches_on_map">Ver en mapa</string>
+  <string name="caches_sort">Ordenar</string> <!-- since: 2.10 RC2 -->
+  <string name="caches_sort_title">Ordenar por</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_distance">distancia</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_difficulty">dificultad</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_terrain">terreno</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_size">tamaño</string> <!-- since: 2.10 RC3 -->
+  <string name="caches_sort_favorites">popularidad</string> <!-- since: 2.10 RC3 -->  
   <string name="caches_select">Elegir de la lista</string>
   <string name="caches_select_mode">Modo selección</string>
   <string name="caches_select_mode_exit">Salir de modo selección</string>
+  <string name="caches_select_invert">Invertir selección</string>  
   <string name="caches_nearby">Cercanos</string>
+  <string name="caches_manage">Gestionar</string>  
   <string name="caches_drop_selected">Descartar los seleccionados</string>
   <string name="caches_drop_selected_ask">¿Quieres borrar los escondites seleccionados del dispositivo?</string>
   <string name="caches_drop_all">Descartar todos</string>
   <string name="caches_drop_all_ask">¿Quieres borrar todos los escondites guardados en el dispositivo?</string>
   <string name="caches_drop_stored">Descartar guardados</string>
+  <string name="caches_drop_progress">Borrando escondites</string>  
   <string name="caches_refresh_selected">Actualizar seleccionados</string>
   <string name="caches_refresh_all">Actualizar todos</string>
   <string name="caches_map_cgeo">c:geo</string>
   <string name="caches_map_locus">Locus</string>
   <string name="caches_recaptcha_title">reCAPTCHA</string>
   <string name="caches_recaptcha_explanation">Debes  escribir el texto de la imagen. Es importante que descargues las coordenadas de los escondites. Es opcional y lo puedes desactivar en Ajustes.</string>
+ 
   <string name="caches_recaptcha_hint">Texto de la imagen</string>
   <string name="caches_recaptcha_continue">Continuar</string>
 
@@ -338,6 +352,7 @@
   <string name="init_backup">Backup</string>
   <string name="init_backup_backup">Backup</string>
   <string name="init_backup_note">Esta opción copia/restaura la base de datos de escondites y puntos de referencia, no la configuración. Los datos de acceso y contraseña no se guardarán.</string>
+  
   <string name="init_backup_restore">Restaurar</string>
   <string name="init_backup_success">La base de datos de c:geo se ha copiado satisfactoriamente</string>
   <string name="init_backup_failed">Ha fallado la copia de seguridad.</string>
@@ -397,12 +412,14 @@
   <string name="cache_menu_tbt">Paso a paso</string>
   <string name="cache_menu_radar">Radar</string>
   <string name="cache_menu_map">Ver en mapa</string>
-  <string name="cache_menu_map_ext">Ver en mapa ext.</string>
   <string name="cache_menu_map_static">Mapas estáticos</string>
-  <string name="cache_menu_map_short">Mapas</string>
+  
+  
   <string name="cache_menu_locus">Locus</string>
   <string name="cache_menu_rmaps">Rmaps</string>  
   <string name="cache_menu_map_ext_short">Mapa Ext.</string>
+  <string name="cache_menu_map_short">Mapas</string>
+  <string name="cache_menu_map_ext_short">Mapa ext.</string>  
   <string name="cache_menu_browser">Navegador</string>
   <string name="cache_menu_visit">Enviar visita</string>
   <string name="cache_menu_spoilers">Revelaciones</string>
@@ -434,7 +451,8 @@
   <string name="cache_calendars">Elegir calendario</string>
   <string name="cache_spoiler_images_title">Imágenes reveladoras</string>
   <string name="cache_spoiler_images_loading">Cargando imágenes reveladoras...</string>
-
+  <string name="cache_log_types">Tipos de registro</string> <!-- Since: 2.10 RC2 -->
+  
   <!-- gpx -->
   <string name="gpx_import_searching_in">Buscando archivos .gpx\nen</string>
   <string name="gpx_import_loading_stored">Cargando escondites del archivo .gpx\nGuardados:</string>
@@ -562,11 +580,12 @@
   <string name="license_show">Mostrar licencia</string>
   <string name="license_dismiss">Descartar</string>
   
-    <!-- helpers -->
+  <!-- helpers -->
   <string name="helper_manual_title">Manual</string>
   <string name="helper_manual_description">Sencillo manual de c:geo que contiene todas las capacidades de este programa (incluidas las ocultas).</string>
   <string name="helper_locus_title">Locus</string>
   <string name="helper_locus_description">Sencilla aplicación que muestra mapas en linea y permite descargarlos para ser usados sin conexión (sólo mapas no vectoriales). Tambien permite registrar el recorrido, gestionar puntos de interés y más funciones interesantes.</string>
+  
   <string name="helper_gpsstatus_title">GPS Status</string>
   <string name="helper_gpsstatus_description">Puedes usar el radar de esta aplicación con c:geo. Además ofrece un montón de información relacionada con el GPS.</string>
   <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
