@@ -552,6 +552,7 @@ public class cgeocaches extends ListActivity {
 		subMenuSort.add(0, 12, 0, res.getString(R.string.caches_sort_terrain));
 		subMenuSort.add(0, 13, 0, res.getString(R.string.caches_sort_size));
 		subMenuSort.add(0, 14, 0, res.getString(R.string.caches_sort_favorites));
+		subMenuSort.add(0, 15, 0, res.getString(R.string.caches_sort_name));
 		
 		menu.add(0, 0, 0, res.getString(R.string.caches_select_mode)).setIcon(android.R.drawable.ic_menu_agenda);
 		menu.add(0, 9, 0, res.getString(R.string.caches_select_invert)).setIcon(android.R.drawable.ic_menu_agenda);
@@ -696,6 +697,11 @@ public class cgeocaches extends ListActivity {
 			case 14:
 				if (adapter != null) {
 					adapter.setComparator(new cgCachePopularityComparator());
+				}
+				return false;
+			case 15:
+				if (adapter != null) {
+					adapter.setComparator(new cgCacheNameComparator());
 				}
 				return false;
 		}
