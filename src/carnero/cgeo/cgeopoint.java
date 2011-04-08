@@ -280,7 +280,7 @@ public class cgeopoint extends Activity {
 			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
 				radarIntent.putExtra("latitude", new Float(coords.get(0)));
-				radarIntent.putExtra("longitude", new Float(coords.get(0)));
+				radarIntent.putExtra("longitude", new Float(coords.get(1)));
 				activity.startActivity(radarIntent);
 			} else {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
