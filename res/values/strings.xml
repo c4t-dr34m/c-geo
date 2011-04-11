@@ -628,6 +628,7 @@
   <string name="changelog">\n
     <b>2.10</b> (__.04.2011)\n
 	· fix: Moving caches during refresh\n
+	· fix: Opening Radar\n
 	· remove: Closest cache bubble on Live map\n
 	· new: Remembering last used list\n
 	· new: Number of logs in detail\n

@@ -14,6 +14,7 @@ import com.google.android.maps.MapView;
 import java.util.ArrayList;
 
 public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
+
 	private ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
 	private cgeoapplication app = null;
 	private Context context = null;
@@ -35,11 +36,13 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 	}
 
 	protected void addItem(cgOverlayItem item) {
-		if (item == null) return;
-		
+		if (item == null) {
+			return;
+		}
+
 		item.setMarker(boundCenterBottom(item.getMarker(0)));
 		items.add(item);
-		
+
 		if (items.size() > 0) {
 			setLastFocusedIndex(-1); // to reset tap during data change
 			populate();
@@ -77,8 +80,12 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 	@Override
 	protected boolean onTap(int index) {
 		try {
-			if (canTap == false) return false;
-			if (items.size() <= index)  return false;
+			if (canTap == false) {
+				return false;
+			}
+			if (items.size() <= index) {
+				return false;
+			}
 
 			if (waitDialog == null) {
 				waitDialog = new ProgressDialog(context);
@@ -86,9 +93,9 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 				waitDialog.setCancelable(false);
 			}
 			waitDialog.show();
-			
-            cgOverlayItem item = items.get(index);
-            cgCoord coordinate = item.getCoord();
+
+			cgOverlayItem item = items.get(index);
+			cgCoord coordinate = item.getCoord();
 
 			if (coordinate.type != null && coordinate.type.equalsIgnoreCase("cache") == true && coordinate.geocode != null && coordinate.geocode.length() > 0) {
 				Intent popupIntent = new Intent(context, cgeopopup.class);
@@ -102,7 +109,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 
 				popupIntent.putExtra("waypoint", coordinate.id);
 				popupIntent.putExtra("geocode", coordinate.geocode);
-				
+
 				context.startActivity(popupIntent);
 			} else {
 				waitDialog.dismiss();
@@ -167,20 +174,22 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 					cacheType = cgBase.cacheTypesInv.get("mystery");
 				}
 
-				dialog.setMessage(Html.fromHtml(item.getTitle()) + "\n\ngeocode: " + coordinate.geocode.toUpperCase()  + "\ntype: " + cacheType);
+				dialog.setMessage(Html.fromHtml(item.getTitle()) + "\n\ngeocode: " + coordinate.geocode.toUpperCase() + "\ntype: " + cacheType);
 				if (fromDetail == false) {
 					dialog.setPositiveButton("detail", new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
+
+						public void onClick(DialogInterface dialog, int id) {
 							Intent cachesIntent = new Intent(context, cgeodetail.class);
 							cachesIntent.putExtra("geocode", coordinate.geocode.toUpperCase());
 							context.startActivity(cachesIntent);
 
-                            dialog.cancel();
-					   }
-				   });
+							dialog.cancel();
+						}
+					});
 				} else {
 					dialog.setPositiveButton("navigate", new DialogInterface.OnClickListener() {
-					   public void onClick(DialogInterface dialog, int id) {
+
+						public void onClick(DialogInterface dialog, int id) {
 							cgeonavigate navigateActivity = new cgeonavigate();
 
 							cgeonavigate.coordinates = new ArrayList<cgCoord>();
@@ -192,7 +201,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 							navigateIntent.putExtra("geocode", coordinate.geocode.toUpperCase());
 							context.startActivity(navigateIntent);
 							dialog.cancel();
-					   }
+						}
 					});
 				}
 			} else {
@@ -207,7 +216,8 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 
 				dialog.setMessage(Html.fromHtml(item.getTitle()) + "\n\ntype: " + waypointType);
 				dialog.setPositiveButton("navigate", new DialogInterface.OnClickListener() {
-				   public void onClick(DialogInterface dialog, int id) {
+
+					public void onClick(DialogInterface dialog, int id) {
 						cgeonavigate navigateActivity = new cgeonavigate();
 
 						cgeonavigate.coordinates = new ArrayList<cgCoord>();
@@ -220,18 +230,19 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 
 						context.startActivity(navigateIntent);
 						dialog.cancel();
-				   }
+					}
 				});
 			}
 
 			dialog.setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
-			   public void onClick(DialogInterface dialog, int id) {
-				   dialog.cancel();
-			   }
+
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
 			});
 
-		   AlertDialog alert = dialog.create();
-		   alert.show();
+			AlertDialog alert = dialog.create();
+			alert.show();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgMapOverlay.infoDialog: " + e.toString());
 		}

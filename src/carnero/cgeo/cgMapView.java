@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.android.maps.MapView;
 
 public class cgMapView extends MapView {
+
 	public cgMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -21,23 +22,23 @@ public class cgMapView extends MapView {
 
 	@Override
 	public void draw(Canvas canvas) {
-        try {
+		// try {
 			if (getZoomLevel() >= 22) { // to avoid too close zoom level (mostly on Samsung Galaxy S series)
 				getController().setZoom(22);
 			}
 
 			super.draw(canvas);
-        } catch (Exception e) {
-            Log.e(cgSettings.tag, "cgMapView.draw: " + e.toString());
-        }
-    }
+		// } catch (Exception e) {
+		// 	Log.e(cgSettings.tag, "cgMapView.draw: " + e.toString());
+		// }
+	}
 
 	@Override
 	public void displayZoomControls(boolean takeFocus) {
-        try {
-            super.displayZoomControls(takeFocus);
-        } catch (Exception e) {
-            Log.e(cgSettings.tag, "cgMapView.displayZoomControls: " + e.toString());
-        }
+		try {
+			super.displayZoomControls(takeFocus);
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgMapView.displayZoomControls: " + e.toString());
+		}
 	}
 }
