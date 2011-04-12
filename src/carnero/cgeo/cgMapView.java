@@ -22,15 +22,15 @@ public class cgMapView extends MapView {
 
 	@Override
 	public void draw(Canvas canvas) {
-		// try {
+		try {
 			if (getZoomLevel() >= 22) { // to avoid too close zoom level (mostly on Samsung Galaxy S series)
 				getController().setZoom(22);
 			}
 
 			super.draw(canvas);
-		// } catch (Exception e) {
-		// 	Log.e(cgSettings.tag, "cgMapView.draw: " + e.toString());
-		// }
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgMapView.draw: " + e.toString());
+		}
 	}
 
 	@Override

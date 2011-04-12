@@ -71,6 +71,8 @@ public class cgeomap extends MapActivity {
 	private HashMap<Integer, Drawable> iconsCache = new HashMap<Integer, Drawable>();
 	private loadCaches loadingThread = null;
 	private loadUsers usersThread = null;
+	private addCaches displayingThread = null;
+	private addUsers usersDisplayingThread = null;
 	private int numberType = 0; // 0: altitude, 1: traveled distance
 	private TextView numberView = null;
 	private ImageView myLocation = null;
@@ -406,6 +408,12 @@ public class cgeomap extends MapActivity {
 		if (usersThread != null) {
 			usersThread.kill();
 		}
+		if (displayingThread != null) {
+			displayingThread.notifyEnd();
+		}
+		if (usersDisplayingThread != null) {
+			usersDisplayingThread.notifyEnd();
+		}
 
 		if (dir != null) {
 			dir = app.removeDir();
@@ -430,6 +438,12 @@ public class cgeomap extends MapActivity {
 		}
 		if (usersThread != null) {
 			usersThread.kill();
+		}
+		if (displayingThread != null) {
+			displayingThread.notifyEnd();
+		}
+		if (usersDisplayingThread != null) {
+			usersDisplayingThread.notifyEnd();
 		}
 
 		if (dir != null) {
@@ -693,6 +707,10 @@ public class cgeomap extends MapActivity {
 	}
 
 	private void addOverlays(boolean canChangeTitle, boolean canInit) {
+		if (mapView == null) {
+			return;
+		}
+
 		// scale bar
 		if (overlayScale == null && mapView != null) {
 			overlayScale = new cgOverlayScale(activity, base, settings);
@@ -704,55 +722,9 @@ public class cgeomap extends MapActivity {
 
 		mapView.invalidate();
 
-		// users
-		if (mapView == null) {
-			return;
-		}
-
-		if (settings.publicLoc == 1 && users != null && users.isEmpty() == false) {
-			if (overlayUsers == null) {
-				overlayUsers = new cgUsersOverlay(app, (Context) this, base, getResources().getDrawable(R.drawable.user_location));
-			} else {
-				overlayUsers.disableTap();
-				overlayUsers.clearItems();
-			}
-
-			for (cgUser user : users) {
-				if (user.latitude == null && user.longitude == null) {
-					continue;
-				}
-
-				final cgOverlayUser item = new cgOverlayUser(activity, user);
-
-				Drawable pin = null;
-				if (iconsCache.containsKey(R.drawable.user_location)) {
-					pin = iconsCache.get(R.drawable.user_location);
-				} else {
-					pin = getResources().getDrawable(R.drawable.user_location);
-					pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
-					iconsCache.put(R.drawable.user_location, pin);
-				}
-				item.setMarker(pin);
-
-				overlayUsers.addItem(item);
-			}
-
-			if (mapView.getOverlays().contains(overlayUsers) == false) {
-				mapView.getOverlays().add(overlayUsers);
-			}
-
-			mapView.invalidate();
-			overlayUsers.enableTap();
-		}
-
-		searchingUsers = false;
-
 		// geocaches
 		if (overlay == null) {
-			overlay = new cgMapOverlay(app, (Context) this, base, getResources().getDrawable(R.drawable.marker), fromDetail);
-		} else {
-			overlay.disableTap();
-			overlay.clearItems();
+			overlay = new cgMapOverlay((Context) this, getResources().getDrawable(R.drawable.marker), fromDetail);
 		}
 
 		Integer maxLat = Integer.MIN_VALUE;
@@ -766,49 +738,38 @@ public class cgeomap extends MapActivity {
 		coordinates.clear();
 		if (caches != null && caches.size() > 0) {
 			for (cgCache cache : caches) {
-				if (cache.latitude == null && cache.longitude == null) {
-					continue;
-				} else {
+				if (cache.latitude != null && cache.longitude != null) {
 					cachesWithCoords++;
-				}
+					
+					final int latitudeE6 = (int) (cache.latitude * 1e6);
+					final int longitudeE6 = (int) (cache.longitude * 1e6);
 
-				final cgCoord coord = new cgCoord(cache);
-				coordinates.add(coord);
-				final cgOverlayItem item = new cgOverlayItem(coord);
-
-				int icon = base.getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
-				Drawable pin = null;
-				if (iconsCache.containsKey(icon)) {
-					pin = iconsCache.get(icon);
-				} else {
-					pin = getResources().getDrawable(icon);
-					pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
-					iconsCache.put(icon, pin);
-				}
-				item.setMarker(pin);
-
-				overlay.addItem(item);
-
-				final int latitudeE6 = (int) (cache.latitude * 1e6);
-				final int longitudeE6 = (int) (cache.longitude * 1e6);
-
-				if (latitudeE6 > maxLat) {
-					maxLat = latitudeE6;
-				}
-				if (latitudeE6 < minLat) {
-					minLat = latitudeE6;
-				}
-				if (longitudeE6 > maxLon) {
-					maxLon = longitudeE6;
-				}
-				if (longitudeE6 < minLon) {
-					minLon = longitudeE6;
+					if (latitudeE6 > maxLat) {
+						maxLat = latitudeE6;
+					}
+					if (latitudeE6 < minLat) {
+						minLat = latitudeE6;
+					}
+					if (longitudeE6 > maxLon) {
+						maxLon = longitudeE6;
+					}
+					if (longitudeE6 < minLon) {
+						minLon = longitudeE6;
+					}
 				}
 			}
 
 			if (cachesWithCoords == 0) {
 				warning.showToast(res.getString(R.string.warn_no_cache_coord));
 				myLocationInMiddleForce();
+			} else {
+				if (displayingThread != null && displayingThread.isAlive()) {
+					displayingThread.notifyEnd();
+					displayingThread = null;
+				}
+				
+				displayingThread = new addCaches(overlay, caches);
+				displayingThread.start();
 			}
 
 			if (live == false) {
@@ -823,9 +784,27 @@ public class cgeomap extends MapActivity {
 
 					// waypoints
 					if (oneCache != null && oneCache.waypoints != null && oneCache.waypoints.size() > 0) {
+						ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
+			
 						for (cgWaypoint waypoint : oneCache.waypoints) {
 							if (waypoint.latitude == null && waypoint.longitude == null) {
 								continue;
+							}
+
+							int latitudeE6 = (int) (waypoint.latitude * 1e6);
+							int longitudeE6 = (int) (waypoint.longitude * 1e6);
+
+							if (latitudeE6 > maxLat) {
+								maxLat = latitudeE6;
+							}
+							if (latitudeE6 < minLat) {
+								minLat = latitudeE6;
+							}
+							if (longitudeE6 > maxLon) {
+								maxLon = longitudeE6;
+							}
+							if (longitudeE6 < minLon) {
+								minLon = longitudeE6;
 							}
 
 							cgCoord coord = new cgCoord(waypoint);
@@ -844,26 +823,12 @@ public class cgeomap extends MapActivity {
 							}
 							item.setMarker(pin);
 
-							overlay.addItem(item);
-
-							int latitudeE6 = (int) (waypoint.latitude * 1e6);
-							int longitudeE6 = (int) (waypoint.longitude * 1e6);
-
-							if (latitudeE6 > maxLat) {
-								maxLat = latitudeE6;
-							}
-							if (latitudeE6 < minLat) {
-								minLat = latitudeE6;
-							}
-							if (longitudeE6 > maxLon) {
-								maxLon = longitudeE6;
-							}
-							if (longitudeE6 < minLon) {
-								minLon = longitudeE6;
-							}
+							items.add(item);
 
 							coord = null;
 						}
+						
+						overlay.updateItems(items);
 					}
 
 					int centerLat = 0;
@@ -927,7 +892,7 @@ public class cgeomap extends MapActivity {
 			}
 			item.setMarker(pin);
 
-			overlay.addItem(item);
+			overlay.updateItems(item);
 
 			geopoint = new GeoPoint((int) (oneLatitude * 1e6), (int) (oneLongitude * 1e6));
 
@@ -942,11 +907,130 @@ public class cgeomap extends MapActivity {
 		}
 
 		mapView.invalidate();
-		overlay.enableTap();
 
 		searching = false;
 		if (canChangeTitle == true) {
 			changeTitle(false);
+		}
+		
+		// users
+		if (settings.publicLoc == 1 && users != null && users.isEmpty() == false) {
+			if (overlayUsers == null) {
+				overlayUsers = new cgUsersOverlay((Context) this, getResources().getDrawable(R.drawable.user_location));
+			}
+
+			if (usersDisplayingThread != null && usersDisplayingThread.isAlive()) {
+				usersDisplayingThread.notifyEnd();
+				usersDisplayingThread = null;
+			}
+
+			usersDisplayingThread = new addUsers(overlayUsers, users);
+			usersDisplayingThread.start();
+
+			if (mapView.getOverlays().contains(overlayUsers) == false) {
+				mapView.getOverlays().add(overlayUsers);
+			}
+
+			mapView.invalidate();
+		}
+
+		searchingUsers = false;
+
+	}
+	
+	private class addCaches extends Thread {
+		private boolean end = false;
+		private cgMapOverlay overlay = null;
+		private ArrayList<cgCache> caches = null;
+		
+		public addCaches(cgMapOverlay overlayIn, ArrayList<cgCache> cachesIn) {
+			overlay = overlayIn;
+			caches = cachesIn;
+		}
+		
+		public void notifyEnd() {
+			end = true;
+		}
+		
+		@Override
+		public void run() {
+			ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
+			
+			for (cgCache cache : caches) {
+				if (end == true) {
+					break;
+				}
+				
+				if (cache.latitude == null && cache.longitude == null) {
+					continue;
+				}
+
+				final cgCoord coord = new cgCoord(cache);
+				coordinates.add(coord);
+				
+				final cgOverlayItem item = new cgOverlayItem(coord);
+				int icon = base.getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
+				Drawable pin = null;
+				if (iconsCache.containsKey(icon)) {
+					pin = iconsCache.get(icon);
+				} else {
+					pin = getResources().getDrawable(icon);
+					pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
+					iconsCache.put(icon, pin);
+				}
+				item.setMarker(pin);
+
+				items.add(item);
+			}
+			
+			overlay.updateItems(items);
+		}
+	}
+	
+	private class addUsers extends Thread {
+		private boolean end = false;
+		private cgUsersOverlay overlay = null;
+		private ArrayList<cgUser> users = null;
+		
+		public addUsers(cgUsersOverlay overlayIn, ArrayList<cgUser> usersIn) {
+			overlay = overlayIn;
+			users = usersIn;
+			
+			setPriority(Thread.MIN_PRIORITY);
+		}
+		public void notifyEnd() {
+			end = true;
+		}
+		
+		@Override
+		public void run() {
+			ArrayList<cgOverlayUser> items = new ArrayList<cgOverlayUser>();
+			
+			for (cgUser user : users) {
+				if (end == true) {
+					break;
+				}
+				
+				if (user.latitude == null && user.longitude == null) {
+					continue;
+				}
+
+				final cgOverlayUser item = new cgOverlayUser(activity, user);
+
+				Drawable pin = null;
+				if (iconsCache.containsKey(R.drawable.user_location)) {
+					pin = iconsCache.get(R.drawable.user_location);
+				} else {
+					pin = getResources().getDrawable(R.drawable.user_location);
+					pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
+					iconsCache.put(R.drawable.user_location, pin);
+				}
+				item.setMarker(pin);
+				
+				items.add(item);
+			}
+			
+			overlay.updateItems(items);
 		}
 	}
 

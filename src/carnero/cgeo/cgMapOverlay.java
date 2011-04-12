@@ -16,73 +16,47 @@ import java.util.ArrayList;
 public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 
 	private ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
-	private cgeoapplication app = null;
 	private Context context = null;
-	private cgBase base = null;
-	private Drawable marker = null;
 	private Boolean fromDetail = false;
-	private boolean canTap = true;
 	private ProgressDialog waitDialog = null;
 
-	public cgMapOverlay(cgeoapplication appIn, Context contextIn, cgBase baseIn, Drawable markerIn, Boolean fromDetailIn) {
+	public cgMapOverlay(Context contextIn, Drawable markerIn, Boolean fromDetailIn) {
 		super(boundCenterBottom(markerIn));
 		populate();
 
-		app = appIn;
 		context = contextIn;
-		base = baseIn;
-		marker = markerIn;
 		fromDetail = fromDetailIn;
 	}
+	
+	protected void updateItems(cgOverlayItem item) {
+		ArrayList<cgOverlayItem> itemsPre = new ArrayList<cgOverlayItem>();
+		itemsPre.add(item);
+		
+		updateItems(itemsPre);
+	}
 
-	protected void addItem(cgOverlayItem item) {
-		if (item == null) {
+	protected void updateItems(ArrayList<cgOverlayItem> itemsPre) {
+		if (itemsPre == null) {
 			return;
 		}
 
-		item.setMarker(boundCenterBottom(item.getMarker(0)));
-		items.add(item);
-
-		if (items.size() > 0) {
-			setLastFocusedIndex(-1); // to reset tap during data change
-			populate();
+		for (cgOverlayItem item : itemsPre) {
+			item.setMarker(boundCenterBottom(item.getMarker(0)));
 		}
-	}
 
-	protected void removeItem(int index) {
-		try {
-			items.remove(index);
-			setLastFocusedIndex(-1);
-			populate();
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgMapOverlay.removeItem: " + e.toString());
+		items.clear();
+		
+		if (itemsPre.size() > 0) {
+			items = (ArrayList<cgOverlayItem>) itemsPre.clone();
 		}
-	}
-
-	protected void clearItems() {
-		try {
-			items.clear();
-			setLastFocusedIndex(-1);
-			populate();
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgMapOverlay.clearItems: " + e.toString());
-		}
-	}
-
-	protected void disableTap() {
-		canTap = false;
-	}
-
-	protected void enableTap() {
-		canTap = true;
+		
+		setLastFocusedIndex(-1); // to reset tap during data change
+		populate();
 	}
 
 	@Override
 	protected boolean onTap(int index) {
 		try {
-			if (canTap == false) {
-				return false;
-			}
 			if (items.size() <= index) {
 				return false;
 			}
@@ -134,7 +108,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 		try {
 			return items.get(index);
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgMapOverlay.draw: " + e.toString());
+			Log.e(cgSettings.tag, "cgMapOverlay.createItem: " + e.toString());
 		}
 
 		return null;
