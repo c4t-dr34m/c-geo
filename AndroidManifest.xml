@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		android:versionCode="21003"
-		android:versionName="2.10 RC3"
+		android:versionCode="21004"
+		android:versionName="2.10 RC4"
 		package="carnero.cgeo"
 		name="c:geo"
 		android:installLocation="auto" >

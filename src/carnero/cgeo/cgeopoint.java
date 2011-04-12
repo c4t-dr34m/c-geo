@@ -458,7 +458,7 @@ public class cgeopoint extends Activity {
 			} else {
 				try {
 					if (settings.units == cgSettings.unitsImperial) {
-						distance = (new Double(distanceText)) * 1.609344; // considering it miles
+						distance = (new Double(distanceText)) * 0.0003048; // considering it feet
 					} else {
 						distance = (new Double(distanceText)) * 0.001; // considering it meters
 					}
