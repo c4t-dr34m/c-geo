@@ -3,6 +3,7 @@ package carnero.cgeo;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class cgeogpxes extends ListActivity {
+
 	private ArrayList<File> files = new ArrayList<File>();
 	private cgeoapplication app = null;
 	private cgSettings settings = null;
@@ -24,6 +26,8 @@ public class cgeogpxes extends ListActivity {
 	private ProgressDialog waitDialog = null;
 	private ProgressDialog parseDialog = null;
 	private Resources res = null;
+	private loadFiles searchingThread = null;
+	private boolean endSearching = false;
 	private int listId = 1;
 	private int imported = 0;
 	final private Handler changeWaitDialogHandler = new Handler() {
@@ -84,8 +88,7 @@ public class cgeogpxes extends ListActivity {
 					parseDialog.dismiss();
 				}
 
-				warning.helpDialog(res.getString(R.string.gpx_import_title_caches_imported),
-						imported + " " + res.getString(R.string.gpx_import_caches_imported));
+				warning.helpDialog(res.getString(R.string.gpx_import_title_caches_imported), imported + " " + res.getString(R.string.gpx_import_caches_imported));
 				imported = 0;
 			} catch (Exception e) {
 				if (parseDialog != null) {
@@ -118,7 +121,7 @@ public class cgeogpxes extends ListActivity {
 
 		// google analytics
 		base.sendAnal(activity, "/gpx-import");
-		
+
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			listId = extras.getInt("list");
@@ -126,13 +129,30 @@ public class cgeogpxes extends ListActivity {
 		if (listId <= 0) {
 			listId = 1;
 		}
-		
+
 		setAdapter();
 
-		waitDialog = ProgressDialog.show(this, res.getString(R.string.gpx_import_title_searching), res.getString(R.string.gpx_import_searching), true);
-		waitDialog.setCancelable(false);
+		waitDialog = ProgressDialog.show(
+				this,
+				res.getString(R.string.gpx_import_title_searching),
+				res.getString(R.string.gpx_import_searching),
+				true,
+				true,
+				new DialogInterface.OnCancelListener() {
+					public void onCancel(DialogInterface arg0) {
+						if (searchingThread != null && searchingThread.isAlive()) {
+							searchingThread.notifyEnd();
+						}
+						if (files.isEmpty() == true) {
+							finish();
+						}
+					}
+				}
+			);
 
-		(new loadFiles()).start();
+		endSearching = false;
+		searchingThread = new loadFiles();
+		searchingThread.start();
 	}
 
 	private void setAdapter() {
@@ -143,6 +163,9 @@ public class cgeogpxes extends ListActivity {
 	}
 
 	private class loadFiles extends Thread {
+		public void notifyEnd() {
+			endSearching = true;
+		}
 
 		@Override
 		public void run() {
@@ -180,6 +203,10 @@ public class cgeogpxes extends ListActivity {
 			final int listCnt = listPre.length;
 
 			for (int i = 0; i < listCnt; i++) {
+				if (endSearching == true) {
+					return;
+				}
+
 				if (listPre[i].canRead() == true && listPre[i].isFile() == true) {
 					final String[] nameParts = listPre[i].getName().split("\\.");
 					if (nameParts.length > 1) {
@@ -222,9 +249,8 @@ public class cgeogpxes extends ListActivity {
 				activity,
 				res.getString(R.string.gpx_import_title_reading_file),
 				res.getString(R.string.gpx_import_loading),
-				true
-		);
-		parseDialog.setCancelable(false);
+				true,
+				false);
 
 		new loadCaches(file).start();
 	}

@@ -360,11 +360,14 @@ public class cgeovisit extends cgLogForm {
 						.replaceAll("\\[USER\\]", settings.getUsername())
 						.replaceAll("\\[NUMBER\\]", findCount);
 			}
+			
 			if (textContent.length() > 0 && addText.length() > 0 ) {
 				addText = "\n" + addText;
 			}
+			
 			text.setText(textContent + addText, TextView.BufferType.NORMAL);
 			text.setSelection(text.getText().toString().length());
+			
 			return true;
 		} else if (id >= 10 && id <= 15) {
 			rating = id - 10;
