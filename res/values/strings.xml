@@ -626,11 +626,12 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.12</b> (__.04.2011)\n
-	· fix: __\n
+    <b>2.13</b> (__.05.2011)\n
+	· fix: ___\n
 	\n
-    <b>2.11</b> (13.04.2011)\n
+    <b>2.12, 2.11</b> (13.04.2011)\n
 	· fix: Sorting caches with disabled GPS\n
+	· fix: Compatibility issues for &lt;2.1\n
 	\n
     <b>2.10</b> (13.04.2011)\n
 	· fix: Moving caches during refresh\n

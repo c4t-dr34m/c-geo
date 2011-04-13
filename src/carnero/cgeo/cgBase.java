@@ -23,7 +23,6 @@ import java.util.regex.Matcher;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import android.util.Log;
-import android.util.Pair;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -1499,7 +1498,7 @@ public class cgBase {
 								count = Integer.parseInt(countStr);
 							}
 							if (type != null && count != null) {
-								cache.logCounts.add(new Pair<Integer, Integer>(type, count));
+								cache.logCounts.put(type, count);
 							}
 						}
 					}
@@ -4395,9 +4394,9 @@ public class cgBase {
 				httpLocation = uc.getHeaderField("Location");
 
 				if (buffer != null && connection != null) {
-					Log.i(cgSettings.tag + " | " + requestId, "[" + buffer.length() + "B] Downloading server response (" + method + " " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+					Log.i(cgSettings.tag + "|" + requestId, "[" + method + "+" + (int)(params.length() / 1024) +  "k>" + httpCode + ">" + (int)(buffer.length() / 1024) + "k] Downloading server response. " + "http://" + host + path + "?" + params);
 				} else {
-					Log.i(cgSettings.tag + " | " + requestId, "Failed to download server response (" + method + " " + httpCode + ") " + "http://" + host + path + "?" + params);
+					Log.i(cgSettings.tag + "|" + requestId, "[" + method + ">" + httpCode + "] Failed to download server response " + "http://" + host + path + "?" + params);
 				}
 
 				connection.disconnect();

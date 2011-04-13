@@ -1470,7 +1470,7 @@ public class cgeomap extends MapActivity {
 			base.setTitle(activity, title);
 		} else if (caches != null) {
 			base.showProgress(activity, false);
-			base.setTitle(activity, title + " (" + caches.size() + ")");
+			base.setTitle(activity, title + " [" + caches.size() + "]");
 		} else {
 			base.showProgress(activity, false);
 			base.setTitle(activity, title + " " + res.getString(R.string.caches_no_caches));

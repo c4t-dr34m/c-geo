@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -45,6 +44,8 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class cgeodetail extends Activity {
 	public Long searchId = null;
@@ -990,13 +991,14 @@ public class cgeodetail extends Activity {
 			buff.append(res.getString(R.string.cache_log_types));
 			buff.append(": ");
 			
-			for (Pair<Integer, Integer> p : cache.logCounts) {
+			Set<Entry<Integer, Integer>> logCountsItems = cache.logCounts.entrySet();
+			for (Entry<Integer, Integer> pair : logCountsItems) {
 				if (logCounter > 0) {
 					buff.append(" | ");
 				}
-				buff.append(p.second.intValue());
+				buff.append(pair.getValue().intValue());
 				buff.append("× ");
-				buff.append(cgBase.logTypes1.get(p.first.intValue()).toLowerCase(Locale.getDefault()));
+				buff.append(cgBase.logTypes1.get(pair.getKey().intValue()).toLowerCase(Locale.getDefault()));
 				
 				logCounter ++;
 			}

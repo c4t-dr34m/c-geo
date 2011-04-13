@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.util.Log;
-import android.util.Pair;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
@@ -17,7 +16,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /*
  * database history:
@@ -1328,11 +1330,11 @@ public class cgData {
 		return true;
 	}
 
-	public boolean saveLogCount(String geocode, ArrayList<Pair<Integer, Integer>> logCounts) {
+	public boolean saveLogCount(String geocode, HashMap<Integer, Integer> logCounts) {
 		return saveLogCount(geocode, logCounts, true);
 	}
 
-	public boolean saveLogCount(String geocode, ArrayList<Pair<Integer, Integer>> logCounts, boolean drop) {
+	public boolean saveLogCount(String geocode, HashMap<Integer, Integer> logCounts, boolean drop) {
 		init();
 
 		if (geocode == null || geocode.length() == 0 || logCounts == null || logCounts.isEmpty()) {
@@ -1346,12 +1348,14 @@ public class cgData {
 			}
 
 			ContentValues values = new ContentValues();
-			for (Pair<Integer, Integer> pair : logCounts) {
+			
+			Set<Entry<Integer, Integer>> logCountsItems = logCounts.entrySet();
+			for (Entry<Integer, Integer> pair : logCountsItems) {
 				values.clear();
 				values.put("geocode", geocode);
 				values.put("updated", System.currentTimeMillis());
-				values.put("type", pair.first.intValue());
-				values.put("count", pair.second.intValue());
+				values.put("type", pair.getKey().intValue());
+				values.put("count", pair.getValue().intValue());
 
 				databaseRW.insert(dbTableLogCount, null, values);
 			}
@@ -1647,10 +1651,10 @@ public class cgData {
 								cache.logs.clear();
 								cache.logs.addAll(logs);
 							}
-							ArrayList<Pair<Integer, Integer>> logCounts = loadLogCounts(cache.geocode);
+							HashMap<Integer, Integer> logCounts = loadLogCounts(cache.geocode);
 							if (logCounts != null && logCounts.isEmpty() == false) {
 								cache.logCounts.clear();
-								cache.logCounts.addAll(logCounts);
+								cache.logCounts.putAll(logCounts);
 							}
 						}
 
@@ -1920,7 +1924,7 @@ public class cgData {
 		return logs;
 	}
 	
-	public ArrayList<Pair<Integer, Integer>> loadLogCounts(String geocode) {
+	public HashMap<Integer, Integer> loadLogCounts(String geocode) {
 		init();
 
 		if (geocode == null || geocode.length() == 0) {
@@ -1928,7 +1932,7 @@ public class cgData {
 		}
 
 		Cursor cursor = null;
-		ArrayList<Pair<Integer, Integer>> logCounts = new ArrayList<Pair<Integer, Integer>>();
+		HashMap<Integer, Integer> logCounts = new HashMap<Integer, Integer>();
 
 		cursor = databaseRO.query(
 				dbTableLogCount,
@@ -1946,9 +1950,8 @@ public class cgData {
 			do {
 				Integer type = new Integer(cursor.getInt(cursor.getColumnIndex("type")));
 				Integer count = new Integer(cursor.getInt(cursor.getColumnIndex("count")));
-				Pair<Integer, Integer> p = new Pair<Integer, Integer>(type, count);
 
-				logCounts.add(p);
+				logCounts.put(type, count);
 			} while (cursor.moveToNext());
 		}
 
