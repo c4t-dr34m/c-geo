@@ -183,7 +183,6 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	}
 
 	public void forceSort(Double latitudeIn, Double longitudeIn) {
-		if (latitudeIn == null || longitudeIn == null) return;
 		if (list == null || list.isEmpty() == true) return;
 		if (sort == false) return;
 
@@ -191,6 +190,8 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 			if (statComparator != null) {
 				Collections.sort((List<cgCache>)list, statComparator);
 			} else {
+				if (latitudeIn == null || longitudeIn == null) return;
+				
 				dstComparator.setCoords(latitudeIn, longitudeIn);
 				Collections.sort((List<cgCache>)list, dstComparator);
 			}
