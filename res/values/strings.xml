@@ -626,7 +626,10 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.10</b> (__.04.2011)\n
+    <b>2.11</b> (__.04.2011)\n
+	· fix: ___\n
+	\n
+    <b>2.10</b> (13.04.2011)\n
 	· fix: Moving caches during refresh\n
 	· fix: Opening Radar\n
 	· remove: Closest cache bubble on Live map\n
