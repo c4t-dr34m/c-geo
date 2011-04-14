@@ -460,19 +460,6 @@ public class cgeomap extends MapActivity {
 			mapView = null;
 		}
 
-		try {
-			// clean up tiles from memory
-			Class<?> tileClass = Class.forName("com.google.googlenav.map.Tile");
-			Field fTileCache = tileClass.getDeclaredField("tileObjectCache");
-			fTileCache.setAccessible(true);
-			Object[] tileObjectCache = (Object[]) fTileCache.get(null);
-			for (int i = 0; i < tileObjectCache.length; i++) {
-				tileObjectCache[i] = null;
-			}
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgeomap.onDestroy: " + e.toString());
-		}
-
 		super.onDestroy();
 	}
 
@@ -912,8 +899,9 @@ public class cgeomap extends MapActivity {
 			int icon = 0;
 			Drawable pin = null;
 			
-			final int cachesCnt = caches.size();
-			for (cgCache cache : caches) {
+			ArrayList<cgCache> cachesTmp = (ArrayList<cgCache>) caches.clone();
+			final int cachesCnt = cachesTmp.size();
+			for (cgCache cache : cachesTmp) {
 				if (end == true) {
 					break;
 				}
@@ -971,6 +959,8 @@ public class cgeomap extends MapActivity {
 					}
 				}
 			}
+			cachesTmp.clear();
+			cachesTmp = null;
 			
 			overlay.updateItems(items);
 		}

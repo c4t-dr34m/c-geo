@@ -4394,9 +4394,9 @@ public class cgBase {
 				httpLocation = uc.getHeaderField("Location");
 
 				if (buffer != null && connection != null) {
-					Log.i(cgSettings.tag + "|" + requestId, "[" + method + "+" + (int)(params.length() / 1024) +  "k>" + httpCode + ">" + (int)(buffer.length() / 1024) + "k] Downloading server response. " + "http://" + host + path + "?" + params);
+					Log.i(cgSettings.tag + "|" + requestId, "[" + method + " " + (int)(params.length() / 1024) +  "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + params);
 				} else {
-					Log.i(cgSettings.tag + "|" + requestId, "[" + method + ">" + httpCode + "] Failed to download server response " + "http://" + host + path + "?" + params);
+					Log.i(cgSettings.tag + "|" + requestId, "[" + method + " | " + httpCode + "] Failed to download " + "http://" + host + path + "?" + params);
 				}
 
 				connection.disconnect();
@@ -4429,16 +4429,6 @@ public class cgBase {
 				} else {
 					page = request(newLocation.getHost(), newLocation.getPath(), "GET", new HashMap<String, String>(), requestId, false, false, false);
 				}
-			} else if (page != null && page.length() > 0) {
-				final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
-				final Matcher matcherTitle = patternTitle.matcher(page);
-				if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
-					Log.i(cgSettings.tag + " | " + requestId, "Downloaded page title: " + matcherTitle.group(1).trim());
-				} else {
-					Log.i(cgSettings.tag + " | " + requestId, "Downloaded file has no title.");
-				}
-			} else {
-				return "";
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeoBase.page: " + e.toString());
@@ -4607,7 +4597,7 @@ public class cgBase {
 				httpCode = connection.getResponseCode();
 				httpLocation = uc.getHeaderField("Location");
 
-				Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (POST " + httpCode + ", " + connection.getResponseMessage() + ") " + "http://" + host + path + "?" + params);
+				Log.i(cgSettings.tag + " | JSON", "[POST " + (int)(params.length() / 1024) + "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + params);
 
 				connection.disconnect();
 				br.close();
@@ -4635,14 +4625,6 @@ public class cgBase {
 		} else {
 			final Matcher matcherLines = patternLines.matcher(buffer.toString());
 			page = matcherLines.replaceAll(" ");
-
-			final Pattern patternTitle = Pattern.compile("<title>([^<]+)</title>", Pattern.CASE_INSENSITIVE);
-			final Matcher matcherTitle = patternTitle.matcher(page);
-			if (matcherTitle.find() == true && matcherTitle.groupCount() > 0) {
-				Log.i(cgSettings.tag + " | JSON", "Downloaded page title: " + matcherTitle.group(1).trim());
-			} else {
-				Log.i(cgSettings.tag + " | JSON", "Downloaded file has no title.");
-			}
 		}
 
 		if (page != null) {
@@ -4754,7 +4736,7 @@ public class cgBase {
 
 					httpCode = connection.getResponseCode();
 
-					Log.i(cgSettings.tag + " | JSON", "[" + buffer.length() + "B] Downloading server response (GET " + httpCode + ", " + connection.getResponseMessage() + ") " + scheme + host + path + "?" + params);
+					Log.i(cgSettings.tag + " | JSON", "[POST " + (int)(params.length() / 1024) + "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + params);
 
 					connection.disconnect();
 					br.close();
