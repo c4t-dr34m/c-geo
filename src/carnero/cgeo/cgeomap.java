@@ -768,81 +768,25 @@ public class cgeomap extends MapActivity {
 					displayingThread = null;
 				}
 				
-				displayingThread = new addCaches(overlay, caches);
+				displayingThread = new addCaches(overlay, caches, live);
 				displayingThread.start();
 			}
 
 			if (live == false) {
 				// there is only one cache
 				if (caches != null && caches.size() == 1 && cachesWithCoords > 0) {
-					cgCache oneCache = caches.get(0);
-
-					maxLat = (int) (oneCache.latitude * 1e6);
-					minLat = (int) (oneCache.latitude * 1e6);
-					maxLon = (int) (oneCache.longitude * 1e6);
-					minLon = (int) (oneCache.longitude * 1e6);
-
-					// waypoints
-					if (oneCache != null && oneCache.waypoints != null && oneCache.waypoints.size() > 0) {
-						ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
-			
-						for (cgWaypoint waypoint : oneCache.waypoints) {
-							if (waypoint.latitude == null && waypoint.longitude == null) {
-								continue;
-							}
-
-							int latitudeE6 = (int) (waypoint.latitude * 1e6);
-							int longitudeE6 = (int) (waypoint.longitude * 1e6);
-
-							if (latitudeE6 > maxLat) {
-								maxLat = latitudeE6;
-							}
-							if (latitudeE6 < minLat) {
-								minLat = latitudeE6;
-							}
-							if (longitudeE6 > maxLon) {
-								maxLon = longitudeE6;
-							}
-							if (longitudeE6 < minLon) {
-								minLon = longitudeE6;
-							}
-
-							cgCoord coord = new cgCoord(waypoint);
-
-							coordinates.add(coord);
-							cgOverlayItem item = new cgOverlayItem(coord);
-
-							int icon = base.getIcon(false, waypoint.type, false, false, false);
-							Drawable pin = null;
-							if (iconsCache.containsKey(icon)) {
-								pin = iconsCache.get(icon);
-							} else {
-								pin = getResources().getDrawable(icon);
-								pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
-								iconsCache.put(icon, pin);
-							}
-							item.setMarker(pin);
-
-							items.add(item);
-
-							coord = null;
-						}
-						
-						overlay.updateItems(items);
-					}
-
 					int centerLat = 0;
 					int centerLon = 0;
-					if (coordinates.size() > 1) {
-						if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) {
-							centerLat = minLat + ((maxLat - minLat) / 2);
-						}
-						if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) {
-							centerLon = minLon + ((maxLon - minLon) / 2);
-						}
+					
+					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) {
+						centerLat = minLat + ((maxLat - minLat) / 2);
 					} else {
-						centerLat = (int) (oneCache.latitude * 1e6);
-						centerLon = (int) (oneCache.longitude * 1e6);
+						centerLat = maxLat;
+					}
+					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) {
+						centerLon = minLon + ((maxLon - minLon) / 2);
+					} else {
+						centerLon = maxLon;
 					}
 
 					if (canInit == true && initLocation == true) {
@@ -942,10 +886,12 @@ public class cgeomap extends MapActivity {
 		private boolean end = false;
 		private cgMapOverlay overlay = null;
 		private ArrayList<cgCache> caches = null;
+		private boolean live = false;
 		
-		public addCaches(cgMapOverlay overlayIn, ArrayList<cgCache> cachesIn) {
+		public addCaches(cgMapOverlay overlayIn, ArrayList<cgCache> cachesIn, boolean liveIn) {
 			overlay = overlayIn;
 			caches = cachesIn;
+			live = liveIn;
 		}
 		
 		public void notifyEnd() {
@@ -955,7 +901,11 @@ public class cgeomap extends MapActivity {
 		@Override
 		public void run() {
 			ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
+			cgOverlayItem item = null;
+			int icon = 0;
+			Drawable pin = null;
 			
+			final int cachesCnt = caches.size();
 			for (cgCache cache : caches) {
 				if (end == true) {
 					break;
@@ -968,9 +918,10 @@ public class cgeomap extends MapActivity {
 				final cgCoord coord = new cgCoord(cache);
 				coordinates.add(coord);
 				
-				final cgOverlayItem item = new cgOverlayItem(coord);
-				int icon = base.getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
-				Drawable pin = null;
+				item = new cgOverlayItem(coord);
+				icon = base.getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
+				pin = null;
+				
 				if (iconsCache.containsKey(icon)) {
 					pin = iconsCache.get(icon);
 				} else {
@@ -981,6 +932,37 @@ public class cgeomap extends MapActivity {
 				item.setMarker(pin);
 
 				items.add(item);
+				
+				if (cachesCnt == 1 && live == false) {
+					if (cache.waypoints != null && cache.waypoints.size() > 0) {
+						for (cgWaypoint waypoint : cache.waypoints) {
+							if (waypoint.latitude == null && waypoint.longitude == null) {
+								continue;
+							}
+
+							cgCoord coordWpt = new cgCoord(waypoint);
+
+							coordinates.add(coord);
+							item = new cgOverlayItem(coordWpt);
+
+							icon = base.getIcon(false, waypoint.type, false, false, false);
+							if (iconsCache.containsKey(icon)) {
+								pin = iconsCache.get(icon);
+							} else {
+								pin = getResources().getDrawable(icon);
+								pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
+								iconsCache.put(icon, pin);
+							}
+							item.setMarker(pin);
+
+							items.add(item);
+
+							coordWpt = null;
+						}
+
+						overlay.updateItems(items);
+					}
+				}
 			}
 			
 			overlay.updateItems(items);

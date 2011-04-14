@@ -627,7 +627,7 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.13</b> (__.05.2011)\n
-	· fix: ___\n
+	· fix: Own waypoints on map\n
 	\n
     <b>2.12, 2.11</b> (13.04.2011)\n
 	· fix: Sorting caches with disabled GPS\n
