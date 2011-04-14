@@ -67,7 +67,8 @@
 						android:id="@+id/geocode"
 						android:hint="@string/search_gc"
 						android:imeOptions="actionGo"
-						android:text="GC" />
+						android:text="GC"
+						android:inputType="textCapCharacters" />
 				<Button style="@style/button"
 						android:id="@+id/display_geocode"
 						android:text="@string/search_gc_button" />
@@ -121,7 +122,6 @@
 						android:hint="@string/search_tb_hint"
 						android:imeOptions="actionGo"
 						android:inputType="textCapCharacters"
-						android:text="TB" />
 				<Button style="@style/button"
 						android:id="@+id/display_trackable"
 						android:text="@string/search_tb_button" />
