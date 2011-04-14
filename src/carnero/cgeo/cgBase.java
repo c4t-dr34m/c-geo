@@ -5494,9 +5494,9 @@ public class cgBase {
 			// fallback
 			try {
 				if (cache != null && cache.latitude != null && cache.longitude != null) {
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=loc:" + cache.latitude + "," + cache.longitude + " (" + cache.name + ")")));
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
 				} else if (waypoint != null && waypoint.latitude != null && waypoint.longitude != null) {
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=loc:" + waypoint.latitude + "," + waypoint.longitude + " (" + waypoint.name + ")")));
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + waypoint.latitude + "," + waypoint.longitude)));
 				}
 
 				sendAnal(activity, tracker, "/external/native/maps");
