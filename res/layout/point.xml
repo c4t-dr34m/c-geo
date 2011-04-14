@@ -43,6 +43,7 @@
 			</RelativeLayout>
 			<EditText style="@style/edittext"
 					android:id="@+id/bearing"
+					android:inputType="numberDecimal"
 					android:hint="@string/waypoint_bearing" />
 			<EditText style="@style/edittext"
 					android:id="@+id/distance"
