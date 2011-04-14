@@ -121,7 +121,7 @@
 						android:id="@+id/trackable"
 						android:hint="@string/search_tb_hint"
 						android:imeOptions="actionGo"
-						android:inputType="textCapCharacters"
+						android:inputType="textCapCharacters" />
 				<Button style="@style/button"
 						android:id="@+id/display_trackable"
 						android:text="@string/search_tb_button" />
