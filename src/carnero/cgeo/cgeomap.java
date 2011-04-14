@@ -737,12 +737,15 @@ public class cgeomap extends MapActivity {
 
 		coordinates.clear();
 		if (caches != null && caches.size() > 0) {
+			int latitudeE6 = 0;
+			int longitudeE6 = 0;
+			
 			for (cgCache cache : caches) {
 				if (cache.latitude != null && cache.longitude != null) {
 					cachesWithCoords++;
 					
-					final int latitudeE6 = (int) (cache.latitude * 1e6);
-					final int longitudeE6 = (int) (cache.longitude * 1e6);
+					latitudeE6 = (int) (cache.latitude * 1e6);
+					longitudeE6 = (int) (cache.longitude * 1e6);
 
 					if (latitudeE6 > maxLat) {
 						maxLat = latitudeE6;
@@ -755,6 +758,30 @@ public class cgeomap extends MapActivity {
 					}
 					if (longitudeE6 < minLon) {
 						minLon = longitudeE6;
+					}
+					
+					if (cache.waypoints != null && cache.waypoints.size() > 0) {
+						for (cgWaypoint waypoint : cache.waypoints) {
+							if (waypoint.latitude != null && waypoint.longitude != null) {
+								cachesWithCoords++;
+
+								latitudeE6 = (int) (waypoint.latitude * 1e6);
+								longitudeE6 = (int) (waypoint.longitude * 1e6);
+
+								if (latitudeE6 > maxLat) {
+									maxLat = latitudeE6;
+								}
+								if (latitudeE6 < minLat) {
+									minLat = latitudeE6;
+								}
+								if (longitudeE6 > maxLon) {
+									maxLon = longitudeE6;
+								}
+								if (longitudeE6 < minLon) {
+									minLon = longitudeE6;
+								}
+							}
+						}
 					}
 				}
 			}
@@ -773,46 +800,26 @@ public class cgeomap extends MapActivity {
 			}
 
 			if (live == false) {
-				// there is only one cache
-				if (caches != null && caches.size() == 1 && cachesWithCoords > 0) {
-					int centerLat = 0;
-					int centerLon = 0;
-					
-					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) {
-						centerLat = minLat + ((maxLat - minLat) / 2);
-					} else {
-						centerLat = maxLat;
-					}
-					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) {
-						centerLon = minLon + ((maxLon - minLon) / 2);
-					} else {
-						centerLon = maxLon;
-					}
+				int centerLat = 0;
+				int centerLon = 0;
 
-					if (canInit == true && initLocation == true) {
-						mapController.animateTo(new GeoPoint(centerLat, centerLon));
-						if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) {
-							mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
-						}
-						initLocation = false;
-					}
+				if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) {
+					centerLat = minLat + ((maxLat - minLat) / 2);
 				} else {
-					int centerLat = 0;
-					int centerLon = 0;
-					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) {
-						centerLat = minLat + ((maxLat - minLat) / 2);
-					}
-					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) {
-						centerLon = minLon + ((maxLon - minLon) / 2);
-					}
+					centerLat = maxLat;
+				}
+				if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) {
+					centerLon = minLon + ((maxLon - minLon) / 2);
+				} else {
+					centerLon = maxLon;
+				}
 
-					if ((canInit == true || initLocation == true) && cachesWithCoords > 0) {
-						mapController.animateTo(new GeoPoint(centerLat, centerLon));
-						if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) {
-							mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
-						}
-						initLocation = false;
+				if ((canInit == true || initLocation == true) && cachesWithCoords > 0) {
+					mapController.animateTo(new GeoPoint(centerLat, centerLon));
+					if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) {
+						mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
 					}
+					initLocation = false;
 				}
 			}
 		} else if (oneLatitude != null && oneLongitude != null) {
