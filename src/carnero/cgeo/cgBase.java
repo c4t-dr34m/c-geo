@@ -97,6 +97,7 @@ public class cgBase {
 	private Resources res = null;
 	private HashMap<String, String> cookies = new HashMap<String, String>();
 	private Pattern patternLoggedIn = null;
+	private final String passMatch = "[/\\?&]*[Pp]ass(word)?=[^&^#^$]+";
 	private final Pattern patternViewstate = Pattern.compile("id=\"__VIEWSTATE\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternViewstate1 = Pattern.compile("id=\"__VIEWSTATE1\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternLines = Pattern.compile("[\r\n\t ]+");
@@ -4401,10 +4402,11 @@ public class cgBase {
 				httpCode = connection.getResponseCode();
 				httpLocation = uc.getHeaderField("Location");
 
+				final String paramsLog = params.replaceAll(passMatch, "password=***");
 				if (buffer != null && connection != null) {
-					Log.i(cgSettings.tag + "|" + requestId, "[" + method + " " + (int)(params.length() / 1024) +  "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + params);
+					Log.i(cgSettings.tag + "|" + requestId, "[" + method + " " + (int)(params.length() / 1024) +  "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + paramsLog);
 				} else {
-					Log.i(cgSettings.tag + "|" + requestId, "[" + method + " | " + httpCode + "] Failed to download " + "http://" + host + path + "?" + params);
+					Log.i(cgSettings.tag + "|" + requestId, "[" + method + " | " + httpCode + "] Failed to download " + "http://" + host + path + "?" + paramsLog);
 				}
 
 				connection.disconnect();
@@ -4605,7 +4607,8 @@ public class cgBase {
 				httpCode = connection.getResponseCode();
 				httpLocation = uc.getHeaderField("Location");
 
-				Log.i(cgSettings.tag + " | JSON", "[POST " + (int)(params.length() / 1024) + "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + params);
+				final String paramsLog = params.replaceAll(passMatch, "password=***");
+				Log.i(cgSettings.tag + " | JSON", "[POST " + (int)(params.length() / 1024) + "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + paramsLog);
 
 				connection.disconnect();
 				br.close();
@@ -4744,7 +4747,8 @@ public class cgBase {
 
 					httpCode = connection.getResponseCode();
 
-					Log.i(cgSettings.tag + " | JSON", "[POST " + (int)(params.length() / 1024) + "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + params);
+					final String paramsLog = params.replaceAll(passMatch, "password=***");
+					Log.i(cgSettings.tag + " | JSON", "[POST " + (int)(params.length() / 1024) + "k | " + httpCode + " | " + (int)(buffer.length() / 1024) + "k] Downloaded " + "http://" + host + path + "?" + paramsLog);
 
 					connection.disconnect();
 					br.close();
