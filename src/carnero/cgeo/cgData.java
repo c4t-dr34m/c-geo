@@ -141,24 +141,24 @@ public class cgData {
 			+ "description text "
 			+ "); ";
 	private static final String dbCreateLogs = ""
-		+ "create table " + dbTableLogs + " ("
-		+ "_id integer primary key autoincrement, "
-		+ "geocode text not null, "
-		+ "updated long not null, " // date of save
-		+ "type integer not null default 4, "
-		+ "author text, "
-		+ "log text, "
-		+ "date long, "
-		+ "found integer not null default 0 "
-		+ "); ";
+			+ "create table " + dbTableLogs + " ("
+			+ "_id integer primary key autoincrement, "
+			+ "geocode text not null, "
+			+ "updated long not null, " // date of save
+			+ "type integer not null default 4, "
+			+ "author text, "
+			+ "log text, "
+			+ "date long, "
+			+ "found integer not null default 0 "
+			+ "); ";
 	private static final String dbCreateLogCount = ""
-		+ "create table " + dbTableLogCount + " ("
-		+ "_id integer primary key autoincrement, "
-		+ "geocode text not null, "
-		+ "updated long not null, " // date of save
-		+ "type integer not null default 4, "
-		+ "count integer not null default 0 "
-		+ "); ";
+			+ "create table " + dbTableLogCount + " ("
+			+ "_id integer primary key autoincrement, "
+			+ "geocode text not null, "
+			+ "updated long not null, " // date of save
+			+ "type integer not null default 4, "
+			+ "count integer not null default 0 "
+			+ "); ";
 	private static final String dbCreateLogsOffline = ""
 			+ "create table " + dbTableLogsOffline + " ("
 			+ "_id integer primary key autoincrement, "
@@ -186,7 +186,7 @@ public class cgData {
 	public cgData(Context contextIn) {
 		context = contextIn;
 	}
-	
+
 	public void init() {
 		if (databaseRW == null || databaseRW.isOpen() == false) {
 			try {
@@ -233,14 +233,14 @@ public class cgData {
 				Log.e(cgSettings.tag, "cgData.openDb.RO: " + e.toString());
 			}
 		}
-		
+
 		initialized = true;
 	}
 
 	public void closeDb() {
 		if (databaseRO != null) {
 			path = databaseRO.getPath();
-			
+
 			if (databaseRO.inTransaction() == true) {
 				databaseRO.endTransaction();
 			}
@@ -254,7 +254,7 @@ public class cgData {
 
 		if (databaseRW != null) {
 			path = databaseRW.getPath();
-			
+
 			if (databaseRW.inTransaction() == true) {
 				databaseRW.endTransaction();
 			}
@@ -265,33 +265,33 @@ public class cgData {
 
 			Log.d(cgSettings.tag, "Closing RW database");
 		}
-		
+
 		if (dbHelper != null) {
 			dbHelper.close();
 			dbHelper = null;
 		}
 	}
-	
+
 	public String backupDatabase() {
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) == false) {
 			Log.w(cgSettings.tag, "Database wasn't backed up: no external memory");
-			
+
 			return null;
 		}
-		
+
 		closeDb();
 
 		try {
 			final String directoryImg = cgSettings.cache;
-			final String directoryTarget =  Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
-			final String fileTarget =  directoryTarget + "cgeo.sqlite";
+			final String directoryTarget = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/";
+			final String fileTarget = directoryTarget + "cgeo.sqlite";
 			final String fileSource = path;
-			
+
 			File directoryTargetFile = new File(directoryTarget);
 			if (directoryTargetFile.exists() == false) {
 				directoryTargetFile.mkdir();
 			}
-			
+
 			InputStream input = new FileInputStream(fileSource);
 			OutputStream output = new FileOutputStream(fileTarget);
 
@@ -304,24 +304,24 @@ public class cgData {
 			output.flush();
 			output.close();
 			input.close();
-			
+
 			Log.i(cgSettings.tag, "Database was copied to " + fileTarget);
-			
+
 			init();
-			
+
 			return fileTarget;
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "Database wasn't backed up: " + e.toString());
 		}
-		
+
 		init();
-		
+
 		return null;
 	}
-	
+
 	public File isRestoreFile() {
 		final String directoryImg = cgSettings.cache;
-		final String fileSource =  Environment.getExternalStorageDirectory() + "/" + directoryImg + "/cgeo.sqlite";
+		final String fileSource = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/cgeo.sqlite";
 
 		File fileSourceFile = new File(fileSource);
 		if (fileSourceFile.exists()) {
@@ -334,26 +334,26 @@ public class cgData {
 	public boolean restoreDatabase() {
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) == false) {
 			Log.w(cgSettings.tag, "Database wasn't restored: no external memory");
-			
+
 			return false;
 		}
 
 		closeDb();
-		
+
 		try {
 			final String directoryImg = cgSettings.cache;
-			final String fileSource =  Environment.getExternalStorageDirectory() + "/" + directoryImg + "/cgeo.sqlite";
+			final String fileSource = Environment.getExternalStorageDirectory() + "/" + directoryImg + "/cgeo.sqlite";
 			final String fileTarget = path;
-			
+
 			File fileSourceFile = new File(fileSource);
 			if (fileSourceFile.exists() == false) {
 				Log.w(cgSettings.tag, "Database backup was not found");
-				
+
 				init();
-				
+
 				return false;
 			}
-			
+
 			InputStream input = new FileInputStream(fileSource);
 			OutputStream output = new FileOutputStream(fileTarget);
 
@@ -366,21 +366,21 @@ public class cgData {
 			output.flush();
 			output.close();
 			input.close();
-			
+
 			Log.i(cgSettings.tag, "Database was restored");
-			
+
 			init();
-			
+
 			return true;
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "Database wasn't restored: " + e.toString());
 		}
-	
+
 		init();
-			
+
 		return false;
 	}
-	
+
 	private class cgDbHelper extends SQLiteOpenHelper {
 
 		cgDbHelper(Context context) {
@@ -417,7 +417,7 @@ public class cgData {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-				Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion + " to ver. " + newVersion + ": start");
+			Log.i(cgSettings.tag, "Upgrade database from ver. " + oldVersion + " to ver. " + newVersion + ": start");
 
 			try {
 				if (db.isReadOnly() == true) {
@@ -1348,7 +1348,7 @@ public class cgData {
 			}
 
 			ContentValues values = new ContentValues();
-			
+
 			Set<Entry<Integer, Integer>> logCountsItems = logCounts.entrySet();
 			for (Entry<Integer, Integer> pair : logCountsItems) {
 				values.clear();
@@ -1923,7 +1923,7 @@ public class cgData {
 
 		return logs;
 	}
-	
+
 	public HashMap<Integer, Integer> loadLogCounts(String geocode) {
 		init();
 
@@ -1961,7 +1961,7 @@ public class cgData {
 
 		return logCounts;
 	}
-	
+
 	public ArrayList<cgTrackable> loadInventory(String geocode) {
 		init();
 
@@ -2059,7 +2059,7 @@ public class cgData {
 
 	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype, Integer list) {
 		int count = 0;
-		
+
 		String listSql = null;
 		String listSqlW = null;
 		if (list == null) {
@@ -2071,7 +2071,7 @@ public class cgData {
 		} else {
 			return count;
 		}
-		
+
 		try {
 			if (detailedOnly == false) {
 				if (cachetype == null) {
@@ -2091,7 +2091,7 @@ public class cgData {
 				}
 			}
 		} catch (Exception e) {
-		 	Log.e(cgSettings.tag, "cgData.loadAllStoredCachesCount: " + e.toString());
+			Log.e(cgSettings.tag, "cgData.loadAllStoredCachesCount: " + e.toString());
 		}
 
 		return count;
@@ -2114,7 +2114,7 @@ public class cgData {
 
 	public ArrayList<String> loadBatchOfStoredGeocodes(boolean detailedOnly, Double latitude, Double longitude, String cachetype, int list) {
 		init();
-		
+
 		if (list < 1) {
 			list = 1;
 		}
@@ -2291,7 +2291,7 @@ public class cgData {
 		if (geocode == null || geocode.length() == 0) {
 			return;
 		}
-		
+
 		if (listId <= 0) {
 			listId = 1;
 		}
@@ -2573,16 +2573,16 @@ public class cgData {
 			Log.e(cgSettings.tag, "cgData.saveVisitDate: " + e.toString());
 		}
 	}
-	
+
 	public ArrayList<cgList> getLists(Resources res) {
 		init();
 
 		Cursor cursor = null;
 		ArrayList<cgList> lists = new ArrayList<cgList>();
-		
+
 		lists.add(new cgList(true, 1, res.getString(R.string.list_inbox)));
 		// lists.add(new cgList(true, 2, res.getString(R.string.list_wpt)));
-		
+
 		try {
 			cursor = databaseRO.query(
 					dbTableLists,
@@ -2600,13 +2600,13 @@ public class cgData {
 
 					do {
 						cgList list = new cgList(false);
-						
+
 						list.id = ((int) cursor.getInt(cursor.getColumnIndex("_id"))) + 10;
 						list.title = (String) cursor.getString(cursor.getColumnIndex("title"));
 						list.updated = (Long) cursor.getLong(cursor.getColumnIndex("updated"));
 						list.latitude = (Double) cursor.getDouble(cursor.getColumnIndex("latitude"));
 						list.longitude = (Double) cursor.getDouble(cursor.getColumnIndex("longitude"));
-						
+
 						lists.add(list);
 					} while (cursor.moveToNext());
 				}
@@ -2619,10 +2619,10 @@ public class cgData {
 
 		return lists;
 	}
-	
+
 	public cgList getList(int id, Resources res) {
 		cgList list = null;
-		
+
 		if (id == 1) {
 			list = new cgList(true, 1, res.getString(R.string.list_inbox));
 		} else if (id == 2) {
@@ -2667,7 +2667,7 @@ public class cgData {
 
 		return list;
 	}
-	
+
 	public int createList(String name) {
 		init();
 
@@ -2694,15 +2694,15 @@ public class cgData {
 			return (id + 10);
 		}
 	}
-	
+
 	public boolean removeList(int id) {
 		init();
-		
+
 		boolean status = false;
 		if (id < 10) {
 			return status;
 		}
-		
+
 		databaseRW.beginTransaction();
 		try {
 			int cnt = databaseRW.delete(dbTableLists, "_id = " + (id - 10), null);
@@ -2710,30 +2710,30 @@ public class cgData {
 			if (cnt > 0) {
 				ContentValues values = new ContentValues();
 				values.put("reason", 1);
-				databaseRW.update(dbTableCaches, values, "reason = " +id, null);
-				
+				databaseRW.update(dbTableCaches, values, "reason = " + id, null);
+
 				status = true;
 			}
-			
+
 			databaseRW.setTransactionSuccessful();
 		} finally {
 			databaseRW.endTransaction();
 		}
-		
+
 		return status;
 	}
-	
+
 	public void moveToList(String geocode, int listId) {
 		if (geocode == null || geocode.length() == 0 || listId <= 0) {
 			return;
 		}
-		
+
 		databaseRW.beginTransaction();
 		try {
 			ContentValues values = new ContentValues();
 			values.put("reason", listId);
-			databaseRW.update(dbTableCaches, values, "geocode = \"" +geocode + "\"", null);
-			
+			databaseRW.update(dbTableCaches, values, "geocode = \"" + geocode + "\"", null);
+
 			databaseRW.setTransactionSuccessful();
 		} finally {
 			databaseRW.endTransaction();

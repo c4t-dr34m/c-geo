@@ -47,11 +47,11 @@ public class cgCache {
 	public Integer votes = null;
 	public Integer vote = null;
 	public int inventoryItems = 0;
-	public ArrayList<String> attributes = new ArrayList<String>();
-	public ArrayList<cgWaypoint> waypoints = new ArrayList<cgWaypoint>();
-	public ArrayList<cgSpoiler> spoilers = new ArrayList<cgSpoiler>();
-	public ArrayList<cgLog> logs = new ArrayList<cgLog>();
-	public ArrayList<cgTrackable> inventory = new ArrayList<cgTrackable>();
+	public ArrayList<String> attributes = null;
+	public ArrayList<cgWaypoint> waypoints = null;
+	public ArrayList<cgSpoiler> spoilers = null;
+	public ArrayList<cgLog> logs = null;
+	public ArrayList<cgTrackable> inventory = null;
 	public HashMap<Integer, Integer> logCounts = new HashMap<Integer, Integer>();
 	public boolean logOffline = false;
 	// temporary values
@@ -187,20 +187,20 @@ public class cgCache {
 		if (inventoryItems == 0) {
 			inventoryItems = oldCache.inventoryItems;
 		}
-		if (attributes == null || attributes.isEmpty()) {
+		if (attributes == null) {
 			attributes = oldCache.attributes;
 		}
-		if (waypoints == null || waypoints.isEmpty()) {
+		if (waypoints == null) {
 			waypoints = oldCache.waypoints;
 		}
-		if (spoilers == null || spoilers.isEmpty()) {
+		if (spoilers == null) {
 			spoilers = oldCache.spoilers;
 		}
-		if (logs == null || logs.isEmpty()) {
-			logs = oldCache.logs;
-		}
-		if (inventory == null || inventory.isEmpty()) {
+		if (inventory == null) {
 			inventory = oldCache.inventory;
+		}
+		if (logs == null || logs.isEmpty()) { // keep last known logs if none
+			logs = oldCache.logs;
 		}
 
 		return this;

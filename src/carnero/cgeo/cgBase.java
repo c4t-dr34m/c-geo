@@ -1408,6 +1408,8 @@ public class cgBase {
 
 					while (matcherAttributesInside.find()) {
 						if (matcherAttributesInside.groupCount() > 0 && matcherAttributesInside.group(1).equalsIgnoreCase("blank") != true) {
+							if (cache.attributes == null)
+								cache.attributes = new ArrayList<String>();
 							cache.attributes.add(matcherAttributesInside.group(1).toLowerCase());
 						}
 					}
@@ -1437,6 +1439,8 @@ public class cgBase {
 								spoiler.description = matcherSpoilersInside.group(4);
 							}
 
+							if (cache.spoilers == null)
+								cache.spoilers = new ArrayList<cgSpoiler>();
 							cache.spoilers.add(spoiler);
 						}
 					}
@@ -1599,6 +1603,8 @@ public class cgBase {
 							}
 							logDone.log = logTmp;
 
+							if (cache.logs == null)
+								cache.logs = new ArrayList<cgLog>();
 							cache.logs.add(logDone);
 						}
 					}
@@ -1750,6 +1756,8 @@ public class cgBase {
 						Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse waypoint note");
 					}
 
+					if (cache.waypoints == null)
+						cache.waypoints = new ArrayList<cgWaypoint>();
 					cache.waypoints.add(waypoint);
 				}
 			}

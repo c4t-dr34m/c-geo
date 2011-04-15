@@ -19,12 +19,12 @@ import java.util.regex.Pattern;
 import org.xml.sax.Attributes;
 
 public class cgGPXParser {
+
 	private cgeoapplication app = null;
 	private cgBase base = null;
 	private int listId = 1;
 	private cgSearch search = null;
 	private Handler handler = null;
-
 	private cgCache cache = new cgCache();
 	private cgTrackable trackable = new cgTrackable();
 	private cgLog log = new cgLog();
@@ -52,20 +52,29 @@ public class cgGPXParser {
 
 	public long parse(File file, int version, Handler handlerIn) {
 		handler = handlerIn;
-		if (file == null) return 0l;
+		if (file == null) {
+			return 0l;
+		}
 
-		if (version == 11) ns = "http://www.topografix.com/GPX/1/1"; // GPX 1.1
-		else ns = "http://www.topografix.com/GPX/1/0"; // GPX 1.0
-
+		if (version == 11) {
+			ns = "http://www.topografix.com/GPX/1/1"; // GPX 1.1
+		} else {
+			ns = "http://www.topografix.com/GPX/1/0"; // GPX 1.0
+		}
 		final RootElement root = new RootElement(ns, "gpx");
 		final Element waypoint = root.getChild(ns, "wpt");
 
 		// waypoint - attributes
 		waypoint.setStartElementListener(new StartElementListener() {
+
 			public void start(Attributes attrs) {
 				try {
-					if (attrs.getIndex("lat") > -1) cache.latitude = new Double(attrs.getValue("lat"));
-					if (attrs.getIndex("lon") > -1) cache.longitude = new Double(attrs.getValue("lon"));
+					if (attrs.getIndex("lat") > -1) {
+						cache.latitude = new Double(attrs.getValue("lat"));
+					}
+					if (attrs.getIndex("lon") > -1) {
+						cache.longitude = new Double(attrs.getValue("lon"));
+					}
 				} catch (Exception e) {
 					Log.w(cgSettings.tag, "Failed to parse waypoint's latitude and/or longitude.");
 				}
@@ -74,6 +83,7 @@ public class cgGPXParser {
 
 		// waypoint
 		waypoint.setEndElementListener(new EndElementListener() {
+
 			public void end() {
 				if (cache.geocode == null || cache.geocode.length() == 0) {
 					// try to find geocode somewhere else
@@ -110,20 +120,16 @@ public class cgGPXParser {
 					if (geocode != null && geocode.length() > 0) {
 						cache.geocode = geocode;
 					}
-					
+
 					geocode = null;
 					matcherGeocode = null;
 				}
 
-				if (
-					cache.geocode != null && cache.geocode.length() > 0 &&
-					cache.latitude != null && cache.longitude != null &&
-					(
-						(type == null && sym == null) ||
-						(type != null && type.indexOf("geocache") > -1) ||
-						(sym != null && sym.indexOf("geocache") > -1)
-					)
-				) {
+				if (cache.geocode != null && cache.geocode.length() > 0
+						&& cache.latitude != null && cache.longitude != null
+						&& ((type == null && sym == null)
+						|| (type != null && type.indexOf("geocache") > -1)
+						|| (sym != null && sym.indexOf("geocache") > -1))) {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
 					cache.longitudeString = base.formatCoordinate(cache.longitude, "lon", true);
 					cache.inventoryItems = cache.inventory.size();
@@ -155,59 +161,67 @@ public class cgGPXParser {
 		});
 
 		// waypoint.time
-		waypoint.getChild(ns, "time").setEndTextElementListener(new EndTextElementListener(){
-            public void end(String body) {
+		waypoint.getChild(ns, "time").setEndTextElementListener(new EndTextElementListener() {
+
+			public void end(String body) {
 				try {
 					cache.hidden = cgBase.dateGPXIn.parse(body.trim());
 				} catch (Exception e) {
 					Log.w(cgSettings.tag, "Failed to parse cache date: " + e.toString());
 				}
 			}
-        });
+		});
 
 		// waypoint.name
-		waypoint.getChild(ns, "name").setEndTextElementListener(new EndTextElementListener(){
-            public void end(String body) {
+		waypoint.getChild(ns, "name").setEndTextElementListener(new EndTextElementListener() {
+
+			public void end(String body) {
 				name = body;
-				
+
 				final String content = Html.fromHtml(body).toString().trim();
 				cache.name = content;
 				if (cache.name.length() > 2 && cache.name.substring(0, 2).equalsIgnoreCase("GC") == true) {
 					cache.geocode = cache.name.toUpperCase();
 				}
 			}
-        });
+		});
 
 		// waypoint.desc
-		waypoint.getChild(ns, "desc").setEndTextElementListener(new EndTextElementListener(){
-            public void end(String body) {
+		waypoint.getChild(ns, "desc").setEndTextElementListener(new EndTextElementListener() {
+
+			public void end(String body) {
 				desc = body;
 
 				final String content = Html.fromHtml(body).toString().trim();
 				cache.shortdesc = content;
 			}
-        });
+		});
 
 		// waypoint.cmt
-		waypoint.getChild(ns, "cmt").setEndTextElementListener(new EndTextElementListener(){
-            public void end(String body) {
+		waypoint.getChild(ns, "cmt").setEndTextElementListener(new EndTextElementListener() {
+
+			public void end(String body) {
 				cmt = body;
 
 				final String content = Html.fromHtml(body).toString().trim();
 				cache.description = content;
 			}
-        });
+		});
 
 		// waypoint.type
-		waypoint.getChild(ns, "type").setEndTextElementListener(new EndTextElementListener(){
-            public void end(String body) {
+		waypoint.getChild(ns, "type").setEndTextElementListener(new EndTextElementListener() {
+
+			public void end(String body) {
 				final String[] content = body.split("\\|");
-				if (content.length > 0) type = content[0].toLowerCase().trim();
+				if (content.length > 0) {
+					type = content[0].toLowerCase().trim();
+				}
 			}
-        });
+		});
 
 		// waypoint.sym
-		waypoint.getChild(ns, "sym").setEndTextElementListener(new EndTextElementListener(){
+		waypoint.getChild(ns, "sym").setEndTextElementListener(new EndTextElementListener() {
+
 			public void end(String body) {
 				body = body.toLowerCase();
 				sym = body;
@@ -222,18 +236,27 @@ public class cgGPXParser {
 			final Element gcCache = waypoint.getChild(nsGC, "cache");
 
 			gcCache.setStartElementListener(new StartElementListener() {
+
 				public void start(Attributes attrs) {
 					try {
-						if (attrs.getIndex("id") > -1) cache.cacheid = attrs.getValue("id");
+						if (attrs.getIndex("id") > -1) {
+							cache.cacheid = attrs.getValue("id");
+						}
 						if (attrs.getIndex("archived") > -1) {
 							final String at = attrs.getValue("archived").toLowerCase();
-							if (at.equals("true")) cache.archived = true;
-							else cache.archived = false;
+							if (at.equals("true")) {
+								cache.archived = true;
+							} else {
+								cache.archived = false;
+							}
 						}
 						if (attrs.getIndex("available") > -1) {
 							final String at = attrs.getValue("available").toLowerCase();
-							if (at.equals("true")) cache.disabled = false;
-							else cache.disabled = true;
+							if (at.equals("true")) {
+								cache.disabled = false;
+							} else {
+								cache.disabled = true;
+							}
 						}
 					} catch (Exception e) {
 						Log.w(cgSettings.tag, "Failed to parse cache attributes.");
@@ -243,6 +266,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.name
 			gcCache.getChild(nsGC, "name").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					final String content = Html.fromHtml(body).toString().trim();
 					cache.name = content;
@@ -251,6 +275,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.owner
 			gcCache.getChild(nsGC, "owner").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					final String content = Html.fromHtml(body).toString().trim();
 					cache.owner = content;
@@ -259,6 +284,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.type
 			gcCache.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					final String content = cgBase.cacheTypes.get(body.toLowerCase());
 					cache.type = content;
@@ -267,6 +293,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.container
 			gcCache.getChild(nsGC, "container").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					final String content = body.toLowerCase();
 					cache.size = content;
@@ -275,6 +302,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.difficulty
 			gcCache.getChild(nsGC, "difficulty").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					try {
 						cache.difficulty = new Float(body);
@@ -286,6 +314,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.terrain
 			gcCache.getChild(nsGC, "terrain").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					try {
 						cache.terrain = new Float(body);
@@ -297,22 +326,31 @@ public class cgGPXParser {
 
 			// waypoint.cache.country
 			gcCache.getChild(nsGC, "country").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
-					if (cache.location == null || cache.location.length() == 0) cache.location = body.trim();
-					else cache.location = cache.location + ", " + body.trim();
+					if (cache.location == null || cache.location.length() == 0) {
+						cache.location = body.trim();
+					} else {
+						cache.location = cache.location + ", " + body.trim();
+					}
 				}
 			});
 
 			// waypoint.cache.state
 			gcCache.getChild(nsGC, "state").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
-					if (cache.location == null || cache.location.length() == 0) cache.location = body.trim();
-					else cache.location = body.trim() + ", " + cache.location;
+					if (cache.location == null || cache.location.length() == 0) {
+						cache.location = body.trim();
+					} else {
+						cache.location = body.trim() + ", " + cache.location;
+					}
 				}
 			});
 
 			// waypoint.cache.encoded_hints
 			gcCache.getChild(nsGC, "encoded_hints").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					cache.hint = body.trim();
 				}
@@ -320,11 +358,14 @@ public class cgGPXParser {
 
 			// waypoint.cache.short_description
 			gcCache.getChild(nsGC, "short_description").setStartElementListener(new StartElementListener() {
+
 				public void start(Attributes attrs) {
 					try {
 						if (attrs.getIndex("html") > -1) {
 							final String at = attrs.getValue("html").toLowerCase();
-							if (at.equals("false")) htmlShort = false;
+							if (at.equals("false")) {
+								htmlShort = false;
+							}
 						}
 					} catch (Exception e) {
 						// nothing
@@ -333,19 +374,26 @@ public class cgGPXParser {
 			});
 
 			gcCache.getChild(nsGC, "short_description").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
-					if (htmlShort == false) cache.shortdesc = Html.fromHtml(body).toString();
-					else cache.shortdesc = body;
+					if (htmlShort == false) {
+						cache.shortdesc = Html.fromHtml(body).toString();
+					} else {
+						cache.shortdesc = body;
+					}
 				}
 			});
 
 			// waypoint.cache.long_description
 			gcCache.getChild(nsGC, "long_description").setStartElementListener(new StartElementListener() {
+
 				public void start(Attributes attrs) {
 					try {
 						if (attrs.getIndex("html") > -1) {
 							final String at = attrs.getValue("html").toLowerCase();
-							if (at.equals("false")) htmlLong = false;
+							if (at.equals("false")) {
+								htmlLong = false;
+							}
 						}
 					} catch (Exception e) {
 						// nothing
@@ -354,9 +402,13 @@ public class cgGPXParser {
 			});
 
 			gcCache.getChild(nsGC, "long_description").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
-					if (htmlLong == false) cache.description = Html.fromHtml(body).toString().trim();
-					else cache.description = body;
+					if (htmlLong == false) {
+						cache.description = Html.fromHtml(body).toString().trim();
+					} else {
+						cache.description = body;
+					}
 				}
 			});
 
@@ -365,11 +417,14 @@ public class cgGPXParser {
 
 			// waypoint.cache.travelbugs.travelbug
 			gcTBs.getChild(nsGC, "travelbug").setStartElementListener(new StartElementListener() {
+
 				public void start(Attributes attrs) {
 					trackable = new cgTrackable();
 
 					try {
-						if (attrs.getIndex("ref") > -1) trackable.geocode = attrs.getValue("ref").toUpperCase();
+						if (attrs.getIndex("ref") > -1) {
+							trackable.geocode = attrs.getValue("ref").toUpperCase();
+						}
 					} catch (Exception e) {
 						// nothing
 					}
@@ -380,8 +435,11 @@ public class cgGPXParser {
 			final Element gcTB = gcTBs.getChild(nsGC, "travelbug");
 
 			gcTB.setEndElementListener(new EndElementListener() {
+
 				public void end() {
 					if (trackable.geocode != null && trackable.geocode.length() > 0 && trackable.name != null && trackable.name.length() > 0) {
+						if (cache.inventory == null)
+							cache.inventory = new ArrayList<cgTrackable>();
 						cache.inventory.add(trackable);
 					}
 				}
@@ -389,6 +447,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.travelbugs.travelbug.name
 			gcTB.getChild(nsGC, "name").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					String content = Html.fromHtml(body).toString();
 					trackable.name = content;
@@ -402,11 +461,14 @@ public class cgGPXParser {
 			final Element gcLog = gcLogs.getChild(nsGC, "log");
 
 			gcLog.setStartElementListener(new StartElementListener() {
+
 				public void start(Attributes attrs) {
 					log = new cgLog();
 
 					try {
-						if (attrs.getIndex("id") > -1) log.id = Integer.parseInt(attrs.getValue("id"));
+						if (attrs.getIndex("id") > -1) {
+							log.id = Integer.parseInt(attrs.getValue("id"));
+						}
 					} catch (Exception e) {
 						// nothing
 					}
@@ -414,8 +476,11 @@ public class cgGPXParser {
 			});
 
 			gcLog.setEndElementListener(new EndElementListener() {
+
 				public void end() {
 					if (log.log != null && log.log.length() > 0) {
+						if (cache.logs == null)
+							cache.logs = new ArrayList<cgLog>();
 						cache.logs.add(log);
 					}
 				}
@@ -423,6 +488,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.logs.log.date
 			gcLog.getChild(nsGC, "date").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					try {
 						log.date = cgBase.dateGPXIn.parse(body.trim()).getTime();
@@ -434,15 +500,20 @@ public class cgGPXParser {
 
 			// waypoint.cache.logs.log.type
 			gcLog.getChild(nsGC, "type").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					final String content = body.trim().toLowerCase();
-					if (cgBase.logTypes0.containsKey(content) == true) log.type = cgBase.logTypes0.get(content);
-					else log.type = 4;
+					if (cgBase.logTypes0.containsKey(content) == true) {
+						log.type = cgBase.logTypes0.get(content);
+					} else {
+						log.type = 4;
+					}
 				}
 			});
 
 			// waypoint.cache.logs.log.finder
 			gcLog.getChild(nsGC, "finder").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					String content = Html.fromHtml(body).toString();
 					log.author = content;
@@ -451,6 +522,7 @@ public class cgGPXParser {
 
 			// waypoint.cache.logs.log.finder
 			gcLog.getChild(nsGC, "text").setEndTextElementListener(new EndTextElementListener() {
+
 				public void end(String body) {
 					String content = Html.fromHtml(body).toString();
 					log.log = content;
@@ -460,7 +532,7 @@ public class cgGPXParser {
 
 		try {
 			Xml.parse(new FileInputStream(file), Xml.Encoding.UTF_8, root.getContentHandler());
-			
+
 			return search.getCurrentId();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "Cannot parse .gpx file " + file.getAbsolutePath() + " as GPX " + version + ": " + e.toString());
