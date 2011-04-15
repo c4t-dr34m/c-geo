@@ -659,7 +659,7 @@ public class cgBase {
 				}
 			} catch (Exception e) {
 				// failed to parse inventory
-				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache inventory");
+				Log.w(cgSettings.tag, "cgeoBase.parseSearch: Failed to parse cache inventory (1)");
 			}
 
 			if (inventoryPre != null && inventoryPre.trim().length() > 0) {
@@ -1467,6 +1467,9 @@ public class cgBase {
 							final cgTrackable inventoryItem = new cgTrackable();
 							inventoryItem.guid = matcherInventoryInside.group(1);
 							inventoryItem.name = matcherInventoryInside.group(2);
+							
+							if (cache.inventory == null)
+								cache.inventory = new ArrayList<cgTrackable>();
 							cache.inventory.add(inventoryItem);
 							cache.inventoryItems++;
 						}
@@ -1475,7 +1478,7 @@ public class cgBase {
 			}
 		} catch (Exception e) {
 			// failed to parse cache inventory
-			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache inventory");
+			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache inventory (2)");
 		}
 
 		// cache logs counts
