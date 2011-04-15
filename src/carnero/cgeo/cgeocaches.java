@@ -597,7 +597,7 @@ public class cgeocaches extends ListActivity {
 				menu.findItem(9).setVisible(false);
 			}
 			
-			if (type.equals("offline") == true) {
+			if (type != null && type.equals("offline") == true) {
 				if (adapter != null && adapter.getChecked() > 0) {
 					menu.findItem(5).setTitle(res.getString(R.string.caches_drop_selected) + " (" + adapter.getChecked() + ")");
 				} else {
@@ -622,7 +622,7 @@ public class cgeocaches extends ListActivity {
 				}
 			}
 
-			if (type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId))) { // there are no more caches
+			if (type != null && type.equals("offline") == false && (cacheList != null && app != null && cacheList.size() >= app.getTotal(searchId))) { // there are no more caches
 				menu.findItem(0).setEnabled(false);
 			} else {
 				menu.findItem(0).setEnabled(true);
