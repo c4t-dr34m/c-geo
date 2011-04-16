@@ -3654,7 +3654,9 @@ public class cgBase {
 					ctl = Integer.toString(tb.ctl);
 				}
 
-				params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$repTravelBugs$ctl" + ctl + "$ddlAction", action);
+				// params.put("ctl00$ContentBody$LogBookPanel1$uxTrackables$repTravelBugs$ctl" + ctl + "$ddlAction", action);
+				// ^^ is this important?
+				
 				if (tb.action > 0) {
 					hdnSelected.append(action);
 					hdnSelected.append(",");

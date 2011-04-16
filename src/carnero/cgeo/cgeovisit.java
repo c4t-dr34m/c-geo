@@ -141,7 +141,7 @@ public class cgeovisit extends cgLogForm {
 				if (inventoryView.getChildCount() > 0) {
 					((LinearLayout) findViewById(R.id.inventory_box)).setVisibility(View.VISIBLE);
 				}
-				if (inventoryView.getChildCount() > 1) {
+				if (inventoryView.getChildCount() > 1 && inventoryView.getChildCount() <= 20) {
 					final LinearLayout inventoryChangeAllView = (LinearLayout) findViewById(R.id.inventory_changeall);
 
 					Button changeButton = (Button) inventoryChangeAllView.findViewById(R.id.changebutton);
@@ -805,7 +805,7 @@ public class cgeovisit extends cgLogForm {
 			if (tweetCheck == null) {
 				tweetCheck = (CheckBox) findViewById(R.id.tweet);
 			}
-
+			
 			status = base.postLog(app, geocode, cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH) + 1), date.get(Calendar.DATE), log, trackables);
 
 			if (status == 1) {
