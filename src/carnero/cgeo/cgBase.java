@@ -5511,11 +5511,9 @@ public class cgBase {
 			// fallback
 			try {
 				if (cache != null && cache.latitude != null && cache.longitude != null) {
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude)));
-					// ^^ INFO: intent with ?q=___ works with Google Maps but with no other application
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + cache.latitude + "," + cache.longitude + "?q=loc:" + cache.latitude + "," + cache.longitude + " (" + cache.name + ")")));
 				} else if (waypoint != null && waypoint.latitude != null && waypoint.longitude != null) {
-					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + waypoint.latitude + "," + waypoint.longitude)));
-					// ^^ INFO: intent with ?q=___ works with Google Maps but with no other application
+					activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + waypoint.latitude + "," + waypoint.longitude + "?q=loc:" + waypoint.latitude + "," + waypoint.longitude + " (" + waypoint.name + ")")));
 				}
 
 				sendAnal(activity, tracker, "/external/native/maps");
