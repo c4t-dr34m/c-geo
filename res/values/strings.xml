@@ -627,7 +627,7 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.14</b> (__.05.2011)\n
-	· fix: __\n
+	· fix: Posting logs with a lot of TB\'s\n
 	\n
     <b>2.13</b> (14.04.2011)\n
 	· fix: Own waypoints on map\n
