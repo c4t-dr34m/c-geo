@@ -56,7 +56,11 @@ public class cgeomap extends MapActivity {
 	private Integer spanLongitude = null;
 	// thread
 	private LoadTimer loadTimer = null;
+	private LoadThread loadThread = null;
+	private DownloadThread downloadThread = null;
 	private LoadDetails loadDetailsThread = null;
+	private volatile long loadThreadRun = 0l;
+	private volatile long downloadThreadRun = 0l;
 	// overlays
 	private cgMapOverlay overlayCaches = null;
 	private cgUsersOverlay overlayUsers = null;
@@ -76,6 +80,20 @@ public class cgeomap extends MapActivity {
 	private ImageView myLocSwitch = null;
 	// other things
 	private boolean live = true; // live map (live, dead) or rest (displaying caches on map)
+	final private Handler showProgressHandler = new Handler() {
+		
+		@Override
+		public void handleMessage(Message msg) {
+			final int what = msg.what;
+			
+			if (what == 0) {
+				base.showProgress(activity, false);
+			} else if (what == 1) {
+				base.showProgress(activity, true);
+			}
+		}
+	};
+			
 	final private Handler loadDetailsHandler = new Handler() {
 
 		@Override
@@ -591,11 +609,35 @@ public class cgeomap extends MapActivity {
 							centerLongitude = centerLongitudeNow;
 							spanLatitude = spanLatitudeNow;
 							spanLongitude = spanLongitudeNow;
+							
+							final long currentTime = System.currentTimeMillis();
+							if (250 < (currentTime - loadThreadRun)) {
+								// from database
+								if (loadThread != null && loadThread.isWorking()) {
+									loadThread.stopIt();
+								}
+								
+								showProgressHandler.sendEmptyMessage(1); // show progress
+								loadThread = new LoadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
+								loadThread.start();
+							}
+							if (live && settings.maplive > 0) {
+								if (1000 < (currentTime - downloadThreadRun)) {
+									// from web
+									if (downloadThread != null && downloadThread.isWorking()) {
+										downloadThread.stopIt();
+									}
+
+									showProgressHandler.sendEmptyMessage(1); // show progress
+									downloadThread = new DownloadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
+									downloadThread.start();
+								}
+							}
 						}
-
-						// TODO: timer body
-
-
+					}
+					
+					if (!isLoading()) {
+						showProgressHandler.sendEmptyMessage(0); // hide progress
 					}
 
 					yield();
@@ -605,6 +647,80 @@ public class cgeomap extends MapActivity {
 				}
 			};
 		}
+	}
+
+	// load caches from database
+	private class LoadThread extends DoThread {
+		
+		public LoadThread(long centerLatIn, long centerLonIn, long spanLatIn, long spanLonIn) {
+			super(centerLatIn, centerLonIn, spanLatIn, spanLonIn);
+		}
+		
+		@Override
+		public void run() {
+			super.working = true;
+			loadThreadRun = System.currentTimeMillis();
+
+			// TODO: load caches from database
+		
+			super.working = false;
+		}
+	}
+
+	// load caches from internet
+	private class DownloadThread extends DoThread {
+		
+		public DownloadThread(long centerLatIn, long centerLonIn, long spanLatIn, long spanLonIn) {
+			super(centerLatIn, centerLonIn, spanLatIn, spanLonIn);
+		}
+		
+		@Override
+		public void run() {
+			super.working = true;
+			downloadThreadRun = System.currentTimeMillis();
+			
+			// TODO: download caches from map
+			
+			super.working = false;
+		}
+	}
+	
+	// parent for those above :)
+	private class DoThread extends Thread {
+		private boolean working = true;
+		private boolean stop = false;
+		private long centerLat = 0l;
+		private long centerLon = 0l;
+		private long spanLat = 0l;
+		private long spanLon = 0l;
+		
+		public DoThread(long centerLatIn, long centerLonIn, long spanLatIn, long spanLonIn) {
+			centerLat = centerLatIn;
+			centerLon = centerLonIn;
+			spanLat = spanLatIn;
+			spanLon = spanLonIn;
+		}
+		
+		public boolean isWorking() {
+			return working;
+		}
+		
+		public void stopIt() {
+			stop = true;
+		}
+	}
+
+	// get if map is loading something
+	private boolean isLoading() {
+		boolean loading = false;
+
+		if (loadThread != null && loadThread.isWorking()) {
+			loading = true;
+		} else if (downloadThread != null && downloadThread.isWorking()) {
+			loading = true;
+		}
+
+		return loading;
 	}
 
 	// store caches
@@ -682,18 +798,9 @@ public class cgeomap extends MapActivity {
 			handler.sendEmptyMessage(1);
 		}
 	}
-
-	// get if map is loading something
-	protected boolean isLoading() {
-		boolean loading = false;
-
-		// TODO: returns true if some loading/displaying thread still runs
-
-		return loading;
-	}
-
+	
 	// change actionbar title
-	protected void changeTitle(boolean loading) {
+	private void changeTitle(boolean loading) {
 		String title = null;
 
 		if (live == true) {
