@@ -578,18 +578,26 @@ public class cgeomap extends MapActivity {
 
 		@Override
 		public void run() {
+			GeoPoint mapCenterNow;
+			int centerLatitudeNow;
+			int centerLongitudeNow;
+			int spanLatitudeNow;
+			int spanLongitudeNow;
+			boolean moved = false;
+			long currentTime = 0;
+			
 			while (!stop) {
 				try {
 					if (mapView != null) {
 						// get current viewport
-						final GeoPoint mapCenterNow = mapView.getMapCenter();
-						final int centerLatitudeNow = mapCenterNow.getLatitudeE6();
-						final int centerLongitudeNow = mapCenterNow.getLongitudeE6();
-						final int spanLatitudeNow = mapView.getLatitudeSpan();
-						final int spanLongitudeNow = mapView.getLongitudeSpan();
+						mapCenterNow = mapView.getMapCenter();
+						centerLatitudeNow = mapCenterNow.getLatitudeE6();
+						centerLongitudeNow = mapCenterNow.getLongitudeE6();
+						spanLatitudeNow = mapView.getLatitudeSpan();
+						spanLongitudeNow = mapView.getLongitudeSpan();
 
 						// check if map moved or zoomed
-						boolean moved = false;
+						moved = false;
 
 						if (centerLatitude == null || centerLongitude == null) {
 							moved = true;
@@ -610,18 +618,8 @@ public class cgeomap extends MapActivity {
 							spanLatitude = spanLatitudeNow;
 							spanLongitude = spanLongitudeNow;
 							
-							final long currentTime = System.currentTimeMillis();
-							if (250 < (currentTime - loadThreadRun)) {
-								// from database
-								if (loadThread != null && loadThread.isWorking()) {
-									loadThread.stopIt();
-								}
-								
-								showProgressHandler.sendEmptyMessage(1); // show progress
-								loadThread = new LoadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
-								loadThread.start();
-							}
-							if (live && settings.maplive > 0) {
+							currentTime = System.currentTimeMillis();
+							if (live && settings.maplive == 1) {
 								if (1000 < (currentTime - downloadThreadRun)) {
 									// from web
 									if (downloadThread != null && downloadThread.isWorking()) {
@@ -631,6 +629,17 @@ public class cgeomap extends MapActivity {
 									showProgressHandler.sendEmptyMessage(1); // show progress
 									downloadThread = new DownloadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
 									downloadThread.start();
+								}
+							} else {
+								if (250 < (currentTime - loadThreadRun)) {
+									// from database
+									if (loadThread != null && loadThread.isWorking()) {
+										loadThread.stopIt();
+									}
+
+									showProgressHandler.sendEmptyMessage(1); // show progress
+									loadThread = new LoadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
+									loadThread.start();
 								}
 							}
 						}
