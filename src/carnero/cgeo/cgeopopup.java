@@ -797,6 +797,22 @@ public class cgeopopup extends Activity {
 		base.goHome(activity);
 	}
 
+	public void goCompass(View view) {
+		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			return;
+		}
+
+		cgeonavigate navigateActivity = new cgeonavigate();
+
+		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
+		navigateIntent.putExtra("latitude", cache.latitude);
+		navigateIntent.putExtra("longitude", cache.longitude);
+		navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());
+		navigateIntent.putExtra("name", cache.name);
+
+		activity.startActivity(navigateIntent);
+	}
+
 	public void goManual(View view) {
 		try {
 			AppManualReaderClient.openManual(

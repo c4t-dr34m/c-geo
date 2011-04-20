@@ -26,7 +26,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -65,14 +64,14 @@ public class cgeomap extends MapActivity {
 	private Integer centerLongitudeUsers = null;
 	private Integer spanLatitudeUsers = null;
 	private Integer spanLongitudeUsers = null;
-	private ArrayList<cgCache> caches = new ArrayList<cgCache>();
-	private ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
-	private ArrayList<cgUser> users = new ArrayList<cgUser>();
-	private HashMap<Integer, Drawable> iconsCache = new HashMap<Integer, Drawable>();
 	private loadCaches loadingThread = null;
 	private loadUsers usersThread = null;
 	private addCaches displayingThread = null;
 	private addUsers usersDisplayingThread = null;
+	private ArrayList<cgCache> caches = new ArrayList<cgCache>();
+	private ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
+	private ArrayList<cgUser> users = new ArrayList<cgUser>();
+	private HashMap<Integer, Drawable> iconsCache = new HashMap<Integer, Drawable>();
 	private int numberType = 0; // 0: altitude, 1: traveled distance
 	private TextView numberView = null;
 	private ImageView myLocation = null;
@@ -83,6 +82,7 @@ public class cgeomap extends MapActivity {
 	private boolean firstRun = true;
 	private geocachesLoadDetails threadD = null;
 	private String usertoken = null;
+	protected boolean displaying = false;
 	protected boolean searching = false;
 	protected boolean searchingUsers = false;
 	protected boolean searchingForClose = false;
@@ -94,6 +94,14 @@ public class cgeomap extends MapActivity {
 			changeTitle(true);
 		}
 	};
+	final private Handler endLoading = new Handler() {
+		
+		@Override
+		public void handleMessage(Message msg) {
+			if (searching == false && displaying == false)
+				changeTitle(false);
+		}
+	};
 	final private Handler loadCacheFromDbHandler = new Handler() {
 
 		@Override
@@ -102,7 +110,6 @@ public class cgeomap extends MapActivity {
 				if (app != null && searchId != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast(res.getString(R.string.err_no_chaches));
 
-					changeTitle(false);
 					return;
 				}
 
@@ -122,8 +129,6 @@ public class cgeomap extends MapActivity {
 				if (app != null && app.getError(searchId) != null && app.getError(searchId).length() > 0) {
 					warning.showToast(res.getString(R.string.err_download_fail) + app.getError(searchId) + ".");
 
-					searching = false;
-					changeTitle(false);
 					return;
 				}
 
@@ -894,6 +899,8 @@ public class cgeomap extends MapActivity {
 		
 		@Override
 		public void run() {
+			displaying = true;
+			
 			ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
 			cgOverlayItem item = null;
 			int icon = 0;
@@ -962,7 +969,11 @@ public class cgeomap extends MapActivity {
 			cachesTmp.clear();
 			cachesTmp = null;
 			
-			overlay.updateItems(items);
+			if (end == false)
+				overlay.updateItems(items);
+		
+			displaying = false;
+			endLoading.sendEmptyMessage(0);
 		}
 	}
 	
@@ -1215,20 +1226,23 @@ public class cgeomap extends MapActivity {
 					(Math.abs(longitudeCenter - centerLongitude) > (longitudeSpan / 6)) // map moved
 					) && (base.isInViewPort(centerLatitude, centerLongitude, latitudeCenter, longitudeCenter, spanLatitude, spanLongitude, latitudeSpan, longitudeSpan) == false
 					|| caches.isEmpty() == true))) {
-
-				latitudeT = (latitudeCenter + (latitudeSpan / 2) + (latitudeSpan / 10)) / 1e6;
-				latitudeB = (latitudeCenter - (latitudeSpan / 2) - (latitudeSpan / 10)) / 1e6;
-				longitudeL = (longitudeCenter + (longitudeSpan / 2) + (longitudeSpan / 10)) / 1e6;
-				longitudeR = (longitudeCenter - (longitudeSpan / 2) - (longitudeSpan / 10)) / 1e6;
-
-				centerLatitude = latitudeCenter;
-				centerLongitude = longitudeCenter;
-				spanLatitude = latitudeSpan;
-				spanLongitude = longitudeSpan;
-
+				
 				if (searching == false) {
 					searching = true;
 					startLoading.sendEmptyMessage(0);
+					
+					if (displayingThread != null && displaying == true)
+						displayingThread.notifyEnd();
+
+					latitudeT = (latitudeCenter + (latitudeSpan / 2) + (latitudeSpan / 10)) / 1e6;
+					latitudeB = (latitudeCenter - (latitudeSpan / 2) - (latitudeSpan / 10)) / 1e6;
+					longitudeL = (longitudeCenter + (longitudeSpan / 2) + (longitudeSpan / 10)) / 1e6;
+					longitudeR = (longitudeCenter - (longitudeSpan / 2) - (longitudeSpan / 10)) / 1e6;
+
+					centerLatitude = latitudeCenter;
+					centerLongitude = longitudeCenter;
+					spanLatitude = latitudeSpan;
+					spanLongitude = longitudeSpan;
 
 					if (settings.maplive == 1) { // live map - downloads caches from gc.com
 						if (usertoken == null) {
@@ -1447,12 +1461,14 @@ public class cgeomap extends MapActivity {
 		if (loading == true) {
 			base.showProgress(activity, true);
 			base.setTitle(activity, title);
-		} else if (caches != null) {
+		} else if (loading == false && searching == false && displaying == false) {
+			if (caches != null) {
+				base.setTitle(activity, title + " [" + caches.size() + "]");
+			} else {
+				base.setTitle(activity, title + " " + res.getString(R.string.caches_no_caches));
+			}
+			
 			base.showProgress(activity, false);
-			base.setTitle(activity, title + " [" + caches.size() + "]");
-		} else {
-			base.showProgress(activity, false);
-			base.setTitle(activity, title + " " + res.getString(R.string.caches_no_caches));
 		}
 	}
 
