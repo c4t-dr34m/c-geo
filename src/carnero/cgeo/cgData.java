@@ -2093,7 +2093,7 @@ public class cgData {
 					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + listSql);
 					count = (int) sqlCount.simpleQueryForLong();
 				} else {
-					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where type = " + cachetype + listSqlW);
+					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where type = \"" + cachetype + "\"" + listSqlW);
 					count = (int) sqlCount.simpleQueryForLong();
 				}
 			} else {
@@ -2101,7 +2101,7 @@ public class cgData {
 					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where detailed = 1" + listSqlW);
 					count = (int) sqlCount.simpleQueryForLong();
 				} else {
-					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where detailed = 1 and type = " + cachetype + listSqlW);
+					SQLiteStatement sqlCount = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where detailed = 1 and type = \"" + cachetype + "\"" + listSqlW);
 					count = (int) sqlCount.simpleQueryForLong();
 				}
 			}

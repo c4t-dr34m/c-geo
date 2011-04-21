@@ -821,12 +821,14 @@ public class cgeomap extends MapActivity {
 		if (loading == true) {
 			base.showProgress(activity, true);
 			base.setTitle(activity, title);
-		} else if (caches != null) {
+		} else if (loading == false && searching == false && displaying == false) {
+			if (caches != null) {
+				base.setTitle(activity, title + " [" + caches.size() + "]");
+			} else {
+				base.setTitle(activity, title + " " + res.getString(R.string.caches_no_caches));
+			}
+			
 			base.showProgress(activity, false);
-			base.setTitle(activity, title + " [" + caches.size() + "]");
-		} else {
-			base.showProgress(activity, false);
-			base.setTitle(activity, title + " " + res.getString(R.string.caches_no_caches));
 		}
 	}
 
