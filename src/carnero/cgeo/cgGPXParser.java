@@ -132,7 +132,11 @@ public class cgGPXParser {
 						|| (sym != null && sym.indexOf("geocache") > -1))) {
 					cache.latitudeString = base.formatCoordinate(cache.latitude, "lat", true);
 					cache.longitudeString = base.formatCoordinate(cache.longitude, "lon", true);
-					cache.inventoryItems = cache.inventory.size();
+					if (cache.inventory != null) {
+						cache.inventoryItems = cache.inventory.size();
+					} else {
+						cache.inventoryItems = 0;
+					}
 					cache.reason = listId;
 					cache.updated = new Date().getTime();
 					cache.detailedUpdate = new Date().getTime();
@@ -536,6 +540,7 @@ public class cgGPXParser {
 			return search.getCurrentId();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "Cannot parse .gpx file " + file.getAbsolutePath() + " as GPX " + version + ": " + e.toString());
+			e.printStackTrace();
 		}
 
 		return 0l;
