@@ -667,19 +667,26 @@ public class cgeomap extends MapActivity {
 		
 		@Override
 		public void run() {
-			super.working = true;
+			working = true;
 			loadThreadRun = System.currentTimeMillis();
 
-			// TODO: kontrola
 			if (searchIdIntent != null) {
 				searchId = searchIdIntent;
 			} else {
-				searchId = app.getOfflineInViewport(centerLat, centerLon, spanLat, spanLon, settings.cacheType);
+				searchId = app.getOfflineAll(settings.cacheType);
 			}
 			
 			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
 		
-			super.working = false;
+			if (stop) {
+				return;
+			}
+			
+			// TODO: run display thread
+			final DisplayThread display = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
+			display.start();
+			
+			working = false;
 		}
 	}
 
@@ -696,6 +703,14 @@ public class cgeomap extends MapActivity {
 			downloadThreadRun = System.currentTimeMillis();
 			
 			// TODO: download caches from map => caches variable
+			
+			if (stop) {
+				return;
+			}
+			
+			// TODO: run display thread
+			final DisplayThread display = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
+			display.start();
 			
 			working = false;
 		}

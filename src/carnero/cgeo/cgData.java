@@ -2337,6 +2337,55 @@ public class cgData {
 		return geocodes;
 	}
 
+	public ArrayList<String> getOfflineAll(String cachetype) {
+		init();
+
+		Cursor cursor = null;
+		ArrayList<String> geocodes = new ArrayList<String>();
+
+		StringBuilder where = new StringBuilder();
+
+		// cachetype limitation
+		if (cachetype != null) {
+			where.append(cachetype);
+			where.append("\"");
+		}
+		
+		// offline caches only
+		where.append(" and reason >= 1");
+
+		try {
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{"_id", "geocode"},
+					where.toString(),
+					null,
+					null,
+					null,
+					null,
+					"5000");
+
+			if (cursor != null) {
+				if (cursor.getCount() > 0) {
+					cursor.moveToFirst();
+
+					do {
+						geocodes.add((String) cursor.getString(cursor.getColumnIndex("geocode")));
+					} while (cursor.moveToNext());
+				} else {
+					cursor.close();
+					return null;
+				}
+
+				cursor.close();
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.getOfflineAll: " + e.toString());
+		}
+
+		return geocodes;
+	}
+	
 	public void markStored(String geocode, int listId) {
 		init();
 

@@ -500,6 +500,23 @@ public class cgeoapplication extends Application {
 		return search.getCurrentId();
 	}
 
+	public Long getOfflineAll(String cachetype) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		cgSearch search = new cgSearch();
+
+		ArrayList<String> geocodes = storage.getOfflineAll(cachetype);
+		if (geocodes != null && geocodes.isEmpty() == false) {
+			for (String gccode : geocodes) {
+				search.addGeocode(gccode);
+			}
+		}
+		searches.put(search.getCurrentId(), search);
+
+		return search.getCurrentId();
+	}
+
 	public int getAllStoredCachesCount(boolean detailedOnly, String cachetype, Integer list) {
 		if (storage == null) {
 			storage = new cgData(this);
