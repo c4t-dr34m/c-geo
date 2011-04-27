@@ -417,10 +417,18 @@ public class cgeoapplication extends Application {
 	}
 
 	public ArrayList<cgCache> getCaches(Long searchId) {
-		return getCaches(searchId, false, true, false, false, false, true);
+		return getCaches(searchId, null, null, null, null, false, true, false, false, false, true);
 	}
 
 	public ArrayList<cgCache> getCaches(Long searchId, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
+		return getCaches(searchId, null, null, null, null, loadA, loadW, loadS, loadL, loadI, loadO);
+	}
+		
+	public ArrayList<cgCache> getCaches(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon) {
+		return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, true, false, false, false, true);
+	}
+
+	public ArrayList<cgCache> getCaches(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return null;
 		}
@@ -433,7 +441,7 @@ public class cgeoapplication extends Application {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
-		final ArrayList<cgCache> cachesPre = storage.loadCaches(geocodeList.toArray(), null, loadA, loadW, loadS, loadL, loadI, loadO);
+		final ArrayList<cgCache> cachesPre = storage.loadCaches(geocodeList.toArray(), null, centerLat, centerLon, spanLat, spanLon, loadA, loadW, loadS, loadL, loadI, loadO);
 		if (cachesPre != null) {
 			cachesOut.addAll(cachesPre);
 		}
@@ -475,13 +483,13 @@ public class cgeoapplication extends Application {
 		return search;
 	}
 
-	public Long getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
+	public Long getOfflineInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
 		cgSearch search = new cgSearch();
 
-		ArrayList<String> geocodes = storage.getOfflineInViewport(latitudeT, longitudeL, latitudeB, longitudeR, cachetype);
+		ArrayList<String> geocodes = storage.getOfflineInViewport(centerLat, centerLon, spanLat, spanLon, cachetype);
 		if (geocodes != null && geocodes.isEmpty() == false) {
 			for (String gccode : geocodes) {
 				search.addGeocode(gccode);

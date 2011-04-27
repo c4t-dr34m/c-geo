@@ -670,7 +670,14 @@ public class cgeomap extends MapActivity {
 			super.working = true;
 			loadThreadRun = System.currentTimeMillis();
 
-			// TODO: load caches from database
+			// TODO: kontrola
+			if (searchIdIntent != null) {
+				searchId = searchIdIntent;
+			} else {
+				searchId = app.getOfflineInViewport(centerLat, centerLon, spanLat, spanLon, settings.cacheType);
+			}
+			
+			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
 		
 			super.working = false;
 		}
@@ -685,23 +692,23 @@ public class cgeomap extends MapActivity {
 		
 		@Override
 		public void run() {
-			super.working = true;
+			working = true;
 			downloadThreadRun = System.currentTimeMillis();
 			
-			// TODO: download caches from map
+			// TODO: download caches from map => caches variable
 			
-			super.working = false;
+			working = false;
 		}
 	}
 	
 	// parent for those above :)
 	private class DoThread extends Thread {
-		private boolean working = true;
-		private boolean stop = false;
-		private long centerLat = 0l;
-		private long centerLon = 0l;
-		private long spanLat = 0l;
-		private long spanLon = 0l;
+		protected boolean working = true;
+		protected boolean stop = false;
+		protected long centerLat = 0l;
+		protected long centerLon = 0l;
+		protected long spanLat = 0l;
+		protected long spanLon = 0l;
 		
 		public DoThread(long centerLatIn, long centerLonIn, long spanLatIn, long spanLonIn) {
 			centerLat = centerLatIn;
@@ -809,7 +816,7 @@ public class cgeomap extends MapActivity {
 	}
 	
 	// change actionbar title
-	private void changeTitle(boolean loading) {
+	private void changeTitle() {
 		String title = null;
 
 		if (live == true) {
@@ -818,10 +825,10 @@ public class cgeomap extends MapActivity {
 			title = res.getString(R.string.map_map);
 		}
 
-		if (loading == true) {
+		if (isLoading()) {
 			base.showProgress(activity, true);
 			base.setTitle(activity, title);
-		} else if (loading == false && searching == false && displaying == false) {
+		} else {
 			if (caches != null) {
 				base.setTitle(activity, title + " [" + caches.size() + "]");
 			} else {

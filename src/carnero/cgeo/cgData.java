@@ -1431,7 +1431,7 @@ public class cgData {
 			guids = null;
 		}
 
-		ArrayList<cgCache> caches = loadCaches(geocodes, guids, loadA, loadW, loadS, loadL, loadI, loadO);
+		ArrayList<cgCache> caches = loadCaches(geocodes, guids, null, null, null, null, loadA, loadW, loadS, loadL, loadI, loadO);
 		if (caches != null && caches.isEmpty() == false) {
 			return caches.get(0);
 		}
@@ -1440,24 +1440,57 @@ public class cgData {
 	}
 
 	public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids) {
-		return loadCaches(geocodes, guids, false, true, false, false, false, false);
+		return loadCaches(geocodes, guids, null, null, null, null, false, true, false, false, false, false);
 	}
 
 	public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean lite) {
 		if (lite == true) {
-			return loadCaches(geocodes, guids, false, true, false, false, false, false);
+			return loadCaches(geocodes, guids, null, null, null, null, false, true, false, false, false, false);
 		} else {
-			return loadCaches(geocodes, guids, true, true, true, true, true, true);
+			return loadCaches(geocodes, guids, null, null, null, null, true, true, true, true, true, true);
 		}
 	}
 
-	public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
+	public ArrayList<cgCache> loadCaches(Object[] geocodes, Object[] guids, Long centerLat, Long centerLon, Long spanLat, Long spanLon, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		init();
 
+		StringBuilder where = new StringBuilder();
 		Cursor cursor = null;
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
-
+		
 		try {
+			// viewport limitation
+			if (centerLat != null && centerLon != null && spanLat != null && spanLon != null) {
+				double latMin = (centerLat / 1e6) - ((spanLat / 1e6) / 2) - ((spanLat / 1e6) / 4);
+				double latMax = (centerLat / 1e6) + ((spanLat / 1e6) / 2) + ((spanLat / 1e6) / 4);
+				double lonMin = (centerLon / 1e6) - ((spanLon / 1e6) / 2) - ((spanLon / 1e6) / 4);
+				double lonMax = (centerLon / 1e6) + ((spanLon / 1e6) / 2) + ((spanLon / 1e6) / 4);
+				double llCache;
+
+				if (latMin > latMax) {
+					llCache = latMax;
+					latMax = latMin;
+					latMin = llCache;
+				}
+				if (lonMin > lonMax) {
+					llCache = lonMax;
+					lonMax = lonMin;
+					lonMin = llCache;
+				}
+
+				where.append("(");
+				where.append("latitude >= ");
+				where.append(String.format((Locale) null, "%.6f", latMin));
+				where.append(" and latitude <= ");
+				where.append(String.format((Locale) null, "%.6f", latMax));
+				where.append(" and longitude >= ");
+				where.append(String.format((Locale) null, "%.6f", lonMin));
+				where.append(" and longitude <= ");
+				where.append(String.format((Locale) null, "%.6f", lonMax));
+				where.append(")");
+			}
+
+			// geocodes or guids limitation
 			if (geocodes != null && geocodes.length > 0) {
 				StringBuilder all = new StringBuilder();
 				for (Object one : geocodes) {
@@ -1468,21 +1501,13 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-
-				cursor = databaseRO.query(
-						dbTableCaches,
-						new String[]{
-							"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "own", "owner", "owner_real", "hidden", "hint", "size",
-							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "elevation", "shortdesc",
-							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
-							"inventoryunknown"
-						},
-						"geocode in (" + all.toString() + ")",
-						null,
-						null,
-						null,
-						null,
-						null);
+				
+				if (where.length() > 0) {
+					where.append(" and ");
+				}
+				where.append("geocode in (");
+				where.append(all);
+				where.append(")");
 			} else if (guids != null && guids.length > 0) {
 				StringBuilder all = new StringBuilder();
 				for (Object one : guids) {
@@ -1493,24 +1518,29 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-
-				cursor = databaseRO.query(
-						dbTableCaches,
-						new String[]{
-							"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "own", "owner", "owner_real", "hidden", "hint", "size",
-							"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "elevation", "shortdesc",
-							"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
-							"inventoryunknown"
-						},
-						"guid in (" + all.toString() + ")",
-						null,
-						null,
-						null,
-						null,
-						null);
-			} else {
-				return null;
+				
+				if (where.length() > 0) {
+					where.append(" and ");
+				}
+				where.append("guid in (");
+				where.append(all);
+				where.append(")");
 			}
+
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{
+						"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "own", "owner", "owner_real", "hidden", "hint", "size",
+						"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "elevation", "shortdesc",
+						"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+						"inventoryunknown"
+					},
+					where.toString(),
+					null,
+					null,
+					null,
+					null,
+					null);
 
 			if (cursor != null) {
 				int index = 0;
@@ -2227,8 +2257,8 @@ public class cgData {
 		return geocodes;
 	}
 
-	public ArrayList<String> getOfflineInViewport(Double latitudeT, Double longitudeL, Double latitudeB, Double longitudeR, String cachetype) {
-		if (latitudeT == null || longitudeL == null || latitudeB == null || longitudeR == null) {
+	public ArrayList<String> getOfflineInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
+		if (centerLat == null || centerLon == null || spanLat == null || spanLon == null) {
 			return null;
 		}
 
@@ -2237,42 +2267,49 @@ public class cgData {
 		Cursor cursor = null;
 		ArrayList<String> geocodes = new ArrayList<String>();
 
-		StringBuilder specifySql = new StringBuilder();
-		if (latitudeT > latitudeB) {
-			specifySql.append(" and latitude >= ");
-			specifySql.append(String.format((Locale) null, "%.5f", latitudeB));
-			specifySql.append(" and latitude <= ");
-			specifySql.append(String.format((Locale) null, "%.5f", latitudeT));
-		} else {
-			specifySql.append(" and latitude <= ");
-			specifySql.append(String.format((Locale) null, "%.5f", latitudeB));
-			specifySql.append(" and latitude >= ");
-			specifySql.append(String.format((Locale) null, "%.5f", latitudeT));
-		}
+		// viewport limitation
+		double latMin = (centerLat / 1e6) - ((spanLat / 1e6) / 2) - ((spanLat / 1e6) / 4);
+		double latMax = (centerLat / 1e6) + ((spanLat / 1e6) / 2) + ((spanLat / 1e6) / 4);
+		double lonMin = (centerLon / 1e6) - ((spanLon / 1e6) / 2) - ((spanLon / 1e6) / 4);
+		double lonMax = (centerLon / 1e6) + ((spanLon / 1e6) / 2) + ((spanLon / 1e6) / 4);
+		double llCache;
 
-		if (longitudeL > longitudeR) {
-			specifySql.append(" and longitude >= ");
-			specifySql.append(String.format((Locale) null, "%.5f", longitudeR));
-			specifySql.append(" and longitude <= ");
-			specifySql.append(String.format((Locale) null, "%.5f", longitudeL));
-		} else {
-			specifySql.append(" and longitude <= ");
-			specifySql.append(String.format((Locale) null, "%.5f", longitudeR));
-			specifySql.append(" and longitude >= ");
-			specifySql.append(String.format((Locale) null, "%.5f", longitudeL));
+		if (latMin > latMax) {
+			llCache = latMax;
+			latMax = latMin;
+			latMin = llCache;
 		}
+		if (lonMin > lonMax) {
+			llCache = lonMax;
+			lonMax = lonMin;
+			lonMin = llCache;
+		}
+		
+		StringBuilder where = new StringBuilder();
+		where.append("latitude >= ");
+		where.append(String.format((Locale) null, "%.6f", latMin));
+		where.append(" and latitude <= ");
+		where.append(String.format((Locale) null, "%.6f", latMax));
+		where.append(" and longitude >= ");
+		where.append(String.format((Locale) null, "%.6f", lonMin));
+		where.append(" and longitude <= ");
+		where.append(String.format((Locale) null, "%.6f", lonMax));
 
+		// cachetype limitation
 		if (cachetype != null) {
-			specifySql.append(" and type = \"");
-			specifySql.append(cachetype);
-			specifySql.append("\"");
+			where.append(" and type = \"");
+			where.append(cachetype);
+			where.append("\"");
 		}
+		
+		// offline caches only
+		where.append(" and reason >= 1");
 
 		try {
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"_id", "geocode"},
-					"reason >= 1" + specifySql.toString(),
+					where.toString(),
 					null,
 					null,
 					null,
