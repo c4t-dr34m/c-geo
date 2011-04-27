@@ -200,10 +200,10 @@ public class cgBase {
 		logTypes.put("icon_smile", 2);
 		logTypes.put("icon_sad", 3);
 		logTypes.put("icon_note", 4);
-		logTypes.put("icon_greenlight", 5);
-		logTypes.put("icon_enabled", 6);
-		logTypes.put("traffic_cone", 7);
-		logTypes.put("icon_disabled", 8);
+		logTypes.put("icon_greenlight", 1003);
+		logTypes.put("icon_enabled", 23);
+		logTypes.put("traffic_cone", 5);
+		logTypes.put("icon_disabled", 22);
 		logTypes.put("icon_rsvp", 9);
 		logTypes.put("icon_attended", 10);
 		logTypes.put("picked_up", 13);
@@ -220,10 +220,11 @@ public class cgBase {
 		logTypes0.put("found it", 2);
 		logTypes0.put("didn't find it", 3);
 		logTypes0.put("write note", 4);
-		logTypes0.put("publish listing", 5);
-		logTypes0.put("enable listing", 6);
-		logTypes0.put("archive", 7);
-		logTypes0.put("temporarily disable listing", 8);
+		logTypes0.put("publish listing", 1003);
+		logTypes0.put("enable listing", 23);
+		logTypes0.put("archive", 5);
+		logTypes0.put("temporarily disable listing", 22);
+		logTypes0.put("needs archived", 7);
 		logTypes0.put("will attend", 9);
 		logTypes0.put("attended", 10);
 		logTypes0.put("retrieved it", 13);
@@ -240,10 +241,11 @@ public class cgBase {
 		logTypes1.put(2, res.getString(R.string.log_found));
 		logTypes1.put(3, res.getString(R.string.log_dnf));
 		logTypes1.put(4, res.getString(R.string.log_note));
-		logTypes1.put(5, res.getString(R.string.log_published));
-		logTypes1.put(6, res.getString(R.string.log_enabled));
-		logTypes1.put(7, res.getString(R.string.log_archived));
-		logTypes1.put(8, res.getString(R.string.log_disabled));
+		logTypes1.put(1003, res.getString(R.string.log_published));
+		logTypes1.put(23, res.getString(R.string.log_enabled));
+		logTypes1.put(5, res.getString(R.string.log_archived));
+		logTypes1.put(22, res.getString(R.string.log_disabled));
+		logTypes1.put(7, res.getString(R.string.log_needs_archived));
 		logTypes1.put(9, res.getString(R.string.log_attend));
 		logTypes1.put(10, res.getString(R.string.log_attended));
 		logTypes1.put(13, res.getString(R.string.log_retrieved));
@@ -260,6 +262,10 @@ public class cgBase {
 		logTypes2.put(2, res.getString(R.string.log_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
 		logTypes2.put(3, res.getString(R.string.log_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
 		logTypes2.put(4, res.getString(R.string.log_note)); // traditional, multi, unknown, earth, wherigo, virtual, event, letterbox, webcam, trackable
+		logTypes2.put(1003, res.getString(R.string.log_published)); // X
+		logTypes2.put(23, res.getString(R.string.log_enabled)); // owner
+		logTypes2.put(5, res.getString(R.string.log_archived)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
+		logTypes2.put(22, res.getString(R.string.log_disabled)); // owner
 		logTypes2.put(7, res.getString(R.string.log_needs_archived)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
 		logTypes2.put(9, res.getString(R.string.log_attend)); // event
 		logTypes2.put(10, res.getString(R.string.log_attended)); // event

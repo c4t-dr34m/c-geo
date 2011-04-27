@@ -998,8 +998,9 @@ public class cgeodetail extends Activity {
 				}
 				buff.append(pair.getValue().intValue());
 				buff.append("× ");
-				buff.append(cgBase.logTypes1.get(pair.getKey().intValue()).toLowerCase(Locale.getDefault()));
-				
+				if (cgBase.logTypes1.get(pair.getKey().intValue()) != null) {
+					buff.append(cgBase.logTypes1.get(pair.getKey().intValue()).toLowerCase(Locale.getDefault()));
+				}
 				logCounter ++;
 			}
 			textView.setText(buff.toString());

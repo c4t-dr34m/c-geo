@@ -393,6 +393,7 @@ public class cgeovisit extends cgLogForm {
 		if (viewId == R.id.type) {
 			for (final int typeOne : types) {
 				menu.add(viewId, typeOne, 0, cgBase.logTypes2.get(typeOne));
+				Log.w(cgSettings.tag, "Addig " + typeOne + " " + cgBase.logTypes2.get(typeOne));
 			}
 		} else if (viewId == R.id.changebutton) {
 			final int textId = ((TextView) findViewById(viewId)).getId();
@@ -517,6 +518,10 @@ public class cgeovisit extends cgLogForm {
 		}
 		if (cache.owner.equalsIgnoreCase(settings.getUsername()) == true) {
 			types.add(46);
+			types.add(22);
+			types.add(23);
+			types.add(5);
+			types.remove(new Integer(45));
 		}
 
 		final cgLog log = app.loadLogOffline(geocode);
@@ -765,6 +770,7 @@ public class cgeovisit extends cgLogForm {
 				if (typesPre.size() > 0) {
 					types.clear();
 					types.addAll(typesPre);
+					types.remove(new Integer(47));
 				}
 				typesPre.clear();
 			} catch (Exception e) {
