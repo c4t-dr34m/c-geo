@@ -1433,6 +1433,7 @@ public class cgBase {
 						if (matcherSpoilersInside.groupCount() > 0) {
 							final cgSpoiler spoiler = new cgSpoiler();
 							spoiler.url = matcherSpoilersInside.group(1);
+							
 							if (matcherSpoilersInside.group(2) != null) {
 								spoiler.title = matcherSpoilersInside.group(2);
 							}
@@ -3740,7 +3741,7 @@ public class cgBase {
 		}
 
 		try {
-			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>[^<]*</span>[^<]*</h2>[^<]*<div id=[\"|']ctl00_ContentBody_LogBookPanel1_ViewLogPanel[\"|']>", Pattern.CASE_INSENSITIVE);
+			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>[^<]*</span>[^<]*</h2>[^<]*<div id=[\"|']ctl00_ContentBody_LogBookPanel1_[^>]+>", Pattern.CASE_INSENSITIVE);
 			final Matcher matcherOk = patternOk.matcher(page);
 			if (matcherOk.find() == true) {
 				Log.i(cgSettings.tag, "Log successfully posted to cache #" + cacheid);
@@ -4914,7 +4915,7 @@ public class cgBase {
 				return;
 			}
 			
-			final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, 0, true);
+			final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, listId, true);
 
 			// store images from description
 			if (cache.description != null) {
