@@ -48,6 +48,7 @@ public class cgeomap extends MapActivity {
 	private Double longitudeIntent = null;
 	// status data
 	private Long searchId = null;
+	private String token = null;
 	// map status data
 	private boolean followMyLocation = false;
 	private Integer centerLatitude = null;
@@ -58,6 +59,7 @@ public class cgeomap extends MapActivity {
 	private LoadTimer loadTimer = null;
 	private LoadThread loadThread = null;
 	private DownloadThread downloadThread = null;
+	private DisplayThread displayThread = null;
 	private LoadDetails loadDetailsThread = null;
 	private volatile long loadThreadRun = 0l;
 	private volatile long downloadThreadRun = 0l;
@@ -682,9 +684,11 @@ public class cgeomap extends MapActivity {
 				return;
 			}
 			
-			// TODO: run display thread
-			final DisplayThread display = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
-			display.start();
+			if (displayThread != null && displayThread.isWorking()) {
+				displayThread.stopIt();
+			}
+			displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
+			displayThread.start();
 			
 			working = false;
 		}
@@ -702,20 +706,75 @@ public class cgeomap extends MapActivity {
 			working = true;
 			downloadThreadRun = System.currentTimeMillis();
 			
-			// TODO: download caches from map => caches variable
+			if (token == null) {
+				token = base.getMapUserToken();
+			}
 			
 			if (stop) {
 				return;
 			}
 			
-			// TODO: run display thread
-			final DisplayThread display = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
-			display.start();
+			double latMin = (centerLat / 1e6) - ((spanLat / 1e6) / 2) - ((spanLat / 1e6) / 4);
+			double latMax = (centerLat / 1e6) + ((spanLat / 1e6) / 2) + ((spanLat / 1e6) / 4);
+			double lonMin = (centerLon / 1e6) - ((spanLon / 1e6) / 2) - ((spanLon / 1e6) / 4);
+			double lonMax = (centerLon / 1e6) + ((spanLon / 1e6) / 2) + ((spanLon / 1e6) / 4);
+			double llCache;
+
+			if (latMin > latMax) {
+				llCache = latMax;
+				latMax = latMin;
+				latMin = llCache;
+			}
+			if (lonMin > lonMax) {
+				llCache = lonMax;
+				lonMax = lonMin;
+				lonMin = llCache;
+			}
+				
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put("usertoken", token);
+			params.put("latitude-min", String.format((Locale) null, "%.6f", latMin));
+			params.put("latitude-max", String.format((Locale) null, "%.6f", latMax));
+			params.put("longitude-min", String.format((Locale) null, "%.6f", lonMin));
+			params.put("longitude-max", String.format((Locale) null, "%.6f", lonMax));
+
+			searchId = base.searchByViewport(params, 0);
+
+			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
+						
+			if (stop) {
+				return;
+			}
+			
+			if (displayThread != null && displayThread.isWorking()) {
+				displayThread.stopIt();
+			}
+			displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
+			displayThread.start();
 			
 			working = false;
 		}
 	}
 	
+	// display (down)loaded caches
+	private class DisplayThread extends DoThread {
+		
+		public DisplayThread(long centerLatIn, long centerLonIn, long spanLatIn, long spanLonIn) {
+			super(centerLatIn, centerLonIn, spanLatIn, spanLonIn);
+		}
+		
+		@Override
+		public void run() {
+			working = true;
+			
+			final ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
+			
+			// TODO: display caches
+			
+			working = false;
+		}
+	}
+
 	// parent for those above :)
 	private class DoThread extends Thread {
 		protected boolean working = true;
@@ -740,7 +799,7 @@ public class cgeomap extends MapActivity {
 			stop = true;
 		}
 	}
-
+	
 	// get if map is loading something
 	private boolean isLoading() {
 		boolean loading = false;
@@ -748,6 +807,8 @@ public class cgeomap extends MapActivity {
 		if (loadThread != null && loadThread.isWorking()) {
 			loading = true;
 		} else if (downloadThread != null && downloadThread.isWorking()) {
+			loading = true;
+		} else if (displayThread != null && displayThread.isWorking()) {
 			loading = true;
 		}
 

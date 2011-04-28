@@ -3396,10 +3396,11 @@ public class cgBase {
 
 	public Long searchByViewport(HashMap<String, String> parameters, int reason) {
 		final cgSearch search = new cgSearch();
-		final String latitudeT = parameters.get("latitude-t");
-		final String latitudeB = parameters.get("latitude-b");
-		final String longitudeL = parameters.get("longitude-l");
-		final String longitudeR = parameters.get("longitude-r");
+		final String latMin = parameters.get("latitude-min");
+		final String latMax = parameters.get("latitude-max");
+		final String lonMin = parameters.get("longitude-min");
+		final String lonMax = parameters.get("longitude-max");
+		
 		String usertoken = null;
 		if (parameters.get("usertoken") != null) {
 			usertoken = parameters.get("usertoken");
@@ -3410,7 +3411,7 @@ public class cgBase {
 
 		String page = null;
 
-		if (latitudeT == null || latitudeT.length() == 0 || latitudeB == null || latitudeB.length() == 0 || longitudeL == null || longitudeL.length() == 0 || longitudeR == null || longitudeR.length() == 0) {
+		if (latMin == null || latMin.length() == 0 || latMax == null || latMax.length() == 0 || lonMin == null || lonMin.length() == 0 || lonMax == null || lonMax.length() == 0) {
 			Log.e(cgSettings.tag, "cgeoBase.searchByViewport: Not enough parameters to recognize viewport");
 			return null;
 		}
@@ -3418,7 +3419,7 @@ public class cgBase {
 		final String host = "www.geocaching.com";
 		final String path = "/map/default.aspx/MapAction";
 
-		String params = "{\"dto\":{\"data\":{\"c\":1,\"m\":\"\",\"d\":\"" + latitudeT + "|" + latitudeB + "|" + longitudeL + "|" + longitudeR + "\"},\"ut\":\"" + usertoken + "\"}}";
+		String params = "{\"dto\":{\"data\":{\"c\":1,\"m\":\"\",\"d\":\"" + latMin + "|" + latMax + "|" + lonMin + "|" + lonMax + "\"},\"ut\":\"" + usertoken + "\"}}";
 
 		final String url = "http://" + host + path + "?" + params;
 		page = requestJSONgc(host, path, params);
