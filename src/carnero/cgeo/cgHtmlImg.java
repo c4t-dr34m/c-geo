@@ -85,7 +85,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 			fileName = settings.getStorage() + "_others/" + cgBase.md5(url) + urlExt;
 			fileNameSec = settings.getStorageSec() + "_others/" + cgBase.md5(url) + urlExt;
 		}
-
+		
 		File dir = null;
 		dir = new File(settings.getStorage());
 		if (dir.exists() == false) {
@@ -151,7 +151,7 @@ public class cgHtmlImg implements Html.ImageGetter {
 				Log.w(cgSettings.tag, "cgHtmlImg.getDrawable (reading cache): " + e.toString());
 			}
 		}
-
+		
 		// download image and save it to the cache
 		if ((imagePre == null && reason == 0) || onlySave == true) {
 			Uri uri = null;
@@ -273,11 +273,14 @@ public class cgHtmlImg implements Html.ImageGetter {
 				Log.d(cgSettings.tag, "cgHtmlImg.getDrawable: Failed to scale image");
 				return null;
 			}
+		} else {
+			width = imgWidth;
+			height = imgHeight;
 		}
 
 		final BitmapDrawable image = new BitmapDrawable(imagePre);
 		image.setBounds(new Rect(0, 0, width, height));
-
+		
 		return image;
 	}
 }

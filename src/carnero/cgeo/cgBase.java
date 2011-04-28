@@ -1433,6 +1433,7 @@ public class cgBase {
 						if (matcherSpoilersInside.groupCount() > 0) {
 							final cgSpoiler spoiler = new cgSpoiler();
 							spoiler.url = matcherSpoilersInside.group(1);
+							
 							if (matcherSpoilersInside.group(2) != null) {
 								spoiler.title = matcherSpoilersInside.group(2);
 							}
@@ -4914,7 +4915,7 @@ public class cgBase {
 				return;
 			}
 			
-			final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, 0, true);
+			final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, listId, true);
 
 			// store images from description
 			if (cache.description != null) {
