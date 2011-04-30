@@ -22,7 +22,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import com.google.android.maps.Overlay;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class cgeomap extends MapActivity {
@@ -117,6 +119,7 @@ public class cgeomap extends MapActivity {
 			}
 		}
 	};
+	// TODO: handler centering map for current caches; run only once
 	final private Handler showProgressHandler = new Handler() {
 
 		@Override
@@ -199,17 +202,7 @@ public class cgeomap extends MapActivity {
 		}
 
 		mapView = (MapView) findViewById(R.id.map);
-		mapController = mapView.getController();
-		mapView.getOverlays().clear();
-
-		// start location and directory services
-		if (geo != null) {
-			geoUpdate.updateLoc(geo);
-		}
-		if (dir != null) {
-			dirUpdate.updateDir(dir);
-		}
-
+		
 		// initialize map
 		if (settings.maptype == cgSettings.mapSatellite) {
 			mapView.setSatellite(true);
@@ -218,7 +211,38 @@ public class cgeomap extends MapActivity {
 		}
 		mapView.setBuiltInZoomControls(true);
 		mapView.displayZoomControls(true);
+		mapView.preLoad();
+		
+		// initialize overlays
+		final List<Overlay> overlays = mapView.getOverlays();
+		overlays.clear();
+		if (overlayMyLoc == null) {
+			overlayMyLoc = new cgMapMyOverlay(settings);
+			overlays.add(overlayMyLoc);
+		}
+
+		if (overlayCaches == null) {
+			overlayCaches = new cgMapOverlay(activity, getResources().getDrawable(R.drawable.marker), fromDetailIntent);
+			overlays.add(overlayCaches);
+		}
+
+		if (overlayScale == null) {
+			overlayScale = new cgOverlayScale(activity, base, settings);
+			overlays.add(overlayScale);
+		}
+
+		mapView.invalidate();
+		
+		mapController = mapView.getController();
 		mapController.setZoom(settings.mapzoom);
+
+		// start location and directory services
+		if (geo != null) {
+			geoUpdate.updateLoc(geo);
+		}
+		if (dir != null) {
+			dirUpdate.updateDir(dir);
+		}
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -248,22 +272,6 @@ public class cgeomap extends MapActivity {
 			followMyLocation = false;
 		}
 		setMyLoc(null);
-
-		// initialize overlays
-		if (overlayMyLoc == null) {
-			overlayMyLoc = new cgMapMyOverlay(settings);
-			mapView.getOverlays().add(overlayMyLoc);
-		}
-
-		if (overlayCaches == null) {
-			overlayCaches = new cgMapOverlay(activity, getResources().getDrawable(R.drawable.marker), fromDetailIntent);
-			mapView.getOverlays().add(overlayCaches);
-		}
-
-		if (overlayScale == null) {
-			overlayScale = new cgOverlayScale(activity, base, settings);
-			mapView.getOverlays().add(overlayScale);
-		}
 
 		// start timer
 		loadTimer = new LoadTimer();
@@ -761,6 +769,7 @@ public class cgeomap extends MapActivity {
 
 		@Override
 		public void run() {
+			stop = false;
 			working = true;
 			loadThreadRun = System.currentTimeMillis();
 
@@ -769,12 +778,14 @@ public class cgeomap extends MapActivity {
 			} else {
 				searchId = app.getOfflineAll(settings.cacheType);
 			}
-
+			
 			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
-
+			
 			if (stop) {
 				return;
 			}
+			
+			// TODO: call handler for centering map
 
 			if (displayThread != null && displayThread.isWorking()) {
 				displayThread.stopIt();
@@ -795,6 +806,7 @@ public class cgeomap extends MapActivity {
 
 		@Override
 		public void run() {
+			stop = false;
 			working = true;
 			downloadThreadRun = System.currentTimeMillis();
 
@@ -857,6 +869,7 @@ public class cgeomap extends MapActivity {
 
 		@Override
 		public void run() {
+			stop = false;
 			working = true;
 
 			if (mapView == null || caches == null) {
