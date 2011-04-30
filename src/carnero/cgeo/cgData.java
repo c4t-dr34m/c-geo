@@ -2352,7 +2352,10 @@ public class cgData {
 		}
 		
 		// offline caches only
-		where.append(" and reason >= 1");
+		if (where.length() > 0) {
+			where.append(" and ");
+		}
+		where.append("reason >= 1");
 
 		try {
 			cursor = databaseRO.query(

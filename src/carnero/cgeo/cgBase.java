@@ -3419,7 +3419,7 @@ public class cgBase {
 		final String host = "www.geocaching.com";
 		final String path = "/map/default.aspx/MapAction";
 
-		String params = "{\"dto\":{\"data\":{\"c\":1,\"m\":\"\",\"d\":\"" + latMin + "|" + latMax + "|" + lonMin + "|" + lonMax + "\"},\"ut\":\"" + usertoken + "\"}}";
+		String params = "{\"dto\":{\"data\":{\"c\":1,\"m\":\"\",\"d\":\"" + latMax + "|" + latMin + "|" + lonMax + "|" + lonMin + "\"},\"ut\":\"" + usertoken + "\"}}";
 
 		final String url = "http://" + host + path + "?" + params;
 		page = requestJSONgc(host, path, params);

@@ -4,7 +4,6 @@ import gnu.android.app.appmanualclient.*;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import java.util.ArrayList;
 import android.os.Bundle;
 import android.view.Menu;
@@ -84,6 +83,7 @@ public class cgeomap extends MapActivity {
 	private ImageView myLocSwitch = null;
 	// other things
 	private boolean live = true; // live map (live, dead) or rest (displaying caches on map)
+	private boolean liveChanged = false; // previous state for loadTimer
 	// handlers
 	final private Handler displayHandler = new Handler() {
 
@@ -103,9 +103,7 @@ public class cgeomap extends MapActivity {
 
 				title.append(" ");
 
-				if (cachesCnt == 0) {
-					title.append(res.getString(R.string.caches_no_caches));
-				} else {
+				if (cachesCnt > 0) {
 					title.append("[");
 					title.append(caches.size());
 					title.append("]");
@@ -114,6 +112,8 @@ public class cgeomap extends MapActivity {
 				base.setTitle(activity, title.toString());
 
 				// TODO: center map
+			} else if (what == 1 && mapView != null) {
+				mapView.invalidate();
 			}
 		}
 	};
@@ -202,14 +202,12 @@ public class cgeomap extends MapActivity {
 		mapController = mapView.getController();
 		mapView.getOverlays().clear();
 
-		// get parameters
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			fromDetailIntent = extras.getBoolean("detail");
-			searchIdIntent = extras.getLong("searchid");
-			geocodeIntent = extras.getString("geocode");
-			latitudeIntent = extras.getDouble("latitude");
-			longitudeIntent = extras.getDouble("longitude");
+		// start location and directory services
+		if (geo != null) {
+			geoUpdate.updateLoc(geo);
+		}
+		if (dir != null) {
+			dirUpdate.updateDir(dir);
 		}
 
 		// initialize map
@@ -221,11 +219,22 @@ public class cgeomap extends MapActivity {
 		mapView.setBuiltInZoomControls(true);
 		mapView.displayZoomControls(true);
 		mapController.setZoom(settings.mapzoom);
-		setMyLoc(null);
+
+		// get parameters
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			fromDetailIntent = extras.getBoolean("detail");
+			searchIdIntent = extras.getLong("searchid");
+			geocodeIntent = extras.getString("geocode");
+			latitudeIntent = extras.getDouble("latitude");
+			longitudeIntent = extras.getDouble("longitude");
+		}
 
 		// live or death
 		if (searchIdIntent == null && geocodeIntent == null && (latitudeIntent == null || longitudeIntent == null)) {
 			live = true;
+		} else {
+			live = false;
 		}
 
 		// google analytics
@@ -238,14 +247,7 @@ public class cgeomap extends MapActivity {
 
 			followMyLocation = false;
 		}
-
-		// start location and directory services
-		if (geo != null) {
-			geoUpdate.updateLoc(geo);
-		}
-		if (dir != null) {
-			dirUpdate.updateDir(dir);
-		}
+		setMyLoc(null);
 
 		// initialize overlays
 		if (overlayMyLoc == null) {
@@ -262,8 +264,6 @@ public class cgeomap extends MapActivity {
 			overlayScale = new cgOverlayScale(activity, base, settings);
 			mapView.getOverlays().add(overlayScale);
 		}
-
-		mapView.invalidate();
 
 		// start timer
 		loadTimer = new LoadTimer();
@@ -293,10 +293,22 @@ public class cgeomap extends MapActivity {
 		if (dir != null) {
 			dirUpdate.updateDir(dir);
 		}
+		
+		if (loadTimer != null) {
+			loadTimer.stopIt();
+			loadTimer = null;
+		}
+		loadTimer = new LoadTimer();
+		loadTimer.start();
 	}
 
 	@Override
 	public void onStop() {
+		if (loadTimer != null) {
+			loadTimer.stopIt();
+			loadTimer = null;
+		}
+		
 		if (dir != null) {
 			dir = app.removeDir();
 		}
@@ -315,6 +327,11 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public void onPause() {
+		if (loadTimer != null) {
+			loadTimer.stopIt();
+			loadTimer = null;
+		}
+		
 		if (dir != null) {
 			dir = app.removeDir();
 		}
@@ -333,6 +350,11 @@ public class cgeomap extends MapActivity {
 
 	@Override
 	public void onDestroy() {
+		if (loadTimer != null) {
+			loadTimer.stopIt();
+			loadTimer = null;
+		}
+		
 		if (dir != null) {
 			dir = app.removeDir();
 		}
@@ -440,22 +462,24 @@ public class cgeomap extends MapActivity {
 			} else {
 				settings.liveMapEnable();
 			}
+			liveChanged = true;
 		} else if (id == 4) {
-			if (live && !isLoading() && caches != null && caches.size() > 0) {
+			if (live && !isLoading() && caches != null && !caches.isEmpty()) {
 				final ArrayList<String> geocodes = new ArrayList<String>();
 
+				ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
 				try {
-					if (coordinates != null && coordinates.size() > 0) {
+					if (cachesProtected != null && cachesProtected.size() > 0) {
 						final GeoPoint mapCenter = mapView.getMapCenter();
 						final int mapCenterLat = mapCenter.getLatitudeE6();
 						final int mapCenterLon = mapCenter.getLongitudeE6();
 						final int mapSpanLat = mapView.getLatitudeSpan();
 						final int mapSpanLon = mapView.getLongitudeSpan();
 
-						for (cgCoord coord : coordinates) {
-							if (coord.geocode != null && coord.geocode.length() > 0) {
-								if (base.isCacheInViewPort(mapCenterLat, mapCenterLon, mapSpanLat, mapSpanLon, coord.latitude, coord.longitude) && app.isOffline(coord.geocode, null) == false) {
-									geocodes.add(coord.geocode);
+						for (cgCache oneCache : cachesProtected) {
+							if (oneCache != null && oneCache.latitude != null && oneCache.longitude != null) {
+								if (base.isCacheInViewPort(mapCenterLat, mapCenterLon, mapSpanLat, mapSpanLon, oneCache.latitude, oneCache.longitude) && app.isOffline(oneCache.geocode, null) == false) {
+									geocodes.add(oneCache.geocode);
 								}
 							}
 						}
@@ -623,6 +647,21 @@ public class cgeomap extends MapActivity {
 
 		public void stopIt() {
 			stop = true;
+			
+			if (loadThread != null) {
+				loadThread.stopIt();
+				loadThread = null;
+			}
+			
+			if (downloadThread != null) {
+				downloadThread.stopIt();
+				downloadThread = null;
+			}
+			
+			if (displayThread != null) {
+				displayThread.stopIt();
+				displayThread = null;
+			}
 		}
 
 		@Override
@@ -648,20 +687,26 @@ public class cgeomap extends MapActivity {
 						// check if map moved or zoomed
 						moved = false;
 
-						if (centerLatitude == null || centerLongitude == null) {
+						if (liveChanged) {
+							moved = true;
+						} else if (centerLatitude == null || centerLongitude == null) {
 							moved = true;
 						} else if (spanLatitude == null || spanLongitude == null) {
 							moved = true;
-						} else if (caches == null || caches.isEmpty()) {
-							moved = true;
-						} else if (((Math.abs(spanLatitudeNow - spanLatitude) > 50) || (Math.abs(spanLongitudeNow - spanLongitude) > 50) || // changed zoom
+						} else if ((
+								(Math.abs(spanLatitudeNow - spanLatitude) > 50) || (Math.abs(spanLongitudeNow - spanLongitude) > 50) || // changed zoom
 								(Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow / 6)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow / 6)) // map moved
-								) && !base.isInViewPort(centerLatitude, centerLongitude, centerLatitudeNow, centerLongitudeNow, spanLatitude, spanLongitude, spanLatitudeNow, spanLongitudeNow)) {
+								) && (
+								caches == null || caches.isEmpty() ||
+								!base.isInViewPort(centerLatitude, centerLongitude, centerLatitudeNow, centerLongitudeNow, spanLatitude, spanLongitude, spanLatitudeNow, spanLongitudeNow)
+								)) {
 							moved = true;
 						}
 
 						// save new values
 						if (moved) {
+							liveChanged = false;
+							
 							centerLatitude = centerLatitudeNow;
 							centerLongitude = centerLongitudeNow;
 							spanLatitude = spanLatitudeNow;
@@ -693,7 +738,7 @@ public class cgeomap extends MapActivity {
 							}
 						}
 					}
-
+					
 					if (!isLoading()) {
 						showProgressHandler.sendEmptyMessage(0); // hide progress
 					}
@@ -788,7 +833,7 @@ public class cgeomap extends MapActivity {
 			searchId = base.searchByViewport(params, 0);
 
 			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
-
+			
 			if (stop) {
 				return;
 			}
@@ -814,8 +859,10 @@ public class cgeomap extends MapActivity {
 		public void run() {
 			working = true;
 
-			// check mapview
-			if (mapView == null) {
+			if (mapView == null || caches == null) {
+				displayHandler.sendEmptyMessage(0);
+				working = false;
+				
 				return;
 			}
 
@@ -861,32 +908,82 @@ public class cgeomap extends MapActivity {
 					counter++;
 					if ((counter % 10) == 0) {
 						overlayCaches.updateItems(items);
-						mapView.invalidate();
+						displayHandler.sendEmptyMessage(1);
 					}
 				}
-
+				
 				overlayCaches.updateItems(items);
-				mapView.invalidate();
+				displayHandler.sendEmptyMessage(1);
 
 				cachesCnt = cachesProtected.size();
-
+				
 				if (stop) {
 					return;
 				}
 
 				// display cache waypoints
-				if (cachesCnt == 1) {
-					// TODO: display cache waypoints
+				if (cachesCnt == 1 && !live) {
+					if (cachesCnt == 1 && live == false) {
+						cgCache oneCache = cachesProtected.get(0);
+						
+						if (oneCache != null && oneCache.waypoints != null && !oneCache.waypoints.isEmpty()) {
+							for (cgWaypoint oneWaypoint : oneCache.waypoints) {
+								if (oneWaypoint.latitude == null && oneWaypoint.longitude == null) {
+									continue;
+								}
 
-					mapView.invalidate();
+								cgCoord coord = new cgCoord(oneWaypoint);
+
+								coordinates.add(coord);
+								item = new cgOverlayItem(coord);
+
+								icon = base.getIcon(false, oneWaypoint.type, false, false, false);
+								if (iconsCache.containsKey(icon)) {
+									pin = iconsCache.get(icon);
+								} else {
+									pin = getResources().getDrawable(icon);
+									pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
+									iconsCache.put(icon, pin);
+								}
+								item.setMarker(pin);
+
+								items.add(item);
+							}
+
+							overlayCaches.updateItems(items);							
+							displayHandler.sendEmptyMessage(1);
+						}
+					}
 				}
 			} else if (latitudeIntent != null && longitudeIntent != null) {
-				// TODO: display given abstract coordinates
-				
-				cachesCnt = 0;
+				cgCoord coord = new cgCoord();
+				coord.type = "waypoint";
+				coord.latitude = latitudeIntent;
+				coord.longitude = longitudeIntent;
+				coord.name = "some place";
+
+				coordinates.add(coord);
+				cgOverlayItem item = new cgOverlayItem(coord);
+
+				final int icon = base.getIcon(false, "waypoint", false, false, false);
+				Drawable pin = null;
+				if (iconsCache.containsKey(icon)) {
+					pin = iconsCache.get(icon);
+				} else {
+					pin = getResources().getDrawable(icon);
+					pin.setBounds(0, 0, pin.getIntrinsicWidth(), pin.getIntrinsicHeight());
+					iconsCache.put(icon, pin);
+				}
+				item.setMarker(pin);
+
+				overlayCaches.updateItems(item);
+				displayHandler.sendEmptyMessage(1);
+			
+				cachesCnt = 1;
 			} else {
 				cachesCnt = 0;
 			}
+			cachesProtected.clear();
 
 			displayHandler.sendEmptyMessage(0);
 
