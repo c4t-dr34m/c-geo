@@ -627,6 +627,8 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.14</b> (__.05.2011)\n
+	· change: Optimized map\n
+	· change: Search for GPX files in /gpx\n
 	· fix: Posting logs with a lot of TB\'s\n
 	· fix: Displaying spoiler images\n
 	\n

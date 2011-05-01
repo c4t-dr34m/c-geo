@@ -1459,37 +1459,6 @@ public class cgData {
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
 		
 		try {
-			// viewport limitation
-			if (centerLat != null && centerLon != null && spanLat != null && spanLon != null) {
-				double latMin = (centerLat / 1e6) - ((spanLat / 1e6) / 2) - ((spanLat / 1e6) / 4);
-				double latMax = (centerLat / 1e6) + ((spanLat / 1e6) / 2) + ((spanLat / 1e6) / 4);
-				double lonMin = (centerLon / 1e6) - ((spanLon / 1e6) / 2) - ((spanLon / 1e6) / 4);
-				double lonMax = (centerLon / 1e6) + ((spanLon / 1e6) / 2) + ((spanLon / 1e6) / 4);
-				double llCache;
-
-				if (latMin > latMax) {
-					llCache = latMax;
-					latMax = latMin;
-					latMin = llCache;
-				}
-				if (lonMin > lonMax) {
-					llCache = lonMax;
-					lonMax = lonMin;
-					lonMin = llCache;
-				}
-
-				where.append("(");
-				where.append("latitude >= ");
-				where.append(String.format((Locale) null, "%.6f", latMin));
-				where.append(" and latitude <= ");
-				where.append(String.format((Locale) null, "%.6f", latMax));
-				where.append(" and longitude >= ");
-				where.append(String.format((Locale) null, "%.6f", lonMin));
-				where.append(" and longitude <= ");
-				where.append(String.format((Locale) null, "%.6f", lonMax));
-				where.append(")");
-			}
-
 			// geocodes or guids limitation
 			if (geocodes != null && geocodes.length > 0) {
 				StringBuilder all = new StringBuilder();
@@ -1524,6 +1493,39 @@ public class cgData {
 				}
 				where.append("guid in (");
 				where.append(all);
+				where.append(")");
+			} else {
+				return caches;
+			}
+
+			// viewport limitation
+			if (centerLat != null && centerLon != null && spanLat != null && spanLon != null) {
+				double latMin = (centerLat / 1e6) - ((spanLat / 1e6) / 2) - ((spanLat / 1e6) / 4);
+				double latMax = (centerLat / 1e6) + ((spanLat / 1e6) / 2) + ((spanLat / 1e6) / 4);
+				double lonMin = (centerLon / 1e6) - ((spanLon / 1e6) / 2) - ((spanLon / 1e6) / 4);
+				double lonMax = (centerLon / 1e6) + ((spanLon / 1e6) / 2) + ((spanLon / 1e6) / 4);
+				double llCache;
+
+				if (latMin > latMax) {
+					llCache = latMax;
+					latMax = latMin;
+					latMin = llCache;
+				}
+				if (lonMin > lonMax) {
+					llCache = lonMax;
+					lonMax = lonMin;
+					lonMin = llCache;
+				}
+
+				where.append("(");
+				where.append("latitude >= ");
+				where.append(String.format((Locale) null, "%.6f", latMin));
+				where.append(" and latitude <= ");
+				where.append(String.format((Locale) null, "%.6f", latMax));
+				where.append(" and longitude >= ");
+				where.append(String.format((Locale) null, "%.6f", lonMin));
+				where.append(" and longitude <= ");
+				where.append(String.format((Locale) null, "%.6f", lonMax));
 				where.append(")");
 			}
 
@@ -2168,11 +2170,24 @@ public class cgData {
 		ArrayList<String> geocodes = new ArrayList<String>();
 
 		StringBuilder specifySql = new StringBuilder();
+
+		specifySql.append("reason = ");
+		specifySql.append(list);
+		
 		if (detailedOnly == true) {
-			specifySql.append(" and detailed = 1");
+			if (specifySql.length() > 0) {
+				specifySql.append(" and ");
+			}
+			
+			specifySql.append("detailed = 1");
 		}
+		
 		if (cachetype != null) {
-			specifySql.append(" and type = \"");
+			if (specifySql.length() > 0) {
+				specifySql.append(" and ");
+			}
+			
+			specifySql.append("type = \"");
 			specifySql.append(cachetype);
 			specifySql.append("\"");
 		}
@@ -2181,12 +2196,12 @@ public class cgData {
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"_id", "geocode", "(abs(latitude-" + String.format((Locale) null, "%.6f", latitude) + ") + abs(longitude-" + String.format((Locale) null, "%.6f", longitude) + ")) as dif"},
-					"reason = " + list + specifySql.toString(),
+					specifySql.toString(),
 					null,
 					null,
 					null,
 					"dif",
-					"1000");
+					null);
 
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
@@ -2234,7 +2249,7 @@ public class cgData {
 					null,
 					null,
 					"visiteddate",
-					"1000");
+					null);
 
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {

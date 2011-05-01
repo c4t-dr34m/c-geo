@@ -437,7 +437,7 @@ public class cgeoapplication extends Application {
 
 		cgSearch search = searches.get(searchId);
 		ArrayList<String> geocodeList = search.getGeocodes();
-
+		
 		if (storage == null) {
 			storage = new cgData(this);
 		}

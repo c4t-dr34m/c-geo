@@ -173,7 +173,13 @@ public class cgeogpxes extends ListActivity {
 
 			try {
 				if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) == true) {
-					listDir(list, Environment.getExternalStorageDirectory());
+					final File gpx = new File(Environment.getExternalStorageDirectory().toString() + "/gpx");
+					
+					if (gpx.exists() && gpx.isDirectory()) {
+						listDir(list, gpx);
+					} else {
+						listDir(list, Environment.getExternalStorageDirectory());
+					}
 				} else {
 					Log.w(cgSettings.tag, "No external media mounted.");
 				}
