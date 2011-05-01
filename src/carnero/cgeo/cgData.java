@@ -1517,6 +1517,9 @@ public class cgData {
 					lonMin = llCache;
 				}
 
+				if (where.length() > 0) {
+					where.append(" and ");
+				}
 				where.append("(");
 				where.append("latitude >= ");
 				where.append(String.format((Locale) null, "%.6f", latMin));
