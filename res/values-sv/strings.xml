@@ -89,6 +89,7 @@
   <string name="log_webcam">Foto taget med Webcam</string>
   <string name="log_new_log">Logga</string>
   <string name="log_new_log_text">Loggtext</string>
+  <string name="log_announcement">Kungörelse</string>
 
   <!-- errors, warnings, info toasts -->
   <string name="err_none">Ok</string>

@@ -116,6 +116,28 @@ public class cgBase {
 	final private static HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 	final private static HashMap<String, Integer> wpIcons = new HashMap<String, Integer>();
 
+	public static final int LOG_FOUND_IT = 2;
+	public static final int LOG_DIDNT_FIND_IT = 3;
+	public static final int LOG_NOTE = 4;
+	public static final int LOG_PUBLISH_LISTING = 1003; // unknown ID; used number doesn't match any GC.com's ID
+	public static final int LOG_ENABLE_LISTING = 23;
+	public static final int LOG_ARCHIVE = 5;
+	public static final int LOG_TEMP_DISABLE_LISTING = 22;
+	public static final int LOG_NEEDS_ARCHIVE = 7;
+	public static final int LOG_WILL_ATTEND = 9;
+	public static final int LOG_ATTENDED = 10;
+	public static final int LOG_RETRIEVED_IT = 13;
+	public static final int LOG_PLACED_IT = 14;
+	public static final int LOG_GRABBED_IT = 19;
+	public static final int LOG_NEEDS_MAINTENANCE = 45;
+	public static final int LOG_OWNER_MAINTENANCE = 46;
+	public static final int LOG_UPDATE_COORDINATES = 47;
+	public static final int LOG_DISCOVERED_IT = 48;
+	public static final int LOG_POST_REVIEWER_NOTE = 49;
+	public static final int LOG_VISIT = 1001; // unknown ID; used number doesn't match any GC.com's ID
+	public static final int LOG_WEBCAM_PHOTO_TAKEN = 11;
+	public static final int LOG_ANNOUNCEMENT = 1004; // unknown ID; used number doesn't match any GC.com's ID
+
 	public cgBase(cgeoapplication appIn, cgSettings settingsIn, SharedPreferences prefsIn) {
 		res = appIn.getBaseContext().getResources();
 
@@ -197,85 +219,90 @@ public class cgBase {
 		waypointTypes.put("waypoint", res.getString(R.string.wp_waypoint));
 
 		// log types
-		logTypes.put("icon_smile", 2);
-		logTypes.put("icon_sad", 3);
-		logTypes.put("icon_note", 4);
-		logTypes.put("icon_greenlight", 1003);
-		logTypes.put("icon_enabled", 23);
-		logTypes.put("traffic_cone", 5);
-		logTypes.put("icon_disabled", 22);
-		logTypes.put("icon_rsvp", 9);
-		logTypes.put("icon_attended", 10);
-		logTypes.put("picked_up", 13);
-		logTypes.put("dropped_off", 14);
-		logTypes.put("transfer", 19);
-		logTypes.put("icon_needsmaint", 45);
-		logTypes.put("icon_maint", 46);
-		logTypes.put("coord_update", 47);
-		logTypes.put("icon_discovered", 48);
-		logTypes.put("big_smile", 49);
-		logTypes.put("icon_visited", 1001); // unknown ID; used number doesn't match any GC.com's ID
-		logTypes.put("icon_camera", 1002); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes.put("icon_smile", LOG_FOUND_IT);
+		logTypes.put("icon_sad", LOG_DIDNT_FIND_IT);
+		logTypes.put("icon_note", LOG_NOTE);
+		logTypes.put("icon_greenlight", LOG_PUBLISH_LISTING);
+		logTypes.put("icon_enabled", LOG_ENABLE_LISTING);
+		logTypes.put("traffic_cone", LOG_ARCHIVE);
+		logTypes.put("icon_disabled", LOG_TEMP_DISABLE_LISTING);
+		logTypes.put("icon_remove", LOG_NEEDS_ARCHIVE);
+		logTypes.put("icon_rsvp", LOG_WILL_ATTEND);
+		logTypes.put("icon_attended", LOG_ATTENDED);
+		logTypes.put("picked_up", LOG_RETRIEVED_IT);
+		logTypes.put("dropped_off", LOG_PLACED_IT);
+		logTypes.put("transfer", LOG_GRABBED_IT);
+		logTypes.put("icon_needsmaint", LOG_NEEDS_MAINTENANCE);
+		logTypes.put("icon_maint", LOG_OWNER_MAINTENANCE);
+		logTypes.put("coord_update", LOG_UPDATE_COORDINATES);
+		logTypes.put("icon_discovered", LOG_DISCOVERED_IT);
+		logTypes.put("big_smile", LOG_POST_REVIEWER_NOTE);
+		logTypes.put("icon_visited", LOG_VISIT); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes.put("icon_camera", LOG_WEBCAM_PHOTO_TAKEN); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes.put("icon_announcement", LOG_ANNOUNCEMENT); // unknown ID; used number doesn't match any GC.com's ID
 
-		logTypes0.put("found it", 2);
-		logTypes0.put("didn't find it", 3);
-		logTypes0.put("write note", 4);
-		logTypes0.put("publish listing", 1003);
-		logTypes0.put("enable listing", 23);
-		logTypes0.put("archive", 5);
-		logTypes0.put("temporarily disable listing", 22);
-		logTypes0.put("needs archived", 7);
-		logTypes0.put("will attend", 9);
-		logTypes0.put("attended", 10);
-		logTypes0.put("retrieved it", 13);
-		logTypes0.put("placed it", 14);
-		logTypes0.put("grabbed it", 19);
-		logTypes0.put("needs maintenance", 45);
-		logTypes0.put("owner maintenance", 46);
-		logTypes0.put("update coordinates", 47);
-		logTypes0.put("discovered it", 48);
-		logTypes0.put("post reviewer note", 49);
-		logTypes0.put("visit", 1001); // unknown ID; used number doesn't match any GC.com's ID
-		logTypes0.put("webcam photo taken", 1002); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes0.put("found it", LOG_FOUND_IT);
+		logTypes0.put("didn't find it", LOG_DIDNT_FIND_IT);
+		logTypes0.put("write note", LOG_NOTE);
+		logTypes0.put("publish listing", LOG_PUBLISH_LISTING);
+		logTypes0.put("enable listing", LOG_ENABLE_LISTING);
+		logTypes0.put("archive", LOG_ARCHIVE);
+		logTypes0.put("temporarily disable listing", LOG_TEMP_DISABLE_LISTING);
+		logTypes0.put("needs archived", LOG_NEEDS_ARCHIVE);
+		logTypes0.put("will attend", LOG_WILL_ATTEND);
+		logTypes0.put("attended", LOG_ATTENDED);
+		logTypes0.put("retrieved it", LOG_RETRIEVED_IT);
+		logTypes0.put("placed it", LOG_PLACED_IT);
+		logTypes0.put("grabbed it", LOG_GRABBED_IT);
+		logTypes0.put("needs maintenance", LOG_NEEDS_MAINTENANCE);
+		logTypes0.put("owner maintenance", LOG_OWNER_MAINTENANCE);
+		logTypes0.put("update coordinates", LOG_UPDATE_COORDINATES);
+		logTypes0.put("discovered it", LOG_DISCOVERED_IT);
+		logTypes0.put("post reviewer note", LOG_POST_REVIEWER_NOTE);
+		logTypes0.put("visit", LOG_VISIT); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes0.put("webcam photo taken", LOG_WEBCAM_PHOTO_TAKEN); // unknown ID; used number doesn't match any GC.com's ID
+		logTypes0.put("announcement", LOG_ANNOUNCEMENT); // unknown ID; used number doesn't match any GC.com's ID
 
-		logTypes1.put(2, res.getString(R.string.log_found));
-		logTypes1.put(3, res.getString(R.string.log_dnf));
-		logTypes1.put(4, res.getString(R.string.log_note));
-		logTypes1.put(1003, res.getString(R.string.log_published));
-		logTypes1.put(23, res.getString(R.string.log_enabled));
-		logTypes1.put(5, res.getString(R.string.log_archived));
-		logTypes1.put(22, res.getString(R.string.log_disabled));
-		logTypes1.put(7, res.getString(R.string.log_needs_archived));
-		logTypes1.put(9, res.getString(R.string.log_attend));
-		logTypes1.put(10, res.getString(R.string.log_attended));
-		logTypes1.put(13, res.getString(R.string.log_retrieved));
-		logTypes1.put(14, res.getString(R.string.log_placed));
-		logTypes1.put(19, res.getString(R.string.log_grabbed));
-		logTypes1.put(45, res.getString(R.string.log_maintenance_needed));
-		logTypes1.put(46, res.getString(R.string.log_maintained));
-		logTypes1.put(47, res.getString(R.string.log_update));
-		logTypes1.put(48, res.getString(R.string.log_discovered));
-		logTypes1.put(49, res.getString(R.string.log_reviewed));
-		logTypes1.put(1001, res.getString(R.string.log_taken));
-		logTypes1.put(1002, res.getString(R.string.log_webcam));
+		logTypes1.put(LOG_FOUND_IT, res.getString(R.string.log_found));
+		logTypes1.put(LOG_DIDNT_FIND_IT, res.getString(R.string.log_dnf));
+		logTypes1.put(LOG_NOTE, res.getString(R.string.log_note));
+		logTypes1.put(LOG_PUBLISH_LISTING, res.getString(R.string.log_published));
+		logTypes1.put(LOG_ENABLE_LISTING, res.getString(R.string.log_enabled));
+		logTypes1.put(LOG_ARCHIVE, res.getString(R.string.log_archived));
+		logTypes1.put(LOG_TEMP_DISABLE_LISTING, res.getString(R.string.log_disabled));
+		logTypes1.put(LOG_NEEDS_ARCHIVE, res.getString(R.string.log_needs_archived));
+		logTypes1.put(LOG_WILL_ATTEND, res.getString(R.string.log_attend));
+		logTypes1.put(LOG_ATTENDED, res.getString(R.string.log_attended));
+		logTypes1.put(LOG_RETRIEVED_IT, res.getString(R.string.log_retrieved));
+		logTypes1.put(LOG_PLACED_IT, res.getString(R.string.log_placed));
+		logTypes1.put(LOG_GRABBED_IT, res.getString(R.string.log_grabbed));
+		logTypes1.put(LOG_NEEDS_MAINTENANCE, res.getString(R.string.log_maintenance_needed));
+		logTypes1.put(LOG_OWNER_MAINTENANCE, res.getString(R.string.log_maintained));
+		logTypes1.put(LOG_UPDATE_COORDINATES, res.getString(R.string.log_update));
+		logTypes1.put(LOG_DISCOVERED_IT, res.getString(R.string.log_discovered));
+		logTypes1.put(LOG_POST_REVIEWER_NOTE, res.getString(R.string.log_reviewed));
+		logTypes1.put(LOG_VISIT, res.getString(R.string.log_taken));
+		logTypes1.put(LOG_WEBCAM_PHOTO_TAKEN, res.getString(R.string.log_webcam));
+		logTypes1.put(LOG_ANNOUNCEMENT, res.getString(R.string.log_announcement));
 
-		logTypes2.put(2, res.getString(R.string.log_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
-		logTypes2.put(3, res.getString(R.string.log_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
-		logTypes2.put(4, res.getString(R.string.log_note)); // traditional, multi, unknown, earth, wherigo, virtual, event, letterbox, webcam, trackable
-		logTypes2.put(1003, res.getString(R.string.log_published)); // X
-		logTypes2.put(23, res.getString(R.string.log_enabled)); // owner
-		logTypes2.put(5, res.getString(R.string.log_archived)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
-		logTypes2.put(22, res.getString(R.string.log_disabled)); // owner
-		logTypes2.put(7, res.getString(R.string.log_needs_archived)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
-		logTypes2.put(9, res.getString(R.string.log_attend)); // event
-		logTypes2.put(10, res.getString(R.string.log_attended)); // event
-		logTypes2.put(11, res.getString(R.string.log_webcam)); // webcam
-		logTypes2.put(13, res.getString(R.string.log_retrieved)); //trackable
-		logTypes2.put(19, res.getString(R.string.log_grabbed)); //trackable
-		logTypes2.put(45, res.getString(R.string.log_maintenance_needed)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
-		logTypes2.put(46, res.getString(R.string.log_maintained)); // owner
-		logTypes2.put(48, res.getString(R.string.log_discovered)); //trackable
-		logTypes2.put(49, res.getString(R.string.log_reviewed)); // X
+		logTypes2.put(LOG_FOUND_IT, res.getString(R.string.log_found)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox
+		logTypes2.put(LOG_DIDNT_FIND_IT, res.getString(R.string.log_dnf)); // traditional, multi, unknown, earth, wherigo, virtual, letterbox, webcam
+		logTypes2.put(LOG_NOTE, res.getString(R.string.log_note)); // traditional, multi, unknown, earth, wherigo, virtual, event, letterbox, webcam, trackable
+		logTypes2.put(LOG_PUBLISH_LISTING, res.getString(R.string.log_published)); // X
+		logTypes2.put(LOG_ENABLE_LISTING, res.getString(R.string.log_enabled)); // owner
+		logTypes2.put(LOG_ARCHIVE, res.getString(R.string.log_archived)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
+		logTypes2.put(LOG_TEMP_DISABLE_LISTING, res.getString(R.string.log_disabled)); // owner
+		logTypes2.put(LOG_NEEDS_ARCHIVE, res.getString(R.string.log_needs_archived)); // traditional, multi, unknown, earth, event, wherigo, virtual, letterbox, webcam
+		logTypes2.put(LOG_WILL_ATTEND, res.getString(R.string.log_attend)); // event
+		logTypes2.put(LOG_ATTENDED, res.getString(R.string.log_attended)); // event
+		logTypes2.put(LOG_WEBCAM_PHOTO_TAKEN, res.getString(R.string.log_webcam)); // webcam
+		logTypes2.put(LOG_RETRIEVED_IT, res.getString(R.string.log_retrieved)); //trackable
+		logTypes2.put(LOG_GRABBED_IT, res.getString(R.string.log_grabbed)); //trackable
+		logTypes2.put(LOG_NEEDS_MAINTENANCE, res.getString(R.string.log_maintenance_needed)); // traditional, unknown, multi, wherigo, virtual, letterbox, webcam
+		logTypes2.put(LOG_OWNER_MAINTENANCE, res.getString(R.string.log_maintained)); // owner
+		logTypes2.put(LOG_DISCOVERED_IT, res.getString(R.string.log_discovered)); //trackable
+		logTypes2.put(LOG_POST_REVIEWER_NOTE, res.getString(R.string.log_reviewed)); // X
+		logTypes2.put(LOG_ANNOUNCEMENT, res.getString(R.string.log_announcement)); // X
 
 		// trackables for logs
 		logTypesTrackable.put(0, res.getString(R.string.log_tb_nothing)); // do nothing

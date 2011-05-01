@@ -304,7 +304,7 @@ public class cgeovisit extends cgLogForm {
 			menu.findItem(0x7).setVisible(true);
 		}
 
-		if (settings.isGCvoteLogin() && typeSelected == 2 && cache.guid != null && cache.guid.length() > 0) {
+		if (settings.isGCvoteLogin() && typeSelected == cgBase.LOG_FOUND_IT && cache.guid != null && cache.guid.length() > 0) {
 			menu.findItem(9).setVisible(true);
 		} else {
 			menu.findItem(9).setVisible(false);
@@ -494,34 +494,38 @@ public class cgeovisit extends cgLogForm {
 		types.clear();
 
 		if (cache.type.equals("event") || cache.type.equals("mega") || cache.type.equals("cito") || cache.type.equals("lostfound")) {
-			types.add(9);
-			types.add(4);
-			types.add(10);
-			types.add(7);
+			types.add(cgBase.LOG_WILL_ATTEND);
+			types.add(cgBase.LOG_NOTE);
+			types.add(cgBase.LOG_ATTENDED);
+			types.add(cgBase.LOG_NEEDS_ARCHIVE);
 		} else if (cache.type.equals("earth")) {
-			types.add(2);
-			types.add(3);
-			types.add(4);
-			types.add(7);
+			types.add(cgBase.LOG_FOUND_IT);
+			types.add(cgBase.LOG_DIDNT_FIND_IT);
+			types.add(cgBase.LOG_NOTE);
+			types.add(cgBase.LOG_NEEDS_MAINTENANCE);
+			types.add(cgBase.LOG_NEEDS_ARCHIVE);
 		} else if (cache.type.equals("webcam")) {
-			types.add(11);
-			types.add(3);
-			types.add(4);
-			types.add(7);
-			types.add(45);
+			types.add(cgBase.LOG_WEBCAM_PHOTO_TAKEN);
+			types.add(cgBase.LOG_DIDNT_FIND_IT);
+			types.add(cgBase.LOG_NOTE);
+			types.add(cgBase.LOG_NEEDS_ARCHIVE);
+			types.add(cgBase.LOG_NEEDS_MAINTENANCE);
 		} else {
-			types.add(2);
-			types.add(3);
-			types.add(4);
-			types.add(7);
-			types.add(45);
+			types.add(cgBase.LOG_FOUND_IT);
+			types.add(cgBase.LOG_DIDNT_FIND_IT);
+			types.add(cgBase.LOG_NOTE);
+			types.add(cgBase.LOG_NEEDS_ARCHIVE);
+			types.add(cgBase.LOG_NEEDS_MAINTENANCE);
 		}
 		if (cache.owner.equalsIgnoreCase(settings.getUsername()) == true) {
-			types.add(46);
-			types.add(22);
-			types.add(23);
-			types.add(5);
-			types.remove(new Integer(45));
+			types.add(cgBase.LOG_OWNER_MAINTENANCE);
+			types.add(cgBase.LOG_TEMP_DISABLE_LISTING);
+			types.add(cgBase.LOG_ENABLE_LISTING);
+			types.add(cgBase.LOG_ARCHIVE);
+			types.remove(new Integer(cgBase.LOG_UPDATE_COORDINATES));
+			if (cache.type.equals("event") || cache.type.equals("mega") || cache.type.equals("cito") || cache.type.equals("lostfound")) {
+				types.add(cgBase.LOG_ANNOUNCEMENT);
+			}
 		}
 
 		final cgLog log = app.loadLogOffline(geocode);
@@ -529,7 +533,7 @@ public class cgeovisit extends cgLogForm {
 			typeSelected = log.type;
 			date.setTime(new Date(log.date));
 			text = log.log;
-			if (typeSelected == 2 && settings.isGCvoteLogin() == true) {
+			if (typeSelected == cgBase.LOG_FOUND_IT && settings.isGCvoteLogin() == true) {
 				if (post == null) {
 					post = (Button) findViewById(R.id.post);
 				}
@@ -539,7 +543,7 @@ public class cgeovisit extends cgLogForm {
 
 		if (types.contains(typeSelected) == false) {
 			if (alreadyFound == true) {
-				typeSelected = 4; // note
+				typeSelected = cgBase.LOG_NOTE;
 			} else {
 				typeSelected = types.get(0);
 			}
@@ -629,7 +633,7 @@ public class cgeovisit extends cgLogForm {
 			// TODO: change action
 		}
 
-		if (type == 2 && settings.twitter == 1) {
+		if (type == cgBase.LOG_FOUND_IT && settings.twitter == 1) {
 			tweetBox.setVisibility(View.VISIBLE);
 		} else {
 			tweetBox.setVisibility(View.GONE);
@@ -639,7 +643,7 @@ public class cgeovisit extends cgLogForm {
 			post = (Button) findViewById(R.id.post);
 		}
 
-		if (type == 2 && settings.isGCvoteLogin() == true) {
+		if (type == cgBase.LOG_FOUND_IT && settings.isGCvoteLogin() == true) {
 			if (rating == 0) {
 				post.setText(res.getString(R.string.log_post_no_rate));
 			} else {
@@ -700,7 +704,7 @@ public class cgeovisit extends cgLogForm {
 			app.clearLogOffline(geocode);
 
 			if (alreadyFound == true) {
-				typeSelected = 4; // note
+				typeSelected = cgBase.LOG_NOTE;
 			} else {
 				typeSelected = types.get(0);
 			}
@@ -770,7 +774,7 @@ public class cgeovisit extends cgLogForm {
 				if (typesPre.size() > 0) {
 					types.clear();
 					types.addAll(typesPre);
-					types.remove(new Integer(47));
+					types.remove(new Integer(cgBase.LOG_UPDATE_COORDINATES));
 				}
 				typesPre.clear();
 			} catch (Exception e) {
@@ -824,7 +828,7 @@ public class cgeovisit extends cgLogForm {
 				cache.logs.add(0, logNow);
 				app.addLog(geocode, logNow);
 
-				if (typeSelected == 2) {
+				if (typeSelected == cgBase.LOG_FOUND_IT) {
 					app.markFound(geocode);
 					if (cache != null) {
 						cache.found = true;
@@ -843,14 +847,14 @@ public class cgeovisit extends cgLogForm {
 			}
 
 			if (
-							status == 1 && typeSelected == 2 && settings.twitter == 1
+							status == 1 && typeSelected == cgBase.LOG_FOUND_IT && settings.twitter == 1
 							&& settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null
 							&& settings.tokenSecret.length() > 0 && tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
 			) {
 				base.postTweetCache(app, settings, geocode);
 			}
 
-			if (status == 1 && typeSelected == 2 && settings.isGCvoteLogin() == true) {
+			if (status == 1 && typeSelected == cgBase.LOG_FOUND_IT && settings.isGCvoteLogin() == true) {
 				base.setRating(cache.guid, rating);
 			}
 

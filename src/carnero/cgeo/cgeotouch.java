@@ -277,10 +277,10 @@ public class cgeotouch extends cgLogForm {
 		if (geocode != null) app.setAction("logging trackable");
 
 		types.clear();
-		types.add(13);
-		types.add(19);
-		types.add(4);
-		types.add(48);
+		types.add(cgBase.LOG_RETRIEVED_IT);
+		types.add(cgBase.LOG_GRABBED_IT);
+		types.add(cgBase.LOG_NOTE);
+		types.add(cgBase.LOG_DISCOVERED_IT);
 
 		if (typeSelected < 0 && cgBase.logTypes2.get(typeSelected) == null) typeSelected = types.get(2);
 		setType(typeSelected);
