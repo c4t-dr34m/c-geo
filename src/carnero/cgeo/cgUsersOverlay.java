@@ -1,5 +1,9 @@
 package carnero.cgeo;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,11 +11,9 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> {
 
