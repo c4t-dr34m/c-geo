@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.Display;
 
 public class cg8 {
-	private Activity activity = null;
+	private Activity  activity = null;
 
 	public cg8(Activity activityIn) {
 		activity = activityIn;
