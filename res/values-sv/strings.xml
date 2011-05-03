@@ -63,7 +63,7 @@
   <string name="log_archived">Arkiverad</string>
   <string name="log_needs_archived">Behöver arkiveras</string>
   <string name="log_discovered">Såg den</string>
-  <string name="log_reviewed">Reviewer anteckning</string>
+  <string name="log_reviewed">Meddelande till reviewern</string>
   <string name="log_taken">Besökte</string>
   <string name="log_tb_nothing">Gör inget</string>
   <string name="log_tb_visit">Besök</string>
