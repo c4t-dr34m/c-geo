@@ -87,6 +87,7 @@ public class cgeomap extends MapActivity {
 	private boolean live = true; // live map (live, dead) or rest (displaying caches on map)
 	private boolean liveChanged = false; // previous state for loadTimer
 	private boolean centered = false; // if map is already centered
+	private boolean alreadyCentered = false; // -""- for setting my location
 	// handlers
 	final private Handler displayHandler = new Handler() {
 
@@ -117,65 +118,6 @@ public class cgeomap extends MapActivity {
 				// TODO: center map
 			} else if (what == 1 && mapView != null) {
 				mapView.invalidate();
-			}
-		}
-	};
-	final private Handler centerMapHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			if (!centered && !live && searchId != null) {
-				try {
-					ArrayList<Object> viewport = app.getBounds(searchId);
-					
-					Integer cnt = (Integer) viewport.get(0);
-					Integer minLat = null;
-					Integer maxLat = null;
-					Integer minLon = null;
-					Integer maxLon = null;
-					
-					if (viewport.get(1) != null) {
-						minLat = new Double((Double) viewport.get(1) * 1e6).intValue();
-					}
-					if (viewport.get(2) != null) {
-						maxLat = new Double((Double) viewport.get(2) * 1e6).intValue();
-					}
-					if (viewport.get(3) != null) {
-						maxLon = new Double((Double) viewport.get(3) * 1e6).intValue();
-					}
-					if (viewport.get(4) != null) {
-						minLon = new Double((Double) viewport.get(4) * 1e6).intValue();
-					}
-					
-					if (cnt == null || cnt <= 0 || minLat == null || maxLat == null || minLon == null || maxLon == null) {
-						return;
-					}
-
-					int centerLat = 0;
-					int centerLon = 0;
-
-					if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) {
-						centerLat = minLat + ((maxLat - minLat) / 2);
-					} else {
-						centerLat = maxLat;
-					}
-					if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) {
-						centerLon = minLon + ((maxLon - minLon) / 2);
-					} else {
-						centerLon = maxLon;
-					}
-
-					if (cnt != null && cnt > 0) {
-						mapController.animateTo(new GeoPoint(centerLat, centerLon));
-						if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) {
-							mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
-						}
-					}
-				} catch (Exception e) {
-					// nothing at all
-				}
-
-				centered = true;
 			}
 		}
 	};
@@ -319,7 +261,7 @@ public class cgeomap extends MapActivity {
 		} else {
 			live = false;
 		}
-
+		
 		// google analytics
 		if (live) {
 			base.sendAnal(activity, "/map/live");
@@ -329,6 +271,10 @@ public class cgeomap extends MapActivity {
 			base.sendAnal(activity, "/map/normal");
 
 			followMyLocation = false;
+			
+			if (searchIdIntent != null) {
+				centerMap(searchIdIntent);
+			}
 		}
 		setMyLoc(null);
 
@@ -650,9 +596,13 @@ public class cgeomap extends MapActivity {
 			return;
 		}
 
-		mapController.animateTo(makeGeoPoint(latitude, longitude));
-
-
+		if (!alreadyCentered) {
+			alreadyCentered = true;
+			
+			mapController.setCenter(makeGeoPoint(latitude, longitude));
+		} else {
+			mapController.animateTo(makeGeoPoint(latitude, longitude));
+		}
 	}
 
 	// class: update location
@@ -745,6 +695,8 @@ public class cgeomap extends MapActivity {
 
 			while (!stop) {
 				try {
+					sleep(200);
+
 					if (mapView != null) {
 						// get current viewport
 						mapCenterNow = mapView.getMapCenter();
@@ -810,7 +762,6 @@ public class cgeomap extends MapActivity {
 					}
 
 					yield();
-					sleep(200);
 				} catch (Exception e) {
 					Log.w(cgSettings.tag, "cgeomap.LoadTimer.run: " + e.toString());
 				}
@@ -842,8 +793,6 @@ public class cgeomap extends MapActivity {
 			if (stop) {
 				return;
 			}
-
-			centerMapHandler.sendEmptyMessage(0);
 
 			if (displayThread != null && displayThread.isWorking()) {
 				displayThread.stopIt();
@@ -1179,6 +1128,64 @@ public class cgeomap extends MapActivity {
 		}
 	}
 	
+	// move map to view results of searchIdIntent
+	private void centerMap(Long searchIdCenter) {
+
+		if (!centered && searchIdCenter != null) {
+			try {
+				ArrayList<Object> viewport = app.getBounds(searchIdCenter);
+
+				Integer cnt = (Integer) viewport.get(0);
+				Integer minLat = null;
+				Integer maxLat = null;
+				Integer minLon = null;
+				Integer maxLon = null;
+
+				if (viewport.get(1) != null) {
+					minLat = new Double((Double) viewport.get(1) * 1e6).intValue();
+				}
+				if (viewport.get(2) != null) {
+					maxLat = new Double((Double) viewport.get(2) * 1e6).intValue();
+				}
+				if (viewport.get(3) != null) {
+					maxLon = new Double((Double) viewport.get(3) * 1e6).intValue();
+				}
+				if (viewport.get(4) != null) {
+					minLon = new Double((Double) viewport.get(4) * 1e6).intValue();
+				}
+
+				if (cnt == null || cnt <= 0 || minLat == null || maxLat == null || minLon == null || maxLon == null) {
+					return;
+				}
+
+				int centerLat = 0;
+				int centerLon = 0;
+
+				if ((Math.abs(maxLat) - Math.abs(minLat)) != 0) {
+					centerLat = minLat + ((maxLat - minLat) / 2);
+				} else {
+					centerLat = maxLat;
+				}
+				if ((Math.abs(maxLon) - Math.abs(minLon)) != 0) {
+					centerLon = minLon + ((maxLon - minLon) / 2);
+				} else {
+					centerLon = maxLon;
+				}
+
+				if (cnt != null && cnt > 0) {
+					mapController.setCenter(new GeoPoint(centerLat, centerLon));
+					if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) {
+						mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
+					}
+				}
+			} catch (Exception e) {
+				// nothing at all
+			}
+
+			centered = true;
+		}
+	}
+	
 	// switch My Location button image
 	private void setMyLoc(Boolean status) {
 		if (myLocSwitch == null) {
@@ -1224,7 +1231,8 @@ public class cgeomap extends MapActivity {
 			}
 		}
 	}
-// make geopoint
+	
+	// make geopoint
 	private GeoPoint makeGeoPoint(Double latitude, Double longitude) {
 		return new GeoPoint((int) (latitude * 1e6), (int) (longitude * 1e6));
 	}
