@@ -33,24 +33,13 @@
 				android:textSize="12dip"
 				android:textColor="@color/text_icon"
 				android:background="@drawable/icon_bcg" />
-		<!-- developement -->
 		<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
 				android:keepScreenOn="true"
 				android:enabled="true"
 				android:clickable="true"
-				android:apiKey="0aqvjxNlVeQ9BA0IK9ZpTU-GsacjVio1fa3mpaw" />
-		<!-- market -->
-		<!--
-		<view class="carnero.cgeo.cgMapView" android:id="@+id/map"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:keepScreenOn="true"
-				android:enabled="true"
-				android:clickable="true"
-				android:apiKey="0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q" />
-		-->
+				android:apiKey="@string/maps_api_key" />
 		<ImageView android:id="@+id/my_position"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"

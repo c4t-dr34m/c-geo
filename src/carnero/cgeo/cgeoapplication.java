@@ -405,6 +405,24 @@ public class cgeoapplication extends Application {
 		return storage.loadWaypoint(id);
 	}
 
+	public ArrayList<Object> getBounds(Long searchId) {
+		if (searchId == null || searches.containsKey(searchId) == false) {
+			return null;
+		}
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		
+		final cgSearch search = searches.get(searchId);
+		final ArrayList<String> geocodeList = search.getGeocodes();
+		
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+
+		return storage.getBounds(geocodeList.toArray());
+	}
+
 	public cgCache getCache(Long searchId) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return null;

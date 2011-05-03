@@ -1410,6 +1410,69 @@ public class cgData {
 
 		return true;
 	}
+	
+	public ArrayList<Object> getBounds(Object[] geocodes) {
+		init();
+
+		Cursor cursor = null;
+
+		final ArrayList<Object> viewport = new ArrayList<Object>();
+
+		try {
+			final StringBuilder where = new StringBuilder();
+			
+			if (geocodes != null && geocodes.length > 0) {
+				StringBuilder all = new StringBuilder();
+				for (Object one : geocodes) {
+					if (all.length() > 0) {
+						all.append(", ");
+					}
+					all.append("\"");
+					all.append((String) one);
+					all.append("\"");
+				}
+				
+				if (where.length() > 0) {
+					where.append(" and ");
+				}
+				where.append("geocode in (");
+				where.append(all);
+				where.append(")");
+			}
+				
+			cursor = databaseRO.query(
+					dbTableCaches,
+					new String[]{"count(_id) as cnt", "min(latitude) as latMin", "max(latitude) as latMax", "min(longitude) as lonMin", "max(longitude) as lonMax"},
+					where.toString(),
+					null,
+					null,
+					null,
+					null,
+					null);
+
+			if (cursor != null) {
+				int cnt = cursor.getCount();
+
+				if (cnt > 0) {
+					cursor.moveToFirst();
+
+					viewport.add((Integer) cursor.getInt(cursor.getColumnIndex("cnt")));
+					viewport.add((Double) cursor.getDouble(cursor.getColumnIndex("latMin")));
+					viewport.add((Double) cursor.getDouble(cursor.getColumnIndex("latMax")));
+					viewport.add((Double) cursor.getDouble(cursor.getColumnIndex("lonMin")));
+					viewport.add((Double) cursor.getDouble(cursor.getColumnIndex("lonMax")));
+				}
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.getBounds: " + e.toString());
+		}
+
+		if (cursor != null) {
+			cursor.close();
+		}
+		
+		return viewport;
+	}
 
 	public cgCache loadCache(String geocode, String guid) {
 		return loadCache(geocode, guid, false, true, false, false, false, false);
