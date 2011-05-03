@@ -695,7 +695,7 @@ public class cgeomap extends MapActivity {
 
 			while (!stop) {
 				try {
-					sleep(200);
+					sleep(250);
 
 					if (mapView != null) {
 						// get current viewport
@@ -1183,6 +1183,7 @@ public class cgeomap extends MapActivity {
 			}
 
 			centered = true;
+			alreadyCentered = true;
 		}
 	}
 	
