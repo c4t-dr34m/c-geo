@@ -136,7 +136,7 @@ public class cgBase {
 	public static final int LOG_POST_REVIEWER_NOTE = 49;
 	public static final int LOG_VISIT = 1001; // unknown ID; used number doesn't match any GC.com's ID
 	public static final int LOG_WEBCAM_PHOTO_TAKEN = 11;
-	public static final int LOG_ANNOUNCEMENT = 1004; // unknown ID; used number doesn't match any GC.com's ID
+	public static final int LOG_ANNOUNCEMENT = 74;
 
 	public cgBase(cgeoapplication appIn, cgSettings settingsIn, SharedPreferences prefsIn) {
 		res = appIn.getBaseContext().getResources();
