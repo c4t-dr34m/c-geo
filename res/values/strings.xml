@@ -89,6 +89,7 @@
   <string name="log_webcam">Webcam photo taken</string>
   <string name="log_new_log">Log</string>
   <string name="log_new_log_text">Log text</string>
+  <string name="log_announcement">Announcement</string>
 
   <!-- errors, warnings, info toasts -->
   <string name="err_none">Ok</string>
