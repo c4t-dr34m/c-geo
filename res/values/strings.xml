@@ -635,6 +635,7 @@
 	· change: Optimized map\n
 	· change: Search for GPX files in /gpx\n
 	· fix: Posting logs with a lot of TB\'s\n
+	· fix: Logtypes for cache owner\n
 	· fix: Displaying spoiler images\n
 	\n
     <b>2.13</b> (14.04.2011)\n
