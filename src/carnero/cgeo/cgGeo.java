@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 public class cgGeo {
+
 	private Context context = null;
 	private cgeoapplication app = null;
 	private LocationManager geoManager = null;
@@ -33,7 +34,6 @@ public class cgGeo {
 	private boolean g4cRunning = false;
 	private Double lastGo4cacheLat = null;
 	private Double lastGo4cacheLon = null;
-	
 	public Location location = null;
 	public int gps = -1;
 	public Double latitudeNow = null;
@@ -58,9 +58,13 @@ public class cgGeo {
 		time = timeIn;
 		distance = distanceIn;
 
-		if (prefs == null) prefs = context.getSharedPreferences(cgSettings.preferences, 0);
+		if (prefs == null) {
+			prefs = context.getSharedPreferences(cgSettings.preferences, 0);
+		}
 		distanceNow = prefs.getFloat("dst", 0f);
-		if (Double.isNaN(distanceNow) == true) distanceNow = 0d;
+		if (Double.isNaN(distanceNow) == true) {
+			distanceNow = 0d;
+		}
 		if (distanceNow == 0f) {
 			final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
 			if (prefsEdit != null) {
@@ -71,7 +75,7 @@ public class cgGeo {
 
 		geoNetListener = new cgeoGeoListener();
 		geoNetListener.setProvider(LocationManager.NETWORK_PROVIDER);
-		
+
 		geoGpsListener = new cgeoGeoListener();
 		geoGpsListener.setProvider(LocationManager.GPS_PROVIDER);
 
@@ -90,10 +94,12 @@ public class cgGeo {
 		satellitesVisible = 0;
 		satellitesFixed = 0;
 
-		if (geoManager == null) geoManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+		if (geoManager == null) {
+			geoManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		}
 
 		lastLoc();
-        
+
 		geoNetListener.setProvider(LocationManager.NETWORK_PROVIDER);
 		geoGpsListener.setProvider(LocationManager.GPS_PROVIDER);
 		geoManager.addGpsStatusListener(geoGpsStatusListener);
@@ -103,7 +109,7 @@ public class cgGeo {
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "There is no NETWORK location provider");
 		}
-		
+
 		try {
 			geoManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, distance, geoGpsListener);
 		} catch (Exception e) {
@@ -124,7 +130,7 @@ public class cgGeo {
 
 		final SharedPreferences.Editor prefsEdit = context.getSharedPreferences(cgSettings.preferences, 0).edit();
 		if (prefsEdit != null && Double.isNaN(distanceNow) == false) {
-			prefsEdit.putFloat("dst", (float)distanceNow);
+			prefsEdit.putFloat("dst", (float) distanceNow);
 			prefsEdit.commit();
 		}
 	}
@@ -132,10 +138,13 @@ public class cgGeo {
 	public void replaceUpdate(cgUpdateLoc geoUpdateIn) {
 		geoUpdate = geoUpdateIn;
 
-		if (geoUpdate != null) geoUpdate.updateLoc(this);
+		if (geoUpdate != null) {
+			geoUpdate.updateLoc(this);
+		}
 	}
 
 	public class cgeoGeoListener implements LocationListener {
+
 		public String active = null;
 
 		@Override
@@ -148,7 +157,7 @@ public class cgGeo {
 			if (location.getProvider().equals(LocationManager.GPS_PROVIDER) == true) {
 				locGps = location;
 				locGpsLast = System.currentTimeMillis();
-			} else if(location.getProvider().equals(LocationManager.NETWORK_PROVIDER) == true) {
+			} else if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER) == true) {
 				locNet = location;
 			}
 
@@ -158,35 +167,50 @@ public class cgGeo {
 		@Override
 		public void onProviderDisabled(String provider) {
 			if (provider.equals(LocationManager.NETWORK_PROVIDER) == true) {
-				if (geoManager != null && geoNetListener != null) geoManager.removeUpdates(geoNetListener);
+				if (geoManager != null && geoNetListener != null) {
+					geoManager.removeUpdates(geoNetListener);
+				}
 			} else if (provider.equals(LocationManager.GPS_PROVIDER) == true) {
-				if (geoManager != null && geoGpsListener != null) geoManager.removeUpdates(geoGpsListener);
+				if (geoManager != null && geoGpsListener != null) {
+					geoManager.removeUpdates(geoGpsListener);
+				}
 			}
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
 			if (provider.equals(LocationManager.NETWORK_PROVIDER) == true) {
-				if (geoNetListener == null) geoNetListener = new cgeoGeoListener();
+				if (geoNetListener == null) {
+					geoNetListener = new cgeoGeoListener();
+				}
 				geoNetListener.setProvider(LocationManager.NETWORK_PROVIDER);
 			} else if (provider.equals(LocationManager.GPS_PROVIDER) == true) {
-				if (geoGpsListener == null) geoGpsListener = new cgeoGeoListener();
+				if (geoGpsListener == null) {
+					geoGpsListener = new cgeoGeoListener();
+				}
 				geoGpsListener.setProvider(LocationManager.GPS_PROVIDER);
 			}
 		}
-		
+
 		public void setProvider(String provider) {
 			if (provider.equals(LocationManager.GPS_PROVIDER) == true) {
-				if (geoManager != null && geoManager.isProviderEnabled(LocationManager.GPS_PROVIDER) == true) active = provider;
-				else active = null;
+				if (geoManager != null && geoManager.isProviderEnabled(LocationManager.GPS_PROVIDER) == true) {
+					active = provider;
+				} else {
+					active = null;
+				}
 			} else if (provider.equals(LocationManager.NETWORK_PROVIDER) == true) {
-				if (geoManager != null && geoManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) == true) active = provider;
-				else active = null;
+				if (geoManager != null && geoManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) == true) {
+					active = provider;
+				} else {
+					active = null;
+				}
 			}
 		}
 	}
 
-    public class cgeoGpsStatusListener implements GpsStatus.Listener {
+	public class cgeoGpsStatusListener implements GpsStatus.Listener {
+
 		@Override
 		public void onGpsStatusChanged(int event) {
 			if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
@@ -196,10 +220,20 @@ public class cgGeo {
 				int satellites = 0;
 				int fixed = 0;
 
-				while (statusIterator.hasNext() == true) {
+				while (statusIterator.hasNext()) {
 					GpsSatellite sat = statusIterator.next();
-					if (sat.usedInFix() == true) fixed ++;
-					satellites ++;
+					if (sat.usedInFix() == true) {
+						fixed++;
+					}
+					satellites++;
+
+					/* satellite signal strength
+					if (sat.usedInFix()) {
+						Log.d(cgSettings.tag, "Sat #" + satellites + ": " + sat.getSnr() + " FIX");
+					} else {
+						Log.d(cgSettings.tag, "Sat #" + satellites + ": " + sat.getSnr());
+					}
+					 */
 				}
 
 				boolean changed = false;
@@ -212,10 +246,12 @@ public class cgGeo {
 					changed = true;
 				}
 
-				if (changed == true) selectBest(null);
+				if (changed == true) {
+					selectBest(null);
+				}
 			}
-        }
-    }
+		}
+	}
 
 	private void selectBest(String initProvider) {
 		if (locNet == null && locGps != null) { // we have only GPS
@@ -247,7 +283,9 @@ public class cgGeo {
 	}
 
 	private void assign(Double lat, Double lon) {
-		if (lat == null || lon == null) return;
+		if (lat == null || lon == null) {
+			return;
+		}
 
 		gps = -1;
 		latitudeNow = lat;
@@ -257,7 +295,9 @@ public class cgGeo {
 		speedNow = 0f;
 		accuracyNow = 999f;
 
-		if (geoUpdate != null) geoUpdate.updateLoc(this);
+		if (geoUpdate != null) {
+			geoUpdate.updateLoc(this);
+		}
 	}
 
 	private void assign(Location loc) {
@@ -281,14 +321,26 @@ public class cgGeo {
 		longitudeNow = location.getLongitude();
 		app.setLastLoc(latitudeNow, longitudeNow);
 
-		if (location.hasAltitude() && gps != -1) altitudeNow = location.getAltitude();
-		else altitudeNow = null;
-		if (location.hasBearing() && gps != -1) bearingNow = new Double(location.getBearing());
-		else bearingNow = new Double(0);
-		if (location.hasSpeed() && gps != -1) speedNow = location.getSpeed();
-		else speedNow = 0f;
-		if (location.hasAccuracy() && gps != -1) accuracyNow = location.getAccuracy();
-		else accuracyNow = 999f;
+		if (location.hasAltitude() && gps != -1) {
+			altitudeNow = location.getAltitude() + settings.altCorrection;
+		} else {
+			altitudeNow = null;
+		}
+		if (location.hasBearing() && gps != -1) {
+			bearingNow = new Double(location.getBearing());
+		} else {
+			bearingNow = new Double(0);
+		}
+		if (location.hasSpeed() && gps != -1) {
+			speedNow = location.getSpeed();
+		} else {
+			speedNow = 0f;
+		}
+		if (location.hasAccuracy() && gps != -1) {
+			accuracyNow = location.getAccuracy();
+		} else {
+			accuracyNow = 999f;
+		}
 
 		if (gps == 1) {
 			// save travelled distance only when location is from GPS
@@ -307,12 +359,17 @@ public class cgGeo {
 			}
 		}
 
-		if (geoUpdate != null) geoUpdate.updateLoc(this);
+		if (geoUpdate != null) {
+			geoUpdate.updateLoc(this);
+		}
 
-		if (gps > -1) (new publishLoc()).start();
+		if (gps > -1) {
+			(new publishLoc()).start();
+		}
 	}
 
 	private class publishLoc extends Thread {
+
 		private publishLoc() {
 			setPriority(Thread.MIN_PRIORITY);
 		}
@@ -330,14 +387,17 @@ public class cgGeo {
 				final String path = "/";
 				final String method = "POST";
 				String action = null;
-				if (app != null) action = app.getAction();
-				else action = "";
+				if (app != null) {
+					action = app.getAction();
+				} else {
+					action = "";
+				}
 
 				final String username = settings.getUsername();
 				if (username != null) {
 					final HashMap<String, String> params = new HashMap<String, String>();
-					final String latStr = String.format((Locale)null, "%.6f", latitudeNow);
-					final String lonStr = String.format((Locale)null, "%.6f", longitudeNow);
+					final String latStr = String.format((Locale) null, "%.6f", latitudeNow);
+					final String lonStr = String.format((Locale) null, "%.6f", longitudeNow);
 					params.put("u", username);
 					params.put("lt", latStr);
 					params.put("ln", lonStr);
@@ -365,7 +425,9 @@ public class cgGeo {
 		Location lastGps = geoManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location lastGsm = geoManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-		if (lastGps == null && lastGsm == null) return;
+		if (lastGps == null && lastGsm == null) {
+			return;
+		}
 		if (lastGps == null && lastGsm != null) {
 			lastGsm.setProvider("last");
 			assign(lastGsm);

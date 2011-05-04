@@ -328,6 +328,9 @@ public class cgeoinit extends Activity {
 		}
 		browserButton.setOnClickListener(new cgeoChangeBrowser());
 		
+		EditText altitudeEdit = (EditText) findViewById(R.id.altitude);
+		altitudeEdit.setText("" + prefs.getInt("altcorrection", 0));
+		
 		TextView lastBackup = (TextView) findViewById(R.id.backup_last);
 		File lastBackupFile = app.isRestoreFile();
 		if (lastBackupFile != null) {
@@ -372,6 +375,7 @@ public class cgeoinit extends Activity {
 		String passvoteNew = ((EditText) findViewById(R.id.passvote)).getText().toString();
 		String signatureNew = ((EditText) findViewById(R.id.signature)).getText().toString();
 		String languagesNew = ((EditText) findViewById(R.id.languages)).getText().toString();
+		String altitudeNew = ((EditText) findViewById(R.id.altitude)).getText().toString();
 
 		if (usernameNew == null) {
 			usernameNew = "";
@@ -388,13 +392,21 @@ public class cgeoinit extends Activity {
 		if (languagesNew == null) {
 			languagesNew = "";
 		}
+		
+		int altitudeNewInt = 0;
+		if (altitudeNew == null) {
+			altitudeNewInt = 0;
+		} else {
+			altitudeNewInt = new Integer(altitudeNew);
+		}
 
 		final boolean status1 = settings.setLogin(usernameNew, passwordNew);
 		final boolean status2 = settings.setGCvoteLogin(passvoteNew);
 		final boolean status3 = settings.setSignature(signatureNew);
 		final boolean status4 = settings.setLanguages(languagesNew);
+		final boolean status5 = settings.setAltCorrection(altitudeNewInt);
 
-		if (status1 == true && status2 == true && status3 == true && status4 == true) {
+		if (status1 && status2 && status3 && status4 && status5) {
 			return true;
 		}
 

@@ -55,6 +55,7 @@ public class cgSettings {
 	public int showAddress = 1;
 	public int publicLoc = 0;
 	public int twitter = 0;
+	public int altCorrection = 0;
 	public String signature = null;
 	public String cacheType = null;
 	public String tokenPublic = null;
@@ -104,6 +105,7 @@ public class cgSettings {
 		showAddress = prefs.getInt("showaddress", 1);
 		publicLoc = prefs.getInt("publicloc", 0);
 		twitter = prefs.getInt("twitter", 0);
+		altCorrection = prefs.getInt("altcorrection", 0);
 		signature = prefs.getString("signature", null);
 		cacheType = prefs.getString("cachetype", null);
 		tokenPublic = prefs.getString("tokenpublic", null);
@@ -343,6 +345,16 @@ public class cgSettings {
 		}
 
 		this.languages = languages;
+
+		return prefsEdit.commit();
+	}
+
+	public boolean setAltCorrection(int altitude) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
+
+		prefsEdit.putInt("altcorrection", altitude);
+
+		altCorrection = altitude;
 
 		return prefsEdit.commit();
 	}
