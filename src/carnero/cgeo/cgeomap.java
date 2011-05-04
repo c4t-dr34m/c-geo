@@ -107,7 +107,7 @@ public class cgeomap extends MapActivity {
 
 				title.append(" ");
 
-				if (cachesCnt > 0) {
+				if (caches != null && cachesCnt > 0) {
 					title.append("[");
 					title.append(caches.size());
 					title.append("]");
