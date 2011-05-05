@@ -89,6 +89,7 @@
   <string name="log_webcam">Webcam-Foto gemacht</string>
   <string name="log_new_log">Loggen</string>
   <string name="log_new_log_text">Log-Text</string>
+  <string name="log_announcement">Ankündigung</string>
 
   <!-- errors, warnings, info toasts -->
   <string name="err_none">OK</string>
@@ -129,16 +130,6 @@
   <string name="err_auth_process">Autorisierung fehlgeschlagen.</string>
   <string name="err_cannot_log_visit">c:geo hat nicht genügend Informationen um den Besuch zu loggen. Bitte über die Cache-Details versuchen.</string>
   <string name="err_init_cleared">c:geo konnte die Anmeldedaten nicht entfernen.</string>
-  <string name="init_backup">Sicherung</string>
-  <string name="init_backup_backup">Sicherung</string>
-  <string name="init_backup_note">Hinweis: Diese Option sichert die Datenbank von c:geo. Nur Caches und Wegpunkte werden gesichert, keine Einstellungen. Login-Daten und Passwörter werden die App nicht verlassen.</string>
-  <string name="init_backup_restore">Wiederstellung</string>
-  <string name="init_backup_success">Datenbank von c:geo wurde erfolgreich in Datei geschrieben</string>
-  <string name="init_backup_failed">Sicherung der Datenbank fehlgeschlagen.</string>
-  <string name="init_restore_success">Wiederherstellung beendet.</string>
-  <string name="init_restore_failed">Wiederherstellung fehlgeschlagen.</string>
-  <string name="init_backup_last">Backup verfügbar von</string>
-  <string name="init_backup_last_no">Keine Datei mit Datenbanksicherung gefunden.</string>
 
   <string name="err_no_chaches">c:geo konnte die Caches nicht laden.</string>
   <string name="err_download_fail">c:geo konnte keine Caches laden, weil </string>
@@ -347,8 +338,20 @@
   <string name="init_autoload">Ausführliche Beschreibung automatisch laden</string>
   <string name="init_livelist">Richtung zum Cache in der Cache-Liste anzeigen</string>
   <string name="init_browser">c:geo als normalen Internet-Browser tarnen</string>
+  <string name="init_altitude">Höhenkorrektur</string>
+  <string name="init_altitude_description">Falls das GPS eine falsche Höhe ermittelt, kannst du diese durch Angabe eines positiven oder negativen Wertes in Metern korrigieren.</string>
   <string name="init_clear">Login zurücksetzen</string>
   <string name="init_cleared">c:geo hat die Anmeldedaten gelöscht.</string>
+  <string name="init_backup">Sicherung</string>
+  <string name="init_backup_backup">Sicherung</string>
+  <string name="init_backup_note">Hinweis: Diese Option sichert die Datenbank von c:geo. Nur Caches und Wegpunkte werden gesichert, keine Einstellungen. Login-Daten und Passwörter werden die App nicht verlassen.</string>
+  <string name="init_backup_restore">Wiederstellung</string>
+  <string name="init_backup_success">Datenbank von c:geo wurde erfolgreich in Datei geschrieben</string>
+  <string name="init_backup_failed">Sicherung der Datenbank fehlgeschlagen.</string>
+  <string name="init_restore_success">Wiederherstellung beendet.</string>
+  <string name="init_restore_failed">Wiederherstellung fehlgeschlagen.</string>
+  <string name="init_backup_last">Backup verfügbar von</string>
+  <string name="init_backup_last_no">Keine Datei mit Datenbanksicherung gefunden.</string>
 
   <!-- auth -->
   <string name="auth_twitter">Twitter</string>
@@ -542,7 +545,7 @@
   <string name="trackable_origin">Ursprungsort</string>
   <string name="trackable_unknown">Unbekannt</string>
   <string name="trackable_released">Ausgesetzt</string>
-  <string name="trackable_distance">Gereist</string>
+  <string name="trackable_distance">Gereiste Strecke</string>
   <string name="trackable_touch">Trackable-Aktion</string>
 
   <!--  user -->
