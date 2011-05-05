@@ -346,7 +346,7 @@ public class cgeovisit extends cgLogForm {
 
 				if (settings.getSignature().contains("[NUMBER]") == true) {
 					final HashMap<String, String> params = new HashMap<String, String>();
-					final String page = base.request("www.geocaching.com", "/my/", "GET", params, false, false, false);
+					final String page = base.request(false, "www.geocaching.com", "/my/", "GET", params, false, false, false);
 					int current = base.parseFindCount(page);
 
 					if (current >= 0) {
@@ -764,7 +764,7 @@ public class cgeovisit extends cgLogForm {
 					return;
 				}
 
-				final String page = base.request("www.geocaching.com", "/seek/log.aspx", "GET", params, false, false, false);
+				final String page = base.request(false, "www.geocaching.com", "/seek/log.aspx", "GET", params, false, false, false);
 
 				viewstate = base.findViewstate(page, 0);
 				viewstate1 = base.findViewstate(page, 1);

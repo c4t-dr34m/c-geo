@@ -390,7 +390,7 @@ public class cgeotouch extends cgLogForm {
 					return;
 				}
 
-				final String page = base.request("www.geocaching.com", "/track/log.aspx", "GET", params, false, false, false);
+				final String page = base.request(false, "www.geocaching.com", "/track/log.aspx", "GET", params, false, false, false);
 
 				viewstate = base.findViewstate(page, 0);
 				viewstate1 = base.findViewstate(page, 1);
