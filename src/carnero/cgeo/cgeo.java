@@ -138,11 +138,7 @@ public class cgeo extends Activity {
 			Log.i(cgSettings.tag, "No info.");
 		}
 
-		/*
-		if (app.storageStatus() == false) {
-			warning.helpDialog(res.getString(R.string.database_error_title), res.getString(R.string.database_error_message));
-		}
-		*/
+		// warning.helpDialog("Important notice", "Hello, welcome to c:geo. Due to changes on GC.com is c:geo not working properly yet. Developer is working hard to deliver to you fully functional version ASAP (in next two days). Please, keep in mind this is not the one.");
 
 		try {
 			if (settings.helper == 0) {
