@@ -259,6 +259,7 @@
   <string name="caches_sort_size">storlek</string>
   <string name="caches_sort_favorites">poäng/betyg</string>
   <string name="caches_sort_name">namn</string>
+  <string name="caches_sort_gccode">GC-kod (ålder)</string>
   <string name="caches_select">Välj från lista</string>
   <string name="caches_select_mode">Markeringsläge</string>
   <string name="caches_select_mode_exit">Avsluta markeringsläge</string>
@@ -284,6 +285,7 @@
   <string name="list_menu">Listor</string>
   <string name="list_menu_create">Skapa en ny lista</string>
   <string name="list_menu_drop">Ta bort den här listan</string>
+  <string name="list_menu_change">Byt lista</string>
   <string name="list_title">Välj en lista</string>
   <string name="list_inbox">Sparade</string>
   <string name="list_wpt">Punkter</string>

@@ -553,6 +553,7 @@ public class cgeocaches extends ListActivity {
 		subMenuSort.add(0, 13, 0, res.getString(R.string.caches_sort_size));
 		subMenuSort.add(0, 14, 0, res.getString(R.string.caches_sort_favorites));
 		subMenuSort.add(0, 15, 0, res.getString(R.string.caches_sort_name));
+		subMenuSort.add(0, 16, 0, res.getString(R.string.caches_sort_gccode));
 		
 		menu.add(0, 0, 0, res.getString(R.string.caches_select_mode)).setIcon(android.R.drawable.ic_menu_agenda);
 		menu.add(0, 9, 0, res.getString(R.string.caches_select_invert)).setIcon(android.R.drawable.ic_menu_agenda);
@@ -579,6 +580,7 @@ public class cgeocaches extends ListActivity {
 			SubMenu subMenu = menu.addSubMenu(0, 102, 0, res.getString(R.string.list_menu)).setIcon(android.R.drawable.ic_menu_more);
 			subMenu.add(0, 7, 0, res.getString(R.string.list_menu_create));
 			subMenu.add(0, 8, 0, res.getString(R.string.list_menu_drop));
+			subMenu.add(0, 17, 0, res.getString(R.string.list_menu_change));
 		}
 		
 		return true;
@@ -632,6 +634,11 @@ public class cgeocaches extends ListActivity {
 				menu.findItem(8).setVisible(false);
 			} else {
 				menu.findItem(8).setVisible(true);
+			}
+			if (app.getLists().size() < 2) {
+				menu.findItem(17).setVisible(false);
+			} else {
+				menu.findItem(17).setVisible(true);
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeocaches.onPrepareOptionsMenu: " + e.toString());
@@ -703,6 +710,14 @@ public class cgeocaches extends ListActivity {
 				if (adapter != null) {
 					adapter.setComparator(new cgCacheNameComparator());
 				}
+				return false;
+			case 16:
+				if (adapter != null) {
+					adapter.setComparator(new cgCacheGeocodeComparator());
+				}
+				return false;
+			case 17:
+				selectList(null);
 				return false;
 		}
 
