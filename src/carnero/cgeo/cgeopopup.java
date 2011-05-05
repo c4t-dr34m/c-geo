@@ -168,8 +168,9 @@ public class cgeopopup extends Activity {
 		subMenu.add(0, 23, 0, res.getString(R.string.cache_menu_map_ext)); // ext.: other
 		subMenu.add(0, 4, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
 		
-		menu.add(0, 5, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
 		menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
+		menu.add(0, 5, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
+		menu.add(0, 7, 0, res.getString(R.string.cache_menu_browser)).setIcon(android.R.drawable.ic_menu_info_details); // browser
 
 		return true;
 	}
@@ -239,6 +240,9 @@ public class cgeopopup extends Activity {
 
 			activity.finish();
 
+			return true;
+		} else if (menuItem == 7) {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.geocaching.com/seek/cache_details.aspx?wp=" + cache.geocode)));
 			return true;
 		} else if (menuItem == 20) {
 			base.runExternalMap(cgBase.mapAppLocus, activity, res, warning, tracker, cache.latitude, cache.longitude); // locus
