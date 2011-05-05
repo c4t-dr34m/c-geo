@@ -2276,10 +2276,10 @@ public class cgBase {
 			while (matcherLogs.find()) {
 				if (matcherLogs.groupCount() > 0) {
 					final Pattern patternLog = Pattern.compile("[^>]*>" + 
-							"[^<]*<td>[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;(\\d+).(\\d+).(\\d+)[^<]*</td>" +
+							"[^<]*<td[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;(\\d+).(\\d+).(\\d+)[^<]*</td>" +
 							"[^<]*<td>[^<]*<a href=[^>]+>([^<]+)<.a>([^<]*|[^<]*<a href=[\"|'].*guid=([^\"]*)\">([^<]*)</a>[^<]*)</td>" +
 							"[^<]*<td>[^<]*</td>" +
-							"[^<]*<td>[^<]*<a href=[^>]+>[^<]+</a>[^<]*</td>[^<]*</tr>" +
+							"[^<]*<td[^<]*<a href=[^>]+>[^<]+</a>[^<]*</td>[^<]*</tr>" +
 							"[^<]*<tr[^>]*>[^<]*<td[^>]*>(.*?)</td>[^<]*</tr>.*" +
 							"");
 					// 1 filename == type
