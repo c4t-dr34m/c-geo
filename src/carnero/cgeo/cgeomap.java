@@ -48,6 +48,7 @@ public class cgeomap extends MapActivity {
 	private String geocodeIntent = null;
 	private Double latitudeIntent = null;
 	private Double longitudeIntent = null;
+	private String waypointTypeIntent = null;
 	// status data
 	private Long searchId = null;
 	private String token = null;
@@ -253,6 +254,7 @@ public class cgeomap extends MapActivity {
 			geocodeIntent = extras.getString("geocode");
 			latitudeIntent = extras.getDouble("latitude");
 			longitudeIntent = extras.getDouble("longitude");
+			waypointTypeIntent = extras.getString("wpttype");
 		}
 
 		// live or death
@@ -278,9 +280,14 @@ public class cgeomap extends MapActivity {
 		}
 		setMyLoc(null);
 
-		// start timer
-		loadTimer = new LoadTimer();
-		loadTimer.start();
+		if (latitudeIntent != null && longitudeIntent != null) {
+			// display just one point
+			(new DisplayPointThread()).start();
+		} else {
+			// start timer
+			loadTimer = new LoadTimer();
+			loadTimer.start();
+		}
 	}
 
 	@Override
@@ -975,7 +982,26 @@ public class cgeomap extends MapActivity {
 						}
 					}
 				}
-			} else if (latitudeIntent != null && longitudeIntent != null) {
+			}
+
+			cachesProtected.clear();
+
+			displayHandler.sendEmptyMessage(0);
+
+			working = false;
+		}
+	}
+
+	// display one point
+	private class DisplayPointThread extends Thread {
+
+		@Override
+		public void run() {
+			if (mapView == null || caches == null) {
+				return;
+			}
+
+			if (latitudeIntent != null && longitudeIntent != null) {
 				cgCoord coord = new cgCoord();
 				coord.type = "waypoint";
 				coord.latitude = latitudeIntent;
@@ -985,7 +1011,7 @@ public class cgeomap extends MapActivity {
 				coordinates.add(coord);
 				cgOverlayItem item = new cgOverlayItem(coord);
 
-				final int icon = base.getIcon(false, "waypoint", false, false, false);
+				final int icon = base.getIcon(false, waypointTypeIntent, false, false, false);
 				Drawable pin = null;
 				if (iconsCache.containsKey(icon)) {
 					pin = iconsCache.get(icon);
@@ -1003,11 +1029,8 @@ public class cgeomap extends MapActivity {
 			} else {
 				cachesCnt = 0;
 			}
-			cachesProtected.clear();
-
+			
 			displayHandler.sendEmptyMessage(0);
-
-			working = false;
 		}
 	}
 

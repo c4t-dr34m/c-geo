@@ -5353,7 +5353,7 @@ public class cgBase {
 			} else {
 				iconTxt = "waypoint";
 			}
-
+			
 			if (wpIcons.containsKey(iconTxt) == true) {
 				icon = wpIcons.get(iconTxt);
 			} else {

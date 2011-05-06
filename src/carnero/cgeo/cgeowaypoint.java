@@ -287,11 +287,10 @@ public class cgeowaypoint extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 		
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent = new Intent(activity, cgeomap.class);
 		mapIntent.putExtra("latitude", waypoint.latitude);
 		mapIntent.putExtra("longitude", waypoint.longitude);
+		mapIntent.putExtra("wpttype", waypoint.type);
 
 		activity.startActivity(mapIntent);
 	}
@@ -301,9 +300,7 @@ public class cgeowaypoint extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		cgeonavigate navigateActivity = new cgeonavigate();
-
-		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
+		Intent navigateIntent = new Intent(activity, cgeonavigate.class);
 		navigateIntent.putExtra("latitude", waypoint.latitude);
 		navigateIntent.putExtra("longitude", waypoint.longitude);
 		navigateIntent.putExtra("geocode", waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
