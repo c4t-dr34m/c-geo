@@ -3542,7 +3542,7 @@ public class cgBase {
 		return search.getCurrentId();
 	}
 
-	public ArrayList<cgUser> usersInViewport(String username, Double latMin, Double latMax, Double lonMin, Double lonMax) {
+	public ArrayList<cgUser> getGeocachersInViewport(String username, Double latMin, Double latMax, Double lonMin, Double lonMax) {
 		final ArrayList<cgUser> users = new ArrayList<cgUser>();
 
 		if (username == null) {
@@ -3566,7 +3566,7 @@ public class cgBase {
 		final String data = request(false, host, path, method, params, false, false, false);
 
 		if (data == null || data.length() == 0) {
-			Log.e(cgSettings.tag, "cgeoBase.usersInViewport: No data from server");
+			Log.e(cgSettings.tag, "cgeoBase.getGeocachersInViewport: No data from server");
 			return null;
 		}
 
@@ -3600,7 +3600,7 @@ public class cgBase {
 				}
 			}
 		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgBase.usersInViewport: " + e.toString());
+			Log.e(cgSettings.tag, "cgBase.getGeocachersInViewport: " + e.toString());
 		}
 
 		return users;

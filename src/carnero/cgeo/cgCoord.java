@@ -1,7 +1,8 @@
 package carnero.cgeo;
 
 public class cgCoord {
-    public Integer id = null;
+
+	public Integer id = null;
 	public String geocode = "";
 	public String type = "cache";
 	public String typeSpec = "traditional";
@@ -14,33 +15,32 @@ public class cgCoord {
 	public Float terrain = null;
 	public String size = null;
 
-    public cgCoord() {
+	public cgCoord() {
+	}
 
-    }
-
-    public cgCoord(cgCache cache) {
-        disabled = cache.disabled;
-        found = cache.found;
-        geocode = cache.geocode;
-        latitude = cache.latitude;
-        longitude = cache.longitude;
-        name = cache.name;
-        type = "cache";
-        typeSpec = cache.type;
+	public cgCoord(cgCache cache) {
+		disabled = cache.disabled;
+		found = cache.found;
+		geocode = cache.geocode;
+		latitude = cache.latitude;
+		longitude = cache.longitude;
+		name = cache.name;
+		type = "cache";
+		typeSpec = cache.type;
 		difficulty = cache.difficulty;
 		terrain = cache.terrain;
 		size = cache.size;
-    }
+	}
 
-    public cgCoord(cgWaypoint waypoint) {
-        id = waypoint.id;
-        disabled = false;
-        found = false;
-        geocode = "";
-        latitude = waypoint.latitude;
-        longitude = waypoint.longitude;
-        name = waypoint.name;
-        type = "waypoint";
-        typeSpec = waypoint.type;
-    }
+	public cgCoord(cgWaypoint waypoint) {
+		id = waypoint.id;
+		disabled = false;
+		found = false;
+		geocode = "";
+		latitude = waypoint.latitude;
+		longitude = waypoint.longitude;
+		name = waypoint.name;
+		type = "waypoint";
+		typeSpec = waypoint.type;
+	}
 }
