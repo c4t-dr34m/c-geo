@@ -259,6 +259,7 @@
   <string name="caches_sort_size">Größe</string>
   <string name="caches_sort_favorites">Beliebtheit</string>
   <string name="caches_sort_name">Name</string>
+  <string name="caches_sort_gccode">GC-Code (Alter)</string>
   <string name="caches_select">Wähle von Liste</string>
   <string name="caches_select_mode">Auswahlmodus</string>
   <string name="caches_select_mode_exit">Auswahlmodus beenden</string>
@@ -281,6 +282,7 @@
   <string name="list_menu">Liste</string>
   <string name="list_menu_create">Neue Liste</string>
   <string name="list_menu_drop">Aktuelle Liste löschen</string>
+  <string name="list_menu_change">Liste ändern</string>
   <string name="list_title">Liste wählen</string>
   <string name="list_inbox">Standardliste</string>
   <string name="list_wpt">Wegpunkte</string>
