@@ -1680,8 +1680,6 @@ public class cgBase {
 								cache.logs = new ArrayList<cgLog>();
 							}
 							cache.logs.add(logDone);
-							
-							Log.d(cgSettings.tag, ">>> " + logDone.author);
 						}
 					}
 				}
