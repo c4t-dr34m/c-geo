@@ -115,8 +115,6 @@ public class cgeomap extends MapActivity {
 				}
 
 				base.setTitle(activity, title.toString());
-
-				// TODO: center map
 			} else if (what == 1 && mapView != null) {
 				mapView.invalidate();
 			}
@@ -255,6 +253,16 @@ public class cgeomap extends MapActivity {
 			latitudeIntent = extras.getDouble("latitude");
 			longitudeIntent = extras.getDouble("longitude");
 			waypointTypeIntent = extras.getString("wpttype");
+			
+			if (searchIdIntent == 0l) {
+				searchIdIntent = null;
+			}
+			if (latitudeIntent == 0.0) {
+				latitudeIntent = null;
+			}
+			if (longitudeIntent == 0.0) {
+				longitudeIntent = null;
+			}
 		}
 
 		// live or death
@@ -274,20 +282,12 @@ public class cgeomap extends MapActivity {
 
 			followMyLocation = false;
 			
-			if (searchIdIntent != null) {
-				centerMap(searchIdIntent);
+			if (searchIdIntent != null || (latitudeIntent != null && longitudeIntent != null)) {
+				centerMap(searchIdIntent, latitudeIntent, longitudeIntent);
 			}
 		}
 		setMyLoc(null);
-
-		if (latitudeIntent != null && longitudeIntent != null) {
-			// display just one point
-			(new DisplayPointThread()).start();
-		} else {
-			// start timer
-			loadTimer = new LoadTimer();
-			loadTimer.start();
-		}
+		startTimer();
 	}
 
 	@Override
@@ -314,12 +314,7 @@ public class cgeomap extends MapActivity {
 			dirUpdate.updateDir(dir);
 		}
 
-		if (loadTimer != null) {
-			loadTimer.stopIt();
-			loadTimer = null;
-		}
-		loadTimer = new LoadTimer();
-		loadTimer.start();
+		startTimer();
 	}
 
 	@Override
@@ -666,6 +661,21 @@ public class cgeomap extends MapActivity {
 		}
 	}
 
+	public void startTimer() {
+		if (latitudeIntent != null && longitudeIntent != null) {
+			// display just one point
+			(new DisplayPointThread()).start();
+		} else {
+			// start timer
+			if (loadTimer != null) {
+				loadTimer.stopIt();
+				loadTimer = null;
+			}
+			loadTimer = new LoadTimer();
+			loadTimer.start();
+		}
+	}
+	
 	// loading timer
 	private class LoadTimer extends Thread {
 
@@ -789,7 +799,7 @@ public class cgeomap extends MapActivity {
 			working = true;
 			loadThreadRun = System.currentTimeMillis();
 
-			if (searchIdIntent != null) {
+			if (searchIdIntent != null && searchIdIntent > 0) {
 				searchId = searchIdIntent;
 			} else {
 				searchId = app.getOfflineAll(settings.cacheType);
@@ -1152,9 +1162,8 @@ public class cgeomap extends MapActivity {
 	}
 	
 	// move map to view results of searchIdIntent
-	private void centerMap(Long searchIdCenter) {
-
-		if (!centered && searchIdCenter != null) {
+	private void centerMap(Long searchIdCenter, Double latitudeCenter, Double longitudeCenter) {
+		if (!centered && searchIdIntent != null) {
 			try {
 				ArrayList<Object> viewport = app.getBounds(searchIdCenter);
 
@@ -1201,6 +1210,15 @@ public class cgeomap extends MapActivity {
 						mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
 					}
 				}
+			} catch (Exception e) {
+				// nothing at all
+			}
+
+			centered = true;
+			alreadyCentered = true;
+		} else if (!centered && latitudeCenter != null && longitudeCenter != null) {
+			try {
+				mapController.setCenter(new GeoPoint((int)(latitudeCenter * 1e6), (int)(longitudeCenter * 1e6)));
 			} catch (Exception e) {
 				// nothing at all
 			}
