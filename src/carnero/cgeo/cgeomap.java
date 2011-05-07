@@ -506,6 +506,8 @@ public class cgeomap extends MapActivity {
 				settings.liveMapEnable();
 			}
 			liveChanged = true;
+			searchId = null;
+			searchIdIntent = null;
 		} else if (id == 4) {
 			if (live && !isLoading() && caches != null && !caches.isEmpty()) {
 				final ArrayList<String> geocodes = new ArrayList<String>();
@@ -645,6 +647,11 @@ public class cgeomap extends MapActivity {
 			}
 
 			try {
+				if (overlayUsers == null) {
+					overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
+					mapView.getOverlays().add(overlayUsers);
+				}
+				
 				if (overlayMyLoc == null && mapView != null) {
 					overlayMyLoc = new cgMapMyOverlay(settings);
 					mapView.getOverlays().add(overlayMyLoc);
@@ -743,6 +750,7 @@ public class cgeomap extends MapActivity {
 			int spanLatitudeNow;
 			int spanLongitudeNow;
 			boolean moved = false;
+			boolean force = false;
 			long currentTime = 0;
 
 			while (!stop) {
@@ -759,34 +767,39 @@ public class cgeomap extends MapActivity {
 
 						// check if map moved or zoomed
 						moved = false;
+						force = false;
 
 						if (liveChanged) {
 							moved = true;
+							force = true;
 						} else if (centerLatitude == null || centerLongitude == null) {
 							moved = true;
 						} else if (spanLatitude == null || spanLongitude == null) {
 							moved = true;
 						} else if (((Math.abs(spanLatitudeNow - spanLatitude) > 50) || (Math.abs(spanLongitudeNow - spanLongitude) > 50) || // changed zoom
-								(Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow / 6)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow / 6)) // map moved
+								(Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow / 4)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow / 4)) // map moved
 								) && (caches == null || caches.isEmpty()
 								|| !base.isInViewPort(centerLatitude, centerLongitude, centerLatitudeNow, centerLongitudeNow, spanLatitude, spanLongitude, spanLatitudeNow, spanLongitudeNow))) {
 							moved = true;
+						}
+						
+						if (moved && caches != null && centerLatitude != null && centerLongitude != null && ((Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow * 1.2)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow * 1.2)))) {
+							force = true;
 						}
 
 						// save new values
 						if (moved) {
 							liveChanged = false;
 
-							centerLatitude = centerLatitudeNow;
-							centerLongitude = centerLongitudeNow;
-							spanLatitude = spanLatitudeNow;
-							spanLongitude = spanLongitudeNow;
-
 							currentTime = System.currentTimeMillis();
 							if (live && settings.maplive == 1) {
 								if (1000 < (currentTime - downloadThreadRun)) {
 									// from web
-									if (downloadThread != null && downloadThread.isWorking()) {
+									if (20000 < (currentTime - downloadThreadRun)) {
+										force = true; // probably stucked thread
+									}
+									
+									if (force && downloadThread != null && downloadThread.isWorking()) {
 										downloadThread.stopIt();
 										
 										try {
@@ -800,6 +813,11 @@ public class cgeomap extends MapActivity {
 										continue;
 									}
 
+									centerLatitude = centerLatitudeNow;
+									centerLongitude = centerLongitudeNow;
+									spanLatitude = spanLatitudeNow;
+									spanLongitude = spanLongitudeNow;
+
 									showProgressHandler.sendEmptyMessage(1); // show progress
 									downloadThread = new DownloadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
 									downloadThread.start();
@@ -807,7 +825,7 @@ public class cgeomap extends MapActivity {
 							} else {
 								if (250 < (currentTime - loadThreadRun)) {
 									// from database
-									if (loadThread != null && loadThread.isWorking()) {
+									if (force && loadThread != null && loadThread.isWorking()) {
 										loadThread.stopIt();
 										
 										try {
@@ -820,6 +838,11 @@ public class cgeomap extends MapActivity {
 									if (loadThread != null && loadThread.isWorking()) {
 										continue;
 									}
+
+									centerLatitude = centerLatitudeNow;
+									centerLongitude = centerLongitudeNow;
+									spanLatitude = spanLatitudeNow;
+									spanLongitude = spanLongitudeNow;
 
 									showProgressHandler.sendEmptyMessage(1); // show progress
 									loadThread = new LoadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
@@ -885,39 +908,30 @@ public class cgeomap extends MapActivity {
 						// check if map moved or zoomed
 						moved = false;
 
-						if (5000 < (currentTime - usersThreadRun)) {
+						currentTime = System.currentTimeMillis();
+						
+						if (60000 < (currentTime - usersThreadRun)) {
 							moved = true;
 						} else if (centerLatitudeUsers == null || centerLongitudeUsers == null) {
 							moved = true;
 						} else if (spanLatitudeUsers == null || spanLongitudeUsers == null) {
 							moved = true;
 						} else if (((Math.abs(spanLatitudeNow - spanLatitudeUsers) > 50) || (Math.abs(spanLongitudeNow - spanLongitudeUsers) > 50) || // changed zoom
-								(Math.abs(centerLatitudeNow - centerLatitudeUsers) > (spanLatitudeNow / 6)) || (Math.abs(centerLongitudeNow - centerLongitudeUsers) > (spanLongitudeNow / 6)) // map moved
-								) && (caches == null || caches.isEmpty()
-								|| !base.isInViewPort(centerLatitudeUsers, centerLongitudeUsers, centerLatitudeNow, centerLongitudeNow, spanLatitudeUsers, spanLongitudeUsers, spanLatitudeNow, spanLongitudeNow))) {
+								(Math.abs(centerLatitudeNow - centerLatitudeUsers) > (spanLatitudeNow / 4)) || (Math.abs(centerLongitudeNow - centerLongitudeUsers) > (spanLongitudeNow / 4)) // map moved
+								) && !base.isInViewPort(centerLatitudeUsers, centerLongitudeUsers, centerLatitudeNow, centerLongitudeNow, spanLatitudeUsers, spanLongitudeUsers, spanLatitudeNow, spanLongitudeNow)) {
 							moved = true;
 						}
 
 						// save new values
-						if (moved) {
+						if (moved && (1000 < (currentTime - usersThreadRun))) {
+							if (usersThread != null && usersThread.isWorking()) {
+								continue;
+							}
+
 							centerLatitudeUsers = centerLatitudeNow;
 							centerLongitudeUsers = centerLongitudeNow;
 							spanLatitudeUsers = spanLatitudeNow;
 							spanLongitudeUsers = spanLongitudeNow;
-
-							if (usersThread != null && usersThread.isWorking()) {
-								usersThread.stopIt();
-										
-								try {
-									sleep(100);
-								} catch (Exception e) {
-									// nothing
-								}
-							}
-
-							if (usersThread != null && usersThread.isWorking()) {
-								continue;
-							}
 
 							usersThread = new UsersThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
 							usersThread.start();
@@ -954,6 +968,9 @@ public class cgeomap extends MapActivity {
 			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
 
 			if (stop) {
+				displayHandler.sendEmptyMessage(0);
+				working = false;
+				
 				return;
 			}
 
@@ -985,6 +1002,9 @@ public class cgeomap extends MapActivity {
 			}
 
 			if (stop) {
+				displayHandler.sendEmptyMessage(0);
+				working = false;
+				
 				return;
 			}
 
@@ -1017,6 +1037,9 @@ public class cgeomap extends MapActivity {
 			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
 
 			if (stop) {
+				displayHandler.sendEmptyMessage(0);
+				working = false;
+				
 				return;
 			}
 
@@ -1051,10 +1074,9 @@ public class cgeomap extends MapActivity {
 
 			// display caches
 			final ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
+			final ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
 
 			if (cachesProtected != null && !cachesProtected.isEmpty()) {
-				ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
-
 				int counter = 0;
 				int icon = 0;
 				Drawable pin = null;
@@ -1062,6 +1084,9 @@ public class cgeomap extends MapActivity {
 
 				for (cgCache cacheOne : cachesProtected) {
 					if (stop) {
+						displayHandler.sendEmptyMessage(0);
+						working = false;
+
 						return;
 					}
 
@@ -1101,9 +1126,12 @@ public class cgeomap extends MapActivity {
 				cachesCnt = cachesProtected.size();
 
 				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
 					return;
 				}
-
+				
 				// display cache waypoints
 				if (cachesCnt == 1 && !live) {
 					if (cachesCnt == 1 && live == false) {
@@ -1138,6 +1166,9 @@ public class cgeomap extends MapActivity {
 						}
 					}
 				}
+			} else {
+				overlayCaches.updateItems(items);
+				displayHandler.sendEmptyMessage(1);
 			}
 
 			cachesProtected.clear();
