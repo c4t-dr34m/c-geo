@@ -721,21 +721,21 @@ public class cgBase {
 			}
 
 			// premium cache
-			if (row.indexOf("images/small_profile.gif") != -1) {
+			if (row.indexOf("/images/small_profile.gif") != -1) {
 				cache.members = true;
 			} else {
 				cache.members = false;
 			}
 
 			// found it
-			if (row.indexOf("images/silk/emoticon_smile.png") != -1) {
+			if (row.indexOf("/images/icons/icon_smile.gif") != -1) {
 				cache.found = true;
 			} else {
 				cache.found = false;
 			}
 
 			// own it
-			if (row.indexOf("images/silk/star.png") != -1) {
+			if (row.indexOf("/images/silk/star.png") != -1) {
 				cache.own = true;
 			} else {
 				cache.own = false;
