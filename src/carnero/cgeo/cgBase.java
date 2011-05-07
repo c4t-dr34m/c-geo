@@ -491,7 +491,7 @@ public class cgBase {
 
 	public String switchToEnglish(String viewstate, String viewstate1) {
 		final String host = "www.geocaching.com";
-		final String path = "/login/default.aspx";
+		final String path = "/default.aspx";
 		final HashMap<String, String> params = new HashMap<String, String>();
 
 		if (viewstate != null) {
@@ -504,7 +504,7 @@ public class cgBase {
 		params.put("__EVENTTARGET", "ctl00$uxLocaleList$uxLocaleList$ctl00$uxLocaleItem"); // switch to english
 		params.put("__EVENTARGUMENT", "");
 
-		return request(true, host, path, "POST", params, false, false, false);
+		return request(false, host, path, "POST", params, false, false, false);
 	}
 
 	public cgCacheWrap parseSearch(cgSearchThread thread, String url, String page, boolean showCaptcha) {
