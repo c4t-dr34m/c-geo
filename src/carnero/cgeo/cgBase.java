@@ -3895,7 +3895,7 @@ public class cgBase {
 		}
 
 		try {
-			final Pattern patternOk = Pattern.compile("<h2[^>]*>[^<]*<span id=\"ctl00_ContentBody_lbHeading\"[^>]*>[^<]*</span>[^<]*</h2>[^<]*<div id=[\"|']ctl00_ContentBody_LogBookPanel1_ViewLogPanel[\"|']>", Pattern.CASE_INSENSITIVE);
+			final Pattern patternOk = Pattern.compile("<div id=[\"|']ctl00_ContentBody_LogBookPanel1_ViewLogPanel[\"|']>", Pattern.CASE_INSENSITIVE);
 			final Matcher matcherOk = patternOk.matcher(page);
 			if (matcherOk.find() == true) {
 				Log.i(cgSettings.tag, "Log successfully posted to trackable #" + trackingCode);
