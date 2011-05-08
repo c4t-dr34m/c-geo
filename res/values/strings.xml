@@ -347,6 +347,7 @@
   <string name="init_disabled">Exclude disabled caches</string>
   <string name="init_offline">Store static maps for offline use</string>
   <string name="init_units">Use miles/feet\n(imperial units)</string>
+  <string name="init_osm">Use OpenStreetMaps</string> <!-- since: 2.21.4 -->
   <string name="init_nav">Use Google Navigation</string>
   <string name="init_autoload">Auto-loading long description</string>
   <string name="init_livelist">Show direction to caches in its list</string>

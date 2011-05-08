@@ -241,10 +241,12 @@ public class cgeopoint extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 		
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
-		
+		Intent mapIntent;
+		if (settings.osm) {
+			mapIntent = new Intent(activity, cgeoosm.class);
+		} else {
+			mapIntent = new Intent(activity, cgeomap.class);
+		}
 		mapIntent.putExtra("latitude", coords.get(0));
 		mapIntent.putExtra("longitude", coords.get(1));
 

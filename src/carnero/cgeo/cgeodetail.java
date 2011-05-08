@@ -1217,9 +1217,12 @@ public class cgeodetail extends Activity {
 	}
 
 	private void showOnMap() {
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent;
+		if (settings.osm) {
+			mapIntent = new Intent(activity, cgeoosm.class);
+		} else {
+			mapIntent = new Intent(activity, cgeomap.class);
+		}
 		mapIntent.putExtra("detail", true);
 		mapIntent.putExtra("searchid", searchId);
 

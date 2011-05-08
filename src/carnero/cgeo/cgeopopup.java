@@ -613,10 +613,12 @@ public class cgeopopup extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
-		
+		Intent mapIntent;
+		if (settings.osm) {
+			mapIntent = new Intent(activity, cgeoosm.class);
+		} else {
+			mapIntent = new Intent(activity, cgeomap.class);
+		}
 		mapIntent.putExtra("latitude", cache.latitude);
 		mapIntent.putExtra("longitude", cache.longitude);
 

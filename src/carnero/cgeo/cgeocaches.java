@@ -827,7 +827,12 @@ public class cgeocaches extends ListActivity {
 
 			return true;
 		} else if (id == 3) { // show on map
-			Intent mapIntent = new Intent(activity, cgeomap.class);
+			Intent mapIntent;
+			if (settings.osm) {
+				mapIntent = new Intent(activity, cgeoosm.class);
+			} else {
+				mapIntent = new Intent(activity, cgeomap.class);
+			}
 			mapIntent.putExtra("detail", false);
 			mapIntent.putExtra("geocode", cache.geocode);
 
@@ -1006,9 +1011,12 @@ public class cgeocaches extends ListActivity {
 			return;
 		}
 
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent;
+		if (settings.osm) {
+			mapIntent = new Intent(activity, cgeoosm.class);
+		} else {
+			mapIntent = new Intent(activity, cgeomap.class);
+		}
 		mapIntent.putExtra("detail", false);
 		mapIntent.putExtra("searchid", searchId);
 

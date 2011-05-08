@@ -6,11 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Overlay;
 
-public class cgOverlayScale extends Overlay {
+public class cgOOverlayScale extends Overlay {
 
 	private cgBase base = null;
 	private cgSettings settings = null;
@@ -24,7 +24,9 @@ public class cgOverlayScale extends Overlay {
 	private double distanceRound = 0d;
 	private String units = null;
 
-	public cgOverlayScale(Activity activity, cgBase baseIn, cgSettings settingsIn) {
+	public cgOOverlayScale(Activity activity, cgBase baseIn, cgSettings settingsIn) {
+		super(activity);
+		
 		base = baseIn;
 		settings = settingsIn;
 
@@ -35,8 +37,6 @@ public class cgOverlayScale extends Overlay {
 
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		super.draw(canvas, mapView, shadow);
-
 		final double span = mapView.getLongitudeSpan() / 1e6;
 		final GeoPoint center = mapView.getMapCenter();
 
@@ -109,14 +109,6 @@ public class cgOverlayScale extends Overlay {
 			scale.setStrokeWidth(2 * pixelDensity);
 			scale.setTextSize(14 * pixelDensity);
 			scale.setTypeface(Typeface.DEFAULT_BOLD);
-		}
-
-		if (mapView.isSatellite()) {
-			scaleShadow.setColor(0xFF000000);
-			scale.setColor(0xFFFFFFFF);
-		} else {
-			scaleShadow.setColor(0xFFFFFFFF);
-			scale.setColor(0xFF000000);
 		}
 
 		canvas.drawLine(10, bottom, 10, (bottom - (8 * pixelDensity)), scaleShadow);

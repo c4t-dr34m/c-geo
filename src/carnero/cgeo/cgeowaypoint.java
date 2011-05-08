@@ -287,7 +287,12 @@ public class cgeowaypoint extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 		
-		Intent mapIntent = new Intent(activity, cgeomap.class);
+		Intent mapIntent;
+		if (settings.osm) {
+			mapIntent = new Intent(activity, cgeoosm.class);
+		} else {
+			mapIntent = new Intent(activity, cgeomap.class);
+		}
 		mapIntent.putExtra("latitude", waypoint.latitude);
 		mapIntent.putExtra("longitude", waypoint.longitude);
 		mapIntent.putExtra("wpttype", waypoint.type);

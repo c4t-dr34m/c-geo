@@ -56,6 +56,7 @@ public class cgSettings {
 	public int publicLoc = 0;
 	public int twitter = 0;
 	public int altCorrection = 0;
+	public boolean osm = false;
 	public String signature = null;
 	public String cacheType = null;
 	public String tokenPublic = null;
@@ -106,14 +107,13 @@ public class cgSettings {
 		publicLoc = prefs.getInt("publicloc", 0);
 		twitter = prefs.getInt("twitter", 0);
 		altCorrection = prefs.getInt("altcorrection", 0);
+		osm = prefs.getBoolean("osm", false);
 		signature = prefs.getString("signature", null);
 		cacheType = prefs.getString("cachetype", null);
 		tokenPublic = prefs.getString("tokenpublic", null);
 		tokenSecret = prefs.getString("tokensecret", null);
 		
 		setLanguage(useEnglish);
-		
-		
 	}
 
 	private void setSkinDefaults() {

@@ -312,6 +312,14 @@ public class cgeoinit extends Activity {
 		}
 		unitsButton.setOnClickListener(new cgeoChangeUnits());
 
+		CheckBox osmButton = (CheckBox) findViewById(R.id.osm);
+		if (prefs.getBoolean("osm", false) == true) {
+			osmButton.setChecked(true);
+		} else {
+			osmButton.setChecked(false);
+		}
+		osmButton.setOnClickListener(new cgeoChangeOsm());
+
 		CheckBox gnavButton = (CheckBox) findViewById(R.id.gnav);
 		if (prefs.getInt("usegnav", 1) == 1) {
 			gnavButton.setChecked(true);
@@ -736,6 +744,30 @@ public class cgeoinit extends Activity {
 				unitsButton.setChecked(false);
 			} else {
 				unitsButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+	
+	private class cgeoChangeOsm implements View.OnClickListener {
+
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getBoolean("osm", false) == true) {
+				edit.putBoolean("osm", false);
+				settings.osm = false;
+			} else {
+				edit.putBoolean("osm", true);
+				settings.osm = true;
+			}
+			edit.commit();
+
+			CheckBox osmButton = (CheckBox) findViewById(R.id.osm);
+			if (prefs.getBoolean("osm", false) == true) {
+				osmButton.setChecked(true);
+			} else {
+				osmButton.setChecked(false);
 			}
 
 			return;

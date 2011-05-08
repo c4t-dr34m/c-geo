@@ -461,7 +461,11 @@ public class cgeo extends Activity {
 
 	private class cgeoFindOnMapListener implements View.OnClickListener {
 		public void onClick(View arg0) {
-			context.startActivity(new Intent(context, cgeomap.class));
+			if (settings.osm) {
+				context.startActivity(new Intent(context, cgeoosm.class));
+			} else {
+				context.startActivity(new Intent(context, cgeomap.class));
+			}
 		}
 	}
 
