@@ -1,6 +1,5 @@
 package carnero.cgeo;
 
-import android.graphics.Bitmap;
 import gnu.android.app.appmanualclient.*;
 
 import android.app.Activity;
@@ -22,10 +21,6 @@ import android.widget.ImageView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxy.bitmap;
-import org.osmdroid.ResourceProxy.string;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
