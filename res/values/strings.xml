@@ -4,8 +4,8 @@
   <string name="app_name_compass">c:geo compass</string>
 
   <!-- keys -->
-  <string name="maps_api_key">0EqeuoVNDFD9iRwtJahEoTOmayWVGHXTwVbt8Tg</string> <!-- dev -->
-  <string name="maps_api_key_market">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
+  <string name="maps_api_key_dev">0EqeuoVNDFD9iRwtJahEoTOmayWVGHXTwVbt8Tg</string> <!-- dev -->
+  <string name="maps_api_key">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
   
   <!-- basics -->
   <string name="cache">Cache</string>
@@ -636,11 +636,12 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.21.x</b> (07.05.2011)\n
+    <b>2.21.x</b> (10.05.2011)\n
 	· fix: Names in list\n
 	· fix: Found caches\n
 	· fix: Switching to English\n
 	· fix: Live map\n
+	· fix: Logging of trackables\n
 	\n
     <b>2.20</b> (06.05.2011)\n
 	· Fixed many issues from prev. version\n
