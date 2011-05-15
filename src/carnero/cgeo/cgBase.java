@@ -5631,7 +5631,7 @@ public class cgBase {
 		// Google Navigation
 		if (settings.useGNavigation == 1) {
 			try {
-				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + latitude + "," + longitude)));
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:ll=" + latitude + "," + longitude)));
 
 				sendAnal(activity, tracker, "/external/native/navigation");
 
