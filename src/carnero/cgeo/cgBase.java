@@ -5460,18 +5460,18 @@ public class cgBase {
 					}
 
 					// name
-					if (cache != null && cache.geocode != null && cache.geocode.length() > 0) {
+					if (cache != null && cache.name != null && cache.name.length() > 0) {
 						dos.writeUTF(cache.name);
-					} else if (waypoint != null && waypoint.lookup != null && waypoint.lookup.length() > 0) {
+					} else if (waypoint != null && waypoint.name != null && waypoint.name.length() > 0) {
 						dos.writeUTF(waypoint.name);
 					} else {
 						dos.writeUTF("");
 					}
 
 					// description
-					if (cache != null && cache.name != null && cache.name.length() > 0) {
+					if (cache != null && cache.geocode != null && cache.geocode.length() > 0) {
 						dos.writeUTF(cache.geocode.toUpperCase());
-					} else if (waypoint != null && waypoint.name != null && waypoint.name.length() > 0) {
+					} else if (waypoint != null && waypoint.lookup != null && waypoint.lookup.length() > 0) {
 						dos.writeUTF(waypoint.lookup.toUpperCase());
 					} else {
 						dos.writeUTF("");
