@@ -498,6 +498,10 @@ public class cgeocaches extends ListActivity {
 				adapter.forceSort(geo.latitudeNow, geo.longitudeNow);
 			}
 		}
+		
+		if (loadCachesHandler != null && searchId != null) {
+			loadCachesHandler.sendEmptyMessage(0);
+		}
 	}
 
 	@Override

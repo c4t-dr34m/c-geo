@@ -224,7 +224,7 @@ public class cgeomap extends MapActivity {
 		// initialize overlays
 		final List<Overlay> overlays = mapView.getOverlays();
 		overlays.clear();
-		if (overlayUsers == null) {
+		if (settings.publicLoc == 1 && overlayUsers == null) {
 			overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
 			overlays.add(overlayUsers);
 		}
@@ -647,7 +647,7 @@ public class cgeomap extends MapActivity {
 			}
 
 			try {
-				if (overlayUsers == null) {
+				if (settings.publicLoc == 1 && overlayUsers == null) {
 					overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
 					mapView.getOverlays().add(overlayUsers);
 				}
@@ -710,12 +710,14 @@ public class cgeomap extends MapActivity {
 			loadTimer.start();
 		}
 		
-		if (usersTimer != null) {
-			usersTimer.stopIt();
-			usersTimer = null;
+		if (settings.publicLoc == 1) {
+			if (usersTimer != null) {
+				usersTimer.stopIt();
+				usersTimer = null;
+			}
+			usersTimer = new UsersTimer();
+			usersTimer.start();
 		}
-		usersTimer = new UsersTimer();
-		usersTimer.start();
 	}
 	
 	// loading timer
