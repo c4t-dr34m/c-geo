@@ -635,6 +635,9 @@
 
   <!-- changelog -->
   <string name="changelog">\n
+    <b>2.22</b> (18.05.2011)\n
+	· fix: Few minor problems\n
+	\n
     <b>2.21.x</b> (10.05.2011)\n
 	· fix: Names in list\n
 	· fix: Found caches\n
