@@ -801,7 +801,13 @@ public class cgeodetail extends Activity {
 					if (inventoryString.length() > 0) {
 						inventoryString.append("\n");
 					}
-					inventoryString.append(Html.fromHtml(inventoryItem.name).toString());
+					// avoid HTML parsing where possible
+					if (inventoryItem.name.indexOf('<') >= 0) {
+						inventoryString.append(Html.fromHtml(inventoryItem.name).toString());
+					}
+					else {
+						inventoryString.append(inventoryItem.name);
+					}
 				}
 				inventView.setText(inventoryString);
 				inventBox.setClickable(true);
@@ -913,9 +919,21 @@ public class cgeodetail extends Activity {
 					if (wpt.name.trim().length() == 0) {
 						((TextView) waypointView.findViewById(R.id.name)).setText(base.formatCoordinate(wpt.latitude, "lat", true) + " | " + base.formatCoordinate(wpt.longitude, "lon", true));
 					} else {
-						((TextView) waypointView.findViewById(R.id.name)).setText(Html.fromHtml(wpt.name.trim()), TextView.BufferType.SPANNABLE);
+						// avoid HTML parsing
+						if (wpt.name.indexOf('<') >= 0) {
+							((TextView) waypointView.findViewById(R.id.name)).setText(Html.fromHtml(wpt.name.trim()), TextView.BufferType.SPANNABLE);
+						}
+						else {
+							((TextView) waypointView.findViewById(R.id.name)).setText(wpt.name.trim());
+						}
 					}
-					((TextView) waypointView.findViewById(R.id.note)).setText(Html.fromHtml(wpt.note.trim()), TextView.BufferType.SPANNABLE);
+					// avoid HTML parsing
+					if (wpt.note.indexOf('<') >= 0) {
+						((TextView) waypointView.findViewById(R.id.note)).setText(Html.fromHtml(wpt.note.trim()), TextView.BufferType.SPANNABLE);
+					}
+					else {
+						((TextView) waypointView.findViewById(R.id.note)).setText(wpt.note.trim());
+					}
 
 					waypointView.setOnClickListener(new waypointInfo(wpt.id));
 
@@ -1029,7 +1047,13 @@ public class cgeodetail extends Activity {
 				} else {
 					((TextView) rowView.findViewById(R.id.type)).setText(cgBase.logTypes1.get(4)); // note if type is unknown
 				}
-				((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
+				// avoid parsing HTML if not necessary
+				if (log.author.indexOf('<') >= 0) {
+					((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
+				}
+				else {
+					((TextView) rowView.findViewById(R.id.author)).setText(log.author);
+				}
 
 				if (log.found == -1) {
 					((TextView) rowView.findViewById(R.id.count)).setVisibility(View.GONE);
@@ -1040,7 +1064,13 @@ public class cgeodetail extends Activity {
 				} else {
 					((TextView) rowView.findViewById(R.id.count)).setText(log.found + " " + res.getString(R.string.cache_count_more));
 				}
-				((TextView) rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
+				// avoid parsing HTML if not necessary
+				if (log.log.indexOf('<') >= 0) {
+					((TextView) rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
+				}
+				else {
+					((TextView) rowView.findViewById(R.id.log)).setText(log.log);
+				}
 
 				final ImageView markFound = (ImageView) rowView.findViewById(R.id.found_mark);
 				final ImageView markDNF = (ImageView) rowView.findViewById(R.id.dnf_mark);
