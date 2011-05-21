@@ -42,6 +42,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map.Entry;
@@ -1003,25 +1005,41 @@ public class cgeodetail extends Activity {
 	private void displayLogs() {
 		// cache logs
 		TextView textView = (TextView) findViewById(R.id.logcount);
+		int logCounter = 0;
 		if (cache != null && cache.logCounts != null) {
-			int logCounter = 0;
 			final StringBuffer buff = new StringBuffer();
 			buff.append(res.getString(R.string.cache_log_types));
 			buff.append(": ");
-			
-			Set<Entry<Integer, Integer>> logCountsItems = cache.logCounts.entrySet();
-			for (Entry<Integer, Integer> pair : logCountsItems) {
-				if (logCounter > 0) {
-					buff.append(" | ");
-				}
-				buff.append(pair.getValue().intValue());
-				buff.append("× ");
-				if (cgBase.logTypes1.get(pair.getKey().intValue()) != null) {
-					buff.append(cgBase.logTypes1.get(pair.getKey().intValue()).toLowerCase(Locale.getDefault()));
+
+			// sort the log counts by type id ascending. that way the FOUND, DNF log types are the first and most visible ones
+			ArrayList<Entry<Integer, Integer>> sortedLogCounts = new ArrayList<Entry<Integer,Integer>>();
+			sortedLogCounts.addAll(cache.logCounts.entrySet());
+			Collections.sort(sortedLogCounts, new Comparator<Entry<Integer, Integer>>() {
+
+				@Override
+				public int compare(Entry<Integer, Integer> logCountItem1,
+						Entry<Integer, Integer> logCountItem2) {
+					return logCountItem1.getKey().compareTo(logCountItem2.getKey());
+				}});
+			for (Entry<Integer, Integer> pair : sortedLogCounts) {
+				int logTypeId = pair.getKey().intValue();
+				String logTypeLabel = cgBase.logTypes1.get(logTypeId);
+				// it may happen that the label is unknown -> then avoid any output for this type
+				if (logTypeLabel != null) {
+					if (logCounter > 0) {
+						buff.append(", ");
+					}
+					buff.append(pair.getValue().intValue());
+					buff.append("× ");
+					buff.append(logTypeLabel);
 				}
 				logCounter ++;
 			}
 			textView.setText(buff.toString());
+		}
+		// it may happen, that the logCounts map is available, but every log type has zero counts,
+		// therefore check again for the number of counted logs
+		if (logCounter > 0) {
 			textView.setVisibility(View.VISIBLE);
 		} else {
 			textView.setVisibility(View.GONE);
@@ -1030,7 +1048,7 @@ public class cgeodetail extends Activity {
 		// cache logs
 		LinearLayout listView = (LinearLayout) findViewById(R.id.log_list);
 		listView.removeAllViews();
-		
+
 		RelativeLayout rowView;
 
 		if (cache != null && cache.logs != null) {
@@ -1161,7 +1179,7 @@ public class cgeodetail extends Activity {
 			try {
 				final String latlonMap = String.format((Locale) null, "%.6f", cache.latitude) + "," + String.format((Locale) null, "%.6f", cache.longitude);
 				final Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-			
+
 				int width = display.getWidth();
 				int height = (int) (90 * pixelRatio);
 
@@ -1370,7 +1388,7 @@ public class cgeodetail extends Activity {
 					addParenteses = true;
 					location += " (";
 				}
-				
+
 				location += Html.fromHtml(cache.location).toString();
 				if (addParenteses) {
 					location += ")";
@@ -1459,11 +1477,11 @@ public class cgeodetail extends Activity {
 
 		final Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");
-		
+
 		if (cache != null && cache.geocode != null) {
 			String subject = cache.geocode.toUpperCase();
 			if (cache.name != null && cache.name.length() > 0){
-				subject = subject + " - " + cache.name;	
+				subject = subject + " - " + cache.name;
 			}
 			intent.putExtra(Intent.EXTRA_SUBJECT, "Geocache " + subject);
 			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + cache.geocode.toUpperCase());
