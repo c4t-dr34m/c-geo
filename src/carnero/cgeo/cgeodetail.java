@@ -806,7 +806,7 @@ public class cgeodetail extends Activity {
 						inventoryString.append("\n");
 					}
 					// avoid HTML parsing where possible
-					if (inventoryItem.name.indexOf('<') >= 0) {
+					if (inventoryItem.name.indexOf('<') >= 0 || inventoryItem.name.indexOf('&') >= 0 ) {
 						inventoryString.append(Html.fromHtml(inventoryItem.name).toString());
 					}
 					else {
@@ -958,7 +958,7 @@ public class cgeodetail extends Activity {
 						((TextView) waypointView.findViewById(R.id.name)).setText(base.formatCoordinate(wpt.latitude, "lat", true) + " | " + base.formatCoordinate(wpt.longitude, "lon", true));
 					} else {
 						// avoid HTML parsing
-						if (wpt.name.indexOf('<') >= 0) {
+						if (wpt.name.indexOf('<') >= 0 || wpt.name.indexOf('&') >= 0) {
 							((TextView) waypointView.findViewById(R.id.name)).setText(Html.fromHtml(wpt.name.trim()), TextView.BufferType.SPANNABLE);
 						}
 						else {
@@ -966,7 +966,7 @@ public class cgeodetail extends Activity {
 						}
 					}
 					// avoid HTML parsing
-					if (wpt.note.indexOf('<') >= 0) {
+					if (wpt.note.indexOf('<') >= 0 || wpt.note.indexOf('&') >= 0) {
 						((TextView) waypointView.findViewById(R.id.note)).setText(Html.fromHtml(wpt.note.trim()), TextView.BufferType.SPANNABLE);
 					}
 					else {
@@ -1102,7 +1102,7 @@ public class cgeodetail extends Activity {
 					((TextView) rowView.findViewById(R.id.type)).setText(cgBase.logTypes1.get(4)); // note if type is unknown
 				}
 				// avoid parsing HTML if not necessary
-				if (log.author.indexOf('<') >= 0) {
+				if (log.author.indexOf('<') >= 0 || log.author.indexOf('&') >= 0) {
 					((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
 				}
 				else {
@@ -1119,7 +1119,7 @@ public class cgeodetail extends Activity {
 					((TextView) rowView.findViewById(R.id.count)).setText(log.found + " " + res.getString(R.string.cache_count_more));
 				}
 				// avoid parsing HTML if not necessary
-				if (log.log.indexOf('<') >= 0) {
+				if (log.log.indexOf('<') >= 0 || log.log.indexOf('&') >= 0) {
 					((TextView) rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
 				}
 				else {
