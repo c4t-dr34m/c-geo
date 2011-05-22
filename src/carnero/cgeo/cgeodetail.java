@@ -1790,9 +1790,7 @@ public class cgeodetail extends Activity {
 			return;
 		}
 
-		cgeonavigate navigateActivity = new cgeonavigate();
-
-		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
+		Intent navigateIntent = new Intent(activity, cgeonavigate.class);
 		navigateIntent.putExtra("latitude", cache.latitude);
 		navigateIntent.putExtra("longitude", cache.longitude);
 		navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());
