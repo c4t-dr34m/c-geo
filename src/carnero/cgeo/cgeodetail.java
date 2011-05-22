@@ -14,6 +14,8 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.ContextMenu;
@@ -1732,9 +1734,30 @@ public class cgeodetail extends Activity {
 
 			try {
 				final TextView logView = (TextView)view;
-				final String logText = logView.getText().toString();
+				Spannable span = (Spannable) logView.getText();
 
-				logView.setText(cgBase.rot13(logText));
+				// I needed to re-implement the base.rot13() encryption here because we must work on
+				// a SpannableStringBuilder instead of the pure text and we must replace each character inline.
+				// Otherwise we loose all the images, colors and so on...
+				SpannableStringBuilder buffer = new SpannableStringBuilder(span);
+				boolean plaintext = false;
+
+				int length = span.length();
+				for (int index = 0; index < length; index++) {
+					int c = span.charAt(index);
+					if (c == '[') {
+						plaintext = true;
+					} else if (c == ']') {
+						plaintext = false;
+					} else if (!plaintext) {
+						int capitalized = c & 32;
+						c &= ~capitalized;
+						c = ((c >= 'A') && (c <= 'Z') ? ((c - 'A' + 13) % 26 + 'A') : c)
+								| capitalized;
+					}
+					buffer.replace(index, index + 1, String.valueOf((char) c));
+				}
+				logView.setText(buffer);
 			} catch (Exception e) {
 				// nothing
 			}
