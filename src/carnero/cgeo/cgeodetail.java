@@ -1720,6 +1720,11 @@ public class cgeodetail extends Activity {
 			Intent addWptIntent = new Intent(activity, cgeowaypointadd.class);
 
 			addWptIntent.putExtra("geocode", geocode);
+			int wpCount = 0;
+			if (cache.waypoints != null) {
+				wpCount = cache.waypoints.size();
+			}
+			addWptIntent.putExtra("count", wpCount);
 
 			activity.startActivity(addWptIntent);
 		}
