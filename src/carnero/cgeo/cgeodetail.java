@@ -909,7 +909,41 @@ public class cgeodetail extends Activity {
 			if (cache.waypoints != null && cache.waypoints.size() > 0) {
 				LinearLayout waypointView;
 
-				for (cgWaypoint wpt : cache.waypoints) {
+				// sort waypoints: PP, Sx, FI, OWN
+				ArrayList<cgWaypoint> sortedWaypoints = new ArrayList<cgWaypoint>(cache.waypoints);
+				Collections.sort(sortedWaypoints, new Comparator<cgWaypoint>() {
+
+					@Override
+					public int compare(cgWaypoint wayPoint1, cgWaypoint wayPoint2) {
+
+						return order(wayPoint1) - order(wayPoint2);
+					}
+
+					private int order(cgWaypoint waypoint) {
+						if (waypoint.prefix == null || waypoint.prefix.isEmpty()) {
+							return 0;
+						}
+						// check only the first character. sometimes there are inconsistencies like FI or FN for the FINAL
+						char firstLetter = Character.toUpperCase(waypoint.prefix.charAt(0));
+						switch (firstLetter) {
+						case 'P' : return -100; // parking
+						case 'S' : { // stage N
+							try {
+								Integer stageNumber = Integer.valueOf(waypoint.prefix.substring(1));
+								return stageNumber;
+							} catch (NumberFormatException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							return 0;
+						}
+						case 'F' : return 1000; // final
+						case 'O' : return 10000; // own
+						}
+						return 0;
+					}});
+
+				for (cgWaypoint wpt : sortedWaypoints) {
 					waypointView = (LinearLayout) inflater.inflate(R.layout.waypoint_item, null);
 					final TextView identification = (TextView) waypointView.findViewById(R.id.identification);
 
