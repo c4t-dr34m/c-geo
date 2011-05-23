@@ -6,7 +6,7 @@
   <!-- keys -->
   <string name="maps_api_key_dev">0HEeyLeVKGHZ6X5nAWqVFvyplTNnKUquILfte4w</string> <!-- dev -->
   <string name="maps_api_key">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
-  
+
   <!-- basics -->
   <string name="cache">Cache</string>
   <string name="detail">Detail</string>
@@ -283,7 +283,7 @@
   <string name="caches_recaptcha_explanation">Please, write text from image. It\'s important to download coordinates of caches. It\'s optional and can be switched off in Settings.</string>
   <string name="caches_recaptcha_hint">Text from image</string>
   <string name="caches_recaptcha_continue">Continue</string>
-  
+
   <!-- caches lists -->
   <string name="list_menu">List</string>
   <string name="list_menu_create">Create new list</string>
@@ -477,6 +477,7 @@
   <string name="popup_offline">Offline</string>
 
   <!-- waypoint -->
+  <string name="waypoint">Waypoint</string>
   <string name="waypoint_title">Waypoint</string>
   <string name="waypoint_custom">Custom</string>
   <string name="waypoint_my_coordinates">My coordinates</string>
@@ -644,7 +645,7 @@
 	\n
     <b>2.20</b> (06.05.2011)\n
 	· Fixed many issues from prev. version\n
-	· Finished adaptation\n 
+	· Finished adaptation\n
 	\n
     <b>2.13.x</b> (05.05.2011)\n
 	· change: Optimized map\n
