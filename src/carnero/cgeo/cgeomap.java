@@ -179,7 +179,7 @@ public class cgeomap extends MapActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		// class init
 		res = this.getResources();
 		activity = this;
@@ -296,8 +296,8 @@ public class cgeomap extends MapActivity {
 
 			followMyLocation = false;
 			
-			if (searchIdIntent != null || (latitudeIntent != null && longitudeIntent != null)) {
-				centerMap(searchIdIntent, latitudeIntent, longitudeIntent);
+			if (geocodeIntent != null || searchIdIntent != null || (latitudeIntent != null && longitudeIntent != null)) {
+				centerMap(geocodeIntent, searchIdIntent, latitudeIntent, longitudeIntent);
 			}
 		}
 		setMyLoc(null);
@@ -620,24 +620,6 @@ public class cgeomap extends MapActivity {
 		centerMap(geo.latitudeNow, geo.longitudeNow);
 	}
 
-	// center map to desired location
-	private void centerMap(Double latitude, Double longitude) {
-		if (latitude == null || longitude == null) {
-			return;
-		}
-		if (mapView == null) {
-			return;
-		}
-
-		if (!alreadyCentered) {
-			alreadyCentered = true;
-			
-			mapController.setCenter(makeGeoPoint(latitude, longitude));
-		} else {
-			mapController.animateTo(makeGeoPoint(latitude, longitude));
-		}
-	}
-
 	// class: update location
 	private class UpdateLoc extends cgUpdateLoc {
 
@@ -957,14 +939,21 @@ public class cgeomap extends MapActivity {
 			working = true;
 			loadThreadRun = System.currentTimeMillis();
 
-			if (searchIdIntent != null && searchIdIntent > 0) {
-				searchId = searchIdIntent;
+			if (geocodeIntent == null) {
+				if (searchIdIntent != null && searchIdIntent > 0) {
+					searchId = searchIdIntent;
+				} else {
+					searchId = app.getOfflineAll(settings.cacheType);
+				}
+
+				caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
 			} else {
-				searchId = app.getOfflineAll(settings.cacheType);
+				cgCache cache = app.getCacheByGeocode(geocodeIntent);
+				
+				caches = new ArrayList<cgCache>();
+				caches.add(cache);
 			}
-
-			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
-
+				
 			if (stop) {
 				displayHandler.sendEmptyMessage(0);
 				working = false;
@@ -1131,7 +1120,7 @@ public class cgeomap extends MapActivity {
 				}
 				
 				// display cache waypoints
-				if (cachesCnt == 1 && !live) {
+				if (cachesCnt == 1 && (geocodeIntent != null || searchIdIntent != null) && !live) {
 					if (cachesCnt == 1 && live == false) {
 						cgCache oneCache = cachesProtected.get(0);
 
@@ -1436,11 +1425,35 @@ public class cgeomap extends MapActivity {
 		}
 	}
 	
+	// center map to desired location
+	private void centerMap(Double latitude, Double longitude) {
+		if (latitude == null || longitude == null) {
+			return;
+		}
+		if (mapView == null) {
+			return;
+		}
+
+		if (!alreadyCentered) {
+			alreadyCentered = true;
+			
+			mapController.setCenter(makeGeoPoint(latitude, longitude));
+		} else {
+			mapController.animateTo(makeGeoPoint(latitude, longitude));
+		}
+	}
+
 	// move map to view results of searchIdIntent
-	private void centerMap(Long searchIdCenter, Double latitudeCenter, Double longitudeCenter) {
-		if (!centered && searchIdIntent != null) {
+	private void centerMap(String geocodeCenter, Long searchIdCenter, Double latitudeCenter, Double longitudeCenter) {
+		if (!centered && (geocodeCenter != null || searchIdIntent != null)) {
 			try {
-				ArrayList<Object> viewport = app.getBounds(searchIdCenter);
+				ArrayList<Object> viewport;
+				
+				if (geocodeCenter != null) {
+					viewport = app.getBounds(geocodeCenter);
+				} else {
+					viewport = app.getBounds(searchIdCenter);
+				}
 
 				Integer cnt = (Integer) viewport.get(0);
 				Integer minLat = null;

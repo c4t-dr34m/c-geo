@@ -75,6 +75,8 @@ public class cgeodetail extends Activity {
 	private Boolean longDescDisplayed = false;
 	private loadCache threadCache = null;
 	private loadLongDesc threadLongDesc = null;
+	private Thread storeThread = null;
+	private Thread refreshThread = null;
 	private HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 	private ProgressDialog storeDialog = null;
 	private ProgressDialog refreshDialog = null;
@@ -83,6 +85,8 @@ public class cgeodetail extends Activity {
 	private Handler storeCacheHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			storeThread = null;
+			
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
@@ -98,6 +102,8 @@ public class cgeodetail extends Activity {
 	private Handler refreshCacheHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			refreshThread = null;
+			
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
@@ -1654,10 +1660,14 @@ public class cgeodetail extends Activity {
 			}
 
 			storeDialog = ProgressDialog.show(activity, res.getString(R.string.cache_dialog_offline_save_title), res.getString(R.string.cache_dialog_offline_save_message), true);
-			storeDialog.setCancelable(false);
+			storeDialog.setCancelable(true);
 			
-			Thread thread = new storeCacheThread(storeCacheHandler);
-			thread.start();
+			if (storeThread != null) {
+				storeThread.interrupt();
+			}
+				
+			storeThread = new storeCacheThread(storeCacheHandler);
+			storeThread.start();
 		}
 	}
 
@@ -1673,9 +1683,14 @@ public class cgeodetail extends Activity {
 			}
 
 			refreshDialog = ProgressDialog.show(activity, res.getString(R.string.cache_dialog_refresh_title), res.getString(R.string.cache_dialog_refresh_message), true);
-			refreshDialog.setCancelable(false);
-			Thread thread = new refreshCacheThread(refreshCacheHandler);
-			thread.start();
+			refreshDialog.setCancelable(true);
+			
+			if (refreshThread != null) {
+				refreshThread.interrupt();
+			}
+			
+			refreshThread = new refreshCacheThread(refreshCacheHandler);
+			refreshThread.start();
 		}
 	}
 

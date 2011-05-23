@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class cgeoapplication extends Application {
 
@@ -405,10 +406,22 @@ public class cgeoapplication extends Application {
 		return storage.loadWaypoint(id);
 	}
 
+	public ArrayList<Object> getBounds(String geocode) {
+		if (geocode == null) {
+			return null;
+		}
+		
+		List<String> geocodeList = new ArrayList<String>();
+		geocodeList.add(geocode);
+		
+		return getBounds(geocodeList);
+	}
+		
 	public ArrayList<Object> getBounds(Long searchId) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			return null;
 		}
+		
 		if (storage == null) {
 			storage = new cgData(this);
 		}
@@ -416,11 +429,19 @@ public class cgeoapplication extends Application {
 		final cgSearch search = searches.get(searchId);
 		final ArrayList<String> geocodeList = search.getGeocodes();
 		
+		return getBounds(geocodeList);
+	}
+	
+	public ArrayList<Object> getBounds(List<String> geocodes) {
+		if (geocodes == null || geocodes.isEmpty()) {
+			return null;
+		}
+		
 		if (storage == null) {
 			storage = new cgData(this);
 		}
-
-		return storage.getBounds(geocodeList.toArray());
+		
+		return storage.getBounds(geocodes.toArray());
 	}
 
 	public cgCache getCache(Long searchId) {
