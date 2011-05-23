@@ -100,7 +100,6 @@
   <string name="err_login_failed">Login fehlgeschlagen.</string>
   <string name="err_unknown">Unbekannter Fehler</string>
   <string name="err_comm">Unbekannter Kommunikationsfehler</string>
-  <string name="err_missing_auth">Benutzername oder Passwort nicht gesetzt.</string>
   <string name="err_wrong">Falsche Anmeldedaten</string>
   <string name="err_license">Die Geocaching.com Nutzungsbedingungen wurden nicht akzeptiert. c:geo kann deshalb keine Koordinaten laden.</string>
   <string name="err_store">c:geo konnte den Cache nicht speichern.</string>
@@ -131,6 +130,7 @@
   <string name="err_auth_process">Autorisierung fehlgeschlagen.</string>
   <string name="err_cannot_log_visit">c:geo hat nicht genügend Informationen um den Besuch zu loggen. Bitte über die Cache-Details versuchen.</string>
   <string name="err_init_cleared">c:geo konnte die Anmeldedaten nicht entfernen.</string>
+
   <string name="err_no_chaches">c:geo konnte die Caches nicht laden.</string>
   <string name="err_download_fail">c:geo konnte keine Caches laden, weil </string>
   <string name="err_update_fail">Update der gereisten Strecke fehlgeschlagen.</string>
@@ -187,13 +187,14 @@
   <string name="warn_no_cache_coord">Es gibt hier keinen Cache mit Koordinaten.</string>
   <string name="warn_no_coordinates">Keine Koordinaten angegeben.</string>
   <string name="warn_no_keyword">Kein Stichwort angegeben.</string>
-  <string name="warn_no_username">Kein Benutzername angegeben.</string>
+  <string name="warn_no_username">Kein Benutzernamen angegeben.</string>
   <string name="warn_search_help_title">Hilfe benötigt?</string>
-  <string name="warn_search_help_address">Adresse oder Ort eingeben, z.B. Straßenname und Ort \"Dorfstraße 333, Berlin, Deutschland\", Ort \"Berlin\" oder den Namen eines beliebigen Ortes wie z.B. \"Tiergarten\".</string>
-  <string name="warn_search_help_gccode">Geocode eingeben. z.B. \"GC1VCAZ\".</string>
+  <string name="warn_search_help_address">Adresse oder Ort eingeben. zB. Straßenname und Ort \"Dorfstraße 333, Berlin, Deutschland\", Ort \"Berlin\" oder den Namen eines beliebigen Ortes wie zB. \"Tiergarten\".</string>
+  <string name="warn_search_help_gccode">Geocode eingeben. zB. \"GC1VCAZ\".</string>
   <string name="warn_search_help_keyword">Stichwörter eingeben, die im Namen des zu suchenden Caches enthalten sind.</string>
   <string name="warn_search_help_user">Name eines Benutzers auf Geocaching.com eingeben.</string>
-  <string name="warn_search_help_tb">Code des Trackables eingeben, z.B. \"TB29QMZ\".</string>
+  <string name="warn_search_help_tb">Code des Trackables eingeben, zB. \"TB29QMZ\".</string>
+
   <string name="warn_log_text_fill">Bitte Text einfügen.</string>
 
   <string name="info_altitude">Momentane Höhe</string>
@@ -273,9 +274,6 @@
   <string name="caches_drop_progress">Entferne Caches...</string>
   <string name="caches_refresh_selected">Ausgewählte aktualisieren</string>
   <string name="caches_refresh_all">Alle aktualisieren</string>
-  <string name="caches_map_cgeo">c:geo</string>
-  <string name="caches_map_locus">Locus</string>
-  <string name="caches_recaptcha_title">reCAPTCHA</string>
   <string name="caches_recaptcha_explanation">Bitte Text vom Bild abschreiben. Wichtig, um Koordinaten des Caches laden zu können. Optional, kann in den Einstellungen deaktiviert werden.</string>
   <string name="caches_recaptcha_hint">Text vom Bild</string>
   <string name="caches_recaptcha_continue">Fortfahren</string>
@@ -294,7 +292,7 @@
   <string name="list_dialog_create_ok">Neue Liste wurde erstellt</string>
   <string name="list_dialog_create_err">c:geo konnte die neue Liste nicht erstellen</string>
   <string name="list_dialog_remove_title">Liste entfernen</string>
-  <string name="list_dialog_remove_description">Aktuelle Liste löschen? Alle Caches dieser Liste werden in die Standardliste verschoben.</string>
+  <string name="list_dialog_remove_description">Aktuelle Liste löschen? Alle Caches dieser Liste werden in die Standradliste verschoben.</string>
   <string name="list_dialog_remove">Entfernen</string>
   <string name="list_dialog_remove_ok">Liste wurde gelöscht</string>
   <string name="list_dialog_remove_err">c:geo konnte die Liste nicht löschen</string>
@@ -316,11 +314,6 @@
   <string name="init_password">Passwort</string>
   <string name="init_passvote">Passwort</string>
   <string name="init_login">Anmeldedaten überprüfen</string>
-  <string name="init_login_popup">Login</string>
-  <string name="init_login_popup_working">Bei geocaching.com anmelden...</string>
-  <string name="init_login_popup_ok">Login erfolgreich.</string>
-  <string name="init_login_popup_failed">Login fehlgeschlagen.</string>
-  <string name="init_login_popup_failed_reason">Login fehlgeschlagen wegen </string>
   <string name="init_legal">Impressum</string>
   <string name="init_go4cache_connect">Mit Go 4 Cache verbinden</string>
   <string name="init_twitter_authorize">c:geo autorisieren</string>
@@ -390,7 +383,6 @@
   <string name="cache_offline_time_hour">vor einer Stunde</string>
   <string name="cache_offline_time_hours">vor einigen Stunden</string>
   <string name="cache_offline_time_days">vor einigen Tagen</string>
-  <string name="cache_premium">Premium</string>
   <string name="cache_attributes">Attribute</string>
   <string name="cache_inventory">Inventar</string>
   <string name="cache_log_offline">Offline-Log</string>
@@ -414,8 +406,6 @@
   <string name="cache_menu_radar">Radar</string>
   <string name="cache_menu_map">Auf Karte zeigen</string>
   <string name="cache_menu_map_static">Statische Karte</string>
-  <string name="cache_menu_locus">Locus</string>
-  <string name="cache_menu_rmaps">Rmaps</string>
   <string name="cache_menu_map_ext">Auf ext. Karte zeigen</string>
   <string name="cache_menu_map_short">Karte</string>
   <string name="cache_menu_map_ext_short">Externe Karte</string>
@@ -442,7 +432,7 @@
   <string name="cache_rating_of">von</string>
   <string name="cache_favourite">Favorit</string>
   <string name="cache_owner">Besitzer</string>
-  <string name="cache_hidden">Versteckt</string>
+  <string name="cache_hidden">versteckt</string>
   <string name="cache_event">Zeitangabe</string>
   <string name="cache_location">Bundesland</string>
   <string name="cache_coordinates">Koordinaten</string>
@@ -450,7 +440,7 @@
   <string name="cache_calendars">Kalender auswählen</string>
   <string name="cache_spoiler_images_title">Spoilerbilder</string>
   <string name="cache_spoiler_images_loading">Lade Spoilerbilder...</string>
-  <string name="cache_log_types">Logs</string>
+  <string name="cache_log_types">Log-Typen</string>
 
   <!-- gpx -->
   <string name="gpx_import_searching_in">Suche nach GPX-Dateien\nin</string>
@@ -465,15 +455,14 @@
   <string name="gpx_import_title_caches_imported">Ergebnis</string>
 
   <!-- event -->
-  <string name="event_success">Event-Cache zum Kalender hinzugefügt</string>
-  <string name="event_fail">Fehler beim Hinzufügen des Event-Cache zum Kalender</string>
+  <string name="event_success">Event Cache zum Kalender hinzugefügt</string>
+  <string name="event_fail">Fehler beim Hinzufügen des Event Cache zum Kalender</string>
 
   <!-- popup -->
   <string name="popup_more">Mehr Details</string>
   <string name="popup_offline">Offline</string>
 
   <!-- waypoint -->
-  <string name="waypoint">Wegpunkt</string>
   <string name="waypoint_title">Wegpunkt</string>
   <string name="waypoint_custom">Benutzerdefiniert</string>
   <string name="waypoint_my_coordinates">Meine Koordinaten</string>
@@ -584,7 +573,7 @@
   <string name="helper_manual_title">Anleitung</string>
   <string name="helper_manual_description">Umfangreiche Anleitung für c:geo mit Beschreibung aller Möglichkeiten dieser App (auch versteckte).</string>
   <string name="helper_locus_title">Locus</string>
-  <string name="helper_locus_description">Sehr gute App für Online- und Offline-Karten (nur Rasterkarten) mit vielen weiteren Funktionen wie z.B. Trackaufzeichnung, POIs und vieles mehr.</string>
+  <string name="helper_locus_description">Sehr gute App für Online und Offline-Karten (nur Rasterkarten) mit vielen weiteren Funktionen wie zB. Trackaufzeichnung, POIs und vieles mehr.</string>
   <string name="helper_gpsstatus_title">GPS Status</string>
   <string name="helper_gpsstatus_description">Das Radar dieser App kann in c:geo verwendet und zusätzlich viele GPS-bezogene Information abgerufen werden.</string>
   <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
@@ -592,8 +581,6 @@
 
   <!-- next things -->
   <string name="legal_note">Um die Dienste von Geocaching.com nutzen zu können, müssen die <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak-Nutzungsbedingungen</a> (englisch) akzeptiert werden.</string>
-  <string name="quote">Um Geocachen einfacher zu machen, um es Anwendern bequemer zu machen.</string>
-  <string name="powered_by">carnero</string>
   <string name="author">Autor: <a href="http://carnero.cc/">carnero</a></string>
   <string name="support">Support: <a href="mailto:carnero@carnero.cc">carnero@carnero.cc</a></string>
   <string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>

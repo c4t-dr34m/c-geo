@@ -14,8 +14,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.ContextMenu;
@@ -44,8 +42,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map.Entry;
@@ -805,13 +801,7 @@ public class cgeodetail extends Activity {
 					if (inventoryString.length() > 0) {
 						inventoryString.append("\n");
 					}
-					// avoid HTML parsing where possible
-					if (inventoryItem.name.indexOf('<') >= 0 || inventoryItem.name.indexOf('&') >= 0 ) {
-						inventoryString.append(Html.fromHtml(inventoryItem.name).toString());
-					}
-					else {
-						inventoryString.append(inventoryItem.name);
-					}
+					inventoryString.append(Html.fromHtml(inventoryItem.name).toString());
 				}
 				inventView.setText(inventoryString);
 				inventBox.setClickable(true);
@@ -909,41 +899,7 @@ public class cgeodetail extends Activity {
 			if (cache.waypoints != null && cache.waypoints.size() > 0) {
 				LinearLayout waypointView;
 
-				// sort waypoints: PP, Sx, FI, OWN
-				ArrayList<cgWaypoint> sortedWaypoints = new ArrayList<cgWaypoint>(cache.waypoints);
-				Collections.sort(sortedWaypoints, new Comparator<cgWaypoint>() {
-
-					@Override
-					public int compare(cgWaypoint wayPoint1, cgWaypoint wayPoint2) {
-
-						return order(wayPoint1) - order(wayPoint2);
-					}
-
-					private int order(cgWaypoint waypoint) {
-						if (waypoint.prefix == null || waypoint.prefix.isEmpty()) {
-							return 0;
-						}
-						// check only the first character. sometimes there are inconsistencies like FI or FN for the FINAL
-						char firstLetter = Character.toUpperCase(waypoint.prefix.charAt(0));
-						switch (firstLetter) {
-						case 'P' : return -100; // parking
-						case 'S' : { // stage N
-							try {
-								Integer stageNumber = Integer.valueOf(waypoint.prefix.substring(1));
-								return stageNumber;
-							} catch (NumberFormatException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							return 0;
-						}
-						case 'F' : return 1000; // final
-						case 'O' : return 10000; // own
-						}
-						return 0;
-					}});
-
-				for (cgWaypoint wpt : sortedWaypoints) {
+				for (cgWaypoint wpt : cache.waypoints) {
 					waypointView = (LinearLayout) inflater.inflate(R.layout.waypoint_item, null);
 					final TextView identification = (TextView) waypointView.findViewById(R.id.identification);
 
@@ -957,21 +913,9 @@ public class cgeodetail extends Activity {
 					if (wpt.name.trim().length() == 0) {
 						((TextView) waypointView.findViewById(R.id.name)).setText(base.formatCoordinate(wpt.latitude, "lat", true) + " | " + base.formatCoordinate(wpt.longitude, "lon", true));
 					} else {
-						// avoid HTML parsing
-						if (wpt.name.indexOf('<') >= 0 || wpt.name.indexOf('&') >= 0) {
-							((TextView) waypointView.findViewById(R.id.name)).setText(Html.fromHtml(wpt.name.trim()), TextView.BufferType.SPANNABLE);
-						}
-						else {
-							((TextView) waypointView.findViewById(R.id.name)).setText(wpt.name.trim());
-						}
+						((TextView) waypointView.findViewById(R.id.name)).setText(Html.fromHtml(wpt.name.trim()), TextView.BufferType.SPANNABLE);
 					}
-					// avoid HTML parsing
-					if (wpt.note.indexOf('<') >= 0 || wpt.note.indexOf('&') >= 0) {
-						((TextView) waypointView.findViewById(R.id.note)).setText(Html.fromHtml(wpt.note.trim()), TextView.BufferType.SPANNABLE);
-					}
-					else {
-						((TextView) waypointView.findViewById(R.id.note)).setText(wpt.note.trim());
-					}
+					((TextView) waypointView.findViewById(R.id.note)).setText(Html.fromHtml(wpt.note.trim()), TextView.BufferType.SPANNABLE);
 
 					waypointView.setOnClickListener(new waypointInfo(wpt.id));
 
@@ -1041,41 +985,25 @@ public class cgeodetail extends Activity {
 	private void displayLogs() {
 		// cache logs
 		TextView textView = (TextView) findViewById(R.id.logcount);
-		int logCounter = 0;
 		if (cache != null && cache.logCounts != null) {
+			int logCounter = 0;
 			final StringBuffer buff = new StringBuffer();
 			buff.append(res.getString(R.string.cache_log_types));
 			buff.append(": ");
-
-			// sort the log counts by type id ascending. that way the FOUND, DNF log types are the first and most visible ones
-			ArrayList<Entry<Integer, Integer>> sortedLogCounts = new ArrayList<Entry<Integer,Integer>>();
-			sortedLogCounts.addAll(cache.logCounts.entrySet());
-			Collections.sort(sortedLogCounts, new Comparator<Entry<Integer, Integer>>() {
-
-				@Override
-				public int compare(Entry<Integer, Integer> logCountItem1,
-						Entry<Integer, Integer> logCountItem2) {
-					return logCountItem1.getKey().compareTo(logCountItem2.getKey());
-				}});
-			for (Entry<Integer, Integer> pair : sortedLogCounts) {
-				int logTypeId = pair.getKey().intValue();
-				String logTypeLabel = cgBase.logTypes1.get(logTypeId);
-				// it may happen that the label is unknown -> then avoid any output for this type
-				if (logTypeLabel != null) {
-					if (logCounter > 0) {
-						buff.append(", ");
-					}
-					buff.append(pair.getValue().intValue());
-					buff.append("× ");
-					buff.append(logTypeLabel);
+			
+			Set<Entry<Integer, Integer>> logCountsItems = cache.logCounts.entrySet();
+			for (Entry<Integer, Integer> pair : logCountsItems) {
+				if (logCounter > 0) {
+					buff.append(" | ");
+				}
+				buff.append(pair.getValue().intValue());
+				buff.append("× ");
+				if (cgBase.logTypes1.get(pair.getKey().intValue()) != null) {
+					buff.append(cgBase.logTypes1.get(pair.getKey().intValue()).toLowerCase(Locale.getDefault()));
 				}
 				logCounter ++;
 			}
 			textView.setText(buff.toString());
-		}
-		// it may happen, that the logCounts map is available, but every log type has zero counts,
-		// therefore check again for the number of counted logs
-		if (logCounter > 0) {
 			textView.setVisibility(View.VISIBLE);
 		} else {
 			textView.setVisibility(View.GONE);
@@ -1084,7 +1012,7 @@ public class cgeodetail extends Activity {
 		// cache logs
 		LinearLayout listView = (LinearLayout) findViewById(R.id.log_list);
 		listView.removeAllViews();
-
+		
 		RelativeLayout rowView;
 
 		if (cache != null && cache.logs != null) {
@@ -1101,13 +1029,7 @@ public class cgeodetail extends Activity {
 				} else {
 					((TextView) rowView.findViewById(R.id.type)).setText(cgBase.logTypes1.get(4)); // note if type is unknown
 				}
-				// avoid parsing HTML if not necessary
-				if (log.author.indexOf('<') >= 0 || log.author.indexOf('&') >= 0) {
-					((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
-				}
-				else {
-					((TextView) rowView.findViewById(R.id.author)).setText(log.author);
-				}
+				((TextView) rowView.findViewById(R.id.author)).setText(Html.fromHtml(log.author), TextView.BufferType.SPANNABLE);
 
 				if (log.found == -1) {
 					((TextView) rowView.findViewById(R.id.count)).setVisibility(View.GONE);
@@ -1118,13 +1040,7 @@ public class cgeodetail extends Activity {
 				} else {
 					((TextView) rowView.findViewById(R.id.count)).setText(log.found + " " + res.getString(R.string.cache_count_more));
 				}
-				// avoid parsing HTML if not necessary
-				if (log.log.indexOf('<') >= 0 || log.log.indexOf('&') >= 0) {
-					((TextView) rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
-				}
-				else {
-					((TextView) rowView.findViewById(R.id.log)).setText(log.log);
-				}
+				((TextView) rowView.findViewById(R.id.log)).setText(Html.fromHtml(log.log, new cgHtmlImg(activity, settings, null, false, cache.reason, false), null), TextView.BufferType.SPANNABLE);
 
 				final ImageView markFound = (ImageView) rowView.findViewById(R.id.found_mark);
 				final ImageView markDNF = (ImageView) rowView.findViewById(R.id.dnf_mark);
@@ -1215,7 +1131,7 @@ public class cgeodetail extends Activity {
 			try {
 				final String latlonMap = String.format((Locale) null, "%.6f", cache.latitude) + "," + String.format((Locale) null, "%.6f", cache.longitude);
 				final Display display = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-
+			
 				int width = display.getWidth();
 				int height = (int) (90 * pixelRatio);
 
@@ -1424,7 +1340,7 @@ public class cgeodetail extends Activity {
 					addParenteses = true;
 					location += " (";
 				}
-
+				
 				location += Html.fromHtml(cache.location).toString();
 				if (addParenteses) {
 					location += ")";
@@ -1513,11 +1429,11 @@ public class cgeodetail extends Activity {
 
 		final Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/plain");
-
+		
 		if (cache != null && cache.geocode != null) {
 			String subject = cache.geocode.toUpperCase();
 			if (cache.name != null && cache.name.length() > 0){
-				subject = subject + " - " + cache.name;
+				subject = subject + " - " + cache.name;	
 			}
 			intent.putExtra(Intent.EXTRA_SUBJECT, "Geocache " + subject);
 			intent.putExtra(Intent.EXTRA_TEXT, "http://coord.info/" + cache.geocode.toUpperCase());
@@ -1754,11 +1670,6 @@ public class cgeodetail extends Activity {
 			Intent addWptIntent = new Intent(activity, cgeowaypointadd.class);
 
 			addWptIntent.putExtra("geocode", geocode);
-			int wpCount = 0;
-			if (cache.waypoints != null) {
-				wpCount = cache.waypoints.size();
-			}
-			addWptIntent.putExtra("count", wpCount);
 
 			activity.startActivity(addWptIntent);
 		}
@@ -1773,30 +1684,9 @@ public class cgeodetail extends Activity {
 
 			try {
 				final TextView logView = (TextView)view;
-				Spannable span = (Spannable) logView.getText();
+				final String logText = logView.getText().toString();
 
-				// I needed to re-implement the base.rot13() encryption here because we must work on
-				// a SpannableStringBuilder instead of the pure text and we must replace each character inline.
-				// Otherwise we loose all the images, colors and so on...
-				SpannableStringBuilder buffer = new SpannableStringBuilder(span);
-				boolean plaintext = false;
-
-				int length = span.length();
-				for (int index = 0; index < length; index++) {
-					int c = span.charAt(index);
-					if (c == '[') {
-						plaintext = true;
-					} else if (c == ']') {
-						plaintext = false;
-					} else if (!plaintext) {
-						int capitalized = c & 32;
-						c &= ~capitalized;
-						c = ((c >= 'A') && (c <= 'Z') ? ((c - 'A' + 13) % 26 + 'A') : c)
-								| capitalized;
-					}
-					buffer.replace(index, index + 1, String.valueOf((char) c));
-				}
-				logView.setText(buffer);
+				logView.setText(cgBase.rot13(logText));
 			} catch (Exception e) {
 				// nothing
 			}
@@ -1829,7 +1719,9 @@ public class cgeodetail extends Activity {
 			return;
 		}
 
-		Intent navigateIntent = new Intent(activity, cgeonavigate.class);
+		cgeonavigate navigateActivity = new cgeonavigate();
+
+		Intent navigateIntent = new Intent(activity, navigateActivity.getClass());
 		navigateIntent.putExtra("latitude", cache.latitude);
 		navigateIntent.putExtra("longitude", cache.longitude);
 		navigateIntent.putExtra("geocode", cache.geocode.toUpperCase());

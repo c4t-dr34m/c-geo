@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -26,15 +25,6 @@ import java.util.ArrayList;
 
 public class cgeowaypoint extends Activity {
 
-	private static final int MENU_ID_EXTERN = 23;
-	private static final int MENU_ID_RMAPS = 21;
-	private static final int MENU_ID_LOCUS = 20;
-	private static final int MENU_ID_NAVIGATION = 0;
-	private static final int MENU_ID_CACHES_AROUND = 5;
-	private static final int MENU_ID_TURNBYTURN = 4;
-	private static final int MENU_ID_MAP = 1;
-	private static final int MENU_ID_RADAR = 3;
-	private static final int MENU_ID_COMPASS = 2;
 	private GoogleAnalyticsTracker tracker = null;
 	private cgWaypoint waypoint = null;
 	private String geocode = null;
@@ -67,8 +57,6 @@ public class cgeowaypoint extends Activity {
 					final TextView identification = (TextView) findViewById(R.id.identification);
 					final TextView coords = (TextView) findViewById(R.id.coordinates);
 					final TextView note = (TextView) findViewById(R.id.note);
-					final ImageView compass = (ImageView) findViewById(R.id.compass);
-					final View separator = (View) findViewById(R.id.separator);
 
 					if (waypoint.name != null && waypoint.name.length() > 0) {
 						base.setTitle(activity, Html.fromHtml(waypoint.name.trim()).toString());
@@ -84,12 +72,8 @@ public class cgeowaypoint extends Activity {
 
 					if (waypoint.latitude != null && waypoint.longitude != null) {
 						coords.setText(Html.fromHtml(base.formatCoordinate(waypoint.latitude, "lat", true) + " | " + base.formatCoordinate(waypoint.longitude, "lon", true)), TextView.BufferType.SPANNABLE);
-						compass.setVisibility(View.VISIBLE);
-						separator.setVisibility(View.VISIBLE);
 					} else {
 						coords.setText(res.getString(R.string.waypoint_unknown_coordinates));
-						compass.setVisibility(View.GONE);
-						separator.setVisibility(View.GONE);
 					}
 
 					if (waypoint.note != null && waypoint.note.length() > 0) {
@@ -217,58 +201,63 @@ public class cgeowaypoint extends Activity {
 
 		super.onPause();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENU_ID_COMPASS, 0, res.getString(R.string.cache_menu_compass)).setIcon(android.R.drawable.ic_menu_compass); // compass
+		menu.add(0, 2, 0, res.getString(R.string.cache_menu_compass)).setIcon(android.R.drawable.ic_menu_compass); // compass
 
-		SubMenu subMenu = menu.addSubMenu(1, MENU_ID_NAVIGATION, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
-		subMenu.add(0, MENU_ID_RADAR, 0, res.getString(R.string.cache_menu_radar)); // radar
-		subMenu.add(0, MENU_ID_MAP, 0, res.getString(R.string.cache_menu_map)); // c:geo map
+		SubMenu subMenu = menu.addSubMenu(1, 0, 0, res.getString(R.string.cache_menu_navigate)).setIcon(android.R.drawable.ic_menu_more);
+		subMenu.add(0, 3, 0, res.getString(R.string.cache_menu_radar)); // radar
+		subMenu.add(0, 1, 0, res.getString(R.string.cache_menu_map)); // c:geo map
 		if (base.isLocus(activity)) {
-			subMenu.add(0, MENU_ID_LOCUS, 0, res.getString(R.string.cache_menu_locus)); // ext.: locus
+			subMenu.add(0, 20, 0, res.getString(R.string.cache_menu_locus)); // ext.: locus
 		}
 		if (base.isRmaps(activity)) {
-			subMenu.add(0, MENU_ID_RMAPS, 0, res.getString(R.string.cache_menu_rmaps)); // ext.: rmaps
+			subMenu.add(0, 21, 0, res.getString(R.string.cache_menu_rmaps)); // ext.: rmaps
 		}
-		subMenu.add(0, MENU_ID_EXTERN, 0, res.getString(R.string.cache_menu_map_ext)); // ext.: other
-		subMenu.add(0, MENU_ID_TURNBYTURN, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
-
-		menu.add(0, MENU_ID_CACHES_AROUND, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
+		subMenu.add(0, 23, 0, res.getString(R.string.cache_menu_map_ext)); // ext.: other
+		subMenu.add(0, 4, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
+		
+		menu.add(0, 5, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
 
 		return true;
 	}
-
+	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
 		try {
-			boolean visible = waypoint != null && waypoint.latitude != null && waypoint.longitude != null;
-			menu.findItem(MENU_ID_NAVIGATION).setVisible(visible);
-			menu.findItem(MENU_ID_COMPASS).setVisible(visible);
-			menu.findItem(MENU_ID_CACHES_AROUND).setVisible(visible);
+			if (waypoint != null && waypoint.latitude != null && waypoint.longitude != null) {
+				menu.findItem(0).setVisible(true);
+				menu.findItem(2).setVisible(true);
+				menu.findItem(5).setVisible(true);
+			} else {
+				menu.findItem(0).setVisible(false);
+				menu.findItem(2).setVisible(false);
+				menu.findItem(5).setVisible(false);
+			}
 		} catch (Exception e) {
 			// nothing
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final int menuItem = item.getItemId();
 
-		if (menuItem == MENU_ID_MAP) {
+		if (menuItem == 1) {
 			showOnMap();
 			return true;
-		} else if (menuItem == MENU_ID_COMPASS) {
-			goCompass(null);
+		} else if (menuItem == 2) {
+			navigateTo();
 			return true;
-		} else if (menuItem == MENU_ID_RADAR) {
+		} else if (menuItem == 3) {
 			radarTo();
 			return true;
-		} else if (menuItem == MENU_ID_TURNBYTURN) {
+		} else if (menuItem == 4) {
 			if (geo != null) {
 				base.runNavigation(activity, res, settings, warning, tracker, waypoint.latitude, waypoint.longitude, geo.latitudeNow, geo.longitudeNow);
 			} else {
@@ -276,28 +265,28 @@ public class cgeowaypoint extends Activity {
 			}
 
 			return true;
-		} else if (menuItem == MENU_ID_CACHES_AROUND) {
+		} else if (menuItem == 5) {
 			cachesAround();
 			return true;
-		} else if (menuItem == MENU_ID_LOCUS) {
+		} else if (menuItem == 20) {
 			base.runExternalMap(cgBase.mapAppLocus, activity, res, warning, tracker, waypoint); // locus
 			return true;
-		} else if (menuItem == MENU_ID_RMAPS) {
+		} else if (menuItem == 21) {
 			base.runExternalMap(cgBase.mapAppRmaps, activity, res, warning, tracker, waypoint); // rmaps
 			return true;
-		} else if (menuItem == MENU_ID_EXTERN) {
-			base.runExternalMap(cgBase.mapAppAny, activity, res, warning, tracker, waypoint); // extern
+		} else if (menuItem == 23) {
+			base.runExternalMap(cgBase.mapAppAny, activity, res, warning, tracker, waypoint); // rmaps
 			return true;
 		}
 
 		return false;
 	}
-
+	
 	private void showOnMap() {
 		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
-
+		
 		Intent mapIntent = new Intent(activity, cgeomap.class);
 		mapIntent.putExtra("latitude", waypoint.latitude);
 		mapIntent.putExtra("longitude", waypoint.longitude);
@@ -306,11 +295,30 @@ public class cgeowaypoint extends Activity {
 		activity.startActivity(mapIntent);
 	}
 
-	private void radarTo() {
+	private void navigateTo() {
 		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
+		Intent navigateIntent = new Intent(activity, cgeonavigate.class);
+		navigateIntent.putExtra("latitude", waypoint.latitude);
+		navigateIntent.putExtra("longitude", waypoint.longitude);
+		navigateIntent.putExtra("geocode", waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
+		navigateIntent.putExtra("name", waypoint.name);
+
+		if (cgeonavigate.coordinates != null) {
+			cgeonavigate.coordinates.clear();
+		}
+		cgeonavigate.coordinates = new ArrayList<cgCoord>();
+		cgeonavigate.coordinates.add(new cgCoord(waypoint));
+		activity.startActivity(navigateIntent);
+	}
+
+	private void radarTo() {
+		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
+			warning.showToast(res.getString(R.string.err_location_unknown));
+		}
+		
 		try {
 			if (cgBase.isIntentAvailable(activity, "com.google.android.radar.SHOW_RADAR") == true) {
 				Intent radarIntent = new Intent("com.google.android.radar.SHOW_RADAR");
@@ -349,12 +357,12 @@ public class cgeowaypoint extends Activity {
 			Log.e(cgSettings.tag, "cgeowaypoint.radarTo: " + e.toString());
 		}
 	}
-
+	
 	private void cachesAround() {
 		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
-
+		
 		cgeocaches cachesActivity = new cgeocaches();
 
 		Intent cachesIntent = new Intent(activity, cachesActivity.getClass());
@@ -367,7 +375,7 @@ public class cgeowaypoint extends Activity {
 
 		finish();
 	}
-
+	
 	private class loadWaypoint extends Thread {
 
 		@Override
@@ -439,24 +447,5 @@ public class cgeowaypoint extends Activity {
 		} catch (Exception e) {
 			// nothing
 		}
-	}
-
-	public void goCompass(View view) {
-		if (waypoint == null || waypoint.latitude == null || waypoint.longitude == null) {
-			warning.showToast(res.getString(R.string.err_location_unknown));
-		}
-
-		Intent navigateIntent = new Intent(activity, cgeonavigate.class);
-		navigateIntent.putExtra("latitude", waypoint.latitude);
-		navigateIntent.putExtra("longitude", waypoint.longitude);
-		navigateIntent.putExtra("geocode", waypoint.prefix.trim() + "/" + waypoint.lookup.trim());
-		navigateIntent.putExtra("name", waypoint.name);
-
-		if (cgeonavigate.coordinates != null) {
-			cgeonavigate.coordinates.clear();
-		}
-		cgeonavigate.coordinates = new ArrayList<cgCoord>();
-		cgeonavigate.coordinates.add(new cgCoord(waypoint));
-		activity.startActivity(navigateIntent);
 	}
 }
