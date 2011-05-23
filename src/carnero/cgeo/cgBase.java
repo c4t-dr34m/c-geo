@@ -4319,7 +4319,7 @@ public class cgBase {
 			}
 		}
 
-		if (cookies != null) {
+		if (cookies != null && !cookies.isEmpty()) {
 			final Object[] keys = cookies.keySet().toArray();
 			final ArrayList<String> cookiesEncoded = new ArrayList<String>();
 
