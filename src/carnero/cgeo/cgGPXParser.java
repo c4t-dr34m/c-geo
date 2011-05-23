@@ -540,7 +540,6 @@ public class cgGPXParser {
 			return search.getCurrentId();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "Cannot parse .gpx file " + file.getAbsolutePath() + " as GPX " + version + ": " + e.toString());
-			e.printStackTrace();
 		}
 
 		return 0l;

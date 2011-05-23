@@ -932,8 +932,7 @@ public class cgeodetail extends Activity {
 								Integer stageNumber = Integer.valueOf(waypoint.prefix.substring(1));
 								return stageNumber;
 							} catch (NumberFormatException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								// nothing
 							}
 							return 0;
 						}
