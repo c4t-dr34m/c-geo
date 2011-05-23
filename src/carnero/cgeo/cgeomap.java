@@ -224,14 +224,15 @@ public class cgeomap extends MapActivity {
 		// initialize overlays
 		final List<Overlay> overlays = mapView.getOverlays();
 		overlays.clear();
-		if (settings.publicLoc == 1 && overlayUsers == null) {
-			overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
-			overlays.add(overlayUsers);
-		}
-
+		
 		if (overlayMyLoc == null) {
 			overlayMyLoc = new cgMapMyOverlay(settings);
 			overlays.add(overlayMyLoc);
+		}
+
+		if (settings.publicLoc > 0 && overlayUsers == null) {
+			overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
+			overlays.add(overlayUsers);
 		}
 
 		if (overlayCaches == null) {
@@ -647,11 +648,6 @@ public class cgeomap extends MapActivity {
 			}
 
 			try {
-				if (settings.publicLoc == 1 && overlayUsers == null) {
-					overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
-					mapView.getOverlays().add(overlayUsers);
-				}
-				
 				if (overlayMyLoc == null && mapView != null) {
 					overlayMyLoc = new cgMapMyOverlay(settings);
 					mapView.getOverlays().add(overlayMyLoc);
@@ -710,7 +706,7 @@ public class cgeomap extends MapActivity {
 			loadTimer.start();
 		}
 		
-		if (settings.publicLoc == 1) {
+		if (settings.publicLoc > 0) {
 			if (usersTimer != null) {
 				usersTimer.stopIt();
 				usersTimer = null;
@@ -1215,7 +1211,7 @@ public class cgeomap extends MapActivity {
 				lonMin = llCache;
 			}
 
-			final ArrayList<cgUser> users = base.getGeocachersInViewport(settings.getUsername(), latMin, latMax, lonMin, lonMax);
+			users = base.getGeocachersInViewport(settings.getUsername(), latMin, latMax, lonMin, lonMax);
 
 			if (stop) {
 				return;
@@ -1255,7 +1251,7 @@ public class cgeomap extends MapActivity {
 
 			int counter = 0;
 			cgOverlayUser item = null;
-
+			
 			for (cgUser userOne : users) {
 				if (stop) {
 					return;
@@ -1276,7 +1272,7 @@ public class cgeomap extends MapActivity {
 			}
 
 			overlayUsers.updateItems(items);
-
+			
 			working = false;
 		}
 	}

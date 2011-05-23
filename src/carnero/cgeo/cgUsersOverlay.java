@@ -22,7 +22,7 @@ public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> {
 	private final Pattern patternGeocode = Pattern.compile("^(GC[A-Z0-9]+)(\\: ?(.+))?$", Pattern.CASE_INSENSITIVE);
 
 	public cgUsersOverlay(Context contextIn, Drawable markerIn) {
-		super(boundCenterBottom(markerIn));
+		super(boundCenter(markerIn));
 		populate();
 
 		context = contextIn;
@@ -41,7 +41,7 @@ public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> {
 		}
 
 		for (cgOverlayUser item : itemsPre) {
-			item.setMarker(boundCenterBottom(item.getMarker(0)));
+			item.setMarker(boundCenter(item.getMarker(0)));
 		}
 
 		items.clear();
@@ -85,7 +85,7 @@ public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> {
 			} else {
 				action = user.action;
 			}
-
+			
 			// set icon
 			int icon = -1;
 			if (user.client.equalsIgnoreCase("c:geo") == true) {

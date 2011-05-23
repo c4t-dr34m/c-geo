@@ -4989,6 +4989,10 @@ public class cgBase {
 			}
 
 			if (cache == null) {
+				if (handler != null) {
+					handler.sendMessage(new Message());
+				}
+				
 				return;
 			}
 			

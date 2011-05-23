@@ -49,7 +49,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class cgeodetail extends Activity {
 	public Long searchId = null;
@@ -1656,6 +1655,7 @@ public class cgeodetail extends Activity {
 
 			storeDialog = ProgressDialog.show(activity, res.getString(R.string.cache_dialog_offline_save_title), res.getString(R.string.cache_dialog_offline_save_message), true);
 			storeDialog.setCancelable(false);
+			
 			Thread thread = new storeCacheThread(storeCacheHandler);
 			thread.start();
 		}

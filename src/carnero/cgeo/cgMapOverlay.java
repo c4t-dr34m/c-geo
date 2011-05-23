@@ -5,12 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.Log;
 import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
 import java.util.ArrayList;
 
 public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
@@ -96,11 +94,6 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 		}
 
 		return false;
-	}
-
-	@Override
-	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		super.draw(canvas, mapView, false);
 	}
 
 	@Override
