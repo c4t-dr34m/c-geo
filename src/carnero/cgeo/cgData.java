@@ -2576,7 +2576,7 @@ public class cgData {
 			if (size > 0) {
 				Log.d(cgSettings.tag, "Database clean: removing " + size + " geocaches");
 
-				databaseRW.execSQL("delete from " + dbTableCaches + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") or geocode = \"\"");
+				databaseRW.execSQL("delete from " + dbTableCaches + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableAttributes + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableSpoilers + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableLogs + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
@@ -2587,6 +2587,8 @@ public class cgData {
 
 				geocodes.clear();
 			}
+			
+			databaseRW.execSQL("delete from " + dbTableCaches + " where geocode = \"\"");
 
 			final SQLiteStatement countSql = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 0");
 			final int count = (int) countSql.simpleQueryForLong();
