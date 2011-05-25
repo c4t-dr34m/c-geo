@@ -504,6 +504,8 @@
   <string name="map_view_map">Map view</string>
   <string name="map_trail_show">Show trail</string>
   <string name="map_trail_hide">Hide trail</string>
+  <string name="map_circles_show">Show circles</string> <!-- since: 2.23 RC3 -->
+  <string name="map_circles_hide">Hide circles</string> <!-- since: 2.23 RC3 -->
   <string name="map_live_enable">Enable live</string>
   <string name="map_live_disable">Disable live</string>
   <string name="map_static_title">Static maps</string>

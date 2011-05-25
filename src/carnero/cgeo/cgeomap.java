@@ -418,9 +418,10 @@ public class cgeomap extends MapActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 0, res.getString(R.string.caches_on_map)).setIcon(android.R.drawable.ic_menu_mapmode);
-		menu.add(0, 2, 0, res.getString(R.string.map_trail_hide)).setIcon(android.R.drawable.ic_menu_recent_history);
 		menu.add(0, 3, 0, res.getString(R.string.map_live_disable)).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
 		menu.add(0, 4, 0, res.getString(R.string.caches_store_offline)).setIcon(android.R.drawable.ic_menu_set_as).setEnabled(false);
+		menu.add(0, 2, 0, res.getString(R.string.map_trail_hide)).setIcon(android.R.drawable.ic_menu_recent_history);
+		menu.add(0, 5, 0, res.getString(R.string.map_circles_hide)).setIcon(android.R.drawable.ic_menu_view);
 
 		return true;
 	}
@@ -462,6 +463,13 @@ public class cgeomap extends MapActivity {
 				item.setEnabled(true);
 			} else {
 				item.setEnabled(false);
+			}
+			
+			item = menu.findItem(5); // show circles
+			if (overlayCaches != null && overlayCaches.getCircles()) {
+				item.setTitle(res.getString(R.string.map_circles_hide));
+			} else {
+				item.setTitle(res.getString(R.string.map_circles_show));
 			}
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeomap.onPrepareOptionsMenu: " + e.toString());
@@ -583,6 +591,12 @@ public class cgeomap extends MapActivity {
 
 				return true;
 			}
+		} else if (id == 5) {
+			if (overlayCaches == null) {
+				return false;
+			}
+			
+			overlayCaches.switchCircles();
 		}
 
 		return false;
