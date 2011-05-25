@@ -2576,7 +2576,7 @@ public class cgData {
 			if (size > 0) {
 				Log.d(cgSettings.tag, "Database clean: removing " + size + " geocaches");
 
-				databaseRW.execSQL("delete from " + dbTableCaches + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
+				databaseRW.execSQL("delete from " + dbTableCaches + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ") or geocode = \"\"");
 				databaseRW.execSQL("delete from " + dbTableAttributes + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableSpoilers + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
 				databaseRW.execSQL("delete from " + dbTableLogs + " where geocode in (" + cgBase.implode(", ", geocodes.toArray()) + ")");
