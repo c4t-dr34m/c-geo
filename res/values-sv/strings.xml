@@ -257,9 +257,10 @@
   <string name="caches_sort_difficulty">svårighet</string>
   <string name="caches_sort_terrain">terräng</string>
   <string name="caches_sort_size">storlek</string>
-  <string name="caches_sort_favorites">poäng/betyg</string>
+  <string name="caches_sort_favorites">favoriter</string>
   <string name="caches_sort_name">namn</string>
   <string name="caches_sort_gccode">GC-kod (ålder)</string>
+  <string name="caches_sort_rating">betyg (GC-vote)</string>
   <string name="caches_select">Välj från lista</string>
   <string name="caches_select_mode">Markeringsläge</string>
   <string name="caches_select_mode_exit">Avsluta markeringsläge</string>
@@ -474,6 +475,7 @@
   <string name="popup_offline">Offline</string>
 
   <!-- waypoint -->
+  <string name="waypoint">Punkt</string>
   <string name="waypoint_title">Punkt</string>
   <string name="waypoint_custom">Egen</string>
   <string name="waypoint_my_coordinates">Mina koordinater</string>
@@ -499,6 +501,8 @@
   <string name="map_view_map">Kartvy</string>
   <string name="map_trail_show">Visa spår</string>
   <string name="map_trail_hide">Dölj spår</string>
+  <string name="map_circles_show">Visa cirklar</string>
+  <string name="map_circles_hide">Dölj cirklar</string>
   <string name="map_live_enable">Aktivera live</string>
   <string name="map_live_disable">Inaktivera live</string>
   <string name="map_static_title">Sparade kartor</string>
