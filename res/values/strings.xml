@@ -176,7 +176,7 @@
   <string name="err_log_load_data_again">Sorry, c:geo can\'t load data required to log visit. Trying again.</string>
   <string name="err_log_load_data_still">c:geo is still loading data required to post log. Please wait a little while longer.</string>
   <string name="err_log_failed_server">Sorry, c:geo failed to post log because server is not responding.</string>
-  <string name="err_log_post_failed">Sorry, c:geo failed to post log.</string>
+  <string name="err_log_post_failed">It seems that your log was not posted. Please check it on geocaching.com.</string>
   <string name="err_log_post_failed_because">Sorry, c:geo failed to post log because of </string>
 
   <string name="err_search_address_no_match">Sorry, c:geo found no matching place.</string>

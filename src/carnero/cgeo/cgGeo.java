@@ -406,7 +406,7 @@ public class cgGeo {
 					if (base.version != null) {
 						params.put("v", base.version);
 					}
-					final String res = base.request(false, host, path, method, params, false, false, false);
+					final String res = base.request(false, host, path, method, params, false, false, false).getData();
 
 					if (res != null && res.length() > 0) {
 						lastGo4cacheLat = latitudeNow;
