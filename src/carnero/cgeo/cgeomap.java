@@ -1098,7 +1098,7 @@ public class cgeomap extends MapActivity {
 					final cgCoord coord = new cgCoord(cacheOne);
 					coordinates.add(coord);
 
-					item = new cgOverlayItem(coord);
+					item = new cgOverlayItem(coord, cacheOne.type);
 					icon = base.getIcon(true, cacheOne.type, cacheOne.own, cacheOne.found, cacheOne.disabled);
 					pin = null;
 
@@ -1147,7 +1147,7 @@ public class cgeomap extends MapActivity {
 								cgCoord coord = new cgCoord(oneWaypoint);
 
 								coordinates.add(coord);
-								item = new cgOverlayItem(coord);
+								item = new cgOverlayItem(coord, null);
 
 								icon = base.getIcon(false, oneWaypoint.type, false, false, false);
 								if (iconsCache.containsKey(icon)) {
@@ -1297,7 +1297,7 @@ public class cgeomap extends MapActivity {
 				coord.name = "some place";
 
 				coordinates.add(coord);
-				cgOverlayItem item = new cgOverlayItem(coord);
+				cgOverlayItem item = new cgOverlayItem(coord, null);
 
 				final int icon = base.getIcon(false, waypointTypeIntent, false, false, false);
 				Drawable pin = null;

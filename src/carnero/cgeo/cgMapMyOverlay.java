@@ -49,8 +49,6 @@ public class cgMapMyOverlay extends Overlay {
 
     @Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		super.draw(canvas, mapView, shadow);
-
 		if (coordinates == null || location == null) return;
 		
 		if (accuracyCircle == null) {
@@ -176,5 +174,7 @@ public class cgMapMyOverlay extends Overlay {
 		canvas.rotate(-(new Float(heading)), center.x, center.y);
 
 		canvas.setDrawFilter(remfil);
-    }
+		
+		super.draw(canvas, mapView, shadow);
+	}
 }

@@ -77,8 +77,6 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		super.draw(canvas, mapView, shadow);
-		
 		if (displayCircles) {
 			if (blockedCircle == null) {
 				blockedCircle = new Paint();
@@ -107,17 +105,26 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 				projection.toPixels(leftGeo, left);
 				int radius = center.x - left.x;
 
-				blockedCircle.setColor(0x66BB0000);
-				blockedCircle.setStyle(Style.STROKE);
-				canvas.drawCircle(center.x, center.y, radius, blockedCircle);
+				final String type = item.getType();
+				if (type == null || "multi".equals(type) || "mystery".equals(type) || "virtual".equals(type)) {
+					blockedCircle.setColor(0x66000000);
+					blockedCircle.setStyle(Style.STROKE);
+					canvas.drawCircle(center.x, center.y, radius, blockedCircle);
+				} else {
+					blockedCircle.setColor(0x66BB0000);
+					blockedCircle.setStyle(Style.STROKE);
+					canvas.drawCircle(center.x, center.y, radius, blockedCircle);
 
-				blockedCircle.setColor(0x08BB0000);
-				blockedCircle.setStyle(Style.FILL);
-				canvas.drawCircle(center.x, center.y, radius, blockedCircle);
+					blockedCircle.setColor(0x44BB0000);
+					blockedCircle.setStyle(Style.FILL);
+					canvas.drawCircle(center.x, center.y, radius, blockedCircle);
+				}
 			}
 
 			canvas.setDrawFilter(remfil);
 		}
+		
+		super.draw(canvas, mapView, shadow);
 	}
 	
 	@Override
