@@ -560,6 +560,8 @@ public class cgeocaches extends ListActivity {
 		subMenuSort.add(1, 15, 0, res.getString(R.string.caches_sort_name)).setCheckable(false).setChecked(false);
 		subMenuSort.add(1, 16, 0, res.getString(R.string.caches_sort_gccode)).setCheckable(false).setChecked(false);
 		subMenuSort.add(1, 18, 0, res.getString(R.string.caches_sort_rating)).setCheckable(false).setChecked(false);
+		subMenuSort.add(1, 19, 0, res.getString(R.string.caches_sort_vote)).setCheckable(false).setChecked(false);
+		subMenuSort.add(1, 20, 0, res.getString(R.string.caches_sort_inventory)).setCheckable(false).setChecked(false);
 		subMenuSort.setGroupCheckable(1, true, true);
 
 		menu.add(0, 0, 0, res.getString(R.string.caches_select_mode)).setIcon(android.R.drawable.ic_menu_agenda);
@@ -714,6 +716,12 @@ public class cgeocaches extends ListActivity {
 				return false;
 			case 18:
 				setComparator(item, new cgCacheRatingComparator());
+				return false;
+			case 19:
+				setComparator(item, new cgCacheVoteComparator());
+				return false;
+			case 20:
+				setComparator(item, new cgCacheInventoryComparator());
 				return false;
 		}
 

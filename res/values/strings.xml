@@ -6,7 +6,7 @@
   <!-- keys -->
   <string name="maps_api_key">0HEeyLeVKGHZ6X5nAWqVFvyplTNnKUquILfte4w</string> <!-- dev -->
   <string name="maps_api_key_market">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
-  
+
   <!-- basics -->
   <string name="cache">Cache</string>
   <string name="detail">Detail</string>
@@ -264,6 +264,8 @@
   <string name="caches_sort_name">name</string> <!-- since: 2.10 RC3 -->
   <string name="caches_sort_gccode">GC-code (age)</string> <!-- since: 2.2 -->
   <string name="caches_sort_rating">rating</string>
+  <string name="caches_sort_vote">vote (own rating)</string>
+  <string name="caches_sort_inventory">count of inventory</string>
   <string name="caches_select">Select from list</string>
   <string name="caches_select_mode">Select mode</string>
   <string name="caches_select_mode_exit">Exit select mode</string>
@@ -284,7 +286,7 @@
   <string name="caches_recaptcha_explanation">Please, write text from image. It\'s important to download coordinates of caches. It\'s optional and can be switched off in Settings.</string>
   <string name="caches_recaptcha_hint">Text from image</string>
   <string name="caches_recaptcha_continue">Continue</string>
-  
+
   <!-- caches lists -->
   <string name="list_menu">List</string>
   <string name="list_menu_create">Create new list</string>
@@ -786,7 +788,7 @@
 	\n
     <b>2.20</b> (06.05.2011)\n
 	· Fixed many issues from prev. version\n
-	· Finished adaptation\n 
+	· Finished adaptation\n
 	\n
     <b>2.13.x</b> (05.05.2011)\n
 	· change: Optimized map\n
