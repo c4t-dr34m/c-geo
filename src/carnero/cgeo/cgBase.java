@@ -174,6 +174,7 @@ public class cgBase {
 		cacheTypesInv.put("virtual", res.getString(R.string.virtual));
 		cacheTypesInv.put("wherigo", res.getString(R.string.wherigo));
 		cacheTypesInv.put("lostfound", res.getString(R.string.lostfound));
+		cacheTypesInv.put("ape", res.getString(R.string.ape));
 		cacheTypesInv.put("gchq", res.getString(R.string.gchq));
 		cacheTypesInv.put("gps", res.getString(R.string.gps));
 
@@ -314,7 +315,7 @@ public class cgBase {
 		logTypesTrackableAction.put(0, ""); // do nothing
 		logTypesTrackableAction.put(1, "_Visited"); // visit cache
 		logTypesTrackableAction.put(2, "_DroppedOff"); // drop here
-		
+
 		// retrieving errors (because of ____ )
 		errorRetrieve.put(1, res.getString(R.string.err_none));
 		errorRetrieve.put(0, res.getString(R.string.err_start));
@@ -450,7 +451,7 @@ public class cgBase {
 		params.put("ctl00$SiteContent$tbPassword", login.get("password"));
 		params.put("ctl00$SiteContent$cbRememberMe", "on");
 		params.put("ctl00$SiteContent$btnSignIn", "Login");
-		
+
 		loginResponse = request(true, host, path, "POST", params, false, false, false);
 		loginData = loginResponse.getData();
 
@@ -480,6 +481,11 @@ public class cgBase {
 	}
 
 	public Boolean checkLogin(String page) {
+		if (page == null || page.length() == 0) {
+			Log.e(cgSettings.tag, "cgeoBase.checkLogin: No page given");
+			return false;
+		}
+
 		// on every page
 		final Matcher matcherLogged2In = patternLogged2In.matcher(page);
 		while (matcherLogged2In.find()) {
@@ -607,7 +613,7 @@ public class cgBase {
 			if (row.indexOf("images/wpttypes") == -1) {
 				continue;
 			}
-			
+
 			try {
 				final Matcher matcherGuidAndDisabled = patternGuidAndDisabled.matcher(row);
 
@@ -649,7 +655,7 @@ public class cgBase {
 				cache = null;
 				continue;
 			}
-			
+
 			String inventoryPre = null;
 
 			// GC* code
@@ -1151,7 +1157,7 @@ public class cgBase {
 			// failed to parse cache geocode
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache geocode");
 		}
-		
+
 		// cache id
 		try {
 			final Matcher matcherCacheId = patternCacheId.matcher(page);
@@ -1177,7 +1183,7 @@ public class cgBase {
 			// failed to parse cache guid
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache guid");
 		}
-		
+
 		// name
 		try {
 			final Matcher matcherName = patternName.matcher(page);
@@ -1267,7 +1273,7 @@ public class cgBase {
 				// failed to parse owner
 				Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache owner");
 			}
-			
+
 			// hidden
 			try {
 				final Matcher matcherHidden = patternHidden.matcher(tableInside);
@@ -1450,7 +1456,7 @@ public class cgBase {
 			// failed to parse short description
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache description");
 		}
-		
+
 		// translation
 		if (settings.translate == true) {
 			ArrayList<String> values = new ArrayList<String>();
@@ -1519,7 +1525,7 @@ public class cgBase {
 						if (matcherSpoilersInside.groupCount() > 0) {
 							final cgSpoiler spoiler = new cgSpoiler();
 							spoiler.url = matcherSpoilersInside.group(1);
-							
+
 							if (matcherSpoilersInside.group(2) != null) {
 								spoiler.title = matcherSpoilersInside.group(2);
 							}
@@ -1549,10 +1555,10 @@ public class cgBase {
 				if (cache.inventory == null) {
 					cache.inventory = new ArrayList<cgTrackable>();
 				}
-				
+
 				if (matcherInventory.groupCount() > 1) {
 					final String inventoryPre = matcherInventory.group(2);
-					
+
 					if (inventoryPre != null && inventoryPre.length() > 0) {
 						final Matcher matcherInventoryInside = patternInventoryInside.matcher(inventoryPre);
 
@@ -1586,7 +1592,7 @@ public class cgBase {
 						Integer type = null;
 						Integer count = null;
 						final Matcher matcherLog = patternCountLog.matcher(logs[k]);
-						
+
 						if (matcherLog.find()) {
 							String typeStr = matcherLog.group(1);
 							String countStr = matcherLog.group(2);
@@ -1609,7 +1615,7 @@ public class cgBase {
 			// failed to parse logs
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache log count");
 		}
-		
+
 		// cache logs
 		try {
 			final Matcher matcherLogs = patternLogs.matcher(page);
@@ -1617,10 +1623,10 @@ public class cgBase {
 				if (matcherLogs.groupCount() > 0) {
 					final String[] logs = matcherLogs.group(1).split("</tr><tr>");
 					final int logsCnt = logs.length;
-					
+
 					for (int k = 0; k < logsCnt; k++) {
 						final Matcher matcherLog = patternLog.matcher(logs[k]);
-						
+
 						if (matcherLog.find()) {
 							final cgLog logDone = new cgLog();
 
@@ -2157,7 +2163,7 @@ public class cgBase {
 				Log.w(cgSettings.tag, "cgeoBase.parseTrackable: Failed to parse trackable type");
 			}
 		}
-	
+
 		// trackable owner name
 		try {
 			final Matcher matcherOwner = patternOwner.matcher(page);
@@ -2298,7 +2304,7 @@ public class cgBase {
 			final Matcher matcherLogs = patternLogs.matcher(page);
 			while (matcherLogs.find()) {
 				if (matcherLogs.groupCount() > 0) {
-					final Pattern patternLog = Pattern.compile("[^>]*>" + 
+					final Pattern patternLog = Pattern.compile("[^>]*>" +
 							"[^<]*<td[^<]*<img src=[\"|'].*\\/icons\\/([^\\.]+)\\.[a-z]{2,5}[\"|'][^>]*>&nbsp;(\\d+).(\\d+).(\\d+)[^<]*</td>" +
 							"[^<]*<td>[^<]*<a href=[^>]+>([^<]+)<.a>([^<]*|[^<]*<a href=[\"|'].*guid=([^\"]*)\">([^<]*)</a>[^<]*)</td>" +
 							"[^<]*<td>[^<]*</td>" +
@@ -2321,7 +2327,7 @@ public class cgBase {
 						final Matcher matcherLog = patternLog.matcher(logs[k]);
 						if (matcherLog.find()) {
 							final cgLog logDone = new cgLog();
-							
+
 							String logTmp = matcherLog.group(9);
 							logTmp = Pattern.compile("<p>").matcher(logTmp).replaceAll("\n");
 							logTmp = Pattern.compile("<br[^>]*>").matcher(logTmp).replaceAll("\n");
@@ -2383,7 +2389,7 @@ public class cgBase {
 			// failed to parse logs
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache logs");
 		}
-		
+
 		app.saveTrackable(trackable);
 
 		return trackable;
@@ -3154,7 +3160,7 @@ public class cgBase {
 		if (parameters.containsKey("cachetype") == true) {
 			cachetype = (String) parameters.get("cachetype");
 		}
-		
+
 		if (parameters.containsKey("list") == true) {
 			list = (Integer) parameters.get("list");
 		}
@@ -3494,7 +3500,7 @@ public class cgBase {
 		final String latMax = parameters.get("latitude-max");
 		final String lonMin = parameters.get("longitude-min");
 		final String lonMax = parameters.get("longitude-max");
-		
+
 		String usertoken = null;
 		if (parameters.get("usertoken") != null) {
 			usertoken = parameters.get("usertoken");
@@ -3923,7 +3929,7 @@ public class cgBase {
 		Log.e(cgSettings.tag, "cgeoBase.postLogTrackable: Failed to post log because of unknown error");
 		return 1000;
 	}
-	
+
 	final public static HostnameVerifier doNotVerify = new HostnameVerifier() {
 
 		public boolean verify(String hostname, SSLSession session) {
@@ -4075,11 +4081,11 @@ public class cgBase {
 			Log.e(cgSettings.tag, "cgBase.postTweet: " + e.toString());
 		}
 	}
-	
+
 	public ArrayList<String> translate(String text, String target) {
 		ArrayList<String> textArr = new ArrayList<String>();
 		textArr.add(text);
-		
+
 		return translate(textArr, target);
 	}
 
@@ -4087,32 +4093,32 @@ public class cgBase {
 		if (settings.translate == false) {
 			return text;
 		}
-		
+
 		String[] languages = null;
 		if (settings.languages != null) {
 			languages = settings.languages.split(" ");
 		}
-		
+
 		ArrayList<String> translated = new ArrayList<String>();
 		String language = null;
 
 		if (text == null || text.isEmpty()) {
 			return text;
 		}
-		
+
 		// cut to 5000 characters (limitation of Google Translation API)
 		for (String textOne : text) {
 			int len = urlencode_rfc3986(textOne).length();
 			if (len > 5000) {
 				textOne = Html.fromHtml(textOne).toString();
 				len = urlencode_rfc3986(textOne).length();
-				
+
 				if (len > 5000) {
 					int cut = 2000;
 					if (textOne.length() > cut) {
 						cut = 1000;
 					}
-					
+
 					textOne = textOne.substring(0, cut) + "...";
 				}
 			}
@@ -4146,7 +4152,7 @@ public class cgBase {
 			JSONObject jsonData = json.getJSONObject("data");
 			JSONArray jsonTranslations = jsonData.getJSONArray("translations");
 			int translationCnt = jsonTranslations.length();
-			
+
 			for (int i = 0; i < translationCnt; i ++) {
 				JSONObject jsonTranslation = jsonTranslations.getJSONObject(i);
 				language = jsonTranslation.getString("detectedSourceLanguage");
@@ -4159,7 +4165,7 @@ public class cgBase {
 						}
 					}
 				}
-				
+
 				if (toTranslate == false) {
 					translated.add(text.get(i));
 				} else {
@@ -4188,7 +4194,7 @@ public class cgBase {
 		} catch (SocketException e) {
 			// nothing
 		}
-		
+
 		return null;
 	}
 
@@ -4314,7 +4320,7 @@ public class cgBase {
 		} else {
 			method = method.toUpperCase();
 		}
-		
+
 		// https
 		String scheme = "http://";
 		if (secure) {
@@ -4528,7 +4534,7 @@ public class cgBase {
 
 		cgResponse response = new cgResponse();
 		String data = null;
-		
+
 		try {
 			if (httpCode == 302 && httpLocation != null) {
 				final Uri newLocation = Uri.parse(httpLocation);
@@ -4560,7 +4566,7 @@ public class cgBase {
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgeoBase.page: " + e.toString());
 		}
-		
+
 		return response;
 	}
 
@@ -4765,13 +4771,13 @@ public class cgBase {
 	public String requestJSON(String scheme, String host, String path, String method, String params) {
 		int httpCode = -1;
 		String httpLocation = null;
-		
+
 		if (method == null) {
 			method = "GET";
 		} else {
 			method = method.toUpperCase();
 		}
-		
+
 		boolean methodPost = false;
 		if (method.equalsIgnoreCase("POST")) {
 			methodPost = true;
@@ -4869,7 +4875,7 @@ public class cgBase {
 					inr.close();
 				} catch (IOException e) {
 					httpCode = connection.getResponseCode();
-					
+
 					Log.e(cgSettings.tag, "cgeoBase.requestJSON.IOException: " + httpCode + ": " + connection.getResponseMessage() + " ~ " +  e.toString());
 				}
 			} catch (Exception e) {
@@ -4879,7 +4885,7 @@ public class cgBase {
 			if (buffer != null && buffer.length() > 0) {
 				break;
 			}
-			
+
 			if (httpCode == 403) {
 				// we're not allowed to download content, so let's move
 				break;
@@ -5020,10 +5026,10 @@ public class cgBase {
 				if (handler != null) {
 					handler.sendMessage(new Message());
 				}
-				
+
 				return;
 			}
-			
+
 			final cgHtmlImg imgGetter = new cgHtmlImg(activity, settings, cache.geocode, false, listId, true);
 
 			// store images from description
@@ -5037,7 +5043,7 @@ public class cgBase {
 					imgGetter.getDrawable(oneSpoiler.url);
 				}
 			}
-			
+
 			// store map previews
 			if (settings.storeOfflineMaps == 1 && cache.latitude != null && cache.longitude != null) {
 				final String latlonMap = String.format((Locale) null, "%.6f", cache.latitude) + "," + String.format((Locale) null, "%.6f", cache.longitude);
@@ -5059,7 +5065,7 @@ public class cgBase {
 				} else {
 					type = cache.type;
 				}
-				
+
 				final String markerUrl = urlencode_rfc3986("http://cgeo.carnero.cc/_markers/marker_cache_" + type + ".png");
 				final StringBuilder waypoints = new StringBuilder();
 				if (cache.waypoints != null && cache.waypoints.size() > 0) {
@@ -5085,7 +5091,7 @@ public class cgBase {
 				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=14&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 4);
 				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 5);
 			}
-			
+
 			app.markStored(cache.geocode, listId);
 			app.removeCacheFromCache(cache.geocode);
 
@@ -5382,7 +5388,7 @@ public class cgBase {
 			} else {
 				iconTxt = "waypoint";
 			}
-			
+
 			if (wpIcons.containsKey(iconTxt) == true) {
 				icon = wpIcons.get(iconTxt);
 			} else {
@@ -5392,7 +5398,7 @@ public class cgBase {
 
 		return icon;
 	}
-	
+
 	public boolean isLocus(Context context) {
 		boolean locus = false;
 		final Intent intentTest = new Intent(Intent.ACTION_VIEW);
@@ -5400,17 +5406,17 @@ public class cgBase {
 		if (isIntentAvailable(context, intentTest) == true) {
 			locus = true;
 		}
-		
+
 		return locus;
 	}
-	
+
 	public boolean isRmaps(Context context) {
 		boolean rmaps = false;
 		final Intent intent = new Intent("com.robert.maps.action.SHOW_POINTS");
 		if (isIntentAvailable(context, intent) == true) {
 			rmaps = true;
 		}
-		
+
 		return rmaps;
 	}
 
@@ -5467,7 +5473,7 @@ public class cgBase {
 
 					int icon = -1;
 					if (cache != null) {
-						icon = getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
+						icon = getIcon(true, cache.type, cache.own, cache.found, cache.disabled || cache.archived);
 					} else if (waypoint != null) {
 						icon = getIcon(false, waypoint.type, false, false, false);
 					} else {
@@ -5793,7 +5799,7 @@ public class cgBase {
 
 		return elv;
 	}
-	
+
 	public void showProgress(Activity activity, boolean status) {
 		if (activity == null) {
 			return;
@@ -5814,7 +5820,7 @@ public class cgBase {
 		activity.startActivity(intent);
 		activity.finish();
 	}
-	
+
 	public void setTitle(Activity activity, String text) {
 		if (activity == null || text == null) {
 			return;
