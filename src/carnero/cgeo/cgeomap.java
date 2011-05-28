@@ -74,6 +74,7 @@ public class cgeomap extends MapActivity {
 	private volatile long loadThreadRun = 0l;
 	private volatile long downloadThreadRun = 0l;
 	private volatile long usersThreadRun = 0l;
+	private volatile boolean downloaded = false;
 	// overlays
 	private cgMapOverlay overlayCaches = null;
 	private cgUsersOverlay overlayUsers = null;
@@ -766,6 +767,8 @@ public class cgeomap extends MapActivity {
 						if (liveChanged) {
 							moved = true;
 							force = true;
+						} else if (live && settings.maplive == 1 && downloaded == false) {
+							moved = true;
 						} else if (centerLatitude == null || centerLongitude == null) {
 							moved = true;
 						} else if (spanLatitude == null || spanLongitude == null) {
@@ -1034,6 +1037,9 @@ public class cgeomap extends MapActivity {
 			params.put("longitude-max", String.format((Locale) null, "%.6f", lonMax));
 
 			searchId = base.searchByViewport(params, 0);
+			if (searchId != null) {
+				downloaded = true;
+			}
 
 			caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
 
