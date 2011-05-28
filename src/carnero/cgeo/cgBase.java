@@ -174,6 +174,7 @@ public class cgBase {
 		cacheTypesInv.put("virtual", res.getString(R.string.virtual));
 		cacheTypesInv.put("wherigo", res.getString(R.string.wherigo));
 		cacheTypesInv.put("lostfound", res.getString(R.string.lostfound));
+		cacheTypesInv.put("ape", res.getString(R.string.ape));
 		cacheTypesInv.put("gchq", res.getString(R.string.gchq));
 		cacheTypesInv.put("gps", res.getString(R.string.gps));
 
