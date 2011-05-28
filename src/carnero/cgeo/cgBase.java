@@ -5472,7 +5472,7 @@ public class cgBase {
 
 					int icon = -1;
 					if (cache != null) {
-						icon = getIcon(true, cache.type, cache.own, cache.found, cache.disabled);
+						icon = getIcon(true, cache.type, cache.own, cache.found, cache.disabled || cache.archived);
 					} else if (waypoint != null) {
 						icon = getIcon(false, waypoint.type, false, false, false);
 					} else {
