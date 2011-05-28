@@ -2540,8 +2540,12 @@ public class cgData {
 
 		return false;
 	}
-
+	
 	public void clean() {
+		clean(false);
+	}
+
+	public void clean(boolean more) {
 		init();
 
 		Log.d(cgSettings.tag, "Database clean: started");
@@ -2550,15 +2554,27 @@ public class cgData {
 		ArrayList<String> geocodes = new ArrayList<String>();
 
 		try {
-			cursor = databaseRO.query(
-					dbTableCaches,
-					new String[]{"_id", "geocode"},
-					"reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and visiteddate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)),
-					null,
-					null,
-					null,
-					null,
-					null);
+			if (more) {
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[]{"_id", "geocode"},
+						"reason = 0",
+						null,
+						null,
+						null,
+						null,
+						null);
+			} else {
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[]{"_id", "geocode"},
+						"reason = 0 and detailed < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and detailedupdate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)) + " and visiteddate < " + (System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000)),
+						null,
+						null,
+						null,
+						null,
+						null);
+			}
 
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {

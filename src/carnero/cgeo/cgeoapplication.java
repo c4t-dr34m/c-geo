@@ -183,7 +183,7 @@ public class cgeoapplication extends Application {
 		}
 	}
 
-	public void cleanDatabase() {
+	public void cleanDatabase(boolean more) {
 		if (databaseCleaned == true) {
 			return;
 		}
@@ -191,7 +191,7 @@ public class cgeoapplication extends Application {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
-		storage.clean();
+		storage.clean(more);
 		databaseCleaned = true;
 	}
 

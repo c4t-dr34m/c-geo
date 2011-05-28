@@ -23,12 +23,15 @@ public class cgSettings {
 	public final static String keyConsumerPublic = "RFafPiNi3xRhcS1TPE3wTw";
 	public final static String keyConsumerSecret = "7iDJprNPI9hzRwWhpzycSr9SPZMFrdVdsxD2OauI9k";
 
+	// version
+	public int version = 0;
+
 	// skin
 	public int skin = 0;
 	public int buttonActive = R.drawable.action_button_dark;
 	public int buttonInactive = R.drawable.action_button_dark_off;
 	public int buttonPressed = R.drawable.action_button_dark_pressed;
-
+	
 	// settings
 	public boolean loaded = false;
 	public boolean hideMySearch = false;
@@ -78,9 +81,11 @@ public class cgSettings {
 		context = contextIn;
 		prefs = prefsIn;
 
+		version = prefs.getInt("version", 0);
+
 		initialized = prefs.getInt("initialized", 0);
 		helper = prefs.getInt("helper", 0);
-
+		
 		skin = prefs.getInt("skin", 0);
 		setSkinDefaults();
 
