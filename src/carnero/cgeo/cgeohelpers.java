@@ -48,11 +48,15 @@ public class cgeohelpers extends Activity {
 	public void installManual(View view) {
 		final Locale loc = Locale.getDefault();
 		final String lng = loc.getLanguage();
-		
-		if (lng.equalsIgnoreCase("de")) {
-			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:gnu.android.app.cgeomanual.de")));
-		} else {
-			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:gnu.android.app.cgeomanual.en")));
+
+		try {
+			if (lng.equalsIgnoreCase("de")) {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:gnu.android.app.cgeomanual.de")));
+			} else {
+				activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:gnu.android.app.cgeomanual.en")));
+			}
+		} catch (Exception e) {
+			// market not available in standard emulator
 		}
 
 
@@ -60,20 +64,32 @@ public class cgeohelpers extends Activity {
 	}
 
 	public void installLocus(View view) {
-		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:menion.android.locus")));
+		try {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:menion.android.locus")));
+		} catch (Exception e) {
+			// market not available in standard emulator
+		}
 
 
 		finish();
 	}
 
 	public void installGpsStatus(View view) {
-		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.eclipsim.gpsstatus2")));
+		try {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:com.eclipsim.gpsstatus2")));
+		} catch (Exception e) {
+			// market not available in standard emulator
+		}
 
 		finish();
 	}
 
 	public void installBluetoothGps(View view) {
-		activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:googoo.android.btgps")));
+		try {
+			activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:googoo.android.btgps")));
+		} catch (Exception e) {
+			// market not available in standard emulator
+		}
 
 		finish();
 	}
