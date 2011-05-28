@@ -32,6 +32,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
+import carnero.cgeo.filter.cgFilter;
+
 public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 	private Resources res = null;
@@ -60,6 +62,8 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private static final int SWIPE_MAX_OFF_PATH = 100;
 	private static final int SWIPE_DISTANCE = 80;
 	private static final float SWIPE_OPACITY = 0.5f;
+	private boolean filterSet = false;
+	private List<cgCache> originalList = null;
 
 	public cgCacheListAdapter(Activity activityIn, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
 		super(activityIn, 0, listIn);
@@ -107,6 +111,24 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		statComparator = comparator;
 
 		forceSort(latitude, longitude);
+	}
+	
+	public void setFilter(cgFilter filter){
+		if(originalList == null){
+			originalList = new ArrayList<cgCache>(list);
+		}
+		if(filterSet){
+			list.clear();
+			list.addAll(originalList);
+		}
+		if(filter != null){
+			filter.filter(list);
+			filterSet = true;
+		}
+		else{
+			filterSet = false;
+		}
+		notifyDataSetChanged();
 	}
 
 	public void setHistoric(boolean historicIn) {

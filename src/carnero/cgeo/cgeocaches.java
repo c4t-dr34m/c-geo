@@ -33,6 +33,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import carnero.cgeo.filter.cgFilterBySize;
+import carnero.cgeo.filter.cgFilterByTrackables;
+import carnero.cgeo.filter.cgFilterByType;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -75,6 +79,7 @@ public class cgeocaches extends ListActivity {
 	private geocachesDropDetails threadR = null;
 	private int listId = 0;
 	private ArrayList<cgList> lists = null;
+	private String selectedFilter = null;
 	private cgCacheGeocodeComparator gcComparator = new cgCacheGeocodeComparator();
 	private Handler loadCachesHandler = new Handler() {
 
@@ -545,6 +550,13 @@ public class cgeocaches extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		SubMenu subMenuFilter = menu.addSubMenu(0, 105, 0, res.getString(R.string.caches_filter));
+		subMenuFilter.setHeaderTitle(res.getString(R.string.caches_filter_title));
+		subMenuFilter.add(0, 18, 0, res.getString(R.string.caches_filter_type));
+		subMenuFilter.add(0, 19, 0, res.getString(R.string.caches_filter_size));
+		subMenuFilter.add(0, 20, 0, res.getString(R.string.caches_filter_track));
+		subMenuFilter.add(0, 21, 0, res.getString(R.string.caches_filter_clear));
+		
 		SubMenu subMenuSort = menu.addSubMenu(0, 104, 0, res.getString(R.string.caches_sort)).setIcon(android.R.drawable.ic_menu_sort_alphabetically);
 		subMenuSort.setHeaderTitle(res.getString(R.string.caches_sort_title));
 		subMenuSort.add(0, 10, 0, res.getString(R.string.caches_sort_distance));
@@ -719,6 +731,22 @@ public class cgeocaches extends ListActivity {
 			case 17:
 				selectList(null);
 				return false;
+			case 18:
+				selectedFilter = res.getString(R.string.caches_filter_type);
+				openContextMenu(getListView());
+				return false;
+			case 19:
+				selectedFilter = res.getString(R.string.caches_filter_size);
+				openContextMenu(getListView());
+				return false;
+			case 20:
+				adapter.setFilter(new cgFilterByTrackables());
+				return false;
+			case 21:
+				if (adapter != null) {
+					adapter.setFilter(null);
+				}
+				return false;
 		}
 
 		return false;
@@ -738,22 +766,57 @@ public class cgeocaches extends ListActivity {
 		} catch (Exception e) {
 			Log.w(cgSettings.tag, "cgeocaches.onCreateContextMenu: " + e.toString());
 		}
+		
+		if((adapterInfo == null || adapterInfo.position < 0) && selectedFilter != null){
+			// Context menu opened by selecting an option on the filter submenu
 
-		final cgCache cache = adapter.getItem(adapterInfo.position);
+			if(selectedFilter.equals(res.getString(R.string.caches_filter_size))){
+				menu.setHeaderTitle(res.getString(R.string.caches_filter_size_title));
+				menu.add(0,  8, 0, res.getString(R.string.caches_filter_size_micro));
+				menu.add(0,  9, 0, res.getString(R.string.caches_filter_size_small));
+				menu.add(0, 10, 0, res.getString(R.string.caches_filter_size_regular));
+				menu.add(0, 11, 0, res.getString(R.string.caches_filter_size_large));
+				menu.add(0, 12, 0, res.getString(R.string.caches_filter_size_other));	
+				menu.add(0, 13, 0, res.getString(R.string.caches_filter_size_virtual));	
+				menu.add(0, 14, 0, res.getString(R.string.caches_filter_size_notchosen));
+				
+			} else if(selectedFilter.equals(res.getString(R.string.caches_filter_type))){
+				menu.setHeaderTitle(res.getString(R.string.caches_filter_type_title));
+				menu.add(0,  15, 0, res.getString(R.string.caches_filter_type_traditional));
+				menu.add(0,  16, 0, res.getString(R.string.caches_filter_type_multi));
+				menu.add(0,  17, 0, res.getString(R.string.caches_filter_type_mystery));
+				menu.add(0,  18, 0, res.getString(R.string.caches_filter_type_letterbox));
+				menu.add(0,  19, 0, res.getString(R.string.caches_filter_type_event));
+				menu.add(0,  20, 0, res.getString(R.string.caches_filter_type_mega));
+				menu.add(0,  21, 0, res.getString(R.string.caches_filter_type_earth));
+				menu.add(0,  22, 0, res.getString(R.string.caches_filter_type_cito));
+				menu.add(0,  23, 0, res.getString(R.string.caches_filter_type_webcam));
+				menu.add(0,  24, 0, res.getString(R.string.caches_filter_type_virtual));
+				menu.add(0,  25, 0, res.getString(R.string.caches_filter_type_wherigo));
+				menu.add(0,  26, 0, res.getString(R.string.caches_filter_type_lostfound));
+				menu.add(0,  27, 0, res.getString(R.string.caches_filter_type_ape));
+				menu.add(0,  28, 0, res.getString(R.string.caches_filter_type_gchq));
+				menu.add(0,  29, 0, res.getString(R.string.caches_filter_type_gps));
+				
+			}
+		} else{
 
-		if (cache.name != null && cache.name.length() > 0) {
-			menu.setHeaderTitle(cache.name);
-		} else {
-			menu.setHeaderTitle(cache.geocode);
-		}
-		if (cache.latitude != null && cache.longitude != null) {
-			menu.add(0, 1, 0, res.getString(R.string.cache_menu_compass));
-			menu.add(0, 2, 0, res.getString(R.string.cache_menu_radar));
-			menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
-			menu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
-			menu.add(0, 5, 0, res.getString(R.string.cache_menu_tbt));
-			menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit));
-			menu.add(0, 7, 0, res.getString(R.string.cache_menu_details));
+			final cgCache cache = adapter.getItem(adapterInfo.position);
+	
+			if (cache.name != null && cache.name.length() > 0) {
+				menu.setHeaderTitle(cache.name);
+			} else {
+				menu.setHeaderTitle(cache.geocode);
+			}
+			if (cache.latitude != null && cache.longitude != null) {
+				menu.add(0, 1, 0, res.getString(R.string.cache_menu_compass));
+				menu.add(0, 2, 0, res.getString(R.string.cache_menu_radar));
+				menu.add(0, 3, 0, res.getString(R.string.cache_menu_map));
+				menu.add(0, 4, 0, res.getString(R.string.cache_menu_map_ext));
+				menu.add(0, 5, 0, res.getString(R.string.cache_menu_tbt));
+				menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit));
+				menu.add(0, 7, 0, res.getString(R.string.cache_menu_details));
+			}
 		}
 	}
 
@@ -762,8 +825,55 @@ public class cgeocaches extends ListActivity {
 		final int id = item.getItemId();
 		ContextMenu.ContextMenuInfo info = item.getMenuInfo();
 
-		if (info == null) {
-			return false;
+		if (info == null && adapter != null) {
+			if (id == 8) {
+				adapter.setFilter(new cgFilterBySize(res.getString(R.string.caches_filter_size_micro)));
+			} else if (id == 9) {
+				adapter.setFilter(new cgFilterBySize(res.getString(R.string.caches_filter_size_small)));
+			} else if (id == 10) {
+				adapter.setFilter(new cgFilterBySize(res.getString(R.string.caches_filter_size_regular)));
+			} else if (id == 11) {
+				adapter.setFilter(new cgFilterBySize(res.getString(R.string.caches_filter_size_large)));
+			} else if (id == 12) {
+				adapter.setFilter(new cgFilterBySize(res.getString(R.string.caches_filter_size_other)));
+			} else if (id == 13) {
+				adapter.setFilter(new cgFilterBySize(res.getString(R.string.caches_filter_size_virtual)));
+			} else if (id == 14) {
+				adapter.setFilter(new cgFilterBySize(res.getString(R.string.caches_filter_size_notchosen)));
+			} else if (id == 15) {
+				adapter.setFilter(new cgFilterByType("traditional"));
+			} else if (id == 16) {
+				adapter.setFilter(new cgFilterByType("multi"));
+			} else if (id == 17) {
+				adapter.setFilter(new cgFilterByType("mystery"));
+			} else if (id == 18) {
+				adapter.setFilter(new cgFilterByType("letterbox"));
+			} else if (id == 19) {
+				adapter.setFilter(new cgFilterByType("event"));
+			} else if (id == 20) {
+				adapter.setFilter(new cgFilterByType("mega"));
+			} else if (id == 21) {
+				adapter.setFilter(new cgFilterByType("earth"));
+			} else if (id == 22) {
+				adapter.setFilter(new cgFilterByType("cito"));
+			} else if (id == 23) {
+				adapter.setFilter(new cgFilterByType("webcam"));
+			} else if (id == 24) {
+				adapter.setFilter(new cgFilterByType("virtual"));
+			} else if (id == 25) {
+				adapter.setFilter(new cgFilterByType("wherigo"));
+			} else if (id == 26) {
+				adapter.setFilter(new cgFilterByType("lostfound"));
+			} else if (id == 27) {
+				adapter.setFilter(new cgFilterByType("ape"));
+			} else if (id == 28) {
+				adapter.setFilter(new cgFilterByType("gchq"));
+			} else if (id == 29) {
+				adapter.setFilter(new cgFilterByType("gps"));
+			} else {
+				return false;	
+			}
+			return true;
 		}
 
 		AdapterContextMenuInfo adapterInfo = null;
@@ -868,7 +978,6 @@ public class cgeocaches extends ListActivity {
 
 			return true;
 		}
-
 		return false;
 	}
 
