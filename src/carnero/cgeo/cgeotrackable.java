@@ -297,7 +297,6 @@ public class cgeotrackable extends Activity {
 				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeotrackable.loadTrackableHandler: " + e.toString() + e.getStackTrace());
-				e.printStackTrace();
 			}
 
 			displayLogs();

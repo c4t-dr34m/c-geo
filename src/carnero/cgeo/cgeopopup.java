@@ -167,7 +167,7 @@ public class cgeopopup extends Activity {
 		}
 		subMenu.add(0, 23, 0, res.getString(R.string.cache_menu_map_ext)); // ext.: other
 		subMenu.add(0, 4, 0, res.getString(R.string.cache_menu_tbt)); // turn-by-turn
-		
+
 		menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit)).setIcon(android.R.drawable.ic_menu_agenda); // log visit
 		menu.add(0, 5, 0, res.getString(R.string.cache_menu_around)).setIcon(android.R.drawable.ic_menu_rotate); // caches around
 		menu.add(0, 7, 0, res.getString(R.string.cache_menu_browser)).setIcon(android.R.drawable.ic_menu_info_details); // browser
@@ -189,7 +189,7 @@ public class cgeopopup extends Activity {
 				menu.findItem(2).setVisible(false);
 				menu.findItem(5).setVisible(false);
 			}
-			
+
 			if (fromDetail == false && settings.isLogin() == true) {
 				menu.findItem(6).setEnabled(true);
 			} else {
@@ -205,7 +205,7 @@ public class cgeopopup extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final int menuItem = item.getItemId();
-		
+
 		if (menuItem == 1) {
 			showOnMap();
 			return true;
@@ -316,7 +316,7 @@ public class cgeopopup extends Activity {
 			} else { // unknown cache type, "mystery" icon
 				((TextView) findViewById(R.id.actionbar_title)).setCompoundDrawablesWithIntrinsicBounds((Drawable) activity.getResources().getDrawable(gcIcons.get("mystery")), null, null, null);
 			}
-			
+
 			// cache type
 			itemLayout = (RelativeLayout) inflater.inflate(R.layout.cache_item, null);
 			itemName = (TextView) itemLayout.findViewById(R.id.name);
@@ -496,7 +496,7 @@ public class cgeopopup extends Activity {
 				final Button offlineRefresh = (Button) findViewById(R.id.offline_refresh);
 				final Button offlineStore = (Button) findViewById(R.id.offline_store);
 
-				if (cache.reason == 1) {
+				if (cache.reason > 0) {
 					Long diff = (System.currentTimeMillis() / (60 * 1000)) - (cache.detailedUpdate / (60 * 1000)); // minutes
 
 					String ago = "";
@@ -616,7 +616,7 @@ public class cgeopopup extends Activity {
 		cgeomap mapActivity = new cgeomap();
 
 		Intent mapIntent = new Intent(activity, mapActivity.getClass());
-		
+
 		mapIntent.putExtra("latitude", cache.latitude);
 		mapIntent.putExtra("longitude", cache.longitude);
 
@@ -682,7 +682,7 @@ public class cgeopopup extends Activity {
 			Log.e(cgSettings.tag, "cgeopoint.radarTo: " + e.toString());
 		}
 	}
-	
+
 	private void cachesAround() {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
 			warning.showToast(res.getString(R.string.err_location_unknown));
@@ -691,7 +691,7 @@ public class cgeopopup extends Activity {
 		cgeocaches cachesActivity = new cgeocaches();
 
 		Intent cachesIntent = new Intent(activity, cachesActivity.getClass());
-		
+
 		cachesIntent.putExtra("type", "coordinate");
 		cachesIntent.putExtra("latitude", cache.latitude);
 		cachesIntent.putExtra("longitude", cache.longitude);

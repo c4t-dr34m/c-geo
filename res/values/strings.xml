@@ -4,9 +4,9 @@
   <string name="app_name_compass">c:geo compass</string>
 
   <!-- keys -->
-  <string name="maps_api_key_dev">0EqeuoVNDFD9iRwtJahEoTOmayWVGHXTwVbt8Tg</string> <!-- dev -->
-  <string name="maps_api_key">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
-  
+  <string name="maps_api_key">0HEeyLeVKGHZ6X5nAWqVFvyplTNnKUquILfte4w</string> <!-- dev -->
+  <string name="maps_api_key_market">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
+
   <!-- basics -->
   <string name="cache">Cache</string>
   <string name="detail">Detail</string>
@@ -176,7 +176,7 @@
   <string name="err_log_load_data_again">Sorry, c:geo can\'t load data required to log visit. Trying again.</string>
   <string name="err_log_load_data_still">c:geo is still loading data required to post log. Please wait a little while longer.</string>
   <string name="err_log_failed_server">Sorry, c:geo failed to post log because server is not responding.</string>
-  <string name="err_log_post_failed">Sorry, c:geo failed to post log.</string>
+  <string name="err_log_post_failed">It seems that your log was not posted. Please check it on geocaching.com.</string>
   <string name="err_log_post_failed_because">Sorry, c:geo failed to post log because of </string>
 
   <string name="err_search_address_no_match">Sorry, c:geo found no matching place.</string>
@@ -263,6 +263,9 @@
   <string name="caches_sort_favorites">popularity</string> <!-- since: 2.10 RC3 -->
   <string name="caches_sort_name">name</string> <!-- since: 2.10 RC3 -->
   <string name="caches_sort_gccode">GC-code (age)</string> <!-- since: 2.2 -->
+  <string name="caches_sort_rating">rating</string>
+  <string name="caches_sort_vote">vote (own rating)</string>
+  <string name="caches_sort_inventory">count of inventory</string>
   <string name="caches_select">Select from list</string>
   <string name="caches_select_mode">Select mode</string>
   <string name="caches_select_mode_exit">Exit select mode</string>
@@ -507,6 +510,7 @@
   <string name="popup_offline">Offline</string>
 
   <!-- waypoint -->
+  <string name="waypoint">Waypoint</string>
   <string name="waypoint_title">Waypoint</string>
   <string name="waypoint_custom">Custom</string>
   <string name="waypoint_my_coordinates">My coordinates</string>
@@ -532,6 +536,8 @@
   <string name="map_view_map">Map view</string>
   <string name="map_trail_show">Show trail</string>
   <string name="map_trail_hide">Hide trail</string>
+  <string name="map_circles_show">Show circles</string> <!-- since: 2.23 RC3 -->
+  <string name="map_circles_hide">Hide circles</string> <!-- since: 2.23 RC3 -->
   <string name="map_live_enable">Enable live</string>
   <string name="map_live_disable">Disable live</string>
   <string name="map_static_title">Static maps</string>
@@ -623,6 +629,136 @@
   <string name="helper_bluetoothgps_title">Bluetooth GPS</string>
   <string name="helper_bluetoothgps_description">Allows you to use external GPS device to get better reception, more precise location and can spare battery of your phone.</string>
 
+  <!--  attributes (permissions -> allowed, not allowed) -->
+  <string name="attribute_dogs_yes">Dogs allowed</string>
+  <string name="attribute_dogs_no">Dogs not allowed</string>
+  <string name="attribute_bicycles_yes">Bicycles allowed</string>
+  <string name="attribute_bicycles_no">Bicycles not allowed</string>
+  <string name="attribute_motorcycles_yes">Motorcycles allowed</string>
+  <string name="attribute_motorcycles_no">Motorcycles not allowed</string>
+  <string name="attribute_quads_yes">Quads allowed</string>
+  <string name="attribute_quads_no">Quads not allowed</string>
+  <string name="attribute_jeeps_yes">Off-road vehicles allowed</string>
+  <string name="attribute_jeeps_no">Off-road vehicles not allowed</string>
+  <string name="attribute_snowmobiles_yes">Snowmobiles allowed</string>
+  <string name="attribute_snowmobiles_no">Snowmobiles not allowed</string>
+  <string name="attribute_horses_yes">Horses allowed</string>
+  <string name="attribute_horses_no">Horses not allowed</string>
+  <string name="attribute_campfires_yes">Campfires allowed</string>
+  <string name="attribute_campfires_no">Campfires not allowed</string>
+  <string name="attribute_rv_yes">Truck driver/RV allowed</string>
+  <string name="attribute_rv_no">Truck driver/RV not allowed</string>
+
+  <!--  attributes (conditions -> yes, no) -->
+  <string name="attribute_kids_yes">Recommended for kids</string>
+  <string name="attribute_kids_no">Not recommended for kids</string>
+  <string name="attribute_onehour_yes">Takes less than an hour</string>
+  <string name="attribute_onehour_no">Takes more than an hour</string>
+  <string name="attribute_scenic_yes">Scenic view</string>
+  <string name="attribute_scenic_no">No scenic view</string>
+  <string name="attribute_hiking_yes">Significant hike</string>
+  <string name="attribute_hiking_no">No significant hike</string>
+  <string name="attribute_climbing_yes">Difficult climbing</string>
+  <string name="attribute_climbing_no">No difficult climbing</string>
+  <string name="attribute_wading_yes">May require wading</string>
+  <string name="attribute_wading_no">May not require wading</string>
+  <string name="attribute_swimming_yes">May require swimming</string>
+  <string name="attribute_swimming_no">May not require swimming</string>
+  <string name="attribute_available_yes">Available at all times</string>
+  <string name="attribute_available_no">Not available at all times</string>
+  <string name="attribute_night_yes">Recommended at night</string>
+  <string name="attribute_night_no">Not recommended at night</string>
+  <string name="attribute_winter_yes">Available during winter</string>
+  <string name="attribute_winter_no">Not available during winter</string>
+  <string name="attribute_stealth_yes">Stealth required</string>
+  <string name="attribute_stealth_no">Stealth not required</string>
+  <string name="attribute_firstaid_yes">Needs maintenance</string>
+  <string name="attribute_firstaid_no">Needs no maintenance</string>
+  <string name="attribute_cow_yes">Watch for livestock</string>
+  <string name="attribute_cow_no">No livestock</string>
+  <string name="attribute_field_puzzle_yes">Field puzzle</string>
+  <string name="attribute_field_puzzle_no">No field puzzle</string>
+  <string name="attribute_nightcache_yes">Night cache</string>
+  <string name="attribute_nightcache_no">No night cache</string>
+  <string name="attribute_parkngrab_yes">Park and grab</string>
+  <string name="attribute_parkngrab_no">No park and grab</string>
+  <string name="attribute_abandonedbuilding_yes">Abandoned structure</string>
+  <string name="attribute_abandonedbuilding_no">No abandoned structure</string>
+  <string name="attribute_hike_short_yes">Short hike (less than 1 km)</string>
+  <string name="attribute_hike_short_no">No short hike</string>
+  <string name="attribute_hike_med_yes">Medium hike (1 km to 10 km)</string>
+  <string name="attribute_hike_med_no">No medium hike</string>
+  <string name="attribute_hike_long_yes">Long hike (more than 10 km)</string>
+  <string name="attribute_hike_long_no">No long hike</string>
+  <string name="attribute_landf_yes">Lost and found tour</string>
+  <string name="attribute_landf_no">No lost and found tour</string>
+  <string name="attribute_sponsored_yes">Sponsored cache</string>
+  <string name="attribute_sponsored_no">Non sponsored cache</string>
+
+  <!--  attributes (equipment -> required, not required) -->
+  <string name="attribute_fee_yes">Access or parking fee required</string>
+  <string name="attribute_fee_no">Access or parking fee not required</string>
+  <string name="attribute_rappelling_yes">Climbing gear required</string>
+  <string name="attribute_rappelling_no">Climbing gear not required</string>
+  <string name="attribute_boat_yes">Boat required</string>
+  <string name="attribute_boat_no">Boat not required</string>
+  <string name="attribute_scuba_yes">Scuba gear required</string>
+  <string name="attribute_scuba_no">Scuba gear not required</string>
+  <string name="attribute_flashlight_yes">Flashlight required</string>
+  <string name="attribute_flashlight_no">Flashlight not required</string>
+  <string name="attribute_UV_yes">UV light required</string>
+  <string name="attribute_UV_no">UV light not required</string>
+  <string name="attribute_snowshoes_yes">Snowshoes required</string>
+  <string name="attribute_snowshoes_no">Snowshoes not required</string>
+  <string name="attribute_skiis_yes">Cross country skis required</string>
+  <string name="attribute_skiis_no">Cross country skis not required</string>
+  <string name="attribute_s_tool_yes">Special tools required</string>
+  <string name="attribute_s_tool_no">Special tools not required</string>
+  <string name="attribute_wirelessbeacon_yes">Wireless beacon</string>
+  <string name="attribute_wirelessbeacon_no">No wireless beacon</string>
+
+  <!--  attributes (hazards -> present, not present) -->
+  <string name="attribute_poisonoak_yes">Poisonous plants</string>
+  <string name="attribute_poisonoak_no">No poisonous plants</string>
+  <string name="attribute_dangerousanimals_yes">Dangerous animals</string>
+  <string name="attribute_dangerousanimals_no">No dangerous animals</string>
+  <string name="attribute_ticks_yes">Ticks</string>
+  <string name="attribute_ticks_no">No ticks</string>
+  <string name="attribute_mine_yes">Abandoned mines</string>
+  <string name="attribute_mine_no">No abandoned mines</string>
+  <string name="attribute_cliff_yes">Cliff</string>
+  <string name="attribute_cliff_no">No cliff</string>
+  <string name="attribute_hunting_yes">Hunting</string>
+  <string name="attribute_hunting_no">No hunting</string>
+  <string name="attribute_danger_yes">Dangerous area</string>
+  <string name="attribute_danger_no">No dangerous area</string>
+  <string name="attribute_thorn_yes">Thorns</string>
+  <string name="attribute_thorn_no">No thorns</string>
+
+  <!--  attributes (facilities -> yes, no) -->
+  <string name="attribute_wheelchair_yes">Wheelchair accessible</string>
+  <string name="attribute_wheelchair_no">Not wheelchair accessible</string>
+  <string name="attribute_parking_yes">Parking available</string>
+  <string name="attribute_parking_no">No parking available</string>
+  <string name="attribute_public_yes">Public transportation</string>
+  <string name="attribute_public_no">No public transportation</string>
+  <string name="attribute_water_yes">Drinking water nearby</string>
+  <string name="attribute_water_no">No drinking water nearby</string>
+  <string name="attribute_restrooms_yes">Public restrooms nearby</string>
+  <string name="attribute_restrooms_no">No public restrooms nearby</string>
+  <string name="attribute_phone_yes">Telephone nearby</string>
+  <string name="attribute_phone_no">No telephone nearby</string>
+  <string name="attribute_picnic_yes">Picnic tables nearby</string>
+  <string name="attribute_picnic_no">No picnic tables nearby</string>
+  <string name="attribute_camping_yes">Camping available</string>
+  <string name="attribute_camping_no">No camping available</string>
+  <string name="attribute_stroller_yes">Stroller accessible</string>
+  <string name="attribute_stroller_no">Not stroller accessible</string>
+  <string name="attribute_fuel_yes">Fuel nearby</string>
+  <string name="attribute_fuel_no">No fuel nearby</string>
+  <string name="attribute_food_yes">Food nearby</string>
+  <string name="attribute_food_no">No food nearby</string>
+
   <!-- next things -->
   <string name="legal_note">To use services of geocaching.com, terms and conditions of <a href="http://www.geocaching.com/about/termsofuse.aspx">Groundspeak disclaimer</a> have to be agreed.</string>
   <string name="quote">To make geocaching easier, to make users lazier.</string>
@@ -665,15 +801,26 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.21.x</b> (07.05.2011)\n
+    <b>2.23</b> (__.05.2011)\n
+	· fix: Performance optimizations\n
+	· fix: Other users on map\n
+	· fix: Displaying single cache on map\n
+	· fix: LOT of different things\n
+	· new: Distance circles for caches\n
+	\n
+    <b>2.22</b> (18.05.2011)\n
+	· fix: Few minor problems\n
+	\n
+    <b>2.21.x</b> (10.05.2011)\n
 	· fix: Names in list\n
 	· fix: Found caches\n
 	· fix: Switching to English\n
 	· fix: Live map\n
+	· fix: Logging of trackables\n
 	\n
     <b>2.20</b> (06.05.2011)\n
 	· Fixed many issues from prev. version\n
-	· Finished adaptation\n 
+	· Finished adaptation\n
 	\n
     <b>2.13.x</b> (05.05.2011)\n
 	· change: Optimized map\n

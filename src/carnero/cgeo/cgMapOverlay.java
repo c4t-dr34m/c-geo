@@ -6,11 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.text.Html;
 import android.util.Log;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Projection;
 import java.util.ArrayList;
 
 public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
@@ -18,7 +25,13 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 	private ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
 	private Context context = null;
 	private Boolean fromDetail = false;
+	private boolean displayCircles = false;
 	private ProgressDialog waitDialog = null;
+	private Point center = new Point();
+	private Point left = new Point();
+	private Paint blockedCircle = null;
+	private PaintFlagsDrawFilter setfil = null;
+	private PaintFlagsDrawFilter remfil = null;
 
 	public cgMapOverlay(Context contextIn, Drawable markerIn, Boolean fromDetailIn) {
 		super(boundCenterBottom(markerIn));
@@ -53,7 +66,67 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 		setLastFocusedIndex(-1); // to reset tap during data change
 		populate();
 	}
+	
+	public boolean getCircles() {
+		return displayCircles;
+	}
 
+	public void switchCircles() {
+		displayCircles = !displayCircles;
+	}
+
+	@Override
+	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+		if (displayCircles) {
+			if (blockedCircle == null) {
+				blockedCircle = new Paint();
+				blockedCircle.setAntiAlias(true);
+				blockedCircle.setStrokeWidth(1.0f);
+			}
+
+			if (setfil == null) setfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
+			if (remfil == null) remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
+
+			canvas.setDrawFilter(setfil);
+
+			Projection projection = mapView.getProjection();
+
+			for (cgOverlayItem item : items) {
+				final cgCoord itemCoord = item.getCoord();
+				float[] result = new float[1];
+
+				Location.distanceBetween(itemCoord.latitude, itemCoord.longitude, itemCoord.latitude, itemCoord.longitude + 1, result);
+				final float longitudeLineDistance = result[0];
+
+				GeoPoint itemGeo = new GeoPoint((int)(itemCoord.latitude * 1e6), (int)(itemCoord.longitude * 1e6));
+				GeoPoint leftGeo = new GeoPoint((int)(itemCoord.latitude * 1e6), (int)((itemCoord.longitude - 161 / longitudeLineDistance) * 1e6));
+
+				projection.toPixels(itemGeo, center);
+				projection.toPixels(leftGeo, left);
+				int radius = center.x - left.x;
+
+				final String type = item.getType();
+				if (type == null || "multi".equals(type) || "mystery".equals(type) || "virtual".equals(type)) {
+					blockedCircle.setColor(0x66000000);
+					blockedCircle.setStyle(Style.STROKE);
+					canvas.drawCircle(center.x, center.y, radius, blockedCircle);
+				} else {
+					blockedCircle.setColor(0x66BB0000);
+					blockedCircle.setStyle(Style.STROKE);
+					canvas.drawCircle(center.x, center.y, radius, blockedCircle);
+
+					blockedCircle.setColor(0x44BB0000);
+					blockedCircle.setStyle(Style.FILL);
+					canvas.drawCircle(center.x, center.y, radius, blockedCircle);
+				}
+			}
+
+			canvas.setDrawFilter(remfil);
+		}
+		
+		super.draw(canvas, mapView, shadow);
+	}
+	
 	@Override
 	protected boolean onTap(int index) {
 		try {
@@ -96,11 +169,6 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 		}
 
 		return false;
-	}
-
-	@Override
-	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		super.draw(canvas, mapView, false);
 	}
 
 	@Override

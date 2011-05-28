@@ -39,6 +39,10 @@ public class cgeowaypointadd extends Activity {
 	private String type = "own";
 	private String prefix = "OWN";
 	private String lookup = "---";
+	/**
+	 * number of waypoints that the corresponding cache has until now
+	 */
+	private int wpCount = 0;
 	private Handler loadWaypointHandler = new Handler() {
 
 		@Override
@@ -111,6 +115,7 @@ public class cgeowaypointadd extends Activity {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			geocode = extras.getString("geocode");
+			wpCount = extras.getInt("count", 0);
 			id = extras.getInt("waypoint");
 		}
 
@@ -369,8 +374,12 @@ public class cgeowaypointadd extends Activity {
 				return;
 			}
 
-			final String name = ((EditText) findViewById(R.id.name)).getText().toString();
-			final String note = ((EditText) findViewById(R.id.note)).getText().toString();
+			String name = ((EditText) findViewById(R.id.name)).getText().toString().trim();
+			// if no name is given, just give the waypoint its number as name
+			if (name.isEmpty()) {
+				name = res.getString(R.string.waypoint) + " " + String.valueOf(wpCount + 1);
+			}
+			final String note = ((EditText) findViewById(R.id.note)).getText().toString().trim();
 
 			final cgWaypoint waypoint = new cgWaypoint();
 			waypoint.type = type;

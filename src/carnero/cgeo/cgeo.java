@@ -32,8 +32,10 @@ public class cgeo extends Activity {
 	private cgeoapplication app = null;
 	private Context context = null;
 	private cgSettings settings = null;
+	private SharedPreferences prefs = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
+	private Integer version = null;
 	private cgGeo geo = null;
 	private cgUpdateLoc geoUpdate = new update();
 	private TextView navType = null;
@@ -115,6 +117,7 @@ public class cgeo extends Activity {
 		app = (cgeoapplication)this.getApplication();
 		app.setAction(null);
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
+		prefs = getSharedPreferences(cgSettings.preferences, 0);
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
 
@@ -127,6 +130,8 @@ public class cgeo extends Activity {
 		try {
 			PackageManager manager = this.getPackageManager();
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+			
+			version = info.versionCode;
 
 			base.sendAnal(context, "/?ver=" + info.versionCode);
 			Log.i(cgSettings.tag, "Starting " + info.packageName + " " + info.versionCode + " a.k.a " + info.versionName + "...");
@@ -517,9 +522,22 @@ public class cgeo extends Activity {
 			if (app == null) return;
 			if (cleanupRunning == true) return;
 
+			boolean more = false;
+			if (version != settings.version) {
+				Log.i(cgSettings.tag, "Initializing hard cleanup - version changed from " + settings.version + " to " + version + ".");
+				
+				more = true;
+			}
+
 			cleanupRunning = true;
-			app.cleanDatabase();
+			app.cleanDatabase(more);
 			cleanupRunning = false;
+			
+			if (version != null && version > 0) {
+				SharedPreferences.Editor edit = prefs.edit();
+				edit.putInt("version", version);
+				edit.commit();
+			}
 		}
 	}
 

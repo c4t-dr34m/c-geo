@@ -346,7 +346,7 @@ public class cgeovisit extends cgLogForm {
 
 				if (settings.getSignature().contains("[NUMBER]") == true) {
 					final HashMap<String, String> params = new HashMap<String, String>();
-					final String page = base.request(false, "www.geocaching.com", "/my/", "GET", params, false, false, false);
+					final String page = base.request(false, "www.geocaching.com", "/my/", "GET", params, false, false, false).getData();
 					int current = base.parseFindCount(page);
 
 					if (current >= 0) {
@@ -764,7 +764,7 @@ public class cgeovisit extends cgLogForm {
 					return;
 				}
 
-				final String page = base.request(false, "www.geocaching.com", "/seek/log.aspx", "GET", params, false, false, false);
+				final String page = base.request(false, "www.geocaching.com", "/seek/log.aspx", "GET", params, false, false, false).getData();
 
 				viewstate = base.findViewstate(page, 0);
 				viewstate1 = base.findViewstate(page, 1);
@@ -847,9 +847,9 @@ public class cgeovisit extends cgLogForm {
 			}
 
 			if (
-							status == 1 && typeSelected == cgBase.LOG_FOUND_IT && settings.twitter == 1
-							&& settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null
-							&& settings.tokenSecret.length() > 0 && tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
+					status == 1 && typeSelected == cgBase.LOG_FOUND_IT && settings.twitter == 1
+					&& settings.tokenPublic != null && settings.tokenPublic.length() > 0 && settings.tokenSecret != null
+					&& settings.tokenSecret.length() > 0 && tweetCheck.isChecked() == true && tweetBox.getVisibility() == View.VISIBLE
 			) {
 				base.postTweetCache(app, settings, geocode);
 			}
