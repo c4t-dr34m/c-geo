@@ -261,6 +261,8 @@
   <string name="caches_sort_name">namn</string>
   <string name="caches_sort_gccode">GC-kod (ålder)</string>
   <string name="caches_sort_rating">betyg (GC-vote)</string>
+  <string name="caches_sort_vote">betyg (eget)</string>
+  <string name="caches_sort_inventory">antal trackable</string>
   <string name="caches_select">Välj från lista</string>
   <string name="caches_select_mode">Markeringsläge</string>
   <string name="caches_select_mode_exit">Avsluta markeringsläge</string>
