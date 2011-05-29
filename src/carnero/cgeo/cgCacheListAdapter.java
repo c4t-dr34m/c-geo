@@ -62,7 +62,7 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private static final int SWIPE_MAX_OFF_PATH = 100;
 	private static final int SWIPE_DISTANCE = 80;
 	private static final float SWIPE_OPACITY = 0.5f;
-	private boolean filterSet = false;
+	private cgFilter currentFilter = null;
 	private List<cgCache> originalList = null;
 
 	public cgCacheListAdapter(Activity activityIn, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
@@ -113,21 +113,38 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		forceSort(latitude, longitude);
 	}
 	
+	/**
+	 * Called when a new page of caches was loaded.
+	 */
+	public void reFilter(){
+		if(currentFilter != null){
+			// Back up the list again
+			originalList = new ArrayList<cgCache>(list);
+			
+			currentFilter.filter(list);
+		}
+	}
+
+	/**
+	 * Called after a user action on the filter menu.
+	 */
 	public void setFilter(cgFilter filter){
+		// Backup current caches list if it isn't backed up yet
 		if(originalList == null){
 			originalList = new ArrayList<cgCache>(list);
 		}
-		if(filterSet){
+		// If there is already a filter in place, this is a request to change or clear the filter, so we have to
+		// replace the original cache list
+		if(currentFilter != null){
 			list.clear();
 			list.addAll(originalList);
 		}
+		// Do the filtering or clear it
 		if(filter != null){
 			filter.filter(list);
-			filterSet = true;
 		}
-		else{
-			filterSet = false;
-		}
+		currentFilter = filter;
+		
 		notifyDataSetChanged();
 	}
 

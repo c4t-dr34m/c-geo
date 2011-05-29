@@ -195,6 +195,9 @@ public class cgeocaches extends ListActivity {
 						cacheListTmp.clear();
 						Collections.sort((List<cgCache>)cacheList, gcComparator);
 					}
+					if(adapter != null){
+						adapter.reFilter();
+					}
 				} else {
 					base.setTitle(activity, title);
 				}
