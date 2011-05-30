@@ -925,7 +925,7 @@ public class cgeodetail extends Activity {
 					}
 
 					private int order(cgWaypoint waypoint) {
-						if (waypoint.prefix == null || waypoint.prefix.isEmpty()) {
+						if (waypoint.prefix == null || waypoint.prefix.length() == 0) {
 							return 0;
 						}
 						// check only the first character. sometimes there are inconsistencies like FI or FN for the FINAL
