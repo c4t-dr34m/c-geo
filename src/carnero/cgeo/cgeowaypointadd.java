@@ -376,7 +376,7 @@ public class cgeowaypointadd extends Activity {
 
 			String name = ((EditText) findViewById(R.id.name)).getText().toString().trim();
 			// if no name is given, just give the waypoint its number as name
-			if (name.isEmpty()) {
+			if (name.length() == 0) {
 				name = res.getString(R.string.waypoint) + " " + String.valueOf(wpCount + 1);
 			}
 			final String note = ((EditText) findViewById(R.id.note)).getText().toString().trim();

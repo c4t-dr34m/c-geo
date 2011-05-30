@@ -1489,7 +1489,7 @@ public class cgBase {
 
 							// now try to find a translation for the attribute
 							String imageName = matcherAttributesInside.group(1).trim();
-							if (!imageName.isEmpty()) {
+							if (imageName.length() > 0) {
 								int start = imageName.lastIndexOf('/');
 								int end = imageName.lastIndexOf('.');
 								if (start >= 0 && end>= 0) {
@@ -1497,7 +1497,7 @@ public class cgBase {
 								    int id = res.getIdentifier("attribute_" + imageName, "string", context.getPackageName());
 								    if (id > 0) {
 								    	String translated = res.getString(id);
-								    	if (translated != null && !translated.isEmpty()) {
+								    	if (translated != null && translated.length() > 0) {
 								    		attribute = translated;
 								    	}
 								    }
