@@ -4347,7 +4347,7 @@ public class cgBase {
 			}
 		}
 
-		if (cookies != null && !cookies.isEmpty()) {
+		if (cookies != null && !cookies.isEmpty() && cookies.keySet().size() > 0) {
 			final Object[] keys = cookies.keySet().toArray();
 			final ArrayList<String> cookiesEncoded = new ArrayList<String>();
 
@@ -4364,7 +4364,7 @@ public class cgBase {
 		if (cookiesDone == null) {
 			Map<String, ?> prefsValues = prefs.getAll();
 
-			if (prefsValues != null && prefsValues.size() > 0) {
+			if (prefsValues != null && prefsValues.size() > 0 && prefsValues.keySet().size() > 0) {
 				final Object[] keys = prefsValues.keySet().toArray();
 				final ArrayList<String> cookiesEncoded = new ArrayList<String>();
 				final int length = keys.length;
