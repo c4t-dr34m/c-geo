@@ -3,6 +3,9 @@ package carnero.cgeo;
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+
+import carnero.cgeo.googlemaps.googleMapFactory;
+import carnero.cgeo.mapinterfaces.MapFactory;
 import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
@@ -11,6 +14,12 @@ import android.content.res.Configuration;
 import android.util.Log;
 
 public class cgSettings {
+	
+	public enum mapProvider {
+		googleMap,
+		mapsForgeMap
+	}
+	
 	// constants
 	public final static int unitsMetric = 1;
 	public final static int unitsImperial = 2;
@@ -76,6 +85,7 @@ public class cgSettings {
 	private String username = null;
 	private String password = null;
 	private String passVote = null;
+	private mapProvider mapprovider = mapProvider.googleMap; 
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
@@ -428,5 +438,13 @@ public class cgSettings {
 		
 		edit.putInt("lastlist", listId);
 		edit.commit();
+	}
+	
+	public MapFactory getMapFactory() {
+		if (mapprovider == mapProvider.googleMap) {
+			return new googleMapFactory();
+		}
+		
+		return null;
 	}
 }

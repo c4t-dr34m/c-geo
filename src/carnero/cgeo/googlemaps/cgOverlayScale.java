@@ -1,4 +1,4 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
 
 import android.app.Activity;
 import android.graphics.BlurMaskFilter;
@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
+import carnero.cgeo.cgBase;
+import carnero.cgeo.cgSettings;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;

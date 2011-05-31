@@ -1,4 +1,4 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
 
 import gnu.android.app.appmanualclient.*;
 
@@ -14,6 +14,25 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import carnero.cgeo.R;
+import carnero.cgeo.cgBase;
+import carnero.cgeo.cgCache;
+import carnero.cgeo.cgCoord;
+import carnero.cgeo.cgDirection;
+import carnero.cgeo.cgGeo;
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.cgUpdateDir;
+import carnero.cgeo.cgUpdateLoc;
+import carnero.cgeo.cgUser;
+import carnero.cgeo.cgWarning;
+import carnero.cgeo.cgWaypoint;
+import carnero.cgeo.cgeoapplication;
+import carnero.cgeo.R.drawable;
+import carnero.cgeo.R.id;
+import carnero.cgeo.R.layout;
+import carnero.cgeo.R.string;
+import carnero.cgeo.R.style;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MapActivity;

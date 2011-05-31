@@ -1,9 +1,11 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
+import carnero.cgeo.cgSettings;
+
 import com.google.android.maps.MapView;
 
 public class cgMapView extends MapView {

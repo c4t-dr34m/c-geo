@@ -1,4 +1,4 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +8,11 @@ import android.graphics.Point;
 import android.graphics.Paint.Style;
 import android.graphics.PaintFlagsDrawFilter;
 import android.location.Location;
+import carnero.cgeo.R;
+import carnero.cgeo.cgBase;
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.R.drawable;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;

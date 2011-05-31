@@ -22,6 +22,8 @@ import android.view.WindowManager;
 import java.util.HashMap;
 import java.util.Locale;
 
+import carnero.cgeo.googlemaps.cgeomap;
+
 public class cgeonavigate extends Activity {
 	public static ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
 
@@ -225,9 +227,7 @@ public class cgeonavigate extends Activity {
 		int id = item.getItemId();
 
 		if (id == 0) {
-			cgeomap mapActivity = new cgeomap();
-
-			Intent mapIntent = new Intent(activity, mapActivity.getClass());
+			Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 			mapIntent.putExtra("detail", false);
 			mapIntent.putExtra("latitude", dstLatitude);
 			mapIntent.putExtra("longitude", dstLongitude);

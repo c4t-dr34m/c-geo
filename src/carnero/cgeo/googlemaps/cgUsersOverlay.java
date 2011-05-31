@@ -1,4 +1,4 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -11,6 +11,12 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
+import carnero.cgeo.R;
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.cgUser;
+import carnero.cgeo.cgeodetail;
+import carnero.cgeo.R.drawable;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;

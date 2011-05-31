@@ -1,4 +1,4 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -14,6 +14,14 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.text.Html;
 import android.util.Log;
+import carnero.cgeo.cgBase;
+import carnero.cgeo.cgCoord;
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.cgeodetail;
+import carnero.cgeo.cgeonavigate;
+import carnero.cgeo.cgeopopup;
+import carnero.cgeo.cgeowaypoint;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;

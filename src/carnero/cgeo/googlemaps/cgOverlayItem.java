@@ -1,4 +1,6 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
+
+import carnero.cgeo.cgCoord;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;

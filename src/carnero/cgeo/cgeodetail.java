@@ -42,6 +42,7 @@ import android.view.Display;
 import android.view.SubMenu;
 import android.view.WindowManager;
 import android.widget.Button;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -1305,9 +1306,7 @@ public class cgeodetail extends Activity {
 	}
 
 	private void showOnMap() {
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 		mapIntent.putExtra("detail", true);
 		mapIntent.putExtra("searchid", searchId);
 

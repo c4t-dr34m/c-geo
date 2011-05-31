@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -839,7 +840,7 @@ public class cgeocaches extends ListActivity {
 
 			return true;
 		} else if (id == 3) { // show on map
-			Intent mapIntent = new Intent(activity, cgeomap.class);
+			Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 			mapIntent.putExtra("detail", false);
 			mapIntent.putExtra("geocode", cache.geocode);
 
@@ -1018,9 +1019,7 @@ public class cgeocaches extends ListActivity {
 			return;
 		}
 
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 		mapIntent.putExtra("detail", false);
 		mapIntent.putExtra("searchid", searchId);
 

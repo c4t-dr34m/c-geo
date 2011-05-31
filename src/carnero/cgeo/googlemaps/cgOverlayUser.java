@@ -1,7 +1,11 @@
-package carnero.cgeo;
+package carnero.cgeo.googlemaps;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import carnero.cgeo.R;
+import carnero.cgeo.cgUser;
+import carnero.cgeo.R.drawable;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
