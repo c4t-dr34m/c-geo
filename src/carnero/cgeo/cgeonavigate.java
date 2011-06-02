@@ -22,7 +22,7 @@ import android.view.WindowManager;
 import java.util.HashMap;
 import java.util.Locale;
 
-import carnero.cgeo.googlemaps.cgeomap;
+import carnero.cgeo.mapcommon.cgeomap;
 
 public class cgeonavigate extends Activity {
 	public static ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();

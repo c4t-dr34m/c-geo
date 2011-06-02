@@ -12,6 +12,7 @@ import carnero.cgeo.R;
 import carnero.cgeo.cgBase;
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.R.drawable;
+import carnero.cgeo.mapinterfaces.OverlayBase;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -19,7 +20,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 import java.util.ArrayList;
 
-public class cgMapMyOverlay extends Overlay {
+public class cgMapMyOverlay extends Overlay implements OverlayBase {
 	private cgSettings settings = null;
 	private Location coordinates = null;
 	private GeoPoint location = null;

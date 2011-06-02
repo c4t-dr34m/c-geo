@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import carnero.cgeo.mapcommon.MapBase;
+import carnero.cgeo.mapcommon.cgeomap;
 import carnero.cgeo.mapinterfaces.ActivityBase;
 
 import com.google.android.maps.MapActivity;

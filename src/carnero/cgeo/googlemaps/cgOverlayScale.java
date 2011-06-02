@@ -8,12 +8,13 @@ import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import carnero.cgeo.cgBase;
 import carnero.cgeo.cgSettings;
+import carnero.cgeo.mapinterfaces.OverlayBase;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
-public class cgOverlayScale extends Overlay {
+public class cgOverlayScale extends Overlay implements OverlayBase{
 	private cgBase base = null;
 	private cgSettings settings = null;
     private Paint scale = null;

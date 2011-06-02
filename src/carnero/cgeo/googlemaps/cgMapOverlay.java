@@ -21,6 +21,7 @@ import carnero.cgeo.cgeodetail;
 import carnero.cgeo.cgeonavigate;
 import carnero.cgeo.cgeopopup;
 import carnero.cgeo.cgeowaypoint;
+import carnero.cgeo.mapinterfaces.OverlayBase;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -28,7 +29,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Projection;
 import java.util.ArrayList;
 
-public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
+public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements OverlayBase {
 
 	private ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
 	private Context context = null;
@@ -49,14 +50,14 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 		fromDetail = fromDetailIn;
 	}
 	
-	protected void updateItems(cgOverlayItem item) {
+	public void updateItems(cgOverlayItem item) {
 		ArrayList<cgOverlayItem> itemsPre = new ArrayList<cgOverlayItem>();
 		itemsPre.add(item);
 		
 		updateItems(itemsPre);
 	}
 
-	protected void updateItems(ArrayList<cgOverlayItem> itemsPre) {
+	public void updateItems(ArrayList<cgOverlayItem> itemsPre) {
 		if (itemsPre == null) {
 			return;
 		}

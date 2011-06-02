@@ -1,4 +1,4 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapcommon;
 
 import gnu.android.app.appmanualclient.*;
 
@@ -27,33 +27,31 @@ import carnero.cgeo.cgUser;
 import carnero.cgeo.cgWarning;
 import carnero.cgeo.cgWaypoint;
 import carnero.cgeo.cgeoapplication;
-import carnero.cgeo.R.drawable;
-import carnero.cgeo.R.id;
-import carnero.cgeo.R.layout;
-import carnero.cgeo.R.string;
-import carnero.cgeo.R.style;
-import carnero.cgeo.mapcommon.MapBase;
+import carnero.cgeo.googlemaps.cgMapMyOverlay;
+import carnero.cgeo.googlemaps.cgMapOverlay;
+import carnero.cgeo.googlemaps.cgOverlayItem;
+import carnero.cgeo.googlemaps.cgOverlayScale;
+import carnero.cgeo.googlemaps.cgOverlayUser;
+import carnero.cgeo.googlemaps.cgUsersOverlay;
 import carnero.cgeo.mapinterfaces.ActivityBase;
+import carnero.cgeo.mapinterfaces.GeoPointBase;
+import carnero.cgeo.mapinterfaces.MapControllerBase;
+import carnero.cgeo.mapinterfaces.MapViewBase;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import com.google.android.maps.Overlay;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public class cgeomap extends MapBase {
 
 	private Resources res = null;
 	private Activity activity = null;
-	private MapView mapView = null;
-	private MapController mapController = null;
+	private MapViewBase mapView = null;
+	private MapControllerBase mapController = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -235,7 +233,7 @@ public class cgeomap extends MapBase {
 			dir = app.startDir(activity, dirUpdate, warning);
 		}
 
-		mapView = (MapView) activity.findViewById(settings.getMapFactory().getMapViewId());
+		mapView = (MapViewBase) activity.findViewById(settings.getMapFactory().getMapViewId());
 
 		// initialize map
 		if (settings.maptype == cgSettings.mapSatellite) {
@@ -248,32 +246,31 @@ public class cgeomap extends MapBase {
 		mapView.preLoad();
 
 		// initialize overlays
-		final List<Overlay> overlays = mapView.getOverlays();
-		overlays.clear();
+		mapView.clearOverlays();
 
 		if (overlayMyLoc == null) {
 			overlayMyLoc = new cgMapMyOverlay(settings);
-			overlays.add(overlayMyLoc);
+			mapView.addOverlay(overlayMyLoc);
 		}
 
 		if (settings.publicLoc > 0 && overlayUsers == null) {
 			overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
-			overlays.add(overlayUsers);
+			mapView.addOverlay(overlayUsers);
 		}
 
 		if (overlayCaches == null) {
 			overlayCaches = new cgMapOverlay(activity, getResources().getDrawable(R.drawable.marker), fromDetailIntent);
-			overlays.add(overlayCaches);
+			mapView.addOverlay(overlayCaches);
 		}
 
 		if (overlayScale == null) {
 			overlayScale = new cgOverlayScale(activity, base, settings);
-			overlays.add(overlayScale);
+			mapView.addOverlay(overlayScale);
 		}
 
 		mapView.invalidate();
 
-		mapController = mapView.getController();
+		mapController = mapView.getMapController();
 		mapController.setZoom(settings.mapzoom);
 
 		// start location and directory services
@@ -545,7 +542,7 @@ public class cgeomap extends MapBase {
 				ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
 				try {
 					if (cachesProtected != null && cachesProtected.size() > 0) {
-						final GeoPoint mapCenter = mapView.getMapCenter();
+						final GeoPointBase mapCenter = mapView.getMapViewCenter();
 						final int mapCenterLat = mapCenter.getLatitudeE6();
 						final int mapCenterLon = mapCenter.getLongitudeE6();
 						final int mapSpanLat = mapView.getLatitudeSpan();
@@ -667,7 +664,7 @@ public class cgeomap extends MapBase {
 			try {
 				if (overlayMyLoc == null && mapView != null) {
 					overlayMyLoc = new cgMapMyOverlay(settings);
-					mapView.getOverlays().add(overlayMyLoc);
+					mapView.addOverlay(overlayMyLoc);
 				}
 
 				if (overlayMyLoc != null && geo.location != null) {
@@ -759,7 +756,7 @@ public class cgeomap extends MapBase {
 
 		@Override
 		public void run() {
-			GeoPoint mapCenterNow;
+			GeoPointBase mapCenterNow;
 			int centerLatitudeNow;
 			int centerLongitudeNow;
 			int spanLatitudeNow;
@@ -774,7 +771,7 @@ public class cgeomap extends MapBase {
 
 					if (mapView != null) {
 						// get current viewport
-						mapCenterNow = mapView.getMapCenter();
+						mapCenterNow = mapView.getMapViewCenter();
 						centerLatitudeNow = mapCenterNow.getLatitudeE6();
 						centerLongitudeNow = mapCenterNow.getLongitudeE6();
 						spanLatitudeNow = mapView.getLatitudeSpan();
@@ -902,7 +899,7 @@ public class cgeomap extends MapBase {
 
 		@Override
 		public void run() {
-			GeoPoint mapCenterNow;
+			GeoPointBase mapCenterNow;
 			int centerLatitudeNow;
 			int centerLongitudeNow;
 			int spanLatitudeNow;
@@ -916,7 +913,7 @@ public class cgeomap extends MapBase {
 
 					if (mapView != null) {
 						// get current viewport
-						mapCenterNow = mapView.getMapCenter();
+						mapCenterNow = mapView.getMapViewCenter();
 						centerLatitudeNow = mapCenterNow.getLatitudeE6();
 						centerLongitudeNow = mapCenterNow.getLongitudeE6();
 						spanLatitudeNow = mapView.getLatitudeSpan();
@@ -1533,7 +1530,7 @@ public class cgeomap extends MapBase {
 				}
 
 				if (cnt != null && cnt > 0) {
-					mapController.setCenter(new GeoPoint(centerLat, centerLon));
+					mapController.setCenter(settings.getMapFactory().getGeoPointBase(centerLat, centerLon));
 					if (Math.abs(maxLat - minLat) != 0 && Math.abs(maxLon - minLon) != 0) {
 						mapController.zoomToSpan(Math.abs(maxLat - minLat), Math.abs(maxLon - minLon));
 					}
@@ -1546,7 +1543,7 @@ public class cgeomap extends MapBase {
 			alreadyCentered = true;
 		} else if (!centered && latitudeCenter != null && longitudeCenter != null) {
 			try {
-				mapController.setCenter(new GeoPoint((int)(latitudeCenter * 1e6), (int)(longitudeCenter * 1e6)));
+				mapController.setCenter(makeGeoPoint(latitudeCenter, longitudeCenter));
 			} catch (Exception e) {
 				// nothing at all
 			}
@@ -1601,8 +1598,8 @@ public class cgeomap extends MapBase {
 	}
 
 	// make geopoint
-	private GeoPoint makeGeoPoint(Double latitude, Double longitude) {
-		return new GeoPoint((int) (latitude * 1e6), (int) (longitude * 1e6));
+	private GeoPointBase makeGeoPoint(Double latitude, Double longitude) {
+		return settings.getMapFactory().getGeoPointBase((int) (latitude * 1e6), (int) (longitude * 1e6));
 	}
 
 	// close activity and open homescreen
