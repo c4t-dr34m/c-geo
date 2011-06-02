@@ -32,6 +32,8 @@ import carnero.cgeo.R.id;
 import carnero.cgeo.R.layout;
 import carnero.cgeo.R.string;
 import carnero.cgeo.R.style;
+import carnero.cgeo.mapcommon.MapBase;
+import carnero.cgeo.mapinterfaces.ActivityBase;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -46,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class cgeomap extends MapActivity {
+public class cgeomap extends MapBase {
 
 	private Resources res = null;
 	private Activity activity = null;
@@ -196,30 +198,34 @@ public class cgeomap extends MapActivity {
 		}
 	};
 
+	public cgeomap(ActivityBase activity) {
+		super(activity);
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// class init
 		res = this.getResources();
-		activity = this;
+		activity = this.getActivity();
 		app = (cgeoapplication) activity.getApplication();
 		app.setAction(null);
-		settings = new cgSettings(activity, getSharedPreferences(cgSettings.preferences, 0));
-		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
+		settings = new cgSettings(activity, activity.getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
-		prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
+		prefsEdit = activity.getSharedPreferences(cgSettings.preferences, 0).edit();
 
 		// set layout
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// set layout
 		if (settings.skin == 1) {
-			setTheme(R.style.light);
+			activity.setTheme(R.style.light);
 		} else {
-			setTheme(R.style.dark);
+			activity.setTheme(R.style.dark);
 		}
-		setContentView(R.layout.map);
+		activity.setContentView(settings.getMapFactory().getMapLayoutId());
 		base.setTitle(activity, res.getString(R.string.map_map));
 
 		if (geo == null) {
@@ -229,7 +235,7 @@ public class cgeomap extends MapActivity {
 			dir = app.startDir(activity, dirUpdate, warning);
 		}
 
-		mapView = (MapView) findViewById(R.id.map);
+		mapView = (MapView) activity.findViewById(settings.getMapFactory().getMapViewId());
 
 		// initialize map
 		if (settings.maptype == cgSettings.mapSatellite) {
@@ -279,7 +285,7 @@ public class cgeomap extends MapActivity {
 		}
 
 		// get parameters
-		Bundle extras = getIntent().getExtras();
+		Bundle extras = activity.getIntent().getExtras();
 		if (extras != null) {
 			fromDetailIntent = extras.getBoolean("detail");
 			searchIdIntent = extras.getLong("searchid");
@@ -322,11 +328,6 @@ public class cgeomap extends MapActivity {
 		}
 		setMyLoc(null);
 		startTimer();
-	}
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
 	}
 
 	@Override
@@ -570,7 +571,7 @@ public class cgeomap extends MapActivity {
 					return true;
 				}
 
-				waitDialog = new ProgressDialog(this);
+				waitDialog = new ProgressDialog(activity);
 				waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 				waitDialog.setCancelable(true);
 				waitDialog.setMax(detailTotal);
@@ -636,7 +637,7 @@ public class cgeomap extends MapActivity {
 		}
 
 		if (prefsEdit == null) {
-			prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
+			prefsEdit = activity.getSharedPreferences(cgSettings.preferences, 0).edit();
 		}
 		prefsEdit.putInt("mapzoom", mapView.getZoomLevel());
 		prefsEdit.commit();
@@ -1558,7 +1559,7 @@ public class cgeomap extends MapActivity {
 	// switch My Location button image
 	private void setMyLoc(Boolean status) {
 		if (myLocSwitch == null) {
-			myLocSwitch = (ImageView) findViewById(R.id.my_position);
+			myLocSwitch = (ImageView) activity.findViewById(R.id.my_position);
 		}
 
 		if (status == null) {
@@ -1583,7 +1584,7 @@ public class cgeomap extends MapActivity {
 
 		public void onClick(View view) {
 			if (myLocSwitch == null) {
-				myLocSwitch = (ImageView) findViewById(R.id.my_position);
+				myLocSwitch = (ImageView) activity.findViewById(R.id.my_position);
 			}
 
 			if (followMyLocation == true) {
