@@ -738,7 +738,7 @@
   <string name="website">Website: <a href="http://cgeo.carnero.cc/">cgeo.carnero.cc</a></string>
   <string name="facebook">Facebook: <a href="http://www.facebook.com/pages/cgeo/297269860090">c:geo page</a></string>
   <string name="twitter">Twitter: <a href="http://twitter.com/android_gc">@android_GC</a></string>
-  <string name="nutshellmanual">Manual: <a href="http://itw.bidix.info/cgeo/">c:geo in a Nutshell</a></string>
+  <string name="nutshellmanual">Manual: <a href="http://cgeo.carnero.cc/manual">c:geo in a Nutshell</a></string>
   <string name="about_go4cache">Service <b>Go 4 Cache</b> shows other geocachers on the map (in <b>c:geo</b> or in browser) in real time. It can show, for example, what cache they\'re searching for. By connecting to <b>Go 4 Cache</b> <b>c:geo</b> is allowed to publish current location when geocaching (only when <b>c:geo</b> is running).</string>
   <string name="about_twitter">Should <b>c:geo</b> publish new status on Twitter everytime a cache is logged?</string>
   <string name="about_auth_1">The following process allows <b>c:geo</b> to access Twitter - if agreed.</string>
@@ -771,7 +771,10 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.23</b> (__.05.2011)\n
+    <b>2.25</b> (__.06.2011)\n
+	· fix: __\n
+	\n
+    <b>2.24</b> (31.05.2011)\n
 	· fix: Performance optimizations\n
 	· fix: Other users on map\n
 	· fix: Displaying single cache on map\n
