@@ -1771,6 +1771,10 @@ public class cgeocaches extends ListActivity {
 		alert.setPositiveButton(R.string.list_dialog_create, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString();
+				// remove whitespaces added by autocompletion of Android keyboard
+				if (value != null) {
+					value = value.trim();
+				}
 
 				if (value != null && value.length() > 0) {
 					int newId = app.createList(value);
