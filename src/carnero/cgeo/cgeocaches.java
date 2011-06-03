@@ -25,6 +25,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SubMenu;
@@ -330,6 +331,7 @@ public class cgeocaches extends ListActivity {
 			}
 		}
 	};
+	private ContextMenuInfo lastMenuInfo;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -778,12 +780,27 @@ public class cgeocaches extends ListActivity {
 			menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit));
 			menu.add(0, 7, 0, res.getString(R.string.cache_menu_details));
 		}
+		ArrayList<cgList> cacheLists = app.getLists();
+		int listCount = cacheLists.size();
+		if (listCount > 1) {
+			SubMenu submenu = menu.addSubMenu(0, 8, 0, res.getString(R.string.cache_menu_move_list));
+			for (int i = 0; i < listCount; i++) {
+				cgList list = cacheLists.get(i);
+				submenu.add(Menu.NONE, 100+list.id, Menu.NONE, list.title);
+			}
+		}
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final int id = item.getItemId();
 		ContextMenu.ContextMenuInfo info = item.getMenuInfo();
+
+		// restore menu info for sub menu items, see https://code.google.com/p/android/issues/detail?id=7139
+		if (info == null) {
+			info = lastMenuInfo;
+			lastMenuInfo = null;
+		}
 
 		if (info == null) {
 			return false;
@@ -889,6 +906,17 @@ public class cgeocaches extends ListActivity {
 			cachesIntent.putExtra("name", cache.name);
 			activity.startActivity(cachesIntent);
 
+			return true;
+		} else if (id == 8) { // move to list (sub menu)
+			// we must remember the menu info for the sub menu, there is a bug in Android:
+			// https://code.google.com/p/android/issues/detail?id=7139
+			lastMenuInfo = info;
+			return true;
+		} else if (id >= 100) { // move to list
+			int newListId = id - 100;
+			app.moveToList(cache.geocode, newListId);
+			// refresh list by switching to the current list
+			switchListById(listId);
 			return true;
 		}
 
