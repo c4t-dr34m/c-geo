@@ -30,13 +30,13 @@ import carnero.cgeo.cgeoapplication;
 import carnero.cgeo.googlemaps.cgMapMyOverlay;
 import carnero.cgeo.googlemaps.cgMapOverlay;
 import carnero.cgeo.googlemaps.cgOverlayItem;
-import carnero.cgeo.googlemaps.cgOverlayScale;
 import carnero.cgeo.googlemaps.cgOverlayUser;
 import carnero.cgeo.googlemaps.cgUsersOverlay;
 import carnero.cgeo.mapinterfaces.ActivityBase;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
 import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.OverlayImpl;
 
 import android.util.Log;
 import android.view.View;
@@ -97,7 +97,7 @@ public class cgeomap extends MapBase {
 	// overlays
 	private cgMapOverlay overlayCaches = null;
 	private cgUsersOverlay overlayUsers = null;
-	private cgOverlayScale overlayScale = null;
+	private /*cgOverlayScale*/ OverlayImpl overlayScale = null;
 	private cgMapMyOverlay overlayMyLoc = null;
 	// data for overlays
 	private int cachesCnt = 0;
@@ -264,7 +264,7 @@ public class cgeomap extends MapBase {
 		}
 
 		if (overlayScale == null) {
-			overlayScale = new cgOverlayScale(activity, base, settings);
+			overlayScale = settings.getMapFactory().getOverlayScale(activity, base, settings);
 			mapView.addOverlay(overlayScale);
 		}
 

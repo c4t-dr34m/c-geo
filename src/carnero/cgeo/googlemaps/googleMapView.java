@@ -8,7 +8,7 @@ import carnero.cgeo.cgSettings;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
 import carnero.cgeo.mapinterfaces.MapViewBase;
-import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.OverlayImpl;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -62,7 +62,7 @@ public class googleMapView extends MapView implements MapViewBase{
 	}
 
 	@Override
-	public void addOverlay(OverlayBase ovl) {
+	public void addOverlay(OverlayImpl ovl) {
 		getOverlays().add((Overlay)ovl);
 	}
 

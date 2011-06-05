@@ -1,4 +1,4 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapcommon;
 
 import android.app.Activity;
 import android.graphics.BlurMaskFilter;
@@ -8,13 +8,12 @@ import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import carnero.cgeo.cgBase;
 import carnero.cgeo.cgSettings;
+import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.OverlayImpl;
+import carnero.cgeo.mapinterfaces.MapViewBase;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-
-public class cgOverlayScale extends Overlay implements OverlayBase{
+public class cgOverlayScale implements OverlayImpl, OverlayBase {
 	private cgBase base = null;
 	private cgSettings settings = null;
     private Paint scale = null;
@@ -37,11 +36,11 @@ public class cgOverlayScale extends Overlay implements OverlayBase{
 	}
 
     @Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		super.draw(canvas, mapView, shadow);
+    public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+		//super.draw(canvas, mapView, shadow);
 
 		final double span = mapView.getLongitudeSpan() / 1e6;
-		final GeoPoint center = mapView.getMapCenter();
+		final GeoPointBase center = mapView.getMapViewCenter();
 
 		pixels = mapView.getWidth() / 2; // pixels related to following latitude span
 		bottom = mapView.getHeight() - 14; // pixels from bottom side of screen

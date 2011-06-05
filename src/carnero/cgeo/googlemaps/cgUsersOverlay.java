@@ -17,12 +17,12 @@ import carnero.cgeo.cgSettings;
 import carnero.cgeo.cgUser;
 import carnero.cgeo.cgeodetail;
 import carnero.cgeo.R.drawable;
-import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.OverlayImpl;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 
-public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> implements OverlayBase {
+public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> implements OverlayImpl {
 
 	private ArrayList<cgOverlayUser> items = new ArrayList<cgOverlayUser>();
 	private Context context = null;

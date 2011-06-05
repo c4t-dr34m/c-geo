@@ -1,7 +1,5 @@
 package carnero.cgeo.mapinterfaces;
 
-import java.util.List;
-
 public interface MapViewBase {
 
 	void invalidate();
@@ -16,7 +14,7 @@ public interface MapViewBase {
 
 	void clearOverlays();
 	
-	void addOverlay(OverlayBase ovl);
+	void addOverlay(OverlayImpl ovl);
 
 	MapControllerBase getMapController();
 
@@ -31,5 +29,9 @@ public interface MapViewBase {
 	int getLongitudeSpan();
 
 	int getZoomLevel();
+
+	int getWidth();
+
+	int getHeight();
 
 }
