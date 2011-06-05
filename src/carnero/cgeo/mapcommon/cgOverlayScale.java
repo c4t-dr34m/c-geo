@@ -13,7 +13,7 @@ import carnero.cgeo.mapinterfaces.OverlayBase;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
-public class cgOverlayScale implements OverlayImpl, OverlayBase {
+public class cgOverlayScale implements OverlayBase {
 	private cgBase base = null;
 	private cgSettings settings = null;
     private Paint scale = null;

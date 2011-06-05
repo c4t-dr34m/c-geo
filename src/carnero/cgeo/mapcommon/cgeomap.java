@@ -27,7 +27,6 @@ import carnero.cgeo.cgUser;
 import carnero.cgeo.cgWarning;
 import carnero.cgeo.cgWaypoint;
 import carnero.cgeo.cgeoapplication;
-import carnero.cgeo.googlemaps.cgMapMyOverlay;
 import carnero.cgeo.googlemaps.cgMapOverlay;
 import carnero.cgeo.googlemaps.cgOverlayItem;
 import carnero.cgeo.googlemaps.cgOverlayUser;
@@ -35,6 +34,7 @@ import carnero.cgeo.googlemaps.cgUsersOverlay;
 import carnero.cgeo.mapinterfaces.ActivityBase;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
+import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 
@@ -97,7 +97,7 @@ public class cgeomap extends MapBase {
 	// overlays
 	private cgMapOverlay overlayCaches = null;
 	private cgUsersOverlay overlayUsers = null;
-	private /*cgOverlayScale*/ OverlayImpl overlayScale = null;
+	private cgOverlayScale overlayScale = null;
 	private cgMapMyOverlay overlayMyLoc = null;
 	// data for overlays
 	private int cachesCnt = 0;
@@ -213,6 +213,7 @@ public class cgeomap extends MapBase {
 		base = new cgBase(app, settings, activity.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
 		prefsEdit = activity.getSharedPreferences(cgSettings.preferences, 0).edit();
+		MapFactory mapFactory = settings.getMapFactory();
 
 		// set layout
 		activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -233,7 +234,7 @@ public class cgeomap extends MapBase {
 			dir = app.startDir(activity, dirUpdate, warning);
 		}
 
-		mapView = (MapViewBase) activity.findViewById(settings.getMapFactory().getMapViewId());
+		mapView = (MapViewBase) activity.findViewById(mapFactory.getMapViewId());
 
 		// initialize map
 		if (settings.maptype == cgSettings.mapSatellite) {
@@ -250,7 +251,7 @@ public class cgeomap extends MapBase {
 
 		if (overlayMyLoc == null) {
 			overlayMyLoc = new cgMapMyOverlay(settings);
-			mapView.addOverlay(overlayMyLoc);
+			mapView.addOverlay(mapFactory.getOverlayBaseWrapper(overlayMyLoc));
 		}
 
 		if (settings.publicLoc > 0 && overlayUsers == null) {
@@ -264,8 +265,8 @@ public class cgeomap extends MapBase {
 		}
 
 		if (overlayScale == null) {
-			overlayScale = settings.getMapFactory().getOverlayScale(activity, base, settings);
-			mapView.addOverlay(overlayScale);
+			overlayScale =  new cgOverlayScale(activity, base, settings);
+			mapView.addOverlay(mapFactory.getOverlayBaseWrapper(overlayScale));
 		}
 
 		mapView.invalidate();
@@ -664,7 +665,7 @@ public class cgeomap extends MapBase {
 			try {
 				if (overlayMyLoc == null && mapView != null) {
 					overlayMyLoc = new cgMapMyOverlay(settings);
-					mapView.addOverlay(overlayMyLoc);
+					mapView.addOverlay(settings.getMapFactory().getOverlayBaseWrapper(overlayMyLoc));
 				}
 
 				if (overlayMyLoc != null && geo.location != null) {

@@ -1,5 +1,8 @@
 package carnero.cgeo.mapinterfaces;
 
+import android.content.Context;
+import android.view.View;
+
 public interface MapViewBase {
 
 	void invalidate();
@@ -33,5 +36,9 @@ public interface MapViewBase {
 	int getWidth();
 
 	int getHeight();
+
+	MapProjection getMapProjection();
+
+	Context getContext();
 
 }

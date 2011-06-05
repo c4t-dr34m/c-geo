@@ -7,6 +7,7 @@ import android.util.Log;
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
+import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 
@@ -69,5 +70,10 @@ public class googleMapView extends MapView implements MapViewBase{
 	@Override
 	public void clearOverlays() {
 		getOverlays().clear();
+	}
+
+	@Override
+	public MapProjection getMapProjection() {
+		return new googleMapProjection(getProjection());
 	}
 }

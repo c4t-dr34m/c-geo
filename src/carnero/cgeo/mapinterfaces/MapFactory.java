@@ -15,6 +15,5 @@ public interface MapFactory {
 
 	public GeoPointBase getGeoPointBase(int latE6, int lonE6);
 
-	public OverlayImpl getOverlayScale(Activity activity, cgBase base,
-			cgSettings settings);
+	public OverlayImpl getOverlayBaseWrapper(OverlayBase ovlIn);
 }

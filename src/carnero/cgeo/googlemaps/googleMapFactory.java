@@ -1,13 +1,10 @@
 package carnero.cgeo.googlemaps;
 
-import android.app.Activity;
 import carnero.cgeo.R;
-import carnero.cgeo.cgBase;
-import carnero.cgeo.cgSettings;
-import carnero.cgeo.mapcommon.cgOverlayScale;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
+import carnero.cgeo.mapinterfaces.OverlayBase;
 
 public class googleMapFactory implements MapFactory{
 
@@ -32,10 +29,8 @@ public class googleMapFactory implements MapFactory{
 	}
 
 	@Override
-	public OverlayImpl getOverlayScale(Activity activity, cgBase base,
-			cgSettings settings) {
-		cgOverlayScale scaleOvl = new cgOverlayScale(activity, base, settings);
-		googleOverlayBase baseOvl = new googleOverlayBase(scaleOvl);
+	public OverlayImpl getOverlayBaseWrapper(OverlayBase ovlIn) {
+		googleOverlayBase baseOvl = new googleOverlayBase(ovlIn);
 		return baseOvl;
 	}
 
