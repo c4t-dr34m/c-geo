@@ -3716,7 +3716,6 @@ public class cgBase {
 			Log.i(cgSettings.tag, "Trying to post log for cache #" + cacheid + " - action: " + logType + "; date: " + year + "." + month + "." + day + ", log: " + log + "; trackables: 0");
 		}
 
-		final Calendar currentDate = Calendar.getInstance();
 		final String host = "www.geocaching.com";
 		final String path = "/seek/log.aspx?ID=" + cacheid;
 		final String method = "POST";
@@ -3731,13 +3730,9 @@ public class cgBase {
 		params.put("__EVENTARGUMENT", "");
 		params.put("__LASTFOCUS", "");
 		params.put("ctl00$ContentBody$LogBookPanel1$ddLogType", Integer.toString(logType));
-		if (currentDate.get(Calendar.YEAR) == year && (currentDate.get(Calendar.MONTH) + 1) == month && currentDate.get(Calendar.DATE) == day) {
-			params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", "");
-		} else {
-			params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year));
-		}
-		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", Integer.toString(day));
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged", String.format("%02d", month) + "/" + String.format("%02d", day) + "/" + String.format("%04d", year));
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Month", Integer.toString(month));
+		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Day", Integer.toString(day));
 		params.put("ctl00$ContentBody$LogBookPanel1$DateTimeLogged$Year", Integer.toString(year));
 		params.put("ctl00$ContentBody$LogBookPanel1$uxLogInfo", log);
 		params.put("ctl00$ContentBody$LogBookPanel1$LogButton", "Submit Log Entry");
