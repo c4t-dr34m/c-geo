@@ -1198,7 +1198,7 @@ public class cgData {
 					databaseRW.insert(dbTableWaypoints, null, values);
 				}
 			}
-			
+
 			databaseRW.setTransactionSuccessful();
 			ok = true;
 		} finally {
@@ -1389,7 +1389,7 @@ public class cgData {
 				databaseRW.delete(dbTableTrackables, "geocode = \"" + geocode + "\"", null);
 			}
 
-			if (!trackables.isEmpty()) {			
+			if (!trackables.isEmpty()) {
 				ContentValues values = new ContentValues();
 				for (cgTrackable oneTrackable : trackables) {
 					values.clear();
@@ -1421,7 +1421,7 @@ public class cgData {
 
 		return true;
 	}
-	
+
 	public ArrayList<Object> getBounds(Object[] geocodes) {
 		init();
 
@@ -1431,7 +1431,7 @@ public class cgData {
 
 		try {
 			final StringBuilder where = new StringBuilder();
-			
+
 			if (geocodes != null && geocodes.length > 0) {
 				StringBuilder all = new StringBuilder();
 				for (Object one : geocodes) {
@@ -1442,7 +1442,7 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-				
+
 				if (where.length() > 0) {
 					where.append(" and ");
 				}
@@ -1450,7 +1450,7 @@ public class cgData {
 				where.append(all);
 				where.append(")");
 			}
-				
+
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"count(_id) as cnt", "min(latitude) as latMin", "max(latitude) as latMax", "min(longitude) as lonMin", "max(longitude) as lonMax"},
@@ -1481,7 +1481,7 @@ public class cgData {
 		if (cursor != null) {
 			cursor.close();
 		}
-		
+
 		return viewport;
 	}
 
@@ -1531,7 +1531,7 @@ public class cgData {
 		StringBuilder where = new StringBuilder();
 		Cursor cursor = null;
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
-		
+
 		try {
 			// geocodes or guids limitation
 			if (geocodes != null && geocodes.length > 0) {
@@ -1544,7 +1544,7 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-				
+
 				if (where.length() > 0) {
 					where.append(" and ");
 				}
@@ -1561,7 +1561,7 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-				
+
 				if (where.length() > 0) {
 					where.append(" and ");
 				}
@@ -2250,20 +2250,20 @@ public class cgData {
 
 		specifySql.append("reason = ");
 		specifySql.append(list);
-		
+
 		if (detailedOnly == true) {
 			if (specifySql.length() > 0) {
 				specifySql.append(" and ");
 			}
-			
+
 			specifySql.append("detailed = 1");
 		}
-		
+
 		if (cachetype != null) {
 			if (specifySql.length() > 0) {
 				specifySql.append(" and ");
 			}
-			
+
 			specifySql.append("type = \"");
 			specifySql.append(cachetype);
 			specifySql.append("\"");
@@ -2376,7 +2376,7 @@ public class cgData {
 			lonMax = lonMin;
 			lonMin = llCache;
 		}
-		
+
 		StringBuilder where = new StringBuilder();
 		where.append("latitude >= ");
 		where.append(String.format((Locale) null, "%.6f", latMin));
@@ -2393,7 +2393,7 @@ public class cgData {
 			where.append(cachetype);
 			where.append("\"");
 		}
-		
+
 		// offline caches only
 		where.append(" and reason >= 1");
 
@@ -2442,7 +2442,7 @@ public class cgData {
 			where.append(cachetype);
 			where.append("\"");
 		}
-		
+
 		// offline caches only
 		if (where.length() > 0) {
 			where.append(" and ");
@@ -2480,7 +2480,7 @@ public class cgData {
 
 		return geocodes;
 	}
-	
+
 	public void markStored(String geocode, int listId) {
 		init();
 
@@ -2540,7 +2540,7 @@ public class cgData {
 
 		return false;
 	}
-	
+
 	public void clean() {
 		clean(false);
 	}
@@ -2603,7 +2603,7 @@ public class cgData {
 
 				geocodes.clear();
 			}
-			
+
 			databaseRW.execSQL("delete from " + dbTableCaches + " where geocode = \"\"");
 
 			final SQLiteStatement countSql = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 0");
@@ -2805,7 +2805,7 @@ public class cgData {
 					null,
 					null,
 					null,
-					"title asc",
+					"title COLLATE NOCASE ASC",
 					null);
 
 			if (cursor != null) {
