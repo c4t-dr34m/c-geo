@@ -60,8 +60,8 @@
   <string name="log_discovered">Oppdaget</string>
   <string name="log_reviewed">Andmeldelse</string>
   <string name="log_tb_nothing">Ikke gjør noe</string>
-  <string name="log_tb_visit">Har sett tracking-buggen</string>
-  <string name="log_tb_drop">Legg fra deg tracking-buggen her</string>
+  <string name="log_tb_visit">Besøkte</string>
+  <string name="log_tb_drop">Legg igjen</string>
   <string name="log_tb_changeall">Endre alle</string>
   <string name="log_save">Lagre</string>
   <string name="log_saving">Lagrer logg...</string>
