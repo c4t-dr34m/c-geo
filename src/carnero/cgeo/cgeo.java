@@ -24,8 +24,13 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 public class cgeo extends Activity {
 	private Resources res = null;
@@ -261,12 +266,42 @@ public class cgeo extends Activity {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle(res.getString(R.string.menu_filter));
-		
-		menu.add(0, 0, 0, res.getString(R.string.all_types));
-		int cnt = 1;
-		for (String choice : cgBase.cacheTypesInv.values()) {
-			menu.add(0, cnt, 0, choice);
-			cnt ++;
+
+		//first add the most used types
+		menu.add(1, 0, 0, res.getString(R.string.all_types));
+		menu.add(1, 1, 0, res.getString(R.string.traditional));
+		menu.add(1, 2, 0, res.getString(R.string.multi));
+		menu.add(1, 3, 0, res.getString(R.string.mystery));
+
+		// then add all other cache types sorted alphabetically
+		HashMap<String, String> allTypes = (HashMap<String, String>) base.cacheTypesInv.clone();
+		allTypes.remove("traditional");
+		allTypes.remove("multi");
+		allTypes.remove("mystery");
+		ArrayList<String> sorted = new ArrayList<String>(allTypes.values());
+		Collections.sort(sorted);
+		for (String choice : sorted) {
+			menu.add(1, menu.size(), 0, choice);
+		}
+
+		// mark current filter as checked
+		menu.setGroupCheckable(1, true, true);
+		boolean foundItem = false;
+		int itemCount = menu.size();
+		if (settings.cacheType != null) {
+			String typeTitle = cgBase.cacheTypesInv.get(settings.cacheType);
+			if (typeTitle != null) {
+				for (int i = 0; i < itemCount; i++) {
+					if (menu.getItem(i).getTitle().equals(typeTitle)) {
+						menu.getItem(i).setChecked(true);
+						foundItem = true;
+						break;
+					}
+				}
+			}
+		}
+		if (!foundItem) {
+			menu.getItem(0).setChecked(true);
 		}
 	}
 
@@ -280,11 +315,20 @@ public class cgeo extends Activity {
 
 			return true;
 		} else if (id > 0) {
-			final Object[] types = cgBase.cacheTypesInv.keySet().toArray();
-			final String choice = (String)types[(id - 1)];
-
-			if (choice == null) settings.setCacheType(null);
-			else settings.setCacheType(choice);
+			String itemTitle = item.getTitle().toString();
+			String choice = null;
+			for (Entry<String, String> entry : cgBase.cacheTypesInv.entrySet()) {
+				if (entry.getValue().equalsIgnoreCase(itemTitle)) {
+					choice = entry.getKey();
+					break;
+				}
+			}
+			if (choice == null) {
+				settings.setCacheType(null);
+			}
+			else {
+				settings.setCacheType(choice);
+			}
 			setFilterTitle();
 
 			return true;

@@ -101,7 +101,6 @@ public class cgBase {
 	private final Pattern patternLogged2In = Pattern.compile("<strong>[^\\w]*Hello,[^<]*<a[^>]+>([^<]+)</a>[^<]*</strong>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternViewstate = Pattern.compile("id=\"__VIEWSTATE\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private final Pattern patternViewstate1 = Pattern.compile("id=\"__VIEWSTATE1\"[^(value)]+value=\"([^\"]+)\"[^>]+>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-	private final Pattern patternLines = Pattern.compile("[\r\n\t ]+");
 	public static final double kmInMiles = 1 / 1.609344;
 	public static final double deg2rad = Math.PI / 180;
 	public static final double rad2deg = 180 / Math.PI;
@@ -4041,13 +4040,7 @@ public class cgBase {
 				final InputStreamReader inr = new InputStreamReader(ins);
 				final BufferedReader br = new BufferedReader(inr);
 
-				String line;
-				while ((line = br.readLine()) != null) {
-					if (line.length() > 0) {
-						buffer.append(line);
-						buffer.append("\n");
-					}
-				}
+				readIntoBuffer(br, buffer);
 
 				br.close();
 				ins.close();
@@ -4061,13 +4054,7 @@ public class cgBase {
 				final InputStreamReader inr = new InputStreamReader(ins);
 				final BufferedReader br = new BufferedReader(inr);
 
-				String line;
-				while ((line = br.readLine()) != null) {
-					if (line.length() > 0) {
-						buffer.append(line);
-						buffer.append("\n");
-					}
-				}
+				readIntoBuffer(br, buffer);
 
 				br.close();
 				ins.close();
@@ -4079,6 +4066,20 @@ public class cgBase {
 			connection.disconnect();
 		} catch (Exception e) {
 			Log.e(cgSettings.tag, "cgBase.postTweet: " + e.toString());
+		}
+	}
+
+	private void readIntoBuffer(BufferedReader br, StringBuffer buffer) throws IOException {
+		int bufferSize = 1024*16;
+		char[] bytes = new char[bufferSize];
+		int bytesRead;
+		while ((bytesRead = br.read(bytes)) > 0) {
+			if (bytesRead == bufferSize) {
+				buffer.append(bytes);
+			}
+			else {
+				buffer.append(bytes, 0, bytesRead);
+			}
 		}
 	}
 
@@ -4498,13 +4499,7 @@ public class cgBase {
 				final InputStreamReader inr = new InputStreamReader(ins);
 				final BufferedReader br = new BufferedReader(inr);
 
-				String line;
-				while ((line = br.readLine()) != null) {
-					if (line.length() > 0) {
-						buffer.append(line);
-						buffer.append("\n");
-					}
-				}
+				readIntoBuffer(br, buffer);
 
 				httpCode = connection.getResponseCode();
 				httpMessage = connection.getResponseMessage();
@@ -4549,8 +4544,7 @@ public class cgBase {
 				}
 			} else {
 				if (buffer != null && buffer.length() > 0) {
-					final Matcher matcherLines = patternLines.matcher(buffer.toString());
-					data = matcherLines.replaceAll(" ");
+					data = replaceWhitespace(buffer);
 					buffer = null;
 
 					if (data != null) {
@@ -4568,6 +4562,28 @@ public class cgBase {
 		}
 
 		return response;
+	}
+
+	private String replaceWhitespace(final StringBuffer buffer) {
+		final int length = buffer.length();
+		final char[] bytes = new char[length];
+		buffer.getChars(0, length, bytes, 0);
+		int resultSize = 0;
+		boolean lastWasWhitespace = false;
+		for (int i = 0; i < length; i++) {
+			char c = bytes[i];
+			if (c == ' ' || c == '\n' || c == '\r' || c == '\t') {
+				if (!lastWasWhitespace) {
+					bytes[resultSize++] =' ';
+				}
+				lastWasWhitespace = true;
+			}
+			else {
+				bytes[resultSize++] = c;
+				lastWasWhitespace = false;
+			}
+		}
+		return new String(bytes, 0, resultSize);
 	}
 
 	public String requestJSONgc(String host, String path, String params) {
@@ -4715,13 +4731,7 @@ public class cgBase {
 				final InputStreamReader inr = new InputStreamReader(ins);
 				final BufferedReader br = new BufferedReader(inr);
 
-				String line;
-				while ((line = br.readLine()) != null) {
-					if (line.length() > 0) {
-						buffer.append(line);
-						buffer.append("\n");
-					}
-				}
+				readIntoBuffer(br, buffer);
 
 				httpCode = connection.getResponseCode();
 				httpLocation = uc.getHeaderField("Location");
@@ -4753,8 +4763,7 @@ public class cgBase {
 				page = requestJSONgc(newLocation.getHost(), newLocation.getPath(), params);
 			}
 		} else {
-			final Matcher matcherLines = patternLines.matcher(buffer.toString());
-			page = matcherLines.replaceAll(" ");
+			page = replaceWhitespace(buffer);
 		}
 
 		if (page != null) {
@@ -4856,13 +4865,7 @@ public class cgBase {
 					final InputStreamReader inr = new InputStreamReader(ins);
 					final BufferedReader br = new BufferedReader(inr);
 
-					String line;
-					while ((line = br.readLine()) != null) {
-						if (line.length() > 0) {
-							buffer.append(line);
-							buffer.append("\n");
-						}
-					}
+					readIntoBuffer(br, buffer);
 
 					httpCode = connection.getResponseCode();
 
@@ -4901,8 +4904,7 @@ public class cgBase {
 				page = requestJSONgc(newLocation.getHost(), newLocation.getPath(), params);
 			}
 		} else {
-			final Matcher matcherLines = patternLines.matcher(buffer.toString());
-			page = matcherLines.replaceAll(" ");
+			page = replaceWhitespace(buffer);
 		}
 
 		if (page != null) {
@@ -5083,13 +5085,21 @@ public class cgBase {
 					}
 				}
 
-				cgMapImg mapGetter = new cgMapImg(settings, cache.geocode);
+				// download map images in separate background thread for higher performance
+				final String code = cache.geocode;
+				final int finalEdge = edge;
+				Thread staticMapsThread = new Thread("getting static map") {@Override
+				public void run() {
+					cgMapImg mapGetter = new cgMapImg(settings, code);
 
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=20&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 1);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=18&size=" + edge + "x" + edge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 2);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=16&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 3);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=14&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 4);
-				mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + edge + "x" + edge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 5);
+					mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=20&size=" + finalEdge + "x" + finalEdge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 1);
+					mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=18&size=" + finalEdge + "x" + finalEdge + "&maptype=satellite&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 2);
+					mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=16&size=" + finalEdge + "x" + finalEdge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 3);
+					mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=14&size=" + finalEdge + "x" + finalEdge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 4);
+					mapGetter.getDrawable("http://maps.google.com/maps/api/staticmap?center=" + latlonMap + "&zoom=11&size=" + finalEdge + "x" + finalEdge + "&maptype=roadmap&markers=icon%3A" + markerUrl + "%7C" + latlonMap + waypoints.toString() + "&sensor=false", 5);
+				}};
+				staticMapsThread.setPriority(Thread.MIN_PRIORITY);
+				staticMapsThread.start();
 			}
 
 			app.markStored(cache.geocode, listId);
