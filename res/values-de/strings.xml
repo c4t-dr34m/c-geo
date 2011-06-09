@@ -429,6 +429,7 @@
   <string name="cache_menu_event">Zum Kalender hinzufügen</string>
   <string name="cache_menu_details">Details</string>
   <string name="cache_menu_share">Weiterleiten</string>
+  <string name="cache_menu_move_list">Auf andere Liste verschieben</string>
   <string name="cache_status">Status</string>
   <string name="cache_status_offline_log">Gespeicherter Log</string>
   <string name="cache_status_found">Gefunden</string>

@@ -25,6 +25,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SubMenu;
@@ -331,6 +332,7 @@ public class cgeocaches extends ListActivity {
 			}
 		}
 	};
+	private ContextMenuInfo lastMenuInfo;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -553,16 +555,27 @@ public class cgeocaches extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		SubMenu subMenuSort = menu.addSubMenu(0, 104, 0, res.getString(R.string.caches_sort)).setIcon(android.R.drawable.ic_menu_sort_alphabetically);
 		subMenuSort.setHeaderTitle(res.getString(R.string.caches_sort_title));
-		subMenuSort.add(1, 10, 0, res.getString(R.string.caches_sort_distance)).setCheckable(true).setChecked(true);
-		subMenuSort.add(1, 11, 0, res.getString(R.string.caches_sort_difficulty)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 12, 0, res.getString(R.string.caches_sort_terrain)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 13, 0, res.getString(R.string.caches_sort_size)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 14, 0, res.getString(R.string.caches_sort_favorites)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 15, 0, res.getString(R.string.caches_sort_name)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 16, 0, res.getString(R.string.caches_sort_gccode)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 18, 0, res.getString(R.string.caches_sort_rating)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 19, 0, res.getString(R.string.caches_sort_vote)).setCheckable(false).setChecked(false);
-		subMenuSort.add(1, 20, 0, res.getString(R.string.caches_sort_inventory)).setCheckable(false).setChecked(false);
+
+		// sort the context menu labels alphabetically for easier reading
+		HashMap<String, Integer> comparators = new HashMap<String, Integer>();
+		comparators.put(res.getString(R.string.caches_sort_distance), 10);
+		comparators.put(res.getString(R.string.caches_sort_difficulty), 11);
+		comparators.put(res.getString(R.string.caches_sort_terrain), 12);
+		comparators.put(res.getString(R.string.caches_sort_size), 13);
+		comparators.put(res.getString(R.string.caches_sort_favorites), 14);
+		comparators.put(res.getString(R.string.caches_sort_name), 15);
+		comparators.put(res.getString(R.string.caches_sort_gccode), 16);
+		comparators.put(res.getString(R.string.caches_sort_rating), 18);
+		comparators.put(res.getString(R.string.caches_sort_vote), 19);
+		comparators.put(res.getString(R.string.caches_sort_inventory), 20);
+
+		ArrayList<String> sortedLabels = new ArrayList<String>(comparators.keySet());
+		Collections.sort(sortedLabels);
+		for (String label : sortedLabels) {
+			Integer id = comparators.get(label);
+			subMenuSort.add(1, id, 0, label).setCheckable(true).setChecked(id == 10);
+		}
+
 		subMenuSort.setGroupCheckable(1, true, true);
 
 		menu.add(0, 0, 0, res.getString(R.string.caches_select_mode)).setIcon(android.R.drawable.ic_menu_agenda);
@@ -768,12 +781,27 @@ public class cgeocaches extends ListActivity {
 			menu.add(0, 6, 0, res.getString(R.string.cache_menu_visit));
 			menu.add(0, 7, 0, res.getString(R.string.cache_menu_details));
 		}
+		ArrayList<cgList> cacheLists = app.getLists();
+		int listCount = cacheLists.size();
+		if (listCount > 1) {
+			SubMenu submenu = menu.addSubMenu(0, 8, 0, res.getString(R.string.cache_menu_move_list));
+			for (int i = 0; i < listCount; i++) {
+				cgList list = cacheLists.get(i);
+				submenu.add(Menu.NONE, 100+list.id, Menu.NONE, list.title);
+			}
+		}
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final int id = item.getItemId();
 		ContextMenu.ContextMenuInfo info = item.getMenuInfo();
+
+		// restore menu info for sub menu items, see https://code.google.com/p/android/issues/detail?id=7139
+		if (info == null) {
+			info = lastMenuInfo;
+			lastMenuInfo = null;
+		}
 
 		if (info == null) {
 			return false;
@@ -879,6 +907,17 @@ public class cgeocaches extends ListActivity {
 			cachesIntent.putExtra("name", cache.name);
 			activity.startActivity(cachesIntent);
 
+			return true;
+		} else if (id == 8) { // move to list (sub menu)
+			// we must remember the menu info for the sub menu, there is a bug in Android:
+			// https://code.google.com/p/android/issues/detail?id=7139
+			lastMenuInfo = info;
+			return true;
+		} else if (id >= 100) { // move to list
+			int newListId = id - 100;
+			app.moveToList(cache.geocode, newListId);
+			// refresh list by switching to the current list
+			switchListById(listId);
 			return true;
 		}
 
@@ -1759,6 +1798,10 @@ public class cgeocaches extends ListActivity {
 		alert.setPositiveButton(R.string.list_dialog_create, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString();
+				// remove whitespaces added by autocompletion of Android keyboard
+				if (value != null) {
+					value = value.trim();
+				}
 
 				if (value != null && value.length() > 0) {
 					int newId = app.createList(value);

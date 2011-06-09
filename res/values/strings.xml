@@ -433,6 +433,7 @@
   <string name="cache_menu_event">Add to calendar</string>
   <string name="cache_menu_details">Details</string>
   <string name="cache_menu_share">Share cache</string>
+  <string name="cache_menu_move_list">Move to other list</string>
   <string name="cache_status">Status</string>
   <string name="cache_status_offline_log">Saved log</string>
   <string name="cache_status_found">Found</string>
@@ -772,7 +773,7 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.25</b> (__.06.2011)\n
-	· fix: __\n
+	· fix: Performance &amp; usability\n
 	\n
     <b>2.24</b> (31.05.2011)\n
 	· fix: Performance optimizations\n
