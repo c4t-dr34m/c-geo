@@ -86,7 +86,7 @@ public class cgeodetail extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			storeThread = null;
-			
+
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
@@ -103,7 +103,7 @@ public class cgeodetail extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			refreshThread = null;
-			
+
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
@@ -189,11 +189,15 @@ public class cgeodetail extends Activity {
 
 			if (longDesc != null) {
 				((LinearLayout) findViewById(R.id.desc_box)).setVisibility(View.VISIBLE);
-
 				TextView descView = (TextView) findViewById(R.id.description);
-				descView.setVisibility(View.VISIBLE);
-				descView.setText(longDesc, TextView.BufferType.SPANNABLE);
-				descView.setMovementMethod(LinkMovementMethod.getInstance());
+				if (cache.description.length() > 0) {
+					descView.setVisibility(View.VISIBLE);
+					descView.setText(longDesc, TextView.BufferType.SPANNABLE);
+					descView.setMovementMethod(LinkMovementMethod.getInstance());
+				}
+				else {
+					descView.setVisibility(View.GONE);
+				}
 
 				Button showDesc = (Button) findViewById(R.id.show_description);
 				showDesc.setVisibility(View.GONE);
@@ -1661,11 +1665,11 @@ public class cgeodetail extends Activity {
 
 			storeDialog = ProgressDialog.show(activity, res.getString(R.string.cache_dialog_offline_save_title), res.getString(R.string.cache_dialog_offline_save_message), true);
 			storeDialog.setCancelable(true);
-			
+
 			if (storeThread != null) {
 				storeThread.interrupt();
 			}
-				
+
 			storeThread = new storeCacheThread(storeCacheHandler);
 			storeThread.start();
 		}
@@ -1684,11 +1688,11 @@ public class cgeodetail extends Activity {
 
 			refreshDialog = ProgressDialog.show(activity, res.getString(R.string.cache_dialog_refresh_title), res.getString(R.string.cache_dialog_refresh_message), true);
 			refreshDialog.setCancelable(true);
-			
+
 			if (refreshThread != null) {
 				refreshThread.interrupt();
 			}
-			
+
 			refreshThread = new refreshCacheThread(refreshCacheHandler);
 			refreshThread.start();
 		}

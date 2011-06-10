@@ -1394,9 +1394,10 @@ public class cgBase {
 			final Matcher matcherHint = patternHint.matcher(page);
 			while (matcherHint.find()) {
 				if (matcherHint.groupCount() > 2 && matcherHint.group(3) != null) {
-					cache.hint = Pattern.compile("<br[^>]*>").matcher(matcherHint.group(3)).replaceAll("\n");
-					if (cache.hint != null) {
-						cache.hint = cache.hint.trim();
+					// replace linebreak and paragraph tags
+					String hint = Pattern.compile("<(br|p)[^>]*>").matcher(matcherHint.group(3)).replaceAll("\n");
+					if (hint != null) {
+						cache.hint = hint.replaceAll(Pattern.quote("</p>"), "").trim();
 					}
 				}
 			}
@@ -1435,7 +1436,7 @@ public class cgBase {
 			final Matcher matcherDescShort = patternDescShort.matcher(page);
 			while (matcherDescShort.find()) {
 				if (matcherDescShort.groupCount() > 0) {
-					cache.shortdesc = matcherDescShort.group(1);
+					cache.shortdesc = matcherDescShort.group(1).trim();
 				}
 			}
 		} catch (Exception e) {
