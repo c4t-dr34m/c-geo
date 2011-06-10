@@ -3,10 +3,6 @@
   <string name="app_name">c:geo</string>
   <string name="app_name_compass">c:geo compass</string>
 
-  <!-- keys -->
-  <string name="maps_api_key">0HEeyLeVKGHZ6X5nAWqVFvyplTNnKUquILfte4w</string> <!-- dev -->
-  <string name="maps_api_key_market">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
-
   <!-- basics -->
   <string name="cache">キャッシュ</string>
   <string name="detail">詳細</string>
