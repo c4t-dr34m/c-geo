@@ -124,7 +124,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> {
 			canvas.setDrawFilter(remfil);
 		}
 		
-		super.draw(canvas, mapView, shadow);
+		super.draw(canvas, mapView, false);
 	}
 	
 	@Override

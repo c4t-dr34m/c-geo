@@ -773,17 +773,20 @@ public class cgeomap extends MapActivity {
 							moved = true;
 						} else if (spanLatitude == null || spanLongitude == null) {
 							moved = true;
-						} else if (((Math.abs(spanLatitudeNow - spanLatitude) > 50) || (Math.abs(spanLongitudeNow - spanLongitude) > 50) || // changed zoom
-								(Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow / 4)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow / 4)) // map moved
-								) && (caches == null || caches.isEmpty()
-								|| !base.isInViewPort(centerLatitude, centerLongitude, centerLatitudeNow, centerLongitudeNow, spanLatitude, spanLongitude, spanLatitudeNow, spanLongitudeNow))) {
+						} else if ((
+									(Math.abs(spanLatitudeNow - spanLatitude) > 50) || (Math.abs(spanLongitudeNow - spanLongitude) > 50) || // changed zoom
+									(Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow / 4)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow / 4)) // map moved
+								) && (
+									caches == null || caches.isEmpty() ||
+									!base.isInViewPort(centerLatitude, centerLongitude, centerLatitudeNow, centerLongitudeNow, spanLatitude, spanLongitude, spanLatitudeNow, spanLongitudeNow)
+								)) {
 							moved = true;
 						}
 
 						if (moved && caches != null && centerLatitude != null && centerLongitude != null && ((Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow * 1.2)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow * 1.2)))) {
 							force = true;
 						}
-
+						
 						// save new values
 						if (moved) {
 							liveChanged = false;
@@ -981,6 +984,7 @@ public class cgeomap extends MapActivity {
 			if (displayThread != null && displayThread.isWorking()) {
 				displayThread.stopIt();
 			}
+			
 			displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
 			displayThread.start();
 
@@ -1053,6 +1057,7 @@ public class cgeomap extends MapActivity {
 			if (displayThread != null && displayThread.isWorking()) {
 				displayThread.stopIt();
 			}
+			
 			displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
 			displayThread.start();
 
