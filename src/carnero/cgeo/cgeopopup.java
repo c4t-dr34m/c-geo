@@ -123,11 +123,7 @@ public class cgeopopup extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
-		if (settings.skin == 1) {
-			setTheme(R.style.light);
-		} else {
-			setTheme(R.style.dark);
-		}
+		setTheme(R.style.transparent);
 		setContentView(R.layout.popup);
 		base.setTitle(activity, res.getString(R.string.detail));
 
@@ -817,6 +813,8 @@ public class cgeopopup extends Activity {
 		navigateIntent.putExtra("name", cache.name);
 
 		activity.startActivity(navigateIntent);
+		
+		finish();
 	}
 
 	public void goManual(View view) {
@@ -830,5 +828,7 @@ public class cgeopopup extends Activity {
 		} catch (Exception e) {
 			// nothing
 		}
+		
+		finish();
 	}
 }

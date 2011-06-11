@@ -1457,20 +1457,6 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache description");
 		}
 
-		// translation
-		if (settings.translate == true) {
-			ArrayList<String> values = new ArrayList<String>();
-			values.add(cache.hint);
-			values.add(cache.shortdesc);
-			values.add(cache.description);
-
-			ArrayList<String> translated = translate(values, null);
-
-			cache.hint = translated.get(0);
-			cache.shortdesc = translated.get(1);
-			cache.description = translated.get(2);
-		}
-
 		// cache attributes
 		try {
 			final Matcher matcherAttributes = patternAttributes.matcher(page);
@@ -4082,13 +4068,7 @@ public class cgBase {
 		}
 	}
 
-	public ArrayList<String> translate(String text, String target) {
-		ArrayList<String> textArr = new ArrayList<String>();
-		textArr.add(text);
-
-		return translate(textArr, target);
-	}
-
+	/*
 	public ArrayList<String> translate(ArrayList<String> text, String target) {
 		if (settings.translate == false) {
 			return text;
@@ -4179,6 +4159,7 @@ public class cgBase {
 
 		return translated;
 	}
+	*/
 
 	public String getLocalIpAddress() {
 		try {
