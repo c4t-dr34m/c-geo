@@ -803,6 +803,8 @@ public class cgeopopup extends Activity {
 
 	public void goCompass(View view) {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.cache_coordinates_no));
+			
 			return;
 		}
 

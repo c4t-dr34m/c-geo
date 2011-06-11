@@ -458,7 +458,8 @@
   <string name="cache_calendars">Select calendar</string>
   <string name="cache_spoiler_images_title">Spoiler images</string>
   <string name="cache_spoiler_images_loading">Loading spoiler images...</string>
-  <string name="cache_log_types">Log types</string> <!-- Since: 2.10 RC2 -->
+  <string name="cache_log_types">Log types</string> <!-- since: 2.10 RC2 -->
+  <string name="cache_coordinates_no">This cache has no coordinates.</string> <!-- since: 2.26 RC2 -->
 
   <!-- gpx -->
   <string name="gpx_import_searching_in">Searching for .gpx files\nin</string>
@@ -773,7 +774,8 @@
   <!-- changelog -->
   <string name="changelog">\n
     <b>2.26</b> (__.06.2011)\n
-	· fix: ___\n
+	· fix: Loading caches on Live map\n
+	· fix: GCVote issues\n
 	\n
     <b>2.25</b> (11.06.2011)\n
 	· fix: Performance &amp; usability\n

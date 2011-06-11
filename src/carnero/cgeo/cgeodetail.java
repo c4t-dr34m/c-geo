@@ -551,7 +551,9 @@ public class cgeodetail extends Activity {
 		TextView itemName;
 		TextView itemValue;
 
-		if (searchId == null) return;
+		if (searchId == null) {
+			return;
+		}
 
 		cache = app.getCache(searchId);
 
@@ -632,8 +634,11 @@ public class cgeodetail extends Activity {
 			itemName.setText(res.getString(R.string.cache_type));
 
 			String size = null;
-			if (cache.size != null && cache.size.length() > 0) size = " (" + cache.size + ")";
-			else size = "";
+			if (cache.size != null && cache.size.length() > 0) {
+				size = " (" + cache.size + ")";
+			} else {
+				size = "";
+			}
 
 			if (cgBase.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
 				itemValue.setText(cgBase.cacheTypesInv.get(cache.type) + size);
@@ -1844,6 +1849,8 @@ public class cgeodetail extends Activity {
 
 	public void goCompass(View view) {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.cache_coordinates_no));
+			
 			return;
 		}
 
