@@ -2,9 +2,11 @@ package carnero.cgeo.googlemaps;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import carnero.cgeo.cgSettings;
+import carnero.cgeo.mapcommon.cgMapOverlay;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
 import carnero.cgeo.mapinterfaces.MapProjection;
@@ -75,5 +77,14 @@ public class googleMapView extends MapView implements MapViewBase{
 	@Override
 	public MapProjection getMapProjection() {
 		return new googleMapProjection(getProjection());
+	}
+
+	@Override
+	public cgMapOverlay createAddMapOverlay(cgSettings settings,
+			Context context, Drawable drawable, boolean fromDetailIntent) {
+		
+		googleCacheOverlay ovl = new googleCacheOverlay(settings, context, drawable, fromDetailIntent);
+		getOverlays().add(ovl);
+		return ovl.getBase();
 	}
 }

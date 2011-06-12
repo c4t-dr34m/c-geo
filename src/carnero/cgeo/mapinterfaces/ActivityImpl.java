@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public interface ActivityBase {
+public interface ActivityImpl {
 
 	Resources getResources();
 
@@ -20,7 +20,7 @@ public interface ActivityBase {
 
 	boolean superOnCreateOptionsMenu(Menu menu);
 
-	boolean superOnonPrepareOptionsMenu(Menu menu);
+	boolean superOnPrepareOptionsMenu(Menu menu);
 
 	boolean superOnOptionsItemSelected(MenuItem item);
 

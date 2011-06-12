@@ -27,16 +27,15 @@ import carnero.cgeo.cgUser;
 import carnero.cgeo.cgWarning;
 import carnero.cgeo.cgWaypoint;
 import carnero.cgeo.cgeoapplication;
-import carnero.cgeo.googlemaps.cgMapOverlay;
-import carnero.cgeo.googlemaps.cgOverlayItem;
 import carnero.cgeo.googlemaps.cgOverlayUser;
 import carnero.cgeo.googlemaps.cgUsersOverlay;
-import carnero.cgeo.mapinterfaces.ActivityBase;
+import carnero.cgeo.mapinterfaces.ActivityImpl;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
 import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
+import carnero.cgeo.mapinterfaces.OverlayItemBase;
 
 import android.util.Log;
 import android.view.View;
@@ -196,7 +195,7 @@ public class cgeomap extends MapBase {
 		}
 	};
 
-	public cgeomap(ActivityBase activity) {
+	public cgeomap(ActivityImpl activity) {
 		super(activity);
 	}
 
@@ -260,8 +259,7 @@ public class cgeomap extends MapBase {
 		}
 
 		if (overlayCaches == null) {
-			overlayCaches = new cgMapOverlay(activity, getResources().getDrawable(R.drawable.marker), fromDetailIntent);
-			mapView.addOverlay(overlayCaches);
+			 overlayCaches = mapView.createAddMapOverlay(settings, mapView.getContext(), getResources().getDrawable(R.drawable.marker), fromDetailIntent);
 		}
 
 		if (overlayScale == null) {
@@ -1099,13 +1097,13 @@ public class cgeomap extends MapBase {
 
 			// display caches
 			final ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
-			final ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
+			final ArrayList<OverlayItemBase> items = new ArrayList<OverlayItemBase>();
 
 			if (cachesProtected != null && !cachesProtected.isEmpty()) {
 				int counter = 0;
 				int icon = 0;
 				Drawable pin = null;
-				cgOverlayItem item = null;
+				OverlayItemBase item = null;
 
 				for (cgCache cacheOne : cachesProtected) {
 					if (stop) {
@@ -1122,7 +1120,7 @@ public class cgeomap extends MapBase {
 					final cgCoord coord = new cgCoord(cacheOne);
 					coordinates.add(coord);
 
-					item = new cgOverlayItem(coord, cacheOne.type);
+					item = settings.getMapFactory().getCacheOverlayItem(coord, cacheOne.type);
 					icon = base.getIcon(true, cacheOne.type, cacheOne.own, cacheOne.found, cacheOne.disabled || cacheOne.archived);
 					pin = null;
 
@@ -1171,7 +1169,7 @@ public class cgeomap extends MapBase {
 								cgCoord coord = new cgCoord(oneWaypoint);
 
 								coordinates.add(coord);
-								item = new cgOverlayItem(coord, null);
+								item = settings.getMapFactory().getCacheOverlayItem(coord, null);
 
 								icon = base.getIcon(false, oneWaypoint.type, false, false, false);
 								if (iconsCache.containsKey(icon)) {
@@ -1321,7 +1319,7 @@ public class cgeomap extends MapBase {
 				coord.name = "some place";
 
 				coordinates.add(coord);
-				cgOverlayItem item = new cgOverlayItem(coord, null);
+				OverlayItemBase item = settings.getMapFactory().getCacheOverlayItem(coord, null);
 
 				final int icon = base.getIcon(false, waypointTypeIntent, false, false, false);
 				Drawable pin = null;

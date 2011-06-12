@@ -1,6 +1,9 @@
 package carnero.cgeo.mapinterfaces;
 
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.mapcommon.cgMapOverlay;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 public interface MapViewBase {
@@ -40,5 +43,8 @@ public interface MapViewBase {
 	MapProjection getMapProjection();
 
 	Context getContext();
+
+	cgMapOverlay createAddMapOverlay(cgSettings settings, Context context,
+			Drawable drawable, boolean fromDetailIntent);
 
 }

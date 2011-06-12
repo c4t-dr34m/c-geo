@@ -6,11 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import carnero.cgeo.mapcommon.MapBase;
 import carnero.cgeo.mapcommon.cgeomap;
-import carnero.cgeo.mapinterfaces.ActivityBase;
+import carnero.cgeo.mapinterfaces.ActivityImpl;
 
 import com.google.android.maps.MapActivity;
 
-public class googleMapActivity extends MapActivity implements ActivityBase {
+public class googleMapActivity extends MapActivity implements ActivityImpl {
 
 	private MapBase mapBase;
 	
@@ -94,7 +94,7 @@ public class googleMapActivity extends MapActivity implements ActivityBase {
 	}
 
 	@Override
-	public boolean superOnonPrepareOptionsMenu(Menu menu) {
+	public boolean superOnPrepareOptionsMenu(Menu menu) {
 		return super.onPrepareOptionsMenu(menu);
 	}
 

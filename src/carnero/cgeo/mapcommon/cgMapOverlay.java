@@ -1,4 +1,4 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapcommon;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.text.Html;
 import android.util.Log;
@@ -21,17 +20,19 @@ import carnero.cgeo.cgeodetail;
 import carnero.cgeo.cgeonavigate;
 import carnero.cgeo.cgeopopup;
 import carnero.cgeo.cgeowaypoint;
-import carnero.cgeo.mapinterfaces.OverlayImpl;
+import carnero.cgeo.mapinterfaces.GeoPointBase;
+import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
+import carnero.cgeo.mapinterfaces.MapFactory;
+import carnero.cgeo.mapinterfaces.MapProjection;
+import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.OverlayItemBase;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Projection;
 import java.util.ArrayList;
 
-public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements OverlayImpl {
+public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 
-	private ArrayList<cgOverlayItem> items = new ArrayList<cgOverlayItem>();
+	private ArrayList<OverlayItemBase> items = new ArrayList<OverlayItemBase>();
 	private Context context = null;
 	private Boolean fromDetail = false;
 	private boolean displayCircles = false;
@@ -41,38 +42,41 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements Over
 	private Paint blockedCircle = null;
 	private PaintFlagsDrawFilter setfil = null;
 	private PaintFlagsDrawFilter remfil = null;
+	private cgSettings settings;
 
-	public cgMapOverlay(Context contextIn, Drawable markerIn, Boolean fromDetailIn) {
-		super(boundCenterBottom(markerIn));
+	public cgMapOverlay(cgSettings settingsIn, ItemizedOverlayImpl ovlImpl, Context contextIn, Boolean fromDetailIn) {
+		super(ovlImpl);
+
 		populate();
+		settings = settingsIn;
 
 		context = contextIn;
 		fromDetail = fromDetailIn;
 	}
 	
-	public void updateItems(cgOverlayItem item) {
-		ArrayList<cgOverlayItem> itemsPre = new ArrayList<cgOverlayItem>();
+	public void updateItems(OverlayItemBase item) {
+		ArrayList<OverlayItemBase> itemsPre = new ArrayList<OverlayItemBase>();
 		itemsPre.add(item);
 		
 		updateItems(itemsPre);
 	}
 
-	public void updateItems(ArrayList<cgOverlayItem> itemsPre) {
+	public void updateItems(ArrayList<OverlayItemBase> itemsPre) {
 		if (itemsPre == null) {
 			return;
 		}
 
-		for (cgOverlayItem item : itemsPre) {
-			item.setMarker(boundCenterBottom(item.getMarker(0)));
+		for (OverlayItemBase item : itemsPre) {
+			item.setMarker(boundCenterBottomMarker(item.getMarker(0)));
 		}
 
 		items.clear();
 		
 		if (itemsPre.size() > 0) {
-			items = (ArrayList<cgOverlayItem>) itemsPre.clone();
+			items = (ArrayList<OverlayItemBase>) itemsPre.clone();
 		}
 		
-		setLastFocusedIndex(-1); // to reset tap during data change
+		setLastFocusedItemIndex(-1); // to reset tap during data change
 		populate();
 	}
 	
@@ -85,7 +89,10 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements Over
 	}
 
 	@Override
-	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+		
+		MapFactory mapFactory = settings.getMapFactory();
+		
 		if (displayCircles) {
 			if (blockedCircle == null) {
 				blockedCircle = new Paint();
@@ -98,17 +105,17 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements Over
 
 			canvas.setDrawFilter(setfil);
 
-			Projection projection = mapView.getProjection();
+			MapProjection projection = mapView.getMapProjection();
 
-			for (cgOverlayItem item : items) {
+			for (OverlayItemBase item : items) {
 				final cgCoord itemCoord = item.getCoord();
 				float[] result = new float[1];
 
 				Location.distanceBetween(itemCoord.latitude, itemCoord.longitude, itemCoord.latitude, itemCoord.longitude + 1, result);
 				final float longitudeLineDistance = result[0];
 
-				GeoPoint itemGeo = new GeoPoint((int)(itemCoord.latitude * 1e6), (int)(itemCoord.longitude * 1e6));
-				GeoPoint leftGeo = new GeoPoint((int)(itemCoord.latitude * 1e6), (int)((itemCoord.longitude - 161 / longitudeLineDistance) * 1e6));
+				GeoPointBase itemGeo = mapFactory.getGeoPointBase((int)(itemCoord.latitude * 1e6), (int)(itemCoord.longitude * 1e6));
+				GeoPointBase leftGeo = mapFactory.getGeoPointBase((int)(itemCoord.latitude * 1e6), (int)((itemCoord.longitude - 161 / longitudeLineDistance) * 1e6));
 
 				projection.toPixels(itemGeo, center);
 				projection.toPixels(leftGeo, left);
@@ -137,7 +144,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements Over
 	}
 	
 	@Override
-	protected boolean onTap(int index) {
+	public boolean onTap(int index) {
 		try {
 			if (items.size() <= index) {
 				return false;
@@ -150,7 +157,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements Over
 			}
 			waitDialog.show();
 
-			cgOverlayItem item = items.get(index);
+			OverlayItemBase item = items.get(index);
 			cgCoord coordinate = item.getCoord();
 
 			if (coordinate.type != null && coordinate.type.equalsIgnoreCase("cache") == true && coordinate.geocode != null && coordinate.geocode.length() > 0) {
@@ -181,7 +188,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements Over
 	}
 
 	@Override
-	public cgOverlayItem createItem(int index) {
+	public OverlayItemBase createItem(int index) {
 		try {
 			return items.get(index);
 		} catch (Exception e) {
@@ -203,7 +210,7 @@ public class cgMapOverlay extends ItemizedOverlay<cgOverlayItem> implements Over
 	}
 
 	public void infoDialog(int index) {
-		final cgOverlayItem item = items.get(index);
+		final OverlayItemBase item = items.get(index);
 		final cgCoord coordinate = item.getCoord();
 
 		if (coordinate == null) {

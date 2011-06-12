@@ -1,6 +1,6 @@
 package carnero.cgeo.mapcommon;
 
-import carnero.cgeo.mapinterfaces.ActivityBase;
+import carnero.cgeo.mapinterfaces.ActivityImpl;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import android.view.MenuItem;
 
 public class MapBase {
 
-	ActivityBase mapActivity;
+	ActivityImpl mapActivity;
 	
-	public MapBase(ActivityBase activity) {
+	public MapBase(ActivityImpl activity) {
 		mapActivity = activity;
 	}
 	
@@ -48,7 +48,7 @@ public class MapBase {
 	}
 
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		return mapActivity.superOnonPrepareOptionsMenu(menu);
+		return mapActivity.superOnPrepareOptionsMenu(menu);
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {

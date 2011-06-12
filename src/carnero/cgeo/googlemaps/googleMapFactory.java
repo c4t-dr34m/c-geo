@@ -1,10 +1,12 @@
 package carnero.cgeo.googlemaps;
 
 import carnero.cgeo.R;
+import carnero.cgeo.cgCoord;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.OverlayItemBase;
 
 public class googleMapFactory implements MapFactory{
 
@@ -32,6 +34,12 @@ public class googleMapFactory implements MapFactory{
 	public OverlayImpl getOverlayBaseWrapper(OverlayBase ovlIn) {
 		googleOverlayBase baseOvl = new googleOverlayBase(ovlIn);
 		return baseOvl;
+	}
+	
+	@Override
+	public OverlayItemBase getCacheOverlayItem(cgCoord coordinate, String type) {
+		googleCacheOverlayItem baseItem = new googleCacheOverlayItem(coordinate, type);
+		return baseItem;
 	}
 
 }
