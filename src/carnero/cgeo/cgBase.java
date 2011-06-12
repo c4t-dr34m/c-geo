@@ -973,7 +973,7 @@ public class cgBase {
 
 							oneCache.rating = thisRating.rating;
 							oneCache.votes = thisRating.votes;
-							oneCache.vote = thisRating.vote;
+							oneCache.myVote = thisRating.myVote;
 						}
 					}
 				}
@@ -1862,7 +1862,7 @@ public class cgBase {
 		if (rating != null) {
 			cache.rating = rating.rating;
 			cache.votes = rating.votes;
-			cache.vote = rating.vote;
+			cache.myVote = rating.myVote;
 		}
 
 		cache.updated = System.currentTimeMillis();
@@ -1924,7 +1924,7 @@ public class cgBase {
 			final Pattern patternGuid = Pattern.compile("cacheId='([^']+)'", Pattern.CASE_INSENSITIVE);
 			final Pattern patternRating = Pattern.compile("voteAvg='([0-9\\.]+)'", Pattern.CASE_INSENSITIVE);
 			final Pattern patternVotes = Pattern.compile("voteCnt='([0-9]+)'", Pattern.CASE_INSENSITIVE);
-			final Pattern patternVote = Pattern.compile("voteUser='([0-9]+)'", Pattern.CASE_INSENSITIVE);
+			final Pattern patternVote = Pattern.compile("voteUser='([0-9\\.]+)'", Pattern.CASE_INSENSITIVE);
 
 			String voteData = null;
 			final Pattern patternVoteElement = Pattern.compile("<vote ([^>]+)>", Pattern.CASE_INSENSITIVE);
@@ -1993,7 +1993,7 @@ public class cgBase {
 						final Matcher matcherVote = patternVote.matcher(voteData);
 						if (matcherVote.find()) {
 							if (matcherVote.groupCount() > 0) {
-								rating.vote = Integer.parseInt(matcherVote.group(1));
+								rating.myVote = Float.parseFloat(matcherVote.group(1));
 							}
 						}
 					} catch (Exception e) {
