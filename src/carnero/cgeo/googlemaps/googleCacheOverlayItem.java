@@ -4,9 +4,9 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
 import carnero.cgeo.cgCoord;
-import carnero.cgeo.mapinterfaces.OverlayItemBase;
+import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
 
-public class googleCacheOverlayItem extends OverlayItem implements OverlayItemBase {
+public class googleCacheOverlayItem extends OverlayItem implements CacheOverlayItemBase {
 	private String cacheType = null;
 	private cgCoord coord;
 

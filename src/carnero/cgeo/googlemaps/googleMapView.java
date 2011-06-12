@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.mapcommon.cgMapOverlay;
+import carnero.cgeo.mapcommon.cgUsersOverlay;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
 import carnero.cgeo.mapinterfaces.MapProjection;
@@ -84,6 +85,13 @@ public class googleMapView extends MapView implements MapViewBase{
 			Context context, Drawable drawable, boolean fromDetailIntent) {
 		
 		googleCacheOverlay ovl = new googleCacheOverlay(settings, context, drawable, fromDetailIntent);
+		getOverlays().add(ovl);
+		return ovl.getBase();
+	}
+	
+	@Override
+	public cgUsersOverlay createAddUsersOverlay(Context context, Drawable markerIn) {
+		googleUsersOverlay ovl = new googleUsersOverlay(context, markerIn);
 		getOverlays().add(ovl);
 		return ovl.getBase();
 	}

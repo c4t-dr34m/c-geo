@@ -1,18 +1,20 @@
 package carnero.cgeo.mapinterfaces;
 
-import carnero.cgeo.mapcommon.cgMapOverlay;
+import carnero.cgeo.mapcommon.ItemizedOverlayBase;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 public interface ItemizedOverlayImpl {
 
-	cgMapOverlay getBase();
+	ItemizedOverlayBase getBase();
 
 	void superPopulate();
 
 	void superSetLastFocusedItemIndex(int i);
 
-	Drawable superBoundCenterBottomMarker(Drawable marker);
+	Drawable superBoundCenter(Drawable markerIn);
+
+	Drawable superBoundCenterBottom(Drawable marker);
 
 	boolean superOnTap(int index);
 

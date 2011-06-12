@@ -3,35 +3,33 @@ package carnero.cgeo.googlemaps;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-
-import carnero.cgeo.cgSettings;
-import carnero.cgeo.mapcommon.cgMapOverlay;
+import carnero.cgeo.mapcommon.cgUsersOverlay;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 
-public class googleCacheOverlay extends ItemizedOverlay<googleCacheOverlayItem> implements ItemizedOverlayImpl {
+public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> implements ItemizedOverlayImpl {
 
-	private cgMapOverlay _base;
+	private cgUsersOverlay _base;
 
-	public googleCacheOverlay(cgSettings settingsIn, Context contextIn, Drawable markerIn, Boolean fromDetailIn) {
-		super(boundCenterBottom(markerIn));
-		_base = new cgMapOverlay(settingsIn, this, contextIn, fromDetailIn);
+	public googleUsersOverlay(Context contextIn, Drawable markerIn) {
+		super(boundCenter(markerIn));
+		_base = new cgUsersOverlay(this, contextIn);
 	}
 	
 	@Override
-	public cgMapOverlay getBase() {
+	public cgUsersOverlay getBase() {
 		return _base;
 	}
 
 	@Override
-	protected googleCacheOverlayItem createItem(int i) {
+	protected googleUsersOverlayItem createItem(int i) {
 		if (_base == null)
 			return null;
 
-		return (googleCacheOverlayItem) _base.createItem(i);
+		return (googleUsersOverlayItem) _base.createItem(i);
 	}
 
 	@Override

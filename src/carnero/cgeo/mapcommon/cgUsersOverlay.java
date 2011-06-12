@@ -1,4 +1,4 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapcommon;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -9,66 +9,64 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import carnero.cgeo.R;
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.cgUser;
 import carnero.cgeo.cgeodetail;
-import carnero.cgeo.R.drawable;
-import carnero.cgeo.mapinterfaces.OverlayImpl;
+import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
+import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
 
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
+public class cgUsersOverlay extends ItemizedOverlayBase implements OverlayBase {
 
-public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> implements OverlayImpl {
-
-	private ArrayList<cgOverlayUser> items = new ArrayList<cgOverlayUser>();
+	private ArrayList<UserOverlayItemBase> items = new ArrayList<UserOverlayItemBase>();
 	private Context context = null;
 	private final Pattern patternGeocode = Pattern.compile("^(GC[A-Z0-9]+)(\\: ?(.+))?$", Pattern.CASE_INSENSITIVE);
 
-	public cgUsersOverlay(Context contextIn, Drawable markerIn) {
-		super(boundCenter(markerIn));
+	public cgUsersOverlay(ItemizedOverlayImpl ovlImplIn, Context contextIn) {
+		super(ovlImplIn);
 		populate();
 
 		context = contextIn;
 	}
 
-	protected void updateItems(cgOverlayUser item) {
-		ArrayList<cgOverlayUser> itemsPre = new ArrayList<cgOverlayUser>();
+	protected void updateItems(UserOverlayItemBase item) {
+		ArrayList<UserOverlayItemBase> itemsPre = new ArrayList<UserOverlayItemBase>();
 		itemsPre.add(item);
 		
 		updateItems(itemsPre);
 	}
 
-	public void updateItems(ArrayList<cgOverlayUser> itemsPre) {
+	public void updateItems(ArrayList<UserOverlayItemBase> itemsPre) {
 		if (itemsPre == null) {
 			return;
 		}
 
-		for (cgOverlayUser item : itemsPre) {
+		for (UserOverlayItemBase item : itemsPre) {
 			item.setMarker(boundCenter(item.getMarker(0)));
 		}
 
 		items.clear();
 		
 		if (itemsPre.size() > 0) {
-			items = (ArrayList<cgOverlayUser>) itemsPre.clone();
+			items = (ArrayList<UserOverlayItemBase>) itemsPre.clone();
 		}
 		
-		setLastFocusedIndex(-1); // to reset tap during data change
+		setLastFocusedItemIndex(-1); // to reset tap during data change
 		populate();
 	}
 
 	@Override
-	protected boolean onTap(int index) {
+	public boolean onTap(int index) {
 		try {
 			if (items.size() <= index) {
 				return false;
 			}
 
-			final cgOverlayUser item = items.get(index);
+			final UserOverlayItemBase item = items.get(index);
 			final cgUser user = item.getUser();
 
 			// set action
@@ -132,12 +130,12 @@ public class cgUsersOverlay extends ItemizedOverlay<cgOverlayUser> implements Ov
 	}
 
 	@Override
-	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
 		super.draw(canvas, mapView, false);
 	}
 
 	@Override
-	public cgOverlayUser createItem(int index) {
+	public UserOverlayItemBase createItem(int index) {
 		try {
 			return items.get(index);
 		} catch (Exception e) {

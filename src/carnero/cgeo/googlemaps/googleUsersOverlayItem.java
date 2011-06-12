@@ -4,16 +4,16 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import carnero.cgeo.R;
 import carnero.cgeo.cgUser;
-import carnero.cgeo.R.drawable;
+import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
-public class cgOverlayUser extends OverlayItem {
+public class googleUsersOverlayItem extends OverlayItem implements UserOverlayItemBase {
 	private Context context = null;
 	private cgUser user = null;
 
-	public cgOverlayUser(Context contextIn, cgUser userIn) {
+	public googleUsersOverlayItem(Context contextIn, cgUser userIn) {
 		super(new GeoPoint((int)(userIn.latitude * 1e6), (int)(userIn.longitude * 1e6)), userIn.username, "");
 
 		context = contextIn;

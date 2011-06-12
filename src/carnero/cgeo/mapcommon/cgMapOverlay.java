@@ -26,13 +26,13 @@ import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.OverlayBase;
 import carnero.cgeo.mapinterfaces.MapViewBase;
-import carnero.cgeo.mapinterfaces.OverlayItemBase;
+import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
 
 import java.util.ArrayList;
 
 public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 
-	private ArrayList<OverlayItemBase> items = new ArrayList<OverlayItemBase>();
+	private ArrayList<CacheOverlayItemBase> items = new ArrayList<CacheOverlayItemBase>();
 	private Context context = null;
 	private Boolean fromDetail = false;
 	private boolean displayCircles = false;
@@ -54,26 +54,26 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 		fromDetail = fromDetailIn;
 	}
 	
-	public void updateItems(OverlayItemBase item) {
-		ArrayList<OverlayItemBase> itemsPre = new ArrayList<OverlayItemBase>();
+	public void updateItems(CacheOverlayItemBase item) {
+		ArrayList<CacheOverlayItemBase> itemsPre = new ArrayList<CacheOverlayItemBase>();
 		itemsPre.add(item);
 		
 		updateItems(itemsPre);
 	}
 
-	public void updateItems(ArrayList<OverlayItemBase> itemsPre) {
+	public void updateItems(ArrayList<CacheOverlayItemBase> itemsPre) {
 		if (itemsPre == null) {
 			return;
 		}
 
-		for (OverlayItemBase item : itemsPre) {
-			item.setMarker(boundCenterBottomMarker(item.getMarker(0)));
+		for (CacheOverlayItemBase item : itemsPre) {
+			item.setMarker(boundCenterBottom(item.getMarker(0)));
 		}
 
 		items.clear();
 		
 		if (itemsPre.size() > 0) {
-			items = (ArrayList<OverlayItemBase>) itemsPre.clone();
+			items = (ArrayList<CacheOverlayItemBase>) itemsPre.clone();
 		}
 		
 		setLastFocusedItemIndex(-1); // to reset tap during data change
@@ -107,7 +107,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 
 			MapProjection projection = mapView.getMapProjection();
 
-			for (OverlayItemBase item : items) {
+			for (CacheOverlayItemBase item : items) {
 				final cgCoord itemCoord = item.getCoord();
 				float[] result = new float[1];
 
@@ -157,7 +157,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 			}
 			waitDialog.show();
 
-			OverlayItemBase item = items.get(index);
+			CacheOverlayItemBase item = items.get(index);
 			cgCoord coordinate = item.getCoord();
 
 			if (coordinate.type != null && coordinate.type.equalsIgnoreCase("cache") == true && coordinate.geocode != null && coordinate.geocode.length() > 0) {
@@ -188,7 +188,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 	}
 
 	@Override
-	public OverlayItemBase createItem(int index) {
+	public CacheOverlayItemBase createItem(int index) {
 		try {
 			return items.get(index);
 		} catch (Exception e) {
@@ -210,7 +210,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 	}
 
 	public void infoDialog(int index) {
-		final OverlayItemBase item = items.get(index);
+		final CacheOverlayItemBase item = items.get(index);
 		final cgCoord coordinate = item.getCoord();
 
 		if (coordinate == null) {

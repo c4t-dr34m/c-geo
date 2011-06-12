@@ -10,11 +10,9 @@ import carnero.cgeo.cgBase;
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.OverlayBase;
-import carnero.cgeo.mapinterfaces.OverlayImpl;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
 public class cgOverlayScale implements OverlayBase {
-	private cgBase base = null;
 	private cgSettings settings = null;
     private Paint scale = null;
     private Paint scaleShadow = null;
@@ -26,8 +24,7 @@ public class cgOverlayScale implements OverlayBase {
 	private double distanceRound = 0d;
 	private String units = null;
 
-    public cgOverlayScale(Activity activity, cgBase baseIn, cgSettings settingsIn) {
-		base = baseIn;
+    public cgOverlayScale(Activity activity, cgSettings settingsIn) {
 		settings = settingsIn;
 
 		DisplayMetrics metrics = new DisplayMetrics();

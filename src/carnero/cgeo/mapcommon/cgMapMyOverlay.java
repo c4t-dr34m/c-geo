@@ -15,7 +15,6 @@ import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.OverlayBase;
-import carnero.cgeo.mapinterfaces.OverlayImpl;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
 import java.util.ArrayList;

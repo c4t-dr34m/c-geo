@@ -1,12 +1,15 @@
 package carnero.cgeo.googlemaps;
 
+import android.content.Context;
 import carnero.cgeo.R;
 import carnero.cgeo.cgCoord;
+import carnero.cgeo.cgUser;
+import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 import carnero.cgeo.mapinterfaces.OverlayBase;
-import carnero.cgeo.mapinterfaces.OverlayItemBase;
+import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
 
 public class googleMapFactory implements MapFactory{
 
@@ -37,8 +40,14 @@ public class googleMapFactory implements MapFactory{
 	}
 	
 	@Override
-	public OverlayItemBase getCacheOverlayItem(cgCoord coordinate, String type) {
+	public CacheOverlayItemBase getCacheOverlayItem(cgCoord coordinate, String type) {
 		googleCacheOverlayItem baseItem = new googleCacheOverlayItem(coordinate, type);
+		return baseItem;
+	}
+
+	@Override
+	public UserOverlayItemBase getUserOverlayItemBase(Context context, cgUser userOne) {
+		googleUsersOverlayItem baseItem = new googleUsersOverlayItem(context, userOne);
 		return baseItem;
 	}
 

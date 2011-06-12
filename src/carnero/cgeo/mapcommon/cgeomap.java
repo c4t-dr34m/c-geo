@@ -27,15 +27,13 @@ import carnero.cgeo.cgUser;
 import carnero.cgeo.cgWarning;
 import carnero.cgeo.cgWaypoint;
 import carnero.cgeo.cgeoapplication;
-import carnero.cgeo.googlemaps.cgOverlayUser;
-import carnero.cgeo.googlemaps.cgUsersOverlay;
 import carnero.cgeo.mapinterfaces.ActivityImpl;
+import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapControllerBase;
 import carnero.cgeo.mapinterfaces.MapFactory;
 import carnero.cgeo.mapinterfaces.MapViewBase;
-import carnero.cgeo.mapinterfaces.OverlayImpl;
-import carnero.cgeo.mapinterfaces.OverlayItemBase;
+import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
 
 import android.util.Log;
 import android.view.View;
@@ -254,8 +252,7 @@ public class cgeomap extends MapBase {
 		}
 
 		if (settings.publicLoc > 0 && overlayUsers == null) {
-			overlayUsers = new cgUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
-			mapView.addOverlay(overlayUsers);
+			overlayUsers = mapView.createAddUsersOverlay(activity, getResources().getDrawable(R.drawable.user_location));
 		}
 
 		if (overlayCaches == null) {
@@ -263,7 +260,7 @@ public class cgeomap extends MapBase {
 		}
 
 		if (overlayScale == null) {
-			overlayScale =  new cgOverlayScale(activity, base, settings);
+			overlayScale =  new cgOverlayScale(activity, settings);
 			mapView.addOverlay(mapFactory.getOverlayBaseWrapper(overlayScale));
 		}
 
@@ -1097,13 +1094,13 @@ public class cgeomap extends MapBase {
 
 			// display caches
 			final ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
-			final ArrayList<OverlayItemBase> items = new ArrayList<OverlayItemBase>();
+			final ArrayList<CacheOverlayItemBase> items = new ArrayList<CacheOverlayItemBase>();
 
 			if (cachesProtected != null && !cachesProtected.isEmpty()) {
 				int counter = 0;
 				int icon = 0;
 				Drawable pin = null;
-				OverlayItemBase item = null;
+				CacheOverlayItemBase item = null;
 
 				for (cgCache cacheOne : cachesProtected) {
 					if (stop) {
@@ -1272,10 +1269,10 @@ public class cgeomap extends MapBase {
 			}
 
 			// display users
-			ArrayList<cgOverlayUser> items = new ArrayList<cgOverlayUser>();
+			ArrayList<UserOverlayItemBase> items = new ArrayList<UserOverlayItemBase>();
 
 			int counter = 0;
-			cgOverlayUser item = null;
+			UserOverlayItemBase item = null;
 
 			for (cgUser userOne : users) {
 				if (stop) {
@@ -1286,7 +1283,7 @@ public class cgeomap extends MapBase {
 					continue;
 				}
 
-				item = new cgOverlayUser(activity, userOne);
+				item = settings.getMapFactory().getUserOverlayItemBase(activity, userOne);
 				items.add(item);
 
 				counter++;
@@ -1319,7 +1316,7 @@ public class cgeomap extends MapBase {
 				coord.name = "some place";
 
 				coordinates.add(coord);
-				OverlayItemBase item = settings.getMapFactory().getCacheOverlayItem(coord, null);
+				CacheOverlayItemBase item = settings.getMapFactory().getCacheOverlayItem(coord, null);
 
 				final int icon = base.getIcon(false, waypointTypeIntent, false, false, false);
 				Drawable pin = null;

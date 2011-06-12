@@ -1,13 +1,8 @@
 package carnero.cgeo.mapinterfaces;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import carnero.cgeo.cgBase;
 import carnero.cgeo.cgCoord;
-import carnero.cgeo.cgSettings;
-import carnero.cgeo.mapcommon.cgMapOverlay;
-import carnero.cgeo.mapcommon.cgOverlayScale;
+import carnero.cgeo.cgUser;
 
 public interface MapFactory {
 
@@ -21,6 +16,9 @@ public interface MapFactory {
 
 	public OverlayImpl getOverlayBaseWrapper(OverlayBase ovlIn);
 
-	OverlayItemBase getCacheOverlayItem(cgCoord coordinate, String type);
+	CacheOverlayItemBase getCacheOverlayItem(cgCoord coordinate, String type);
+
+	public UserOverlayItemBase getUserOverlayItemBase(Context context,
+			cgUser userOne);
 
 }

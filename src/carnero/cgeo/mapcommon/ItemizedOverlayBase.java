@@ -2,7 +2,6 @@ package carnero.cgeo.mapcommon;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import carnero.cgeo.googlemaps.googleCacheOverlayItem;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 import carnero.cgeo.mapinterfaces.OverlayItemBase;
@@ -23,8 +22,12 @@ public abstract class ItemizedOverlayBase {
 		return _ovlImpl.superOnTap(index);
 	}
 	
-	Drawable boundCenterBottomMarker(Drawable markerIn) {
-		return _ovlImpl.superBoundCenterBottomMarker(markerIn);
+	Drawable boundCenter(Drawable markerIn) {
+		return _ovlImpl.superBoundCenter(markerIn);
+	}
+	
+	Drawable boundCenterBottom(Drawable markerIn) {
+		return _ovlImpl.superBoundCenterBottom(markerIn);
 	}
 	
 	void setLastFocusedItemIndex(int index){
