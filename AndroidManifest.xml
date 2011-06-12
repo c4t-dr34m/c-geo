@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		android:versionCode="22502"
-		android:versionName="2.25 RC2"
+		android:versionCode="22603"
+		android:versionName="2.26 RC3"
 		package="carnero.cgeo"
 		name="c:geo"
 		android:installLocation="auto" >
@@ -57,6 +57,7 @@
 		<activity
 			android:name=".cgeopopup"
 			android:label="@string/app_name"
+			android:theme="@style/cgeo_transparent"
 			android:windowSoftInputMode="stateHidden"
 			android:configChanges="keyboardHidden|orientation" >
 			<intent-filter>

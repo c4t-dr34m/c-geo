@@ -973,7 +973,7 @@ public class cgBase {
 
 							oneCache.rating = thisRating.rating;
 							oneCache.votes = thisRating.votes;
-							oneCache.vote = thisRating.vote;
+							oneCache.myVote = thisRating.myVote;
 						}
 					}
 				}
@@ -1394,9 +1394,10 @@ public class cgBase {
 			final Matcher matcherHint = patternHint.matcher(page);
 			while (matcherHint.find()) {
 				if (matcherHint.groupCount() > 2 && matcherHint.group(3) != null) {
-					cache.hint = Pattern.compile("<br[^>]*>").matcher(matcherHint.group(3)).replaceAll("\n");
-					if (cache.hint != null) {
-						cache.hint = cache.hint.trim();
+					// replace linebreak and paragraph tags
+					String hint = Pattern.compile("<(br|p)[^>]*>").matcher(matcherHint.group(3)).replaceAll("\n");
+					if (hint != null) {
+						cache.hint = hint.replaceAll(Pattern.quote("</p>"), "").trim();
 					}
 				}
 			}
@@ -1435,7 +1436,7 @@ public class cgBase {
 			final Matcher matcherDescShort = patternDescShort.matcher(page);
 			while (matcherDescShort.find()) {
 				if (matcherDescShort.groupCount() > 0) {
-					cache.shortdesc = matcherDescShort.group(1);
+					cache.shortdesc = matcherDescShort.group(1).trim();
 				}
 			}
 		} catch (Exception e) {
@@ -1454,20 +1455,6 @@ public class cgBase {
 		} catch (Exception e) {
 			// failed to parse short description
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache description");
-		}
-
-		// translation
-		if (settings.translate == true) {
-			ArrayList<String> values = new ArrayList<String>();
-			values.add(cache.hint);
-			values.add(cache.shortdesc);
-			values.add(cache.description);
-
-			ArrayList<String> translated = translate(values, null);
-
-			cache.hint = translated.get(0);
-			cache.shortdesc = translated.get(1);
-			cache.description = translated.get(2);
 		}
 
 		// cache attributes
@@ -1875,7 +1862,7 @@ public class cgBase {
 		if (rating != null) {
 			cache.rating = rating.rating;
 			cache.votes = rating.votes;
-			cache.vote = rating.vote;
+			cache.myVote = rating.myVote;
 		}
 
 		cache.updated = System.currentTimeMillis();
@@ -1916,108 +1903,111 @@ public class cgBase {
 
 		final HashMap<String, cgRating> ratings = new HashMap<String, cgRating>();
 
-		final HashMap<String, String> params = new HashMap<String, String>();
-		if (settings.isLogin() == true) {
-			final HashMap<String, String> login = settings.getGCvoteLogin();
-			if (login != null) {
-				params.put("userName", login.get("username"));
-				params.put("password", login.get("password"));
-			}
-		}
-		if (guids != null && guids.size() > 0) {
-			params.put("cacheIds", implode(",", guids.toArray()));
-		} else {
-			params.put("waypoints", implode(",", geocodes.toArray()));
-		}
-		params.put("version", "cgeo");
-		final String votes = request(false, "gcvote.com", "/getVotes.php", "GET", params, false, false, false).getData();
-
-		final Pattern patternLogIn = Pattern.compile("loggedIn='([^']+)'", Pattern.CASE_INSENSITIVE);
-		final Pattern patternGuid = Pattern.compile("cacheId='([^']+)'", Pattern.CASE_INSENSITIVE);
-		final Pattern patternRating = Pattern.compile("voteAvg='([0-9\\.]+)'", Pattern.CASE_INSENSITIVE);
-		final Pattern patternVotes = Pattern.compile("voteCnt='([0-9]+)'", Pattern.CASE_INSENSITIVE);
-		final Pattern patternVote = Pattern.compile("voteUser='([0-9]+)'", Pattern.CASE_INSENSITIVE);
-
-		String voteData = null;
-		final Pattern patternVoteElement = Pattern.compile("<vote ([^>]+)>", Pattern.CASE_INSENSITIVE);
-		final Matcher matcherVoteElement = patternVoteElement.matcher(votes);
-		while (matcherVoteElement.find()) {
-			if (matcherVoteElement.groupCount() > 0) {
-				voteData = matcherVoteElement.group(1);
-			}
-
-			if (voteData == null) {
-				continue;
-			}
-
-			String guid = null;
-			cgRating rating = new cgRating();
-			boolean loggedIn = false;
-
-			try {
-				final Matcher matcherGuid = patternGuid.matcher(voteData);
-				if (matcherGuid.find()) {
-					if (matcherGuid.groupCount() > 0) {
-						guid = (String) matcherGuid.group(1);
-					}
+		try {
+			final HashMap<String, String> params = new HashMap<String, String>();
+			if (settings.isLogin() == true) {
+				final HashMap<String, String> login = settings.getGCvoteLogin();
+				if (login != null) {
+					params.put("userName", login.get("username"));
+					params.put("password", login.get("password"));
 				}
-			} catch (Exception e) {
-				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse guid");
 			}
+			if (guids != null && guids.size() > 0) {
+				params.put("cacheIds", implode(",", guids.toArray()));
+			} else {
+				params.put("waypoints", implode(",", geocodes.toArray()));
+			}
+			params.put("version", "cgeo");
+			final String votes = request(false, "gcvote.com", "/getVotes.php", "GET", params, false, false, false).getData();
 
-			try {
-				final Matcher matcherLoggedIn = patternLogIn.matcher(votes);
-				if (matcherLoggedIn.find()) {
-					if (matcherLoggedIn.groupCount() > 0) {
-						if (matcherLoggedIn.group(1).equalsIgnoreCase("true") == true) {
-							loggedIn = true;
-						}
-					}
+			final Pattern patternLogIn = Pattern.compile("loggedIn='([^']+)'", Pattern.CASE_INSENSITIVE);
+			final Pattern patternGuid = Pattern.compile("cacheId='([^']+)'", Pattern.CASE_INSENSITIVE);
+			final Pattern patternRating = Pattern.compile("voteAvg='([0-9\\.]+)'", Pattern.CASE_INSENSITIVE);
+			final Pattern patternVotes = Pattern.compile("voteCnt='([0-9]+)'", Pattern.CASE_INSENSITIVE);
+			final Pattern patternVote = Pattern.compile("voteUser='([0-9\\.]+)'", Pattern.CASE_INSENSITIVE);
+
+			String voteData = null;
+			final Pattern patternVoteElement = Pattern.compile("<vote ([^>]+)>", Pattern.CASE_INSENSITIVE);
+			final Matcher matcherVoteElement = patternVoteElement.matcher(votes);
+			while (matcherVoteElement.find()) {
+				if (matcherVoteElement.groupCount() > 0) {
+					voteData = matcherVoteElement.group(1);
 				}
-			} catch (Exception e) {
-				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse loggedIn");
-			}
 
-			try {
-				final Matcher matcherRating = patternRating.matcher(voteData);
-				if (matcherRating.find()) {
-					if (matcherRating.groupCount() > 0) {
-						rating.rating = Float.parseFloat(matcherRating.group(1));
-					}
+				if (voteData == null) {
+					continue;
 				}
-			} catch (Exception e) {
-				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse rating");
-			}
 
-			try {
-				final Matcher matcherVotes = patternVotes.matcher(voteData);
-				if (matcherVotes.find()) {
-					if (matcherVotes.groupCount() > 0) {
-						rating.votes = Integer.parseInt(matcherVotes.group(1));
-					}
-				}
-			} catch (Exception e) {
-				Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse vote count");
-			}
+				String guid = null;
+				cgRating rating = new cgRating();
+				boolean loggedIn = false;
 
-			if (loggedIn == true) {
 				try {
-					final Matcher matcherVote = patternVote.matcher(voteData);
-					if (matcherVote.find()) {
-						if (matcherVote.groupCount() > 0) {
-							rating.vote = Integer.parseInt(matcherVote.group(1));
+					final Matcher matcherGuid = patternGuid.matcher(voteData);
+					if (matcherGuid.find()) {
+						if (matcherGuid.groupCount() > 0) {
+							guid = (String) matcherGuid.group(1);
 						}
 					}
 				} catch (Exception e) {
-					Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse user's vote");
+					Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse guid");
+				}
+
+				try {
+					final Matcher matcherLoggedIn = patternLogIn.matcher(votes);
+					if (matcherLoggedIn.find()) {
+						if (matcherLoggedIn.groupCount() > 0) {
+							if (matcherLoggedIn.group(1).equalsIgnoreCase("true") == true) {
+								loggedIn = true;
+							}
+						}
+					}
+				} catch (Exception e) {
+					Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse loggedIn");
+				}
+
+				try {
+					final Matcher matcherRating = patternRating.matcher(voteData);
+					if (matcherRating.find()) {
+						if (matcherRating.groupCount() > 0) {
+							rating.rating = Float.parseFloat(matcherRating.group(1));
+						}
+					}
+				} catch (Exception e) {
+					Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse rating");
+				}
+
+				try {
+					final Matcher matcherVotes = patternVotes.matcher(voteData);
+					if (matcherVotes.find()) {
+						if (matcherVotes.groupCount() > 0) {
+							rating.votes = Integer.parseInt(matcherVotes.group(1));
+						}
+					}
+				} catch (Exception e) {
+					Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse vote count");
+				}
+
+				if (loggedIn == true) {
+					try {
+						final Matcher matcherVote = patternVote.matcher(voteData);
+						if (matcherVote.find()) {
+							if (matcherVote.groupCount() > 0) {
+								rating.myVote = Float.parseFloat(matcherVote.group(1));
+							}
+						}
+					} catch (Exception e) {
+						Log.w(cgSettings.tag, "cgBase.getRating: Failed to parse user's vote");
+					}
+				}
+
+				if (guid != null) {
+					ratings.put(guid, rating);
 				}
 			}
-
-			if (guid != null) {
-				ratings.put(guid, rating);
-			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgBase.getRating: " + e.toString());
 		}
-
 
 		return ratings;
 	}
@@ -4078,13 +4068,7 @@ public class cgBase {
 		}
 	}
 
-	public ArrayList<String> translate(String text, String target) {
-		ArrayList<String> textArr = new ArrayList<String>();
-		textArr.add(text);
-
-		return translate(textArr, target);
-	}
-
+	/*
 	public ArrayList<String> translate(ArrayList<String> text, String target) {
 		if (settings.translate == false) {
 			return text;
@@ -4175,6 +4159,7 @@ public class cgBase {
 
 		return translated;
 	}
+	*/
 
 	public String getLocalIpAddress() {
 		try {

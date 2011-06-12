@@ -124,11 +124,7 @@ public class cgeopopup extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
-		if (settings.skin == 1) {
-			setTheme(R.style.light);
-		} else {
-			setTheme(R.style.dark);
-		}
+		setTheme(R.style.transparent);
 		setContentView(R.layout.popup);
 		base.setTitle(activity, res.getString(R.string.detail));
 
@@ -802,6 +798,8 @@ public class cgeopopup extends Activity {
 
 	public void goCompass(View view) {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.cache_coordinates_no));
+			
 			return;
 		}
 
@@ -814,6 +812,8 @@ public class cgeopopup extends Activity {
 		navigateIntent.putExtra("name", cache.name);
 
 		activity.startActivity(navigateIntent);
+		
+		finish();
 	}
 
 	public void goManual(View view) {
@@ -827,5 +827,7 @@ public class cgeopopup extends Activity {
 		} catch (Exception e) {
 			// nothing
 		}
+		
+		finish();
 	}
 }

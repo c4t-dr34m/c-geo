@@ -451,6 +451,7 @@
   <string name="cache_event">Datum</string>
   <string name="cache_location">Plats</string>
   <string name="cache_coordinates">Koordinater</string>
+  <string name="cache_coordinates_no">Cachen saknar koordinater.</string>
   <string name="cache_elevation">Höjd</string>
   <string name="cache_calendars">Välj kalender</string>
   <string name="cache_spoiler_images_title">Spoiler bilder</string>

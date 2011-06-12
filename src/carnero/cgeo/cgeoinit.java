@@ -219,19 +219,6 @@ public class cgeoinit extends Activity {
 			}
 		});
 
-		CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
-		if (prefs.getBoolean("translate", false) == false) {
-			translateButton.setChecked(false);
-		} else {
-			translateButton.setChecked(true);
-		}
-		translateButton.setOnClickListener(new cgeoChangeTranslate());
-		
-		EditText lngEdit = (EditText) findViewById(R.id.languages);
-		if (lngEdit.getText().length() == 0) {
-			lngEdit.setText(settings.getLanguages());
-		}
-
 		CheckBox skinButton = (CheckBox) findViewById(R.id.skin);
 		if (prefs.getInt("skin", 0) == 0) {
 			skinButton.setChecked(false);
@@ -374,7 +361,6 @@ public class cgeoinit extends Activity {
 		String passwordNew = ((EditText) findViewById(R.id.password)).getText().toString();
 		String passvoteNew = ((EditText) findViewById(R.id.passvote)).getText().toString();
 		String signatureNew = ((EditText) findViewById(R.id.signature)).getText().toString();
-		String languagesNew = ((EditText) findViewById(R.id.languages)).getText().toString();
 		String altitudeNew = ((EditText) findViewById(R.id.altitude)).getText().toString();
 
 		if (usernameNew == null) {
@@ -389,9 +375,6 @@ public class cgeoinit extends Activity {
 		if (signatureNew == null) {
 			signatureNew = "";
 		}
-		if (languagesNew == null) {
-			languagesNew = "";
-		}
 		
 		int altitudeNewInt = 0;
 		if (altitudeNew == null) {
@@ -403,10 +386,9 @@ public class cgeoinit extends Activity {
 		final boolean status1 = settings.setLogin(usernameNew, passwordNew);
 		final boolean status2 = settings.setGCvoteLogin(passvoteNew);
 		final boolean status3 = settings.setSignature(signatureNew);
-		final boolean status4 = settings.setLanguages(languagesNew);
-		final boolean status5 = settings.setAltCorrection(altitudeNewInt);
+		final boolean status4 = settings.setAltCorrection(altitudeNewInt);
 
-		if (status1 && status2 && status3 && status4 && status5) {
+		if (status1 && status2 && status3 && status4) {
 			return true;
 		}
 
@@ -454,30 +436,6 @@ public class cgeoinit extends Activity {
 		}
 	}
 
-	private class cgeoChangeTranslate implements View.OnClickListener {
-
-		public void onClick(View arg0) {
-			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getBoolean("translate", false) == false) {
-				edit.putBoolean("translate", true);
-				settings.translate = true;
-			} else {
-				edit.putBoolean("translate", false);
-				settings.translate = false;
-			}
-			edit.commit();
-
-			CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
-			if (prefs.getBoolean("translate", false) == false) {
-				translateButton.setChecked(false);
-			} else {
-				translateButton.setChecked(true);
-			}
-
-			return;
-		}
-	}
-	
 	private class cgeoChangeSkin implements View.OnClickListener {
 
 		public void onClick(View arg0) {

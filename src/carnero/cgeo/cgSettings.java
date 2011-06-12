@@ -46,7 +46,6 @@ public class cgSettings {
 	public boolean hideMySearch = false;
 	public int helper = 0;
 	public int initialized = 0;
-	public boolean translate = false;
 	public String languages = null;
 	public int cachesFound = 0;
 	public int autoLoadDesc = 0;
@@ -99,7 +98,6 @@ public class cgSettings {
 		skin = prefs.getInt("skin", 0);
 		setSkinDefaults();
 
-		translate = prefs.getBoolean("translate", false);
 		languages = prefs.getString("languages", null);
 		cachesFound = prefs.getInt("found", 0);
 		autoLoadDesc = prefs.getInt("autoloaddesc", 0);

@@ -21,21 +21,6 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 
-/*
- * database history:
- * 000-033: basic structure, tables
- * 034-036: added indexes
- * 039: lists
- * 040: geocode in trackables could be NULL
- * 041: cache rating
- * 042: table for offline logs (notes)
- * 043: direction in double
- * 044: favourite from GC.com
- * 045: real owner username
- * 046: visited date
- * 047: own true/false
- * 048: elevation
- */
 public class cgData {
 
 	public cgCacheWrap caches;
@@ -44,7 +29,7 @@ public class cgData {
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-	private static final int dbVersion = 49;
+	private static final int dbVersion = 50;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -90,7 +75,7 @@ public class cgData {
 			+ "favourite_cnt integer, "
 			+ "rating float, "
 			+ "votes integer, "
-			+ "vote integer, "
+			+ "myvote float, "
 			+ "disabled integer not null default 0, "
 			+ "archived integer not null default 0, "
 			+ "members integer not null default 0, "
@@ -669,6 +654,7 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 48: " + e.toString());
 						}
 					}
+					
 					if (oldVersion < 49) { // upgrade to 49
 						try {
 							db.execSQL(dbCreateLogCount);
@@ -676,6 +662,16 @@ public class cgData {
 							Log.i(cgSettings.tag, "Created table " + dbTableLogCount + ".");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 49: " + e.toString());
+						}
+					}
+					
+					if (oldVersion < 50) { // upgrade to 50
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column myvote float");
+
+							Log.i(cgSettings.tag, "Column elevation added to " + dbTableCaches + ".");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 50: " + e.toString());
 						}
 					}
 				}
@@ -1025,7 +1021,7 @@ public class cgData {
 		values.put("favourite_cnt", cache.favouriteCnt);
 		values.put("rating", cache.rating);
 		values.put("votes", cache.votes);
-		values.put("vote", cache.vote);
+		values.put("myvote", cache.myVote);
 		if (cache.disabled == true) {
 			values.put("disabled", 1);
 		} else {
@@ -1611,7 +1607,7 @@ public class cgData {
 					new String[]{
 						"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "own", "owner", "owner_real", "hidden", "hint", "size",
 						"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "elevation", "shortdesc",
-						"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+						"description", "favourite_cnt", "rating", "votes", "myvote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 						"inventoryunknown"
 					},
 					where.toString(),
@@ -1697,7 +1693,7 @@ public class cgData {
 						cache.favouriteCnt = (Integer) cursor.getInt(cursor.getColumnIndex("favourite_cnt"));
 						cache.rating = (Float) cursor.getFloat(cursor.getColumnIndex("rating"));
 						cache.votes = (Integer) cursor.getInt(cursor.getColumnIndex("votes"));
-						cache.vote = (Integer) cursor.getInt(cursor.getColumnIndex("vote"));
+						cache.myVote = (Float) cursor.getFloat(cursor.getColumnIndex("myvote"));
 						index = cursor.getColumnIndex("disabled");
 						if ((int) cursor.getLong(index) == 1) {
 							cache.disabled = true;
