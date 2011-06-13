@@ -2,7 +2,13 @@ package carnero.cgeo.mapinterfaces;
 
 import android.graphics.drawable.Drawable;
 
-public interface OverlayItemBase {
+/**
+ * Common functions of the provider-specific
+ * OverlayItem implementations
+ * @author rsudev
+ *
+ */
+public interface OverlayItemImpl {
 
 	public String getTitle();
 	

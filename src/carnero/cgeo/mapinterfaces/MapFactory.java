@@ -4,6 +4,12 @@ import android.content.Context;
 import carnero.cgeo.cgCoord;
 import carnero.cgeo.cgUser;
 
+/**
+ * Defines functions of a factory class to get implementation specific objects
+ * (GeoPoints, OverlayItems, ...) 
+ * @author rsudev
+ *
+ */
 public interface MapFactory {
 
 	public Class getMapClass();
@@ -12,13 +18,13 @@ public interface MapFactory {
 
 	public int getMapLayoutId();
 
-	public GeoPointBase getGeoPointBase(int latE6, int lonE6);
+	public GeoPointImpl getGeoPointBase(int latE6, int lonE6);
 
 	public OverlayImpl getOverlayBaseWrapper(OverlayBase ovlIn);
 
-	CacheOverlayItemBase getCacheOverlayItem(cgCoord coordinate, String type);
+	CacheOverlayItemImpl getCacheOverlayItem(cgCoord coordinate, String type);
 
-	public UserOverlayItemBase getUserOverlayItemBase(Context context,
+	public UserOverlayItemImpl getUserOverlayItemBase(Context context,
 			cgUser userOne);
 
 }

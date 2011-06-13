@@ -7,9 +7,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import carnero.cgeo.R;
 import carnero.cgeo.cgUser;
-import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
+import carnero.cgeo.mapinterfaces.UserOverlayItemImpl;
 
-public class mfUsersOverlayItem extends OverlayItem implements UserOverlayItemBase {
+public class mfUsersOverlayItem extends OverlayItem implements UserOverlayItemImpl {
 	private Context context = null;
 	private cgUser user = null;
 

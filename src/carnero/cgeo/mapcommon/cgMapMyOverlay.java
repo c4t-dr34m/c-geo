@@ -11,18 +11,18 @@ import android.location.Location;
 import carnero.cgeo.R;
 import carnero.cgeo.cgBase;
 import carnero.cgeo.cgSettings;
-import carnero.cgeo.mapinterfaces.GeoPointBase;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
 import carnero.cgeo.mapinterfaces.MapFactory;
-import carnero.cgeo.mapinterfaces.MapProjection;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
 import carnero.cgeo.mapinterfaces.OverlayBase;
-import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
 
 import java.util.ArrayList;
 
 public class cgMapMyOverlay implements OverlayBase {
 	private cgSettings settings = null;
 	private Location coordinates = null;
-	private GeoPointBase location = null;
+	private GeoPointImpl location = null;
 	private Double heading = new Double(0);
 	private Paint accuracyCircle = null;
 	private Paint historyLine = null;
@@ -54,18 +54,18 @@ public class cgMapMyOverlay implements OverlayBase {
 
 	@Override
 	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
-			MapProjection projection, byte drawZoomLevel) {
+			MapProjectionImpl projection, byte drawZoomLevel) {
 		
 		drawInternal(canvas, projection);
 	}
 	
     @Override
-    public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+    public void draw(Canvas canvas, MapViewImpl mapView, boolean shadow) {
     	
     	drawInternal(canvas, mapView.getMapProjection());
     }
     
-    private void drawInternal(Canvas canvas, MapProjection projection) {
+    private void drawInternal(Canvas canvas, MapProjectionImpl projection) {
     	
 		if (coordinates == null || location == null) return;
 		
@@ -105,7 +105,7 @@ public class cgMapMyOverlay implements OverlayBase {
 		Location.distanceBetween(latitude, longitude, latitude, longitude + 1, result);
 		float longitudeLineDistance = result[0];
 
-		GeoPointBase leftGeo = mapFactory.getGeoPointBase((int)(latitude * 1e6), (int)((longitude - accuracy / longitudeLineDistance) * 1e6));
+		GeoPointImpl leftGeo = mapFactory.getGeoPointBase((int)(latitude * 1e6), (int)((longitude - accuracy / longitudeLineDistance) * 1e6));
 		projection.toPixels(leftGeo, left);
 		projection.toPixels(location, center);
 		int radius = center.x - left.x;

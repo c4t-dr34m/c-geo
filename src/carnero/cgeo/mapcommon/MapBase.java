@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Base class for the map activity. Delegates base class calls to the
+ * provider-specific implementation.
+ * @author rsudev
+ *
+ */
 public class MapBase {
 
 	ActivityImpl mapActivity;

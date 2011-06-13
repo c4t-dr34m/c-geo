@@ -28,12 +28,12 @@ import carnero.cgeo.cgWarning;
 import carnero.cgeo.cgWaypoint;
 import carnero.cgeo.cgeoapplication;
 import carnero.cgeo.mapinterfaces.ActivityImpl;
-import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
-import carnero.cgeo.mapinterfaces.GeoPointBase;
-import carnero.cgeo.mapinterfaces.MapControllerBase;
+import carnero.cgeo.mapinterfaces.CacheOverlayItemImpl;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapControllerImpl;
 import carnero.cgeo.mapinterfaces.MapFactory;
-import carnero.cgeo.mapinterfaces.MapViewBase;
-import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
+import carnero.cgeo.mapinterfaces.UserOverlayItemImpl;
 
 import android.util.Log;
 import android.view.View;
@@ -47,8 +47,8 @@ public class cgeomap extends MapBase {
 
 	private Resources res = null;
 	private Activity activity = null;
-	private MapViewBase mapView = null;
-	private MapControllerBase mapController = null;
+	private MapViewImpl mapView = null;
+	private MapControllerImpl mapController = null;
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -230,7 +230,7 @@ public class cgeomap extends MapBase {
 			dir = app.startDir(activity, dirUpdate, warning);
 		}
 
-		mapView = (MapViewBase) activity.findViewById(mapFactory.getMapViewId());
+		mapView = (MapViewImpl) activity.findViewById(mapFactory.getMapViewId());
 		mapView.setMapFile(settings.getMapFile());
 
 		// initialize map
@@ -538,7 +538,7 @@ public class cgeomap extends MapBase {
 				ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
 				try {
 					if (cachesProtected != null && cachesProtected.size() > 0) {
-						final GeoPointBase mapCenter = mapView.getMapViewCenter();
+						final GeoPointImpl mapCenter = mapView.getMapViewCenter();
 						final int mapCenterLat = mapCenter.getLatitudeE6();
 						final int mapCenterLon = mapCenter.getLongitudeE6();
 						final int mapSpanLat = mapView.getLatitudeSpan();
@@ -752,7 +752,7 @@ public class cgeomap extends MapBase {
 
 		@Override
 		public void run() {
-			GeoPointBase mapCenterNow;
+			GeoPointImpl mapCenterNow;
 			int centerLatitudeNow;
 			int centerLongitudeNow;
 			int spanLatitudeNow;
@@ -898,7 +898,7 @@ public class cgeomap extends MapBase {
 
 		@Override
 		public void run() {
-			GeoPointBase mapCenterNow;
+			GeoPointImpl mapCenterNow;
 			int centerLatitudeNow;
 			int centerLongitudeNow;
 			int spanLatitudeNow;
@@ -1105,13 +1105,13 @@ public class cgeomap extends MapBase {
 
 				// display caches
 				final ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
-			final ArrayList<CacheOverlayItemBase> items = new ArrayList<CacheOverlayItemBase>();
+			final ArrayList<CacheOverlayItemImpl> items = new ArrayList<CacheOverlayItemImpl>();
 
 				if (cachesProtected != null && !cachesProtected.isEmpty()) {
 					int counter = 0;
 					int icon = 0;
 					Drawable pin = null;
-				CacheOverlayItemBase item = null;
+				CacheOverlayItemImpl item = null;
 
 					for (cgCache cacheOne : cachesProtected) {
 						if (stop) {
@@ -1284,10 +1284,10 @@ public class cgeomap extends MapBase {
 				}
 
 				// display users
-			ArrayList<UserOverlayItemBase> items = new ArrayList<UserOverlayItemBase>();
+			ArrayList<UserOverlayItemImpl> items = new ArrayList<UserOverlayItemImpl>();
 
 				int counter = 0;
-			UserOverlayItemBase item = null;
+			UserOverlayItemImpl item = null;
 
 				for (cgUser userOne : users) {
 					if (stop) {
@@ -1332,7 +1332,7 @@ public class cgeomap extends MapBase {
 				coord.name = "some place";
 
 				coordinates.add(coord);
-				CacheOverlayItemBase item = settings.getMapFactory().getCacheOverlayItem(coord, null);
+				CacheOverlayItemImpl item = settings.getMapFactory().getCacheOverlayItem(coord, null);
 
 				final int icon = base.getIcon(false, waypointTypeIntent, false, false, false);
 				Drawable pin = null;
@@ -1610,7 +1610,7 @@ public class cgeomap extends MapBase {
 	}
 
 	// make geopoint
-	private GeoPointBase makeGeoPoint(Double latitude, Double longitude) {
+	private GeoPointImpl makeGeoPoint(Double latitude, Double longitude) {
 		return settings.getMapFactory().getGeoPointBase((int) (latitude * 1e6), (int) (longitude * 1e6));
 	}
 

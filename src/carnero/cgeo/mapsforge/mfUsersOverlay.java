@@ -10,52 +10,52 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import carnero.cgeo.mapcommon.cgUsersOverlay;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
-import carnero.cgeo.mapinterfaces.MapProjection;
-import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
 
 public class mfUsersOverlay extends ItemizedOverlay<mfUsersOverlayItem> implements ItemizedOverlayImpl {
 
-	private cgUsersOverlay _base;
+	private cgUsersOverlay base;
 
 	public mfUsersOverlay(Context contextIn, Drawable markerIn) {
 		super(boundCenter(markerIn));
-		_base = new cgUsersOverlay(this, contextIn);
+		base = new cgUsersOverlay(this, contextIn);
 	}
 	
 	@Override
 	public cgUsersOverlay getBase() {
-		return _base;
+		return base;
 	}
 
 	@Override
 	protected mfUsersOverlayItem createItem(int i) {
-		if (_base == null)
+		if (base == null)
 			return null;
 
-		return (mfUsersOverlayItem) _base.createItem(i);
+		return (mfUsersOverlayItem) base.createItem(i);
 	}
 
 	@Override
 	public int size() {
-		if (_base == null)
+		if (base == null)
 			return 0;
 
-		return _base.size();
+		return base.size();
 	}
 
 	@Override
 	protected boolean onTap(int arg0) {
-		if (_base == null)
+		if (base == null)
 			return false;
 		
-		return _base.onTap(arg0);
+		return base.onTap(arg0);
 	}
 
 	@Override
 	protected void drawOverlayBitmap(Canvas canvas, Point drawPosition,
 			Projection projection, byte drawZoomLevel) {
 		
-		_base.drawOverlayBitmap(canvas, drawPosition, new mfMapProjection(projection), drawZoomLevel);
+		base.drawOverlayBitmap(canvas, drawPosition, new mfMapProjection(projection), drawZoomLevel);
 	}
 
 	@Override
@@ -84,13 +84,13 @@ public class mfUsersOverlay extends ItemizedOverlay<mfUsersOverlayItem> implemen
 	}
 
 	@Override
-	public void superDraw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+	public void superDraw(Canvas canvas, MapViewImpl mapView, boolean shadow) {
 		// Nothing to do here
 	}
 
 	@Override
 	public void superDrawOverlayBitmap(Canvas canvas, Point drawPosition,
-			MapProjection projection, byte drawZoomLevel) {
+			MapProjectionImpl projection, byte drawZoomLevel) {
 		
 		super.drawOverlayBitmap(canvas, drawPosition, (Projection) projection.getImpl(), drawZoomLevel);
 	}

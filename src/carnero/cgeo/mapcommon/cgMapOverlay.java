@@ -20,13 +20,13 @@ import carnero.cgeo.cgeodetail;
 import carnero.cgeo.cgeonavigate;
 import carnero.cgeo.cgeopopup;
 import carnero.cgeo.cgeowaypoint;
-import carnero.cgeo.mapinterfaces.GeoPointBase;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
 import carnero.cgeo.mapinterfaces.MapFactory;
-import carnero.cgeo.mapinterfaces.MapProjection;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
 import carnero.cgeo.mapinterfaces.OverlayBase;
-import carnero.cgeo.mapinterfaces.MapViewBase;
-import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
+import carnero.cgeo.mapinterfaces.CacheOverlayItemImpl;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ import org.mapsforge.android.maps.Projection;
 
 public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 
-	private ArrayList<CacheOverlayItemBase> items = new ArrayList<CacheOverlayItemBase>();
+	private ArrayList<CacheOverlayItemImpl> items = new ArrayList<CacheOverlayItemImpl>();
 	private Context context = null;
 	private Boolean fromDetail = false;
 	private boolean displayCircles = false;
@@ -56,26 +56,26 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 		fromDetail = fromDetailIn;
 	}
 	
-	public void updateItems(CacheOverlayItemBase item) {
-		ArrayList<CacheOverlayItemBase> itemsPre = new ArrayList<CacheOverlayItemBase>();
+	public void updateItems(CacheOverlayItemImpl item) {
+		ArrayList<CacheOverlayItemImpl> itemsPre = new ArrayList<CacheOverlayItemImpl>();
 		itemsPre.add(item);
 		
 		updateItems(itemsPre);
 	}
 
-	public void updateItems(ArrayList<CacheOverlayItemBase> itemsPre) {
+	public void updateItems(ArrayList<CacheOverlayItemImpl> itemsPre) {
 		if (itemsPre == null) {
 			return;
 		}
 
-		for (CacheOverlayItemBase item : itemsPre) {
+		for (CacheOverlayItemImpl item : itemsPre) {
 			item.setMarker(boundCenterBottom(item.getMarker(0)));
 		}
 
 		items.clear();
 		
 		if (itemsPre.size() > 0) {
-			items = (ArrayList<CacheOverlayItemBase>) itemsPre.clone();
+			items = (ArrayList<CacheOverlayItemImpl>) itemsPre.clone();
 		}
 		
 		setLastFocusedItemIndex(-1); // to reset tap during data change
@@ -91,7 +91,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 	}
 
 	@Override
-	public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+	public void draw(Canvas canvas, MapViewImpl mapView, boolean shadow) {
 
 		drawInternal(canvas, mapView.getMapProjection());
 		
@@ -100,14 +100,14 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 	
 	@Override
 	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
-			MapProjection projection, byte drawZoomLevel) {
+			MapProjectionImpl projection, byte drawZoomLevel) {
 		
 		drawInternal(canvas, projection);
 		
 		super.drawOverlayBitmap(canvas, drawPosition, projection, drawZoomLevel);
 	}
 	
-	private void drawInternal(Canvas canvas, MapProjection projection) {
+	private void drawInternal(Canvas canvas, MapProjectionImpl projection) {
 		
 		MapFactory mapFactory = settings.getMapFactory();
 		
@@ -123,15 +123,15 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 
 			canvas.setDrawFilter(setfil);
 
-			for (CacheOverlayItemBase item : items) {
+			for (CacheOverlayItemImpl item : items) {
 				final cgCoord itemCoord = item.getCoord();
 				float[] result = new float[1];
 
 				Location.distanceBetween(itemCoord.latitude, itemCoord.longitude, itemCoord.latitude, itemCoord.longitude + 1, result);
 				final float longitudeLineDistance = result[0];
 
-				GeoPointBase itemGeo = mapFactory.getGeoPointBase((int)(itemCoord.latitude * 1e6), (int)(itemCoord.longitude * 1e6));
-				GeoPointBase leftGeo = mapFactory.getGeoPointBase((int)(itemCoord.latitude * 1e6), (int)((itemCoord.longitude - 161 / longitudeLineDistance) * 1e6));
+				GeoPointImpl itemGeo = mapFactory.getGeoPointBase((int)(itemCoord.latitude * 1e6), (int)(itemCoord.longitude * 1e6));
+				GeoPointImpl leftGeo = mapFactory.getGeoPointBase((int)(itemCoord.latitude * 1e6), (int)((itemCoord.longitude - 161 / longitudeLineDistance) * 1e6));
 
 				projection.toPixels(itemGeo, center);
 				projection.toPixels(leftGeo, left);
@@ -171,7 +171,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 			}
 			waitDialog.show();
 
-			CacheOverlayItemBase item = items.get(index);
+			CacheOverlayItemImpl item = items.get(index);
 			cgCoord coordinate = item.getCoord();
 
 			if (coordinate.type != null && coordinate.type.equalsIgnoreCase("cache") == true && coordinate.geocode != null && coordinate.geocode.length() > 0) {
@@ -202,7 +202,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 	}
 
 	@Override
-	public CacheOverlayItemBase createItem(int index) {
+	public CacheOverlayItemImpl createItem(int index) {
 		try {
 			return items.get(index);
 		} catch (Exception e) {
@@ -224,7 +224,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 	}
 
 	public void infoDialog(int index) {
-		final CacheOverlayItemBase item = items.get(index);
+		final CacheOverlayItemImpl item = items.get(index);
 		final cgCoord coordinate = item.getCoord();
 
 		if (coordinate == null) {

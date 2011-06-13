@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Defines the common functions of the provider-specific
+ * MapActivity implementations.
+ * @author rsudev
+ *
+ */
 public interface ActivityImpl {
 
 	Resources getResources();

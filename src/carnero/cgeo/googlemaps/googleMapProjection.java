@@ -4,25 +4,25 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Projection;
 
 import android.graphics.Point;
-import carnero.cgeo.mapinterfaces.GeoPointBase;
-import carnero.cgeo.mapinterfaces.MapProjection;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
 
-public class googleMapProjection implements MapProjection {
+public class googleMapProjection implements MapProjectionImpl {
 	
-	private Projection _projection;
+	private Projection projection;
 
-	public googleMapProjection(Projection projection) {
-		_projection = projection;
+	public googleMapProjection(Projection projectionIn) {
+		projection = projectionIn;
 	}
 
 	@Override
-	public void toPixels(GeoPointBase leftGeo, Point left) {
-		_projection.toPixels((GeoPoint) leftGeo, left);
+	public void toPixels(GeoPointImpl leftGeo, Point left) {
+		projection.toPixels((GeoPoint) leftGeo, left);
 	}
 
 	@Override
 	public Object getImpl() {
-		return _projection;
+		return projection;
 	}
 
 }

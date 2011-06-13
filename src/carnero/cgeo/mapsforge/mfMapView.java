@@ -13,13 +13,13 @@ import android.util.Log;
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.mapcommon.cgMapOverlay;
 import carnero.cgeo.mapcommon.cgUsersOverlay;
-import carnero.cgeo.mapinterfaces.GeoPointBase;
-import carnero.cgeo.mapinterfaces.MapControllerBase;
-import carnero.cgeo.mapinterfaces.MapProjection;
-import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapControllerImpl;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 
-public class mfMapView extends MapView implements MapViewBase{
+public class mfMapView extends MapView implements MapViewImpl {
 
 	public mfMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -44,12 +44,12 @@ public class mfMapView extends MapView implements MapViewBase{
 	}
 
 	@Override
-	public MapControllerBase getMapController() {
+	public MapControllerImpl getMapController() {
 		return new mfMapController(getController());
 	}
 
 	@Override
-	public GeoPointBase getMapViewCenter() {
+	public GeoPointImpl getMapViewCenter() {
 		GeoPoint point = getMapCenter();
 		return new mfGeoPoint(point.getLatitudeE6(), point.getLongitudeE6());
 	}
@@ -65,7 +65,7 @@ public class mfMapView extends MapView implements MapViewBase{
 	}
 
 	@Override
-	public MapProjection getMapProjection() {
+	public MapProjectionImpl getMapProjection() {
 		return new mfMapProjection(getProjection());
 	}
 

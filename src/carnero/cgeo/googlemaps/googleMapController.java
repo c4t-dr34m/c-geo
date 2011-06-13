@@ -3,35 +3,35 @@ package carnero.cgeo.googlemaps;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 
-import carnero.cgeo.mapinterfaces.GeoPointBase;
-import carnero.cgeo.mapinterfaces.MapControllerBase;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapControllerImpl;
 
-public class googleMapController implements MapControllerBase {
+public class googleMapController implements MapControllerImpl {
 
-	private MapController _mapController;
+	private MapController mapController;
 	
-	public googleMapController(MapController mapController) {
-		_mapController = mapController;
+	public googleMapController(MapController mapControllerIn) {
+		mapController = mapControllerIn;
 	}
 
 	@Override
-	public void animateTo(GeoPointBase geoPoint) {
-		_mapController.animateTo((GeoPoint)geoPoint);
+	public void animateTo(GeoPointImpl geoPoint) {
+		mapController.animateTo((GeoPoint)geoPoint);
 	}
 
 	@Override
-	public void setCenter(GeoPointBase geoPoint) {
-		_mapController.setCenter((GeoPoint)geoPoint);
+	public void setCenter(GeoPointImpl geoPoint) {
+		mapController.setCenter((GeoPoint)geoPoint);
 	}
 
 	@Override
 	public void setZoom(int mapzoom) {
-		_mapController.setZoom(mapzoom);
+		mapController.setZoom(mapzoom);
 	}
 
 	@Override
 	public void zoomToSpan(int latSpanE6, int lonSpanE6) {
-		_mapController.zoomToSpan(latSpanE6, lonSpanE6);
+		mapController.zoomToSpan(latSpanE6, lonSpanE6);
 	}
 	
 }

@@ -6,7 +6,13 @@ import carnero.cgeo.mapcommon.cgUsersOverlay;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-public interface MapViewBase {
+/**
+ * Defines common functions of the provider-specific
+ * MapView implementations
+ * @author rsudev
+ *
+ */
+public interface MapViewImpl {
 
 	void invalidate();
 
@@ -22,13 +28,13 @@ public interface MapViewBase {
 	
 	void addOverlay(OverlayImpl ovl);
 
-	MapControllerBase getMapController();
+	MapControllerImpl getMapController();
 
 	void destroyDrawingCache();
 
 	boolean isSatellite();
 
-	GeoPointBase getMapViewCenter();
+	GeoPointImpl getMapViewCenter();
 
 	int getLatitudeSpan();
 
@@ -40,7 +46,7 @@ public interface MapViewBase {
 
 	int getHeight();
 
-	MapProjection getMapProjection();
+	MapProjectionImpl getMapProjection();
 
 	Context getContext();
 

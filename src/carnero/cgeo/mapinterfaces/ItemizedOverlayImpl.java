@@ -5,6 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
+/**
+ * Defines the common functions to access the provider-specific
+ * ItemizedOverlay implementation
+ * @author rsudev
+ *
+ */
 public interface ItemizedOverlayImpl {
 
 	ItemizedOverlayBase getBase();
@@ -19,9 +25,9 @@ public interface ItemizedOverlayImpl {
 
 	boolean superOnTap(int index);
 
-	void superDraw(Canvas canvas, MapViewBase mapView, boolean shadow);
+	void superDraw(Canvas canvas, MapViewImpl mapView, boolean shadow);
 
-	void superDrawOverlayBitmap(Canvas canvas, Point drawPosition, MapProjection projection,
+	void superDrawOverlayBitmap(Canvas canvas, Point drawPosition, MapProjectionImpl projection,
 			byte drawZoomLevel);
 
 }

@@ -6,9 +6,9 @@ import org.mapsforge.android.maps.OverlayItem;
 import android.graphics.drawable.Drawable;
 
 import carnero.cgeo.cgCoord;
-import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
+import carnero.cgeo.mapinterfaces.CacheOverlayItemImpl;
 
-public class mfCacheOverlayItem extends OverlayItem implements CacheOverlayItemBase {
+public class mfCacheOverlayItem extends OverlayItem implements CacheOverlayItemImpl {
 	private String cacheType = null;
 	private cgCoord coord;
 

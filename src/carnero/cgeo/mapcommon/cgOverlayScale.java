@@ -9,10 +9,10 @@ import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import carnero.cgeo.cgBase;
 import carnero.cgeo.cgSettings;
-import carnero.cgeo.mapinterfaces.GeoPointBase;
-import carnero.cgeo.mapinterfaces.MapProjection;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
 import carnero.cgeo.mapinterfaces.OverlayBase;
-import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
 
 public class cgOverlayScale implements OverlayBase {
 	private cgSettings settings = null;
@@ -36,17 +36,17 @@ public class cgOverlayScale implements OverlayBase {
 
 	@Override
 	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
-			MapProjection projection, byte drawZoomLevel) {
+			MapProjectionImpl projection, byte drawZoomLevel) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-    public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+    public void draw(Canvas canvas, MapViewImpl mapView, boolean shadow) {
 		//super.draw(canvas, mapView, shadow);
 
 		final double span = mapView.getLongitudeSpan() / 1e6;
-		final GeoPointBase center = mapView.getMapViewCenter();
+		final GeoPointImpl center = mapView.getMapViewCenter();
 
 		pixels = mapView.getWidth() / 2; // pixels related to following latitude span
 		bottom = mapView.getHeight() - 14; // pixels from bottom side of screen

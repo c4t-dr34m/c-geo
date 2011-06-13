@@ -8,19 +8,19 @@ import android.graphics.Point;
 import carnero.cgeo.mapinterfaces.OverlayBase;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 
-public class mfOverlayBase extends Overlay implements OverlayImpl {
+public class mfOverlay extends Overlay implements OverlayImpl {
 
-	private OverlayBase _overlayImpl;
+	private OverlayBase overlayBase;
 	
-	public mfOverlayBase(OverlayBase overlayImpl) {
-		_overlayImpl = overlayImpl;
+	public mfOverlay(OverlayBase overlayBaseIn) {
+		overlayBase = overlayBaseIn;
 	}
 	
 	@Override
 	protected void drawOverlayBitmap(Canvas canvas, Point drawPosition,
 			Projection projection, byte drawZoomLevel) {
 		
-		_overlayImpl.drawOverlayBitmap(canvas, drawPosition, new mfMapProjection(projection), drawZoomLevel);
+		overlayBase.drawOverlayBitmap(canvas, drawPosition, new mfMapProjection(projection), drawZoomLevel);
 	}
 
 }

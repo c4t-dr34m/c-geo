@@ -17,14 +17,14 @@ import carnero.cgeo.cgSettings;
 import carnero.cgeo.cgUser;
 import carnero.cgeo.cgeodetail;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
-import carnero.cgeo.mapinterfaces.MapProjection;
-import carnero.cgeo.mapinterfaces.MapViewBase;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
 import carnero.cgeo.mapinterfaces.OverlayBase;
-import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
+import carnero.cgeo.mapinterfaces.UserOverlayItemImpl;
 
 public class cgUsersOverlay extends ItemizedOverlayBase implements OverlayBase {
 
-	private ArrayList<UserOverlayItemBase> items = new ArrayList<UserOverlayItemBase>();
+	private ArrayList<UserOverlayItemImpl> items = new ArrayList<UserOverlayItemImpl>();
 	private Context context = null;
 	private final Pattern patternGeocode = Pattern.compile("^(GC[A-Z0-9]+)(\\: ?(.+))?$", Pattern.CASE_INSENSITIVE);
 
@@ -35,26 +35,26 @@ public class cgUsersOverlay extends ItemizedOverlayBase implements OverlayBase {
 		context = contextIn;
 	}
 
-	protected void updateItems(UserOverlayItemBase item) {
-		ArrayList<UserOverlayItemBase> itemsPre = new ArrayList<UserOverlayItemBase>();
+	protected void updateItems(UserOverlayItemImpl item) {
+		ArrayList<UserOverlayItemImpl> itemsPre = new ArrayList<UserOverlayItemImpl>();
 		itemsPre.add(item);
 		
 		updateItems(itemsPre);
 	}
 
-	public void updateItems(ArrayList<UserOverlayItemBase> itemsPre) {
+	public void updateItems(ArrayList<UserOverlayItemImpl> itemsPre) {
 		if (itemsPre == null) {
 			return;
 		}
 
-		for (UserOverlayItemBase item : itemsPre) {
+		for (UserOverlayItemImpl item : itemsPre) {
 			item.setMarker(boundCenter(item.getMarker(0)));
 		}
 
 		items.clear();
 		
 		if (itemsPre.size() > 0) {
-			items = (ArrayList<UserOverlayItemBase>) itemsPre.clone();
+			items = (ArrayList<UserOverlayItemImpl>) itemsPre.clone();
 		}
 		
 		setLastFocusedItemIndex(-1); // to reset tap during data change
@@ -68,7 +68,7 @@ public class cgUsersOverlay extends ItemizedOverlayBase implements OverlayBase {
 				return false;
 			}
 
-			final UserOverlayItemBase item = items.get(index);
+			final UserOverlayItemImpl item = items.get(index);
 			final cgUser user = item.getUser();
 
 			// set action
@@ -132,18 +132,18 @@ public class cgUsersOverlay extends ItemizedOverlayBase implements OverlayBase {
 	}
 
 	@Override
-	public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+	public void draw(Canvas canvas, MapViewImpl mapView, boolean shadow) {
 		super.draw(canvas, mapView, false);
 	}
 
 	@Override
 	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
-			MapProjection projection, byte drawZoomLevel) {
+			MapProjectionImpl projection, byte drawZoomLevel) {
 		super.drawOverlayBitmap(canvas, drawPosition, projection, drawZoomLevel);
 	}
 
 	@Override
-	public UserOverlayItemBase createItem(int index) {
+	public UserOverlayItemImpl createItem(int index) {
 		try {
 			return items.get(index);
 		} catch (Exception e) {

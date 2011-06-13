@@ -3,30 +3,30 @@ package carnero.cgeo.mapsforge;
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.MapController;
 
-import carnero.cgeo.mapinterfaces.GeoPointBase;
-import carnero.cgeo.mapinterfaces.MapControllerBase;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapControllerImpl;
 
-public class mfMapController implements MapControllerBase {
+public class mfMapController implements MapControllerImpl {
 
-	private MapController _mapController;
+	private MapController mapController;
 	
-	public mfMapController(MapController mapController) {
-		_mapController = mapController;
+	public mfMapController(MapController mapControllerIn) {
+		mapController = mapControllerIn;
 	}
 
 	@Override
-	public void animateTo(GeoPointBase geoPoint) {
-		_mapController.setCenter((GeoPoint)geoPoint);
+	public void animateTo(GeoPointImpl geoPoint) {
+		mapController.setCenter((GeoPoint)geoPoint);
 	}
 
 	@Override
-	public void setCenter(GeoPointBase geoPoint) {
-		_mapController.setCenter((GeoPoint)geoPoint);
+	public void setCenter(GeoPointImpl geoPoint) {
+		mapController.setCenter((GeoPoint)geoPoint);
 	}
 
 	@Override
 	public void setZoom(int mapzoom) {
-		_mapController.setZoom(mapzoom);
+		mapController.setZoom(mapzoom);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class mfMapController implements MapControllerBase {
 			// calculate zoomlevel
 			int distDegree = Math.max(latSpanE6, lonSpanE6);
 			int zoomLevel = (int) Math.floor(Math.log(360.0*1e6/distDegree)/Math.log(2));
-			_mapController.setZoom(zoomLevel);
+			mapController.setZoom(zoomLevel);
 			}		
 	}	
 }
