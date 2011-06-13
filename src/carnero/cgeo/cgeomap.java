@@ -52,6 +52,7 @@ public class cgeomap extends MapActivity {
 	// status data
 	private Long searchId = null;
 	private String token = null;
+	private boolean noMapTokenShowed = false;
 	// map status data
 	private boolean followMyLocation = false;
 	private Integer centerLatitude = null;
@@ -175,6 +176,17 @@ public class cgeomap extends MapActivity {
 			}
 		}
 	};
+	final private Handler noMapTokenHandler = new Handler() {
+		
+		@Override
+		public void handleMessage(Message msg) {
+			if (!noMapTokenShowed) {
+				warning.showToast(res.getString(R.string.map_token_err));
+				
+				noMapTokenShowed = true;
+			}
+		}
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -189,6 +201,9 @@ public class cgeomap extends MapActivity {
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(activity);
 		prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
+		
+		// reset status
+		noMapTokenShowed = false;
 
 		// set layout
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -1009,7 +1024,7 @@ public class cgeomap extends MapActivity {
 				downloadThreadRun = System.currentTimeMillis();
 
 				if (token == null) {
-					token = base.getMapUserToken();
+					token = base.getMapUserToken(noMapTokenHandler);
 				}
 
 				if (stop) {
