@@ -231,6 +231,7 @@ public class cgeomap extends MapBase {
 		}
 
 		mapView = (MapViewBase) activity.findViewById(mapFactory.getMapViewId());
+		mapView.setMapFile(settings.getMapFile());
 
 		// initialize map
 		if (settings.maptype == cgSettings.mapSatellite) {
@@ -631,7 +632,7 @@ public class cgeomap extends MapBase {
 		if (prefsEdit == null) {
 			prefsEdit = activity.getSharedPreferences(cgSettings.preferences, 0).edit();
 		}
-		prefsEdit.putInt("mapzoom", mapView.getZoomLevel());
+		prefsEdit.putInt("mapzoom", mapView.getMapZoomLevel());
 		prefsEdit.commit();
 	}
 

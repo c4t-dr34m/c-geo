@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import carnero.cgeo.googlemaps.googleMapFactory;
 import carnero.cgeo.mapinterfaces.MapFactory;
+import carnero.cgeo.mapsforge.mfMapFactory;
 import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
@@ -84,7 +85,8 @@ public class cgSettings {
 	private String username = null;
 	private String password = null;
 	private String passVote = null;
-	private mapProvider mapprovider = mapProvider.googleMap; 
+	private mapProvider mapprovider = mapProvider.mapsForgeMap;
+	private String mapFile = "/sdcard/mfmaps/mfmap.map";
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
@@ -441,8 +443,18 @@ public class cgSettings {
 	public MapFactory getMapFactory() {
 		if (mapprovider == mapProvider.googleMap) {
 			return new googleMapFactory();
+		} else if (mapprovider == mapProvider.mapsForgeMap) {
+			return new mfMapFactory();
 		}
 		
 		return null;
+	}
+	
+	public String getMapFile() {
+		return mapFile;
+	}
+	
+	public Context getContext() {
+		return context;
 	}
 }

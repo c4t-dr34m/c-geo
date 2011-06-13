@@ -30,6 +30,8 @@ import carnero.cgeo.mapinterfaces.CacheOverlayItemBase;
 
 import java.util.ArrayList;
 
+import org.mapsforge.android.maps.Projection;
+
 public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 
 	private ArrayList<CacheOverlayItemBase> items = new ArrayList<CacheOverlayItemBase>();
@@ -90,6 +92,22 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 
 	@Override
 	public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+
+		drawInternal(canvas, mapView.getMapProjection());
+		
+		super.draw(canvas, mapView, false);
+	}
+	
+	@Override
+	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjection projection, byte drawZoomLevel) {
+		
+		drawInternal(canvas, projection);
+		
+		super.drawOverlayBitmap(canvas, drawPosition, projection, drawZoomLevel);
+	}
+	
+	private void drawInternal(Canvas canvas, MapProjection projection) {
 		
 		MapFactory mapFactory = settings.getMapFactory();
 		
@@ -104,8 +122,6 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 			if (remfil == null) remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
 
 			canvas.setDrawFilter(setfil);
-
-			MapProjection projection = mapView.getMapProjection();
 
 			for (CacheOverlayItemBase item : items) {
 				final cgCoord itemCoord = item.getCoord();
@@ -138,9 +154,7 @@ public class cgMapOverlay extends ItemizedOverlayBase implements OverlayBase {
 			}
 
 			canvas.setDrawFilter(remfil);
-		}
-		
-		super.draw(canvas, mapView, false);
+		}		
 	}
 	
 	@Override

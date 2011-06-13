@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.util.Log;
 
 import carnero.cgeo.R;
@@ -16,6 +17,7 @@ import carnero.cgeo.cgSettings;
 import carnero.cgeo.cgUser;
 import carnero.cgeo.cgeodetail;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
+import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 import carnero.cgeo.mapinterfaces.OverlayBase;
 import carnero.cgeo.mapinterfaces.UserOverlayItemBase;
@@ -132,6 +134,12 @@ public class cgUsersOverlay extends ItemizedOverlayBase implements OverlayBase {
 	@Override
 	public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
 		super.draw(canvas, mapView, false);
+	}
+
+	@Override
+	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjection projection, byte drawZoomLevel) {
+		super.drawOverlayBitmap(canvas, drawPosition, projection, drawZoomLevel);
 	}
 
 	@Override

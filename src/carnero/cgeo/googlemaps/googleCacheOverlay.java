@@ -2,11 +2,13 @@ package carnero.cgeo.googlemaps;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.mapcommon.cgMapOverlay;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
+import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
 import com.google.android.maps.ItemizedOverlay;
@@ -83,6 +85,12 @@ public class googleCacheOverlay extends ItemizedOverlay<googleCacheOverlayItem> 
 	@Override
 	public void superDraw(Canvas canvas, MapViewBase mapView, boolean shadow) {
 		super.draw(canvas, (MapView) mapView, shadow);
+	}
+
+	@Override
+	public void superDrawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjection projection, byte drawZoomLevel) {
+		// Nothing to do here...
 	}
 
 }

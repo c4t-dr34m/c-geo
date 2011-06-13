@@ -1,37 +1,40 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapsforge;
+
+import org.mapsforge.android.maps.ItemizedOverlay;
+import org.mapsforge.android.maps.MapView;
+import org.mapsforge.android.maps.Projection;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import carnero.cgeo.mapcommon.cgUsersOverlay;
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.mapcommon.cgMapOverlay;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
 import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
 
-public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> implements ItemizedOverlayImpl {
+public class mfCacheOverlay extends ItemizedOverlay<mfCacheOverlayItem> implements ItemizedOverlayImpl {
 
-	private cgUsersOverlay _base;
+	private cgMapOverlay _base;
 
-	public googleUsersOverlay(Context contextIn, Drawable markerIn) {
-		super(boundCenter(markerIn));
-		_base = new cgUsersOverlay(this, contextIn);
+	public mfCacheOverlay(cgSettings settingsIn, Context contextIn, Drawable markerIn, Boolean fromDetailIn) {
+		super(boundCenterBottom(markerIn));
+		_base = new cgMapOverlay(settingsIn, this, contextIn, fromDetailIn);
 	}
 	
 	@Override
-	public cgUsersOverlay getBase() {
+	public cgMapOverlay getBase() {
 		return _base;
 	}
 
 	@Override
-	protected googleUsersOverlayItem createItem(int i) {
+	protected mfCacheOverlayItem createItem(int i) {
 		if (_base == null)
 			return null;
 
-		return (googleUsersOverlayItem) _base.createItem(i);
+		return (mfCacheOverlayItem) _base.createItem(i);
 	}
 
 	@Override
@@ -51,10 +54,11 @@ public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> 
 	}
 
 	@Override
-	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		_base.draw(canvas, (MapViewBase) mapView, shadow);
+	protected void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			Projection projection, byte drawZoomLevel) {
+		_base.drawOverlayBitmap(canvas, drawPosition, new mfMapProjection(projection), drawZoomLevel);
 	}
-
+	
 	@Override
 	public void superPopulate() {
 		populate();
@@ -72,7 +76,7 @@ public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> 
 
 	@Override
 	public void superSetLastFocusedItemIndex(int i) {
-		super.setLastFocusedIndex(i);
+		// nothing to do
 	}
 
 	@Override
@@ -82,13 +86,14 @@ public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> 
 
 	@Override
 	public void superDraw(Canvas canvas, MapViewBase mapView, boolean shadow) {
-		super.draw(canvas, (MapView) mapView, shadow);
+		// nothing to do here...
 	}
 
 	@Override
 	public void superDrawOverlayBitmap(Canvas canvas, Point drawPosition,
 			MapProjection projection, byte drawZoomLevel) {
-		// Nothing to do here
+		super.drawOverlayBitmap(canvas, drawPosition, (Projection) projection.getImpl(), drawZoomLevel);
 	}
 
 }
+

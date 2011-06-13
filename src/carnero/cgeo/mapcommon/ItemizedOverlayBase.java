@@ -1,8 +1,10 @@
 package carnero.cgeo.mapcommon;
 
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
+import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 import carnero.cgeo.mapinterfaces.OverlayItemBase;
 
@@ -38,6 +40,11 @@ public abstract class ItemizedOverlayBase {
 		_ovlImpl.superDraw(canvas, mapView, shadow);
 	}
 	
+	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjection projection, byte drawZoomLevel) {
+		_ovlImpl.superDrawOverlayBitmap(canvas, drawPosition, projection, drawZoomLevel);
+	}
+
 	public abstract OverlayItemBase createItem(int index);
 	
 	public abstract int size();

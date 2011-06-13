@@ -1,4 +1,9 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapsforge;
+
+import org.mapsforge.android.maps.GeoPoint;
+import org.mapsforge.android.maps.MapView;
+import org.mapsforge.android.maps.Overlay;
+import org.mapsforge.android.maps.Projection;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,22 +19,10 @@ import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 import carnero.cgeo.mapinterfaces.OverlayImpl;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
+public class mfMapView extends MapView implements MapViewBase{
 
-public class googleMapView extends MapView implements MapViewBase{
-
-	public googleMapView(Context context, AttributeSet attrs) {
+	public mfMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-	}
-
-	public googleMapView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
-
-	public googleMapView(Context context, String apiKey) {
-		super(context, apiKey);
 	}
 
 	@Override
@@ -47,22 +40,18 @@ public class googleMapView extends MapView implements MapViewBase{
 
 	@Override
 	public void displayZoomControls(boolean takeFocus) {
-		try {
-			super.displayZoomControls(takeFocus);
-		} catch (Exception e) {
-			Log.e(cgSettings.tag, "cgMapView.displayZoomControls: " + e.toString());
-		}
+		// nothing to do here
 	}
 
 	@Override
 	public MapControllerBase getMapController() {
-		return new googleMapController(getController());
+		return new mfMapController(getController());
 	}
 
 	@Override
 	public GeoPointBase getMapViewCenter() {
 		GeoPoint point = getMapCenter();
-		return new googleGeoPoint(point.getLatitudeE6(), point.getLongitudeE6());
+		return new mfGeoPoint(point.getLatitudeE6(), point.getLongitudeE6());
 	}
 
 	@Override
@@ -77,32 +66,63 @@ public class googleMapView extends MapView implements MapViewBase{
 
 	@Override
 	public MapProjection getMapProjection() {
-		return new googleMapProjection(getProjection());
+		return new mfMapProjection(getProjection());
 	}
 
 	@Override
 	public cgMapOverlay createAddMapOverlay(cgSettings settings,
 			Context context, Drawable drawable, boolean fromDetailIntent) {
 		
-		googleCacheOverlay ovl = new googleCacheOverlay(settings, context, drawable, fromDetailIntent);
+		mfCacheOverlay ovl = new mfCacheOverlay(settings, context, drawable, fromDetailIntent);
 		getOverlays().add(ovl);
 		return ovl.getBase();
 	}
 	
 	@Override
 	public cgUsersOverlay createAddUsersOverlay(Context context, Drawable markerIn) {
-		googleUsersOverlay ovl = new googleUsersOverlay(context, markerIn);
+		mfUsersOverlay ovl = new mfUsersOverlay(context, markerIn);
 		getOverlays().add(ovl);
 		return ovl.getBase();
 	}
 
 	@Override
-	public int getMapZoomLevel() {
-		return getZoomLevel();
+	public int getLatitudeSpan() {
+
+		Projection projection = getProjection();
+		
+		GeoPoint low = projection.fromPixels(0, 0);
+		GeoPoint high = projection.fromPixels(0, getHeight());
+
+		return Math.abs(high.getLatitudeE6() - low.getLatitudeE6());
 	}
 
 	@Override
-	public void setMapFile(String mapFile) {
-		// nothing to do for google maps...
+	public int getLongitudeSpan() {
+		Projection projection = getProjection();
+		
+		GeoPoint low = projection.fromPixels(0, 0);
+		GeoPoint high = projection.fromPixels(getWidth(), 0);
+
+		return Math.abs(high.getLongitudeE6() - low.getLongitudeE6());
+	}
+
+	@Override
+	public boolean isSatellite() {
+		return false;
+	}
+
+	@Override
+	public void preLoad() {
+		// Nothing to do here
+	}
+
+	@Override
+	public void setSatellite(boolean b) {
+		// Nothing to do here
+	}
+
+	@Override
+	public int getMapZoomLevel() {
+		return getZoomLevel();
 	}
 }

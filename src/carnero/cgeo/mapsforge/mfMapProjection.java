@@ -1,17 +1,17 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapsforge;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.Projection;
+import org.mapsforge.android.maps.GeoPoint;
+import org.mapsforge.android.maps.Projection;
 
-import android.graphics.Point;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
 import carnero.cgeo.mapinterfaces.MapProjection;
+import android.graphics.Point;
 
-public class googleMapProjection implements MapProjection {
-	
+public class mfMapProjection implements MapProjection {
+
 	private Projection _projection;
 
-	public googleMapProjection(Projection projection) {
+	public mfMapProjection(Projection projection) {
 		_projection = projection;
 	}
 

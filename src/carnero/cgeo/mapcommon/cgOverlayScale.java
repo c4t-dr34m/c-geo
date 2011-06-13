@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import carnero.cgeo.cgBase;
 import carnero.cgeo.cgSettings;
 import carnero.cgeo.mapinterfaces.GeoPointBase;
+import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.OverlayBase;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
@@ -32,7 +34,14 @@ public class cgOverlayScale implements OverlayBase {
 		pixelDensity = metrics.density;
 	}
 
-    @Override
+	@Override
+	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjection projection, byte drawZoomLevel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
     public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
 		//super.draw(canvas, mapView, shadow);
 

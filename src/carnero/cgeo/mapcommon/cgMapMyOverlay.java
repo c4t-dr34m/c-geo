@@ -52,8 +52,21 @@ public class cgMapMyOverlay implements OverlayBase {
 		heading = headingIn;
 	}
 
+	@Override
+	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjection projection, byte drawZoomLevel) {
+		
+		drawInternal(canvas, projection);
+	}
+	
     @Override
     public void draw(Canvas canvas, MapViewBase mapView, boolean shadow) {
+    	
+    	drawInternal(canvas, mapView.getMapProjection());
+    }
+    
+    private void drawInternal(Canvas canvas, MapProjection projection) {
+    	
 		if (coordinates == null || location == null) return;
 		
 		MapFactory mapFactory = settings.getMapFactory();
@@ -82,8 +95,6 @@ public class cgMapMyOverlay implements OverlayBase {
 		if (remfil == null) remfil = new PaintFlagsDrawFilter(Paint.FILTER_BITMAP_FLAG, 0);
 
 		canvas.setDrawFilter(setfil);
-
-		MapProjection projection = mapView.getMapProjection();
 
 		double latitude = coordinates.getLatitude();
 		double longitude = coordinates.getLongitude();
@@ -165,7 +176,7 @@ public class cgMapMyOverlay implements OverlayBase {
 		}
 
 		if (arrow == null) {
-			arrow = BitmapFactory.decodeResource(mapView.getContext().getResources(), R.drawable.my_location_chevron);
+			arrow = BitmapFactory.decodeResource(settings.getContext().getResources(), R.drawable.my_location_chevron);
 			widthArrow = arrow.getWidth();
 			heightArrow = arrow.getHeight();
 		}

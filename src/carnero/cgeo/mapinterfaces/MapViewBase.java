@@ -34,7 +34,7 @@ public interface MapViewBase {
 
 	int getLongitudeSpan();
 
-	int getZoomLevel();
+	int getMapZoomLevel();
 
 	int getWidth();
 
@@ -48,5 +48,7 @@ public interface MapViewBase {
 			Drawable drawable, boolean fromDetailIntent);
 
 	cgUsersOverlay createAddUsersOverlay(Context context, Drawable markerIn);
+
+	void setMapFile(String mapFile);
 
 }

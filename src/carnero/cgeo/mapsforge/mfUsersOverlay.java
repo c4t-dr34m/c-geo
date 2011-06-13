@@ -1,4 +1,8 @@
-package carnero.cgeo.googlemaps;
+package carnero.cgeo.mapsforge;
+
+import org.mapsforge.android.maps.ItemizedOverlay;
+import org.mapsforge.android.maps.MapView;
+import org.mapsforge.android.maps.Projection;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,14 +13,11 @@ import carnero.cgeo.mapinterfaces.ItemizedOverlayImpl;
 import carnero.cgeo.mapinterfaces.MapProjection;
 import carnero.cgeo.mapinterfaces.MapViewBase;
 
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
-
-public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> implements ItemizedOverlayImpl {
+public class mfUsersOverlay extends ItemizedOverlay<mfUsersOverlayItem> implements ItemizedOverlayImpl {
 
 	private cgUsersOverlay _base;
 
-	public googleUsersOverlay(Context contextIn, Drawable markerIn) {
+	public mfUsersOverlay(Context contextIn, Drawable markerIn) {
 		super(boundCenter(markerIn));
 		_base = new cgUsersOverlay(this, contextIn);
 	}
@@ -27,11 +28,11 @@ public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> 
 	}
 
 	@Override
-	protected googleUsersOverlayItem createItem(int i) {
+	protected mfUsersOverlayItem createItem(int i) {
 		if (_base == null)
 			return null;
 
-		return (googleUsersOverlayItem) _base.createItem(i);
+		return (mfUsersOverlayItem) _base.createItem(i);
 	}
 
 	@Override
@@ -51,8 +52,10 @@ public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> 
 	}
 
 	@Override
-	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		_base.draw(canvas, (MapViewBase) mapView, shadow);
+	protected void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			Projection projection, byte drawZoomLevel) {
+		
+		_base.drawOverlayBitmap(canvas, drawPosition, new mfMapProjection(projection), drawZoomLevel);
 	}
 
 	@Override
@@ -72,7 +75,7 @@ public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> 
 
 	@Override
 	public void superSetLastFocusedItemIndex(int i) {
-		super.setLastFocusedIndex(i);
+		// Nothing to do here
 	}
 
 	@Override
@@ -82,13 +85,14 @@ public class googleUsersOverlay extends ItemizedOverlay<googleUsersOverlayItem> 
 
 	@Override
 	public void superDraw(Canvas canvas, MapViewBase mapView, boolean shadow) {
-		super.draw(canvas, (MapView) mapView, shadow);
+		// Nothing to do here
 	}
 
 	@Override
 	public void superDrawOverlayBitmap(Canvas canvas, Point drawPosition,
 			MapProjection projection, byte drawZoomLevel) {
-		// Nothing to do here
+		
+		super.drawOverlayBitmap(canvas, drawPosition, (Projection) projection.getImpl(), drawZoomLevel);
 	}
 
 }
