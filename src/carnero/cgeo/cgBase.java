@@ -5690,7 +5690,7 @@ public class cgBase {
 		return false;
 	}
 
-	public String getMapUserToken() {
+	public String getMapUserToken(Handler noTokenHandler) {
 		final cgResponse response = request(false, "www.geocaching.com", "/map/default.aspx", "GET", "", 0, false);
 		final String data = response.getData();
 		String usertoken = null;
@@ -5704,6 +5704,10 @@ public class cgBase {
 					usertoken = matcher.group(1);
 				}
 			}
+		}
+		
+		if (noTokenHandler != null && (usertoken == null || usertoken.length() == 0)) {
+			noTokenHandler.sendEmptyMessage(0);
 		}
 
 		return usertoken;

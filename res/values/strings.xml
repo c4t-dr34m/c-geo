@@ -517,6 +517,7 @@
   <string name="map_live_disable">Disable live</string>
   <string name="map_static_title">Static maps</string>
   <string name="map_static_loading">Loading static maps...</string>
+  <string name="map_token_err">Since c:geo is able to download only partial data, coordinates of caches could be inaccurate.</string> <!-- since: 2.26 RC3 -->
 
   <!-- search -->
   <string name="search_bar_hint">Search for caches</string>

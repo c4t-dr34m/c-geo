@@ -669,7 +669,7 @@ public class cgData {
 						try {
 							db.execSQL("alter table " + dbTableCaches + " add column myvote float");
 
-							Log.i(cgSettings.tag, "Column elevation added to " + dbTableCaches + ".");
+							Log.i(cgSettings.tag, "Added float column for votes to " + dbTableCaches + ".");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 50: " + e.toString());
 						}
