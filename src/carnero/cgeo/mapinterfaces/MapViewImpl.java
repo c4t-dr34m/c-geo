@@ -57,4 +57,8 @@ public interface MapViewImpl {
 
 	void setMapFile(String mapFile);
 
+	boolean needsScaleOverlay();
+
+	void setBuiltinScale(boolean b);
+
 }

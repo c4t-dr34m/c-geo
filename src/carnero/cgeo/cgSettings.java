@@ -85,8 +85,8 @@ public class cgSettings {
 	private String username = null;
 	private String password = null;
 	private String passVote = null;
-	private mapProvider mapprovider = mapProvider.mapsForgeMap;
-	private String mapFile = "/sdcard/mfmaps/mfmap.map";
+	public mapProvider mapprovider = mapProvider.googleMap;
+	public String mapFile = null;
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
@@ -125,6 +125,12 @@ public class cgSettings {
 		cacheType = prefs.getString("cachetype", null);
 		tokenPublic = prefs.getString("tokenpublic", null);
 		tokenSecret = prefs.getString("tokensecret", null);
+		mapFile = prefs.getString("mfmapfile", null);
+		if (prefs.getInt("usemfmaps", 0) == 0) {
+			mapprovider = mapProvider.googleMap;  
+		} else {
+			mapprovider = mapProvider.mapsForgeMap;
+		}
 		
 		setLanguage(useEnglish);
 		
@@ -452,6 +458,16 @@ public class cgSettings {
 	
 	public String getMapFile() {
 		return mapFile;
+	}
+	
+	public boolean setMapFile(String mapFileIn) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
+
+		prefsEdit.putString("mfmapfile", mapFileIn);
+
+		mapFile = mapFileIn;
+
+		return prefsEdit.commit();		
 	}
 	
 	public Context getContext() {

@@ -125,4 +125,14 @@ public class mfMapView extends MapView implements MapViewImpl {
 	public int getMapZoomLevel() {
 		return getZoomLevel();
 	}
+
+	@Override
+	public boolean needsScaleOverlay() {
+		return false;
+	}
+
+	@Override
+	public void setBuiltinScale(boolean b) {
+		setScaleBar(b);
+	}
 }

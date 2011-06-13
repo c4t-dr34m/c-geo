@@ -232,6 +232,9 @@ public class cgeomap extends MapBase {
 
 		mapView = (MapViewImpl) activity.findViewById(mapFactory.getMapViewId());
 		mapView.setMapFile(settings.getMapFile());
+		if (!mapView.needsScaleOverlay()) {
+			mapView.setBuiltinScale(true);
+		}
 
 		// initialize map
 		if (settings.maptype == cgSettings.mapSatellite) {
@@ -259,7 +262,7 @@ public class cgeomap extends MapBase {
 			 overlayCaches = mapView.createAddMapOverlay(settings, mapView.getContext(), getResources().getDrawable(R.drawable.marker), fromDetailIntent);
 		}
 
-		if (overlayScale == null) {
+		if (overlayScale == null && mapView.needsScaleOverlay()) {
 			overlayScale =  new cgOverlayScale(activity, settings);
 			mapView.addOverlay(mapFactory.getOverlayBaseWrapper(overlayScale));
 		}

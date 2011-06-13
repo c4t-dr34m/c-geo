@@ -105,4 +105,14 @@ public class googleMapView extends MapView implements MapViewImpl{
 	public void setMapFile(String mapFile) {
 		// nothing to do for google maps...
 	}
+
+	@Override
+	public boolean needsScaleOverlay() {
+		return true;
+	}
+
+	@Override
+	public void setBuiltinScale(boolean b) {
+		//Nothing to do for google maps...
+	}
 }
