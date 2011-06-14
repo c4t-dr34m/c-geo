@@ -19,6 +19,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -241,9 +242,7 @@ public class cgeopoint extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 		
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 		
 		mapIntent.putExtra("latitude", coords.get(0));
 		mapIntent.putExtra("longitude", coords.get(1));

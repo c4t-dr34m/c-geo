@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.HashMap;
 import java.util.Locale;
@@ -609,9 +610,7 @@ public class cgeopopup extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 
 		mapIntent.putExtra("latitude", cache.latitude);
 		mapIntent.putExtra("longitude", cache.longitude);
