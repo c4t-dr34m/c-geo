@@ -7,8 +7,8 @@
   <string name="cache">Cache</string>
   <string name="detail">Detail</string>
   <string name="search">Suche</string>
-  <string name="helpers">Nützliche Apps</string>
   <string name="settings">Einstellungen</string>
+  <string name="helpers">Nützliche Apps</string>
   <string name="about">Über c:geo</string>
   <string name="helper">Du willst mehr über <b>c:geo</b> erfahren?\nSchaue in die Bedienungsanleitung.</string>
   <string name="database_error_title">Problem mit der Datenbank</string>
@@ -151,7 +151,7 @@
   <string name="err_tb_details_download">c:geo konnte Details des Trackables nicht laden, weil</string>
   <string name="err_tb_forgot">c:geo hat den gewünschten Trackable vergessen.</string>
   <string name="err_tb_forgot_saw">c:geo hat vergessen, welchen Trackable Sie gesehen haben.</string>
-  <string name="err_tb_find">c:geo findet nicht den Trackable</string>
+  <string name="err_tb_find">c:geo findet den Trackable nicht</string>
   <string name="err_tb_find_that">c:geo konnte diesen Trackable nicht finden.</string>
 
   <string name="err_waypoint_cache_unknown">c:geo weiß nicht, zu welchem Cache der Wegpunkt hinzugefügt werden soll.</string>
@@ -357,13 +357,16 @@
   <string name="init_backup">Sicherung</string>
   <string name="init_backup_backup">Sicherung</string>
   <string name="init_backup_note">Hinweis: Diese Option sichert die Datenbank von c:geo. Nur Caches und Wegpunkte werden gesichert, keine Einstellungen. Login-Daten und Passwörter werden die App nicht verlassen.</string>
-  <string name="init_backup_restore">Wiederstellung</string>
+  <string name="init_backup_restore">Wiederherstellung</string>
   <string name="init_backup_success">Datenbank von c:geo wurde erfolgreich in Datei geschrieben</string>
   <string name="init_backup_failed">Sicherung der Datenbank fehlgeschlagen.</string>
   <string name="init_restore_success">Wiederherstellung beendet.</string>
   <string name="init_restore_failed">Wiederherstellung fehlgeschlagen.</string>
   <string name="init_backup_last">Backup verfügbar von</string>
   <string name="init_backup_last_no">Keine Datei mit Datenbanksicherung gefunden.</string>
+  <string name="init_mapsettings">Karten-Einstellungen</string> <!-- since: 2.26 RC3 -->
+  <string name="init_mapsettings_description">Du kannst statt Google Maps alternativ Karten von OpenStreetMap nutzen. Du benötigst dafür eine Kartendatei zur Offline-Darstellung (siehe http://code.google.com/p/mapsforge/ für mehr Details)</string> <!-- since: 2.26 RC3 -->
+  <string name="init_mfmaps">Benutze OpenStreetMap</string> <!-- since: 2.26 RC3 -->
 
   <!-- auth -->
   <string name="auth_twitter">Twitter</string>
@@ -455,7 +458,7 @@
   <string name="cache_spoiler_images_title">Spoilerbilder</string>
   <string name="cache_spoiler_images_loading">Lade Spoilerbilder...</string>
   <string name="cache_log_types">Logs</string>
-
+  <string name="cache_coordinates_no">Dieser Cache hat keine Koordinaten.</string> <!-- since: 2.26 RC2 -->
   <!-- gpx -->
   <string name="gpx_import_searching_in">Suche nach GPX-Dateien\nin</string>
   <string name="gpx_import_loading_stored">Lade Caches aus GPX-Datei\nGespeichert:</string>
@@ -503,10 +506,13 @@
   <string name="map_view_map">Karte</string>
   <string name="map_trail_show">Spur einblenden</string>
   <string name="map_trail_hide">Spur ausblenden</string>
+  <string name="map_circles_show">Kreise anzeigen</string> <!-- since: 2.23 RC3 -->
+  <string name="map_circles_hide">Kreise verbergen</string> <!-- since: 2.23 RC3 -->
   <string name="map_live_enable">Live einschalten</string>
   <string name="map_live_disable">Live ausschalten</string>
   <string name="map_static_title">Statische Karte</string>
   <string name="map_static_loading">Lade statische Karte...</string>
+  <string name="map_token_err">c:geo konnte nur Teildaten herunterladen, die Koordinaten der Caches könnten verkehrt sein.</string> <!-- since: 2.26 RC3 -->
 
   <!-- search -->
   <string name="search_bar_hint">Suche nach Caches</string>
