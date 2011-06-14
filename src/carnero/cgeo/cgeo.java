@@ -510,7 +510,7 @@ public class cgeo extends Activity {
 
 	private class cgeoFindOnMapListener implements View.OnClickListener {
 		public void onClick(View arg0) {
-			context.startActivity(new Intent(context, cgeomap.class));
+			context.startActivity(new Intent(context, settings.getMapFactory().getMapClass()));
 		}
 	}
 

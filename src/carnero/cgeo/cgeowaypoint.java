@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Button;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.ArrayList;
 
@@ -298,7 +299,7 @@ public class cgeowaypoint extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		Intent mapIntent = new Intent(activity, cgeomap.class);
+		Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 		mapIntent.putExtra("latitude", waypoint.latitude);
 		mapIntent.putExtra("longitude", waypoint.longitude);
 		mapIntent.putExtra("wpttype", waypoint.type);

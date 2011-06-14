@@ -1,4 +1,4 @@
-package carnero.cgeo;
+package carnero.cgeo.mapcommon;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,16 +8,21 @@ import android.graphics.Point;
 import android.graphics.Paint.Style;
 import android.graphics.PaintFlagsDrawFilter;
 import android.location.Location;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.Projection;
+import carnero.cgeo.R;
+import carnero.cgeo.cgBase;
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapFactory;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
+import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
+
 import java.util.ArrayList;
 
-public class cgMapMyOverlay extends Overlay {
+public class cgMapMyOverlay implements OverlayBase {
 	private cgSettings settings = null;
 	private Location coordinates = null;
-	private GeoPoint location = null;
+	private GeoPointImpl location = null;
 	private Double heading = new Double(0);
 	private Paint accuracyCircle = null;
 	private Paint historyLine = null;
@@ -40,16 +45,31 @@ public class cgMapMyOverlay extends Overlay {
 
 	public void setCoordinates(Location coordinatesIn) {
 		coordinates = coordinatesIn;
-		location = new GeoPoint((int)(coordinatesIn.getLatitude() * 1e6), (int)(coordinatesIn.getLongitude() * 1e6));
+		location = settings.getMapFactory().getGeoPointBase((int)(coordinatesIn.getLatitude() * 1e6), (int)(coordinatesIn.getLongitude() * 1e6));
 	}
 
 	public void setHeading(Double headingIn) {
 		heading = headingIn;
 	}
 
+	@Override
+	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjectionImpl projection, byte drawZoomLevel) {
+		
+		drawInternal(canvas, projection);
+	}
+	
     @Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+    public void draw(Canvas canvas, MapViewImpl mapView, boolean shadow) {
+    	
+    	drawInternal(canvas, mapView.getMapProjection());
+    }
+    
+    private void drawInternal(Canvas canvas, MapProjectionImpl projection) {
+    	
 		if (coordinates == null || location == null) return;
+		
+		MapFactory mapFactory = settings.getMapFactory();
 		
 		if (accuracyCircle == null) {
 			accuracyCircle = new Paint();
@@ -76,8 +96,6 @@ public class cgMapMyOverlay extends Overlay {
 
 		canvas.setDrawFilter(setfil);
 
-		Projection projection = mapView.getProjection();
-
 		double latitude = coordinates.getLatitude();
 		double longitude = coordinates.getLongitude();
 		float accuracy = coordinates.getAccuracy();
@@ -87,7 +105,7 @@ public class cgMapMyOverlay extends Overlay {
 		Location.distanceBetween(latitude, longitude, latitude, longitude + 1, result);
 		float longitudeLineDistance = result[0];
 
-		GeoPoint leftGeo = new GeoPoint((int)(latitude * 1e6), (int)((longitude - accuracy / longitudeLineDistance) * 1e6));
+		GeoPointImpl leftGeo = mapFactory.getGeoPointBase((int)(latitude * 1e6), (int)((longitude - accuracy / longitudeLineDistance) * 1e6));
 		projection.toPixels(leftGeo, left);
 		projection.toPixels(location, center);
 		int radius = center.x - left.x;
@@ -125,8 +143,8 @@ public class cgMapMyOverlay extends Overlay {
 					Location now = history.get(cnt);
 
 					if (prev != null && now != null) {
-						projection.toPixels(new GeoPoint((int)(prev.getLatitude() * 1e6), (int)(prev.getLongitude() * 1e6)), historyPointP);
-						projection.toPixels(new GeoPoint((int)(now.getLatitude() * 1e6), (int)(now.getLongitude() * 1e6)), historyPointN);
+						projection.toPixels(mapFactory.getGeoPointBase((int)(prev.getLatitude() * 1e6), (int)(prev.getLongitude() * 1e6)), historyPointP);
+						projection.toPixels(mapFactory.getGeoPointBase((int)(now.getLatitude() * 1e6), (int)(now.getLongitude() * 1e6)), historyPointN);
 
 						if ((alphaCnt - cnt) > 0) alpha = Math.round(255 / (alphaCnt - cnt));
 						else alpha = 255;
@@ -145,8 +163,8 @@ public class cgMapMyOverlay extends Overlay {
 				Location now = coordinates;
 
 				if (prev != null && now != null) {
-					projection.toPixels(new GeoPoint((int)(prev.getLatitude() * 1e6), (int)(prev.getLongitude() * 1e6)), historyPointP);
-					projection.toPixels(new GeoPoint((int)(now.getLatitude() * 1e6), (int)(now.getLongitude() * 1e6)), historyPointN);
+					projection.toPixels(mapFactory.getGeoPointBase((int)(prev.getLatitude() * 1e6), (int)(prev.getLongitude() * 1e6)), historyPointP);
+					projection.toPixels(mapFactory.getGeoPointBase((int)(now.getLatitude() * 1e6), (int)(now.getLongitude() * 1e6)), historyPointN);
 
 					historyLineShadow.setAlpha(255);
 					historyLine.setAlpha(255);
@@ -158,7 +176,7 @@ public class cgMapMyOverlay extends Overlay {
 		}
 
 		if (arrow == null) {
-			arrow = BitmapFactory.decodeResource(mapView.getContext().getResources(), R.drawable.my_location_chevron);
+			arrow = BitmapFactory.decodeResource(settings.getContext().getResources(), R.drawable.my_location_chevron);
 			widthArrow = arrow.getWidth();
 			heightArrow = arrow.getHeight();
 		}
@@ -175,6 +193,6 @@ public class cgMapMyOverlay extends Overlay {
 
 		canvas.setDrawFilter(remfil);
 		
-		super.draw(canvas, mapView, shadow);
+		//super.draw(canvas, mapView, shadow);
 	}
 }

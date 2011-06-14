@@ -1,15 +1,19 @@
-package carnero.cgeo;
+package carnero.cgeo.mapsforge;
+
+import org.mapsforge.android.maps.GeoPoint;
+import org.mapsforge.android.maps.OverlayItem;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
+import carnero.cgeo.R;
+import carnero.cgeo.cgUser;
+import carnero.cgeo.mapinterfaces.UserOverlayItemImpl;
 
-public class cgOverlayUser extends OverlayItem {
+public class mfUsersOverlayItem extends OverlayItem implements UserOverlayItemImpl {
 	private Context context = null;
 	private cgUser user = null;
 
-	public cgOverlayUser(Context contextIn, cgUser userIn) {
+	public mfUsersOverlayItem(Context contextIn, cgUser userIn) {
 		super(new GeoPoint((int)(userIn.latitude * 1e6), (int)(userIn.longitude * 1e6)), userIn.username, "");
 
 		context = contextIn;

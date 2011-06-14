@@ -3,6 +3,10 @@ package carnero.cgeo;
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+
+import carnero.cgeo.googlemaps.googleMapFactory;
+import carnero.cgeo.mapinterfaces.MapFactory;
+import carnero.cgeo.mapsforge.mfMapFactory;
 import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
@@ -11,6 +15,12 @@ import android.content.res.Configuration;
 import android.util.Log;
 
 public class cgSettings {
+	
+	public enum mapProvider {
+		googleMap,
+		mapsForgeMap
+	}
+	
 	// constants
 	public final static int unitsMetric = 1;
 	public final static int unitsImperial = 2;
@@ -75,6 +85,8 @@ public class cgSettings {
 	private String username = null;
 	private String password = null;
 	private String passVote = null;
+	public mapProvider mapprovider = mapProvider.googleMap;
+	public String mapFile = null;
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
@@ -113,6 +125,12 @@ public class cgSettings {
 		cacheType = prefs.getString("cachetype", null);
 		tokenPublic = prefs.getString("tokenpublic", null);
 		tokenSecret = prefs.getString("tokensecret", null);
+		mapFile = prefs.getString("mfmapfile", null);
+		if (prefs.getInt("usemfmaps", 0) == 0) {
+			mapprovider = mapProvider.googleMap;  
+		} else {
+			mapprovider = mapProvider.mapsForgeMap;
+		}
 		
 		setLanguage(useEnglish);
 		
@@ -426,5 +444,33 @@ public class cgSettings {
 		
 		edit.putInt("lastlist", listId);
 		edit.commit();
+	}
+	
+	public MapFactory getMapFactory() {
+		if (mapprovider == mapProvider.googleMap) {
+			return new googleMapFactory();
+		} else if (mapprovider == mapProvider.mapsForgeMap) {
+			return new mfMapFactory();
+		}
+		
+		return null;
+	}
+	
+	public String getMapFile() {
+		return mapFile;
+	}
+	
+	public boolean setMapFile(String mapFileIn) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
+
+		prefsEdit.putString("mfmapfile", mapFileIn);
+
+		mapFile = mapFileIn;
+
+		return prefsEdit.commit();		
+	}
+	
+	public Context getContext() {
+		return context;
 	}
 }
