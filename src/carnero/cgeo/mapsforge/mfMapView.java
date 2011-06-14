@@ -2,6 +2,7 @@ package carnero.cgeo.mapsforge;
 
 import org.mapsforge.android.maps.GeoPoint;
 import org.mapsforge.android.maps.MapView;
+import org.mapsforge.android.maps.MapViewMode;
 import org.mapsforge.android.maps.Overlay;
 import org.mapsforge.android.maps.Projection;
 
@@ -134,5 +135,14 @@ public class mfMapView extends MapView implements MapViewImpl {
 	@Override
 	public void setBuiltinScale(boolean b) {
 		setScaleBar(b);
+	}
+
+	@Override
+	public void setMapFile(String newMapFile) {
+		if (isValidMapFile(newMapFile)) {
+			super.setMapFile(newMapFile);
+		} else {
+			setMapViewMode(MapViewMode.MAPNIK_TILE_DOWNLOAD);
+		}
 	}
 }
