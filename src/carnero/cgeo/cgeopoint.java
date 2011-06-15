@@ -84,6 +84,7 @@ public class cgeopoint extends Activity {
 	public void onResume() {
 		super.onResume();
 
+		settings.load();
 		init();
 	}
 

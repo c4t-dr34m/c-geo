@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 
 public class cgeodate extends Dialog {
+
 	private cgSettings settings = null;
 	private cgBase base = null;
 	private cgWarning warning = null;
@@ -20,7 +21,7 @@ public class cgeodate extends Dialog {
 
 		// init
 		settings = new cgSettings(contextIn, contextIn.getSharedPreferences(cgSettings.preferences, 0));
-		base = new cgBase((cgeoapplication)contextIn.getApplication(), settings, contextIn.getSharedPreferences(cgSettings.preferences, 0));
+		base = new cgBase((cgeoapplication) contextIn.getApplication(), settings, contextIn.getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(contextIn);
 		date = dateIn;
 
@@ -29,7 +30,7 @@ public class cgeodate extends Dialog {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
 		try {
 			requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -37,24 +38,25 @@ public class cgeodate extends Dialog {
 		} catch (Exception e) {
 			// nothing
 		}
-		
+
 		setContentView(R.layout.date);
 
 		// google analytics
 		base.sendAnal(this.getContext(), "/date");
 
-		DatePicker picker = (DatePicker)findViewById(R.id.picker);
+		DatePicker picker = (DatePicker) findViewById(R.id.picker);
 		picker.init(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE), new pickerListener());
 	}
 
-   public class pickerListener implements DatePicker.OnDateChangedListener {
-	   @Override
-	   public void onDateChanged(DatePicker picker, int year, int month, int day) {
-		   if (parent != null) {
+	public class pickerListener implements DatePicker.OnDateChangedListener {
+
+		@Override
+		public void onDateChanged(DatePicker picker, int year, int month, int day) {
+			if (parent != null) {
 				date.set(year, month, day);
 
 				parent.setDate(date);
-		   }
-	   }
-   }
+			}
+		}
+	}
 }

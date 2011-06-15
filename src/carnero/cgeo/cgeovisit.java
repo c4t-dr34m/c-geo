@@ -271,6 +271,13 @@ public class cgeovisit extends cgLogForm {
 
 		init();
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {

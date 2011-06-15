@@ -333,6 +333,8 @@ public class cgeodetail extends Activity {
 	public void onResume() {
 		super.onResume();
 
+		settings.load();
+		
 		if (geo == null) {
 			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		}

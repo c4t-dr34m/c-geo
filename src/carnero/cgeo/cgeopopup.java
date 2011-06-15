@@ -553,6 +553,7 @@ public class cgeopopup extends Activity {
 	public void onResume() {
 		super.onResume();
 
+		settings.load();
 		init();
 	}
 

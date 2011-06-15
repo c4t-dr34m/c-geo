@@ -489,6 +489,7 @@ public class cgeocaches extends ListActivity {
 	public void onResume() {
 		super.onResume();
 
+		settings.load();
 		init();
 
 		if (adapter != null && geo != null && geo.latitudeNow != null && geo.longitudeNow != null) {

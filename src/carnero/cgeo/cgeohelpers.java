@@ -45,6 +45,13 @@ public class cgeohelpers extends Activity {
 		base.sendAnal(activity, "/helpers");
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
 	public void installManual(View view) {
 		final Locale loc = Locale.getDefault();
 		final String lng = loc.getLanguage();

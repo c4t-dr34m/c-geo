@@ -193,12 +193,12 @@ public class cgeomap extends MapBase {
 		}
 	};
 	final private Handler noMapTokenHandler = new Handler() {
-		
+
 		@Override
 		public void handleMessage(Message msg) {
 			if (!noMapTokenShowed) {
 				warning.showToast(res.getString(R.string.map_token_err));
-				
+
 				noMapTokenShowed = true;
 			}
 		}
@@ -222,7 +222,7 @@ public class cgeomap extends MapBase {
 		warning = new cgWarning(activity);
 		prefsEdit = activity.getSharedPreferences(cgSettings.preferences, 0).edit();
 		MapFactory mapFactory = settings.getMapFactory();
-		
+
 		// reset status
 		noMapTokenShowed = false;
 
@@ -274,11 +274,11 @@ public class cgeomap extends MapBase {
 		}
 
 		if (overlayCaches == null) {
-			 overlayCaches = mapView.createAddMapOverlay(settings, mapView.getContext(), getResources().getDrawable(R.drawable.marker), fromDetailIntent);
+			overlayCaches = mapView.createAddMapOverlay(settings, mapView.getContext(), getResources().getDrawable(R.drawable.marker), fromDetailIntent);
 		}
 
 		if (overlayScale == null && mapView.needsScaleOverlay()) {
-			overlayScale =  new cgOverlayScale(activity, settings);
+			overlayScale = new cgOverlayScale(activity, settings);
 			mapView.addOverlay(mapFactory.getOverlayBaseWrapper(overlayScale));
 		}
 
@@ -344,6 +344,8 @@ public class cgeomap extends MapBase {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		settings.load();
 
 		app.setAction(null);
 		if (geo == null) {
@@ -804,20 +806,17 @@ public class cgeomap extends MapBase {
 							moved = true;
 						} else if (spanLatitude == null || spanLongitude == null) {
 							moved = true;
-						} else if ((
-									(Math.abs(spanLatitudeNow - spanLatitude) > 50) || (Math.abs(spanLongitudeNow - spanLongitude) > 50) || // changed zoom
-									(Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow / 4)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow / 4)) // map moved
-								) && (
-									cachesCnt <= 0 || caches == null || caches.isEmpty() ||
-									!base.isInViewPort(centerLatitude, centerLongitude, centerLatitudeNow, centerLongitudeNow, spanLatitude, spanLongitude, spanLatitudeNow, spanLongitudeNow)
-								)) {
+						} else if (((Math.abs(spanLatitudeNow - spanLatitude) > 50) || (Math.abs(spanLongitudeNow - spanLongitude) > 50) || // changed zoom
+								(Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow / 4)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow / 4)) // map moved
+								) && (cachesCnt <= 0 || caches == null || caches.isEmpty()
+								|| !base.isInViewPort(centerLatitude, centerLongitude, centerLatitudeNow, centerLongitudeNow, spanLatitude, spanLongitude, spanLatitudeNow, spanLongitudeNow))) {
 							moved = true;
 						}
 
 						if (moved && caches != null && centerLatitude != null && centerLongitude != null && ((Math.abs(centerLatitudeNow - centerLatitude) > (spanLatitudeNow * 1.2)) || (Math.abs(centerLongitudeNow - centerLongitude) > (spanLongitudeNow * 1.2)))) {
 							force = true;
 						}
-						
+
 						// save new values
 						if (moved) {
 							liveChanged = false;
@@ -1123,13 +1122,13 @@ public class cgeomap extends MapBase {
 
 				// display caches
 				final ArrayList<cgCache> cachesProtected = (ArrayList<cgCache>) caches.clone();
-			final ArrayList<CacheOverlayItemImpl> items = new ArrayList<CacheOverlayItemImpl>();
+				final ArrayList<CacheOverlayItemImpl> items = new ArrayList<CacheOverlayItemImpl>();
 
 				if (cachesProtected != null && !cachesProtected.isEmpty()) {
 					int counter = 0;
 					int icon = 0;
 					Drawable pin = null;
-				CacheOverlayItemImpl item = null;
+					CacheOverlayItemImpl item = null;
 
 					for (cgCache cacheOne : cachesProtected) {
 						if (stop) {
@@ -1146,7 +1145,7 @@ public class cgeomap extends MapBase {
 						final cgCoord coord = new cgCoord(cacheOne);
 						coordinates.add(coord);
 
-					item = settings.getMapFactory().getCacheOverlayItem(coord, cacheOne.type);
+						item = settings.getMapFactory().getCacheOverlayItem(coord, cacheOne.type);
 						icon = base.getIcon(true, cacheOne.type, cacheOne.own, cacheOne.found, cacheOne.disabled || cacheOne.archived);
 						pin = null;
 
@@ -1195,7 +1194,7 @@ public class cgeomap extends MapBase {
 									cgCoord coord = new cgCoord(oneWaypoint);
 
 									coordinates.add(coord);
-								item = settings.getMapFactory().getCacheOverlayItem(coord, null);
+									item = settings.getMapFactory().getCacheOverlayItem(coord, null);
 
 									icon = base.getIcon(false, oneWaypoint.type, false, false, false);
 									if (iconsCache.containsKey(icon)) {
@@ -1283,6 +1282,7 @@ public class cgeomap extends MapBase {
 
 	// display users of Go 4 Cache
 	private class DisplayUsersThread extends DoThread {
+
 		private ArrayList<cgUser> users = null;
 
 		public DisplayUsersThread(ArrayList<cgUser> usersIn, long centerLatIn, long centerLonIn, long spanLatIn, long spanLonIn) {
@@ -1302,10 +1302,10 @@ public class cgeomap extends MapBase {
 				}
 
 				// display users
-			ArrayList<UserOverlayItemImpl> items = new ArrayList<UserOverlayItemImpl>();
+				ArrayList<UserOverlayItemImpl> items = new ArrayList<UserOverlayItemImpl>();
 
 				int counter = 0;
-			UserOverlayItemImpl item = null;
+				UserOverlayItemImpl item = null;
 
 				for (cgUser userOne : users) {
 					if (stop) {
@@ -1316,7 +1316,7 @@ public class cgeomap extends MapBase {
 						continue;
 					}
 
-				item = settings.getMapFactory().getUserOverlayItemBase(activity, userOne);
+					item = settings.getMapFactory().getUserOverlayItemBase(activity, userOne);
 					items.add(item);
 
 					counter++;

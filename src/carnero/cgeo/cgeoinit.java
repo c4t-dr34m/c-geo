@@ -22,9 +22,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import java.io.File;
 
-import carnero.cgeo.cgSettings.mapProvider;
-import carnero.cgeo.mapcommon.cgeomap;
-
 public class cgeoinit extends Activity {
 
 	private cgeoapplication app = null;
@@ -94,6 +91,13 @@ public class cgeoinit extends Activity {
 		base.sendAnal(activity, "/init");
 
 		init();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
 	}
 
 	@Override
@@ -784,10 +788,10 @@ public class cgeoinit extends Activity {
 			SharedPreferences.Editor edit = prefs.edit();
 			if (prefs.getInt("usemfmaps", 0) == 0) {
 				edit.putInt("usemfmaps", 1);
-				settings.mapprovider = mapProvider.mapsForgeMap;
+				settings.mapProvider = cgSettings.mapProviderEnum.mapsForgeMap;
 			} else {
 				edit.putInt("usemfmaps", 0);
-				settings.mapprovider = mapProvider.googleMap;
+				settings.mapProvider = cgSettings.mapProviderEnum.googleMap;
 			}
 			edit.commit();
 

@@ -138,6 +138,13 @@ public class cgeoaddresses extends Activity {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}

@@ -162,6 +162,13 @@ public class cgeospoilers extends Activity {
 		(new loadSpoilers()).start();
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
 	private class loadSpoilers extends Thread {
 
 		@Override

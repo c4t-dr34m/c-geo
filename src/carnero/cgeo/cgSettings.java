@@ -16,7 +16,7 @@ import android.util.Log;
 
 public class cgSettings {
 	
-	public enum mapProvider {
+	public enum mapProviderEnum {
 		googleMap,
 		mapsForgeMap
 	}
@@ -85,13 +85,23 @@ public class cgSettings {
 	private String username = null;
 	private String password = null;
 	private String passVote = null;
-	public mapProvider mapprovider = mapProvider.googleMap;
+	
+	// maps
+	public static final int MAP_GOOGLE = 0;
+	public static final int MAP_MF = 1;
+	public MapFactory mapFactory = null;
+	public mapProviderEnum mapProviderUsed = mapProviderEnum.googleMap;
+	public mapProviderEnum mapProvider = mapProviderEnum.googleMap;
 	public String mapFile = null;
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
 		prefs = prefsIn;
 
+		load();
+	}
+
+	public void load() {
 		version = prefs.getInt("version", 0);
 
 		initialized = prefs.getInt("initialized", 0);
@@ -127,16 +137,14 @@ public class cgSettings {
 		tokenSecret = prefs.getString("tokensecret", null);
 		mapFile = prefs.getString("mfmapfile", null);
 		if (prefs.getInt("usemfmaps", 0) == 0) {
-			mapprovider = mapProvider.googleMap;  
+			mapProvider = mapProviderEnum.googleMap;  
 		} else {
-			mapprovider = mapProvider.mapsForgeMap;
+			mapProvider = mapProviderEnum.mapsForgeMap;
 		}
 		
 		setLanguage(useEnglish);
-		
-		
 	}
-
+	
 	private void setSkinDefaults() {
 		if (skin == 1) {
 			buttonActive = R.drawable.action_button_light;
@@ -447,13 +455,17 @@ public class cgSettings {
 	}
 	
 	public MapFactory getMapFactory() {
-		if (mapprovider == mapProvider.googleMap) {
-			return new googleMapFactory();
-		} else if (mapprovider == mapProvider.mapsForgeMap) {
-			return new mfMapFactory();
+		if (mapProvider == mapProviderEnum.googleMap) {
+			if (mapProviderUsed != mapProviderEnum.googleMap || mapFactory == null) {
+				mapFactory = new googleMapFactory();
+			}
+		} else if (mapProvider == mapProviderEnum.mapsForgeMap) {
+			if (mapProviderUsed != mapProviderEnum.mapsForgeMap || mapFactory == null) {
+				mapFactory = new mfMapFactory();
+			}
 		}
 		
-		return null;
+		return mapFactory;
 	}
 	
 	public String getMapFile() {

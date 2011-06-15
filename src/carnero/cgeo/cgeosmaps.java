@@ -119,6 +119,13 @@ public class cgeosmaps extends Activity {
 		(new loadMaps()).start();
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
 	private class loadMaps extends Thread {
 
 		@Override
