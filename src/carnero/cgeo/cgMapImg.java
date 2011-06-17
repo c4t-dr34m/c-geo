@@ -13,16 +13,20 @@ import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class cgMapImg {
+	/**
+	 * in my tests the "no image available" image had 5470 bytes, while "street only" maps had at least 20000 bytes
+	 */
+	private static final int MIN_MAP_IMAGE_BYTES = 6000;
 	private cgSettings settings = null;
 	private String geocode = null;
 
 	public cgMapImg(cgSettings settingsIn, String geocodeIn) {
 		geocode = geocodeIn;
 		settings = settingsIn;
-		
+
 		if (geocode != null && geocode.length() > 0) {
 			final String dirName = settings.getStorage() + geocode + "/";
-		
+
 			File dir = null;
 			dir = new File(settings.getStorage());
 			if (dir.exists() == false) {
@@ -44,7 +48,7 @@ public class cgMapImg {
 		if (geocode == null || geocode.length() == 0) {
 			return;
 		}
-		
+
 		final String fileName = settings.getStorage() + geocode + "/map_" + level;
 		HttpClient client = null;
 		HttpGet getMethod = null;
@@ -62,17 +66,25 @@ public class cgMapImg {
 				getMethod = new HttpGet(url);
 				httpResponse = client.execute(getMethod);
 				entity = httpResponse.getEntity();
-				bufferedEntity = new BufferedHttpEntity(entity);
 
+				// if image is to small, don't download and save, there is no map data for this zoom level
+				long contentSize = entity.getContentLength();
+				if (contentSize > 0 && contentSize <= MIN_MAP_IMAGE_BYTES) {
+					break;
+				}
+
+				bufferedEntity = new BufferedHttpEntity(entity);
 				if (bufferedEntity != null) {
 					InputStream is = (InputStream)bufferedEntity.getContent();
 					FileOutputStream fos = new FileOutputStream(fileName);
 
+					int fileSize = 0;
 					try {
 						byte[] buffer = new byte[4096];
-						int l;
-						while ((l = is.read(buffer)) != -1) {
-							fos.write(buffer, 0, l);
+						int bytesRead;
+						while ((bytesRead = is.read(buffer)) != -1) {
+							fos.write(buffer, 0, bytesRead);
+							fileSize += bytesRead;
 						}
 						ok = true;
 					} catch (IOException e) {
@@ -82,8 +94,13 @@ public class cgMapImg {
 						fos.flush();
 						fos.close();
 					}
-					
+
 					bufferedEntity = null;
+
+					// delete image if it has no contents
+					if (ok && fileSize < MIN_MAP_IMAGE_BYTES) {
+						(new File(fileName)).delete();
+					}
 				}
 
 				if (ok == true) {

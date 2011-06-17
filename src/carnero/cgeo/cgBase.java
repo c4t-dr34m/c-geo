@@ -1919,6 +1919,9 @@ public class cgBase {
 			}
 			params.put("version", "cgeo");
 			final String votes = request(false, "gcvote.com", "/getVotes.php", "GET", params, false, false, false).getData();
+			if (votes == null) {
+				return null;
+			}
 
 			final Pattern patternLogIn = Pattern.compile("loggedIn='([^']+)'", Pattern.CASE_INSENSITIVE);
 			final Pattern patternGuid = Pattern.compile("cacheId='([^']+)'", Pattern.CASE_INSENSITIVE);
@@ -5705,7 +5708,7 @@ public class cgBase {
 				}
 			}
 		}
-		
+
 		if (noTokenHandler != null && (usertoken == null || usertoken.length() == 0)) {
 			noTokenHandler.sendEmptyMessage(0);
 		}
