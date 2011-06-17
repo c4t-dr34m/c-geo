@@ -132,7 +132,7 @@ public class cgeovisit extends cgLogForm {
 						public void onClick(View view) {
 							final Intent trackablesIntent = new Intent(activity, cgeotrackable.class);
 							trackablesIntent.putExtra("geocode", tbCode);
-							activity.startActivity(trackablesIntent);							
+							activity.startActivity(trackablesIntent);
 						}
 					});
 					inventoryItem.findViewById(R.id.action).setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,7 @@ public class cgeovisit extends cgLogForm {
 						}
 					});
 
-					((LinearLayout) findViewById(R.id.inventory_changeall)).setVisibility(View.VISIBLE);				
+					((LinearLayout) findViewById(R.id.inventory_changeall)).setVisibility(View.VISIBLE);
 				}
 			}
 
@@ -285,7 +285,7 @@ public class cgeovisit extends cgLogForm {
 
 		init();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		SubMenu subMenu = null;
@@ -333,7 +333,7 @@ public class cgeovisit extends cgLogForm {
 
 		if ((id >= LOG_SIGNATURE && id <= LOG_SIGNATURE_DATE_TIME)) {
 			addSignature(id);
-			
+
 			return true;
 		} else if (id >= 10 && id <= 15) {
 			rating = id - 10;
@@ -350,7 +350,7 @@ public class cgeovisit extends cgLogForm {
 
 		return false;
 	}
-	
+
 	public void addSignature(int id) {
 		EditText text = null;
 		String textContent = null;
@@ -460,7 +460,7 @@ public class cgeovisit extends cgLogForm {
 						if (tbView == null) {
 							return false;
 						}
-	
+
 						final TextView tbText = (TextView) tbView.findViewById(R.id.action);
 						if (tbText == null) {
 							return false;
@@ -564,7 +564,7 @@ public class cgeovisit extends cgLogForm {
 				}
 				post.setText(res.getString(R.string.log_post_no_rate));
 			}
-		} else if (settings.getSignature().length() > 0) {
+		} else if (settings.getSignature() != null && settings.getSignature().length() > 0) {
 			addSignature(LOG_SIGNATURE);
 		}
 
@@ -842,7 +842,7 @@ public class cgeovisit extends cgLogForm {
 			if (tweetCheck == null) {
 				tweetCheck = (CheckBox) findViewById(R.id.tweet);
 			}
-			
+
 			status = base.postLog(app, geocode, cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH) + 1), date.get(Calendar.DATE), log, trackables);
 
 			if (status == 1) {
