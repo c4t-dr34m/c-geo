@@ -3,6 +3,10 @@ package carnero.cgeo;
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+
+import carnero.cgeo.googlemaps.googleMapFactory;
+import carnero.cgeo.mapinterfaces.MapFactory;
+import carnero.cgeo.mapsforge.mfMapFactory;
 import android.os.Environment;
 import android.content.Intent;
 import android.content.Context;
@@ -11,6 +15,12 @@ import android.content.res.Configuration;
 import android.util.Log;
 
 public class cgSettings {
+	
+	public enum mapProviderEnum {
+		googleMap,
+		mapsForgeMap
+	}
+	
 	// constants
 	public final static int unitsMetric = 1;
 	public final static int unitsImperial = 2;
@@ -37,7 +47,6 @@ public class cgSettings {
 	public boolean hideMySearch = false;
 	public int helper = 0;
 	public int initialized = 0;
-	public boolean translate = false;
 	public String languages = null;
 	public int cachesFound = 0;
 	public int autoLoadDesc = 0;
@@ -76,11 +85,23 @@ public class cgSettings {
 	private String username = null;
 	private String password = null;
 	private String passVote = null;
+	
+	// maps
+	public static final int MAP_GOOGLE = 0;
+	public static final int MAP_MF = 1;
+	public MapFactory mapFactory = null;
+	public mapProviderEnum mapProviderUsed = mapProviderEnum.googleMap;
+	public mapProviderEnum mapProvider = mapProviderEnum.googleMap;
+	public String mapFile = null;
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
 		context = contextIn;
 		prefs = prefsIn;
 
+		load();
+	}
+
+	public void load() {
 		version = prefs.getInt("version", 0);
 
 		initialized = prefs.getInt("initialized", 0);
@@ -89,7 +110,6 @@ public class cgSettings {
 		skin = prefs.getInt("skin", 0);
 		setSkinDefaults();
 
-		translate = prefs.getBoolean("translate", false);
 		languages = prefs.getString("languages", null);
 		cachesFound = prefs.getInt("found", 0);
 		autoLoadDesc = prefs.getInt("autoloaddesc", 0);
@@ -115,12 +135,16 @@ public class cgSettings {
 		cacheType = prefs.getString("cachetype", null);
 		tokenPublic = prefs.getString("tokenpublic", null);
 		tokenSecret = prefs.getString("tokensecret", null);
+		mapFile = prefs.getString("mfmapfile", null);
+		if (prefs.getInt("usemfmaps", 0) == 0) {
+			mapProvider = mapProviderEnum.googleMap;  
+		} else {
+			mapProvider = mapProviderEnum.mapsForgeMap;
+		}
 		
 		setLanguage(useEnglish);
-		
-		
 	}
-
+	
 	private void setSkinDefaults() {
 		if (skin == 1) {
 			buttonActive = R.drawable.action_button_light;
@@ -428,5 +452,37 @@ public class cgSettings {
 		
 		edit.putInt("lastlist", listId);
 		edit.commit();
+	}
+	
+	public MapFactory getMapFactory() {
+		if (mapProvider == mapProviderEnum.googleMap) {
+			if (mapProviderUsed != mapProviderEnum.googleMap || mapFactory == null) {
+				mapFactory = new googleMapFactory();
+			}
+		} else if (mapProvider == mapProviderEnum.mapsForgeMap) {
+			if (mapProviderUsed != mapProviderEnum.mapsForgeMap || mapFactory == null) {
+				mapFactory = new mfMapFactory();
+			}
+		}
+		
+		return mapFactory;
+	}
+	
+	public String getMapFile() {
+		return mapFile;
+	}
+	
+	public boolean setMapFile(String mapFileIn) {
+		final SharedPreferences.Editor prefsEdit = prefs.edit();
+
+		prefsEdit.putString("mfmapfile", mapFileIn);
+
+		mapFile = mapFileIn;
+
+		return prefsEdit.commit();		
+	}
+	
+	public Context getContext() {
+		return context;
 	}
 }

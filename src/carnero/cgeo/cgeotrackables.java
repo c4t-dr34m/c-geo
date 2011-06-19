@@ -121,6 +121,13 @@ public class cgeotrackables extends Activity {
 
 		(new loadInventory()).start();
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
 
 	private class loadInventory extends Thread {
 

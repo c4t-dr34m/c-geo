@@ -21,21 +21,6 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 
-/*
- * database history:
- * 000-033: basic structure, tables
- * 034-036: added indexes
- * 039: lists
- * 040: geocode in trackables could be NULL
- * 041: cache rating
- * 042: table for offline logs (notes)
- * 043: direction in double
- * 044: favourite from GC.com
- * 045: real owner username
- * 046: visited date
- * 047: own true/false
- * 048: elevation
- */
 public class cgData {
 
 	public cgCacheWrap caches;
@@ -44,7 +29,7 @@ public class cgData {
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-	private static final int dbVersion = 49;
+	private static final int dbVersion = 50;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -90,7 +75,7 @@ public class cgData {
 			+ "favourite_cnt integer, "
 			+ "rating float, "
 			+ "votes integer, "
-			+ "vote integer, "
+			+ "myvote float, "
 			+ "disabled integer not null default 0, "
 			+ "archived integer not null default 0, "
 			+ "members integer not null default 0, "
@@ -669,6 +654,7 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 48: " + e.toString());
 						}
 					}
+					
 					if (oldVersion < 49) { // upgrade to 49
 						try {
 							db.execSQL(dbCreateLogCount);
@@ -676,6 +662,16 @@ public class cgData {
 							Log.i(cgSettings.tag, "Created table " + dbTableLogCount + ".");
 						} catch (Exception e) {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 49: " + e.toString());
+						}
+					}
+					
+					if (oldVersion < 50) { // upgrade to 50
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column myvote float");
+
+							Log.i(cgSettings.tag, "Added float column for votes to " + dbTableCaches + ".");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 50: " + e.toString());
 						}
 					}
 				}
@@ -1025,7 +1021,7 @@ public class cgData {
 		values.put("favourite_cnt", cache.favouriteCnt);
 		values.put("rating", cache.rating);
 		values.put("votes", cache.votes);
-		values.put("vote", cache.vote);
+		values.put("myvote", cache.myVote);
 		if (cache.disabled == true) {
 			values.put("disabled", 1);
 		} else {
@@ -1198,7 +1194,7 @@ public class cgData {
 					databaseRW.insert(dbTableWaypoints, null, values);
 				}
 			}
-			
+
 			databaseRW.setTransactionSuccessful();
 			ok = true;
 		} finally {
@@ -1389,7 +1385,7 @@ public class cgData {
 				databaseRW.delete(dbTableTrackables, "geocode = \"" + geocode + "\"", null);
 			}
 
-			if (!trackables.isEmpty()) {			
+			if (!trackables.isEmpty()) {
 				ContentValues values = new ContentValues();
 				for (cgTrackable oneTrackable : trackables) {
 					values.clear();
@@ -1421,7 +1417,7 @@ public class cgData {
 
 		return true;
 	}
-	
+
 	public ArrayList<Object> getBounds(Object[] geocodes) {
 		init();
 
@@ -1431,7 +1427,7 @@ public class cgData {
 
 		try {
 			final StringBuilder where = new StringBuilder();
-			
+
 			if (geocodes != null && geocodes.length > 0) {
 				StringBuilder all = new StringBuilder();
 				for (Object one : geocodes) {
@@ -1442,7 +1438,7 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-				
+
 				if (where.length() > 0) {
 					where.append(" and ");
 				}
@@ -1450,7 +1446,7 @@ public class cgData {
 				where.append(all);
 				where.append(")");
 			}
-				
+
 			cursor = databaseRO.query(
 					dbTableCaches,
 					new String[]{"count(_id) as cnt", "min(latitude) as latMin", "max(latitude) as latMax", "min(longitude) as lonMin", "max(longitude) as lonMax"},
@@ -1481,7 +1477,7 @@ public class cgData {
 		if (cursor != null) {
 			cursor.close();
 		}
-		
+
 		return viewport;
 	}
 
@@ -1531,7 +1527,7 @@ public class cgData {
 		StringBuilder where = new StringBuilder();
 		Cursor cursor = null;
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
-		
+
 		try {
 			// geocodes or guids limitation
 			if (geocodes != null && geocodes.length > 0) {
@@ -1544,7 +1540,7 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-				
+
 				if (where.length() > 0) {
 					where.append(" and ");
 				}
@@ -1561,7 +1557,7 @@ public class cgData {
 					all.append((String) one);
 					all.append("\"");
 				}
-				
+
 				if (where.length() > 0) {
 					where.append(" and ");
 				}
@@ -1611,7 +1607,7 @@ public class cgData {
 					new String[]{
 						"_id", "updated", "reason", "detailed", "detailedupdate", "visiteddate", "geocode", "cacheid", "guid", "type", "name", "own", "owner", "owner_real", "hidden", "hint", "size",
 						"difficulty", "distance", "direction", "terrain", "latlon", "latitude_string", "longitude_string", "location", "latitude", "longitude", "elevation", "shortdesc",
-						"description", "favourite_cnt", "rating", "votes", "vote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
+						"description", "favourite_cnt", "rating", "votes", "myvote", "disabled", "archived", "members", "found", "favourite", "inventorycoins", "inventorytags",
 						"inventoryunknown"
 					},
 					where.toString(),
@@ -1697,7 +1693,7 @@ public class cgData {
 						cache.favouriteCnt = (Integer) cursor.getInt(cursor.getColumnIndex("favourite_cnt"));
 						cache.rating = (Float) cursor.getFloat(cursor.getColumnIndex("rating"));
 						cache.votes = (Integer) cursor.getInt(cursor.getColumnIndex("votes"));
-						cache.vote = (Integer) cursor.getInt(cursor.getColumnIndex("vote"));
+						cache.myVote = (Float) cursor.getFloat(cursor.getColumnIndex("myvote"));
 						index = cursor.getColumnIndex("disabled");
 						if ((int) cursor.getLong(index) == 1) {
 							cache.disabled = true;
@@ -2250,20 +2246,20 @@ public class cgData {
 
 		specifySql.append("reason = ");
 		specifySql.append(list);
-		
+
 		if (detailedOnly == true) {
 			if (specifySql.length() > 0) {
 				specifySql.append(" and ");
 			}
-			
+
 			specifySql.append("detailed = 1");
 		}
-		
+
 		if (cachetype != null) {
 			if (specifySql.length() > 0) {
 				specifySql.append(" and ");
 			}
-			
+
 			specifySql.append("type = \"");
 			specifySql.append(cachetype);
 			specifySql.append("\"");
@@ -2376,7 +2372,7 @@ public class cgData {
 			lonMax = lonMin;
 			lonMin = llCache;
 		}
-		
+
 		StringBuilder where = new StringBuilder();
 		where.append("latitude >= ");
 		where.append(String.format((Locale) null, "%.6f", latMin));
@@ -2393,7 +2389,7 @@ public class cgData {
 			where.append(cachetype);
 			where.append("\"");
 		}
-		
+
 		// offline caches only
 		where.append(" and reason >= 1");
 
@@ -2442,7 +2438,7 @@ public class cgData {
 			where.append(cachetype);
 			where.append("\"");
 		}
-		
+
 		// offline caches only
 		if (where.length() > 0) {
 			where.append(" and ");
@@ -2480,7 +2476,7 @@ public class cgData {
 
 		return geocodes;
 	}
-	
+
 	public void markStored(String geocode, int listId) {
 		init();
 
@@ -2540,7 +2536,7 @@ public class cgData {
 
 		return false;
 	}
-	
+
 	public void clean() {
 		clean(false);
 	}
@@ -2603,7 +2599,7 @@ public class cgData {
 
 				geocodes.clear();
 			}
-			
+
 			databaseRW.execSQL("delete from " + dbTableCaches + " where geocode = \"\"");
 
 			final SQLiteStatement countSql = databaseRO.compileStatement("select count(_id) from " + dbTableCaches + " where reason = 0");
@@ -2805,7 +2801,7 @@ public class cgData {
 					null,
 					null,
 					null,
-					"title asc",
+					"title COLLATE NOCASE ASC",
 					null);
 
 			if (cursor != null) {

@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class cgeoadvsearch extends Activity {
+
 	private Resources res = null;
 	private Activity activity = null;
 	private cgeoapplication app = null;
@@ -36,14 +37,14 @@ public class cgeoadvsearch extends Activity {
 	private EditText lonEdit = null;
 	private String[] geocodesInCache = null;
 
-    @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// init
 		activity = this;
 		res = this.getResources();
-		app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication) this.getApplication();
 		app.setAction(null);
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
@@ -88,26 +89,33 @@ public class cgeoadvsearch extends Activity {
 	public void onResume() {
 		super.onResume();
 
-        init();
+		settings.load();
+		init();
 	}
 
 	@Override
 	public void onDestroy() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onDestroy();
 	}
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
 
 		super.onPause();
 	}
@@ -153,22 +161,26 @@ public class cgeoadvsearch extends Activity {
 		settings.getLogin();
 		settings.reloadCacheType();
 
-		if (settings.cacheType != null && cgBase.cacheTypesInv.containsKey(settings.cacheType) == false) settings.setCacheType(null);
+		if (settings.cacheType != null && cgBase.cacheTypesInv.containsKey(settings.cacheType) == false) {
+			settings.setCacheType(null);
+		}
 
-		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
 
-		((EditText)findViewById(R.id.latitude)).setOnEditorActionListener(new findByCoordsAction());
-		((EditText)findViewById(R.id.longitude)).setOnEditorActionListener(new findByCoordsAction());
+		((EditText) findViewById(R.id.latitude)).setOnEditorActionListener(new findByCoordsAction());
+		((EditText) findViewById(R.id.longitude)).setOnEditorActionListener(new findByCoordsAction());
 
-		final Button findByCoords = (Button)findViewById(R.id.search_coordinates);
+		final Button findByCoords = (Button) findViewById(R.id.search_coordinates);
 		findByCoords.setOnClickListener(new findByCoordsListener());
 
-		((EditText)findViewById(R.id.address)).setOnEditorActionListener(new findByAddressAction());
+		((EditText) findViewById(R.id.address)).setOnEditorActionListener(new findByAddressAction());
 
-		final Button findByAddress = (Button)findViewById(R.id.search_address);
+		final Button findByAddress = (Button) findViewById(R.id.search_address);
 		findByAddress.setOnClickListener(new findByAddressListener());
 
-		final AutoCompleteTextView geocodeEdit = (AutoCompleteTextView)findViewById(R.id.geocode);
+		final AutoCompleteTextView geocodeEdit = (AutoCompleteTextView) findViewById(R.id.geocode);
 		geocodeEdit.setOnEditorActionListener(new findByGeocodeAction());
 		geocodesInCache = app.geocodesInCache();
 		if (geocodesInCache != null) {
@@ -177,29 +189,29 @@ public class cgeoadvsearch extends Activity {
 		}
 		// geocodeEdit.addTextChangedListener(new UpperCaseTextWatcher(geocodeEdit));
 
-		final Button displayByGeocode = (Button)findViewById(R.id.display_geocode);
+		final Button displayByGeocode = (Button) findViewById(R.id.display_geocode);
 		displayByGeocode.setOnClickListener(new findByGeocodeListener());
 
-		((EditText)findViewById(R.id.keyword)).setOnEditorActionListener(new findByKeywordAction());
+		((EditText) findViewById(R.id.keyword)).setOnEditorActionListener(new findByKeywordAction());
 
-		final Button findByKeyword = (Button)findViewById(R.id.search_keyword);
+		final Button findByKeyword = (Button) findViewById(R.id.search_keyword);
 		findByKeyword.setOnClickListener(new findByKeywordListener());
 
-		((EditText)findViewById(R.id.username)).setOnEditorActionListener(new findByUsernameAction());
+		((EditText) findViewById(R.id.username)).setOnEditorActionListener(new findByUsernameAction());
 
-		final Button findByUserName = (Button)findViewById(R.id.search_username);
+		final Button findByUserName = (Button) findViewById(R.id.search_username);
 		findByUserName.setOnClickListener(new findByUsernameListener());
 
-		((EditText)findViewById(R.id.owner)).setOnEditorActionListener(new findByOwnerAction());
+		((EditText) findViewById(R.id.owner)).setOnEditorActionListener(new findByOwnerAction());
 
-		final Button findByOwner = (Button)findViewById(R.id.search_owner);
+		final Button findByOwner = (Button) findViewById(R.id.search_owner);
 		findByOwner.setOnClickListener(new findByOwnerListener());
 
-		EditText trackable = (EditText)findViewById(R.id.trackable);
+		EditText trackable = (EditText) findViewById(R.id.trackable);
 		trackable.setOnEditorActionListener(new findTrackableAction());
 		// trackable.addTextChangedListener(new UpperCaseTextWatcher(trackable)); // not working with HTC IMEs.
 
-		final Button displayTrackable = (Button)findViewById(R.id.display_trackable);
+		final Button displayTrackable = (Button) findViewById(R.id.display_trackable);
 		displayTrackable.setOnClickListener(new findTrackableListener());
 	}
 
@@ -209,6 +221,7 @@ public class cgeoadvsearch extends Activity {
 	 *
 	 */
 	private final class UpperCaseTextWatcher implements TextWatcher {
+
 		private final EditText editText;
 
 		private UpperCaseTextWatcher(EditText editText) {
@@ -239,13 +252,20 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class update extends cgUpdateLoc {
+
 		@Override
 		public void updateLoc(cgGeo geo) {
-			if (geo == null) return;
+			if (geo == null) {
+				return;
+			}
 
 			try {
-				if (latEdit == null) latEdit = (EditText)findViewById(R.id.latitude);
-				if (lonEdit == null) lonEdit = (EditText)findViewById(R.id.longitude);
+				if (latEdit == null) {
+					latEdit = (EditText) findViewById(R.id.latitude);
+				}
+				if (lonEdit == null) {
+					lonEdit = (EditText) findViewById(R.id.longitude);
+				}
 
 				if (geo.latitudeNow != null && geo.longitudeNow != null) {
 					latEdit.setHint(base.formatCoordinate(geo.latitudeNow, "lat", false));
@@ -258,6 +278,7 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByCoordsAction implements TextView.OnEditorActionListener {
+
 		@Override
 		public boolean onEditorAction(TextView view, int action, KeyEvent event) {
 			if (action == EditorInfo.IME_ACTION_GO) {
@@ -270,14 +291,15 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByCoordsListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			findByCoordsFn();
 		}
 	}
 
 	private void findByCoordsFn() {
-		final EditText latView = (EditText)findViewById(R.id.latitude);
-		final EditText lonView = (EditText)findViewById(R.id.longitude);
+		final EditText latView = (EditText) findViewById(R.id.latitude);
+		final EditText lonView = (EditText) findViewById(R.id.longitude);
 		final String latText = latView.getText().toString();
 		final String lonText = lonView.getText().toString();
 
@@ -300,14 +322,15 @@ public class cgeoadvsearch extends Activity {
 
 			final Intent cachesIntent = new Intent(activity, cgeocaches.class);
 			cachesIntent.putExtra("type", "coordinate");
-			cachesIntent.putExtra("latitude", (Double)latParsed.get("coordinate"));
-			cachesIntent.putExtra("longitude", (Double)lonParsed.get("coordinate"));
+			cachesIntent.putExtra("latitude", (Double) latParsed.get("coordinate"));
+			cachesIntent.putExtra("longitude", (Double) lonParsed.get("coordinate"));
 			cachesIntent.putExtra("cachetype", settings.cacheType);
 			activity.startActivity(cachesIntent);
 		}
 	}
 
 	private class findByKeywordAction implements TextView.OnEditorActionListener {
+
 		@Override
 		public boolean onEditorAction(TextView view, int action, KeyEvent event) {
 			if (action == EditorInfo.IME_ACTION_GO) {
@@ -320,6 +343,7 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByKeywordListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			findByKeywordFn();
 		}
@@ -327,7 +351,7 @@ public class cgeoadvsearch extends Activity {
 
 	private void findByKeywordFn() {
 		// find caches by coordinates
-		String keyText = ((EditText)findViewById(R.id.keyword)).getText().toString();
+		String keyText = ((EditText) findViewById(R.id.keyword)).getText().toString();
 
 		if (keyText == null || keyText.length() == 0) {
 			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_keyword));
@@ -342,6 +366,7 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByAddressAction implements TextView.OnEditorActionListener {
+
 		@Override
 		public boolean onEditorAction(TextView view, int action, KeyEvent event) {
 			if (action == EditorInfo.IME_ACTION_GO) {
@@ -354,13 +379,14 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByAddressListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			findByAddressFn();
 		}
 	}
 
 	private void findByAddressFn() {
-		final String addText = ((EditText)findViewById(R.id.address)).getText().toString();
+		final String addText = ((EditText) findViewById(R.id.address)).getText().toString();
 
 		if (addText == null || addText.length() == 0) {
 			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_address));
@@ -373,6 +399,7 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByUsernameAction implements TextView.OnEditorActionListener {
+
 		@Override
 		public boolean onEditorAction(TextView view, int action, KeyEvent event) {
 			if (action == EditorInfo.IME_ACTION_GO) {
@@ -385,13 +412,14 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByUsernameListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			findByUsernameFn();
 		}
 	}
 
 	public void findByUsernameFn() {
-		final String usernameText = ((EditText)findViewById(R.id.username)).getText().toString();
+		final String usernameText = ((EditText) findViewById(R.id.username)).getText().toString();
 
 		if (usernameText == null || usernameText.length() == 0) {
 			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_user));
@@ -406,6 +434,7 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByOwnerAction implements TextView.OnEditorActionListener {
+
 		@Override
 		public boolean onEditorAction(TextView view, int action, KeyEvent event) {
 			if (action == EditorInfo.IME_ACTION_GO) {
@@ -418,13 +447,14 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByOwnerListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			findByOwnerFn();
 		}
 	}
 
 	private void findByOwnerFn() {
-		final String usernameText = ((EditText)findViewById(R.id.owner)).getText().toString();
+		final String usernameText = ((EditText) findViewById(R.id.owner)).getText().toString();
 
 		if (usernameText == null || usernameText.length() == 0) {
 			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_user));
@@ -439,6 +469,7 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByGeocodeAction implements TextView.OnEditorActionListener {
+
 		@Override
 		public boolean onEditorAction(TextView view, int action, KeyEvent event) {
 			if (action == EditorInfo.IME_ACTION_GO) {
@@ -451,13 +482,14 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findByGeocodeListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			findByGeocodeFn();
 		}
 	}
 
 	private void findByGeocodeFn() {
-		final String geocodeText = ((EditText)findViewById(R.id.geocode)).getText().toString();
+		final String geocodeText = ((EditText) findViewById(R.id.geocode)).getText().toString();
 
 		if (geocodeText == null || geocodeText.length() == 0 || geocodeText.equalsIgnoreCase("GC")) {
 			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_gccode));
@@ -470,6 +502,7 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findTrackableAction implements TextView.OnEditorActionListener {
+
 		@Override
 		public boolean onEditorAction(TextView view, int action, KeyEvent event) {
 			if (action == EditorInfo.IME_ACTION_GO) {
@@ -482,13 +515,14 @@ public class cgeoadvsearch extends Activity {
 	}
 
 	private class findTrackableListener implements View.OnClickListener {
+
 		public void onClick(View arg0) {
 			findTrackableFn();
 		}
 	}
 
 	private void findTrackableFn() {
-		final String trackableText = ((EditText)findViewById(R.id.trackable)).getText().toString();
+		final String trackableText = ((EditText) findViewById(R.id.trackable)).getText().toString();
 
 		if (trackableText == null || trackableText.length() == 0 || trackableText.equalsIgnoreCase("TB")) {
 			warning.helpDialog(res.getString(R.string.warn_search_help_title), res.getString(R.string.warn_search_help_tb));
@@ -507,11 +541,10 @@ public class cgeoadvsearch extends Activity {
 	public void goManual(View view) {
 		try {
 			AppManualReaderClient.openManual(
-				"c-geo",
-				"c:geo-search",
-				activity,
-				"http://cgeo.carnero.cc/manual/"
-			);
+					"c-geo",
+					"c:geo-search",
+					activity,
+					"http://cgeo.carnero.cc/manual/");
 		} catch (Exception e) {
 			// nothing
 		}

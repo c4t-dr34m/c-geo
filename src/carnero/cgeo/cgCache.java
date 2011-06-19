@@ -45,7 +45,7 @@ public class cgCache {
 	public Integer favouriteCnt = null;
 	public Float rating = null;
 	public Integer votes = null;
-	public Integer vote = null;
+	public Float myVote = null;
 	public int inventoryItems = 0;
 	public ArrayList<String> attributes = null;
 	public ArrayList<cgWaypoint> waypoints = null;
@@ -181,8 +181,8 @@ public class cgCache {
 		if (votes == null) {
 			votes = oldCache.votes;
 		}
-		if (vote == null) {
-			vote = oldCache.vote;
+		if (myVote == null) {
+			myVote = oldCache.myVote;
 		}
 		if (inventoryItems == 0) {
 			inventoryItems = oldCache.inventoryItems;

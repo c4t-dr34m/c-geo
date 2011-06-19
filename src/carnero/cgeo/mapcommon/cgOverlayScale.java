@@ -1,17 +1,20 @@
-package carnero.cgeo;
+package carnero.cgeo.mapcommon;
 
 import android.app.Activity;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
+import carnero.cgeo.cgBase;
+import carnero.cgeo.cgSettings;
+import carnero.cgeo.mapinterfaces.GeoPointImpl;
+import carnero.cgeo.mapinterfaces.MapProjectionImpl;
+import carnero.cgeo.mapinterfaces.OverlayBase;
+import carnero.cgeo.mapinterfaces.MapViewImpl;
 
-public class cgOverlayScale extends Overlay {
-	private cgBase base = null;
+public class cgOverlayScale implements OverlayBase {
 	private cgSettings settings = null;
     private Paint scale = null;
     private Paint scaleShadow = null;
@@ -23,8 +26,7 @@ public class cgOverlayScale extends Overlay {
 	private double distanceRound = 0d;
 	private String units = null;
 
-    public cgOverlayScale(Activity activity, cgBase baseIn, cgSettings settingsIn) {
-		base = baseIn;
+    public cgOverlayScale(Activity activity, cgSettings settingsIn) {
 		settings = settingsIn;
 
 		DisplayMetrics metrics = new DisplayMetrics();
@@ -32,12 +34,19 @@ public class cgOverlayScale extends Overlay {
 		pixelDensity = metrics.density;
 	}
 
-    @Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		super.draw(canvas, mapView, shadow);
+	@Override
+	public void drawOverlayBitmap(Canvas canvas, Point drawPosition,
+			MapProjectionImpl projection, byte drawZoomLevel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+    public void draw(Canvas canvas, MapViewImpl mapView, boolean shadow) {
+		//super.draw(canvas, mapView, shadow);
 
 		final double span = mapView.getLongitudeSpan() / 1e6;
-		final GeoPoint center = mapView.getMapCenter();
+		final GeoPointImpl center = mapView.getMapViewCenter();
 
 		pixels = mapView.getWidth() / 2; // pixels related to following latitude span
 		bottom = mapView.getHeight() - 14; // pixels from bottom side of screen

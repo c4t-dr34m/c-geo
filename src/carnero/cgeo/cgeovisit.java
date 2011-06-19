@@ -58,6 +58,13 @@ public class cgeovisit extends cgLogForm {
 	private LinearLayout tweetBox = null;
 	private int rating = 0;
 	private boolean tbChanged = false;
+	// constants
+	private final static int LOG_SIGNATURE = 0x1;
+	private final static int LOG_TIME = 0x2;
+	private final static int LOG_DATE = 0x4;
+	private final static int LOG_DATE_TIME = 0x6;
+	private final static int LOG_SIGNATURE_DATE_TIME = 0x7;
+	// handlers
 	private Handler showProgressHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -125,7 +132,7 @@ public class cgeovisit extends cgLogForm {
 						public void onClick(View view) {
 							final Intent trackablesIntent = new Intent(activity, cgeotrackable.class);
 							trackablesIntent.putExtra("geocode", tbCode);
-							activity.startActivity(trackablesIntent);							
+							activity.startActivity(trackablesIntent);
 						}
 					});
 					inventoryItem.findViewById(R.id.action).setOnClickListener(new View.OnClickListener() {
@@ -153,7 +160,7 @@ public class cgeovisit extends cgLogForm {
 						}
 					});
 
-					((LinearLayout) findViewById(R.id.inventory_changeall)).setVisibility(View.VISIBLE);				
+					((LinearLayout) findViewById(R.id.inventory_changeall)).setVisibility(View.VISIBLE);
 				}
 			}
 
@@ -264,6 +271,13 @@ public class cgeovisit extends cgLogForm {
 
 		init();
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -277,11 +291,11 @@ public class cgeovisit extends cgLogForm {
 		SubMenu subMenu = null;
 
 		subMenu = menu.addSubMenu(0, 0, 0, res.getString(R.string.log_add)).setIcon(android.R.drawable.ic_menu_add);
-		subMenu.add(0, 0x6, 0, res.getString(R.string.log_date_time));
-		subMenu.add(0, 0x4, 0, res.getString(R.string.log_date));
-		subMenu.add(0, 0x2, 0, res.getString(R.string.log_time));
-		subMenu.add(0, 0x1, 0, res.getString(R.string.init_signature));
-		subMenu.add(0, 0x7, 0, res.getString(R.string.log_date_time) + " & " + res.getString(R.string.init_signature));
+		subMenu.add(0, LOG_DATE_TIME, 0, res.getString(R.string.log_date_time));
+		subMenu.add(0, LOG_DATE, 0, res.getString(R.string.log_date));
+		subMenu.add(0, LOG_TIME, 0, res.getString(R.string.log_time));
+		subMenu.add(0, LOG_SIGNATURE, 0, res.getString(R.string.init_signature));
+		subMenu.add(0, LOG_SIGNATURE_DATE_TIME, 0, res.getString(R.string.log_date_time) + " & " + res.getString(R.string.init_signature));
 
 		subMenu = menu.addSubMenu(0, 9, 0, res.getString(R.string.log_rating)).setIcon(android.R.drawable.ic_menu_sort_by_size);
 		subMenu.add(0, 10, 0, res.getString(R.string.log_no_rating));
@@ -297,11 +311,11 @@ public class cgeovisit extends cgLogForm {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (settings.getSignature() == null) {
-			menu.findItem(0x1).setVisible(false);
-			menu.findItem(0x7).setVisible(false);
+			menu.findItem(LOG_SIGNATURE).setVisible(false);
+			menu.findItem(LOG_SIGNATURE_DATE_TIME).setVisible(false);
 		} else {
-			menu.findItem(0x1).setVisible(true);
-			menu.findItem(0x7).setVisible(true);
+			menu.findItem(LOG_SIGNATURE).setVisible(true);
+			menu.findItem(LOG_SIGNATURE_DATE_TIME).setVisible(true);
 		}
 
 		if (settings.isGCvoteLogin() && typeSelected == cgBase.LOG_FOUND_IT && cache.guid != null && cache.guid.length() > 0) {
@@ -317,57 +331,9 @@ public class cgeovisit extends cgLogForm {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 
-		EditText text = null;
-		String textContent = null;
-		String dateString = null;
-		String timeString = null;
-		String addText = "";
+		if ((id >= LOG_SIGNATURE && id <= LOG_SIGNATURE_DATE_TIME)) {
+			addSignature(id);
 
-		if ((id >= 0x1 && id <= 0x7)) {
-			text = (EditText) findViewById(R.id.log);
-			textContent = text.getText().toString();
-			dateString = cgBase.dateOut.format(new Date());
-			timeString = cgBase.timeOut.format(new Date());
-		
-			if ((id & 0x4) == 0x4) {
-				addText += dateString;
-				if ((id & 0x2) == 0x2) {
-					addText += " | ";
-				}
-			}
-			if ((id & 0x2) == 0x2) {
-				addText += timeString;
-			}
-			if ((id & 0x1) == 0x1 && settings.getSignature() != null) {
-				String findCount = "";
-				if (addText.length() > 0) {
-					addText += "\n";
-				}
-
-				if (settings.getSignature().contains("[NUMBER]") == true) {
-					final HashMap<String, String> params = new HashMap<String, String>();
-					final String page = base.request(false, "www.geocaching.com", "/my/", "GET", params, false, false, false).getData();
-					int current = base.parseFindCount(page);
-
-					if (current >= 0) {
-						findCount = "" + (current + 1);
-					}
-				}
-
-				addText += settings.getSignature()
-						.replaceAll("\\[DATE\\]", dateString)
-						.replaceAll("\\[TIME\\]", timeString)
-						.replaceAll("\\[USER\\]", settings.getUsername())
-						.replaceAll("\\[NUMBER\\]", findCount);
-			}
-			
-			if (textContent.length() > 0 && addText.length() > 0 ) {
-				addText = "\n" + addText;
-			}
-			
-			text.setText(textContent + addText, TextView.BufferType.NORMAL);
-			text.setSelection(text.getText().toString().length());
-			
 			return true;
 		} else if (id >= 10 && id <= 15) {
 			rating = id - 10;
@@ -383,6 +349,65 @@ public class cgeovisit extends cgLogForm {
 		}
 
 		return false;
+	}
+
+	public void addSignature(int id) {
+		EditText text = null;
+		String textContent = null;
+		String dateString = null;
+		String timeString = null;
+		StringBuilder addText = new StringBuilder();
+
+		text = (EditText) findViewById(R.id.log);
+		textContent = text.getText().toString();
+		dateString = cgBase.dateOut.format(new Date());
+		timeString = cgBase.timeOut.format(new Date());
+
+		if ((id & LOG_DATE) == LOG_DATE) {
+			addText.append(dateString);
+			if ((id & LOG_TIME) == LOG_TIME) {
+				addText.append(" | ");
+			}
+		}
+
+		if ((id & LOG_TIME) == LOG_TIME) {
+			addText.append(timeString);
+		}
+
+		if ((id & LOG_SIGNATURE) == LOG_SIGNATURE && settings.getSignature() != null) {
+			String findCount = "";
+			if (addText.length() > 0) {
+				addText.append("\n");
+			}
+
+			if (settings.getSignature().contains("[NUMBER]") == true) {
+				final HashMap<String, String> params = new HashMap<String, String>();
+				final String page = base.request(false, "www.geocaching.com", "/my/", "GET", params, false, false, false).getData();
+				int current = base.parseFindCount(page);
+
+				if (current >= 0) {
+					findCount = "" + (current + 1);
+				}
+			}
+
+			String signature = settings.getSignature()
+					.replaceAll("\\[DATE\\]", dateString)
+					.replaceAll("\\[TIME\\]", timeString)
+					.replaceAll("\\[USER\\]", settings.getUsername())
+					.replaceAll("\\[NUMBER\\]", findCount);
+
+			addText.append(signature);
+		}
+
+		final String addTextDone;
+		if (textContent.length() > 0 && addText.length() > 0 ) {
+			addTextDone = textContent + "\n" + addText.toString();
+		} else {
+			addTextDone = textContent + addText.toString();
+		}
+
+		text.setText(addTextDone, TextView.BufferType.NORMAL);
+		text.setSelection(text.getText().toString().length());
 	}
 
 	@Override
@@ -435,7 +460,7 @@ public class cgeovisit extends cgLogForm {
 						if (tbView == null) {
 							return false;
 						}
-	
+
 						final TextView tbText = (TextView) tbView.findViewById(R.id.action);
 						if (tbText == null) {
 							return false;
@@ -539,6 +564,8 @@ public class cgeovisit extends cgLogForm {
 				}
 				post.setText(res.getString(R.string.log_post_no_rate));
 			}
+		} else if (settings.getSignature() != null && settings.getSignature().length() > 0) {
+			addSignature(LOG_SIGNATURE);
 		}
 
 		if (types.contains(typeSelected) == false) {
@@ -815,7 +842,7 @@ public class cgeovisit extends cgLogForm {
 			if (tweetCheck == null) {
 				tweetCheck = (CheckBox) findViewById(R.id.tweet);
 			}
-			
+
 			status = base.postLog(app, geocode, cacheid, viewstate, viewstate1, typeSelected, date.get(Calendar.YEAR), (date.get(Calendar.MONTH) + 1), date.get(Calendar.DATE), log, trackables);
 
 			if (status == 1) {

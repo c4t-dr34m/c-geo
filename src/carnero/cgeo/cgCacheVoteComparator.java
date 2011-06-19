@@ -13,14 +13,14 @@ public class cgCacheVoteComparator implements Comparator<cgCache> {
 	public int compare(cgCache cache1, cgCache cache2) {
 		try {
 			// if there is no vote available, put that cache at the end of the list
-			int vote1 = 0;
-			if (cache1.vote != null) {
-				vote1 = cache1.vote;
+			float vote1 = 0;
+			if (cache1.myVote != null) {
+				vote1 = cache1.myVote;
 			}
 
-			int vote2 = 0;
-			if (cache2.vote != null) {
-				vote2 = cache2.vote;
+			float vote2 = 0;
+			if (cache2.myVote != null) {
+				vote2 = cache2.myVote;
 			}
 
 			if (vote1 < vote2) {

@@ -122,6 +122,13 @@ public class cgeoauth extends Activity {
 		init();
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
 	private void init() {
 		startButton = (Button) findViewById(R.id.start);
 		pinEntry = (EditText) findViewById(R.id.pin);

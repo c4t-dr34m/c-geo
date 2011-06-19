@@ -22,9 +22,11 @@ import android.view.WindowManager;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class cgeonavigate extends Activity {
-	public static ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
+import carnero.cgeo.mapcommon.cgeomap;
 
+public class cgeonavigate extends Activity {
+
+	public static ArrayList<cgCoord> coordinates = new ArrayList<cgCoord>();
 	private Resources res = null;
 	private cgeoapplication app = null;
 	private Activity activity = null;
@@ -50,26 +52,28 @@ public class cgeonavigate extends Activity {
 	private TextView headingView = null;
 	private cgCompass compassView = null;
 	private updaterThread updater = null;
-
 	private Handler updaterHandler = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (compassView != null) compassView.updateNorth(northHeading, cacheHeading);
+				if (compassView != null) {
+					compassView.updateNorth(northHeading, cacheHeading);
+				}
 			} catch (Exception e) {
 				Log.e(cgSettings.tag, "cgeonavigate.updaterHandler: " + e.toString());
 			}
 		}
 	};
 
-    @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// class init
 		activity = this;
 		res = this.getResources();
-		app = (cgeoapplication)this.getApplication();
+		app = (cgeoapplication) this.getApplication();
 		settings = new cgSettings(this, getSharedPreferences(cgSettings.preferences, 0));
 		base = new cgBase(app, settings, getSharedPreferences(cgSettings.preferences, 0));
 		warning = new cgWarning(this);
@@ -88,8 +92,12 @@ public class cgeonavigate extends Activity {
 		base.sendAnal(activity, "/navigate");
 
 		// sensor & geolocation manager
-		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
+		if (settings.useCompass == 1 && dir == null) {
+			dir = app.startDir(activity, dirUpdate, warning);
+		}
 
 		// get parameters
 		Bundle extras = getIntent().getExtras();
@@ -100,8 +108,11 @@ public class cgeonavigate extends Activity {
 			dstLongitude = extras.getDouble("longitude");
 
 			if (name != null && name.length() > 0) {
-                if (title != null && title.length() > 0) title = title + ": " + name;
-                else title = name;
+				if (title != null && title.length() > 0) {
+					title = title + ": " + name;
+				} else {
+					title = name;
+				}
 			}
 		} else {
 			Intent pointIntent = new Intent(activity, cgeopoint.class);
@@ -111,41 +122,57 @@ public class cgeonavigate extends Activity {
 			return;
 		}
 
-		if (title != null && title.length() > 0) app.setAction(title);
-		else if (name != null && name.length() > 0) app.setAction(name);
+		if (title != null && title.length() > 0) {
+			app.setAction(title);
+		} else if (name != null && name.length() > 0) {
+			app.setAction(name);
+		}
 
 		// set header
 		setTitle();
 		setDestCoords();
 
 		// get textviews once
-		compassView = (cgCompass)findViewById(R.id.rose);
+		compassView = (cgCompass) findViewById(R.id.rose);
 
 		// start updater thread
 		updater = new updaterThread(updaterHandler);
 		updater.start();
 
-		if (geo != null) geoUpdate.updateLoc(geo);
-		if (dir != null) dirUpdate.updateDir(dir);
+		if (geo != null) {
+			geoUpdate.updateLoc(geo);
+		}
+		if (dir != null) {
+			dirUpdate.updateDir(dir);
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		if (title != null && title.length() > 0) app.setAction(title);
-		else if (name != null && name.length() > 0) app.setAction(name);
+		settings.load();
+
+		if (title != null && title.length() > 0) {
+			app.setAction(title);
+		} else if (name != null && name.length() > 0) {
+			app.setAction(name);
+		}
 
 		// sensor & geolocation manager
-		if (geo == null) geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
-		if (settings.useCompass == 1 && dir == null) dir = app.startDir(activity, dirUpdate, warning);
+		if (geo == null) {
+			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
+		}
+		if (settings.useCompass == 1 && dir == null) {
+			dir = app.startDir(activity, dirUpdate, warning);
+		}
 
 		// keep backlight on
-        if (pm == null) {
-            pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-        }
+		if (pm == null) {
+			pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		}
 
-        // updater thread
+		// updater thread
 		if (updater == null) {
 			updater = new updaterThread(updaterHandler);
 			updater.start();
@@ -154,24 +181,36 @@ public class cgeonavigate extends Activity {
 
 	@Override
 	public void onStop() {
-		if (geo != null) geo = app.removeGeo();
-		if (dir != null) dir = app.removeDir();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
+		if (dir != null) {
+			dir = app.removeDir();
+		}
 
-        super.onStop();
+		super.onStop();
 	}
 
 	@Override
 	public void onPause() {
-		if (geo != null) geo = app.removeGeo();
-		if (dir != null) dir = app.removeDir();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
+		if (dir != null) {
+			dir = app.removeDir();
+		}
 
 		super.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
-		if (geo != null) geo = app.removeGeo();
-		if (dir != null) dir = app.removeDir();
+		if (geo != null) {
+			geo = app.removeGeo();
+		}
+		if (dir != null) {
+			dir = app.removeDir();
+		}
 
 		compassView.destroyDrawingCache();
 		compassView = null;
@@ -194,7 +233,7 @@ public class cgeonavigate extends Activity {
 			int cnt = 4;
 			for (cgCoord coordinate : coordinates) {
 				subMenu.add(0, cnt, 0, coordinate.name + " (" + coordinate.type + ")");
-				cnt ++;
+				cnt++;
 			}
 
 			return true;
@@ -225,9 +264,7 @@ public class cgeonavigate extends Activity {
 		int id = item.getItemId();
 
 		if (id == 0) {
-			cgeomap mapActivity = new cgeomap();
-
-			Intent mapIntent = new Intent(activity, mapActivity.getClass());
+			Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 			mapIntent.putExtra("detail", false);
 			mapIntent.putExtra("latitude", dstLatitude);
 			mapIntent.putExtra("longitude", dstLongitude);
@@ -237,7 +274,9 @@ public class cgeonavigate extends Activity {
 			if (settings.useCompass == 1) {
 				settings.useCompass = 0;
 
-				if (dir != null) dir = app.removeDir();
+				if (dir != null) {
+					dir = app.removeDir();
+				}
 
 				SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
 				prefsEdit.putInt("usecompass", settings.useCompass);
@@ -245,7 +284,9 @@ public class cgeonavigate extends Activity {
 			} else {
 				settings.useCompass = 1;
 
-				if (dir == null) dir = app.startDir(activity, dirUpdate, warning);
+				if (dir == null) {
+					dir = app.startDir(activity, dirUpdate, warning);
+				}
 
 				SharedPreferences.Editor prefsEdit = getSharedPreferences(cgSettings.preferences, 0).edit();
 				prefsEdit.putInt("usecompass", settings.useCompass);
@@ -287,7 +328,7 @@ public class cgeonavigate extends Activity {
 			return;
 		}
 
-		((TextView)findViewById(R.id.destination)).setText(base.formatCoordinate(dstLatitude, "lat", true) + " | " + base.formatCoordinate(dstLongitude, "lon", true));
+		((TextView) findViewById(R.id.destination)).setText(base.formatCoordinate(dstLatitude, "lat", true) + " | " + base.formatCoordinate(dstLongitude, "lon", true));
 	}
 
 	public void setDest(Double lat, Double lon) {
@@ -314,10 +355,16 @@ public class cgeonavigate extends Activity {
 	}
 
 	private void updateDistanceInfo() {
-		if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null || dstLatitude == null || dstLongitude == null) return;
+		if (geo == null || geo.latitudeNow == null || geo.longitudeNow == null || dstLatitude == null || dstLongitude == null) {
+			return;
+		}
 
-		if (distanceView == null) distanceView = (TextView)findViewById(R.id.distance);
-		if (headingView == null) headingView = (TextView)findViewById(R.id.heading);
+		if (distanceView == null) {
+			distanceView = (TextView) findViewById(R.id.distance);
+		}
+		if (headingView == null) {
+			headingView = (TextView) findViewById(R.id.heading);
+		}
 
 		cacheHeading = cgBase.getHeading(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude);
 		distanceView.setText(base.getHumanDistance(cgBase.getDistance(geo.latitudeNow, geo.longitudeNow, dstLatitude, dstLongitude)));
@@ -325,16 +372,19 @@ public class cgeonavigate extends Activity {
 	}
 
 	private class update extends cgUpdateLoc {
+
 		@Override
 		public void updateLoc(cgGeo geo) {
-			if (geo == null) return;
+			if (geo == null) {
+				return;
+			}
 
 			try {
 				if (navType == null || navLocation == null || navAccuracy == null) {
-					navType = (TextView)findViewById(R.id.nav_type);
-					navAccuracy = (TextView)findViewById(R.id.nav_accuracy);
-					navSatellites = (TextView)findViewById(R.id.nav_satellites);
-					navLocation = (TextView)findViewById(R.id.nav_location);
+					navType = (TextView) findViewById(R.id.nav_type);
+					navAccuracy = (TextView) findViewById(R.id.nav_accuracy);
+					navSatellites = (TextView) findViewById(R.id.nav_satellites);
+					navLocation = (TextView) findViewById(R.id.nav_location);
 				}
 
 				if (geo.latitudeNow != null && geo.longitudeNow != null) {
@@ -399,9 +449,12 @@ public class cgeonavigate extends Activity {
 	}
 
 	private class updateDir extends cgUpdateDir {
+
 		@Override
 		public void updateDir(cgDirection dir) {
-			if (dir == null || dir.directionNow == null) return;
+			if (dir == null || dir.directionNow == null) {
+				return;
+			}
 
 			if (geo == null || geo.speedNow == null || geo.speedNow <= 5) { // use compass when speed is lower than 18 km/h
 				northHeading = dir.directionNow;
@@ -410,6 +463,7 @@ public class cgeonavigate extends Activity {
 	}
 
 	private class updaterThread extends Thread {
+
 		private Handler handler = null;
 
 		public updaterThread(Handler handlerIn) {
@@ -418,8 +472,10 @@ public class cgeonavigate extends Activity {
 
 		@Override
 		public void run() {
-			while(!Thread.currentThread().isInterrupted()){
-				if (handler != null) handler.sendMessage(new Message());
+			while (!Thread.currentThread().isInterrupted()) {
+				if (handler != null) {
+					handler.sendMessage(new Message());
+				}
 
 				try {
 					Thread.sleep(20);
@@ -437,11 +493,10 @@ public class cgeonavigate extends Activity {
 	public void goManual(View view) {
 		try {
 			AppManualReaderClient.openManual(
-				"c-geo",
-				"c:geo-compass",
-				activity,
-				"http://cgeo.carnero.cc/manual/"
-			);
+					"c-geo",
+					"c:geo-compass",
+					activity,
+					"http://cgeo.carnero.cc/manual/");
 		} catch (Exception e) {
 			// nothing
 		}

@@ -94,6 +94,13 @@ public class cgeoinit extends Activity {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 
@@ -149,6 +156,8 @@ public class cgeoinit extends Activity {
 	}
 
 	public void init() {
+		
+		// geocaching.com settings
 		String usernameNow = prefs.getString("username", null);
 		if (usernameNow != null) {
 			((EditText) findViewById(R.id.username)).setText(usernameNow);
@@ -157,11 +166,7 @@ public class cgeoinit extends Activity {
 		if (usernameNow != null) {
 			((EditText) findViewById(R.id.password)).setText(passwordNow);
 		}
-		String passvoteNow = prefs.getString("pass-vote", null);
-		if (passvoteNow != null) {
-			((EditText) findViewById(R.id.passvote)).setText(passvoteNow);
-		}
-
+		
 		Button logMeIn = (Button) findViewById(R.id.log_me_in);
 		logMeIn.setOnClickListener(new logIn());
 
@@ -174,6 +179,13 @@ public class cgeoinit extends Activity {
 			}
 		});
 
+		// gcvote settings
+		String passvoteNow = prefs.getString("pass-vote", null);
+		if (passvoteNow != null) {
+			((EditText) findViewById(R.id.passvote)).setText(passvoteNow);
+		}
+
+		// go4cache settings
 		TextView go4cache = (TextView) findViewById(R.id.about_go4cache);
 		go4cache.setClickable(true);
 		go4cache.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +203,7 @@ public class cgeoinit extends Activity {
 		}
 		publicButton.setOnClickListener(new cgeoChangePublic());
 
+		// Twitter settings
 		Button authorizeTwitter = (Button) findViewById(R.id.authorize_twitter);
 		authorizeTwitter.setOnClickListener(new View.OnClickListener() {
 
@@ -208,6 +221,7 @@ public class cgeoinit extends Activity {
 		}
 		twitterButton.setOnClickListener(new cgeoChangeTwitter());
 
+		// Signature settings
 		EditText sigEdit = (EditText) findViewById(R.id.signature);
 		if (sigEdit.getText().length() == 0) {
 			sigEdit.setText(settings.getSignature());
@@ -219,19 +233,7 @@ public class cgeoinit extends Activity {
 			}
 		});
 
-		CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
-		if (prefs.getBoolean("translate", false) == false) {
-			translateButton.setChecked(false);
-		} else {
-			translateButton.setChecked(true);
-		}
-		translateButton.setOnClickListener(new cgeoChangeTranslate());
-		
-		EditText lngEdit = (EditText) findViewById(R.id.languages);
-		if (lngEdit.getText().length() == 0) {
-			lngEdit.setText(settings.getLanguages());
-		}
-
+		// Other settings
 		CheckBox skinButton = (CheckBox) findViewById(R.id.skin);
 		if (prefs.getInt("skin", 0) == 0) {
 			skinButton.setChecked(false);
@@ -328,9 +330,22 @@ public class cgeoinit extends Activity {
 		}
 		browserButton.setOnClickListener(new cgeoChangeBrowser());
 		
+		// Altitude settings
 		EditText altitudeEdit = (EditText) findViewById(R.id.altitude);
 		altitudeEdit.setText("" + prefs.getInt("altcorrection", 0));
 		
+		// OpenStreetMaps settings
+		CheckBox mfmapsButton = (CheckBox) findViewById(R.id.mfmapusage);
+		if (prefs.getInt("usemfmaps", 0) == 0) {
+			mfmapsButton.setChecked(false);
+		} else {
+			mfmapsButton.setChecked(true);
+		}
+		mfmapsButton.setOnClickListener(new cgeoChangeMfMaps());
+		EditText mfmapFileEdit = (EditText) findViewById(R.id.mapfile);
+		mfmapFileEdit.setText(prefs.getString("mfmapfile", ""));
+		
+		// Cache db backup
 		TextView lastBackup = (TextView) findViewById(R.id.backup_last);
 		File lastBackupFile = app.isRestoreFile();
 		if (lastBackupFile != null) {
@@ -374,8 +389,8 @@ public class cgeoinit extends Activity {
 		String passwordNew = ((EditText) findViewById(R.id.password)).getText().toString();
 		String passvoteNew = ((EditText) findViewById(R.id.passvote)).getText().toString();
 		String signatureNew = ((EditText) findViewById(R.id.signature)).getText().toString();
-		String languagesNew = ((EditText) findViewById(R.id.languages)).getText().toString();
 		String altitudeNew = ((EditText) findViewById(R.id.altitude)).getText().toString();
+		String mfmapFileNew = ((EditText) findViewById(R.id.mapfile)).getText().toString();
 
 		if (usernameNew == null) {
 			usernameNew = "";
@@ -389,9 +404,6 @@ public class cgeoinit extends Activity {
 		if (signatureNew == null) {
 			signatureNew = "";
 		}
-		if (languagesNew == null) {
-			languagesNew = "";
-		}
 		
 		int altitudeNewInt = 0;
 		if (altitudeNew == null) {
@@ -399,12 +411,16 @@ public class cgeoinit extends Activity {
 		} else {
 			altitudeNewInt = new Integer(altitudeNew);
 		}
+		
+		if (mfmapFileNew == null) {
+			mfmapFileNew = "";
+		}
 
 		final boolean status1 = settings.setLogin(usernameNew, passwordNew);
 		final boolean status2 = settings.setGCvoteLogin(passvoteNew);
 		final boolean status3 = settings.setSignature(signatureNew);
-		final boolean status4 = settings.setLanguages(languagesNew);
-		final boolean status5 = settings.setAltCorrection(altitudeNewInt);
+		final boolean status4 = settings.setAltCorrection(altitudeNewInt);
+		final boolean status5 = settings.setMapFile(mfmapFileNew);
 
 		if (status1 && status2 && status3 && status4 && status5) {
 			return true;
@@ -454,30 +470,6 @@ public class cgeoinit extends Activity {
 		}
 	}
 
-	private class cgeoChangeTranslate implements View.OnClickListener {
-
-		public void onClick(View arg0) {
-			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getBoolean("translate", false) == false) {
-				edit.putBoolean("translate", true);
-				settings.translate = true;
-			} else {
-				edit.putBoolean("translate", false);
-				settings.translate = false;
-			}
-			edit.commit();
-
-			CheckBox translateButton = (CheckBox) findViewById(R.id.translate);
-			if (prefs.getBoolean("translate", false) == false) {
-				translateButton.setChecked(false);
-			} else {
-				translateButton.setChecked(true);
-			}
-
-			return;
-		}
-	}
-	
 	private class cgeoChangeSkin implements View.OnClickListener {
 
 		public void onClick(View arg0) {
@@ -784,6 +776,30 @@ public class cgeoinit extends Activity {
 				browserButton.setChecked(false);
 			} else {
 				browserButton.setChecked(true);
+			}
+
+			return;
+		}
+	}
+
+	private class cgeoChangeMfMaps implements View.OnClickListener {
+
+		public void onClick(View arg0) {
+			SharedPreferences.Editor edit = prefs.edit();
+			if (prefs.getInt("usemfmaps", 0) == 0) {
+				edit.putInt("usemfmaps", 1);
+				settings.mapProvider = cgSettings.mapProviderEnum.mapsForgeMap;
+			} else {
+				edit.putInt("usemfmaps", 0);
+				settings.mapProvider = cgSettings.mapProviderEnum.googleMap;
+			}
+			edit.commit();
+
+			CheckBox mfmapsButton = (CheckBox) findViewById(R.id.mfmapusage);
+			if (prefs.getInt("usemfmaps", 1) == 0) {
+				mfmapsButton.setChecked(false);
+			} else {
+				mfmapsButton.setChecked(true);
 			}
 
 			return;

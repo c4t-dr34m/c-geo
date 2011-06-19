@@ -171,6 +171,13 @@ public class cgeotouch extends cgLogForm {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 

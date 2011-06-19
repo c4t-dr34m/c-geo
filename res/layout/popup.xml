@@ -3,19 +3,12 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="?background_color" >
+		android:background="?background_color_transparent" >
 	<LinearLayout style="@style/action_bar">
-		<ImageView style="@style/action_bar_action"
-				android:onClick="goHome" />
-		<View style="@style/action_bar_separator" />
 		<TextView style="@style/action_bar_title" />
 		<ImageView style="@style/action_bar_action"
 				android:src="@drawable/actionbar_compass"
 				android:onClick="goCompass" />
-		<View style="@style/action_bar_separator" />
-		<ImageView style="@style/action_bar_action"
-				android:src="@drawable/actionbar_manual"
-				android:onClick="goManual" />
 	</LinearLayout>
 	<ScrollView android:id="@+id/details_list_box"
 			android:visibility="gone"
@@ -48,8 +41,6 @@
 					android:orientation="vertical"  >
 				<RelativeLayout style="@style/separator_horizontal_layout" >
 					<View style="@style/separator_horizontal" />
-					<TextView style="@style/separator_horizontal_headline"
-							android:text="@string/popup_offline" />
 				</RelativeLayout>
 				<RelativeLayout
 						android:layout_width="fill_parent"

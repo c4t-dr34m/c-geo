@@ -6,8 +6,8 @@
   <color name="background_light">#FFFFFFFF</color>
   <color name="background_dark_notice">#FF191919</color>
   <color name="background_light_notice">#FFDFDFDF</color>
-  <color name="background_dark_transparent">#CC000000</color>
-  <color name="background_light_transparent">#CCFFFFFF</color>
+  <color name="background_dark_transparent">#44000000</color>
+  <color name="background_light_transparent">#44FFFFFF</color>
   <color name="owncache_background_dark">#FF222222</color>
   <color name="owncache_background_light">#FFDDDDDD</color>
   <color name="separator_dark">#44FFFFFF</color>

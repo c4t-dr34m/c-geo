@@ -44,6 +44,13 @@ public class cgeoabout extends Activity {
 	}
 	
 	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}

@@ -540,12 +540,12 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		} else {
 			favoriteBack = R.drawable.favourite_background_dark;
 		}
-		if (cache.vote != null && cache.vote > 0) {
-			if (cache.vote >= 4) {
+		if (cache.myVote != null && cache.myVote > 0) {
+			if (cache.myVote >= 4) {
 				favoriteBack = ratingBcgs[2];
-			} else if (cache.vote >= 3) {
+			} else if (cache.myVote >= 3) {
 				favoriteBack = ratingBcgs[1];
-			} else if (cache.vote > 0) {
+			} else if (cache.myVote > 0) {
 				favoriteBack = ratingBcgs[0];
 			}
 		} else if (cache.rating != null && cache.rating > 0) {

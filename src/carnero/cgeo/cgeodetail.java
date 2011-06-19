@@ -42,6 +42,7 @@ import android.view.Display;
 import android.view.SubMenu;
 import android.view.WindowManager;
 import android.widget.Button;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -86,7 +87,7 @@ public class cgeodetail extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			storeThread = null;
-			
+
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
@@ -103,7 +104,7 @@ public class cgeodetail extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			refreshThread = null;
-			
+
 			try {
 				cache = app.getCache(searchId); // reload cache details
 			} catch (Exception e) {
@@ -189,11 +190,15 @@ public class cgeodetail extends Activity {
 
 			if (longDesc != null) {
 				((LinearLayout) findViewById(R.id.desc_box)).setVisibility(View.VISIBLE);
-
 				TextView descView = (TextView) findViewById(R.id.description);
-				descView.setVisibility(View.VISIBLE);
-				descView.setText(longDesc, TextView.BufferType.SPANNABLE);
-				descView.setMovementMethod(LinkMovementMethod.getInstance());
+				if (cache.description.length() > 0) {
+					descView.setVisibility(View.VISIBLE);
+					descView.setText(longDesc, TextView.BufferType.SPANNABLE);
+					descView.setMovementMethod(LinkMovementMethod.getInstance());
+				}
+				else {
+					descView.setVisibility(View.GONE);
+				}
 
 				Button showDesc = (Button) findViewById(R.id.show_description);
 				showDesc.setVisibility(View.GONE);
@@ -328,6 +333,8 @@ public class cgeodetail extends Activity {
 	public void onResume() {
 		super.onResume();
 
+		settings.load();
+		
 		if (geo == null) {
 			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		}
@@ -547,7 +554,9 @@ public class cgeodetail extends Activity {
 		TextView itemName;
 		TextView itemValue;
 
-		if (searchId == null) return;
+		if (searchId == null) {
+			return;
+		}
 
 		cache = app.getCache(searchId);
 
@@ -628,8 +637,11 @@ public class cgeodetail extends Activity {
 			itemName.setText(res.getString(R.string.cache_type));
 
 			String size = null;
-			if (cache.size != null && cache.size.length() > 0) size = " (" + cache.size + ")";
-			else size = "";
+			if (cache.size != null && cache.size.length() > 0) {
+				size = " (" + cache.size + ")";
+			} else {
+				size = "";
+			}
 
 			if (cgBase.cacheTypesInv.containsKey(cache.type) == true) { // cache icon
 				itemValue.setText(cgBase.cacheTypesInv.get(cache.type) + size);
@@ -925,7 +937,7 @@ public class cgeodetail extends Activity {
 					}
 
 					private int order(cgWaypoint waypoint) {
-						if (waypoint.prefix == null || waypoint.prefix.isEmpty()) {
+						if (waypoint.prefix == null || waypoint.prefix.length() == 0) {
 							return 0;
 						}
 						// check only the first character. sometimes there are inconsistencies like FI or FN for the FINAL
@@ -1305,9 +1317,7 @@ public class cgeodetail extends Activity {
 	}
 
 	private void showOnMap() {
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 		mapIntent.putExtra("detail", true);
 		mapIntent.putExtra("searchid", searchId);
 
@@ -1661,11 +1671,11 @@ public class cgeodetail extends Activity {
 
 			storeDialog = ProgressDialog.show(activity, res.getString(R.string.cache_dialog_offline_save_title), res.getString(R.string.cache_dialog_offline_save_message), true);
 			storeDialog.setCancelable(true);
-			
+
 			if (storeThread != null) {
 				storeThread.interrupt();
 			}
-				
+
 			storeThread = new storeCacheThread(storeCacheHandler);
 			storeThread.start();
 		}
@@ -1684,11 +1694,11 @@ public class cgeodetail extends Activity {
 
 			refreshDialog = ProgressDialog.show(activity, res.getString(R.string.cache_dialog_refresh_title), res.getString(R.string.cache_dialog_refresh_message), true);
 			refreshDialog.setCancelable(true);
-			
+
 			if (refreshThread != null) {
 				refreshThread.interrupt();
 			}
-			
+
 			refreshThread = new refreshCacheThread(refreshCacheHandler);
 			refreshThread.start();
 		}
@@ -1840,6 +1850,8 @@ public class cgeodetail extends Activity {
 
 	public void goCompass(View view) {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.cache_coordinates_no));
+			
 			return;
 		}
 

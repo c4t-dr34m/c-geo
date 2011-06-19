@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import java.util.HashMap;
 import java.util.Locale;
@@ -123,11 +124,7 @@ public class cgeopopup extends Activity {
 		warning = new cgWarning(this);
 
 		// set layout
-		if (settings.skin == 1) {
-			setTheme(R.style.light);
-		} else {
-			setTheme(R.style.dark);
-		}
+		setTheme(R.style.transparent);
 		setContentView(R.layout.popup);
 		base.setTitle(activity, res.getString(R.string.detail));
 
@@ -556,6 +553,7 @@ public class cgeopopup extends Activity {
 	public void onResume() {
 		super.onResume();
 
+		settings.load();
 		init();
 	}
 
@@ -613,9 +611,7 @@ public class cgeopopup extends Activity {
 			warning.showToast(res.getString(R.string.err_location_unknown));
 		}
 
-		cgeomap mapActivity = new cgeomap();
-
-		Intent mapIntent = new Intent(activity, mapActivity.getClass());
+		Intent mapIntent = new Intent(activity, settings.getMapFactory().getMapClass());
 
 		mapIntent.putExtra("latitude", cache.latitude);
 		mapIntent.putExtra("longitude", cache.longitude);
@@ -803,6 +799,8 @@ public class cgeopopup extends Activity {
 
 	public void goCompass(View view) {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
+			warning.showToast(res.getString(R.string.cache_coordinates_no));
+			
 			return;
 		}
 
@@ -815,6 +813,8 @@ public class cgeopopup extends Activity {
 		navigateIntent.putExtra("name", cache.name);
 
 		activity.startActivity(navigateIntent);
+		
+		finish();
 	}
 
 	public void goManual(View view) {
@@ -828,5 +828,7 @@ public class cgeopopup extends Activity {
 		} catch (Exception e) {
 			// nothing
 		}
+		
+		finish();
 	}
 }

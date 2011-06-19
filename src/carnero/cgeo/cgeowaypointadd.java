@@ -143,9 +143,9 @@ public class cgeowaypointadd extends Activity {
 		addWaypoint.setOnClickListener(new coordsListener());
 
 		ArrayList<String> wayPointNames = new ArrayList<String>(cgBase.waypointTypes.values());
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.name);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wayPointNames);
-        textView.setAdapter(adapter);
+		AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.name);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, wayPointNames);
+		textView.setAdapter(adapter);
 
 
 		if (id > 0) {
@@ -159,6 +159,8 @@ public class cgeowaypointadd extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		settings.load();
 
 		if (geo == null) {
 			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
@@ -376,7 +378,7 @@ public class cgeowaypointadd extends Activity {
 
 			String name = ((EditText) findViewById(R.id.name)).getText().toString().trim();
 			// if no name is given, just give the waypoint its number as name
-			if (name.isEmpty()) {
+			if (name.length() == 0) {
 				name = res.getString(R.string.waypoint) + " " + String.valueOf(wpCount + 1);
 			}
 			final String note = ((EditText) findViewById(R.id.note)).getText().toString().trim();

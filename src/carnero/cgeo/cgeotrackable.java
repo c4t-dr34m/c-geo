@@ -403,6 +403,12 @@ public class cgeotrackable extends Activity {
 		thread.start();
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {

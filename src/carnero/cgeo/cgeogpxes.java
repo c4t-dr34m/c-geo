@@ -155,6 +155,13 @@ public class cgeogpxes extends ListActivity {
 		searchingThread.start();
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		settings.load();
+	}
+
 	private void setAdapter() {
 		if (adapter == null) {
 			adapter = new cgGPXListAdapter(this, settings, files);
