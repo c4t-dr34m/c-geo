@@ -246,7 +246,7 @@ public class cgeomap extends MapBase {
 		}
 
 		mapView = (MapViewImpl) activity.findViewById(mapFactory.getMapViewId());
-		mapView.setMapFile(settings.getMapFile());
+		mapView.setMapSource(settings);
 		if (!mapView.needsScaleOverlay()) {
 			mapView.setBuiltinScale(true);
 		}

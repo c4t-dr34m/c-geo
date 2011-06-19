@@ -16,9 +16,21 @@ import android.util.Log;
 
 public class cgSettings {
 	
-	public enum mapProviderEnum {
+	public enum mapSourceEnum {
 		googleMap,
-		mapsForgeMap
+		mapsforgeMapnik,
+		mapsforgeOsmarender,
+		mapsforgeCycle,
+		mapsforgeOffline;
+		
+		static mapSourceEnum fromInt(int id) {
+			mapSourceEnum[] values = mapSourceEnum.values();
+			if (id >= 0 && id < values.length) {
+				return values[id];
+			} else {
+				return googleMap;
+			}
+		}
 	}
 	
 	// constants
@@ -90,8 +102,8 @@ public class cgSettings {
 	public static final int MAP_GOOGLE = 0;
 	public static final int MAP_MF = 1;
 	public MapFactory mapFactory = null;
-	public mapProviderEnum mapProviderUsed = mapProviderEnum.googleMap;
-	public mapProviderEnum mapProvider = mapProviderEnum.googleMap;
+	public mapSourceEnum mapProviderUsed = mapSourceEnum.googleMap;
+	public mapSourceEnum mapProvider = mapSourceEnum.googleMap;
 	public String mapFile = null;
 
 	public cgSettings(Context contextIn, SharedPreferences prefsIn) {
@@ -136,11 +148,7 @@ public class cgSettings {
 		tokenPublic = prefs.getString("tokenpublic", null);
 		tokenSecret = prefs.getString("tokensecret", null);
 		mapFile = prefs.getString("mfmapfile", null);
-		if (prefs.getInt("usemfmaps", 0) == 0) {
-			mapProvider = mapProviderEnum.googleMap;  
-		} else {
-			mapProvider = mapProviderEnum.mapsForgeMap;
-		}
+		mapProvider = mapSourceEnum.fromInt(prefs.getInt("mapsource", 0));
 		
 		setLanguage(useEnglish);
 	}
@@ -455,13 +463,15 @@ public class cgSettings {
 	}
 	
 	public MapFactory getMapFactory() {
-		if (mapProvider == mapProviderEnum.googleMap) {
-			if (mapProviderUsed != mapProviderEnum.googleMap || mapFactory == null) {
+		if (mapProvider == mapSourceEnum.googleMap) {
+			if (mapProviderUsed != mapSourceEnum.googleMap || mapFactory == null) {
 				mapFactory = new googleMapFactory();
+				mapProviderUsed = mapProvider;
 			}
-		} else if (mapProvider == mapProviderEnum.mapsForgeMap) {
-			if (mapProviderUsed != mapProviderEnum.mapsForgeMap || mapFactory == null) {
+		} else if (mapProvider != mapSourceEnum.googleMap) {
+			if (mapProviderUsed == mapSourceEnum.googleMap || mapFactory == null) {
 				mapFactory = new mfMapFactory();
+				mapProviderUsed = mapProvider;
 			}
 		}
 		
