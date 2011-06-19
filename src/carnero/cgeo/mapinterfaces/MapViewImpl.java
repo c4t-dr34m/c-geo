@@ -55,10 +55,10 @@ public interface MapViewImpl {
 
 	cgUsersOverlay createAddUsersOverlay(Context context, Drawable markerIn);
 
-	void setMapFile(String mapFile);
-
 	boolean needsScaleOverlay();
 
 	void setBuiltinScale(boolean b);
+
+	void setMapSource(cgSettings settings);
 
 }

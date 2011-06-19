@@ -17,10 +17,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
+
 import java.io.File;
+
+import carnero.cgeo.cgSettings.mapSourceEnum;
+import carnero.cgeo.mapcommon.cgeomap;
 
 public class cgeoinit extends Activity {
 
@@ -334,16 +342,20 @@ public class cgeoinit extends Activity {
 		EditText altitudeEdit = (EditText) findViewById(R.id.altitude);
 		altitudeEdit.setText("" + prefs.getInt("altcorrection", 0));
 		
-		// OpenStreetMaps settings
-		CheckBox mfmapsButton = (CheckBox) findViewById(R.id.mfmapusage);
-		if (prefs.getInt("usemfmaps", 0) == 0) {
-			mfmapsButton.setChecked(false);
-		} else {
-			mfmapsButton.setChecked(true);
-		}
-		mfmapsButton.setOnClickListener(new cgeoChangeMfMaps());
+		// Map source settings
+		Spinner mapSourceSelector = (Spinner) findViewById(R.id.mapsource);
+	    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+	            this, R.array.map_sources, android.R.layout.simple_spinner_item);
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    mapSourceSelector.setAdapter(adapter);		
+		int mapsource = prefs.getInt("mapsource", 0);
+		mapSourceSelector.setSelection(mapsource);
+		mapSourceSelector.setOnItemSelectedListener(new cgeoChangeMapSource());
+		
 		EditText mfmapFileEdit = (EditText) findViewById(R.id.mapfile);
 		mfmapFileEdit.setText(prefs.getString("mfmapfile", ""));
+		
+		setMapFileEditState();
 		
 		// Cache db backup
 		TextView lastBackup = (TextView) findViewById(R.id.backup_last);
@@ -381,6 +393,15 @@ public class cgeoinit extends Activity {
 			warning.helpDialog(res.getString(R.string.init_backup_restore), res.getString(R.string.init_restore_success));
 		} else {
 			warning.helpDialog(res.getString(R.string.init_backup_restore), res.getString(R.string.init_restore_failed));
+		}
+	}
+	
+	private void setMapFileEditState() {
+		EditText mapFileEdit = (EditText) findViewById(R.id.mapfile);
+		if (settings.mapProvider == mapSourceEnum.mapsforgeOffline) {
+			mapFileEdit.setVisibility(View.VISIBLE);
+		} else {
+			mapFileEdit.setVisibility(View.INVISIBLE);
 		}
 	}
 
@@ -782,27 +803,22 @@ public class cgeoinit extends Activity {
 		}
 	}
 
-	private class cgeoChangeMfMaps implements View.OnClickListener {
+	private class cgeoChangeMapSource implements OnItemSelectedListener {
 
-		public void onClick(View arg0) {
+		@Override
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			settings.mapProvider = mapSourceEnum.fromInt(arg2);
 			SharedPreferences.Editor edit = prefs.edit();
-			if (prefs.getInt("usemfmaps", 0) == 0) {
-				edit.putInt("usemfmaps", 1);
-				settings.mapProvider = cgSettings.mapProviderEnum.mapsForgeMap;
-			} else {
-				edit.putInt("usemfmaps", 0);
-				settings.mapProvider = cgSettings.mapProviderEnum.googleMap;
-			}
+			edit.putInt("mapsource", arg2);
 			edit.commit();
+			setMapFileEditState();
+		}
 
-			CheckBox mfmapsButton = (CheckBox) findViewById(R.id.mfmapusage);
-			if (prefs.getInt("usemfmaps", 1) == 0) {
-				mfmapsButton.setChecked(false);
-			} else {
-				mfmapsButton.setChecked(true);
-			}
-
-			return;
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+			arg0.setSelection(settings.mapProvider.ordinal());
+			setMapFileEditState();
 		}
 	}
 
