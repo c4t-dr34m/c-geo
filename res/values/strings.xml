@@ -286,7 +286,37 @@
   <string name="caches_recaptcha_explanation">Please, write text from image. It\'s important to download coordinates of caches. It\'s optional and can be switched off in Settings.</string>
   <string name="caches_recaptcha_hint">Text from image</string>
   <string name="caches_recaptcha_continue">Continue</string>
-
+  <string name="caches_filter">Filter</string>
+  <string name="caches_filter_title">Filter by</string>
+  <string name="caches_filter_size">size</string>
+  <string name="caches_filter_type">type</string>
+  <string name="caches_filter_track">with trackables</string>
+  <string name="caches_filter_clear">clear filters</string>
+  <string name="caches_filter_size_title">Choose size</string>
+  <string name="caches_filter_size_micro">micro</string>
+  <string name="caches_filter_size_small">small</string>
+  <string name="caches_filter_size_regular">regular</string>
+  <string name="caches_filter_size_large">large</string>
+  <string name="caches_filter_size_other">other</string>
+  <string name="caches_filter_size_virtual">virtual</string>
+  <string name="caches_filter_size_notchosen">not chosen</string>
+  <string name="caches_filter_type_title">Choose type</string>
+  <string name="caches_filter_type_traditional">Traditional cache</string>
+  <string name="caches_filter_type_multi">Multi-cache</string>
+  <string name="caches_filter_type_mystery">Unknown cache</string>
+  <string name="caches_filter_type_letterbox">Letterbox Hybrid</string>
+  <string name="caches_filter_type_event">Event cache</string>
+  <string name="caches_filter_type_mega">Mega-event cache</string>
+  <string name="caches_filter_type_earth">Earth cache</string>
+  <string name="caches_filter_type_cito">Cache In Trash Out event</string>
+  <string name="caches_filter_type_webcam">Webcam cache</string>
+  <string name="caches_filter_type_virtual">Virtual cache</string>
+  <string name="caches_filter_type_wherigo">Wherigo cache</string>
+  <string name="caches_filter_type_lostfound">Lost &amp; Found</string>
+  <string name="caches_filter_type_ape">Project APE cache</string>
+  <string name="caches_filter_type_gchq">Groundspeak HQ</string>
+  <string name="caches_filter_type_gps">GPS Cache exhibit</string>
+  
   <!-- caches lists -->
   <string name="list_menu">List</string>
   <string name="list_menu_create">Create new list</string>

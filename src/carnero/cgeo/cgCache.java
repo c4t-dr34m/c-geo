@@ -205,4 +205,8 @@ public class cgCache {
 
 		return this;
 	}
+	
+	public boolean hasTrackables(){
+		return inventoryItems > 0;
+	}
 }
