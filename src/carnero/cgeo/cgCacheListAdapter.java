@@ -130,22 +130,43 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	 */
 	public void setFilter(cgFilter filter){
 		// Backup current caches list if it isn't backed up yet
-		if(originalList == null){
+		if (originalList == null) {
 			originalList = new ArrayList<cgCache>(list);
 		}
+		
 		// If there is already a filter in place, this is a request to change or clear the filter, so we have to
 		// replace the original cache list
-		if(currentFilter != null){
+		if (currentFilter != null) {
 			list.clear();
 			list.addAll(originalList);
 		}
+		 
 		// Do the filtering or clear it
-		if(filter != null){
+		if (filter != null) {
 			filter.filter(list);
 		}
 		currentFilter = filter;
 		
 		notifyDataSetChanged();
+	}
+	
+	public void clearFilter() {
+		if (originalList != null) {
+			list.clear();
+			list.addAll(originalList);
+			
+			currentFilter = null;
+		}
+		
+		notifyDataSetChanged();
+	}
+	
+	public boolean isFilter() {
+		if (currentFilter != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void setHistoric(boolean historicIn) {

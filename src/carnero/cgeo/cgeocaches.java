@@ -561,7 +561,7 @@ public class cgeocaches extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		SubMenu subMenuFilter = menu.addSubMenu(0, 105, 0, res.getString(R.string.caches_filter));
+		SubMenu subMenuFilter = menu.addSubMenu(0, 105, 0, res.getString(R.string.caches_filter)).setIcon(android.R.drawable.ic_menu_search);
 		subMenuFilter.setHeaderTitle(res.getString(R.string.caches_filter_title));
 		subMenuFilter.add(0, 21, 0, res.getString(R.string.caches_filter_type));
 		subMenuFilter.add(0, 22, 0, res.getString(R.string.caches_filter_size));
@@ -796,10 +796,10 @@ public class cgeocaches extends ListActivity {
 			Log.w(cgSettings.tag, "cgeocaches.onCreateContextMenu: " + e.toString());
 		}
 		
-		if((adapterInfo == null || adapterInfo.position < 0) && selectedFilter != null){
+		if ((adapterInfo == null || adapterInfo.position < 0) && selectedFilter != null){
 			// Context menu opened by selecting an option on the filter submenu
 
-			if(selectedFilter.equals(res.getString(R.string.caches_filter_size))){
+			if (selectedFilter.equals(res.getString(R.string.caches_filter_size))) {
 				menu.setHeaderTitle(res.getString(R.string.caches_filter_size_title));
 				menu.add(0,  8, 0, res.getString(R.string.caches_filter_size_micro));
 				menu.add(0,  9, 0, res.getString(R.string.caches_filter_size_small));
@@ -808,8 +808,7 @@ public class cgeocaches extends ListActivity {
 				menu.add(0, 12, 0, res.getString(R.string.caches_filter_size_other));	
 				menu.add(0, 13, 0, res.getString(R.string.caches_filter_size_virtual));	
 				menu.add(0, 14, 0, res.getString(R.string.caches_filter_size_notchosen));
-				
-			} else if(selectedFilter.equals(res.getString(R.string.caches_filter_type))){
+			} else if (selectedFilter.equals(res.getString(R.string.caches_filter_type))) {
 				menu.setHeaderTitle(res.getString(R.string.caches_filter_type_title));
 				menu.add(0,  15, 0, res.getString(R.string.caches_filter_type_traditional));
 				menu.add(0,  16, 0, res.getString(R.string.caches_filter_type_multi));
@@ -826,10 +825,8 @@ public class cgeocaches extends ListActivity {
 				menu.add(0,  27, 0, res.getString(R.string.caches_filter_type_ape));
 				menu.add(0,  28, 0, res.getString(R.string.caches_filter_type_gchq));
 				menu.add(0,  29, 0, res.getString(R.string.caches_filter_type_gps));
-				
 			}
 		} else{
-
 			final cgCache cache = adapter.getItem(adapterInfo.position);
 	
 			if (cache.name != null && cache.name.length() > 0) {
@@ -837,6 +834,7 @@ public class cgeocaches extends ListActivity {
 			} else {
 				menu.setHeaderTitle(cache.geocode);
 			}
+			
 			if (cache.latitude != null && cache.longitude != null) {
 				menu.add(0, 1, 0, res.getString(R.string.cache_menu_compass));
 				menu.add(0, 2, 0, res.getString(R.string.cache_menu_radar));
@@ -847,6 +845,7 @@ public class cgeocaches extends ListActivity {
 				menu.add(0, 7, 0, res.getString(R.string.cache_menu_details));
 			}
 		}
+		
 		ArrayList<cgList> cacheLists = app.getLists();
 		int listCount = cacheLists.size();
 		if (listCount > 1) {
@@ -1036,21 +1035,28 @@ public class cgeocaches extends ListActivity {
 		}
 		return false;
 	}
-
+	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (adapter != null) {
-				if (adapter.resetChecks() == true) {
-					return true;
-				} else if (adapter.getSelectMode() == true) {
-					adapter.setSelectMode(false, true);
+	public void onBackPressed() {
+		if (adapter != null) {
+			if (adapter.resetChecks() == true) {
+				return;
+			} else if (adapter.getSelectMode() == true) {
+				adapter.setSelectMode(false, true);
 
-					return true;
-				}
+				return;
+			}
+			
+			if (adapter.isFilter()) {
+				adapter.clearFilter();
+				
+				return;
 			}
 		}
-		return super.onKeyDown(keyCode, event);
+		
+		super.onBackPressed();
+		
+		return;
 	}
 
 	private void setAdapter() {
