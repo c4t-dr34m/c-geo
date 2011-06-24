@@ -334,7 +334,7 @@ public class cgeodetail extends Activity {
 		super.onResume();
 
 		settings.load();
-		
+
 		if (geo == null) {
 			geo = app.startGeo(activity, geoUpdate, base, settings, warning, 0, 0);
 		}
@@ -808,7 +808,26 @@ public class cgeodetail extends Activity {
 				final LinearLayout attribBox = (LinearLayout) findViewById(R.id.attributes_box);
 				final TextView attribView = (TextView) findViewById(R.id.attributes);
 
-				attribView.setText(cgBase.implode("\n", cache.attributes.toArray()));
+				StringBuilder buffer = new StringBuilder();
+				String attribute;
+				for (int i = 0; i < cache.attributes.size(); i++) {
+					attribute = cache.attributes.get(i);
+
+					// dynamically search for a translation of the attribute
+				    int id = res.getIdentifier("attribute_" + attribute, "string", base.context.getPackageName());
+				    if (id > 0) {
+				    	String translated = res.getString(id);
+				    	if (translated != null && translated.length() > 0) {
+				    		attribute = translated;
+				    	}
+				    }
+				    if (buffer.length() > 0) {
+				    	buffer.append('\n');
+				    }
+				    buffer.append(attribute);
+				}
+
+				attribView.setText(buffer);
 				attribBox.setVisibility(View.VISIBLE);
 			}
 
@@ -1851,7 +1870,7 @@ public class cgeodetail extends Activity {
 	public void goCompass(View view) {
 		if (cache == null || cache.latitude == null || cache.longitude == null) {
 			warning.showToast(res.getString(R.string.cache_coordinates_no));
-			
+
 			return;
 		}
 
