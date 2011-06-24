@@ -39,7 +39,7 @@ public class cgDirection {
 		} catch (Exception e) {
 			// nothing
 		}
-		
+
 		sensorListener = new cgeoSensorListener();
 	}
 
@@ -66,9 +66,18 @@ public class cgDirection {
 
 	private class cgeoSensorListener implements SensorEventListener {
 		@Override
-		 public void onAccuracyChanged(Sensor sensor, int accuracy) {
-			Log.i(cgSettings.tag, "Compass' accuracy is low (" + accuracy + ")");
-		 }
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			/* There is a bug in Android, which appearently causes this method to be called every
+			 * time the sensor _value_ changed, even if the _accuracy_ did not change. So logging
+			 * this event leads to the log being flooded with multiple entries _per second_,
+			 * which I experienced when running cgeo in a building (with GPS and network being
+			 * unreliable).
+			 *
+			 * See for example https://code.google.com/p/android/issues/detail?id=14792
+			 */
+
+			//Log.i(cgSettings.tag, "Compass' accuracy is low (" + accuracy + ")");
+		}
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
