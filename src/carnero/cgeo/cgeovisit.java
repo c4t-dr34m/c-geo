@@ -848,7 +848,7 @@ public class cgeovisit extends cgLogForm {
 			if (status == 1) {
 				cgLog logNow = new cgLog();
 				logNow.author = settings.getUsername();
-				logNow.date = (new Date()).getTime();
+				logNow.date = date.getTimeInMillis();
 				logNow.type = typeSelected;
 				logNow.log = log;
 
