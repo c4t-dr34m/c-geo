@@ -270,7 +270,7 @@
   <string name="caches_manage">Verwalten</string>
   <string name="caches_drop_selected">Ausgewählte löschen</string>
   <string name="caches_drop_selected_ask">Bist du sicher, dass die ausgewählten Caches vom Gerät gelöscht werden sollen?</string>
-  <string name="caches_drop_all">Lösche Alle</string>
+  <string name="caches_drop_all">Alle löschen</string>
   <string name="caches_drop_all_ask">Bist du sicher, dass alle Caches von dieser Liste gelöscht werden sollen?</string>
   <string name="caches_drop_stored">Gespeicherte löschen</string>
   <string name="caches_drop_progress">Entferne Caches...</string>
@@ -287,7 +287,7 @@
   <string name="list_menu">Liste</string>
   <string name="list_menu_create">Neue Liste</string>
   <string name="list_menu_drop">Aktuelle Liste löschen</string>
-  <string name="list_menu_change">Liste ändern</string>
+  <string name="list_menu_change">Andere Liste anzeigen</string>
   <string name="list_title">Liste wählen</string>
   <string name="list_inbox">Standardliste</string>
   <string name="list_wpt">Wegpunkte</string>
@@ -390,12 +390,12 @@
   <string name="cache_offline_store">Speichern</string>
   <string name="cache_offline_stored">Auf dem Gerät gespeichert</string>
   <string name="cache_offline_not_ready">Nicht offline verfügbar</string>
-  <string name="cache_offline_time_about">etwa</string>
+  <string name="cache_offline_time_about">vor etwa</string>
   <string name="cache_offline_time_mins">Minuten</string>
   <string name="cache_offline_time_mins_few">vor ein paar Minuten</string>
-  <string name="cache_offline_time_hour">vor einer Stunde</string>
-  <string name="cache_offline_time_hours">vor einigen Stunden</string>
-  <string name="cache_offline_time_days">vor einigen Tagen</string>
+  <string name="cache_offline_time_hour">einer Stunde</string>
+  <string name="cache_offline_time_hours">Stunden</string>
+  <string name="cache_offline_time_days">Tagen</string>
   <string name="cache_premium">Premium</string>
   <string name="cache_attributes">Attribute</string>
   <string name="cache_inventory">Inventar</string>
