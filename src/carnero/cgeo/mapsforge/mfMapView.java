@@ -138,11 +138,22 @@ public class mfMapView extends MapView implements MapViewImpl {
 	}
 
 	@Override
-	public void setMapFile(String newMapFile) {
-		if (isValidMapFile(newMapFile)) {
-			super.setMapFile(newMapFile);
-		} else {
-			setMapViewMode(MapViewMode.MAPNIK_TILE_DOWNLOAD);
+	public void setMapSource(cgSettings settings) {
+
+		setMapViewMode(MapViewMode.MAPNIK_TILE_DOWNLOAD);
+		
+		switch(settings.mapProvider) {
+			case mapsforgeMapnik:
+				// is default
+				break;
+			case mapsforgeOsmarender:
+				setMapViewMode(MapViewMode.OSMARENDER_TILE_DOWNLOAD);
+				break;
+			case mapsforgeOffline:
+				if (isValidMapFile(settings.getMapFile())) {
+					setMapViewMode(MapViewMode.CANVAS_RENDERER);
+					super.setMapFile(settings.getMapFile());
+				}
 		}
 	}
 }

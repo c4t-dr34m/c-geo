@@ -32,6 +32,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
+import carnero.cgeo.filter.cgFilter;
+
 public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 
 	private Resources res = null;
@@ -60,6 +62,8 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 	private static final int SWIPE_MAX_OFF_PATH = 100;
 	private static final int SWIPE_DISTANCE = 80;
 	private static final float SWIPE_OPACITY = 0.5f;
+	private cgFilter currentFilter = null;
+	private List<cgCache> originalList = null;
 
 	public cgCacheListAdapter(Activity activityIn, cgSettings settingsIn, List<cgCache> listIn, cgBase baseIn) {
 		super(activityIn, 0, listIn);
@@ -107,6 +111,62 @@ public class cgCacheListAdapter extends ArrayAdapter<cgCache> {
 		statComparator = comparator;
 
 		forceSort(latitude, longitude);
+	}
+	
+	/**
+	 * Called when a new page of caches was loaded.
+	 */
+	public void reFilter(){
+		if(currentFilter != null){
+			// Back up the list again
+			originalList = new ArrayList<cgCache>(list);
+			
+			currentFilter.filter(list);
+		}
+	}
+
+	/**
+	 * Called after a user action on the filter menu.
+	 */
+	public void setFilter(cgFilter filter){
+		// Backup current caches list if it isn't backed up yet
+		if (originalList == null) {
+			originalList = new ArrayList<cgCache>(list);
+		}
+		
+		// If there is already a filter in place, this is a request to change or clear the filter, so we have to
+		// replace the original cache list
+		if (currentFilter != null) {
+			list.clear();
+			list.addAll(originalList);
+		}
+		 
+		// Do the filtering or clear it
+		if (filter != null) {
+			filter.filter(list);
+		}
+		currentFilter = filter;
+		
+		notifyDataSetChanged();
+	}
+	
+	public void clearFilter() {
+		if (originalList != null) {
+			list.clear();
+			list.addAll(originalList);
+			
+			currentFilter = null;
+		}
+		
+		notifyDataSetChanged();
+	}
+	
+	public boolean isFilter() {
+		if (currentFilter != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void setHistoric(boolean historicIn) {

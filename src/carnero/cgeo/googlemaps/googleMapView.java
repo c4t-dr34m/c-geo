@@ -102,7 +102,7 @@ public class googleMapView extends MapView implements MapViewImpl{
 	}
 
 	@Override
-	public void setMapFile(String mapFile) {
+	public void setMapSource(cgSettings settings) {
 		// nothing to do for google maps...
 	}
 
