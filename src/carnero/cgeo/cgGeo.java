@@ -423,6 +423,17 @@ public class cgGeo {
 		assign(app.getLastLat(), app.getLastLon());
 
 		Location lastGps = geoManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
+		//LeeB - only ever use GPS
+		boolean gpsOnly = true; //this needs to be changable from the UI
+		if((gpsOnly) && (lastGps != null)){
+			lastGps.setProvider("last");
+			assign(lastGps);
+
+			Log.i(cgSettings.tag, "Using last location from GPS(gpsOnly)");
+			return;
+		}
+		
 		Location lastGsm = geoManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
 		if (lastGps == null && lastGsm == null) {
