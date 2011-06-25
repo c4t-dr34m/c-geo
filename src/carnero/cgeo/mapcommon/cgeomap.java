@@ -850,6 +850,7 @@ public class cgeomap extends MapBase {
 
 									showProgressHandler.sendEmptyMessage(1); // show progress
 									downloadThread = new DownloadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
+									downloadThread.setName("downloadThread");
 									downloadThread.start();
 								}
 							} else {
@@ -1033,15 +1034,11 @@ public class cgeomap extends MapBase {
 		}
 
 		@Override
-		public void run() {
+		public void run() { //first time we enter we have crappy long/lat....
 			try {
 				stop = false;
 				working = true;
 				downloadThreadRun = System.currentTimeMillis();
-
-				if (token == null) {
-					token = base.getMapUserToken(noMapTokenHandler);
-				}
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);
@@ -1067,19 +1064,20 @@ public class cgeomap extends MapBase {
 					lonMin = llCache;
 				}
 
-				HashMap<String, String> params = new HashMap<String, String>();
-				params.put("usertoken", token);
-				params.put("latitude-min", String.format((Locale) null, "%.6f", latMin));
-				params.put("latitude-max", String.format((Locale) null, "%.6f", latMax));
-				params.put("longitude-min", String.format((Locale) null, "%.6f", lonMin));
-				params.put("longitude-max", String.format((Locale) null, "%.6f", lonMax));
-
-				searchId = base.searchByViewport(params, 0);
+				//LeeB - I think this can be done better:
+				//1. fetch and draw(in another thread) caches from the db (fast? db read will be the slow bit)
+				//2. fetch and draw(in another thread) and then insert into the db caches from geocaching.com - dont draw/insert if exist in memory 
+				/*
+				searchId = base.searchByViewport(params, 0); //this does at least a insert per cache (and possible a full read too)
 				if (searchId != null) {
 					downloaded = true;
 				}
-
-				caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
+				*/
+//				caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon); //this does another full read
+				
+				// stage 1 - pull and render from the DB only
+				downloaded = true;
+				caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does a full read from just the DB
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);
@@ -1088,12 +1086,59 @@ public class cgeomap extends MapBase {
 					return;
 				}
 
+				//render
 				if (displayThread != null && displayThread.isWorking()) {
 					displayThread.stopIt();
 				}
-
 				displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
 				displayThread.start();
+				
+				//*** this needs to be in it's own thread
+				// stage 2 - pull and render from geocaching.com
+				//this should just fetch and insert into the db _and_ be cancel-able if the viewport changes
+
+				if (token == null) {
+					token = base.getMapUserToken(noMapTokenHandler);
+				}
+
+				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+				
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("usertoken", token);
+				params.put("latitude-min", String.format((Locale) null, "%.6f", latMin));
+				params.put("latitude-max", String.format((Locale) null, "%.6f", latMax));
+				params.put("longitude-min", String.format((Locale) null, "%.6f", lonMin));
+				params.put("longitude-max", String.format((Locale) null, "%.6f", lonMax));
+				
+				searchId = base.searchByViewport(params, 0); //this does at least a insert per cache (and possible a full read too)
+				if (searchId != null) {
+					downloaded = true;
+				}
+
+				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+				
+				//maybe searchId can be null here? as we just want to searchByViewPort() to insert them into the DB?
+//				caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon); //this does another full read
+				caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does another full read
+			
+				
+				//render
+				if (displayThread != null && displayThread.isWorking()) {
+					displayThread.stopIt();
+				}
+				displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
+				displayThread.start();
+				
 			} finally {
 				working = false;
 			}

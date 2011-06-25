@@ -1406,7 +1406,7 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache hint");
 		}
 
-		/*
+		
 		// short info debug
 		Log.d(cgSettings.tag, "gc-code: " + cache.geocode);
 		Log.d(cgSettings.tag, "id: " + cache.cacheid);
@@ -1429,7 +1429,7 @@ public class cgBase {
 		Log.d(cgSettings.tag, "longitude: " + String.format("%.6f", cache.longitude));
 		Log.d(cgSettings.tag, "location: " + cache.location);
 		Log.d(cgSettings.tag, "hint: " + cache.hint);
-		 */
+		
 
 		// cache short description
 		try {
@@ -3549,6 +3549,16 @@ public class cgBase {
 
 			if (caches.cacheList != null && caches.cacheList.size() > 0) {
 				for (cgCache cache : caches.cacheList) {
+					//LeeB - just insert cache into DB
+					/*
+					if (storage == null) {
+						storage = new cgData(this);
+					}					
+					storage.saveCache();
+					*/
+					app.insertCacheIntoDB(cache);
+					
+					/*
 					if ((settings.excludeDisabled == 0 || (settings.excludeDisabled == 1 && cache.disabled == false))
 							&& (settings.excludeMine == 0 || (settings.excludeMine == 1 && cache.own == false))
 							&& (settings.excludeMine == 0 || (settings.excludeMine == 1 && cache.found == false))
@@ -3556,11 +3566,12 @@ public class cgBase {
 						search.addGeocode(cache.geocode);
 						cacheList.add(cache);
 					}
+					*/
 				}
 			}
 		}
 
-		app.addSearch(search, cacheList, true, reason);
+//		app.addSearch(search, cacheList, true, reason);
 
 		return search.getCurrentId();
 	}
@@ -4527,7 +4538,9 @@ public class cgBase {
 				}
 			} else {
 				if (buffer != null && buffer.length() > 0) {
-					data = replaceWhitespace(buffer);
+					//LeeB - replaceWhitespace is slow see if we can do without it...
+					//data = replaceWhitespace(buffer);
+					data = buffer.toString();
 					buffer = null;
 
 					if (data != null) {

@@ -60,6 +60,11 @@ public class cgCache {
 	public String directionImg = null;
 
 	public cgCache merge(cgData storage) {
+		//LeeB - loading cache from db is slow
+		if(false){
+			return this;
+		}
+		
 		boolean loadA = true;
 		boolean loadW = true;
 		boolean loadS = true;

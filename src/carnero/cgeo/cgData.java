@@ -967,6 +967,7 @@ public class cgData {
 	}
 
 	public boolean saveCache(cgCache cache) {
+		//LeeB - writing to the DB is slow
 		if (cache == null) {
 			return false;
 		}
@@ -1101,6 +1102,7 @@ public class cgData {
 
 		init();
 
+		//try to update record else insert fresh..
 		try {
 			int rows = databaseRW.update(dbTableCaches, values, "geocode = \"" + cache.geocode + "\"", null);
 			if (rows > 0) {
@@ -1529,7 +1531,7 @@ public class cgData {
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
 
 		try {
-			// geocodes or guids limitation
+			// geocodes or guids limitation -why?
 			if (geocodes != null && geocodes.length > 0) {
 				StringBuilder all = new StringBuilder();
 				for (Object one : geocodes) {
@@ -1564,9 +1566,9 @@ public class cgData {
 				where.append("guid in (");
 				where.append(all);
 				where.append(")");
-			} else {
+			} /*else { //removed so we can search the db using only lat/lon
 				return caches;
-			}
+			}*/
 
 			// viewport limitation
 			if (centerLat != null && centerLon != null && spanLat != null && spanLon != null) {

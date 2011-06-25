@@ -464,12 +464,19 @@ public class cgeoapplication extends Application {
 	}
 		
 	public ArrayList<cgCache> getCaches(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon) {
-		return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, true, false, false, false, true);
+		//return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, true, false, false, false, true);
+		return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, false, false, false, false, false); //no waypoints nor offline log check(wtf?)
 	}
 
 	public ArrayList<cgCache> getCaches(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
-			return null;
+			ArrayList<cgCache> cachesOut = new ArrayList<cgCache>();
+			final ArrayList<cgCache> cachesPre = storage.loadCaches(null , null, centerLat, centerLon, spanLat, spanLon, loadA, loadW, loadS, loadL, loadI, loadO);
+			if (cachesPre != null) {
+				cachesOut.addAll(cachesPre);
+			}
+			return cachesOut; 
+			//return null;
 		}
 
 		ArrayList<cgCache> cachesOut = new ArrayList<cgCache>();
@@ -675,6 +682,15 @@ public class cgeoapplication extends Application {
 		return searchId;
 	}
 
+	/*
+	 * LeeB
+	 * insert geocache entry directly into DB
+	 * 
+	 */
+	public boolean insertCacheIntoDB(cgCache cache) {
+		return storage.saveCache(cache);
+	}
+	
 	public boolean addCacheToSearch(cgSearch search, cgCache cache) {
 		if (search == null || cache == null) {
 			return false;
@@ -690,6 +706,9 @@ public class cgeoapplication extends Application {
 		String guid = cache.guid.toLowerCase();
 
 		boolean status = false;
+		//LeeB 
+		status = storage.saveCache(cache);
+		/*
 		if (storage.isThere(geocode, guid, false, false) == false || cache.reason >= 1) { // if for offline, do not merge
 			status = storage.saveCache(cache);
 		} else {
@@ -697,7 +716,7 @@ public class cgeoapplication extends Application {
 
 			status = storage.saveCache(mergedCache);
 		}
-
+		*/
 		if (status == true) {
 			search.addGeocode(cache.geocode);
 		}
