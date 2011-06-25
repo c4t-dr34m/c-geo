@@ -850,6 +850,7 @@ public class cgeomap extends MapBase {
 								spanLongitude = spanLongitudeNow;
 
 								showProgressHandler.sendEmptyMessage(1); // show progress
+								
 								loadThread = new LoadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
 								loadThread.setName("loadThread");
 								loadThread.start(); //loadThread will kick off downloadThread once it's done
@@ -1071,11 +1072,22 @@ public class cgeomap extends MapBase {
 				}
 				displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
 				displayThread.start();
-				
+
+				if (stop) {
+					displayThread.stopIt();
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+
 				//*** this needs to be in it's own thread
 				// stage 2 - pull and render from geocaching.com
 				//this should just fetch and insert into the db _and_ be cancel-able if the viewport changes
 				
+				if (downloadThread != null && downloadThread.isWorking()) {
+					downloadThread.stopIt();
+				}
 				downloadThread = new DownloadThread(centerLat, centerLon, spanLat, spanLon);
 				downloadThread.setName("downloadThread");
 				downloadThread.start();
@@ -1159,7 +1171,14 @@ public class cgeomap extends MapBase {
 				}
 				
 				caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does another full read
-				
+
+				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+
 				//render
 				if (displayThread != null && displayThread.isWorking()) {
 					displayThread.stopIt();
@@ -1234,11 +1253,13 @@ public class cgeomap extends MapBase {
 
 						items.add(item);
 
+						/*
 						counter++;
 						if ((counter % 10) == 0) {
 							overlayCaches.updateItems(items);
 							displayHandler.sendEmptyMessage(1);
 						}
+						*/
 					}
 
 					overlayCaches.updateItems(items);
