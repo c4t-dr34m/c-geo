@@ -1406,7 +1406,7 @@ public class cgBase {
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache hint");
 		}
 
-		
+		/*
 		// short info debug
 		Log.d(cgSettings.tag, "gc-code: " + cache.geocode);
 		Log.d(cgSettings.tag, "id: " + cache.cacheid);
@@ -1429,7 +1429,7 @@ public class cgBase {
 		Log.d(cgSettings.tag, "longitude: " + String.format("%.6f", cache.longitude));
 		Log.d(cgSettings.tag, "location: " + cache.location);
 		Log.d(cgSettings.tag, "hint: " + cache.hint);
-		
+		*/
 
 		// cache short description
 		try {
@@ -1881,9 +1881,11 @@ public class cgBase {
 		}
 
 		final HashMap<String, cgRating> ratings = getRating(guids, geocodes);
-		final Set<String> ratingKeys = ratings.keySet();
-		for (String ratingKey : ratingKeys) {
-			return ratings.get(ratingKey);
+		if(ratings != null){
+			final Set<String> ratingKeys = ratings.keySet();
+			for (String ratingKey : ratingKeys) {
+				return ratings.get(ratingKey);
+			}
 		}
 
 		return null;
