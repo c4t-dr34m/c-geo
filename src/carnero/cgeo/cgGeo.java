@@ -425,46 +425,21 @@ public class cgGeo {
 		Location lastGps = geoManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		//LeeB - only ever use GPS
-		boolean gpsOnly = true; //this needs to be changable from the UI
-		if((gpsOnly) && (lastGps != null)){
+		if (lastGps != null) {
 			lastGps.setProvider("last");
 			assign(lastGps);
 
-			Log.i(cgSettings.tag, "Using last location from GPS(gpsOnly)");
+			Log.i(cgSettings.tag, "Using last location from GPS");
 			return;
 		}
 		
 		Location lastGsm = geoManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-		if (lastGps == null && lastGsm == null) {
-			return;
-		}
-		if (lastGps == null && lastGsm != null) {
+		if (lastGsm != null) {
 			lastGsm.setProvider("last");
 			assign(lastGsm);
 
 			Log.i(cgSettings.tag, "Using last location from NETWORK");
-			return;
-		}
-		if (lastGps != null && lastGsm == null) {
-			lastGps.setProvider("last");
-			assign(lastGps);
-
-			Log.i(cgSettings.tag, "Using last location from GPS");
-			return;
-		}
-
-		if (lastGps != null && lastGsm != null && lastGps.getTime() < lastGsm.getTime()) {
-			lastGps.setProvider("last");
-			assign(lastGps);
-
-			Log.i(cgSettings.tag, "Using last location from GPS");
-			return;
-		} else {
-			lastGsm.setProvider("last");
-			assign(lastGsm);
-
-			Log.i(cgSettings.tag, "Using last location from GSM");
 			return;
 		}
 	}
