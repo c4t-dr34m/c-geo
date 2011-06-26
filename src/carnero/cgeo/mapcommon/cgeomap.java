@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import carnero.cgeo.cgSearch;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -1034,30 +1035,29 @@ public class cgeomap extends MapBase {
 					return;
 				}
 
-				double latMin = (centerLat / 1e6) - ((spanLat / 1e6) / 2) - ((spanLat / 1e6) / 4);
-				double latMax = (centerLat / 1e6) + ((spanLat / 1e6) / 2) + ((spanLat / 1e6) / 4);
-				double lonMin = (centerLon / 1e6) - ((spanLon / 1e6) / 2) - ((spanLon / 1e6) / 4);
-				double lonMax = (centerLon / 1e6) + ((spanLon / 1e6) / 2) + ((spanLon / 1e6) / 4);
-				double llCache;
-
-				if (latMin > latMax) {
-					llCache = latMax;
-					latMax = latMin;
-					latMin = llCache;
-				}
-				if (lonMin > lonMax) {
-					llCache = lonMax;
-					lonMax = lonMin;
-					lonMin = llCache;
-				}
-
 				//LeeB - I think this can be done better:
 				//1. fetch and draw(in another thread) caches from the db (fast? db read will be the slow bit)
 				//2. fetch and draw(in another thread) and then insert into the db caches from geocaching.com - dont draw/insert if exist in memory?
 				
 				// stage 1 - pull and render from the DB only
-				downloaded = true;
-				caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does a full read from just the DB
+				if (settings.maplive == 0) {
+					searchId = app.getStoredInViewport(centerLat, centerLon, spanLat, spanLon, settings.cacheType);
+				} else {
+					searchId = app.getCachedInViewport(centerLat, centerLon, spanLat, spanLon, settings.cacheType);
+				}
+				
+				if (searchId != null) {
+					downloaded = true;
+				}
+
+				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+				
+				caches = app.getCaches(searchId);
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);
@@ -1084,14 +1084,15 @@ public class cgeomap extends MapBase {
 				//*** this needs to be in it's own thread
 				// stage 2 - pull and render from geocaching.com
 				//this should just fetch and insert into the db _and_ be cancel-able if the viewport changes
-				
-				if (downloadThread != null && downloadThread.isWorking()) {
-					downloadThread.stopIt();
-				}
-				downloadThread = new DownloadThread(centerLat, centerLon, spanLat, spanLon);
-				downloadThread.setName("downloadThread");
-				downloadThread.start();
 
+				if (settings.maplive >= 1) {
+					if (downloadThread != null && downloadThread.isWorking()) {
+						downloadThread.stopIt();
+					}
+					downloadThread = new DownloadThread(centerLat, centerLon, spanLat, spanLon);
+					downloadThread.setName("downloadThread");
+					downloadThread.start();
+				}
 			} finally {
 				working = false;
 			}
@@ -1170,7 +1171,8 @@ public class cgeomap extends MapBase {
 					return;
 				}
 				
-				caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does another full read
+				// caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does another full read
+				caches = app.getCaches(searchId);
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);

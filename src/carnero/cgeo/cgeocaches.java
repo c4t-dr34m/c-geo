@@ -26,7 +26,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SubMenu;
 import android.view.View;

@@ -1606,7 +1606,6 @@ public class cgData {
 		ArrayList<cgCache> caches = new ArrayList<cgCache>();
 
 		try {
-			// geocodes or guids limitation -why?
 			if (geocodes != null && geocodes.length > 0) {
 				StringBuilder all = new StringBuilder();
 				for (Object one : geocodes) {
@@ -1641,9 +1640,9 @@ public class cgData {
 				where.append("guid in (");
 				where.append(all);
 				where.append(")");
-			} /*else { //removed so we can search the db using only lat/lon
+			} else {
 				return caches;
-			}*/
+			}
 
 			// viewport limitation
 			if (centerLat != null && centerLon != null && spanLat != null && spanLon != null) {
@@ -2422,7 +2421,15 @@ public class cgData {
 		return geocodes;
 	}
 
-	public ArrayList<String> getOfflineInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
+	public ArrayList<String> getCachedInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
+		return getInViewport(false, centerLat, centerLon, spanLat, spanLon, cachetype);
+	}
+	
+	public ArrayList<String> getStoredInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
+		return getInViewport(true, centerLat, centerLon, spanLat, spanLon, cachetype);
+	}
+	
+	public ArrayList<String> getInViewport(boolean stored, Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
 		if (centerLat == null || centerLon == null || spanLat == null || spanLon == null) {
 			return null;
 		}
@@ -2468,7 +2475,9 @@ public class cgData {
 		}
 
 		// offline caches only
-		where.append(" and reason >= 1");
+		if (stored) {
+			where.append(" and reason >= 1");
+		}
 
 		try {
 			cursor = databaseRO.query(

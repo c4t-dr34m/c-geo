@@ -455,6 +455,10 @@ public class cgeoapplication extends Application {
 		return getCacheByGeocode(geocodeList.get(0), true, true, true, true, true, true);
 	}
 
+	public ArrayList<cgCache> getCachesForMap(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon) {
+		return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, false, false, false, false, false);
+	}
+
 	public ArrayList<cgCache> getCaches(Long searchId) {
 		return getCaches(searchId, null, null, null, null, false, true, false, false, false, true);
 	}
@@ -464,19 +468,20 @@ public class cgeoapplication extends Application {
 	}
 		
 	public ArrayList<cgCache> getCaches(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon) {
-		//return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, true, false, false, false, true);
-		return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, false, false, false, false, false); //no waypoints nor offline log check(wtf?)
+		return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, true, false, false, false, true);
 	}
 
 	public ArrayList<cgCache> getCaches(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon, boolean loadA, boolean loadW, boolean loadS, boolean loadL, boolean loadI, boolean loadO) {
 		if (searchId == null || searches.containsKey(searchId) == false) {
 			ArrayList<cgCache> cachesOut = new ArrayList<cgCache>();
+			
 			final ArrayList<cgCache> cachesPre = storage.loadCaches(null , null, centerLat, centerLon, spanLat, spanLon, loadA, loadW, loadS, loadL, loadI, loadO);
+			
 			if (cachesPre != null) {
 				cachesOut.addAll(cachesPre);
 			}
+			
 			return cachesOut; 
-			//return null;
 		}
 
 		ArrayList<cgCache> cachesOut = new ArrayList<cgCache>();
@@ -529,13 +534,30 @@ public class cgeoapplication extends Application {
 		return search;
 	}
 
-	public Long getOfflineInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
+	public Long getCachedInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
 		cgSearch search = new cgSearch();
 
-		ArrayList<String> geocodes = storage.getOfflineInViewport(centerLat, centerLon, spanLat, spanLon, cachetype);
+		ArrayList<String> geocodes = storage.getCachedInViewport(centerLat, centerLon, spanLat, spanLon, cachetype);
+		if (geocodes != null && geocodes.isEmpty() == false) {
+			for (String gccode : geocodes) {
+				search.addGeocode(gccode);
+			}
+		}
+		searches.put(search.getCurrentId(), search);
+
+		return search.getCurrentId();
+	}
+
+	public Long getStoredInViewport(Long centerLat, Long centerLon, Long spanLat, Long spanLon, String cachetype) {
+		if (storage == null) {
+			storage = new cgData(this);
+		}
+		cgSearch search = new cgSearch();
+
+		ArrayList<String> geocodes = storage.getStoredInViewport(centerLat, centerLon, spanLat, spanLon, cachetype);
 		if (geocodes != null && geocodes.isEmpty() == false) {
 			for (String gccode : geocodes) {
 				search.addGeocode(gccode);
