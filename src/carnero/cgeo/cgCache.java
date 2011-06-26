@@ -33,6 +33,7 @@ public class cgCache {
 	public String location = "";
 	public Double latitude = null;
 	public Double longitude = null;
+	public boolean reliableLatLon = false;
 	public Double elevation = null;
 	public String shortdesc = "";
 	public String description = "";

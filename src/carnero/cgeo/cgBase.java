@@ -1019,6 +1019,7 @@ public class cgBase {
 							}
 
 							final cgCache cacheToAdd = new cgCache();
+							cacheToAdd.reliableLatLon = false;
 							cacheToAdd.geocode = oneCache.getString("gc");
 							cacheToAdd.latitude = oneCache.getDouble("lat");
 							cacheToAdd.longitude = oneCache.getDouble("lon");
@@ -1367,6 +1368,7 @@ public class cgBase {
 						cache.longitude = (Double) tmp.get("longitude");
 						cache.latitudeString = (String) tmp.get("latitudeString");
 						cache.longitudeString = (String) tmp.get("longitudeString");
+						cache.reliableLatLon = true;
 					}
 					tmp = null;
 				}

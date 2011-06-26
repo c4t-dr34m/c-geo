@@ -29,7 +29,7 @@ public class cgData {
 	private cgDbHelper dbHelper = null;
 	private SQLiteDatabase databaseRO = null;
 	private SQLiteDatabase databaseRW = null;
-	private static final int dbVersion = 50;
+	private static final int dbVersion = 51;
 	private static final String dbName = "data";
 	private static final String dbTableCaches = "cg_caches";
 	private static final String dbTableLists = "cg_lists";
@@ -69,6 +69,7 @@ public class cgData {
 			+ "distance double, "
 			+ "latitude double, "
 			+ "longitude double, "
+			+ "reliable_latlon integer, "
 			+ "elevation double, "
 			+ "shortdesc text, "
 			+ "description text, "
@@ -674,6 +675,16 @@ public class cgData {
 							Log.e(cgSettings.tag, "Failed to upgrade to ver. 50: " + e.toString());
 						}
 					}
+					
+					if (oldVersion < 51) { // upgrade to 51
+						try {
+							db.execSQL("alter table " + dbTableCaches + " add column reliable_latlon integer");
+
+							Log.i(cgSettings.tag, "Column reliable_latlon added to " + dbTableCaches + ".");
+						} catch (Exception e) {
+							Log.e(cgSettings.tag, "Failed to upgrade to ver. 51: " + e.toString());
+						}
+					}
 				}
 
 				db.setTransactionSuccessful();
@@ -882,6 +893,61 @@ public class cgData {
 		}
 	}
 
+	public boolean isReliableLatLon(String geocode, String guid) {
+		init();
+
+		Cursor cursor = null;
+		int rel = 0;
+
+		try {
+			if (geocode != null && geocode.length() > 0) {
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[]{"reliable_latlon"},
+						"geocode = \"" + geocode + "\"",
+						null,
+						null,
+						null,
+						null,
+						"1");
+			} else if (guid != null && guid.length() > 0) {
+				cursor = databaseRO.query(
+						dbTableCaches,
+						new String[]{"reliable_latlon"},
+						"guid = \"" + guid + "\"",
+						null,
+						null,
+						null,
+						null,
+						"1");
+			} else {
+				return false;
+			}
+
+			if (cursor != null) {
+				final int cnt = cursor.getCount();
+				int index = 0;
+
+				if (cnt > 0) {
+					cursor.moveToFirst();
+
+					index = cursor.getColumnIndex("reliable_latlon");
+					rel = (int) cursor.getInt(index);
+				}
+
+				cursor.close();
+			}
+		} catch (Exception e) {
+			Log.e(cgSettings.tag, "cgData.isOffline: " + e.toString());
+		}
+
+		if (rel >= 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public String getGeocodeForGuid(String guid) {
 		init();
 
@@ -1013,8 +1079,17 @@ public class cgData {
 		values.put("location", cache.location);
 		values.put("distance", cache.distance);
 		values.put("direction", cache.direction);
-		values.put("latitude", cache.latitude);
-		values.put("longitude", cache.longitude);
+		// save coordinates
+		final boolean rel = isReliableLatLon(cache.geocode, cache.guid);
+		if (cache.reliableLatLon) { // new cache has reliable coordinates, store
+			values.put("latitude", cache.latitude);
+			values.put("longitude", cache.longitude);
+			values.put("reliable_latlon", 1);
+		} else if (!rel) { // new cache neither stored cache is not reliable, just update
+			values.put("latitude", cache.latitude);
+			values.put("longitude", cache.longitude);
+			values.put("reliable_latlon", 0);
+		}
 		values.put("elevation", cache.elevation);
 		values.put("shortdesc", cache.shortdesc);
 		values.put("description", cache.description);

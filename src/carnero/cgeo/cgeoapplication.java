@@ -662,7 +662,8 @@ public class cgeoapplication extends Application {
 
 				oneCache.reason = reason;
 
-				if (storage.isThere(oneGeocode, oneGuid, false, false) == false || reason >= 1) { // if for offline, do not merge
+				if (storage.isThere(oneGeocode, oneGuid, false, false) == false || reason >= 1) {
+					// cache is not saved, new data are for storing
 					storage.saveCache(oneCache);
 				} else {
 					cgCache mergedCache = oneCache.merge(storage);
