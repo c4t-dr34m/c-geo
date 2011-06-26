@@ -816,8 +816,10 @@
 
   <!-- changelog -->
   <string name="changelog">\n
-    <b>2.26</b> (__.06.2011)\n
+    <b>2.26</b> (__.07.2011)\n
 	· new: Autoinsert of signature\n
+	· fix: Live map, better loading\n
+	· fix: Overwriting coords with wrong ones\n
 	· fix: Loading caches on Live map\n
 	· fix: GCVote issues\n
 	\n
