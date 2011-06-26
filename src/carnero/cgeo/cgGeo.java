@@ -424,7 +424,6 @@ public class cgGeo {
 
 		Location lastGps = geoManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
-		//LeeB - only ever use GPS
 		if (lastGps != null) {
 			lastGps.setProvider("last");
 			assign(lastGps);

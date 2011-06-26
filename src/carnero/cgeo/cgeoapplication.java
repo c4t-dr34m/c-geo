@@ -455,10 +455,6 @@ public class cgeoapplication extends Application {
 		return getCacheByGeocode(geocodeList.get(0), true, true, true, true, true, true);
 	}
 
-	public ArrayList<cgCache> getCachesForMap(Long searchId, Long centerLat, Long centerLon, Long spanLat, Long spanLon) {
-		return getCaches(searchId, centerLat, centerLon, spanLat, spanLon, false, false, false, false, false, false);
-	}
-
 	public ArrayList<cgCache> getCaches(Long searchId) {
 		return getCaches(searchId, null, null, null, null, false, true, false, false, false, true);
 	}
@@ -492,6 +488,7 @@ public class cgeoapplication extends Application {
 		if (storage == null) {
 			storage = new cgData(this);
 		}
+		
 		final ArrayList<cgCache> cachesPre = storage.loadCaches(geocodeList.toArray(), null, centerLat, centerLon, spanLat, spanLon, loadA, loadW, loadS, loadL, loadI, loadO);
 		if (cachesPre != null) {
 			cachesOut.addAll(cachesPre);
@@ -705,15 +702,6 @@ public class cgeoapplication extends Application {
 		return searchId;
 	}
 
-	/*
-	 * LeeB
-	 * insert geocache entry directly into DB
-	 * 
-	 */
-	public boolean insertCacheIntoDB(cgCache cache) {
-		return storage.saveCache(cache);
-	}
-	
 	public boolean addCacheToSearch(cgSearch search, cgCache cache) {
 		if (search == null || cache == null) {
 			return false;
@@ -729,9 +717,7 @@ public class cgeoapplication extends Application {
 		String guid = cache.guid.toLowerCase();
 
 		boolean status = false;
-		//LeeB 
-		status = storage.saveCache(cache);
-		/*
+		
 		if (storage.isThere(geocode, guid, false, false) == false || cache.reason >= 1) { // if for offline, do not merge
 			status = storage.saveCache(cache);
 		} else {
@@ -739,7 +725,7 @@ public class cgeoapplication extends Application {
 
 			status = storage.saveCache(mergedCache);
 		}
-		*/
+
 		if (status == true) {
 			search.addGeocode(cache.geocode);
 		}

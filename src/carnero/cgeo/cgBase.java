@@ -1094,7 +1094,7 @@ public class cgBase {
 		final Pattern patternLatLon = Pattern.compile("<span id=\"ctl00_ContentBody_LatLon\"[^>]*>(<b>)?([^<]*)(<\\/b>)?<\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternLocation = Pattern.compile("<span id=\"ctl00_ContentBody_Location\"[^>]*>In ([^<]*)", Pattern.CASE_INSENSITIVE);
 		final Pattern patternHint = Pattern.compile("<p>([^<]*<strong>)?[^\\w]*Additional Hints([^<]*<\\/strong>)?[^\\(]*\\(<a[^>]+>Encrypt</a>\\)[^<]*<\\/p>[^<]*<div id=\"div_hint\"[^>]*>(.*)</div>[^<]*<div id=[\\'|\"]dk[\\'|\"]", Pattern.CASE_INSENSITIVE);
-		final Pattern patternDescShort = Pattern.compile("<div class=\"UserSuppliedContent\">[^<]*<span id=\"ctl00_ContentBody_ShortDescription\"[^>]*>((?:(?!</span>[^\\w^<]*</div>).)*)</span>[^<]*</div>", Pattern.CASE_INSENSITIVE);
+		final Pattern patternDescShort = Pattern.compile("<div class=\"UserSuppliedContent\">[^<]*<span id=\"ctl00_ContentBody_ShortDescription\"[^>]*>((?:(?!</span>[^\\w^<]*</div>).)*)</span>[^\\w^<]*</div>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternDesc = Pattern.compile("<div class=\"UserSuppliedContent\">[^<]*<span id=\"ctl00_ContentBody_LongDescription\"[^>]*>((?:(?!</span>[^\\w^<]*</div>).)*)</span>[^<]*</div>[^<]*<p>[^<]*</p>[^<]*<p>[^<]*<strong>[^\\w]*Additional Hints</strong>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCountLogs = Pattern.compile("<span id=\"ctl00_ContentBody_lblFindCounts\"><p>(.*)<\\/p><\\/span>", Pattern.CASE_INSENSITIVE);
 		final Pattern patternCountLog = Pattern.compile(" src=\"\\/images\\/icons\\/([^\\.]*).gif\" alt=\"[^\"]*\" title=\"[^\"]*\" />([0-9]*)[^0-9]+", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
@@ -1458,7 +1458,7 @@ public class cgBase {
 			// failed to parse short description
 			Log.w(cgSettings.tag, "cgeoBase.parseCache: Failed to parse cache description");
 		}
-
+		
 		// cache attributes
 		try {
 			final Matcher matcherAttributes = patternAttributes.matcher(page);
@@ -3546,16 +3546,6 @@ public class cgBase {
 
 			if (caches.cacheList != null && caches.cacheList.size() > 0) {
 				for (cgCache cache : caches.cacheList) {
-					//LeeB - just insert cache into DB
-					/*
-					if (storage == null) {
-						storage = new cgData(this);
-					}					
-					storage.saveCache();
-					*/
-					app.insertCacheIntoDB(cache);
-					
-					/*
 					if ((settings.excludeDisabled == 0 || (settings.excludeDisabled == 1 && cache.disabled == false))
 							&& (settings.excludeMine == 0 || (settings.excludeMine == 1 && cache.own == false))
 							&& (settings.excludeMine == 0 || (settings.excludeMine == 1 && cache.found == false))
@@ -3563,12 +3553,11 @@ public class cgBase {
 						search.addGeocode(cache.geocode);
 						cacheList.add(cache);
 					}
-					*/
 				}
 			}
 		}
 
-//		app.addSearch(search, cacheList, true, reason);
+		app.addSearch(search, cacheList, true, reason);
 
 		return search.getCurrentId();
 	}
@@ -4535,9 +4524,7 @@ public class cgBase {
 				}
 			} else {
 				if (buffer != null && buffer.length() > 0) {
-					//LeeB - replaceWhitespace is slow see if we can do without it...
-					//data = replaceWhitespace(buffer);
-					data = buffer.toString();
+					data = replaceWhitespace(buffer);
 					buffer = null;
 
 					if (data != null) {
@@ -4570,12 +4557,12 @@ public class cgBase {
 					bytes[resultSize++] =' ';
 				}
 				lastWasWhitespace = true;
-			}
-			else {
+			} else {
 				bytes[resultSize++] = c;
 				lastWasWhitespace = false;
 			}
 		}
+		
 		return new String(bytes, 0, resultSize);
 	}
 

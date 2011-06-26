@@ -856,67 +856,6 @@ public class cgeomap extends MapBase {
 								loadThread.setName("loadThread");
 								loadThread.start(); //loadThread will kick off downloadThread once it's done
 							}
-							
-							/*
-							if (live && settings.maplive == 1) {
-								if (1000 < (currentTime - downloadThreadRun)) {
-									// from web
-									if (20000 < (currentTime - downloadThreadRun)) {
-										force = true; // probably stucked thread
-									}
-
-									if (force && downloadThread != null && downloadThread.isWorking()) {
-										downloadThread.stopIt();
-
-										try {
-											sleep(100);
-										} catch (Exception e) {
-											// nothing
-										}
-									}
-
-									if (downloadThread != null && downloadThread.isWorking()) {
-										continue;
-									}
-
-									centerLatitude = centerLatitudeNow;
-									centerLongitude = centerLongitudeNow;
-									spanLatitude = spanLatitudeNow;
-									spanLongitude = spanLongitudeNow;
-
-									showProgressHandler.sendEmptyMessage(1); // show progress
-									downloadThread = new DownloadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
-									downloadThread.setName("downloadThread");
-									downloadThread.start();
-								}
-							} else {
-								if (250 < (currentTime - loadThreadRun)) {
-									// from database
-									if (force && loadThread != null && loadThread.isWorking()) {
-										loadThread.stopIt();
-
-										try {
-											sleep(100);
-										} catch (Exception e) {
-											// nothing
-										}
-									}
-
-									if (loadThread != null && loadThread.isWorking()) {
-										continue;
-									}
-
-									centerLatitude = centerLatitudeNow;
-									centerLongitude = centerLongitudeNow;
-									spanLatitude = spanLatitudeNow;
-									spanLongitude = spanLongitudeNow;
-
-									showProgressHandler.sendEmptyMessage(1); // show progress
-									loadThread = new LoadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
-									loadThread.start();
-								}
-							}
-							*/
 						}
 					}
 
@@ -1159,7 +1098,7 @@ public class cgeomap extends MapBase {
 				params.put("longitude-min", String.format((Locale) null, "%.6f", lonMin));
 				params.put("longitude-max", String.format((Locale) null, "%.6f", lonMax));
 				
-				searchId = base.searchByViewport(params, 0); //this does at least a insert per cache (and possible a full read too)
+				searchId = base.searchByViewport(params, 0);
 				if (searchId != null) {
 					downloaded = true;
 				}
@@ -1171,8 +1110,7 @@ public class cgeomap extends MapBase {
 					return;
 				}
 				
-				// caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does another full read
-				caches = app.getCaches(searchId);
+				caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);
