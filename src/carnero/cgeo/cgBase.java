@@ -113,7 +113,7 @@ public class cgBase {
 	private SharedPreferences prefs = null;
 	public String version = null;
 	private String idBrowser = "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.86 Safari/533.4";
-	private Context context = null;
+	Context context = null;
 	final private static HashMap<String, Integer> gcIcons = new HashMap<String, Integer>();
 	final private static HashMap<String, Integer> wpIcons = new HashMap<String, Integer>();
 
@@ -1473,23 +1473,16 @@ public class cgBase {
 							// by default, use the tooltip of the attribute
 							String attribute = matcherAttributesInside.group(2).toLowerCase();
 
-							// now try to find a translation for the attribute
+							// if the image name can be recognized, use the image name as attribute
 							String imageName = matcherAttributesInside.group(1).trim();
 							if (imageName.length() > 0) {
 								int start = imageName.lastIndexOf('/');
 								int end = imageName.lastIndexOf('.');
 								if (start >= 0 && end>= 0) {
-									imageName = imageName.substring(start + 1, end).replace('-', '_');
-								    int id = res.getIdentifier("attribute_" + imageName, "string", context.getPackageName());
-								    if (id > 0) {
-								    	String translated = res.getString(id);
-								    	if (translated != null && translated.length() > 0) {
-								    		attribute = translated;
-								    	}
-								    }
+									attribute = imageName.substring(start + 1, end).replace('-', '_');
 								}
 							}
-							cache.attributes.add(attribute );
+							cache.attributes.add(attribute);
 						}
 					}
 				}
