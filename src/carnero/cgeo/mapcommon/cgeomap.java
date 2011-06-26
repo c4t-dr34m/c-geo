@@ -817,11 +817,46 @@ public class cgeomap extends MapBase {
 							force = true;
 						}
 
+						//LeeB
 						// save new values
 						if (moved) {
 							liveChanged = false;
 
 							currentTime = System.currentTimeMillis();
+
+							if (1000 < (currentTime - loadThreadRun)) {
+								// from web
+								if (20000 < (currentTime - loadThreadRun)) {
+									force = true; // probably stucked thread
+								}
+
+								if (force && loadThread != null && loadThread.isWorking()) {
+									loadThread.stopIt();
+
+									try {
+										sleep(100);
+									} catch (Exception e) {
+										// nothing
+									}
+								}
+
+								if (loadThread != null && loadThread.isWorking()) {
+									continue;
+								}
+
+								centerLatitude = centerLatitudeNow;
+								centerLongitude = centerLongitudeNow;
+								spanLatitude = spanLatitudeNow;
+								spanLongitude = spanLongitudeNow;
+
+								showProgressHandler.sendEmptyMessage(1); // show progress
+								
+								loadThread = new LoadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
+								loadThread.setName("loadThread");
+								loadThread.start(); //loadThread will kick off downloadThread once it's done
+							}
+							
+							/*
 							if (live && settings.maplive == 1) {
 								if (1000 < (currentTime - downloadThreadRun)) {
 									// from web
@@ -850,6 +885,7 @@ public class cgeomap extends MapBase {
 
 									showProgressHandler.sendEmptyMessage(1); // show progress
 									downloadThread = new DownloadThread(centerLatitude, centerLongitude, spanLatitude, spanLongitude);
+									downloadThread.setName("downloadThread");
 									downloadThread.start();
 								}
 							} else {
@@ -879,6 +915,7 @@ public class cgeomap extends MapBase {
 									loadThread.start();
 								}
 							}
+							*/
 						}
 					}
 
@@ -990,20 +1027,37 @@ public class cgeomap extends MapBase {
 				working = true;
 				loadThreadRun = System.currentTimeMillis();
 
-				if (geocodeIntent == null) {
-					if (searchIdIntent != null && searchIdIntent > 0) {
-						searchId = searchIdIntent;
-					} else {
-						searchId = app.getOfflineAll(settings.cacheType);
-					}
+				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
 
-					caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
-				} else {
-					cgCache cache = app.getCacheByGeocode(geocodeIntent);
-
-					caches = new ArrayList<cgCache>();
-					caches.add(cache);
+					return;
 				}
+
+				double latMin = (centerLat / 1e6) - ((spanLat / 1e6) / 2) - ((spanLat / 1e6) / 4);
+				double latMax = (centerLat / 1e6) + ((spanLat / 1e6) / 2) + ((spanLat / 1e6) / 4);
+				double lonMin = (centerLon / 1e6) - ((spanLon / 1e6) / 2) - ((spanLon / 1e6) / 4);
+				double lonMax = (centerLon / 1e6) + ((spanLon / 1e6) / 2) + ((spanLon / 1e6) / 4);
+				double llCache;
+
+				if (latMin > latMax) {
+					llCache = latMax;
+					latMax = latMin;
+					latMin = llCache;
+				}
+				if (lonMin > lonMax) {
+					llCache = lonMax;
+					lonMax = lonMin;
+					lonMin = llCache;
+				}
+
+				//LeeB - I think this can be done better:
+				//1. fetch and draw(in another thread) caches from the db (fast? db read will be the slow bit)
+				//2. fetch and draw(in another thread) and then insert into the db caches from geocaching.com - dont draw/insert if exist in memory?
+				
+				// stage 1 - pull and render from the DB only
+				downloaded = true;
+				caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does a full read from just the DB
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);
@@ -1012,12 +1066,31 @@ public class cgeomap extends MapBase {
 					return;
 				}
 
+				//render
 				if (displayThread != null && displayThread.isWorking()) {
 					displayThread.stopIt();
 				}
-
 				displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
 				displayThread.start();
+
+				if (stop) {
+					displayThread.stopIt();
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+
+				//*** this needs to be in it's own thread
+				// stage 2 - pull and render from geocaching.com
+				//this should just fetch and insert into the db _and_ be cancel-able if the viewport changes
+				
+				if (downloadThread != null && downloadThread.isWorking()) {
+					downloadThread.stopIt();
+				}
+				downloadThread = new DownloadThread(centerLat, centerLon, spanLat, spanLon);
+				downloadThread.setName("downloadThread");
+				downloadThread.start();
 
 			} finally {
 				working = false;
@@ -1033,15 +1106,11 @@ public class cgeomap extends MapBase {
 		}
 
 		@Override
-		public void run() {
+		public void run() { //first time we enter we have crappy long/lat....
 			try {
 				stop = false;
 				working = true;
 				downloadThreadRun = System.currentTimeMillis();
-
-				if (token == null) {
-					token = base.getMapUserToken(noMapTokenHandler);
-				}
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);
@@ -1067,19 +1136,41 @@ public class cgeomap extends MapBase {
 					lonMin = llCache;
 				}
 
+				//*** this needs to be in it's own thread
+				// stage 2 - pull and render from geocaching.com
+				//this should just fetch and insert into the db _and_ be cancel-able if the viewport changes
+
+				if (token == null) {
+					token = base.getMapUserToken(noMapTokenHandler);
+				}
+
+				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+				
 				HashMap<String, String> params = new HashMap<String, String>();
 				params.put("usertoken", token);
 				params.put("latitude-min", String.format((Locale) null, "%.6f", latMin));
 				params.put("latitude-max", String.format((Locale) null, "%.6f", latMax));
 				params.put("longitude-min", String.format((Locale) null, "%.6f", lonMin));
 				params.put("longitude-max", String.format((Locale) null, "%.6f", lonMax));
-
-				searchId = base.searchByViewport(params, 0);
+				
+				searchId = base.searchByViewport(params, 0); //this does at least a insert per cache (and possible a full read too)
 				if (searchId != null) {
 					downloaded = true;
 				}
 
-				caches = app.getCaches(searchId, centerLat, centerLon, spanLat, spanLon);
+				if (stop) {
+					displayHandler.sendEmptyMessage(0);
+					working = false;
+
+					return;
+				}
+				
+				caches = app.getCaches(null, centerLat, centerLon, spanLat, spanLon); //this does another full read
 
 				if (stop) {
 					displayHandler.sendEmptyMessage(0);
@@ -1088,12 +1179,13 @@ public class cgeomap extends MapBase {
 					return;
 				}
 
+				//render
 				if (displayThread != null && displayThread.isWorking()) {
 					displayThread.stopIt();
 				}
-
 				displayThread = new DisplayThread(centerLat, centerLon, spanLat, spanLon);
 				displayThread.start();
+				
 			} finally {
 				working = false;
 			}
@@ -1161,11 +1253,13 @@ public class cgeomap extends MapBase {
 
 						items.add(item);
 
+						/*
 						counter++;
 						if ((counter % 10) == 0) {
 							overlayCaches.updateItems(items);
 							displayHandler.sendEmptyMessage(1);
 						}
+						*/
 					}
 
 					overlayCaches.updateItems(items);

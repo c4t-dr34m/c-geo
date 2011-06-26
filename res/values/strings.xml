@@ -4,7 +4,7 @@
   <string name="app_name_compass">c:geo compass</string>
 
   <!-- keys -->
-  <string name="maps_api_key">0HEeyLeVKGHZ6X5nAWqVFvyplTNnKUquILfte4w</string> <!-- dev -->
+  <string name="maps_api_key">0lW9suECnbIqYi_u4LVCMUyN1yczCjXrz8YGXsQ</string> <!-- dev -->
   <string name="maps_api_key_market">0aqvjxNlVeQ_h3Sfdk2jMTO66naKrxgJsAB-y3Q</string> <!-- market -->
 
   <!-- basics -->

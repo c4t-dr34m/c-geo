@@ -14,7 +14,7 @@ public class cgSearch {
 	public int totalCnt = 0;
 
 	public cgSearch() {
-		id = System.currentTimeMillis();
+		id = System.currentTimeMillis(); // possible collisions here - not guaranteed to be unique 
 	}
 
 	public Long getCurrentId() {
