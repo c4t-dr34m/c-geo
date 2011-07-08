@@ -1,6 +1,7 @@
 package carnero.cgeo.mapsforge;
 
 import org.mapsforge.android.maps.GeoPoint;
+import org.mapsforge.android.maps.MapDatabase;
 import org.mapsforge.android.maps.MapView;
 import org.mapsforge.android.maps.MapViewMode;
 import org.mapsforge.android.maps.Overlay;
@@ -150,7 +151,7 @@ public class mfMapView extends MapView implements MapViewImpl {
 				setMapViewMode(MapViewMode.OSMARENDER_TILE_DOWNLOAD);
 				break;
 			case mapsforgeOffline:
-				if (isValidMapFile(settings.getMapFile())) {
+				if (MapDatabase.isValidMapFile(settings.getMapFile())) {
 					setMapViewMode(MapViewMode.CANVAS_RENDERER);
 					super.setMapFile(settings.getMapFile());
 				}
